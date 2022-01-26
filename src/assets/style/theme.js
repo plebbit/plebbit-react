@@ -14,8 +14,8 @@ const theme = extendTheme({
     body: {},
   },
   config: {
-    initialColorMode: 'dark',
-    useSystemColorMode: true,
+    initialColorMode: 'light',
+    useSystemColorMode: false,
   },
   colors: {
     black: '#000000',
@@ -33,6 +33,7 @@ const theme = extendTheme({
     lightNavBg: '#ffffff',
     lightInputBg: '#f6f7f8',
     lightIcon: '#878a8c',
+    lightLayoutBg: '#DAE0E6',
 
     // dark theme
     darkText: '#d7dadc',
@@ -41,6 +42,7 @@ const theme = extendTheme({
     darkNavBg: '#1A1A1B',
     darkInputBg: '#272729',
     darkIcon: '#818384',
+    darkLayoutBg: '#1A202C',
   },
   fonts: {
     body: 'IBM Plex Sans, sans-serif',

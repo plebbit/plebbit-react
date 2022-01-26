@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button as Btn } from '@chakra-ui/button';
 
-const Button = ({ content, loading, bg, border, color, disabled, width }) => {
+const Button = ({ content, loading, bg, border, color, disabled, width, height }) => {
   return (
     <Btn
       loading={loading}
@@ -12,7 +12,7 @@ const Button = ({ content, loading, bg, border, color, disabled, width }) => {
       borderRadius="9999px"
       bg={bg}
       border={border === 'none' ? 'none' : '1px solid'}
-      h="34px"
+      h={height || '34px'}
       minW="32px"
       width={width || 'auto'}
       cursor="pointer"
