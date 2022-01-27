@@ -1,285 +1,427 @@
 import React from 'react';
-import { Box, Text, List, ListItem, Flex, Avatar } from '@chakra-ui/react';
-import PlebSideBarImg from '../../assets/images/plebbitSBImage.png';
-import { ChevronUpIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Flex,
+  Icon,
+  Menu,
+  IconButton,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import SideBar from './sideBar';
+import { FaFire } from 'react-icons/fa';
+import { AiOutlineRise } from 'react-icons/ai';
+import { FiMoreHorizontal } from 'react-icons/fi';
+import { TiStarburstOutline } from 'react-icons/ti';
+import { BsBoxArrowUp } from 'react-icons/bs';
+import { MdOutlineIndeterminateCheckBox, MdCompress, MdNotes } from 'react-icons/md';
 import Button from '../../components/Button';
+import Post from './Post/post';
 const Home = () => {
+  const bg = useColorModeValue('lightNavBg', 'darkNavBg');
+
   return (
     <>
-      <Box bg="white" width="640px">
-        kkkk
-      </Box>
-      <Box marginLeft="24px" marginTop="28px" width="312px" flex="0 0 312px">
-        <Flex flexDirection="column" height="100%" width="inherit">
-          <Box borderRadius="4px" overflow="visible" wordBreak="break-word" bg="#fff">
-            <Box
-              maxHeight="none"
-              bgImg={PlebSideBarImg}
-              backgroundPosition="50%"
-              backgroundRepeat="no-repeat"
-              borderTopRadius="4px"
-              h="80px"
-              pos="relative"
-              backgroundColor="#a4a4a4"
-            >
-              <Text
-                fontSize="16px"
-                fontWeight="500"
-                lineHeight="20px"
-                bottom="8px"
-                color="#fff"
-                left="16px"
-                position="absolute"
-              >
-                Top Gaming Communities
-              </Text>
-            </Box>
-            <List>
-              <ListItem
-                display="flex"
-                alignItems="center"
-                padding="0 12px"
-                height="48px"
-                justifyContent="space-between"
-                borderBottom="thin solid #edeff1"
-              >
-                <Flex>
-                  <Box
-                    width="20px"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="flex-end"
-                  >
-                    1
-                  </Box>
-                  <Box ml="8px" display="flex" alignItems="center" justifyContent="center">
-                    <ChevronUpIcon
-                      fontSize="20px"
-                      fontWeight="400"
-                      h="20px"
-                      lineHeight="20px"
-                      color="#46d160"
-                    />
-                  </Box>
-                  <Avatar
-                    borderRadius="50%"
-                    margin="0 8px"
-                    height="32px"
-                    width="32px"
-                    backgroundColor="#a4a4a4"
-                    name="pokemon"
-                    src="https://b.thumbs.redditmedia.com/bt5Bgfbu7g5OCCganJwwo7mJBTWBqZsEXwFY_joajMk.png"
+      <Box
+        width="640px"
+        sx={{
+          '@media (max-width: 640px)': {
+            width: '100%',
+            minWidth: '0',
+          },
+        }}
+      >
+        <Box
+          pb="10px"
+          fontSize="14px"
+          textTransform="unset"
+          lineHeight="18px"
+          color="#878A8c"
+          position="relative"
+        >
+          Popular posts
+        </Box>
+        <Flex
+          alignItems="center"
+          backgroundColor={bg}
+          border={`1px solid ${bg}`}
+          borderRadius="4px"
+          boxSizing="border-box"
+          marginBottom="16px"
+          padding="10px 12px"
+          flexFlow="row no-wrap"
+        >
+          <Flex alignItems="center" cursor="pointer" width="100%">
+            <Button
+              padding="6px 8px"
+              minH="unset"
+              minW="unset"
+              borderRadius="20px"
+              bg="rgba(164, 164, 164, 0.1)"
+              border="none"
+              mr="8px"
+              content={
+                <Flex cursor="default" alignItems="center">
+                  <Icon
+                    as={FaFire}
+                    width={6}
+                    height={6}
+                    padding="0 8px 0 0"
+                    fontSize="20px"
+                    lineHeight="20px"
+                    color="#a4a4a4"
                   />
-                  <Box alignSelf="center" fontSize="14px" fontWeight="500" lineHeight="18px">
-                    p/pokemon
+                  <Box
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    lineHeight="18px"
+                    maxHeight="64px"
+                    whiteSpace="normal"
+                    textAlign="left"
+                    color="#a4a4a4"
+                  >
+                    Hot
                   </Box>
                 </Flex>
-                <Button content="Join" bg="#a4a4a4" height="24px" color="#fff" />
-              </ListItem>
+              }
+            />
 
-              <ListItem
-                display="flex"
-                alignItems="center"
-                padding="0 12px"
-                height="48px"
-                justifyContent="space-between"
-                borderBottom="thin solid #edeff1"
+            <Menu matchWidth>
+              <MenuButton>
+                <Button
+                  padding="6px 8px"
+                  minH="unset"
+                  minW="unset"
+                  mr="8px"
+                  borderRadius="20px"
+                  bg="rgba(164, 164, 164, 0.1)"
+                  border="none"
+                  content={
+                    <Flex cursor="default" padding="0 8px" alignItems="center">
+                      <Box
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        lineHeight="18px"
+                        maxHeight="54px"
+                        whiteSpace="normal"
+                        textAlign="left"
+                        color="#a4a4a4"
+                      >
+                        Everywhere
+                      </Box>
+                      <ChevronDownIcon
+                        h={6}
+                        w={8}
+                        fontSize="20px"
+                        fontWeight="400"
+                        verticalAlign="middle"
+                        lineHeight="20px"
+                        color="#a4a4a4"
+                        ml="2px"
+                        mr="-4px"
+                      />
+                    </Flex>
+                  }
+                />
+              </MenuButton>
+              <MenuList
+                backgroundColor={bg}
+                boxShadow="0 2px 4px 0 rgba(28 28 28 0.2)"
+                overflowY="scroll"
               >
-                <Flex>
-                  <Box
-                    width="20px"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="flex-end"
-                  >
-                    2
-                  </Box>
-                  <Box ml="8px" display="flex" alignItems="center" justifyContent="center">
-                    <ChevronUpIcon
-                      fontSize="20px"
-                      fontWeight="400"
-                      h="20px"
-                      lineHeight="20px"
-                      color="#46d160"
-                    />
-                  </Box>
-                  <Avatar
-                    borderRadius="50%"
-                    margin="0 8px"
-                    height="32px"
-                    width="32px"
-                    backgroundColor="#a4a4a4"
-                    name="pokemon"
-                    src="https://styles.redditmedia.com/t5_2t1bl/styles/communityIcon_lghtgov0ev981.png"
+                <MenuItem>United State</MenuItem>
+                <MenuItem>United Kingdom</MenuItem>
+                <MenuItem>Denmark</MenuItem>
+                <MenuItem>Canada</MenuItem>
+                <MenuItem>Brazil</MenuItem>
+              </MenuList>
+            </Menu>
+            <Button
+              padding="6px 8px"
+              minH="unset"
+              minW="unset"
+              borderRadius="20px"
+              bg="transparent"
+              border="none"
+              mr="8px"
+              sx={{
+                '@media (max-width: 640px)': {
+                  display: 'none',
+                },
+              }}
+              content={
+                <Flex cursor="default" alignItems="center">
+                  <Icon
+                    as={TiStarburstOutline}
+                    width={8}
+                    height={8}
+                    padding="0 8px 0 0"
+                    fontSize="20px"
+                    lineHeight="20px"
+                    color="#a4a4a4"
                   />
-                  <Box alignSelf="center" fontSize="14px" fontWeight="500" lineHeight="18px">
-                    p/RainBow6
+                  <Box
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    lineHeight="18px"
+                    maxHeight="64px"
+                    whiteSpace="normal"
+                    textAlign="left"
+                    color="#a4a4a4"
+                  >
+                    New
                   </Box>
                 </Flex>
-                <Button content="Join" bg="#a4a4a4" height="24px" color="#fff" />
-              </ListItem>
+              }
+            />
+            <Button
+              padding="6px 8px"
+              minH="unset"
+              minW="unset"
+              borderRadius="20px"
+              bg="transparent"
+              border="none"
+              mr="8px"
+              sx={{
+                '@media (max-width: 640px)': {
+                  display: 'none',
+                },
+              }}
+              content={
+                <Flex cursor="default" alignItems="center">
+                  <Icon
+                    as={BsBoxArrowUp}
+                    width={8}
+                    height={8}
+                    padding="0 8px 0 0"
+                    fontSize="20px"
+                    lineHeight="20px"
+                    color="#a4a4a4"
+                  />
+                  <Box
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    lineHeight="18px"
+                    maxHeight="64px"
+                    whiteSpace="normal"
+                    textAlign="left"
+                    color="#a4a4a4"
+                  >
+                    Top
+                  </Box>
+                </Flex>
+              }
+            />
+          </Flex>
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              color="#a4a4a4"
+              aria-label="Options"
+              bg="transparent"
+              borderRadius="99999px"
+              outline="0"
+              sx={{
+                '@media (max-width: 640px)': {
+                  display: 'none',
+                },
+              }}
+              icon={
+                <Icon
+                  as={FiMoreHorizontal}
+                  width={6}
+                  height={8}
+                  fontSize="20px"
+                  lineHeight="20px"
+                  color="#a4a4a4"
+                />
+              }
+            />
+            <MenuList>
+              <MenuItem
+                icon={
+                  <Icon
+                    as={AiOutlineRise}
+                    width={8}
+                    height={8}
+                    padding="0 0 8px 0"
+                    fontSize="20px"
+                    lineHeight="20px"
+                    color="#a4a4a4"
+                  />
+                }
+              >
+                rising
+              </MenuItem>
+            </MenuList>
+          </Menu>
 
-              <ListItem
-                display="flex"
-                alignItems="center"
-                padding="0 12px"
-                height="48px"
-                justifyContent="space-between"
-                borderBottom="thin solid #edeff1"
-              >
-                <Flex>
-                  <Box
-                    width="20px"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="flex-end"
-                  >
-                    3
-                  </Box>
-                  <Box ml="8px" display="flex" alignItems="center" justifyContent="center">
-                    <ChevronUpIcon
-                      fontSize="20px"
-                      fontWeight="400"
-                      h="20px"
-                      lineHeight="20px"
-                      color="#46d160"
-                    />
-                  </Box>
-                  <Avatar
-                    borderRadius="50%"
-                    margin="0 8px"
-                    height="32px"
-                    width="32px"
-                    backgroundColor="#a4a4a4"
-                    name="pokemon"
-                    src="https://styles.redditmedia.com/t5_2u9wz/styles/communityIcon_bk9nbiv8v2t21.jpg?format=pjpg&s=17da880c4329f5d7947d63b6d15792caa9802e50"
-                  />
-                  <Box alignSelf="center" fontSize="14px" fontWeight="500" lineHeight="18px">
-                    p/StarWarsBattle
-                  </Box>
-                </Flex>
-                <Button content="Join" bg="#a4a4a4" height="24px" color="#fff" />
-              </ListItem>
+          <Flex marginLeft="auto">
+            <Menu>
+              <MenuButton>
+                <Button
+                  padding="6px 8px"
+                  minH="unset"
+                  minW="unset"
+                  borderRadius="20px"
+                  bg="transparent"
+                  border="none"
+                  content={
+                    <Flex cursor="default" alignItems="center">
+                      <Icon
+                        as={MdOutlineIndeterminateCheckBox}
+                        width={6}
+                        height={6}
+                        fontSize="20px"
+                        lineHeight="20px"
+                        color="#a4a4a4"
+                        mr="0"
+                      />
+                      <ChevronDownIcon
+                        fontSize="20px"
+                        fontWeight="400"
+                        verticalAlign="middle"
+                        lineHeight="20px"
+                        color="#a4a4a4"
+                        mr="-4px"
+                      />
+                    </Flex>
+                  }
+                />
+              </MenuButton>
 
-              <ListItem
-                display="flex"
-                alignItems="center"
-                padding="0 12px"
-                height="48px"
-                justifyContent="space-between"
-                borderBottom="thin solid #edeff1"
+              <MenuList
+                backgroundColor={bg}
+                boxShadow="0 2px 4px 0 rgba(28 28 28 0.2)"
+                minWidth="52px"
+                marginLeft="-9px"
+                borderRadius="4px"
+                zIndex="10"
+                border="0.5 solid #a4a4a4"
+                padding="0"
+                margin="0"
               >
-                <Flex>
-                  <Box
-                    width="20px"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="flex-end"
-                  >
-                    4
-                  </Box>
-                  <Box ml="8px" display="flex" alignItems="center" justifyContent="center">
-                    <ChevronUpIcon
-                      fontSize="20px"
-                      fontWeight="400"
-                      h="20px"
-                      lineHeight="20px"
-                      color="#46d160"
-                    />
-                  </Box>
-                  <Avatar
-                    borderRadius="50%"
-                    margin="0 8px"
-                    height="32px"
-                    width="32px"
-                    backgroundColor="#a4a4a4"
-                    name="pokemon"
-                    src="https://styles.redditmedia.com/t5_2rrlp/styles/communityIcon_06pablpo0le21.png"
+                <MenuItem
+                  display="flex"
+                  alignItems="center"
+                  fontSize="14px"
+                  fontWeight="500"
+                  lineHeight="18px"
+                  padding="8px"
+                  textTransform="capitalize"
+                  whiteSpace="nowrap"
+                  borderTop="0.5px solid #edeff1"
+                  borderbottom="none"
+                  outLine="none"
+                >
+                  <Icon
+                    as={MdOutlineIndeterminateCheckBox}
+                    width={6}
+                    height={6}
+                    fontSize="20px"
+                    lineHeight="20px"
+                    color="#a4a4a4"
+                    fill="#a4a4a4"
+                    mr="4px"
                   />
-                  <Box alignSelf="center" fontSize="14px" fontWeight="500" lineHeight="18px">
-                    p/PS4
+                  <Box verticalAlign="baseline" fontSize="inherit">
+                    Card
                   </Box>
-                </Flex>
-                <Button content="Join" bg="#a4a4a4" height="24px" color="#fff" />
-              </ListItem>
-
-              <ListItem
-                display="flex"
-                alignItems="center"
-                padding="0 12px"
-                height="48px"
-                justifyContent="space-between"
-                borderBottom="thin solid #edeff1"
-              >
-                <Flex>
-                  <Box
-                    width="20px"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="flex-end"
-                  >
-                    5
-                  </Box>
-                  <Box ml="8px" display="flex" alignItems="center" justifyContent="center">
-                    <ChevronUpIcon
-                      fontSize="20px"
-                      fontWeight="400"
-                      h="20px"
-                      lineHeight="20px"
-                      color="#46d160"
-                    />
-                  </Box>
-                  <Avatar
-                    borderRadius="50%"
-                    margin="0 8px"
-                    height="32px"
-                    width="32px"
-                    backgroundColor="#a4a4a4"
-                    name="pokemon"
-                    src="https://styles.redditmedia.com/t5_2qio8/styles/communityIcon_g5felady0d561.png"
+                </MenuItem>
+                <MenuItem
+                  display="flex"
+                  alignItems="center"
+                  fontSize="14px"
+                  fontWeight="500"
+                  lineHeight="18px"
+                  padding="8px"
+                  textTransform="capitalize"
+                  whiteSpace="nowrap"
+                  borderTop="0.5px solid #edeff1"
+                  borderbottom="none"
+                  outLine="none"
+                >
+                  <Icon
+                    as={MdCompress}
+                    width={6}
+                    height={6}
+                    fontSize="20px"
+                    lineHeight="20px"
+                    color="#a4a4a4"
+                    fill="#a4a4a4"
+                    mr="4px"
                   />
-                  <Box alignSelf="center" fontSize="14px" fontWeight="500" lineHeight="18px">
-                    p/Wow
+                  <Box verticalAlign="baseline" fontSize="inherit">
+                    Compact
                   </Box>
-                </Flex>
-                <Button content="Join" bg="#a4a4a4" height="24px" color="#fff" />
-              </ListItem>
-            </List>
-            <Box padding="12px">
-              <Button color="#fff" content="View All" bg="#a4a4a4" height="34px" width="100%" />
-            </Box>
-            <Flex alignItems="center">
-              <Box display="flex" margin="4px" colorScheme="a4a4a">
-                Top
-              </Box>
-              <Box display="flex" margin="4px" color="a4a4a">
-                Near You
-              </Box>
-              <Box display="flex" margin="4px" color="a4a4a">
-                News
-              </Box>
-              <Box display="flex" margin="4px" color="a4a4a">
-                Sports
-              </Box>
-            </Flex>
-          </Box>
+                </MenuItem>
+                <MenuItem
+                  display="flex"
+                  alignItems="center"
+                  fontSize="14px"
+                  fontWeight="500"
+                  lineHeight="18px"
+                  padding="8px"
+                  textTransform="capitalize"
+                  whiteSpace="nowrap"
+                  borderTop="0.5px solid #edeff1"
+                  borderbottom="none"
+                  outLine="none"
+                >
+                  <Icon
+                    as={MdNotes}
+                    width={6}
+                    height={6}
+                    fontSize="20px"
+                    lineHeight="20px"
+                    color="#a4a4a4"
+                    fill="#a4a4a4"
+                    mr="4px"
+                  />
+                  <Box verticalAlign="baseline" fontSize="inherit">
+                    Classic
+                  </Box>
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Flex>
         </Flex>
+        <Box minHeight="1000px" width="100%">
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+        </Box>
+        <Button
+          border="none"
+          content="Load More"
+          width="128px"
+          bg="#a4a4a4"
+          color={bg}
+          fontSize="14px"
+          fontWeight="700"
+        />
       </Box>
+      <SideBar />
     </>
   );
 };

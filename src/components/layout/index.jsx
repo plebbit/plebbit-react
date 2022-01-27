@@ -10,11 +10,10 @@ export default function Layout({ children }) {
     <Stack as="main" align="center" width="100%" minH="calc(100vh)" bg={bg}>
       <NavBar />
       <Flex
-        maxW="100%"
-        boxSizing="border-box"
-        flexDir="row"
+        flexDirection="row"
         justifyContent="center"
-        margin="0 auto"
+        margin="0 auto !important"
+        maxWidth="100%"
         sx={{
           '@media (min-width: 640px)': {
             padding: '20px 24px',
