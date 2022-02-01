@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Box,
   Flex,
@@ -11,24 +11,51 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import SideBar from './sideBar';
 import { FaFire } from 'react-icons/fa';
+import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineRise } from 'react-icons/ai';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { TiStarburstOutline } from 'react-icons/ti';
 import { BsBoxArrowUp } from 'react-icons/bs';
-import { MdOutlineIndeterminateCheckBox, MdCompress, MdNotes } from 'react-icons/md';
+import { MdOutlineIndeterminateCheckBox, MdCompress } from 'react-icons/md';
 import Button from '../../components/Button';
 import Post from './Post/post';
+import { ProfileContext } from '../../store/profileContext';
+import SideBar from './sideBar';
+
 const Home = () => {
+  const { postStyle, setPostStyle } = useContext(ProfileContext);
   const bg = useColorModeValue('lightNavBg', 'darkNavBg');
+  const iconColor = useColorModeValue('lightIcon', 'darkIcon');
+  const selected = useColorModeValue('selectedLight', 'selectedDark');
 
   return (
-    <>
+    <Flex
+      maxWidth="100%"
+      justifyContent="center"
+      margin="0 auto !important"
+      padding="20px 24px"
+      // sx={{
+      //   '@media (min-width: 640px)': {
+      //     padding: '20px 24px',
+      //   },
+      //   '@media (max-width: 640px)': {
+      //     boxSize: 'border-box',
+      //     display: 'flex',
+      //     flexDirection: 'row',
+      //     justifyContent: 'center',
+      //     margin: '0 auto',
+      //   },
+      // }}
+    >
       <Box
         width="640px"
         sx={{
-          '@media (max-width: 640px)': {
+          '@media (min-width: 960px)': {
+            // width: `${postStyle === 'card' ? '100%' : ''}`,
+            minWidth: '0',
+          },
+          '@media (max-width: 960px)': {
             width: '100%',
             minWidth: '0',
           },
@@ -41,6 +68,7 @@ const Home = () => {
           lineHeight="18px"
           color="#878A8c"
           position="relative"
+          width="100%"
         >
           Popular posts
         </Box>
@@ -54,7 +82,7 @@ const Home = () => {
           padding="10px 12px"
           flexFlow="row no-wrap"
         >
-          <Flex alignItems="center" cursor="pointer" width="100%">
+          <Flex alignItems="center" cursor="pointer">
             <Button
               padding="6px 8px"
               minH="unset"
@@ -89,8 +117,8 @@ const Home = () => {
               }
             />
 
-            <Menu matchWidth>
-              <MenuButton>
+            <Menu>
+              <MenuButton alignItems="center" display="flex">
                 <Button
                   padding="6px 8px"
                   minH="unset"
@@ -259,7 +287,7 @@ const Home = () => {
             </MenuList>
           </Menu>
 
-          <Flex marginLeft="auto">
+          <Flex marginLeft="auto" alignItems="center" flexFlow="row nowrap">
             <Menu>
               <MenuButton>
                 <Button
@@ -272,12 +300,18 @@ const Home = () => {
                   content={
                     <Flex cursor="default" alignItems="center">
                       <Icon
-                        as={MdOutlineIndeterminateCheckBox}
+                        as={
+                          postStyle === 'card'
+                            ? MdOutlineIndeterminateCheckBox
+                            : postStyle === 'classic'
+                            ? GiHamburgerMenu
+                            : MdCompress
+                        }
                         width={6}
                         height={6}
                         fontSize="20px"
                         lineHeight="20px"
-                        color="#a4a4a4"
+                        color={iconColor}
                         mr="0"
                       />
                       <ChevronDownIcon
@@ -285,7 +319,7 @@ const Home = () => {
                         fontWeight="400"
                         verticalAlign="middle"
                         lineHeight="20px"
-                        color="#a4a4a4"
+                        color={iconColor}
                         mr="-4px"
                       />
                     </Flex>
@@ -315,7 +349,9 @@ const Home = () => {
                   whiteSpace="nowrap"
                   borderTop="0.5px solid #edeff1"
                   borderbottom="none"
+                  backgroundColor={postStyle === 'card' ? selected : bg}
                   outLine="none"
+                  onClick={() => setPostStyle('card')}
                 >
                   <Icon
                     as={MdOutlineIndeterminateCheckBox}
@@ -323,11 +359,15 @@ const Home = () => {
                     height={6}
                     fontSize="20px"
                     lineHeight="20px"
-                    color="#a4a4a4"
-                    fill="#a4a4a4"
+                    color={postStyle === 'card' && iconColor}
+                    fill={postStyle === 'card' && iconColor}
                     mr="4px"
                   />
-                  <Box verticalAlign="baseline" fontSize="inherit">
+                  <Box
+                    verticalAlign="baseline"
+                    color={postStyle === 'card' && iconColor}
+                    fontSize="inherit"
+                  >
                     Card
                   </Box>
                 </MenuItem>
@@ -341,8 +381,10 @@ const Home = () => {
                   textTransform="capitalize"
                   whiteSpace="nowrap"
                   borderTop="0.5px solid #edeff1"
+                  backgroundColor={postStyle === 'compact' ? selected : bg}
                   borderbottom="none"
                   outLine="none"
+                  onClick={() => setPostStyle('compact')}
                 >
                   <Icon
                     as={MdCompress}
@@ -350,11 +392,15 @@ const Home = () => {
                     height={6}
                     fontSize="20px"
                     lineHeight="20px"
-                    color="#a4a4a4"
-                    fill="#a4a4a4"
+                    color={postStyle === 'comapact' && iconColor}
+                    fill={postStyle === 'comapact' && iconColor}
                     mr="4px"
                   />
-                  <Box verticalAlign="baseline" fontSize="inherit">
+                  <Box
+                    verticalAlign="baseline"
+                    color={postStyle === 'comapact' && iconColor}
+                    fontSize="inherit"
+                  >
                     Compact
                   </Box>
                 </MenuItem>
@@ -368,20 +414,26 @@ const Home = () => {
                   textTransform="capitalize"
                   whiteSpace="nowrap"
                   borderTop="0.5px solid #edeff1"
+                  backgroundColor={postStyle === 'classic' ? selected : bg}
                   borderbottom="none"
                   outLine="none"
+                  onClick={() => setPostStyle('classic')}
                 >
                   <Icon
-                    as={MdNotes}
+                    as={GiHamburgerMenu}
                     width={6}
                     height={6}
                     fontSize="20px"
                     lineHeight="20px"
-                    color="#a4a4a4"
-                    fill="#a4a4a4"
+                    color={postStyle === 'classic' && iconColor}
+                    fill={postStyle === 'classic' && iconColor}
                     mr="4px"
                   />
-                  <Box verticalAlign="baseline" fontSize="inherit">
+                  <Box
+                    verticalAlign="baseline"
+                    color={postStyle === 'classic' && iconColor}
+                    fontSize="inherit"
+                  >
                     Classic
                   </Box>
                 </MenuItem>
@@ -422,7 +474,7 @@ const Home = () => {
         />
       </Box>
       <SideBar />
-    </>
+    </Flex>
   );
 };
 

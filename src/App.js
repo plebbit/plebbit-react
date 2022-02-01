@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ProfileDataProvider } from './store/profileContext';
 import Layout from './components/layout';
 import Home from './views/Home';
+import PostDetails from './views/Home/Post/postDetail';
 
 const App = () => {
   return (
@@ -10,7 +11,8 @@ const App = () => {
       <Switch>
         <ProfileDataProvider>
           <Layout>
-            <Route path="/" component={Home} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/postid" component={PostDetails} />
           </Layout>
         </ProfileDataProvider>
       </Switch>
