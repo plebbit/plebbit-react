@@ -473,7 +473,7 @@ const Home = () => {
           fontWeight="700"
         />
       </Box>
-      <SideBar />
+      <SideBar bg={bg} />
     </Flex>
   );
 };
