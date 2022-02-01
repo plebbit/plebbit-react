@@ -28,6 +28,7 @@ const SideBar = ({
   sx,
   border,
   borderColor,
+  bg,
 }) => {
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '');
@@ -64,7 +65,7 @@ const SideBar = ({
       }
     >
       <Flex flexDirection="column" height="100%" width="inherit">
-        <Box borderRadius="4px" overflow="visible" wordBreak="break-word" bg={Bg}>
+        <Box borderRadius="4px" overflow="visible" wordBreak="break-word" bg={bg || Bg}>
           <Box
             maxHeight="none"
             bgImg="https://source.unsplash.com/user/c_v_r"
@@ -360,7 +361,7 @@ const SideBar = ({
           </Flex>
         </Box>
         <Box marginTop="16px" width="312px">
-          <Box borderRadius="4px" overflow="hidden" wordBreak="break-word" bg={Bg}>
+          <Box borderRadius="4px" overflow="hidden" wordBreak="break-word" bg={bg || Bg}>
             <Accordion maxHeight="none" allowToggle>
               <AccordionItem>
                 <Box>
@@ -522,7 +523,7 @@ const SideBar = ({
         </Box>
         <Box flex="1 1 auto" width="inherit" position="relative">
           <Box>
-            <Box marginTop="16px" background={Bg}>
+            <Box marginTop="16px" background={bg || Bg}>
               <Box maxHeight="none">
                 <Flex padding="12px 8px">
                   <Flex flexFlow="column" flexWrap="nowrap" width="50%" padding="0 4px">
