@@ -2,6 +2,7 @@ import React from 'react';
 import { Button as Btn } from '@chakra-ui/button';
 
 const Button = ({
+  onClick,
   content,
   loading,
   padding,
@@ -27,6 +28,7 @@ const Button = ({
 }) => {
   return (
     <Btn
+      onClick={onClick}
       loading={loading}
       _hover={{
         opacity: '0.8',

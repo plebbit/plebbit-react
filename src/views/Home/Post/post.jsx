@@ -1,20 +1,43 @@
-import React from 'react';
-import { Link, Box, Flex, Text, useColorModeValue, Image, Heading } from '@chakra-ui/react';
+import React, { useContext } from 'react';
+import {
+  Box,
+  Flex,
+  Text,
+  useColorModeValue,
+  Image,
+  Heading,
+  Icon,
+  Menu,
+  MenuButton,
+  IconButton,
+  MenuList,
+  MenuItem,
+  Link,
+} from '@chakra-ui/react';
+import { Link as Lk } from 'react-router-dom';
 import { dateToNow } from '../../../utils/formatDate';
 import VoteComponent from './VoteComponent';
+import { ProfileContext } from '../../../store/profileContext';
+import { ChatIcon } from '@chakra-ui/icons';
+import { FaShare } from 'react-icons/fa';
+import { FiMoreHorizontal } from 'react-icons/fi';
+import { BsBookmark, BsFlag, BsEyeSlash } from 'react-icons/bs';
 
 const Post = ({ post }) => {
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const titleColor = useColorModeValue('lightText', 'darkText');
   const bg = useColorModeValue('lightNavBg', 'darkNavBg');
   const postBg = useColorModeValue('white', 'black');
-  // const borderColorHover = useColorModeValue('#898989', '#818384');
+  const borderColorHover = useColorModeValue('#898989', '#818384');
   const subPledditTextColor = useColorModeValue('#1c1c1c', 'darkText');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const borderColor = useColorModeValue('#ccc', '#343536');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
+
+  const { postStyle } = useContext(ProfileContext);
+
   return (
-    <Link _hover={{ textDecor: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Lk _hover={{ textDecor: 'none' }} _focus={{ boxShadow: 'none' }} to="/postId">
       <Box
         bg={bg}
         color={color}
@@ -23,15 +46,13 @@ const Post = ({ post }) => {
         borderRadius="4px"
         borderWidth="1px"
         pos="relative"
-        minWidth="580px"
         marginBottom="10px"
         paddingLeft="40px"
         boxShadow="none"
         transition="color .5s, fill .5s, box-shadow .5s"
         _hover={{
-          textDecor: 'none',
-          // borderColor: single ? borderColor : borderColorHover,
-          borderColor: borderColor,
+          textDecoration: 'none',
+          borderColor: borderColorHover,
         }}
         _focus={{
           boxShadow: 'none',
@@ -83,17 +104,13 @@ const Post = ({ post }) => {
                 <Text as="span" marginRight="3px">
                   Posted By
                 </Text>
-                {/* TODO: link to profile */}
 
                 <Link marginRight="3px">u/Abydin</Link>
-
-                {/* TODO: link to dates? */}
 
                 <Link>{dateToNow(parseInt(1643151600000))}</Link>
               </Box>
             </Flex>
           </Flex>
-          {/* Post Title */}
           <Box margin="0 8px">
             <Heading
               color={titleColor}
@@ -106,30 +123,35 @@ const Post = ({ post }) => {
               Fifa 2022
             </Heading>
           </Box>
-          {/* Post Text */}
-          <Box marginTop="8px">
-            <Box
-              color={subPledditTextColor}
-              maxHeight="125px"
-              padding="5px 8px 10px"
-              fontFamily="Noto sans, Arial, sans-serif"
-              fontSize="14px"
-              fontWeight="400"
-              lineHeight="21px"
-              wordBreak="break-word"
-              overflow="hidden"
-              sx={{
-                maskImage: 'linear-gradient(180deg, #000 60%, transparent)',
-              }}
-            >
-              This game is the best fifa instalment since fifa 17, people are complaining about
-              things like ‘scripting’ but that’s because they don’t win every game, also it’s much
-              harder to score this year with goalkeepers like this, but that’s the thing, it
-              shouldn’t be easy, if it was so easy to score in real life there would be so much less
-              emotion in the crowd when a goal is scored. Another good thing is that EA have made
-              slower players with 70-75 much more ‘usable’ because of the way the game feels.
+
+          {postStyle === 'card' ? (
+            <Box marginTop="8px">
+              <Box
+                color={subPledditTextColor}
+                maxHeight="125px"
+                padding="5px 8px 10px"
+                fontFamily="Noto sans, Arial, sans-serif"
+                fontSize="14px"
+                fontWeight="400"
+                lineHeight="21px"
+                wordBreak="break-word"
+                overflow="hidden"
+                sx={{
+                  maskImage: 'linear-gradient(180deg, #000 60%, transparent)',
+                }}
+              >
+                This game is the best fifa instalment since fifa 17, people are complaining about
+                things like ‘scripting’ but that’s because they don’t win every game, also it’s much
+                harder to score this year with goalkeepers like this, but that’s the thing, it
+                shouldn’t be easy, if it was so easy to score in real life there would be so much
+                less emotion in the crowd when a goal is scored. Another good thing is that EA have
+                made slower players with 70-75 much more ‘usable’ because of the way the game feels.
+              </Box>
             </Box>
-          </Box>
+          ) : (
+            ''
+          )}
+
           {/* Post Bottom Bar */}
           <Flex flexDirection="row" alignItems="center" paddingRight="10px" overflowY="visible">
             <Flex
@@ -157,13 +179,106 @@ const Post = ({ post }) => {
                   boxShadow: 'none',
                 }}
               >
-                0 Comments
+                <ChatIcon mr="5px" />
+                <Box>6.3k Comments</Box>
               </Link>
+              <Link
+                display="flex"
+                alignItems="center"
+                borderRadius="2px"
+                padding="8px"
+                marginRight="4px"
+                _hover={{
+                  textDecor: 'none',
+                  outline: 'none',
+                  bg: bottomButtonHover,
+                }}
+                _focus={{
+                  boxShadow: 'none',
+                }}
+              >
+                <Icon as={FaShare} mr="5px" />
+                <Box>share</Box>
+              </Link>
+              <Link
+                display="flex"
+                alignItems="center"
+                borderRadius="2px"
+                padding="8px"
+                marginRight="4px"
+                _hover={{
+                  textDecor: 'none',
+                  outline: 'none',
+                  bg: bottomButtonHover,
+                }}
+                _focus={{
+                  boxShadow: 'none',
+                }}
+              >
+                <Icon as={BsBookmark} mr="5px" />
+                <Box>save</Box>
+              </Link>
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  color="#a4a4a4"
+                  aria-label="Options"
+                  alignItems="center"
+                  borderRadius="2px"
+                  padding="8px"
+                  bg="transparent"
+                  marginRight="4px"
+                  _hover={{
+                    textDecor: 'none',
+                    outline: 'none',
+                    bg: bottomButtonHover,
+                  }}
+                  _focus={{
+                    boxShadow: 'none',
+                  }}
+                  icon={
+                    <Icon as={FiMoreHorizontal} fontSize="20px" lineHeight="20px" color="#a4a4a4" />
+                  }
+                />
+                <MenuList width="max-content">
+                  <MenuItem>
+                    <Flex alignItems="center">
+                      <Icon
+                        as={BsEyeSlash}
+                        width={6}
+                        height={6}
+                        fontSize="20px"
+                        lineHeight="20px"
+                        color="#a4a4a4"
+                        mr="6px"
+                      />
+
+                      <Box fontSize="12px">Hide</Box>
+                    </Flex>
+                  </MenuItem>
+                  <MenuItem
+                    alignItems="center"
+                    icon={
+                      <Icon
+                        as={BsFlag}
+                        width={6}
+                        height={6}
+                        fontSize="20px"
+                        lineHeight="20px"
+                        color="#a4a4a4"
+                        mr="6px"
+                      />
+                    }
+                  >
+                    <Box fontSize="12px">Report</Box>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </Flex>
           </Flex>
         </Box>
       </Box>
-    </Link>
+    </Lk>
   );
 };
 

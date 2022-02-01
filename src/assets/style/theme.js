@@ -34,6 +34,8 @@ const theme = extendTheme({
     lightInputBg: '#f6f7f8',
     lightIcon: '#878a8c',
     lightLayoutBg: '#DAE0E6',
+    selectedLight: '#edeff1',
+    postDetailLightBg: '#323232',
 
     // dark theme
     darkText: '#d7dadc',
@@ -43,6 +45,8 @@ const theme = extendTheme({
     darkInputBg: '#272729',
     darkIcon: '#818384',
     darkLayoutBg: '#1A202C',
+    selectedDark: '#343536',
+    postDetailDarkBg: '#191919',
   },
   fonts: {
     body: 'IBM Plex Sans, sans-serif',

@@ -2,6 +2,8 @@ body {
   font-family: IBMPlexSans, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: calc(100vh - 48px);
+  line-height: 1;
 }
 
 code {

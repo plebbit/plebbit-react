@@ -13,25 +13,55 @@ import {
   AccordionPanel,
   useColorModeValue,
 } from '@chakra-ui/react';
-// import PlebSideBarImg from '../../assets/images/plebbitSBImage.png';
 import { ChevronUpIcon } from '@chakra-ui/icons';
 import Button from '../../components/Button';
 
-const SideBar = () => {
+const SideBar = ({
+  mt,
+  borderRadius,
+  ml,
+  margin,
+  width,
+  padding,
+  top,
+  right,
+  sx,
+  border,
+  borderColor,
+}) => {
   const color = useColorModeValue('darkText', 'lightText');
-  const Bg = useColorModeValue('white', 'black');
+  const Bg = useColorModeValue('#F8F9FA', '');
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      // behavior: 'smooth',
+    });
+  };
 
   return (
     <Box
-      marginLeft="24px"
-      marginTop="28px"
-      width="312px"
-      flex="0 0 312px"
-      sx={{
-        '@media (max-width: 960px)': {
-          display: 'none',
-        },
-      }}
+      marginLeft={ml || '24px'}
+      marginTop={mt || '28px'}
+      border={border}
+      borderColor={borderColor}
+      margin={margin}
+      width={width}
+      padding={padding}
+      borderRadius={borderRadius}
+      top={top}
+      right={right}
+      sx={
+        sx || {
+          '@media (min-width: 960px)': {
+            display: 'block',
+          },
+          '@media (max-width: 960px)': {
+            display: 'none',
+            width: '312px',
+            flex: '0 0 312px',
+          },
+        }
+      }
     >
       <Flex flexDirection="column" height="100%" width="inherit">
         <Box borderRadius="4px" overflow="visible" wordBreak="break-word" bg={Bg}>
@@ -686,6 +716,7 @@ const SideBar = () => {
               color={color}
               fontSize="14px"
               fontWeight="700"
+              onClick={scrollToTop}
             />
           </Flex>
         </Box>
