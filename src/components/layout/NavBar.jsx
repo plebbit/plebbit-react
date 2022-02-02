@@ -103,259 +103,263 @@ const NavBar = () => {
                 <i>Plebbit</i>
               </Box>
             </Flex>
-            <Menu preventOverflow>
-              <MenuButton>
-                <Flex
-                  padding="6px 8px"
-                  borderRadius="4px"
-                  bg="transperant"
-                  border="none"
-                  ml="8px"
-                  _hover={{
-                    border: `1px solid ${navBtnBg}`,
-                  }}
-                  justifyContent="space-between"
-                  cursor="default"
-                  alignItems="center"
-                  sx={{
-                    '@media (min-width: 955px)': {
-                      width: '270px',
-                    },
-                  }}
-                >
-                  <Flex ml="8px" alignItems="center">
-                    <Icon as={MdHome} h={6} w={8} />
-                    <Box
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      lineHeight="18px"
-                      fontSize="14px"
-                      fontWeight="500"
-                      flexGrow="1"
+            {isLoggedIn ? (
+              <Menu preventOverflow>
+                <MenuButton>
+                  <Flex
+                    padding="6px 8px"
+                    borderRadius="4px"
+                    bg="transperant"
+                    border="none"
+                    ml="8px"
+                    _hover={{
+                      border: `1px solid ${navBtnBg}`,
+                    }}
+                    justifyContent="space-between"
+                    cursor="default"
+                    alignItems="center"
+                    sx={{
+                      '@media (min-width: 955px)': {
+                        width: '270px',
+                      },
+                    }}
+                  >
+                    <Flex ml="8px" alignItems="center">
+                      <Icon as={MdHome} h={6} w={8} />
+                      <Box
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        lineHeight="18px"
+                        fontSize="14px"
+                        fontWeight="500"
+                        flexGrow="1"
+                        sx={{
+                          '@media (max-width: 768px)': {
+                            display: 'none',
+                          },
+                        }}
+                      >
+                        Home
+                      </Box>
+                    </Flex>
+                    <ChevronDownIcon
+                      h={6}
+                      w={8}
+                      fontSize="20px"
+                      fontWeight="400"
+                      verticalAlign="middle"
+                      lineHeight="20px"
+                      ml="2px"
+                      mr="-4px"
                       sx={{
-                        '@media (max-width: 768px)': {
+                        '@media (max-width: 600px)': {
                           display: 'none',
                         },
                       }}
-                    >
-                      Home
-                    </Box>
+                    />
                   </Flex>
-                  <ChevronDownIcon
-                    h={6}
-                    w={8}
-                    fontSize="20px"
-                    fontWeight="400"
-                    verticalAlign="middle"
-                    lineHeight="20px"
-                    ml="2px"
-                    mr="-4px"
-                    sx={{
-                      '@media (max-width: 600px)': {
-                        display: 'none',
-                      },
-                    }}
-                  />
-                </Flex>
-              </MenuButton>
-              <MenuList
-                backgroundColor={bg}
-                color={color}
-                borderRadius="10px"
-                boxShadow="0 2px 4px 0 rgba(28 28 28 0.2)"
-              >
-                <MenuItem>
-                  <Input
-                    placeholder="filter"
-                    borderColor={color}
-                    backgroundColor={inputBg}
-                    size="sm"
-                  />
-                </MenuItem>
-                <MenuGroup
-                  fontSize="10px"
-                  fontWeight="500"
-                  lineHeight="16px"
-                  textTransform="uppercase"
-                  title="MY COMMUNITIES"
+                </MenuButton>
+                <MenuList
+                  backgroundColor={bg}
+                  color={color}
+                  borderRadius="10px"
+                  boxShadow="0 2px 4px 0 rgba(28 28 28 0.2)"
                 >
                   <MenuItem>
-                    <Flex alignItems="center" fontSize="14px" lineHeight="18px">
-                      <Icon
-                        marginRight="8px"
-                        width={5}
-                        height={5}
-                        as={AiOutlinePlus}
-                        color={color}
-                      />
-                      <Box>Create Community</Box>
-                    </Flex>
+                    <Input
+                      placeholder="filter"
+                      borderColor={color}
+                      backgroundColor={inputBg}
+                      size="sm"
+                    />
                   </MenuItem>
-                  <MenuItem>
-                    <Flex
-                      alignItems="center"
-                      justifyContent="space-between"
-                      fontSize="14px"
-                      lineHeight="18px"
-                      width="100%"
-                    >
-                      <Flex alignItems="center">
-                        <Image
-                          src="https://styles.redditmedia.com/t5_ymekd/styles/communityIcon_3xhx24g2vh831.png"
+                  <MenuGroup
+                    fontSize="10px"
+                    fontWeight="500"
+                    lineHeight="16px"
+                    textTransform="uppercase"
+                    title="MY COMMUNITIES"
+                  >
+                    <MenuItem>
+                      <Flex alignItems="center" fontSize="14px" lineHeight="18px">
+                        <Icon
                           marginRight="8px"
                           width={5}
                           height={5}
+                          as={AiOutlinePlus}
+                          color={color}
                         />
-                        <Box>p/TomatoeTeam</Box>
+                        <Box>Create Community</Box>
                       </Flex>
-                      <Icon
-                        mr="auto"
-                        marginRight="8px"
-                        width={5}
-                        height={5}
-                        as={AiOutlineStar}
-                        color={color}
-                      />
-                    </Flex>
-                  </MenuItem>
-                  <MenuItem>
-                    <Flex
-                      alignItems="center"
-                      justifyContent="space-between"
-                      fontSize="14px"
-                      lineHeight="18px"
-                      width="100%"
-                    >
-                      <Flex alignItems="center">
-                        <Image
-                          src="https://styles.redditmedia.com/t5_ymekd/styles/communityIcon_3xhx24g2vh831.png"
+                    </MenuItem>
+                    <MenuItem>
+                      <Flex
+                        alignItems="center"
+                        justifyContent="space-between"
+                        fontSize="14px"
+                        lineHeight="18px"
+                        width="100%"
+                      >
+                        <Flex alignItems="center">
+                          <Image
+                            src="https://styles.redditmedia.com/t5_ymekd/styles/communityIcon_3xhx24g2vh831.png"
+                            marginRight="8px"
+                            width={5}
+                            height={5}
+                          />
+                          <Box>p/TomatoeTeam</Box>
+                        </Flex>
+                        <Icon
+                          mr="auto"
                           marginRight="8px"
                           width={5}
                           height={5}
+                          as={AiOutlineStar}
+                          color={color}
                         />
-                        <Box>p/TomatoeTeam</Box>
                       </Flex>
-                      <Icon
-                        mr="auto"
-                        marginRight="8px"
-                        width={5}
-                        height={5}
-                        as={AiOutlineStar}
-                        color={color}
-                      />
-                    </Flex>
-                  </MenuItem>
-                  <MenuItem>
-                    <Flex
-                      alignItems="center"
-                      justifyContent="space-between"
-                      fontSize="14px"
-                      lineHeight="18px"
-                      width="100%"
-                    >
-                      <Flex alignItems="center">
-                        <Image
-                          src="https://styles.redditmedia.com/t5_ymekd/styles/communityIcon_3xhx24g2vh831.png"
+                    </MenuItem>
+                    <MenuItem>
+                      <Flex
+                        alignItems="center"
+                        justifyContent="space-between"
+                        fontSize="14px"
+                        lineHeight="18px"
+                        width="100%"
+                      >
+                        <Flex alignItems="center">
+                          <Image
+                            src="https://styles.redditmedia.com/t5_ymekd/styles/communityIcon_3xhx24g2vh831.png"
+                            marginRight="8px"
+                            width={5}
+                            height={5}
+                          />
+                          <Box>p/TomatoeTeam</Box>
+                        </Flex>
+                        <Icon
+                          mr="auto"
                           marginRight="8px"
                           width={5}
                           height={5}
+                          as={AiOutlineStar}
+                          color={color}
                         />
-                        <Box>p/TomatoeTeam</Box>
                       </Flex>
-                      <Icon
-                        mr="auto"
-                        marginRight="8px"
-                        width={5}
-                        height={5}
-                        as={AiOutlineStar}
-                        color={color}
-                      />
-                    </Flex>
-                  </MenuItem>
-                  <MenuItem>
-                    <Flex
-                      alignItems="center"
-                      justifyContent="space-between"
-                      fontSize="14px"
-                      lineHeight="18px"
-                      width="100%"
-                    >
-                      <Flex alignItems="center">
-                        <Image
-                          src="https://styles.redditmedia.com/t5_ymekd/styles/communityIcon_3xhx24g2vh831.png"
+                    </MenuItem>
+                    <MenuItem>
+                      <Flex
+                        alignItems="center"
+                        justifyContent="space-between"
+                        fontSize="14px"
+                        lineHeight="18px"
+                        width="100%"
+                      >
+                        <Flex alignItems="center">
+                          <Image
+                            src="https://styles.redditmedia.com/t5_ymekd/styles/communityIcon_3xhx24g2vh831.png"
+                            marginRight="8px"
+                            width={5}
+                            height={5}
+                          />
+                          <Box>p/TomatoeTeam</Box>
+                        </Flex>
+                        <Icon
+                          mr="auto"
                           marginRight="8px"
                           width={5}
                           height={5}
+                          as={AiOutlineStar}
+                          color={color}
                         />
-                        <Box>p/TomatoeTeam</Box>
                       </Flex>
-                      <Icon
-                        mr="auto"
-                        marginRight="8px"
-                        width={5}
-                        height={5}
-                        as={AiOutlineStar}
-                        color={color}
-                      />
-                    </Flex>
-                  </MenuItem>
-                  <MenuItem>
-                    <Flex
-                      alignItems="center"
-                      justifyContent="space-between"
-                      fontSize="14px"
-                      lineHeight="18px"
-                      width="100%"
-                    >
-                      <Flex alignItems="center">
-                        <Image
-                          src="https://styles.redditmedia.com/t5_ymekd/styles/communityIcon_3xhx24g2vh831.png"
+                    </MenuItem>
+                    <MenuItem>
+                      <Flex
+                        alignItems="center"
+                        justifyContent="space-between"
+                        fontSize="14px"
+                        lineHeight="18px"
+                        width="100%"
+                      >
+                        <Flex alignItems="center">
+                          <Image
+                            src="https://styles.redditmedia.com/t5_ymekd/styles/communityIcon_3xhx24g2vh831.png"
+                            marginRight="8px"
+                            width={5}
+                            height={5}
+                          />
+                          <Box>p/TomatoeTeam</Box>
+                        </Flex>
+                        <Icon
+                          mr="auto"
                           marginRight="8px"
                           width={5}
                           height={5}
+                          as={AiOutlineStar}
+                          color={color}
                         />
-                        <Box>p/TomatoeTeam</Box>
                       </Flex>
-                      <Icon
-                        mr="auto"
-                        marginRight="8px"
-                        width={5}
-                        height={5}
-                        as={AiOutlineStar}
-                        color={color}
-                      />
-                    </Flex>
-                  </MenuItem>
-                  <MenuItem>
-                    <Flex
-                      alignItems="center"
-                      justifyContent="space-between"
-                      fontSize="14px"
-                      lineHeight="18px"
-                      width="100%"
-                    >
-                      <Flex alignItems="center">
-                        <Image
-                          src="https://styles.redditmedia.com/t5_ymekd/styles/communityIcon_3xhx24g2vh831.png"
+                    </MenuItem>
+                    <MenuItem>
+                      <Flex
+                        alignItems="center"
+                        justifyContent="space-between"
+                        fontSize="14px"
+                        lineHeight="18px"
+                        width="100%"
+                      >
+                        <Flex alignItems="center">
+                          <Image
+                            src="https://styles.redditmedia.com/t5_ymekd/styles/communityIcon_3xhx24g2vh831.png"
+                            marginRight="8px"
+                            width={5}
+                            height={5}
+                          />
+                          <Box>p/TomatoeTeam</Box>
+                        </Flex>
+                        <Icon
+                          mr="auto"
                           marginRight="8px"
                           width={5}
                           height={5}
+                          as={AiOutlineStar}
+                          color={color}
                         />
-                        <Box>p/TomatoeTeam</Box>
                       </Flex>
-                      <Icon
-                        mr="auto"
-                        marginRight="8px"
-                        width={5}
-                        height={5}
-                        as={AiOutlineStar}
-                        color={color}
-                      />
-                    </Flex>
-                  </MenuItem>
-                </MenuGroup>
-              </MenuList>
-            </Menu>
+                    </MenuItem>
+                    <MenuItem>
+                      <Flex
+                        alignItems="center"
+                        justifyContent="space-between"
+                        fontSize="14px"
+                        lineHeight="18px"
+                        width="100%"
+                      >
+                        <Flex alignItems="center">
+                          <Image
+                            src="https://styles.redditmedia.com/t5_ymekd/styles/communityIcon_3xhx24g2vh831.png"
+                            marginRight="8px"
+                            width={5}
+                            height={5}
+                          />
+                          <Box>p/TomatoeTeam</Box>
+                        </Flex>
+                        <Icon
+                          mr="auto"
+                          marginRight="8px"
+                          width={5}
+                          height={5}
+                          as={AiOutlineStar}
+                          color={color}
+                        />
+                      </Flex>
+                    </MenuItem>
+                  </MenuGroup>
+                </MenuList>
+              </Menu>
+            ) : (
+              ''
+            )}
             <Box maxWidth="690px" margin="0 auto" flexGrow={1}>
               <InputGroup width="auto" mx="16px">
                 <InputLeftElement pointerEvents="none" padding="0 9px 0 15px;">
@@ -383,57 +387,70 @@ const NavBar = () => {
             </Box>
           </Flex>
           <Flex alignContent="center">
-            <Flex
-              alignItems="center"
-              marginRight="8px"
-              sx={{
-                '@media (max-width: 768px)': {
-                  display: 'none',
-                },
-              }}
-            >
-              <Icon
-                borderRadius="2px"
-                color={iconColor}
-                width={5}
-                height={5}
-                as={BsArrowUpRightCircle}
-              />
+            {isLoggedIn ? (
+              <>
+                <Flex
+                  alignItems="center"
+                  marginRight="8px"
+                  sx={{
+                    '@media (max-width: 768px)': {
+                      display: 'none',
+                    },
+                  }}
+                >
+                  <Icon
+                    borderRadius="2px"
+                    color={iconColor}
+                    width={5}
+                    height={5}
+                    as={BsArrowUpRightCircle}
+                  />
 
-              <Icon
-                marginLeft="8px"
-                borderRadius="2px"
-                width={5}
-                height={5}
-                as={HiOutlineChartSquareBar}
-                color={iconColor}
-              />
-            </Flex>
+                  <Icon
+                    marginLeft="8px"
+                    borderRadius="2px"
+                    width={5}
+                    height={5}
+                    as={HiOutlineChartSquareBar}
+                    color={iconColor}
+                  />
+                </Flex>
 
-            <Box
-              sx={{
-                borderLeft: `1px solid #a4a4a4`,
-                height: '15px',
-                margin: 'auto',
-                marginRight: '8px',
-                '@media (max-width: 768px)': {
-                  display: 'none',
-                },
-              }}
-            />
-            <Flex alignItems="center" marginRight="8px">
-              <Icon borderRadius="2px" color={iconColor} width={5} height={5} as={HiOutlineChat} />
-              <Icon borderRadius="2px" color={iconColor} width={5} height={5} as={BiBell} />
+                <Box
+                  sx={{
+                    borderLeft: `1px solid #a4a4a4`,
+                    height: '15px',
+                    margin: 'auto',
+                    marginRight: '8px',
+                    '@media (max-width: 768px)': {
+                      display: 'none',
+                    },
+                  }}
+                />
+                <Flex alignItems="center" marginRight="8px">
+                  <Icon
+                    borderRadius="2px"
+                    color={iconColor}
+                    width={5}
+                    height={5}
+                    as={HiOutlineChat}
+                  />
+                  <Icon borderRadius="2px" color={iconColor} width={5} height={5} as={BiBell} />
 
-              <Icon
-                marginLeft="8px"
-                borderRadius="2px"
-                width={5}
-                height={5}
-                as={AiOutlinePlus}
-                color={iconColor}
-              />
-            </Flex>
+                  <Icon
+                    marginLeft="8px"
+                    borderRadius="2px"
+                    width={5}
+                    height={5}
+                    as={AiOutlinePlus}
+                    color={iconColor}
+                  />
+                </Flex>
+              </>
+            ) : (
+              ''
+            )}
+
             <ButtonGroup
               sx={{
                 '@media (max-width: 614px)': {
