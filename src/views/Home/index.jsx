@@ -9,8 +9,10 @@ import {
   MenuItem,
   MenuList,
   useColorModeValue,
+  Input,
+  Image,
 } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, LinkIcon } from '@chakra-ui/icons';
 import { FaFire } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineRise } from 'react-icons/ai';
@@ -24,30 +26,14 @@ import { ProfileContext } from '../../store/profileContext';
 import SideBar from './sideBar';
 
 const Home = () => {
-  const { postStyle, setPostStyle } = useContext(ProfileContext);
+  const { isLoggedIn, postStyle, setPostStyle } = useContext(ProfileContext);
   const bg = useColorModeValue('lightNavBg', 'darkNavBg');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const selected = useColorModeValue('selectedLight', 'selectedDark');
+  const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
 
   return (
-    <Flex
-      maxWidth="100%"
-      justifyContent="center"
-      margin="0 auto !important"
-      padding="20px 24px"
-      // sx={{
-      //   '@media (min-width: 640px)': {
-      //     padding: '20px 24px',
-      //   },
-      //   '@media (max-width: 640px)': {
-      //     boxSize: 'border-box',
-      //     display: 'flex',
-      //     flexDirection: 'row',
-      //     justifyContent: 'center',
-      //     margin: '0 auto',
-      //   },
-      // }}
-    >
+    <Flex maxWidth="100%" justifyContent="center" margin="0 auto !important" padding="20px 24px">
       <Box
         width="640px"
         sx={{
@@ -61,17 +47,70 @@ const Home = () => {
           },
         }}
       >
-        <Box
-          pb="10px"
-          fontSize="14px"
-          textTransform="unset"
-          lineHeight="18px"
-          color="#878A8c"
-          position="relative"
-          width="100%"
-        >
-          Popular posts
-        </Box>
+        {!isLoggedIn ? (
+          <Box
+            pb="10px"
+            fontSize="14px"
+            textTransform="unset"
+            lineHeight="18px"
+            color="#878A8c"
+            position="relative"
+            width="100%"
+          >
+            Popular posts
+          </Box>
+        ) : (
+          <Flex
+            alignItems="center"
+            backgroundColor={bg}
+            border={`1px solid ${bg}`}
+            borderRadius="4px"
+            boxSizing="border-box"
+            marginBottom="16px"
+            padding="10px 12px"
+            flexFlow="row no-wrap"
+            marginTop="28px"
+          >
+            <Image
+              width="24px"
+              height="24px"
+              src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
+              alt="user avatar"
+              mr="4px"
+              cursor="pointer"
+              transformOrigin="bottom center"
+              display="block"
+              transform="scale(1.3)"
+            />
+            <Input
+              backgroundColor={inputBg}
+              borderRadius="4px"
+              placeholder="Create Post"
+              flexGrow="1"
+              fontSize="14px"
+              fontWeight="400"
+              lineHeight="400"
+            />
+            <Box
+              _hover={{
+                background: '#f6f7f8',
+              }}
+              borderRadius="4px"
+              fontSize="20px"
+              fontWeight="700"
+              lineHeight="18px"
+              minW="40px"
+              minH="40px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              ml="6px"
+            >
+              <LinkIcon verticalAlign="middle" lineHeight="20px" color={iconColor} ml="4px" />
+            </Box>
+          </Flex>
+        )}
+
         <Flex
           alignItems="center"
           backgroundColor={bg}
@@ -117,7 +156,7 @@ const Home = () => {
               }
             />
 
-            <Menu>
+            <Menu preventOverflow>
               <MenuButton alignItems="center" display="flex">
                 <Button
                   padding="6px 8px"
@@ -157,8 +196,9 @@ const Home = () => {
               </MenuButton>
               <MenuList
                 backgroundColor={bg}
+                color="#a4a4a4"
+                borderRadius="10px"
                 boxShadow="0 2px 4px 0 rgba(28 28 28 0.2)"
-                overflowY="scroll"
               >
                 <MenuItem>United State</MenuItem>
                 <MenuItem>United Kingdom</MenuItem>
@@ -268,22 +308,8 @@ const Home = () => {
                 />
               }
             />
-            <MenuList>
-              <MenuItem
-                icon={
-                  <Icon
-                    as={AiOutlineRise}
-                    width={8}
-                    height={8}
-                    padding="0 0 8px 0"
-                    fontSize="20px"
-                    lineHeight="20px"
-                    color="#a4a4a4"
-                  />
-                }
-              >
-                rising
-              </MenuItem>
+            <MenuList color="#a4a4a4">
+              <MenuItem icon={<Icon width={6} height={6} as={AiOutlineRise} />}>rising</MenuItem>
             </MenuList>
           </Menu>
 
