@@ -8,7 +8,7 @@ import { ChatIcon, CloseIcon } from '@chakra-ui/icons';
 import { FaShare } from 'react-icons/fa';
 import { BiBell } from 'react-icons/bi';
 import { BsBookmark, BsFlag, BsEyeSlash } from 'react-icons/bs';
-import SideBar from '../sideBar';
+import SideBar from './postDetailSideBar';
 
 const PostDetails = ({ post }) => {
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
@@ -412,7 +412,6 @@ const PostDetails = ({ post }) => {
           margin="32px 32px 32px 0"
           borderRadius="4px"
           padding="0"
-          border={`1px solid ${borderColor}`}
           right="0"
           top="0"
           width="312px"
