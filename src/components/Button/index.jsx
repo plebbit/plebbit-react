@@ -25,14 +25,17 @@ const Button = ({
   mr,
   mt,
   sx,
+  _hover,
 }) => {
   return (
     <Btn
       onClick={onClick}
       loading={loading}
-      _hover={{
-        opacity: '0.8',
-      }}
+      _hover={
+        _hover || {
+          opacity: '0.8',
+        }
+      }
       borderColor={border === 'none' ? '' : border}
       borderRadius={borderRadius || '9999px'}
       bg={bg}

@@ -7,6 +7,7 @@ export const ProfileDataProvider = (props) => {
   const [profile, setProfile] = useState({});
   const [reloadUser, setReloadUser] = useState(false);
   const [postStyle, setPostStyle] = useState('card');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const getProfileState = async () => {};
 
@@ -26,6 +27,8 @@ export const ProfileDataProvider = (props) => {
         logUserOut,
         postStyle,
         setPostStyle,
+        isLoggedIn,
+        setIsLoggedIn,
       }}
     >
       {children}
