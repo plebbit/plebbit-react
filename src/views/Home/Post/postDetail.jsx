@@ -58,6 +58,11 @@ const PostDetails = ({ post }) => {
               lineHeight="18px"
               textOverflow="ellipsis"
               ml="2px"
+              sx={{
+                '@media (max-width: 768px)': {
+                  display: 'none',
+                },
+              }}
             >
               Swastikas displayed at Canadian protests against vaccination mandates
             </Box>
