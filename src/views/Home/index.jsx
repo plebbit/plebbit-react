@@ -12,6 +12,7 @@ import {
   Input,
   Image,
 } from '@chakra-ui/react';
+import { useHistory } from 'react-router';
 import { ChevronDownIcon, LinkIcon } from '@chakra-ui/icons';
 import { FaFire } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -27,18 +28,27 @@ import SideBar from './sideBar';
 
 const Home = () => {
   const { isLoggedIn, postStyle, setPostStyle } = useContext(ProfileContext);
+  const history = useHistory();
   const bg = useColorModeValue('lightNavBg', 'darkNavBg');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const selected = useColorModeValue('selectedLight', 'selectedDark');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
 
   return (
-    <Flex maxWidth="100%" justifyContent="center" margin="0 auto !important" padding="20px 24px">
+    <Flex
+      maxWidth="100%"
+      justifyContent="center"
+      margin="0 auto !important"
+      sx={{
+        '@media (min-width: 640px)': {
+          padding: '20px 24px',
+        },
+      }}
+    >
       <Box
         width="640px"
         sx={{
           '@media (min-width: 960px)': {
-            // width: `${postStyle === 'card' ? '100%' : ''}`,
             minWidth: '0',
           },
           '@media (max-width: 960px)': {
@@ -90,6 +100,7 @@ const Home = () => {
               fontSize="14px"
               fontWeight="400"
               lineHeight="400"
+              onClick={() => history.push('/submit')}
             />
             <Box
               _hover={{
@@ -105,6 +116,7 @@ const Home = () => {
               alignItems="center"
               justifyContent="center"
               ml="6px"
+              onClick={() => history.push('/submit')}
             >
               <LinkIcon verticalAlign="middle" lineHeight="20px" color={iconColor} ml="4px" />
             </Box>

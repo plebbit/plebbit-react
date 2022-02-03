@@ -19,6 +19,7 @@ import {
   Switch,
   Divider,
 } from '@chakra-ui/react';
+import { useHistory } from 'react-router-dom';
 import { MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { ProfileContext } from '../../store/profileContext';
 import PlebLogo from '../../assets/images/plebbit-logo.png';
@@ -35,6 +36,7 @@ import { MdWhereToVote, MdHome } from 'react-icons/md';
 import Button from '../Button';
 
 const NavBar = () => {
+  const history = useHistory();
   const { setIsLoggedIn, isLoggedIn } = useContext(ProfileContext);
   const { colorMode, toggleColorMode } = useColorMode();
   const color = useColorModeValue('lightText', 'darkText');
@@ -444,6 +446,7 @@ const NavBar = () => {
                     height={5}
                     as={AiOutlinePlus}
                     color={iconColor}
+                    onClick={() => history.push('/submit')}
                   />
                 </Flex>
               </>
