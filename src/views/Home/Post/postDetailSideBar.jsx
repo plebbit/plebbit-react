@@ -81,11 +81,11 @@ const PostDetailSideBar = ({
               mr="8px"
             />
             <Box fontSize="16px" fontWeight="500" lineHeight="20px">
-              p/WeirdFamily
+              p/PlebbitFamily
             </Box>
           </Flex>
           <Box marginBottom="8px" position="relative" padding="12px">
-            p/WeirdFamily is the place for weird stuffs that do not make sense
+            p/PlebbitFamily is all about plebbit
           </Box>
           <Flex marginBottom="8px" padding="12px">
             <Flex flexDirection="column" paddingRight="4px" flex="auto">
