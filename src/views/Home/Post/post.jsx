@@ -58,7 +58,7 @@ const Post = ({ post }) => {
           boxShadow: 'none',
         }}
       >
-        <VoteComponent post={post} />
+        <VoteComponent />
         <Box bg={postBg} position="relative" paddingTop="8px">
           <Flex
             alignItems="start"
@@ -120,7 +120,7 @@ const Post = ({ post }) => {
               paddingRight="5px"
               wordBreak="break-word"
             >
-              Fifa 2022
+              {post?.title || `Why Plebbit ?`}
             </Heading>
           </Box>
 
@@ -140,12 +140,15 @@ const Post = ({ post }) => {
                   maskImage: 'linear-gradient(180deg, #000 60%, transparent)',
                 }}
               >
-                This game is the best fifa instalment since fifa 17, people are complaining about
-                things like ‘scripting’ but that’s because they don’t win every game, also it’s much
-                harder to score this year with goalkeepers like this, but that’s the thing, it
-                shouldn’t be easy, if it was so easy to score in real life there would be so much
-                less emotion in the crowd when a goal is scored. Another good thing is that EA have
-                made slower players with 70-75 much more ‘usable’ because of the way the game feels.
+                {post?.detail ||
+                  `Plebbit is a serverless, adminless, decentralized Reddit alternative that has no blockchain transactions fees and uses captchas over peer-to-peer pubsub to prevent spam.
+Whitepaper: https://github.com/plebbit/whitepaper/discussions/2
+Reddit thread: https://redd.it/qijq8r
+Reddit thread 2: https://redd.it/ps9udt
+IPFS thread: https://discuss.ipfs.io/t/12158
+ETHResearch thread: https://ethresear.ch/t/10523
+Telegram: https://t.me/plebbit
+Twitter: https://twitter.com/getplebbit`}
               </Box>
             </Box>
           ) : (
