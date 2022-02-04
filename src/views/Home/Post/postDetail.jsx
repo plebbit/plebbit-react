@@ -64,7 +64,7 @@ const PostDetails = ({ post }) => {
                 },
               }}
             >
-              Swastikas displayed at Canadian protests against vaccination mandates
+              The Reason or the dreams of plebbit
             </Box>
           </Flex>
           <Lk to="/">
@@ -214,7 +214,7 @@ const PostDetails = ({ post }) => {
                   paddingRight="5px"
                   wordBreak="break-word"
                 >
-                  They're not my kids, and not my problem.
+                  Why Plebbit
                 </Heading>
               </Box>
 
@@ -230,76 +230,118 @@ const PostDetails = ({ post }) => {
                     wordBreak="break-word"
                     overflow="hidden"
                   >
-                    About a month ago, I found out both of my children where the results of my soon
-                    to be ex-wives affairs. I've had a feeling for awhile now that both them were
-                    not mine. 6 years ago when my son was born, I was the happiest I had been in my
-                    entire life. I had married my best friend, we had a child together, and
-                    everything seemed amazing. That was until he started getting older. After a few
-                    years, I started to have doubts that he was actually mine. He did not look like
-                    my child. The more he started to grow, the more I realized just how different he
-                    looked compared to what I would expect a child of mine to look like. I am not
-                    petty or paranoid enough to let that alone drive me. It was my whore of a wife
-                    that really set my alarms off. Whenever she went out, she never went where she
-                    said she did. She would have huge holes in her schedule she could never explain
-                    to me, she would refuse to allow me to interact with anyone from her work place,
-                    and a close friend of hers accused her of flirting with her s/o at the time. It
-                    did not help that soon after our son was born, her lies started to catch up with
-                    her. Still though, I loved her like the fool I was. She told me up and down how
-                    much she loved me whenever one of her lies caught up with her. She had convinced
-                    me that despite the fact she was a lying and manipulative woman, that she wasn't
-                    a lying manipulative whore. Last year, she got pregnant again, and I still held
-                    out a small bit of hope that it was mine. But when her daughter was born, it was
-                    obvious she was mixed race. I refused to sign the birth certificate, and the
-                    paternity test I demanded afterwards proved my suspicions right all along.
-                    Neither of them are mine. The day I got those test results were the day I filed
-                    for divorce from that whore and walked away from the family I had created. I
-                    knew that it would destroy her sons life to see me walk out. Despite my
-                    concerns, I was the best dad I could be to him. I loved him with all my heart
-                    and put in 110% into being the father he deserved. Now though, when I see him I
-                    am filled with disgust. Disgust for my whore of a wife, disgust with myself for
-                    not trusting my instincts, and disgust that the last 6 years on my life have
-                    been for nothing. I have been told by multiple people now that I am a monster
-                    for leaving "my son" like this. My ex has tried on multiple occasions since I
-                    moved out to use him to guilt me into getting back with her. She will have him
-                    call me at random hours of the night crying and begging for "his daddy" to come
-                    back. The day I moved out, she paraded him into the room as I packed my things
-                    to show me "how much damage I am doing." In every conversation that he is
-                    brought up, both online and off, I am berated and shamed. That despite the fact
-                    I am not the boys biological father, I am his dad. What I have sadly now
-                    realized is that, to most, my own feelings mean nothing. My parents are my only
-                    supporters through all this, with my own siblings calling me a despicable person
-                    for abandoning a child like that. My feelings of betrayal and sadness mean
-                    nothing, because a child is involved. I know it is not his fault. I know that
-                    the man he called his father for his entire life just walked away, But why am I
-                    expected to "man up?" Why should I have to pretend everything is fine and I do
-                    not feel contempt for this entire situation. Why should I put my own life and
-                    feelings aside? I never was the boys father, I loved him like one and honestly
-                    still do; but I would come to hate and contempt him if I had to play that role.
-                    Hate myself for not standing up and taking my own life back into my own hands.
-                    He is not my child, and even though it is not his fault, he is not my problem
-                    anymore. Edit: Wow, this post certainly blew up. Guess airing my dirty laundry
-                    accomplished something. Anyway, i've seen a few common questions so I'll just
-                    answer them here. 1. Her son knows the truth of why I left. I sat down and told
-                    him that I am not his father, and that his mother lied to me and cheated on me.
-                    i made it clear I am not mad at him, that it is not his fault this is happening,
-                    and no matter what I will still think he's an amazing kid. 2. Some are saying
-                    that I never loved him, or was always looking for a way out. It's hard to convey
-                    emotions in a text post like this, and even harder to allow vitriolic hatred
-                    towards your whore of a wife decontextualize the last 6 years of your life. You
-                    can believe what you want though. 3. I have a lawyer, and I'm not going to be
-                    paying child support or alimony. Last though, for those who say I should stay in
-                    her sons life and be his father. That's not realistically possible. I do not
-                    hate him, but I have been cheated on, lied too, and used by a vile self-centered
-                    whore who has now caught her children up in her lies and deceit. He is a
-                    casualty of her actions, and blameless. However, it can never change the fact of
-                    the harsh reality we find ourselves in. I don't hate him, I feel so sad when I
-                    think about how he feels. But, all I see when I look at him is 6 years of my
-                    life I was lied to. 6 years of my life I was used. And 6 long years of built up
-                    doubts and frustrations with a woman who used me. There is no putting aside my
-                    hatred to try and be in his life, because the life I lived with him was nothing
-                    more than a façade cultivated by his mother. This is the harsh reality I find
-                    myself dealing with, and I simply cannot in good faith put myself or him through
-                    it any more.
+                    Plebbit: A serverless, adminless, decentralized Reddit alternative (Whitepaper
+                    v0.2.0) Abstract A decentralized social media has 2 problems: How to store the
+                    entire world's data on a blockchain, and how to prevent spam while being
+                    feeless. We propose solving the data problem by not using a blockchain, but
+                    rather "public key based addressing" and a peer-to-peer pubsub network. A
+                    blockchain or even a DAG is unnecessary because unlike cryptocurrencies that
+                    must know the order of each transaction to prevent double spends, social media
+                    does not care about the order of posts, nor about the availability of old posts.
+                    We propose solving the spam problem by having each subplebbit owner run a
+                    "captcha service" node over peer-to-peer pubsub. Peers who fail too many
+                    captchas are blocked from pubsub. Public key based addressing In Bittorrent, you
+                    have "content based addressing". The hash of a file becomes its address. With
+                    "public key based addressing", the hash of a public key becomes the address of
+                    the subplebbit. Network peers perform a DHT query of this address to retrieve
+                    the content of the subplebbit. Each time the content gets updated, the nonce of
+                    the content increases. The network only keeps the latest nonce. Peer-to-peer
+                    pubsub Pubsub is an architecture where you subscribe to a "topic", like "cats",
+                    then whenever someone publishes a message of topic "cats", you receive it. A
+                    peer-to-peer pubsub network means that anyone can publish, and anyone can
+                    subscribe. To publish a post to a subplebbit, a user would publish a message
+                    with a "topic" equal to the subplebbit public key (its public key based
+                    addressing). Captcha service over peer-to-peer pubsub An open peer-to-peer
+                    pubsub network is susceptible to spam attacks that would DDOS it, as well as
+                    makes it impossible for moderators to manually moderate an infinite amount of
+                    bot spam. We solve this problem by requiring publishers to first request a
+                    captcha challenge from the subplebbit owner's peer. If a peer or IP address
+                    relays too many captcha challenge requests without providing enough correct
+                    captcha challenge answers, it gets blocked from the pubsub. This requires the
+                    subplebbit owner's peer to broadcast the result of all captcha challenge
+                    answers, and for each peer to keep this information for some time. Note: The
+                    captcha implementation is completely up to the subplebbit owner. He can decide
+                    to prompt all users, first time users only, or no users at all. He can use 3rd
+                    party services like Google captchas. Lifecycle of creating a subplebbit
+                    Subplebbit owner starts a Plebbit client "node" on his desktop or server. It
+                    must be always online to serve content to his users. He generates a public key
+                    pair, which will be the "address" of his subplebbit. He configures captcha
+                    options, like how often and what kind of captchas to show. He publishes the
+                    metadata of his subplebbit to his public key based addressing. This includes
+                    subpebblit title, description, rules, list of public keys of moderators, etc.
+                    Note: It is possible to delegate running a client to a centralized service,
+                    without providing the private key, which makes user experience easier, without
+                    sacrificing censorship resistance. Lifecycle of reading the latest posts on a
+                    subplebbit 5 User opens the Plebbit app in a browser or desktop client, and sees
+                    an interface similar to Reddit. His client joins the public key addressing
+                    network as a peer and makes a DHT query for each address of each subplebbit he
+                    is a member of. The queries each take several seconds but can be performed
+                    concurrently. The query returns the latest posts of each subplebbit, as well as
+                    their metadata such as title, description, moderator list and captcha server
+                    URL. His client arranges the content received in an interface similar to Reddit.
+                    Lifecycle of publishing a post on a subplebbit 4 6 User opens the Plebbit app in
+                    a browser or desktop client, and sees an interface similar to Reddit. The app
+                    automatically generates a public key pair if the user doesn't already have one.
+                    He publishes a cat post for a subplebbit called "Cats" with the public key
+                    "Y2F0cyA..." His client joins the pubsub network for "Y2F0cyA..." His client
+                    makes a request for a captcha challenge over pubsub. His client receives a
+                    captcha challenge over pubsub (relayed from the subplebbit owner's peer). The
+                    app displays the captcha challenge to the user in an iframe. The user completes
+                    the captcha challenge and publishes his post and captcha challenge answer over
+                    pubsub. The subplebbit owner's client gets notified that the user published to
+                    his pubsub, the post is not ignored because it contains a correct captcha
+                    challenge answer. The subplebbit owner's client publishes a message over pubsub
+                    indicating that the captcha answer is correct or incorrect. Peers relaying too
+                    many messages with incorrect or no captcha answers get blocked to avoid DDOS of
+                    the pubsub. The subplebbit owner's client updates the content of his
+                    subplebbit's public key based addressing automatically. A few minutes later,
+                    each user reading the subplebbit receives the update in their app. If the user's
+                    post violates the subplebbit's rules, a moderator can delete it, using a similar
+                    process the user used to publish. Note: Browser users cannot join peer-to-peer
+                    networks directly, but they can use an HTTP provider or gateway that relays data
+                    for them. This service can exist for free without users having to do or pay
+                    anything. What is a "post" Post content is not retrieved directly by querying a
+                    subplebbit's public key. What is retrieved is list of "content based addressing"
+                    fields. Example: latest post: "bGF0ZXN0...", metadata: "bWV0YWRhdGE...". The
+                    client will then perform a DHT query to retrieve the content. At least one peer
+                    should have the data: the subplebbit's owner client node. If a subplebbit is
+                    popular, many other peers will have it and the load will be distributed, like on
+                    Bittorrent. Using anti-spam strategies other than the captcha service The
+                    captcha service can be replaced by other "anti-spam strategies", such proof of
+                    balance of a certain cryptocurrency. For example, a subplebbit owner might
+                    require that posts be signed by users holding at least 1 ETH, or at least 1
+                    token of his choice. Another strategy could be a proof of payment, each post
+                    must be accompanied by a minimum payment to the owner of the subplebbit. This
+                    might be fitting for celebrities wanting to use their subplebbit as a form of
+                    "onlyfan", where fans pay to interact with them. Both these scenarios would not
+                    eliminate spam, but they would bring them down from an infinite amount of spam,
+                    to an amount that does not overwhelm the pubsub network, and that a group of
+                    human moderators can manage. Proof of balance/payment are deterministic so the
+                    P2P pubsub network can block spam attacks deterministically. Even more
+                    strategies can be added to fit the need of different communities if found, but
+                    at this time the captcha service remains the most versatile strategy. Improving
+                    speed of public key based addressing A public key based addressing network query
+                    is much slower than a content addressing based one, because even after you find
+                    a peer that has the content, you must keep searching, in case another peer has
+                    content with a later nonce (more up to date content). In content based
+                    addressing, you stop as soon as you find a single peer, because the content is
+                    always the same. It is possible to achieve the same speed in Plebbit, by having
+                    public key based addressing content expire after X minutes, and having the
+                    subplebbit owner republish the content after the same X minutes. Using this
+                    strategy, there is only ever one valid content floating around the network, and
+                    as soon as you find one peer that has it, you can deterministically stop your
+                    search. Conclusion We believe that the design above would solve the problems of
+                    a serverless, adminless decentralized Reddit alternative. It would allow
+                    unlimited amounts of subplebbits, users, posts, comments and votes. This is
+                    achieved by not caring about the order or availability of old data. It would
+                    allow users to post for free using an identical Reddit interface. It would allow
+                    subplebbit owners to moderate spam semi-automatically using their own captcha
+                    service over peer-to-peer pubsub. It would allow for all features that make
+                    Reddit addictive: upvotes, replies, notifications, awards, and a chance to make
+                    the "front page". Finally, it would allow the Plebbit client developers to serve
+                    an unlimited amount of users, without any server, legal, advertising or
+                    moderation infrastructure. Please contact me on Telegram @estebanabaroa or
+                    Discord estebanabaroa#2853 to get involved, we are looking for contributors.
                   </Box>
                 </Box>
               ) : (

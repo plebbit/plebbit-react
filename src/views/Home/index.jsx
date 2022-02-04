@@ -480,7 +480,13 @@ const Home = () => {
           </Flex>
         </Flex>
         <Box minHeight="1000px" width="100%">
-          <Post />
+          <Post
+            post={{
+              title: 'Chainlink',
+              details:
+                "Chainlink is a decentralized blockchain oracle network built on Ethereum.[3][4] The network is intended to be used to facilitate the transfer of tamper-proof data from off-chain sources to on-chain smart contracts. Its creators claim it can be used to verify whether the parameters of a smart contract are met in a manner independent from any of the contract's stakeholders by connecting the contract directly to real-world data, events, payments, and other inputs",
+            }}
+          />
           <Post />
           <Post />
           <Post />
