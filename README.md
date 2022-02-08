@@ -1,3 +1,5 @@
+*Telegram group for this repo https://t.me/plebbitreact*
+
 ### Style:
 
 - Use https://chakra-ui.com/ for all components
