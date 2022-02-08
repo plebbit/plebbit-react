@@ -3,8 +3,8 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { ProfileDataProvider } from './store/profileContext';
 import Layout from './components/layout';
 import Home from './views/Home';
-import PostDetails from './views/Home/Post/postDetail';
-import PostCreate from './views/Home/Post/createPost';
+import PostDetails from './views/Home/Post/PostDetails';
+import PostCreate from './views/Home/Post/CreatePost';
 
 const App = () => {
   return (

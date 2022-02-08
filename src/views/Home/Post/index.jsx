@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { Link as Lk } from 'react-router-dom';
 import { dateToNow } from '../../../utils/formatDate';
-import VoteComponent from './VoteComponent';
+import VoteComponent from './PostDetails/VoteComponent';
 import { ProfileContext } from '../../../store/profileContext';
 import { ChatIcon } from '@chakra-ui/icons';
 import { FaShare } from 'react-icons/fa';

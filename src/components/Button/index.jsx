@@ -8,6 +8,7 @@ const Button = ({
   padding,
   lineHeight,
   fontSize,
+  display,
   bg,
   border,
   color,
@@ -26,6 +27,8 @@ const Button = ({
   mt,
   sx,
   _hover,
+  fill,
+  backgroundColor,
 }) => {
   return (
     <Btn
@@ -36,6 +39,8 @@ const Button = ({
           opacity: '0.8',
         }
       }
+      backgroundColor={backgroundColor}
+      display={display}
       borderColor={border === 'none' ? '' : border}
       borderRadius={borderRadius || '9999px'}
       bg={bg}
@@ -59,6 +64,7 @@ const Button = ({
       ml={ml}
       mt={mt}
       sx={sx}
+      fill={fill}
     >
       {content}
     </Btn>
