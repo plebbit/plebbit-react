@@ -522,7 +522,7 @@ const SideBar = ({
           </Box>
         </Box>
         <Box flex="1 1 auto" width="inherit" position="relative">
-          <Box>
+          <Box position="sticky" top="57px">
             <Box marginTop="16px" background={bg || Bg}>
               <Box maxHeight="none">
                 <Flex padding="12px 8px">

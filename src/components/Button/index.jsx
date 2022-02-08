@@ -8,6 +8,7 @@ const Button = ({
   padding,
   lineHeight,
   fontSize,
+  display,
   bg,
   border,
   color,
@@ -25,14 +26,21 @@ const Button = ({
   mr,
   mt,
   sx,
+  _hover,
+  fill,
+  backgroundColor,
 }) => {
   return (
     <Btn
       onClick={onClick}
       loading={loading}
-      _hover={{
-        opacity: '0.8',
-      }}
+      _hover={
+        _hover || {
+          opacity: '0.8',
+        }
+      }
+      backgroundColor={backgroundColor}
+      display={display}
       borderColor={border === 'none' ? '' : border}
       borderRadius={borderRadius || '9999px'}
       bg={bg}
@@ -56,6 +64,7 @@ const Button = ({
       ml={ml}
       mt={mt}
       sx={sx}
+      fill={fill}
     >
       {content}
     </Btn>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text, Flex, Image, useColorModeValue, Icon } from '@chakra-ui/react';
 import { BiCake } from 'react-icons/bi';
-import Button from '../../../components/Button';
+import Button from '../../../../components/Button';
 
 const PostDetailSideBar = ({
   mt,
@@ -81,11 +81,11 @@ const PostDetailSideBar = ({
               mr="8px"
             />
             <Box fontSize="16px" fontWeight="500" lineHeight="20px">
-              p/WeirdFamily
+              p/PlebbitFamily
             </Box>
           </Flex>
           <Box marginBottom="8px" position="relative" padding="12px">
-            p/WeirdFamily is the place for weird stuffs that do not make sense
+            p/PlebbitFamily is all about plebbit
           </Box>
           <Flex marginBottom="8px" padding="12px">
             <Flex flexDirection="column" paddingRight="4px" flex="auto">
@@ -129,7 +129,7 @@ const PostDetailSideBar = ({
         </Box>
 
         <Box flex="1 1 auto" width="inherit" position="relative">
-          <Box>
+          <Box position="sticky" top="105px">
             <Box marginTop="16px" background={bg || Bg}>
               <Box maxHeight="none">
                 <Flex padding="12px 8px">
