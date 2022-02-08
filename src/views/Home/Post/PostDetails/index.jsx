@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { Link as Lk } from 'react-router-dom';
 import { Link, Box, Flex, Text, useColorModeValue, Image, Heading, Icon } from '@chakra-ui/react';
-import { dateToNow } from '../../../utils/formatDate';
+import { dateToNow } from '../../../../utils/formatDate';
 import VoteComponent, { HorizontalVoteComponent } from './VoteComponent';
-import { ProfileContext } from '../../../store/profileContext';
+import { ProfileContext } from '../../../../store/profileContext';
 import { ChatIcon, CloseIcon } from '@chakra-ui/icons';
 import { FaShare } from 'react-icons/fa';
 import { BiBell } from 'react-icons/bi';
@@ -96,7 +96,7 @@ const PostDetails = ({ post }) => {
         sx={{
           '@media (min-width: 1280px)': {},
           '@media (max-width: 1120px)': {
-            padding: '0 12px 0 32px',
+            padding: '0 12px 0 12px',
             width: '100%',
           },
         }}
@@ -106,7 +106,7 @@ const PostDetails = ({ post }) => {
           _focus={{ boxShadow: 'none' }}
           maxWidth="740px"
           flex="1"
-          margin="32px 12px 32px 32px"
+          margin="32px 12px 32px 12px"
           minHeight="100vh"
           minWidth="0"
           width="100%"

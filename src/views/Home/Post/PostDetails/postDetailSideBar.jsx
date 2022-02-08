@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text, Flex, Image, useColorModeValue, Icon } from '@chakra-ui/react';
 import { BiCake } from 'react-icons/bi';
-import Button from '../../../components/Button';
+import Button from '../../../../components/Button';
 
 const PostDetailSideBar = ({
   mt,
@@ -129,7 +129,7 @@ const PostDetailSideBar = ({
         </Box>
 
         <Box flex="1 1 auto" width="inherit" position="relative">
-          <Box>
+          <Box position="sticky" top="105px">
             <Box marginTop="16px" background={bg || Bg}>
               <Box maxHeight="none">
                 <Flex padding="12px 8px">

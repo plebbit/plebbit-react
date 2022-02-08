@@ -22,7 +22,7 @@ import { TiStarburstOutline } from 'react-icons/ti';
 import { BsBoxArrowUp } from 'react-icons/bs';
 import { MdOutlineIndeterminateCheckBox, MdCompress } from 'react-icons/md';
 import Button from '../../components/Button';
-import Post from './Post/post';
+import Post from './Post';
 import { ProfileContext } from '../../store/profileContext';
 import SideBar from './sideBar';
 
