@@ -1,5 +1,14 @@
 import React from 'react';
-import { Flex, Box, Input, Icon, Textarea, Checkbox } from '@chakra-ui/react';
+import {
+  Flex,
+  Box,
+  Input,
+  Icon,
+  Textarea,
+  useColorMode,
+  Checkbox,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { MdStickyNote2 } from 'react-icons/md';
 import { BiHelpCircle } from 'react-icons/bi';
@@ -8,6 +17,11 @@ import Button from '../../../../components/Button';
 import SideBar from './createPostSideBar';
 
 const CreatePost = () => {
+  const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
+  const borderColor = useColorModeValue('borderLight', 'borderDark');
+  const bg = useColorModeValue('lightNavBg', 'darkNavBg');
+  const { colorMode } = useColorMode();
+
   return (
     <Flex
       maxWidth="1248px"
@@ -33,7 +47,13 @@ const CreatePost = () => {
         }}
       >
         <Flex flexDirection="column">
-          <Flex justifyContent="space-between" margin="16px 0" borderBottom="1px solid">
+          <Flex
+            justifyContent="space-between"
+            margin="16px 0"
+            borderBottom={
+              colorMode === 'light' ? '1px solid #edeff1' : '1px solid rgba(255, 255, 255, 0.16)'
+            }
+          >
             <Box fontSize="18px" fontWeight="500" lineHeight="22px" flex="1">
               Create Post
             </Box>
@@ -68,7 +88,7 @@ const CreatePost = () => {
               borderRadius="4px"
               transition="box-shadow .2s ease"
               boxShadow="0 0 0 0 #a4a4a4"
-              backgroundColor="#fff"
+              backgroundColor={bg}
             >
               <Flex alignItems="center" height="100%" padding="0 8px">
                 <Box
@@ -96,11 +116,11 @@ const CreatePost = () => {
               </Flex>
             </Box>
           </Flex>
-          <Box bg="#fff" marginBottom="15px" borderRadius="5px">
+          <Box bg={bg} marginBottom="15px" borderRadius="5px">
             <Box margin="0 0 12px" overflow="auto">
               <Flex alignItems="stretch">
                 <Flex
-                  color="#a4a4a4"
+                  color={color}
                   fontSize="14px"
                   fontWeight="700"
                   lineHeight="18px"
@@ -139,15 +159,14 @@ const CreatePost = () => {
                 <Box position="relative">
                   <Textarea
                     maxLength="300"
-                    placeholder="title"
+                    placeholder="Title"
                     rows="1"
                     overflowX="hidden"
                     overflowWrap="break-word"
                     height="39px"
-                    color="#000"
+                    color={color}
                     padding="8px 68px 8px 16px"
-                    border="1px solid #a4a4a4"
-                    backgroundColor="transparent"
+                    backgroundColor={bg}
                     resize="none"
                     width="100%"
                     fontSize="14px"
@@ -162,7 +181,7 @@ const CreatePost = () => {
                     lineHeight="12px"
                     textTransform="uppercase"
                     bottom="12px"
-                    color="#a4a4a4"
+                    color={color}
                     position="absolute"
                     right="12px"
                     pointerEvents="none"
@@ -172,7 +191,15 @@ const CreatePost = () => {
                 </Box>
               </Box>
               <Box>
-                <Box borderRadius="4px" border="1px solid #EDEFF1" position="relative">
+                <Box
+                  borderRadius="4px"
+                  border={
+                    colorMode === 'light'
+                      ? '1px solid #edeff1'
+                      : '1px solid rgba(255, 255, 255, 0.16)'
+                  }
+                  position="relative"
+                >
                   <Flex
                     borderTopLeftRadius="4px"
                     borderTopRightRadius="4px"
@@ -181,7 +208,7 @@ const CreatePost = () => {
                     padding="8px 16px"
                     alignItems="center"
                     justifyContent="space-between"
-                    backgroundColor="#f6f7f8"
+                    backgroundColor={colorMode === 'light' ? '#f6f7f8' : '#272729'}
                   >
                     <Flex alignItems="center">
                       <Box fontSize="14px" fontWeight="500" lineHeight="18px">
@@ -398,11 +425,10 @@ const CreatePost = () => {
                     }}
                   >
                     <Button
-                      backgroundColor="#3293db"
-                      color="rgba(255,255,255,0.5)"
+                      backgroundColor={colorMode === 'light' ? '#3293db' : '#dfe1e3'}
+                      color={colorMode === 'light' ? 'rgba(255,255,255,0.5)' : 'rgba(26,26,27,0.5)'}
                       fill="rgba(255,255,255,0.5)"
                       width="100%"
-                      disabled
                       sx={{
                         tabIndex: '0',
                         filter: 'grayscale(1)',
@@ -412,10 +438,11 @@ const CreatePost = () => {
                   </Flex>
                   <Flex>
                     <Button
-                      border="1px solid rgba(0,121,211,0.5)"
-                      color="rgba(0,121,211,0.5)"
+                      border={borderColor}
+                      color={
+                        colorMode === 'light' ? 'rgba(0,121,211,0.5)' : 'rgba(215,218,220,0.5)'
+                      }
                       width="100%"
-                      disabled
                       sx={{
                         tabIndex: '0',
                         filter: 'grayscale(1)',
@@ -427,7 +454,7 @@ const CreatePost = () => {
               </Box>
             </Flex>
             <Flex
-              backgroundColor="#F6F7F8"
+              backgroundColor={bg}
               borderRadius="0 0 6px 6px"
               flexFlow="column"
               padding="8px 16px 21px"
@@ -451,7 +478,7 @@ const CreatePost = () => {
                           fontSize="14px"
                           fontWeight="500"
                           lineHeight="18px"
-                          color="#1c1c1c"
+                          color={color}
                         >
                           Send me post reply notifications
                         </Box>
@@ -474,7 +501,7 @@ const CreatePost = () => {
                           fontSize="14px"
                           fontWeight="500"
                           lineHeight="18px"
-                          color="#1c1c1c"
+                          color={color}
                         >
                           Share this post on Twitter
                         </Box>
