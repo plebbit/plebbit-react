@@ -24,6 +24,8 @@ import { MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { ProfileContext } from '../../store/profileContext';
 import PlebLogo from '../../assets/images/plebbit-logo.png';
 import plebbitDarkLogo from '../../assets/svgs/plebbitDarkLogo.svg';
+import plebbitDarkText from '../../assets/svgs/letters-black-grey-dot.svg';
+import plebbitLightText from '../../assets/svgs/letters-white-grey-dot.svg';
 import { RiSearchLine, RiShieldCheckLine } from 'react-icons/ri';
 import { BiUser, BiHelpCircle } from 'react-icons/bi';
 import { BsChevronDown, BsArrowUpRightCircle } from 'react-icons/bs';
@@ -87,23 +89,20 @@ const NavBar = () => {
                 mr="8px"
                 cursor="pointer"
               />
-              <Box
-                fontSize="23px"
-                lineHeight="16px"
-                fontWeight="bold"
-                fontFamily="cursive"
+              <Image
                 height="18px"
                 width="auto"
+                src={colorMode === 'light' ? plebbitDarkText : plebbitLightText}
+                alt="Plebbit Logo"
+                border="none"
+                mr="8px"
+                cursor="pointer"
                 sx={{
                   '@media (max-width: 768px)': {
                     display: 'none',
                   },
                 }}
-                cursor="pointer"
-                color={colorMode === 'light' ? 'black' : 'white'}
-              >
-                <i>Plebbit</i>
-              </Box>
+              />
             </Flex>
             {isLoggedIn ? (
               <Menu preventOverflow>
