@@ -13,7 +13,7 @@ export default function Layout({ children }) {
     <Stack
       align="center"
       minWidth="675px"
-      maxidth="100%"
+      maxWidth="100%"
       minH="calc(100vh)"
       bg={location?.pathname === '/postId' ? postDetailBg : bg}
     >
