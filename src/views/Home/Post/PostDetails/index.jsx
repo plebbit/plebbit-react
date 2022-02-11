@@ -24,7 +24,17 @@ const PostDetails = ({ post }) => {
   const { postStyle } = useContext(ProfileContext);
 
   return (
-    <Flex flexDirection="column" width="80%" bg={postDetCover} ju>
+    <Flex
+      flexDirection="column"
+      width="80%"
+      sx={{
+        '@media (max-width: 768px)': {
+          width: '100%',
+        },
+      }}
+      bg={postDetCover}
+      justifyContent="center"
+    >
       <Box
         bg="#030303"
         h="48px"

@@ -24,21 +24,20 @@ const CreatePost = () => {
 
   return (
     <Flex
-      maxWidth="1248px"
+      maxWidth="100%"
+      justifyContent="center"
+      margin="0 auto !important"
       sx={{
         '@media (min-width: 640px)': {
           padding: '20px 24px',
         },
       }}
-      justifyContent="center"
-      margin="0 auto"
     >
       <Box
-        flex="1 1 100%"
+        width="740px"
         sx={{
           '@media (min-width: 960px)': {
-            maxWidth: '740px',
-            width: '640px',
+            minWidth: '0',
           },
           '@media (max-width: 960px)': {
             width: '100%',

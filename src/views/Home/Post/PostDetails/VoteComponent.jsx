@@ -2,13 +2,14 @@ import React from 'react';
 import { Flex, Icon, IconButton, Text, useColorModeValue, Box } from '@chakra-ui/react';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 
-const VoteComponent = ({ post }) => {
+const VoteComponent = ({ post, sx, display }) => {
   const bg = useColorModeValue('#F8F9FA', '');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
 
   return (
     <Flex
+      display={display}
       bg={bg}
       flexDir="column"
       align="center"
@@ -20,6 +21,7 @@ const VoteComponent = ({ post }) => {
       top={0}
       left={0}
       p="8px 4px 8px 0"
+      sx={sx}
     >
       <IconButton
         aria-label="Upvote Post"
