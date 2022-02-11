@@ -82,6 +82,7 @@ const NavBar = () => {
                 borderRadius="full"
                 width="32px"
                 height="32px"
+                maxWidth="32px"
                 src={colorMode === 'light' ? plebbitDarkLogo : PlebLogo}
                 alt="Plebbit Logo"
                 border="1px"
