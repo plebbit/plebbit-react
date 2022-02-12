@@ -43,13 +43,6 @@ const Home = () => {
         '@media (min-width: 640px)': {
           padding: '20px 24px',
         },
-        '@media (max-width: 640px)': {
-          boxSize: 'border-box',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          margin: '0 auto',
-        },
       }}
     >
       <Box
