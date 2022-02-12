@@ -28,7 +28,7 @@ const PostDetails = ({ post }) => {
       flexDirection="column"
       width="80%"
       sx={{
-        '@media (max-width: 768px)': {
+        '@media (max-width: 675px)': {
           width: '100%',
         },
       }}
