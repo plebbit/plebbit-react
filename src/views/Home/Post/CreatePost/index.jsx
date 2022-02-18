@@ -27,9 +27,17 @@ const CreatePost = () => {
       maxWidth="100%"
       justifyContent="center"
       margin="0 auto !important"
+      height="100vh"
       sx={{
         '@media (min-width: 640px)': {
           padding: '20px 24px',
+        },
+        '@media (max-width: 640px)': {
+          boxSizing: 'border-box',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          margin: '0 auto',
         },
       }}
     >
@@ -40,7 +48,7 @@ const CreatePost = () => {
             minWidth: '0',
           },
           '@media (max-width: 960px)': {
-            width: '100%',
+            width: '640px',
             minWidth: '0',
           },
         }}

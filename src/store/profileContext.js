@@ -7,6 +7,7 @@ export const ProfileDataProvider = (props) => {
   const [profile, setProfile] = useState({});
   const [reloadUser, setReloadUser] = useState(false);
   const [postStyle, setPostStyle] = useState('card');
+  const [showSplashcreen, setShowSplashcreen] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const getProfileState = async () => {};
@@ -14,6 +15,9 @@ export const ProfileDataProvider = (props) => {
   const logUserOut = () => {};
 
   useEffect(() => {
+    setTimeout(() => {
+      setShowSplashcreen(false);
+    }, 4000);
     getProfileState();
   }, [reloadUser]);
 
@@ -29,6 +33,7 @@ export const ProfileDataProvider = (props) => {
         setPostStyle,
         isLoggedIn,
         setIsLoggedIn,
+        showSplashcreen,
       }}
     >
       {children}
