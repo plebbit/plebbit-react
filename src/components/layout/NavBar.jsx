@@ -30,6 +30,7 @@ import { RiSearchLine, RiShieldCheckLine } from 'react-icons/ri';
 import { BiUser, BiHelpCircle } from 'react-icons/bi';
 import { BsChevronDown, BsArrowUpRightCircle } from 'react-icons/bs';
 import { GiTwoCoins } from 'react-icons/gi';
+import { ImPencil } from 'react-icons/im';
 import { AiOutlinePlus, AiOutlineStar, AiOutlineThunderbolt } from 'react-icons/ai';
 import { BiBell } from 'react-icons/bi';
 import { HiOutlineChartSquareBar, HiOutlineChat } from 'react-icons/hi';
@@ -98,16 +99,17 @@ const NavBar = () => {
                 border="none"
                 mr="8px"
                 cursor="pointer"
-                sx={{
-                  '@media (max-width: 768px)': {
-                    display: 'none',
-                  },
-                }}
               />
             </Flex>
             {isLoggedIn ? (
               <Menu preventOverflow>
-                <MenuButton>
+                <MenuButton
+                  sx={{
+                    '@media (max-width: 768px)': {
+                      display: 'none',
+                    },
+                  }}
+                >
                   <Flex
                     padding="6px 8px"
                     borderRadius="4px"
@@ -362,7 +364,16 @@ const NavBar = () => {
             ) : (
               ''
             )}
-            <Box maxWidth="690px" margin="0 auto" flexGrow={1}>
+            <Box
+              maxWidth="690px"
+              margin="0 auto"
+              flexGrow={1}
+              sx={{
+                '@media (max-width: 768px)': {
+                  display: 'none',
+                },
+              }}
+            >
               <InputGroup width="auto" mx="16px">
                 <InputLeftElement pointerEvents="none" padding="0 9px 0 15px;">
                   <Icon as={RiSearchLine} color={iconColor} w="20px" h="20px" />
@@ -429,7 +440,15 @@ const NavBar = () => {
                     },
                   }}
                 />
-                <Flex alignItems="center" marginRight="8px">
+                <Flex
+                  alignItems="center"
+                  marginRight="8px"
+                  sx={{
+                    '@media (max-width: 768px)': {
+                      display: 'none',
+                    },
+                  }}
+                >
                   <Icon
                     borderRadius="2px"
                     color={iconColor}
@@ -450,6 +469,21 @@ const NavBar = () => {
                   />
                 </Flex>
               </>
+            ) : (
+              ''
+            )}
+            {isLoggedIn ? (
+              <Flex
+                alignItems="center"
+                justifyContent="center"
+                sx={{
+                  '@media (min-width: 768px)': {
+                    display: 'none',
+                  },
+                }}
+              >
+                <Icon as={ImPencil} color={iconColor} w="20px" h="20px" marginRight="8px" />
+              </Flex>
             ) : (
               ''
             )}
