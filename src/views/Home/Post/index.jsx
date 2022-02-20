@@ -335,7 +335,6 @@ Twitter: https://twitter.com/getplebbit`}
         <Flex
           flexDirection="row"
           alignItems="center"
-          paddingRight="10px"
           overflowY="visible"
           mb="2px"
           paddingBottom="12px"
@@ -350,7 +349,7 @@ Twitter: https://twitter.com/getplebbit`}
             flexDirection="row"
             alignItems="stretch"
             flexGrow={1}
-            padding="0 8px 0 4px"
+            padding="0 8px 0 8px"
             fontSize="12px"
             fontWeight="500"
             lineHeight="16px"
@@ -443,7 +442,7 @@ Twitter: https://twitter.com/getplebbit`}
               borderRadius="16px"
               alignItems="center"
               maxH=""
-              p="2px 8px 0"
+              p="2px 8px"
               width="auto"
               maxWidth="100px"
               minWidth="32px"
@@ -452,7 +451,7 @@ Twitter: https://twitter.com/getplebbit`}
               border={`1px solid ${borderColor}`}
               display="flex"
             >
-              <Icon as={BsChat} height={5} width={5} margin="0 5px" />
+              <Icon as={BsChat} height={5} width={5} mr="5px" />
               <Box>6.3k</Box>
             </Link>
             <Link
@@ -466,7 +465,7 @@ Twitter: https://twitter.com/getplebbit`}
               _focus={{
                 boxShadow: 'none',
               }}
-              mr="10px"
+              ml="auto"
               border={`1px solid ${borderColor}`}
               minW="32px"
               height="32px"
