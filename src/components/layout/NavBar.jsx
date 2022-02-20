@@ -15,33 +15,28 @@ import {
   MenuItem,
   useColorModeValue,
   useColorMode,
-  Button as Btn,
-  Switch,
-  Divider,
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
-import { MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import { ProfileContext } from '../../store/profileContext';
 import PlebLogo from '../../assets/images/plebbit-logo.png';
 import plebbitDarkLogo from '../../assets/svgs/plebbitDarkLogo.svg';
 import plebbitDarkText from '../../assets/svgs/letters-black-grey-dot.svg';
 import plebbitLightText from '../../assets/svgs/letters-white-grey-dot.svg';
-import { RiSearchLine, RiShieldCheckLine } from 'react-icons/ri';
-import { BiUser, BiHelpCircle } from 'react-icons/bi';
-import { BsChevronDown, BsArrowUpRightCircle } from 'react-icons/bs';
-import { GiTwoCoins } from 'react-icons/gi';
-import { ImPencil } from 'react-icons/im';
-import { AiOutlinePlus, AiOutlineStar, AiOutlineThunderbolt } from 'react-icons/ai';
+import { RiSearchLine } from 'react-icons/ri';
 import { BiBell } from 'react-icons/bi';
+import { BsArrowUpRightCircle } from 'react-icons/bs';
+import { ImPencil } from 'react-icons/im';
+import { AiOutlinePlus, AiOutlineStar } from 'react-icons/ai';
 import { HiOutlineChartSquareBar, HiOutlineChat } from 'react-icons/hi';
-import { CgMediaLive, CgEnter } from 'react-icons/cg';
-import { MdWhereToVote, MdHome } from 'react-icons/md';
+import { MdHome } from 'react-icons/md';
 import Button from '../Button';
+import NavDropDownWide, { NavDropDownSmall } from './navDropDown';
 
 const NavBar = () => {
   const history = useHistory();
   const { setIsLoggedIn, isLoggedIn } = useContext(ProfileContext);
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode } = useColorMode();
   const color = useColorModeValue('lightText', 'darkText');
   const bg = useColorModeValue('lightNavBg', 'darkNavBg');
   const navBtnBg = useColorModeValue('lightButtonBg', 'darkButtonBg');
@@ -50,7 +45,6 @@ const NavBar = () => {
   const inputBorder = useColorModeValue('#a4a4a4', '#343536');
   const navBorder = useColorModeValue('#edeff1', '#343536');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
-  const buttonHoverBorder = useColorModeValue('#edeff1', '#343536');
   return (
     <>
       <Box w="100%" minH="48px" />
@@ -399,6 +393,7 @@ const NavBar = () => {
               </InputGroup>
             </Box>
           </Flex>
+
           <Flex alignContent="center">
             {isLoggedIn ? (
               <>
@@ -488,198 +483,39 @@ const NavBar = () => {
               ''
             )}
 
-            <ButtonGroup
-              sx={{
-                '@media (max-width: 614px)': {
-                  display: 'none',
-                },
-                display: isLoggedIn ? 'none' : '',
-              }}
-            >
-              <Button
-                bg="transparent"
-                marginLeft="16px"
-                _hover={{ textDecoration: 'none' }}
-                _focus={{ boxShadow: 'none' }}
-                content="Log In"
-                color={navBtnBg}
-                width="120px"
-                onClick={() => setIsLoggedIn(true)}
-              />
-              <Button
-                marginLeft="16px"
-                _hover={{ textDecoration: 'none' }}
-                _focus={{ boxShadow: 'none' }}
-                bg={navBtnBg}
-                content="Sign Up"
-                color={contBg}
-                width="120px"
-              />
-            </ButtonGroup>
-            <Menu closeOnSelect={false}>
-              <MenuButton
-                borderRadius="4px"
-                outline="0"
-                height="auto"
-                minHeight="32px"
-                padding="2px 0"
+            {!isLoggedIn ? (
+              <ButtonGroup
                 sx={{
-                  '@media (min-width: 955px)': {
-                    width: isLoggedIn ? '150px' : '',
+                  '@media (max-width: 768px)': {
+                    display: 'none',
                   },
                 }}
-                bg={bg}
-                _hover={{
-                  borderColor: buttonHoverBorder,
-                }}
-                _active={{
-                  bg: bg,
-                }}
-                _focus={{
-                  outline: 'none',
-                }}
-                ml="8px"
-                as={Btn}
               >
-                <Flex alignItems="center" justifyContent="space-between">
-                  {!isLoggedIn ? (
-                    <Icon as={BiUser} color={iconColor} w="20px" h="20px" />
-                  ) : (
-                    <Flex alignItems="center">
-                      <Image
-                        width="24px"
-                        height="24px"
-                        src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
-                        alt="user avatar"
-                        mr="4px"
-                        cursor="pointer"
-                        transformOrigin="bottom center"
-                        display="block"
-                        transform="scale(1.3)"
-                      />
-                      <Flex
-                        flexDirection="column"
-                        sx={{
-                          '@media (max-width: 768px)': {
-                            display: 'none',
-                          },
-                        }}
-                      >
-                        <Box fontSize="12px" fontWeight="500" lineHeight="16px">
-                          Abydin
-                        </Box>
-                        <Box fontSize="12px" fontWeight="500" lineHeight="16px" color={iconColor}>
-                          2.5m pleb
-                        </Box>
-                      </Flex>
-                    </Flex>
-                  )}
-                  <Icon as={BsChevronDown} color={iconColor} w="20px" h="20px" />
-                </Flex>
-              </MenuButton>
-              <MenuList>
-                <MenuGroup
-                  fontSize="10px"
-                  fontWeight="700"
-                  letterSpacing=".5px"
-                  lineHeight="12px"
-                  textTransform="uppercase"
-                  color={iconColor}
-                  margin="8px 0 4px 12px"
-                  title="View Options"
-                >
-                  <MenuItem
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    alignItems="center"
-                    my="4px"
-                  >
-                    <Flex
-                      width="100%"
-                      alignItems="center"
-                      justifyContent="space-between"
-                      direction="row"
-                    >
-                      {colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
-                      <Box>Dark Mode</Box>
-                      <Switch
-                        size="md"
-                        onChange={toggleColorMode}
-                        isChecked={colorMode === 'dark'}
-                      />
-                    </Flex>
-                  </MenuItem>
-                </MenuGroup>
-                <MenuGroup
-                  fontSize="10px"
-                  fontWeight="700"
-                  letterSpacing=".5px"
-                  lineHeight="12px"
-                  textTransform="uppercase"
-                  color={iconColor}
-                  margin="8px 0 4px 12px"
-                  title="More stuffs"
-                >
-                  <MenuItem
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    my="4px"
-                    icon={<Icon as={GiTwoCoins} w="20px" h="20px" />}
-                  >
-                    <Flex flexDir="column">
-                      <Box>Coins</Box>
-                      <Box fontSize="12px" fontWeight="400" lineHeight="16px" color={iconColor}>
-                        {' '}
-                        0 Coins
-                      </Box>
-                    </Flex>
-                  </MenuItem>
-                  <MenuItem fontSize="14px" fontWeight="500" lineHeight="18px" my="4px">
-                    <Flex alignItems="center">
-                      <Icon as={RiShieldCheckLine} w="20px" h="20px" mr="8px" />
-                      <Box>Premium</Box>
-                    </Flex>
-                  </MenuItem>
-                  <MenuItem fontSize="14px" fontWeight="500" lineHeight="18px" my="4px">
-                    <Flex alignItems="center">
-                      <Icon as={AiOutlineThunderbolt} w="20px" h="20px" mr="8px" />
-                      <Box>Powerups</Box>
-                    </Flex>
-                  </MenuItem>
-                  <MenuItem fontSize="14px" fontWeight="500" lineHeight="18px" my="4px">
-                    <Flex alignItems="center">
-                      <Icon as={CgMediaLive} w="20px" h="20px" mr="8px" />
-                      <Box>Talk</Box>
-                    </Flex>
-                  </MenuItem>
-                  <MenuItem fontSize="14px" fontWeight="500" lineHeight="18px" my="4px">
-                    <Flex alignItems="center">
-                      <Icon as={MdWhereToVote} w="20px" h="20px" mr="8px" />
-                      <Box>Predictions</Box>
-                    </Flex>
-                  </MenuItem>
-                  <MenuItem fontSize="14px" fontWeight="500" lineHeight="18px" my="4px">
-                    <Flex alignItems="center">
-                      <Icon as={BiHelpCircle} w="20px" h="20px" mr="8px" />
-                      <Box>Help Center</Box>
-                    </Flex>
-                  </MenuItem>
-                  <Divider />
-                  <MenuItem fontSize="14px" fontWeight="500" lineHeight="18px" my="4px">
-                    <Flex alignItems="center">
-                      <Icon as={CgEnter} w="20px" h="20px" mr="8px" />
-                      {!isLoggedIn ? (
-                        <Box onClick={() => setIsLoggedIn(true)}>Log In / Sign Up</Box>
-                      ) : (
-                        <Box onClick={() => setIsLoggedIn(false)}>Log Out</Box>
-                      )}
-                    </Flex>
-                  </MenuItem>
-                </MenuGroup>
-              </MenuList>
-            </Menu>
+                <Button
+                  bg="transparent"
+                  marginLeft="16px"
+                  _hover={{ textDecoration: 'none' }}
+                  _focus={{ boxShadow: 'none' }}
+                  content="Log In"
+                  color={navBtnBg}
+                  width="120px"
+                  onClick={() => setIsLoggedIn(true)}
+                />
+                <Button
+                  marginLeft="16px"
+                  _hover={{ textDecoration: 'none' }}
+                  _focus={{ boxShadow: 'none' }}
+                  bg={navBtnBg}
+                  content="Sign Up"
+                  color={contBg}
+                  width="120px"
+                />
+              </ButtonGroup>
+            ) : (
+              ''
+            )}
+            <NavDropDownWide />
+            <NavDropDownSmall />
           </Flex>
         </Flex>
       </Box>
