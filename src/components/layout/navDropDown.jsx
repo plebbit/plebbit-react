@@ -11,12 +11,11 @@ import {
 } from '@chakra-ui/react';
 import { BsChevronDown } from 'react-icons/bs';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { GiTwoCoins } from 'react-icons/gi';
+import { GiTwoCoins, GiHamburgerMenu } from 'react-icons/gi';
 import {
   AiOutlineThunderbolt,
   AiOutlineSetting,
   AiOutlineInfoCircle,
-  AiOutlineAlignCenter,
   AiOutlineFileText,
 } from 'react-icons/ai';
 import { CgEnter } from 'react-icons/cg';
@@ -249,7 +248,7 @@ export const NavDropDownSmall = () => {
         }}
       >
         <Icon
-          as={AiOutlineAlignCenter}
+          as={GiHamburgerMenu}
           color={iconColor}
           w="20px"
           h="20px"
