@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { ProfileContext } from '../../store/profileContext';
-import { useLocation } from 'react-router-dom';
 import { Box } from '@chakra-ui/layout';
 import { useColorModeValue, Image } from '@chakra-ui/react';
 import NavBar from './NavBar';
@@ -8,9 +7,7 @@ import plebbitDarkLogo from '../../assets/svgs/plebbitDarkLogo.svg';
 
 export default function Layout({ children }) {
   const { showSplashcreen } = useContext(ProfileContext);
-  const location = useLocation();
   const bg = useColorModeValue('lightLayoutBg', 'darkLayoutBg');
-  const postDetailBg = useColorModeValue('postDetailLightBg', 'postDetailDarkBg');
 
   if (showSplashcreen) {
     return (
@@ -45,10 +42,11 @@ export default function Layout({ children }) {
 
   return (
     <Box
+      position="relative"
       align="center"
       textAlign="left"
       minH="calc(100vh)"
-      bg={location?.pathname === '/postId' ? postDetailBg : bg}
+      bg={location?.hash === '#/postId' ? '#2F2F30' : bg}
     >
       <NavBar />
 
