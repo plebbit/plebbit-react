@@ -24,6 +24,7 @@ import { CgNotes } from 'react-icons/cg';
 import SideBar from './postDetailSideBar';
 import { ProfileContext } from '../../../../store/profileContext';
 import { dateToNow } from '../../../../utils/formatDate';
+import PdMenu from './pdMenu';
 
 const PostDetails = ({ post }) => {
   const postDetCover = useColorModeValue('lightLayoutBg', 'black');
@@ -296,6 +297,7 @@ const PostDetails = ({ post }) => {
                 flexWrap="wrap"
                 flex="1 1 auto"
                 justifyContent="space-between"
+                position="relative"
               >
                 <Box display="inline">
                   <Box display="inline-block" flex="0 0 auto">
@@ -339,17 +341,7 @@ const PostDetails = ({ post }) => {
                   height="16px"
                   width="16px"
                 />
-                <Icon
-                  as={FiMoreHorizontal}
-                  sx={{
-                    '@media (min-width: 1280px)': {
-                      display: 'none',
-                    },
-                    '@media (max-width: 1120px)': {},
-                  }}
-                  height="16px"
-                  width="16px"
-                />
+                <PdMenu />
               </Flex>
             </Flex>
             <Box margin="0 8px" display="flex" alignItems="center">

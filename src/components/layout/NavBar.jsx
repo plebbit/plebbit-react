@@ -477,7 +477,14 @@ const NavBar = () => {
                   },
                 }}
               >
-                <Icon as={ImPencil} color={iconColor} w="20px" h="20px" marginRight="8px" />
+                <Icon
+                  as={ImPencil}
+                  onClick={() => history.push('/submit')}
+                  color={iconColor}
+                  w="20px"
+                  h="20px"
+                  marginRight="8px"
+                />
               </Flex>
             ) : (
               ''
