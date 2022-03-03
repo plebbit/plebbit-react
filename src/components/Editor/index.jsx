@@ -1,24 +1,23 @@
-import React from 'react';
-import MarkdownEditor from '@uiw/react-markdown-editor';
+import React, { useState } from 'react';
+import { convertToRaw } from 'draft-js';
+import { Editor as MarkdownEditor } from 'react-draft-wysiwyg';
+import draftToMarkdown from 'draftjs-to-markdown';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-const Editor = () => {
+const Editor = ({ hideToolBar }) => {
+  const [value, setValue] = useState({});
+
+  const handleChange = (editorState) => {
+    setValue(editorState);
+    {
+      value && draftToMarkdown(convertToRaw(value.getCurrentContent()));
+    }
+  };
   return (
     <MarkdownEditor
-      toolbars={[
-        'bold',
-        'italic',
-        'header',
-        'strike',
-        'underline',
-        'olist',
-        'ulist',
-        'link',
-        'todo',
-      ]}
-      visibleEditor="false"
-      value="Text"
-      onChange={() => {}}
-      height={150}
+      // wrapperClassName="wrapper"
+      onEditorStateChange={handleChange}
+      toolbarHidden={hideToolBar}
     />
   );
 };
