@@ -25,6 +25,7 @@ import SideBar from './postDetailSideBar';
 import { ProfileContext } from '../../../../store/profileContext';
 import { dateToNow } from '../../../../utils/formatDate';
 import PdMenu from './pdMenu';
+import Comment from '../comment';
 
 const PostDetails = ({ post }) => {
   const postDetCover = useColorModeValue('lightLayoutBg', 'black');
@@ -33,7 +34,7 @@ const PostDetails = ({ post }) => {
   const borderColor = useColorModeValue('#ccc', '#343536');
   const postBg = useColorModeValue('white', 'black');
   const bg = useColorModeValue('lightNavBg', 'darkNavBg');
-  const voteBg = useColorModeValue('#F8F9FA', '');
+  // const voteBg = useColorModeValue('#F8F9FA', '');
   const subPledditTextColor = useColorModeValue('#1c1c1c', 'darkText');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const titleColor = useColorModeValue('lightText', 'darkText');
@@ -217,7 +218,7 @@ const PostDetails = ({ post }) => {
             h="revert"
             borderLeft="4px solid transparent"
             borderRadius="4px"
-            bg={voteBg}
+            bg="none"
             alignItems="center"
             p="8px 4px 8px 0"
             sx={{
@@ -753,6 +754,7 @@ const PostDetails = ({ post }) => {
                 </Link>
               </Flex>
             </Flex>
+            <Comment />
           </Flex>
         </Flex>
         <SideBar
