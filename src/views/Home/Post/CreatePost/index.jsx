@@ -210,29 +210,9 @@ const CreatePost = () => {
                   }
                   position="relative"
                 >
-                  <Flex
-                    borderTopLeftRadius="4px"
-                    borderTopRightRadius="4px"
-                    boxSizing="border-box"
-                    height="40px"
-                    padding="8px 16px"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    backgroundColor={colorMode === 'light' ? '#f6f7f8' : '#272729'}
-                  >
-                    <Flex alignItems="center">
-                      <Box fontSize="14px" fontWeight="500" lineHeight="18px">
-                        Markdown
-                      </Box>
-                      <Box marginLeft="8px">
-                        <Icon as={BiHelpCircle} fill="#a4a4a4" width="12px" height="12px" />
-                      </Box>
-                    </Flex>
-                    {/* <Flex></Flex> */}
-                  </Flex>
                   <Box
                     borderRadius="4px"
-                    minH="122px"
+                    minH="300px"
                     overflow="hidden auto"
                     padding="8px 16px"
                     resize="vertical"
@@ -641,7 +621,7 @@ const CreatePost = () => {
                   </Flex>
                   <Box
                     borderRadius="4px"
-                    minH="122px"
+                    minH="300px"
                     overflow="hidden auto"
                     padding="8px 16px"
                     resize="vertical"
@@ -664,7 +644,7 @@ const CreatePost = () => {
                       resize="none"
                       padding="2px"
                     /> */}
-                    <Editor />
+                    <Editor hideToolBar={true} />
                   </Box>
                 </Box>
               </Box>
