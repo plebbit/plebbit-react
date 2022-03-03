@@ -15,6 +15,7 @@ import { BiHelpCircle } from 'react-icons/bi';
 import { AiOutlinePlus } from 'react-icons/ai';
 import Button from '../../../../components/Button';
 import SideBar from './createPostSideBar';
+import Editor from '../../../../components/Editor';
 
 const CreatePost = () => {
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
@@ -249,7 +250,7 @@ const CreatePost = () => {
                       border="none"
                       boxSizing="border-box"
                       display="block"
-                      outLine="none"
+                      ouline="none"
                       resize="none"
                       padding="2px"
                     />
@@ -643,7 +644,7 @@ const CreatePost = () => {
                     padding="8px 16px"
                     resize="vertical"
                   >
-                    <Textarea
+                    {/* <Textarea
                       placeholder="Text (optional)"
                       row="1"
                       spellCheck="false"
@@ -657,10 +658,11 @@ const CreatePost = () => {
                       border="none"
                       boxSizing="border-box"
                       display="block"
-                      outLine="none"
+                      ouline="none"
                       resize="none"
                       padding="2px"
-                    />
+                    /> */}
+                    <Editor />
                   </Box>
                 </Box>
               </Box>
