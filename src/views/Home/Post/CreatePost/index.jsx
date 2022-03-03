@@ -32,6 +32,7 @@ const CreatePost = () => {
       sx={{
         '@media (min-width: 640px)': {
           padding: '20px 24px',
+          height: 'auto !important',
         },
         '@media (max-width: 640px)': {
           boxSizing: 'border-box',
@@ -236,7 +237,7 @@ const CreatePost = () => {
                     padding="8px 16px"
                     resize="vertical"
                   >
-                    <Textarea
+                    {/* <Textarea
                       placeholder="Text (optional)"
                       row="1"
                       spellCheck="false"
@@ -253,7 +254,8 @@ const CreatePost = () => {
                       ouline="none"
                       resize="none"
                       padding="2px"
-                    />
+                    /> */}
+                    <Editor />
                   </Box>
                 </Box>
               </Box>
