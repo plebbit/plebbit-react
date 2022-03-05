@@ -1,5 +1,7 @@
 *Telegram group for this repo https://t.me/plebbitreact*
 
+*Demo https://plebbit-dev.netlify.app/#/*
+
 ### Style:
 
 - Use https://chakra-ui.com/ for all components
