@@ -26,6 +26,7 @@ import { ProfileContext } from '../../../../store/profileContext';
 import { dateToNow } from '../../../../utils/formatDate';
 import PdMenu from './pdMenu';
 import Comment from '../comment';
+import Editor from '../../../../components/Editor';
 
 const PostDetails = ({ post }) => {
   const postDetCover = useColorModeValue('lightLayoutBg', 'black');
@@ -45,6 +46,187 @@ const PostDetails = ({ post }) => {
   const history = useHistory();
   const { postStyle } = useContext(ProfileContext);
 
+  const commentData = [
+    {
+      id: Math.random(),
+      author: 'thelehmanlip',
+      comment:
+        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
+      vote: 1537,
+      children: [
+        {
+          id: Math.random(),
+          author: 'Pontlfication',
+          comment: 'So like Brainfuck but worse?',
+          vote: 2,
+          children: [],
+        },
+      ],
+    },
+    {
+      id: Math.random(),
+      author: 'thelehmanlip',
+      comment:
+        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
+      vote: 1537,
+      children: [
+        {
+          id: Math.random(),
+          author: 'Pontlfication',
+          comment: 'So like Brainfuck but worse?',
+          vote: 2,
+          children: [
+            {
+              id: Math.random(),
+              author: 'thelehmanlip',
+              comment:
+                "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
+              vote: 1537,
+              children: [
+                {
+                  id: Math.random(),
+                  author: 'Pontlfication',
+                  comment: 'So like Brainfuck but worse?',
+                  vote: 2,
+                  children: [],
+                },
+              ],
+            },
+            {
+              id: Math.random(),
+              author: 'thelehmanlip',
+              comment:
+                "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
+              vote: 1537,
+              children: [
+                {
+                  id: Math.random(),
+                  author: 'Pontlfication',
+                  comment: 'So like Brainfuck but worse?',
+                  vote: 2,
+                  children: [],
+                },
+              ],
+            },
+            {
+              id: Math.random(),
+              author: 'thelehmanlip',
+              comment:
+                "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
+              vote: 1537,
+              children: [
+                {
+                  id: Math.random(),
+                  author: 'Pontlfication',
+                  comment: 'So like Brainfuck but worse?',
+                  vote: 2,
+                  children: [
+                    {
+                      id: Math.random(),
+                      author: 'thelehmanlip',
+                      comment:
+                        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
+                      vote: 1537,
+                      children: [
+                        {
+                          id: Math.random(),
+                          author: 'Pontlfication',
+                          comment: 'So like Brainfuck but worse?',
+                          vote: 2,
+                          children: [],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: Math.random(),
+      author: 'thelehmanlip',
+      comment:
+        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
+      vote: 1537,
+      children: [
+        {
+          id: Math.random(),
+          author: 'Pontlfication',
+          comment: 'So like Brainfuck but worse?',
+          vote: 2,
+          children: [],
+        },
+      ],
+    },
+    {
+      id: Math.random(),
+      author: 'thelehmanlip',
+      comment:
+        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
+      vote: 1537,
+      children: [
+        {
+          id: Math.random(),
+          author: 'Pontlfication',
+          comment: 'So like Brainfuck but worse?',
+          vote: 2,
+          children: [],
+        },
+      ],
+    },
+    {
+      id: Math.random(),
+      author: 'thelehmanlip',
+      comment:
+        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
+      vote: 1537,
+      children: [
+        {
+          id: Math.random(),
+          author: 'Pontlfication',
+          comment: 'So like Brainfuck but worse?',
+          vote: 2,
+          children: [],
+        },
+      ],
+    },
+    {
+      id: Math.random(),
+      author: 'thelehmanlip',
+      comment:
+        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
+      vote: 1537,
+      children: [
+        {
+          id: Math.random(),
+          author: 'Pontlfication',
+          comment: 'So like Brainfuck but worse?',
+          vote: 2,
+          children: [],
+        },
+      ],
+    },
+    {
+      id: Math.random(),
+      author: 'thelehmanlip',
+      comment:
+        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
+      vote: 1537,
+      children: [
+        {
+          id: Math.random(),
+          author: 'Pontlfication',
+          comment: 'So like Brainfuck but worse?',
+          vote: 2,
+          children: [],
+        },
+      ],
+    },
+  ];
+
   return (
     <Flex
       bg={postDetCover}
@@ -56,8 +238,8 @@ const PostDetails = ({ post }) => {
       sx={{
         '@media (min-width: 1280px)': {},
         '@media (max-width: 1120px)': {
-          width: '100%',
           maxWidth: '100%',
+          width: '100%',
         },
       }}
     >
@@ -754,6 +936,27 @@ const PostDetails = ({ post }) => {
                 </Link>
               </Flex>
             </Flex>
+            <Box>
+              <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
+                Comment As Abydin
+              </Box>
+              <Box minH="150px">
+                <Editor />
+              </Box>
+              <Box
+                fontSize="12px"
+                fontWeight="700"
+                lineHeight="16px"
+                marginTop="16px"
+                marginBottom="4px "
+              >
+                Sort By: Best
+              </Box>
+              <hr />
+            </Box>
+            {commentData?.map((comment) => (
+              <Comment comment={comment} key={comment?.id} />
+            ))}
             <Comment />
           </Flex>
         </Flex>

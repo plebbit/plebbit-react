@@ -129,7 +129,7 @@ const PostDetailSideBar = ({
         </Box>
 
         <Box flex="1 1 auto" width="inherit" position="relative">
-          <Box position="sticky" top="105px">
+          <Box position="sticky" top="55px">
             <Box marginTop="16px" background={bg || Bg}>
               <Box maxHeight="none">
                 <Flex padding="12px 8px">
