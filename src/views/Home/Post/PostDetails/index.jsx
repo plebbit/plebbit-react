@@ -940,7 +940,7 @@ const PostDetails = ({ post }) => {
               <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
                 Comment As Abydin
               </Box>
-              <Box minH="150px">
+              <Box>
                 <Editor />
               </Box>
               <Box

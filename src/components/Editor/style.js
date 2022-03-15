@@ -11,6 +11,15 @@ const Wrapper = styled.div`
     color: ${(props) => props.toolbarColor};
   }
   .wrapperClassName {
+    width: 100% !important;
+    display: block !important;
+    margin-bottom: 25px !important;
+    height: 250px !important;
+  }
+  .editorClassName {
+    height: 200px !important;
+    padding: 5px !important;
+    border-radius: 2px !important;
     border: 1px solid ${(props) => props.wrapperBorder};
   }
 `;
