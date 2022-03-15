@@ -388,7 +388,7 @@ const Home = () => {
                   borderTop="0.5px solid #edeff1"
                   borderbottom="none"
                   backgroundColor={postStyle === 'card' ? selected : bg}
-                  outLine="none"
+                  ouline="none"
                   onClick={() => setPostStyle('card')}
                 >
                   <Icon
@@ -421,7 +421,7 @@ const Home = () => {
                   borderTop="0.5px solid #edeff1"
                   backgroundColor={postStyle === 'compact' ? selected : bg}
                   borderbottom="none"
-                  outLine="none"
+                  ouline="none"
                   onClick={() => setPostStyle('compact')}
                 >
                   <Icon
@@ -454,7 +454,7 @@ const Home = () => {
                   borderTop="0.5px solid #edeff1"
                   backgroundColor={postStyle === 'classic' ? selected : bg}
                   borderbottom="none"
-                  outLine="none"
+                  ouline="none"
                   onClick={() => setPostStyle('classic')}
                 >
                   <Icon
