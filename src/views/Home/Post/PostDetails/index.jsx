@@ -27,6 +27,8 @@ import { dateToNow } from '../../../../utils/formatDate';
 import PdMenu from './pdMenu';
 import Comment from '../comment';
 import Editor from '../../../../components/Editor';
+import commentData from '../../../../components/data/comments';
+import Button from '../../../../components/Button';
 
 const PostDetails = ({ post }) => {
   const postDetCover = useColorModeValue('lightLayoutBg', 'black');
@@ -43,189 +45,9 @@ const PostDetails = ({ post }) => {
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const [vote] = useState(0);
   const [voteMode, setVoteMode] = useState(0);
+  const [showAddComment, setShowAddComment] = useState(false);
   const history = useHistory();
   const { postStyle } = useContext(ProfileContext);
-
-  const commentData = [
-    {
-      id: Math.random(),
-      author: 'thelehmanlip',
-      comment:
-        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
-      vote: 1537,
-      children: [
-        {
-          id: Math.random(),
-          author: 'Pontlfication',
-          comment: 'So like Brainfuck but worse?',
-          vote: 2,
-          children: [],
-        },
-      ],
-    },
-    {
-      id: Math.random(),
-      author: 'thelehmanlip',
-      comment:
-        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
-      vote: 1537,
-      children: [
-        {
-          id: Math.random(),
-          author: 'Pontlfication',
-          comment: 'So like Brainfuck but worse?',
-          vote: 2,
-          children: [
-            {
-              id: Math.random(),
-              author: 'thelehmanlip',
-              comment:
-                "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
-              vote: 1537,
-              children: [
-                {
-                  id: Math.random(),
-                  author: 'Pontlfication',
-                  comment: 'So like Brainfuck but worse?',
-                  vote: 2,
-                  children: [],
-                },
-              ],
-            },
-            {
-              id: Math.random(),
-              author: 'thelehmanlip',
-              comment:
-                "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
-              vote: 1537,
-              children: [
-                {
-                  id: Math.random(),
-                  author: 'Pontlfication',
-                  comment: 'So like Brainfuck but worse?',
-                  vote: 2,
-                  children: [],
-                },
-              ],
-            },
-            {
-              id: Math.random(),
-              author: 'thelehmanlip',
-              comment:
-                "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
-              vote: 1537,
-              children: [
-                {
-                  id: Math.random(),
-                  author: 'Pontlfication',
-                  comment: 'So like Brainfuck but worse?',
-                  vote: 2,
-                  children: [
-                    {
-                      id: Math.random(),
-                      author: 'thelehmanlip',
-                      comment:
-                        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
-                      vote: 1537,
-                      children: [
-                        {
-                          id: Math.random(),
-                          author: 'Pontlfication',
-                          comment: 'So like Brainfuck but worse?',
-                          vote: 2,
-                          children: [],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: Math.random(),
-      author: 'thelehmanlip',
-      comment:
-        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
-      vote: 1537,
-      children: [
-        {
-          id: Math.random(),
-          author: 'Pontlfication',
-          comment: 'So like Brainfuck but worse?',
-          vote: 2,
-          children: [],
-        },
-      ],
-    },
-    {
-      id: Math.random(),
-      author: 'thelehmanlip',
-      comment:
-        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
-      vote: 1537,
-      children: [
-        {
-          id: Math.random(),
-          author: 'Pontlfication',
-          comment: 'So like Brainfuck but worse?',
-          vote: 2,
-          children: [],
-        },
-      ],
-    },
-    {
-      id: Math.random(),
-      author: 'thelehmanlip',
-      comment:
-        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
-      vote: 1537,
-      children: [
-        {
-          id: Math.random(),
-          author: 'Pontlfication',
-          comment: 'So like Brainfuck but worse?',
-          vote: 2,
-          children: [],
-        },
-      ],
-    },
-    {
-      id: Math.random(),
-      author: 'thelehmanlip',
-      comment:
-        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
-      vote: 1537,
-      children: [
-        {
-          id: Math.random(),
-          author: 'Pontlfication',
-          comment: 'So like Brainfuck but worse?',
-          vote: 2,
-          children: [],
-        },
-      ],
-    },
-    {
-      id: Math.random(),
-      author: 'thelehmanlip',
-      comment:
-        "It's intentionally designed to be as hard to write code in as possible. Basically it's a joke.",
-      vote: 1537,
-      children: [
-        {
-          id: Math.random(),
-          author: 'Pontlfication',
-          comment: 'So like Brainfuck but worse?',
-          vote: 2,
-          children: [],
-        },
-      ],
-    },
-  ];
 
   return (
     <Flex
@@ -234,7 +56,7 @@ const PostDetails = ({ post }) => {
       width="calc(100% - 240px)"
       margin="0 auto"
       paddingBottom="32px"
-      height="calc(100vh -48px)"
+      minHeight="calc(100vh -48px)"
       sx={{
         '@media (min-width: 1280px)': {},
         '@media (max-width: 1120px)': {
@@ -936,28 +758,74 @@ const PostDetails = ({ post }) => {
                 </Link>
               </Flex>
             </Flex>
-            <Box>
-              <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                Comment As Abydin
-              </Box>
+            {!showAddComment ? (
+              <Flex alignItems="center" padding="8px 0">
+                <Image
+                  width="24px"
+                  height="24px"
+                  mr="8px"
+                  src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
+                />
+                <Button
+                  content="Leave a comment"
+                  padding="0 8px"
+                  sx={{
+                    flexGrow: '1',
+                    lineHeight: '17px',
+                    textAlign: 'left',
+                    justifyContent: 'left',
+                  }}
+                  onClick={() => setShowAddComment(true)}
+                />
+              </Flex>
+            ) : (
+              ''
+            )}
+            {showAddComment ? (
               <Box>
-                <Editor />
+                <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
+                  Comment As Abydin
+                </Box>
+                <Box>
+                  <Editor />
+                </Box>
+                <Box
+                  fontSize="12px"
+                  fontWeight="700"
+                  lineHeight="16px"
+                  marginTop="16px"
+                  marginBottom="4px "
+                >
+                  Sort By: Best
+                </Box>
+                <hr />
+                <Flex alignItems="center" my="10px">
+                  <CloseIcon
+                    mr="25px"
+                    width="26px"
+                    height="26px"
+                    onClick={() => setShowAddComment(false)}
+                  />
+                  <Button
+                    content="Add comment"
+                    sx={{
+                      flexGrow: '1',
+                      lineHeight: '17px',
+                      borderRadius: '0px',
+                      padding: '20px',
+                      border: 0,
+                    }}
+                  />
+                </Flex>
               </Box>
-              <Box
-                fontSize="12px"
-                fontWeight="700"
-                lineHeight="16px"
-                marginTop="16px"
-                marginBottom="4px "
-              >
-                Sort By: Best
-              </Box>
-              <hr />
+            ) : (
+              ''
+            )}
+            <Box maxW="100%">
+              {commentData.map((comment) => (
+                <Comment comment={comment} key={comment.id} />
+              ))}
             </Box>
-            {commentData?.map((comment) => (
-              <Comment comment={comment} key={comment?.id} />
-            ))}
-            <Comment />
           </Flex>
         </Flex>
         <SideBar

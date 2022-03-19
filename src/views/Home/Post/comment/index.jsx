@@ -20,13 +20,14 @@ const Comment = ({ comment }) => {
   const [vote] = useState(0);
   const [voteMode, setVoteMode] = useState(0);
   const [reply, setShowReply] = useState(false);
+  const [showReplies, setShowReplies] = useState(false);
 
   const nestedComments = (comment?.children || []).map((comment) => {
     return <Comment key={comment?.id} comment={comment} type="child" />;
   });
   return (
     <Flex marginTop="15px">
-      <Flex width="28px" mr="8px" flexDir="column" alignItems="center">
+      <Flex marginRight="8px" flexDir="column" alignItems="center">
         <Image
           src="https://styles.redditmedia.com/t5_1yz875/styles/profileIcon_klqlly9fc4l41.png?width=256&height=256&crop=256:256,smart&s=94486fc13b9ca9e154e9e8926e3d8c43ccc80be3"
           rounded
@@ -37,7 +38,7 @@ const Comment = ({ comment }) => {
         <Box borderRight="2px solid #edeff1" width="0" height="100%" />
       </Flex>
 
-      <Flex flexDir="column">
+      <Flex flexDir="column" flexGrow={1}>
         <Flex flexDir="column" mb="6px">
           <Flex alignItems="center" fontWeight="400" fontSize="12px">
             <Box mr="5px">Abydin765</Box>
@@ -300,7 +301,24 @@ const Comment = ({ comment }) => {
         ) : (
           ''
         )}
-        {nestedComments}
+        {showReplies ? (
+          nestedComments
+        ) : comment?.children?.length !== 0 ? (
+          <Box
+            onClick={() => setShowReplies(true)}
+            fontSize="12px"
+            fontWeight="700"
+            lineHeight="16px"
+            color="#a4a4a4"
+            ml="4px"
+            pl="4px"
+            cursor="pointer"
+          >
+            {comment?.children?.length} more replies
+          </Box>
+        ) : (
+          ''
+        )}
       </Flex>
     </Flex>
   );

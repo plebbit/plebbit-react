@@ -14,13 +14,12 @@ const Wrapper = styled.div`
     width: 100% !important;
     display: block !important;
     margin-bottom: 25px !important;
-    height: 250px !important;
   }
   .editorClassName {
     height: 200px !important;
+    border: 1px solid ${(props) => props.wrapperBorder};
     padding: 5px !important;
     border-radius: 2px !important;
-    border: 1px solid ${(props) => props.wrapperBorder};
   }
 `;
 
