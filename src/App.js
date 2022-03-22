@@ -6,9 +6,11 @@ import Home from './views/Home';
 import PostCreate from './views/Home/Post/CreatePost';
 import PostDetails from './views/Home/Post/PostDetails';
 import { useFeed } from '@plebbit/plebbit-react-hooks';
+import Profile from './views/Profile';
 
 const App = () => {
   const { feed } = useFeed(['memes.eth'], 'new');
+  console.log(feed);
   return (
     <Router>
       <Switch>
@@ -17,6 +19,7 @@ const App = () => {
             <Route exact path="/" component={Home} />
             <Route exact path="/submit" component={PostCreate} />
             <Route exact path="/postId" component={PostDetails} />
+            <Route exact path="/user/abydin" component={Profile} />
           </Layout>
         </ProfileDataProvider>
       </Switch>

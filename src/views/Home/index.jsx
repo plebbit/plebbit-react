@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router';
 import { ChevronDownIcon, LinkIcon } from '@chakra-ui/icons';
-import { FaFire } from 'react-icons/fa';
+import { RiFireFill } from 'react-icons/ri';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineRise } from 'react-icons/ai';
 import { FiMoreHorizontal } from 'react-icons/fi';
@@ -145,7 +145,7 @@ const Home = () => {
               content={
                 <Flex cursor="default" alignItems="center">
                   <Icon
-                    as={FaFire}
+                    as={RiFireFill}
                     width={6}
                     height={6}
                     padding="0 8px 0 0"
