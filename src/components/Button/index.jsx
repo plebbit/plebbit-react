@@ -1,37 +1,39 @@
 import React from 'react';
 import { Button as Btn } from '@chakra-ui/button';
 
-const Button = ({
-  onClick,
-  content,
-  loading,
-  padding,
-  lineHeight,
-  fontSize,
-  display,
-  bg,
-  border,
-  color,
-  disabled,
-  width,
-  height,
-  margin,
-  position,
-  fontWeight,
-  minH,
-  minW,
-  borderRadius,
-  ml,
-  mb,
-  mr,
-  mt,
-  sx,
-  _hover,
-  fill,
-  backgroundColor,
-}) => {
+const Button = (props) => {
+  const {
+    onClick,
+    content,
+    loading,
+    padding,
+    lineHeight,
+    fontSize,
+    display,
+    bg,
+    border,
+    color,
+    disabled,
+    width,
+    height,
+    margin,
+    position,
+    fontWeight,
+    minH,
+    minW,
+    borderRadius,
+    ml,
+    mb,
+    mr,
+    mt,
+    sx,
+    _hover,
+    fill,
+    backgroundColor,
+  } = props;
   return (
     <Btn
+      props
       onClick={onClick}
       loading={loading}
       _hover={
