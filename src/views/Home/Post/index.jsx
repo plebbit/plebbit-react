@@ -22,7 +22,7 @@ import { BsBookmark } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { BsChat } from 'react-icons/bs';
 
-const Posts = ({ post }) => {
+const Posts = ({ post, hideContent }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const postBg = useColorModeValue('white', 'black');
@@ -196,7 +196,7 @@ const Posts = ({ post }) => {
             {post?.tag || 'pleb'}
           </Tag>
         </Box>
-        {postStyle === 'card' ? (
+        {!hideContent && postStyle === 'card' ? (
           <Box marginTop="8px" onClick={() => history.push('/postId')} cursor="pointer">
             <Box
               color={subPledditTextColor}
