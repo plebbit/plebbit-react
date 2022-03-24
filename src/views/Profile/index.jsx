@@ -1612,22 +1612,142 @@ const Profile = () => {
           )}
           {currentView === 'posts' && (
             <Flex width="100%" flexDir="column">
-              <Posts />
+              <Posts hideContent />
 
-              <Posts />
-              <Posts />
+              <Posts hideContent />
+              <Posts hideContent />
 
-              <Posts />
+              <Posts hideContent />
 
-              <Posts />
-              <Posts />
+              <Posts hideContent />
+              <Posts hideContent />
 
-              <Posts />
-              <Posts />
+              <Posts hideContent />
+              <Posts hideContent />
 
-              <Posts />
+              <Posts hideContent />
 
-              <Posts />
+              <Posts hideContent />
+            </Flex>
+          )}
+          {currentView === 'saved' && (
+            <Flex width="100%" flexDir="column">
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+
+              <Posts hideContent />
+            </Flex>
+          )}
+          {currentView === 'upvoted' && (
+            <Flex width="100%" flexDir="column">
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+
+              <Posts hideContent />
+            </Flex>
+          )}
+          {currentView === 'downvoted' && (
+            <Flex width="100%" flexDir="column">
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+
+              <Posts hideContent />
+            </Flex>
+          )}
+          {currentView === 'hidden' && (
+            <Flex width="100%" flexDir="column">
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+
+              <Posts hideContent />
+            </Flex>
+          )}
+          {currentView === 'awardGiven' && (
+            <Flex width="100%" flexDir="column">
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+
+              <Posts hideContent />
+            </Flex>
+          )}
+          {currentView === 'awardRecieved' && (
+            <Flex width="100%" flexDir="column">
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+              <Posts hideContent />
+
+              <Posts hideContent />
+
+              <Posts hideContent />
             </Flex>
           )}
         </Flex>
