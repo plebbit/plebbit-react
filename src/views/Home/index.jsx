@@ -25,6 +25,7 @@ import Button from '../../components/Button';
 import Post from './Post';
 import { ProfileContext } from '../../store/profileContext';
 import SideBar from './sideBar';
+import { useFeed } from '@plebbit/plebbit-react-hooks';
 
 const Home = () => {
   const { isLoggedIn, postStyle, setPostStyle } = useContext(ProfileContext);
@@ -33,6 +34,8 @@ const Home = () => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const selected = useColorModeValue('selectedLight', 'selectedDark');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
+  const { feed: feeds } = useFeed(['news.eth', 'crypto.eth'], 'hot');
+  console.log('xxx', feeds);
 
   return (
     <Flex
@@ -480,32 +483,9 @@ const Home = () => {
           </Flex>
         </Flex>
         <Box minHeight="1000px" width="100%">
-          <Post
-            post={{
-              title: 'Chainlink',
-              details:
-                "Chainlink is a decentralized blockchain oracle network built on Ethereum.[3][4] The network is intended to be used to facilitate the transfer of tamper-proof data from off-chain sources to on-chain smart contracts. Its creators claim it can be used to verify whether the parameters of a smart contract are met in a manner independent from any of the contract's stakeholders by connecting the contract directly to real-world data, events, payments, and other inputs",
-            }}
-          />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
+          {feeds?.map((feed) => (
+            <Post post={feed} key={feed?.cid} />
+          ))}
         </Box>
         <Button
           border="none"

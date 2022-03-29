@@ -1,4 +1,4 @@
-import { Flex, Box, Icon } from '@chakra-ui/react';
+import { Flex, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TiStarburst } from 'react-icons/ti';
@@ -9,10 +9,12 @@ import SideBar from './sideBar';
 
 const Profile = () => {
   const [currentView, setCurrentView] = useState('overview');
+  const bg = useColorModeValue('lightNavBg', 'darkNavBg');
+  const { colorMode } = useColorMode();
 
   return (
     <Flex flexDir="column">
-      <Flex alignItems="center" justifyContent="center" bg="#fff">
+      <Flex alignItems="center" justifyContent="center" bg={bg}>
         <Flex alignItems="center" justifyContent="center" height="39px" textTransform="uppercase">
           <Link>
             <Box
@@ -147,7 +149,7 @@ const Profile = () => {
               borderBottom={currentView === 'awardRecieved' && '2px solid #0079d3'}
               mb="-3px"
             >
-              Award Recieved
+              Award Received
             </Box>
           </Link>
           <Link>
@@ -181,7 +183,7 @@ const Profile = () => {
             width="100%"
             alignItems="center"
             justifyContent="flex-start"
-            bg="#fff"
+            bg={bg}
             padding="5px 12px"
             marginBottom="16px"
             borderRadius="4px"
@@ -238,7 +240,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -279,7 +281,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex flexDir="column" flex="1 1 auto" marginBottom="8px">
                       <Flex flexDir="column" mb="8px">
                         <Flex
@@ -294,7 +300,11 @@ const Profile = () => {
                         <Box>right ?</Box>
                       </Flex>
                       <Flex width="100%">
-                        <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                        <Box
+                          borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                          flex="0 0 1px"
+                          mr="16px"
+                        />
                         <Flex
                           flexDir="column"
                           mb="8px"
@@ -356,7 +366,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -397,7 +407,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex
                       flexDir="column"
                       mb="8px"
@@ -453,7 +467,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -494,7 +508,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex
                       flexDir="column"
                       mb="8px"
@@ -547,7 +565,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -588,7 +606,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex
                       flexDir="column"
                       mb="8px"
@@ -643,7 +665,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -684,7 +706,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex
                       flexDir="column"
                       mb="8px"
@@ -742,7 +768,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -783,7 +809,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex flexDir="column" flex="1 1 auto" marginBottom="8px">
                       <Flex flexDir="column" mb="8px">
                         <Flex
@@ -798,7 +828,11 @@ const Profile = () => {
                         <Box>right ?</Box>
                       </Flex>
                       <Flex width="100%">
-                        <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                        <Box
+                          borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                          flex="0 0 1px"
+                          mr="16px"
+                        />
                         <Flex
                           flexDir="column"
                           mb="8px"
@@ -859,7 +893,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -900,7 +934,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex
                       flexDir="column"
                       mb="8px"
@@ -954,7 +992,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -995,7 +1033,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex
                       flexDir="column"
                       mb="8px"
@@ -1048,7 +1090,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -1089,7 +1131,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex
                       flexDir="column"
                       mb="8px"
@@ -1142,7 +1188,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -1183,7 +1229,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex
                       flexDir="column"
                       mb="8px"
@@ -1236,7 +1286,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -1277,7 +1327,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex
                       flexDir="column"
                       mb="8px"
@@ -1330,7 +1384,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -1371,7 +1425,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex
                       flexDir="column"
                       mb="8px"
@@ -1424,7 +1482,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -1465,7 +1523,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex
                       flexDir="column"
                       mb="8px"
@@ -1519,7 +1581,7 @@ const Profile = () => {
                 borderRadius="5px"
                 border="none"
                 mb="10px"
-                bg="#fff"
+                bg={bg}
                 width="100%"
                 flexDir="column"
               >
@@ -1560,7 +1622,11 @@ const Profile = () => {
                 </Box>
                 <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
                   <Flex width="100%">
-                    <Box borderLeft="2px dashed #edeff1 " flex="0 0 1px" mr="16px" />
+                    <Box
+                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
+                      flex="0 0 1px"
+                      mr="16px"
+                    />
                     <Flex
                       flexDir="column"
                       mb="8px"

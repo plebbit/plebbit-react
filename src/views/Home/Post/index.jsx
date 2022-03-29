@@ -35,7 +35,7 @@ const Posts = ({ post, hideContent }) => {
   const borderColor = useColorModeValue('#ccc', '#343536');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const borderColorHover = useColorModeValue('#898989', '#818384');
-  const [vote] = useState(0);
+  const [vote] = useState(+post?.upvoteCount - +post?.downvoteCount);
   const [voteMode, setVoteMode] = useState(0);
   const { postStyle } = useContext(ProfileContext);
   const history = useHistory();
@@ -134,7 +134,7 @@ const Posts = ({ post, hideContent }) => {
           position="relative"
         >
           <Image
-            src="https://place-hold.it/100x100"
+            src={post?.link || 'https://place-hold.it/100x100'}
             width="20px"
             height="20px"
             marginRight="4px"
@@ -171,7 +171,7 @@ const Posts = ({ post, hideContent }) => {
 
               <Link marginRight="3px">u/Abydin</Link>
 
-              <Link>{dateToNow(parseInt(1643151600000))}</Link>
+              <Link>{dateToNow(parseInt(post?.timestamp))}</Link>
             </Box>
           </Flex>
         </Flex>
@@ -191,10 +191,10 @@ const Posts = ({ post, hideContent }) => {
             wordBreak="break-word"
           >
             {post?.title || `Why Plebbit ?`}
+            <Tag borderRadius="20px" p="2px 8px" mr="5px">
+              {post?.tag || 'pleb'}
+            </Tag>
           </Heading>
-          <Tag borderRadius="20px" p="2px 8px" mr="5px">
-            {post?.tag || 'pleb'}
-          </Tag>
         </Box>
         {!hideContent && postStyle === 'card' ? (
           <Box marginTop="8px" onClick={() => history.push('/postId')} cursor="pointer">
@@ -212,15 +212,7 @@ const Posts = ({ post, hideContent }) => {
                 maskImage: 'linear-gradient(180deg, #000 60%, transparent)',
               }}
             >
-              {post?.detail ||
-                `Plebbit is a serverless, adminless, decentralized Reddit alternative that has no blockchain transactions fees and uses captchas over peer-to-peer pubsub to prevent spam.
-Whitepaper: https://github.com/plebbit/whitepaper/discussions/2
-Reddit thread: https://redd.it/qijq8r
-Reddit thread 2: https://redd.it/ps9udt
-IPFS thread: https://discuss.ipfs.io/t/12158
-ETHResearch thread: https://ethresear.ch/t/10523
-Telegram: https://t.me/plebbit
-Twitter: https://twitter.com/getplebbit`}
+              {post?.content}
             </Box>
           </Box>
         ) : (
@@ -264,7 +256,7 @@ Twitter: https://twitter.com/getplebbit`}
               }}
             >
               <Icon as={BsChat} height={5} width={5} mr="5px" />
-              <Box>6.3k Comments</Box>
+              <Box>{post?.replies?.pages?.topAll?.comments?.length} Comments</Box>
             </Link>
             <Link
               display="flex"
