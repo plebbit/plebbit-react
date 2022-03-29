@@ -31,6 +31,7 @@ const NavDropDownWide = () => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const { setIsLoggedIn, isLoggedIn } = useContext(ProfileContext);
   const bg = useColorModeValue('lightNavBg', 'darkNavBg');
+  const border = useColorModeValue('borderLight2', 'borderDark2');
   const { colorMode, toggleColorMode } = useColorMode();
   const [showMenu, setShowMenu] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
@@ -133,7 +134,7 @@ const NavDropDownWide = () => {
           right="0"
           top="39.5px"
           borderRadius="0 0 4px 4px"
-          border="1px solid #EDEFF1"
+          border={`1px solid ${border}`}
           borderTop="none"
           marginTop="-2px"
           maxHeight="80%"
