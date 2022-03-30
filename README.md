@@ -26,3 +26,15 @@ The site should use a hash router (localhost:3000/#/page-name). We need to recre
 - User profile settings
 - Site settings
 - Etc.
+
+### URL scheme
+
+- Post or nested comment page -> plebbit.eth/#/p/:subplebbitAddress/c/:commentCid
+- Subplebbit page/feed -> plebbit.eth/#/p/:subplebbitAddress
+- Multisub page/feed (like https://www.reddit.com/u/estebanabaroa/m/testmulti) -> plebbit.eth/#/m/:multisubAddress
+- Feed with multiple subs (like https://www.reddit.com/r/CryptoCurrency+ethereum) -> plebbit.eth/#/p/:subplebbitAddress1+subplebbitAddress2+etc...
+- Own profile page -> plebbit.eth/#/profile
+- Settings page (like https://www.reddit.com/settings) -> plebbit.eth/#/settings/:pageName?
+- Submit post (like https://www.reddit.com/r/ethereum/submit) -> plebbit.eth/#/p/:subplebbitAddress/submit
+- Moderator/about pages (like https://www.reddit.com/r/ethereum/about/modqueue/ https://www.reddit.com/r/ethereum/about/moderators/ https://www.reddit.com/r/ethereum/about/rules/) -> plebbit.eth/#/p/:subplebbitAddress/about/:pageName?
+- (not supported yet) Author profile page -> plebbit.eth/#/u/authorAddress
