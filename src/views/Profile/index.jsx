@@ -9,7 +9,7 @@ import SideBar from './sideBar';
 
 const Profile = () => {
   const [currentView, setCurrentView] = useState('overview');
-  const bg = useColorModeValue('lightNavBg', 'darkNavBg');
+  const bg = useColorModeValue('white', 'darkNavBg');
   const { colorMode } = useColorMode();
 
   return (

@@ -30,7 +30,7 @@ import useVisible from '../../hooks/useVisible';
 const NavDropDownWide = () => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const { setIsLoggedIn, isLoggedIn } = useContext(ProfileContext);
-  const bg = useColorModeValue('lightNavBg', 'darkNavBg');
+  const bg = useColorModeValue('white', 'darkNavBg');
   const border = useColorModeValue('borderLight2', 'borderDark2');
   const { colorMode, toggleColorMode } = useColorMode();
   const [showMenu, setShowMenu] = useState(false);
