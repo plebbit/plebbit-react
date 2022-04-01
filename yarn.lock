@@ -2148,7 +2148,7 @@
 
 "@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks":
   version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks#5752d707e8d58c49bd6451d8ad610616b00440d9"
+  resolved "https://github.com/plebbit/plebbit-react-hooks#4d71f6ada6abb338bbea42a3bcaa90c81927c822"
   dependencies:
     "@types/debug" "^4.1.7"
     "@types/uuid" "^8.3.4"

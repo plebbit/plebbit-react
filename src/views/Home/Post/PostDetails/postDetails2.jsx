@@ -1,13 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Flex,
   Text,
   useColorModeValue,
-  Image,
-  Link,
   Icon,
   IconButton,
+  Link,
+  Image,
   Heading,
   Tag,
 } from '@chakra-ui/react';
@@ -15,283 +15,259 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { CloseIcon } from '@chakra-ui/icons';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
+import PdMenu from './pdMenu';
+import { BsChat, BsBookmark } from 'react-icons/bs';
+import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { FiMoreHorizontal, FiShare, FiBell } from 'react-icons/fi';
-import { BsBookmark } from 'react-icons/bs';
-import { GoGift } from 'react-icons/go';
-import { BsChat } from 'react-icons/bs';
 import { CgNotes } from 'react-icons/cg';
 import SideBar from './postDetailSideBar';
-import { ProfileContext } from '../../../../store/profileContext';
 import { dateToNow } from '../../../../utils/formatDate';
-import PdMenu from './pdMenu';
 import Comment from '../comment';
-import Editor from '../../../../components/Editor';
 import commentData from '../../../../components/data/comments';
-import Button from '../../../../components/Button';
+import Editor from '../../../../components/Editor';
+// import Button from '../../../../components/Button';
 
-const PostDetails = ({ post }) => {
+const PostDetails2 = ({ post }) => {
   const postDetCover = useColorModeValue('lightBg', 'black');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
-  const borderColor = useColorModeValue('#ccc', '#343536');
-  const postBg = useColorModeValue('white', 'black');
-  const bg = useColorModeValue('white', 'darkNavBg');
-  // const voteBg = useColorModeValue('#F8F9FA', '');
-  const subPledditTextColor = useColorModeValue('#1c1c1c', 'darkText');
-  const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const titleColor = useColorModeValue('lightText', 'darkText');
-  const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
-  const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const [vote] = useState(0);
   const [voteMode, setVoteMode] = useState(0);
-  const [showAddComment, setShowAddComment] = useState(false);
   const history = useHistory();
-  const { postStyle } = useContext(ProfileContext);
+  const subPledditTextColor = useColorModeValue('lightText2', 'darkText');
+  const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
+  const bg = useColorModeValue('white', 'darkNavBg');
+  const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
+  const borderColor = useColorModeValue('#ccc', '#343536');
+  // const [showAddComment, setShowAddComment] = useState(false);
 
   return (
-    <Modal>
-      {overlay}
-      <ModalContent
-        isCentered
-        isOpen={isOpen}
-        onClose={onClose}
-        bg={postDetCover}
-        flexDir="column"
-        width="calc(100% - 240px)"
+    <Flex
+      bg={postDetCover}
+      flexDir="column"
+      width="calc(100% - 240px)"
+      margin="0 auto"
+      paddingBottom="32px"
+      minHeight="calc(100vh -48px)"
+      sx={{
+        '@media (min-width: 1280px)': {},
+        '@media (max-width: 1120px)': {
+          maxWidth: '100%',
+          width: '100%',
+        },
+      }}
+    >
+      <Flex
         margin="0 auto"
-        paddingBottom="32px"
-        minHeight="calc(100vh -48px)"
+        bg="#030303"
+        h="48px"
+        padding="0 8%"
+        alignItems="center"
+        justifyContent="space-between"
+        width="100%"
         sx={{
           '@media (min-width: 1280px)': {},
           '@media (max-width: 1120px)': {
-            maxWidth: '100%',
-            width: '100%',
+            display: 'none',
           },
         }}
       >
-        <Flex
-          margin="0 auto"
-          bg="#030303"
-          h="48px"
-          padding="0 6%"
-          alignItems="center"
-          justifyContent="space-between"
-          width="100%"
-          sx={{
-            '@media (min-width: 1280px)': {},
-            '@media (max-width: 1120px)': {
-              display: 'none',
-            },
-          }}
-        >
-          <Flex alignItems="center" mr="auto">
-            <Flex alignItems="center" margin="0" padding="0 2px">
-              <Box
-                borderRight="1px solid #a4a4a4"
-                height="16px"
-                mr="8px"
-                content=""
-                verticalAlign="text-bottom"
-                width="0"
-              />
-              <IconButton
-                aria-label="Upvote Post"
-                color={voteMode === 1 ? 'upvoteOrange' : iconColor}
-                w="24px"
-                h="24px"
-                bg="none"
-                minW="24px"
-                minH="24px"
-                border="none"
-                borderRadius="2px"
-                _hover={{
-                  bg: iconBg,
-                  color: 'upvoteOrange',
-                }}
-                _focus={{
-                  outline: 'none',
-                }}
-                onClick={() => {
-                  setVoteMode(voteMode === 1 ? 0 : 1);
-                }}
-                icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
-              />
-              <Text
-                fontSize="12px"
-                fontWeight="700"
-                lineHeight="16px"
-                pointerEvents="none"
-                color="#D7DADC"
-              >
-                {vote + voteMode === 0 ? 'vote' : vote + voteMode}
-              </Text>
-              <IconButton
-                aria-label="Downvote Post"
-                color={voteMode === -1 ? 'downvoteBlue' : iconColor}
-                w="24px"
-                h="24px"
-                minW="24px"
-                minH="24px"
-                border="none"
-                bg="none"
-                borderRadius="2px"
-                _hover={{
-                  bg: iconBg,
-                  color: 'downvoteBlue',
-                }}
-                _focus={{
-                  outline: 'none',
-                }}
-                onClick={() => {
-                  setVoteMode(voteMode === -1 ? 0 : -1);
-                }}
-                icon={<Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />}
-              />
-              <Box
-                borderRight="1px solid #a4a4a4"
-                height="16px"
-                margin="0 8px"
-                verticalAlign="text-bottom"
-                content=""
-                width="0"
-              />
-            </Flex>
-            <Icon as={CgNotes} mr="8px" color="#D7DADC" />
+        <Flex alignItems="center" mr="auto">
+          <Flex alignItems="center" margin="0" padding="0 2px">
             <Box
-              color="#D7DADC"
-              fontSize="14px"
-              fontWeight="500"
-              whiteSpace="noWrap"
-              lineHeight="18px"
-              textOverflow="ellipsis"
-              ml="2px"
-              paddingRight="5px"
-              sx={{
-                '@media (max-width: 768px)': {
-                  display: 'none',
-                },
+              borderRight="1px solid #a4a4a4"
+              height="16px"
+              mr="8px"
+              content=""
+              verticalAlign="text-bottom"
+              width="0"
+            />
+            <IconButton
+              aria-label="Upvote Post"
+              color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+              w="24px"
+              h="24px"
+              bg="none"
+              minW="24px"
+              minH="24px"
+              border="none"
+              borderRadius="2px"
+              _hover={{
+                bg: iconBg,
+                color: 'upvoteOrange',
               }}
+              _focus={{
+                outline: 'none',
+              }}
+              onClick={() => {
+                setVoteMode(voteMode === 1 ? 0 : 1);
+              }}
+              icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
+            />
+            <Text
+              fontSize="12px"
+              fontWeight="700"
+              lineHeight="16px"
+              pointerEvents="none"
+              color="#D7DADC"
             >
-              The Reason or the dreams of plebbit
-            </Box>
+              {vote + voteMode === 0 ? 'vote' : vote + voteMode}
+            </Text>
+            <IconButton
+              aria-label="Downvote Post"
+              color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+              w="24px"
+              h="24px"
+              minW="24px"
+              minH="24px"
+              border="none"
+              bg="none"
+              borderRadius="2px"
+              _hover={{
+                bg: iconBg,
+                color: 'downvoteBlue',
+              }}
+              _focus={{
+                outline: 'none',
+              }}
+              onClick={() => {
+                setVoteMode(voteMode === -1 ? 0 : -1);
+              }}
+              icon={<Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />}
+            />
+            <Box
+              borderRight="1px solid #a4a4a4"
+              height="16px"
+              margin="0 8px"
+              verticalAlign="text-bottom"
+              content=""
+              width="0"
+            />
           </Flex>
-          <Flex
-            alignItems="center"
-            justifyContent="flex-end"
-            width="312px"
+          <Icon as={CgNotes} mr="8px" color="#D7DADC" />
+          <Box
             color="#D7DADC"
-            fontSize="12px"
-            lineHeight="16px"
-            fontWeight="700"
-            ml="12px"
-          >
-            <CloseIcon mr="5px" onClick={() => history.goBack()} cursor="pointer" />
-            <Box onClick={() => history.goBack()} cursor="pointer">
-              Close
-            </Box>
-          </Flex>
-        </Flex>
-        <Flex
-          padding="0 6%"
-          sx={{
-            '@media (min-width: 1280px)': {},
-            '@media (max-width: 1120px)': {
-              padding: '0',
-            },
-          }}
-        >
-          <Flex
-            bg={bg}
-            color={color}
-            fill={color}
-            borderColor={borderColor}
-            borderRadius="4px"
-            borderWidth="1px"
-            margin="32px 12px 32px 0px"
-            boxShadow="none"
-            transition="color .5s, fill .5s, box-shadow .5s"
-            _focus={{
-              boxShadow: 'none',
-            }}
+            fontSize="14px"
+            fontWeight="500"
+            whiteSpace="noWrap"
+            lineHeight="18px"
+            textOverflow="ellipsis"
+            ml="2px"
+            paddingRight="5px"
             sx={{
-              '@media (min-width: 1280px)': {},
-              '@media (max-width: 1120px)': {
-                margin: '0',
+              '@media (max-width: 768px)': {
+                display: 'none',
               },
             }}
           >
-            <Flex
-              flexDir="column"
-              w="40px"
-              h="revert"
-              borderLeft="4px solid transparent"
-              borderRadius="4px"
-              bg="none"
-              alignItems="center"
-              p="8px 4px 8px 0"
-              sx={{
-                '@media (max-width: 960px)': {
-                  display: 'none',
-                },
-              }}
-            >
-              <IconButton
-                aria-label="Upvote Post"
-                color={voteMode === 1 ? 'upvoteOrange' : iconColor}
-                w="24px"
-                h="24px"
+            The Reason or the dreams of plebbit
+          </Box>
+        </Flex>
+        <Flex
+          alignItems="center"
+          justifyContent="flex-end"
+          width="312px"
+          color="#D7DADC"
+          fontSize="12px"
+          lineHeight="16px"
+          fontWeight="700"
+          ml="12px"
+        >
+          <CloseIcon mr="5px" onClick={() => history.goBack()} cursor="pointer" />
+          <Box onClick={() => history.goBack()} cursor="pointer">
+            Close
+          </Box>
+        </Flex>
+      </Flex>
+      <Flex
+        padding="0 8%"
+        sx={{
+          '@media (min-width: 1280px)': {},
+          '@media (max-width: 1120px)': {
+            padding: '0',
+          },
+        }}
+      >
+        <Flex flexGrow="1" mt="32px" mr="12px" flexDirection="column">
+          {/* Main */}
+          <Flex width="100%" bg={bg} borderRadius="4px">
+            {/* vote column */}
+            <Flex display="flex">
+              <Flex
+                flexDir="column"
+                w="40px"
+                h="revert"
+                borderLeft="4px solid transparent"
+                borderRadius="4px"
                 bg="none"
-                minW="24px"
-                minH="24px"
-                border="none"
-                borderRadius="2px"
-                _hover={{
-                  bg: iconBg,
-                  color: 'upvoteOrange',
+                alignItems="center"
+                p="8px 4px 8px 0"
+                sx={{
+                  '@media (max-width: 960px)': {
+                    display: 'none',
+                  },
                 }}
-                _focus={{
-                  outline: 'none',
-                }}
-                onClick={() => {
-                  setVoteMode(voteMode === 1 ? 0 : 1);
-                }}
-                icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
-              />
-              <Text
-                fontSize="12px"
-                fontWeight="700"
-                lineHeight="16px"
-                pointerEvents="none"
-                color=""
               >
-                {vote + voteMode === 0 ? 'vote' : vote + voteMode}
-              </Text>
-              <IconButton
-                aria-label="Downvote Post"
-                color={voteMode === -1 ? 'downvoteBlue' : iconColor}
-                w="24px"
-                h="24px"
-                minW="24px"
-                minH="24px"
-                border="none"
-                bg="none"
-                borderRadius="2px"
-                _hover={{
-                  bg: iconBg,
-                  color: 'downvoteBlue',
-                }}
-                _focus={{
-                  outline: 'none',
-                }}
-                onClick={() => {
-                  setVoteMode(voteMode === -1 ? 0 : -1);
-                }}
-                icon={<Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />}
-              />
+                <IconButton
+                  aria-label="Upvote Post"
+                  color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                  w="24px"
+                  h="24px"
+                  bg="none"
+                  minW="24px"
+                  minH="24px"
+                  border="none"
+                  borderRadius="2px"
+                  _hover={{
+                    bg: iconBg,
+                    color: 'upvoteOrange',
+                  }}
+                  _focus={{
+                    outline: 'none',
+                  }}
+                  onClick={() => {
+                    setVoteMode(voteMode === 1 ? 0 : 1);
+                  }}
+                  icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
+                />
+                <Text
+                  fontSize="12px"
+                  fontWeight="700"
+                  lineHeight="16px"
+                  pointerEvents="none"
+                  color=""
+                >
+                  {vote + voteMode === 0 ? 'vote' : vote + voteMode}
+                </Text>
+                <IconButton
+                  aria-label="Downvote Post"
+                  color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                  w="24px"
+                  h="24px"
+                  minW="24px"
+                  minH="24px"
+                  border="none"
+                  bg="none"
+                  borderRadius="2px"
+                  _hover={{
+                    bg: iconBg,
+                    color: 'downvoteBlue',
+                  }}
+                  _focus={{
+                    outline: 'none',
+                  }}
+                  onClick={() => {
+                    setVoteMode(voteMode === -1 ? 0 : -1);
+                  }}
+                  icon={<Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />}
+                />
+              </Flex>
             </Flex>
-
-            <Flex flexDir="column" bg={postBg} padding="1rem" flex="1">
+            {/* post Details */}
+            <Flex flexDir="column" paddingTop="8px" flex="1">
+              {/* post Head */}
               <Flex
                 alignItems="start"
                 fontSize="12px"
@@ -360,7 +336,8 @@ const PostDetails = ({ post }) => {
                   <PdMenu />
                 </Flex>
               </Flex>
-              <Box margin="0 8px" display="flex" alignItems="center">
+              {/* post Title */}
+              <Flex margin="0 8px" display="flex" alignItems="center">
                 <Heading
                   color={titleColor}
                   fontSize="18px"
@@ -375,21 +352,21 @@ const PostDetails = ({ post }) => {
                 <Tag borderRadius="20px" p="2px 8px" mr="5px">
                   {post?.tag || 'pleb'}
                 </Tag>
-              </Box>
-              {postStyle === 'card' ? (
-                <Box marginTop="8px">
-                  <Box
-                    color={subPledditTextColor}
-                    padding="5px 8px 10px"
-                    fontFamily="Noto sans, Arial, sans-serif"
-                    fontSize="14px"
-                    fontWeight="400"
-                    lineHeight="21px"
-                    wordBreak="break-word"
-                    overflow="hidden"
-                  >
-                    {post?.detail ||
-                      ` Plebbit: A serverless, adminless, decentralized Reddit alternative (Whitepaper
+              </Flex>
+              {/* post Body */}
+              <Box marginTop="8px">
+                <Box
+                  color={subPledditTextColor}
+                  padding="5px 8px 10px"
+                  fontFamily="Noto sans, Arial, sans-serif"
+                  fontSize="14px"
+                  fontWeight="400"
+                  lineHeight="21px"
+                  wordBreak="break-word"
+                  overflow="hidden"
+                >
+                  {post?.detail ||
+                    ` Plebbit: A serverless, adminless, decentralized Reddit alternative (Whitepaper
                     v0.2.0) Abstract A decentralized social media has 2 problems: How to store the
                     entire world's data on a blockchain, and how to prevent spam while being
                     feeless. We propose solving the data problem by not using a blockchain, but
@@ -501,11 +478,9 @@ const PostDetails = ({ post }) => {
                     an unlimited amount of users, without any server, legal, advertising or
                     moderation infrastructure. Please contact me on Telegram @estebanabaroa or
                     Discord estebanabaroa#2853 to get involved, we are looking for contributors.`}
-                  </Box>
                 </Box>
-              ) : (
-                ''
-              )}
+              </Box>
+              {/* Post Bottom Bar */}
               <Flex
                 sx={{
                   '@media (max-width: 960px)': {
@@ -620,6 +595,7 @@ const PostDetails = ({ post }) => {
                   </Link>
                 </Flex>
               </Flex>
+
               <Flex
                 flexDirection="row"
                 alignItems="center"
@@ -769,93 +745,49 @@ const PostDetails = ({ post }) => {
                   </Link>
                 </Flex>
               </Flex>
-              {!showAddComment ? (
-                <Flex alignItems="center" padding="8px 0">
-                  <Image
-                    width="24px"
-                    height="24px"
-                    mr="8px"
-                    src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
-                  />
-                  <Button
-                    content="Leave a comment"
-                    padding="0 8px"
-                    sx={{
-                      flexGrow: '1',
-                      lineHeight: '17px',
-                      textAlign: 'left',
-                      justifyContent: 'left',
-                    }}
-                    onClick={() => setShowAddComment(true)}
-                  />
-                </Flex>
-              ) : (
-                ''
-              )}
-              {showAddComment ? (
-                <Box>
-                  <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                    Comment As Abydin
-                  </Box>
-                  <Box>
-                    <Editor />
-                  </Box>
-                  <Box
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    marginTop="16px"
-                    marginBottom="4px "
-                  >
-                    Sort By: Best
-                  </Box>
-                  <hr />
-                  <Flex alignItems="center" my="10px">
-                    <CloseIcon
-                      mr="25px"
-                      width="26px"
-                      height="26px"
-                      onClick={() => setShowAddComment(false)}
-                    />
-                    <Button
-                      content="Add comment"
-                      sx={{
-                        flexGrow: '1',
-                        lineHeight: '17px',
-                        borderRadius: '0px',
-                        padding: '20px',
-                        border: 0,
-                      }}
-                    />
-                  </Flex>
-                </Box>
-              ) : (
-                ''
-              )}
-              <Box maxW="100%">
-                {commentData.map((comment) => (
-                  <Comment comment={comment} key={comment.id} />
-                ))}
-              </Box>
             </Flex>
           </Flex>
-          <SideBar
-            margin="32px 0"
-            borderRadius="4px"
-            padding="0"
-            right="0"
-            top="0"
-            width="312px"
-            sx={{
-              '@media (max-width: 1120px)': {
-                display: 'none',
-              },
-            }}
-          />
+          <Box maxW="100%" bg={bg} mt="10px" padding="10px">
+            <Box padding="24px 40px">
+              <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
+                Comment As Abydin
+              </Box>
+              <Box>
+                <Editor />
+              </Box>
+              <Box
+                fontSize="12px"
+                fontWeight="700"
+                lineHeight="16px"
+                marginTop="16px"
+                marginBottom="4px "
+              >
+                Sort By: Best
+              </Box>
+              <hr />
+            </Box>
+            {commentData.map((comment) => (
+              <Comment comment={comment} key={comment.id} />
+            ))}
+          </Box>
         </Flex>
-      </ModalContent>
-    </Modal>
+
+        <SideBar
+          margin="32px 0"
+          borderRadius="4px"
+          padding="0"
+          right="0"
+          top="0"
+          width="312px"
+          sx={{
+            '@media (max-width: 1120px)': {
+              display: 'none',
+            },
+          }}
+        />
+      </Flex>
+    </Flex>
   );
 };
 
-export default PostDetails;
+export default PostDetails2;

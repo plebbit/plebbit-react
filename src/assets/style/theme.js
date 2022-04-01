@@ -18,26 +18,26 @@ const theme = extendTheme({
     useSystemColorMode: false,
   },
   colors: {
+    //General
     black: '#000000',
     white: '#ffffff',
-    mainOrange: '#ff4500',
+    mainGrey: '#a4a4a4',
     mainBlue: '#0079d3',
     upvoteOrange: '#cc3700',
     downvoteBlue: '#5a75cc',
     textMuted: '#a8aaab',
 
     // light
-    lightText: '#222222',
     lightButtonBg: '#a4a4a4',
     lightBg: '#DAE0E6',
-    lightNavBg: '#ffffff',
     lightInputBg: '#f6f7f8',
     lightIcon: '#878a8c',
-    lightLayoutBg: '#DAE0E6',
     selectedLight: '#edeff1',
     postDetailLightBg: '#323232',
     borderLight: '#ccc',
     borderLight2: '#edeff1',
+    lightText: '#222222',
+    lightText2: '#1c1c1c',
 
     // dark theme
     darkText: '#d7dadc',

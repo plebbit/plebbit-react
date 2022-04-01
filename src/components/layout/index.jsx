@@ -7,7 +7,7 @@ import plebbitDarkLogo from '../../assets/svgs/plebbitDarkLogo.svg';
 
 export default function Layout({ children }) {
   const { showSplashcreen } = useContext(ProfileContext);
-  const bg = useColorModeValue('lightLayoutBg', 'darkLayoutBg');
+  const bg = useColorModeValue('lightBg', 'darkLayoutBg');
 
   if (showSplashcreen) {
     return (

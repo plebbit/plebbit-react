@@ -30,7 +30,7 @@ import { useFeed } from '@plebbit/plebbit-react-hooks';
 const Home = () => {
   const { isLoggedIn, postStyle, setPostStyle } = useContext(ProfileContext);
   const history = useHistory();
-  const bg = useColorModeValue('lightNavBg', 'darkNavBg');
+  const bg = useColorModeValue('white', 'darkNavBg');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const selected = useColorModeValue('selectedLight', 'selectedDark');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');

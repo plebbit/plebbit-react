@@ -26,7 +26,7 @@ const Posts = ({ post, hideContent }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const postBg = useColorModeValue('white', 'black');
-  const bg = useColorModeValue('lightNavBg', 'darkNavBg');
+  const bg = useColorModeValue('white', 'darkNavBg');
   const voteBg = useColorModeValue('#F8F9FA', '');
   const subPledditTextColor = useColorModeValue('#1c1c1c', 'darkText');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');

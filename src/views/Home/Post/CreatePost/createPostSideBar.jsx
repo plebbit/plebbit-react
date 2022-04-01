@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Flex, Image, useColorModeValue } from '@chakra-ui/react';
 
 const CreatePostSideBar = () => {
-  const bg = useColorModeValue('lightNavBg', 'darkNavBg');
+  const bg = useColorModeValue('white', 'darkNavBg');
   const borderColor = useColorModeValue('borderLight', 'borderDark');
 
   return (
