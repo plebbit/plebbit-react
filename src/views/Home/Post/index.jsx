@@ -134,7 +134,7 @@ const Posts = ({ post, hideContent }) => {
           position="relative"
         >
           <Image
-            src={post?.link || 'https://place-hold.it/100x100'}
+            src={post?.thumbnail || 'https://place-hold.it/100x100'}
             width="20px"
             height="20px"
             marginRight="4px"
@@ -198,22 +198,28 @@ const Posts = ({ post, hideContent }) => {
         </Box>
         {!hideContent && postStyle === 'card' ? (
           <Box marginTop="8px" onClick={() => history.push('/postId')} cursor="pointer">
-            <Box
-              color={subPledditTextColor}
-              maxHeight="125px"
-              padding="5px 8px 10px"
-              fontFamily="Noto sans, Arial, sans-serif"
-              fontSize="14px"
-              fontWeight="400"
-              lineHeight="21px"
-              wordBreak="break-word"
-              overflow="hidden"
-              sx={{
-                maskImage: 'linear-gradient(180deg, #000 60%, transparent)',
-              }}
-            >
-              {post?.content}
-            </Box>
+            {post?.content ? (
+              <Box
+                color={subPledditTextColor}
+                maxHeight="125px"
+                padding="5px 8px 10px"
+                fontFamily="Noto sans, Arial, sans-serif"
+                fontSize="14px"
+                fontWeight="400"
+                lineHeight="21px"
+                wordBreak="break-word"
+                overflow="hidden"
+                sx={{
+                  maskImage: 'linear-gradient(180deg, #000 60%, transparent)',
+                }}
+              >
+                {post?.content}
+              </Box>
+            ) : (
+              <Box display="flex" justifyContent="center">
+                <Image src={post?.link} />
+              </Box>
+            )}
           </Box>
         ) : (
           ''
