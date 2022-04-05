@@ -13,17 +13,19 @@ import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { BsChat } from 'react-icons/bs';
 import Editor from '../../../../components/Editor';
+import { dateToNow } from '../../../../utils/formatDate';
+import numFormatter from '../../../../utils/numberFormater';
 
 const Comment = ({ comment }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
-  const [vote] = useState(0);
+  const [vote] = useState(+comment?.upvoteCount - +comment?.downvoteCount);
   const [voteMode, setVoteMode] = useState(0);
   const [reply, setShowReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
 
-  const nestedComments = (comment?.children || []).map((comment) => {
-    return <Comment key={comment?.id} comment={comment} type="child" />;
+  const nestedComments = (comment?.replies?.pages?.topAll?.comments || []).map((comment) => {
+    return <Comment key={comment?.cid} comment={comment} type="child" />;
   });
   return (
     <Flex marginTop="15px">
@@ -41,7 +43,9 @@ const Comment = ({ comment }) => {
       <Flex flexDir="column" flexGrow={1}>
         <Flex flexDir="column" mb="6px">
           <Flex alignItems="center" fontWeight="400" fontSize="12px">
-            <Box mr="5px">Abydin765</Box>
+            <Box maxW="50%" mr="5px">
+              <Text isTruncated>{comment?.author?.displayName} </Text>{' '}
+            </Box>
             <Flex alignItems="center">
               <Image
                 mr="5px"
@@ -50,7 +54,7 @@ const Comment = ({ comment }) => {
                 width="16px"
                 src="https://www.redditstatic.com/desktop2x/img/communityPoints/tokens/cryptocurrency/moon_yellow.svg"
               />
-              <Box>10.5K</Box>
+              <Box>{numFormatter(Math.floor(Math.random() * (100000000 - 0 + 1)) + 0)}</Box>
             </Flex>
             <Text
               as="span"
@@ -62,20 +66,22 @@ const Comment = ({ comment }) => {
             >
               •
             </Text>
-            <Box>3 hr. ago</Box>
+            <Box>{dateToNow(comment?.timestamp)} ago</Box>
           </Flex>
-          <Box
-            backgroundColor="rgb(237, 239, 241)"
-            color="rgb(26, 26, 27)"
-            width="fit-content"
-            padding="0 4px"
-            fontWeight="400"
-            fontSize="12px"
-            mt="2px"
-            borderRadius="2px"
-          >
-            test group
-          </Box>
+          {comment?.flair?.text && (
+            <Box
+              backgroundColor={comment?.flair?.color}
+              color="#fff"
+              width="fit-content"
+              padding="0 4px"
+              fontWeight="400"
+              fontSize="12px"
+              mt="2px"
+              borderRadius="2px"
+            >
+              {comment?.flair?.text}
+            </Box>
+          )}
         </Flex>
         <Box
           padding="2px 0"
@@ -85,8 +91,7 @@ const Comment = ({ comment }) => {
           wordBreak="break-word"
           mb="6px"
         >
-          I just want to see these fuckers face some consequences for their actions but I'm not
-          holding my breath. With their wealth they can just buy themselves out of trouble
+          {comment?.content}
         </Box>
         <Flex>
           <Flex
@@ -122,7 +127,7 @@ const Comment = ({ comment }) => {
               icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w="20px" h="20px" />}
             />
             <Text fontSize="14px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
-              {vote + voteMode === 0 ? 'vote' : vote + voteMode}
+              {numFormatter(vote + voteMode) === 0 ? 'vote' : numFormatter(vote + voteMode)}
             </Text>
             <IconButton
               aria-label="Downvote Post"
@@ -303,7 +308,7 @@ const Comment = ({ comment }) => {
         )}
         {showReplies ? (
           nestedComments
-        ) : comment?.children?.length !== 0 ? (
+        ) : comment?.replies?.pages?.topAll?.comments.length !== 0 ? (
           <Box
             onClick={() => setShowReplies(true)}
             fontSize="12px"
@@ -314,7 +319,7 @@ const Comment = ({ comment }) => {
             pl="4px"
             cursor="pointer"
           >
-            {comment?.children?.length} more replies
+            {comment?.replyCount} more repl{comment?.replyCount > 1 ? 'ies' : 'y'}
           </Box>
         ) : (
           ''
