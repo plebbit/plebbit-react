@@ -10,8 +10,8 @@ import {
   Link,
   Heading,
   Tag,
+  useDisclosure,
 } from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
 import { ProfileContext } from '../../../store/profileContext';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -21,8 +21,11 @@ import { FiMoreHorizontal, FiShare } from 'react-icons/fi';
 import { BsBookmark } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { BsChat } from 'react-icons/bs';
+import PostDetail from './PostDetails';
+import { Link as ReactLink } from 'react-router-dom';
 
 const Posts = ({ post, hideContent }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const postBg = useColorModeValue('white', 'black');
@@ -38,7 +41,6 @@ const Posts = ({ post, hideContent }) => {
   const [vote] = useState(+post?.upvoteCount - +post?.downvoteCount);
   const [voteMode, setVoteMode] = useState(0);
   const { postStyle } = useContext(ProfileContext);
-  const history = useHistory();
 
   return (
     <Flex
@@ -169,19 +171,17 @@ const Posts = ({ post, hideContent }) => {
                 Posted By
               </Text>
 
-              <Link marginRight="3px">u/Abydin</Link>
+              <Link
+                as={ReactLink}
+                to={`u/${post?.author?.address}`}
+                marginRight="3px"
+              >{`u/${post?.author?.displayName}`}</Link>
 
               <Link>{dateToNow(parseInt(post?.timestamp))}</Link>
             </Box>
           </Flex>
         </Flex>
-        <Box
-          margin="0 8px"
-          display="flex"
-          alignItems="center"
-          onClick={() => history.push('/postId')}
-          cursor="pointer"
-        >
+        <Box margin="0 8px" display="flex" alignItems="center" cursor="pointer">
           <Heading
             color={titleColor}
             fontSize="18px"
@@ -190,14 +190,26 @@ const Posts = ({ post, hideContent }) => {
             paddingRight="5px"
             wordBreak="break-word"
           >
-            {post?.title || `Why Plebbit ?`}
-            <Tag borderRadius="20px" p="2px 8px" mr="5px">
-              {post?.tag || 'pleb'}
-            </Tag>
+            {post?.title}
+            {post?.flair?.tag && (
+              <Tag
+                bg={post?.flair?.color}
+                color="#fff"
+                fontSize="12px"
+                borderRadius="20px"
+                padding="1px 8px"
+                mr="5px"
+                fontWeight="500"
+                whiteSpace="pre"
+                wordBreak="normal"
+              >
+                {post?.flair?.text}
+              </Tag>
+            )}
           </Heading>
         </Box>
         {!hideContent && postStyle === 'card' ? (
-          <Box marginTop="8px" onClick={() => history.push('/postId')} cursor="pointer">
+          <Box marginTop="8px" cursor="pointer" onClick={onOpen}>
             {post?.content ? (
               <Box
                 color={subPledditTextColor}
@@ -482,6 +494,7 @@ const Posts = ({ post, hideContent }) => {
           </Flex>
         </Flex>
       </Flex>
+      {isOpen ? <PostDetail isOpen={isOpen} onOpen={onOpen} onClose={onClose} post={post} /> : ''}
     </Flex>
   );
 };

@@ -55,9 +55,9 @@ const NavBar = () => {
         left="0"
         right="0"
         top="0"
-        zIndex="80"
         color={color}
         marginTop="0px !important"
+        zIndex="999999"
       >
         <Flex
           as="header"

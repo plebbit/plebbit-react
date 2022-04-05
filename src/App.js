@@ -5,7 +5,7 @@ import Layout from './components/layout';
 import Home from './views/Home';
 import PostCreate from './views/Home/Post/CreatePost';
 import Profile from './views/Profile';
-import PostDetails2 from './views/Home/Post/PostDetails/postDetails2';
+// import PostDetails from './views/Home/Post/PostDetails';
 
 const App = () => {
   return (
@@ -15,7 +15,7 @@ const App = () => {
           <Layout>
             <Route exact path="/" component={Home} />
             <Route exact path={'/submit'} component={PostCreate} />
-            <Route exact path="/postId" component={PostDetails2} />
+            {/* <Route exact path="/p/:subplebbitAddress/c/:commentCid" component={PostDetails} /> */}
             <Route exact path="/profile" component={Profile} />
           </Layout>
         </ProfileDataProvider>
