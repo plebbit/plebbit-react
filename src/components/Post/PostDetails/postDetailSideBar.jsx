@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text, Flex, Image, useColorModeValue, Icon } from '@chakra-ui/react';
 import { BiCake } from 'react-icons/bi';
-import Button from '../../../../components/Button';
+import Button from '../../Button';
 
 const PostDetailSideBar = ({
   mt,

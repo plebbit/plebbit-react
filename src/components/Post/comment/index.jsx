@@ -12,9 +12,9 @@ import {
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { BsChat } from 'react-icons/bs';
-import Editor from '../../../../components/Editor';
-import { dateToNow } from '../../../../utils/formatDate';
-import numFormatter from '../../../../utils/numberFormater';
+import Editor from '../../Editor';
+import { dateToNow } from '../../../utils/formatDate';
+import numFormatter from '../../../utils/numberFormater';
 
 const Comment = ({ comment }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');

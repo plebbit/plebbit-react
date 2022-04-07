@@ -51,6 +51,13 @@ const theme = extendTheme({
     postDetailDarkBg: '#191919',
     borderDark: '#474748',
     borderDark2: '#343536',
+
+    // new color scheme
+    //light
+    lightBody: '#fff',
+
+    //dark
+    darkBody: '#1A1A1B',
   },
   fonts: {
     body: 'IBM Plex Sans, sans-serif',

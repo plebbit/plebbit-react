@@ -3,9 +3,10 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { ProfileDataProvider } from './store/profileContext';
 import Layout from './components/layout';
 import Home from './views/Home';
-import PostCreate from './views/Home/Post/CreatePost';
+import PostCreate from './components/Post';
 import Profile from './views/Profile';
-// import PostDetails from './views/Home/Post/PostDetails';
+import PostDetails from './components/Post/PostDetails';
+import SubPlebbit from './views/SubPlebbit';
 
 const App = () => {
   return (
@@ -15,7 +16,8 @@ const App = () => {
           <Layout>
             <Route exact path="/" component={Home} />
             <Route exact path={'/submit'} component={PostCreate} />
-            {/* <Route exact path="/p/:subplebbitAddress/c/:commentCid" component={PostDetails} /> */}
+            <Route exact path="/p/:subplebbitAddress/c/:commentCid" component={PostDetails} />
+            <Route exact path="/p/:subplebbitAddress" component={SubPlebbit} />
             <Route exact path="/profile" component={Profile} />
           </Layout>
         </ProfileDataProvider>
