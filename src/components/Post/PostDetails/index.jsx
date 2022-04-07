@@ -24,9 +24,9 @@ import { FaShare } from 'react-icons/fa';
 import { FiMoreHorizontal, FiShare, FiBell } from 'react-icons/fi';
 import { CgNotes } from 'react-icons/cg';
 import SideBar from './postDetailSideBar';
-import { dateToNow } from '../../../../utils/formatDate';
+import { dateToNow } from '../../../utils/formatDate';
 import Comment from '../comment';
-import Editor from '../../../../components/Editor';
+import Editor from '../../Editor';
 
 function PostDetail({ post, isOpen, onClose }) {
   const postDetCover = useColorModeValue('lightBg', 'black');
@@ -42,9 +42,9 @@ function PostDetail({ post, isOpen, onClose }) {
   const borderColor = useColorModeValue('#ccc', '#343536');
 
   useEffect(() => {
-    window.history.replaceState(null, post?.title, `/p/${post?.subplebbitAddress}/c/${post?.cid}`);
+    window.history.replaceState(null, post?.title, `#/p/${post?.subplebbitAddress}/c/${post?.cid}`);
     return () => {
-      window.history.replaceState(null, '', '/');
+      window.history.replaceState(null, '', '/#');
     };
   }, [isOpen]);
   return (

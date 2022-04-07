@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { TiStarburst } from 'react-icons/ti';
 import { RiFireLine } from 'react-icons/ri';
 import { BsBoxArrowUp, BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
-import Posts from '../Home/Post';
 import SideBar from './sideBar';
+import Posts from '../../components/Post';
 
 const Profile = () => {
   const [currentView, setCurrentView] = useState('overview');

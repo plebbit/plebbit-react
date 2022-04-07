@@ -12,10 +12,10 @@ import {
   Tag,
   useDisclosure,
 } from '@chakra-ui/react';
-import { ProfileContext } from '../../../store/profileContext';
+import { ProfileContext } from '../../store/profileContext';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
-import { dateToNow } from '../../../utils/formatDate';
+import { dateToNow } from '../../utils/formatDate';
 import { FaShare } from 'react-icons/fa';
 import { FiMoreHorizontal, FiShare } from 'react-icons/fi';
 import { BsBookmark } from 'react-icons/bs';

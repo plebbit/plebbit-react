@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Flex, Icon } from '@chakra-ui/react';
 import { FiMoreHorizontal, FiLink } from 'react-icons/fi';
 import { FaRegUser } from 'react-icons/fa';
-import { PlebbitDarkLogo } from '../../../../assets/svgs/svg';
+import { PlebbitDarkLogo } from '../../../assets/svgs/svg';
 
 const PdMenu = () => {
   const [showMenu, setShowMenu] = useState(false);
