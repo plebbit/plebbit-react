@@ -1,8 +1,11 @@
 import React from 'react';
-import { Box, Flex, Image, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Icon, Image, Text, useColorModeValue } from '@chakra-ui/react';
+import Button from '../../components/Button';
+import { FaBell } from 'react-icons/fa';
 
 const SubPlebbit = () => {
   const subPlebbitTitleBg = useColorModeValue('lightBody', 'darkBody');
+  const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
   return (
     <Box width="100%">
       <Box
@@ -32,8 +35,56 @@ const SubPlebbit = () => {
               height="76px"
               width="76px"
             />
-            <Flex boxSizing="border-box"></Flex>
+            <Flex
+              boxSizing="border-box"
+              alignContent="flex-start"
+              flex="1"
+              paddingLeft="16px"
+              marginTop="24px"
+              justifyContent="space-between"
+              width="calc(100% - 80px)"
+            >
+              <Box paddingRight="24px" box-sizing="border-box">
+                <Text
+                  flex="1"
+                  fontSize="28px"
+                  fontWeight="700"
+                  lineHeight="32px"
+                  overflow="hidden"
+                  padding="0 2px 4px 0"
+                  width="100%"
+                  text-overflow="ellipsis"
+                >
+                  Cryptocurrency News & Discussion
+                </Text>
+                <Text fontSize="14px" fontWeight="500" lineHeight="18px" color={subPlebbitSubTitle}>
+                  p/CryptoCurrency
+                </Text>
+              </Box>
+              <Flex>
+                <Box width="96px">
+                  <Button
+                    bg="transparent"
+                    content="Joined"
+                    padding="4px 16px"
+                    minW="32px"
+                    minH="32px"
+                  />
+                </Box>
+                <Box>
+                  <Button
+                    content={<Icon verticalAlign="middle" width="20px" height="20px" as={FaBell} />}
+                    padding="5px"
+                    borderRadius="100%"
+                    height="32px"
+                    width="33px"
+                    bg="transparent"
+                  />
+                </Box>
+              </Flex>
+            </Flex>
           </Flex>
+          <Box bg="inherit" ml="-16px" mt="-4px" margin="0 auto"></Box>
         </Flex>
       </Box>
     </Box>

@@ -33,7 +33,6 @@ const Button = (props) => {
   } = props;
   return (
     <Btn
-      props
       onClick={onClick}
       loading={loading}
       _hover={
