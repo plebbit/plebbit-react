@@ -56,10 +56,12 @@ const theme = extendTheme({
     //light
     lightBody: '#fff',
     metaTextLight: '#7c7c7c',
+    borderLight1: '#a4a4a4',
 
     //dark
     darkBody: '#1A1A1B',
     metaTextDark: '#818384',
+    borderDark1: '#E9F5FD',
   },
   fonts: {
     body: 'IBM Plex Sans, sans-serif',

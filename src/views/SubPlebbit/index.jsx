@@ -1,11 +1,13 @@
 import React from 'react';
-import { Box, Flex, Icon, Image, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Icon, Image, Tag, Text, useColorModeValue } from '@chakra-ui/react';
 import Button from '../../components/Button';
 import { FaBell } from 'react-icons/fa';
 
 const SubPlebbit = () => {
   const subPlebbitTitleBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
+  const subPlebbitBorder = useColorModeValue('borderLight1', 'borderDark1');
+  const inactiveSubTitle = useColorModeValue('lightText1', 'darkText1');
   return (
     <Box width="100%">
       <Box
@@ -22,7 +24,7 @@ const SubPlebbit = () => {
           alignItems="flex-start"
           justifyContent="space-between"
           margin="0 auto"
-          padding="0 16px 24px"
+          padding="0 16px 0 24px"
         >
           <Flex marginTop="-14px" marginBottom="12px" alignItems="flex-start">
             <Image
@@ -84,9 +86,148 @@ const SubPlebbit = () => {
               </Flex>
             </Flex>
           </Flex>
-          <Box bg="inherit" ml="-16px" mt="-4px" margin="0 auto"></Box>
+          <Box bg="inherit">
+            <Flex
+              mb="2px"
+              maxW="1200px"
+              minW="260px"
+              alignItems="center"
+              color={subPlebbitSubTitle}
+            >
+              <Box
+                borderBottom={`3px solid`}
+                borderColor={subPlebbitBorder}
+                paddingBottom="1px"
+                fontSize="14px"
+                fontWeight="500"
+                lineHeight="18px"
+                margin="0 5px"
+                paddingLeft="8px"
+                paddingRight="8px"
+                paddingTop="4px"
+              >
+                Posts
+              </Box>
+              <Box
+                paddingBottom="1px"
+                fontSize="14px"
+                fontWeight="700"
+                lineHeight="18px"
+                margin="0 5px"
+                paddingLeft="8px"
+                paddingRight="8px"
+                paddingTop="4px"
+                color={inactiveSubTitle}
+              >
+                Polls
+              </Box>
+              <Box
+                paddingBottom="1px"
+                fontSize="14px"
+                fontWeight="500"
+                lineHeight="18px"
+                margin="0 5px"
+                paddingLeft="8px"
+                paddingRight="8px"
+                paddingTop="4px"
+                display="flex"
+                alignItems="center"
+              >
+                Prediction
+                <Tag
+                  fontSize="10px"
+                  padding="1px 4px"
+                  bg="#ea0027"
+                  borderRadius="full"
+                  fontWeight="700"
+                  color="#fff"
+                  ml="4px"
+                  lineHeight="12px"
+                  textTransform="uppercase"
+                  size="small"
+                >
+                  live
+                </Tag>
+              </Box>
+              <Box
+                paddingBottom="1px"
+                fontSize="14px"
+                fontWeight="500"
+                lineHeight="18px"
+                margin="0 5px"
+                paddingLeft="8px"
+                paddingRight="8px"
+                paddingTop="4px"
+              >
+                Wiki
+              </Box>
+              <Box
+                paddingBottom="1px"
+                fontSize="14px"
+                fontWeight="500"
+                lineHeight="18px"
+                margin="0 5px"
+                paddingLeft="8px"
+                paddingRight="8px"
+                paddingTop="4px"
+              >
+                Plebbit Talk
+              </Box>
+              <Box
+                paddingBottom="1px"
+                fontSize="14px"
+                fontWeight="500"
+                lineHeight="18px"
+                margin="0 5px"
+                paddingLeft="8px"
+                paddingRight="8px"
+                paddingTop="4px"
+              >
+                Our Network
+              </Box>
+              <Box
+                paddingBottom="1px"
+                fontSize="14px"
+                fontWeight="500"
+                lineHeight="18px"
+                margin="0 5px"
+                paddingLeft="8px"
+                paddingRight="8px"
+                paddingTop="4px"
+              >
+                Wiki
+              </Box>
+              <Box
+                paddingBottom="1px"
+                fontSize="14px"
+                fontWeight="500"
+                lineHeight="18px"
+                margin="0 5px"
+                paddingLeft="8px"
+                paddingRight="8px"
+                paddingTop="4px"
+              >
+                Official Discord
+              </Box>
+            </Flex>
+          </Box>
         </Flex>
       </Box>
+      <Flex maxW="100%" padding="20px 24px" justifyContent="center" margin="0 auto">
+        <Box width="640px" minWidth="0"></Box>
+        <Box
+          width="312px"
+          flex="0 0 312px"
+          display="none"
+          ml="24px"
+          margin="0"
+          sx={{
+            '@media (min-width: 960px)': {
+              display: 'block',
+            },
+          }}
+        ></Box>
+      </Flex>
     </Box>
   );
 };
