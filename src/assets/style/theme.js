@@ -30,12 +30,11 @@ const theme = extendTheme({
     // light
     lightButtonBg: '#a4a4a4',
     lightBg: '#DAE0E6',
-    lightInputBg: '#f6f7f8',
+
     lightIcon: '#878a8c',
     selectedLight: '#edeff1',
     postDetailLightBg: '#323232',
-    borderLight: '#ccc',
-    borderLight2: '#edeff1',
+
     lightText: '#222222',
     lightText2: '#1c1c1c',
 
@@ -44,24 +43,32 @@ const theme = extendTheme({
     darkButtonBg: '#D7DADC',
     darkBg: '#030303',
     darkNavBg: '#1A1A1B',
-    darkInputBg: '#272729',
+
     darkIcon: '#818384',
     darkLayoutBg: '#1A202C',
     selectedDark: '#343536',
     postDetailDarkBg: '#191919',
     borderDark: '#474748',
-    borderDark2: '#343536',
 
     // new color scheme
     //light
     lightBody: '#fff',
     metaTextLight: '#7c7c7c',
     borderLight1: '#a4a4a4',
+    lightText1: '#373c3f',
+    borderLight: '#ccc',
+    borderLight2: '#edeff1',
+    lightInputBg: '#f6f7f8',
+    bodyTextLight: '#1c1c1c',
 
     //dark
     darkBody: '#1A1A1B',
     metaTextDark: '#818384',
     borderDark1: '#E9F5FD',
+    darkText1: '#D7DADC',
+    borderDark2: '#343536',
+    darkInputBg: '#272729',
+    bodyTextDark: '#d7dadc',
   },
   fonts: {
     body: 'IBM Plex Sans, sans-serif',

@@ -1,13 +1,20 @@
 import React from 'react';
-import { Box, Flex, Icon, Image, Tag, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Icon, Image, Input, Tag, Text, useColorModeValue } from '@chakra-ui/react';
 import Button from '../../components/Button';
 import { FaBell } from 'react-icons/fa';
+import { LinkIcon } from '@chakra-ui/icons';
 
 const SubPlebbit = () => {
-  const subPlebbitTitleBg = useColorModeValue('lightBody', 'darkBody');
+  const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
   const subPlebbitBorder = useColorModeValue('borderLight1', 'borderDark1');
   const inactiveSubTitle = useColorModeValue('lightText1', 'darkText1');
+  const border1 = useColorModeValue('#ccc', '#343536');
+  const border2 = useColorModeValue('#edeff1', '#343536');
+  const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
+  const inputText = useColorModeValue('bodyTextLight', 'bodyTextDark');
+  const iconColor = useColorModeValue('lightIcon', 'darkIcon');
+
   return (
     <Box width="100%">
       <Box
@@ -17,7 +24,7 @@ const SubPlebbit = () => {
         height="145px"
         background={`url("https://styles.redditmedia.com/t5_2wlj3/styles/bannerBackgroundImage_bx1bi0qmmcg61.jpg?width=4000&format=pjpg&s=8fbb510f1bae6b0fdd98d075458022e98e4910f4") center center / cover no-repeat rgb(55, 60, 63)`}
       />
-      <Box bg={subPlebbitTitleBg} display="block" width="100%">
+      <Box bg={mainBg} display="block" width="100%">
         <Flex
           maxWidth="984px"
           flexDir="column"
@@ -214,7 +221,91 @@ const SubPlebbit = () => {
         </Flex>
       </Box>
       <Flex maxW="100%" padding="20px 24px" justifyContent="center" margin="0 auto">
-        <Box width="640px" minWidth="0"></Box>
+        <Box width="640px" minWidth="0">
+          {/* Create Post Bar */}
+          <Flex
+            bg={mainBg}
+            borderRadius="4px"
+            border={`1px solid ${border1}`}
+            mb="16px"
+            padding="8px"
+          >
+            <Box
+              border="1px solid"
+              borderColor={border2}
+              flexBasis="38px"
+              mr="8px"
+              borderRadius="50%"
+              width="38px"
+              height="38px"
+            >
+              <Box position="relative">
+                <Box borderRadius="50%" width="38px" height="38px" position="relative">
+                  <Box width="100%" height="100%" borderRadius="50%" bg={border2} />
+                  <Box width="100%" position="absolute" bottom="0">
+                    <Image
+                      src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
+                      width="100%"
+                      transformOrigin="bottom center"
+                      display="block"
+                      transform="scale(1.3)"
+                    />
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+            <Input
+              placeholder="Create Post"
+              bg={inputBg}
+              border={`1px solid ${border2}`}
+              boxShadow="none"
+              boxSizing="border-box"
+              color={inputText}
+              display="block"
+              flexGrow="1"
+              height="38px"
+              mr="8px"
+              outline="none"
+              padding="0 16px"
+              fontSize="14px"
+              lineHeight="21px"
+              fontWeight="400"
+              fonrFamily="inherit"
+            />
+            <Box
+              borderRadius="4px"
+              position="relative"
+              border="1px solid transparent"
+              color={iconColor}
+              fill={iconColor}
+              _hover={{
+                background: inputBg,
+              }}
+              minH="40px"
+              minW="40px"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="auto"
+            >
+              <LinkIcon height="20px" width="20px" />
+            </Box>
+          </Flex>
+          {/* feed filter bar */}
+          <Flex
+            alignItems="center"
+            bg={mainBg}
+            border={`1px solid ${border2}`}
+            borderRadius="4px"
+            flexFlow="nowrap"
+            justifyContent="flex-start"
+            mb="16px"
+            padding="10px 12px"
+          >
+            <Flex alignItems="center" cursor="pointer"></Flex>
+          </Flex>
+        </Box>
+        {/* side bar */}
         <Box
           width="312px"
           flex="0 0 312px"
