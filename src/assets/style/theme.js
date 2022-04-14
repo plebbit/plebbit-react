@@ -73,6 +73,7 @@ const theme = extendTheme({
     bodyTextDark: '#d7dadc',
     darkIcon: '#818384',
     darkShadow: 'rgba(215,218,220,0.2)',
+    darkShadow2: 'rgba(215,218,220,0.03)',
     darkPostTransBg: 'rgba(26,26,27,0.8)',
     darkVoteTest: 'rgb(215, 218, 220)',
     darkIconBg: '#030303',
