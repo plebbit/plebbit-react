@@ -31,20 +31,16 @@ const theme = extendTheme({
     lightButtonBg: '#a4a4a4',
     lightBg: '#DAE0E6',
 
-    lightIcon: '#878a8c',
     selectedLight: '#edeff1',
     postDetailLightBg: '#323232',
 
-    lightText: '#222222',
     lightText2: '#1c1c1c',
 
     // dark theme
-    darkText: '#d7dadc',
     darkButtonBg: '#D7DADC',
     darkBg: '#030303',
     darkNavBg: '#1A1A1B',
 
-    darkIcon: '#818384',
     darkLayoutBg: '#1A202C',
     selectedDark: '#343536',
     postDetailDarkBg: '#191919',
@@ -60,6 +56,12 @@ const theme = extendTheme({
     borderLight2: '#edeff1',
     lightInputBg: '#f6f7f8',
     bodyTextLight: '#1c1c1c',
+    lightIcon: '#878a8c',
+    lightText: '#222222',
+    lightShadow: 'rgba(28,28,28,0.03)',
+    lightPostTransBg: 'rgba(255,255,255,0.8)',
+    lightVoteText: 'rgb(26, 26, 27)',
+    lightIconBg: '#DAE0E6',
 
     //dark
     darkBody: '#1A1A1B',
@@ -69,6 +71,11 @@ const theme = extendTheme({
     borderDark2: '#343536',
     darkInputBg: '#272729',
     bodyTextDark: '#d7dadc',
+    darkIcon: '#818384',
+    darkShadow: 'rgba(215,218,220,0.2)',
+    darkPostTransBg: 'rgba(26,26,27,0.8)',
+    darkVoteTest: 'rgb(215, 218, 220)',
+    darkIconBg: '#030303',
   },
   fonts: {
     body: 'IBM Plex Sans, sans-serif',
