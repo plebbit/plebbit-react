@@ -235,7 +235,11 @@ const SubPlebbit = () => {
         </Flex>
       </Box>
       <Flex maxW="100%" padding="20px 24px" justifyContent="center" margin="0 auto">
-        <Box width="100%" minWidth="0">
+        <Box
+          width="100%"
+          // width="640px"
+          minWidth="0"
+        >
           {/* Create Post Bar */}
           <Flex
             bg={mainBg}
