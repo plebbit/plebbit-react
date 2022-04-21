@@ -136,7 +136,7 @@ const Posts = ({ post, hideContent }) => {
           position="relative"
         >
           <Image
-            src={post?.thumbnail || 'https://place-hold.it/100x100'}
+            src="https://place-hold.it/100x100"
             width="20px"
             height="20px"
             marginRight="4px"

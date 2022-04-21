@@ -22,12 +22,14 @@ import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
 import DropDown from '../../components/DropDown';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
+import { Link as ReactLink } from 'react-router-dom';
+import { dateToNow } from '../../utils/formatDate';
 
 const Post = ({ type, post, mode = 'card', loading }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
-  // const classicTitle = useColorModeValue('lightText1', 'darkText1');
+  const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const border1 = useColorModeValue('#ccc', '#343536');
   const border2 = useColorModeValue('#edeff1', '#343536');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
@@ -120,9 +122,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                   pointerEvents="none"
                   wordBreak="normal"
                 >
-                  <Skeleton isLoaded={!loading} height="16px">
-                    {vote + voteMode === 0 ? 'vote' : vote + voteMode}
-                  </Skeleton>
+                  {!loading ? (vote + voteMode === 0 ? 'vote' : vote + voteMode) : ''}
                 </Box>
                 <Box
                   width="24px"
@@ -166,7 +166,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
               </Flex>
             </Flex>
             <Box bg={mainBg} position="relative" paddingTop="8px">
-              {!post?.content ? (
+              {post?.content ? (
                 <>
                   {/* Post Head */}
                   <Flex
@@ -187,6 +187,31 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                           alignItems="center"
                           flexFlow="row wrap"
                         >
+                          {type !== 'subPlebbit' ? (
+                            <Text display="inline-block" flex="0 0 auto">
+                              <Link
+                                color={subPledditTextColor}
+                                fontSize="12px"
+                                fontWeight="700"
+                                display="inline"
+                                lineHeight="20px"
+                                textDecoration="none"
+                              >
+                                {`p/${post?.subplebbitAddress}`}
+                              </Link>
+                              <Box
+                                verticalAlign="middle"
+                                color={subPlebbitSubTitle}
+                                fontSize="6px"
+                                lineHeight="20px"
+                                margin="0 4px"
+                              >
+                                •
+                              </Box>
+                            </Text>
+                          ) : (
+                            ''
+                          )}
                           <Text color={misCol} flex="0 0 auto" mr="3px">
                             Posted by
                           </Text>
@@ -220,7 +245,9 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                           {/* User Name */}
                           <Box display="inline-block" flex="0 0 auto">
                             <Box>
-                              <Text
+                              <Link
+                                as={ReactLink}
+                                to={`u/${post?.author?.address}`}
                                 _hover={{
                                   textDecoration: 'underline',
                                 }}
@@ -231,8 +258,8 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                                 fontSize="12px"
                                 lineHeight="16px"
                               >
-                                u/Abydin1973
-                              </Text>
+                                {`u/${post?.author?.displayName}`}
+                              </Link>
                             </Box>
                           </Box>
                           {/* status */}
@@ -312,7 +339,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                               display="inline-block"
                               flex="0 0 auto"
                             >
-                              2 days ago
+                              {dateToNow(parseInt(post?.timestamp))}
                             </Text>
                           </Tooltip>
                         </Flex>
@@ -321,12 +348,13 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                   </Flex>{' '}
                   {/* Post Title */}
                   <Box margin="0 8px">
-                    <Skeleton isLoaded={!loading} height="16px">
+                    <Skeleton isLoaded={!loading}>
                       {' '}
                       {/* flair */}
                       {type === 'subPlebbit' ? (
                         <Tag
-                          bg="rgb(113, 147, 255)"
+                          bg={post?.flair?.color}
+                          color="#fff"
                           borderRadius="20px"
                           padding="2px 8px"
                           size="sm"
@@ -340,7 +368,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                           display="inline-block"
                           verticalAlign="text-bottom"
                         >
-                          DISCUSSION
+                          {post?.flair?.text}
                         </Tag>
                       ) : (
                         ''
@@ -356,11 +384,12 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                         textDecor="none"
                         wordBreak="break-word"
                       >
-                        In the past 24 hours, $420.69 million longs were liquidated
+                        {post?.title}
                       </Text>
                       {type !== 'subPlebbit' ? (
                         <Tag
-                          bg="rgb(113, 147, 255)"
+                          bg={post?.flair?.color}
+                          color="#fff"
                           borderRadius="20px"
                           padding="2px 8px"
                           size="sm"
@@ -373,7 +402,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                           display="inline-block"
                           verticalAlign="text-bottom"
                         >
-                          DISCUSSION
+                          {post?.flair?.text}
                         </Tag>
                       ) : (
                         ''
@@ -401,29 +430,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                           paddingBottom="1px"
                           marginBottom="-1px"
                         >
-                          lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                          cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                          est laborum. tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                          ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                          ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                          sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                          mollit anim id est laborum. est laborum. tempor incididunt ut labore et
-                          dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                          ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                          dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                          nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                          culpa qui officia deserunt mollit anim id est laborum. mollit anim id est
-                          laborum. est laborum. tempor incididunt ut labore et dolore magna aliqua.
-                          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                          sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                          mollit anim id est laborum.
+                          {post?.content}
                         </Box>
                       </Skeleton>
                     </Box>
@@ -457,6 +464,31 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                             alignItems="center"
                             flexFlow="row wrap"
                           >
+                            {type !== 'subPlebbit' ? (
+                              <Box display="inline-block" flex="0 0 auto">
+                                <Link
+                                  color={subPledditTextColor}
+                                  fontSize="12px"
+                                  fontWeight="700"
+                                  display="inline"
+                                  lineHeight="20px"
+                                  textDecoration="none"
+                                >
+                                  {`p/${post?.subplebbitAddress}`}
+                                </Link>
+                                <Box
+                                  verticalAlign="middle"
+                                  color={subPlebbitSubTitle}
+                                  fontSize="6px"
+                                  lineHeight="20px"
+                                  margin="0 4px"
+                                >
+                                  •
+                                </Box>
+                              </Box>
+                            ) : (
+                              ''
+                            )}
                             <Text color={misCol} flex="0 0 auto" mr="3px">
                               Posted by
                             </Text>
@@ -490,10 +522,12 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                             {/* User Name */}
                             <Box display="inline-block" flex="0 0 auto">
                               <Box>
-                                <Text
+                                <Link
                                   _hover={{
                                     textDecoration: 'underline',
                                   }}
+                                  as={ReactLink}
+                                  to={`u/${post?.author?.address}`}
                                   color={misCol}
                                   fontWeight="700"
                                   mr="3px"
@@ -501,8 +535,8 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                                   fontSize="12px"
                                   lineHeight="16px"
                                 >
-                                  u/Abydin1973
-                                </Text>
+                                  {`u/${post?.author?.displayName}`}
+                                </Link>
                               </Box>
                             </Box>
                             {/* status */}
@@ -582,7 +616,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                                 display="inline-block"
                                 flex="0 0 auto"
                               >
-                                2 days ago
+                                {dateToNow(parseInt(post?.timestamp))}
                               </Text>
                             </Tooltip>
                           </Flex>
@@ -610,7 +644,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                             display="inline-block"
                             verticalAlign="text-bottom"
                           >
-                            DISCUSSION
+                            {post?.flair?.text}
                           </Tag>
                         ) : (
                           ''
@@ -630,7 +664,8 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                         </Text>
                         {type !== 'subPlebbit' ? (
                           <Tag
-                            bg="rgb(113, 147, 255)"
+                            bg={post?.flair?.color}
+                            color="#fff"
                             borderRadius="20px"
                             padding="2px 8px"
                             size="sm"
@@ -643,7 +678,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                             display="inline-block"
                             verticalAlign="text-bottom"
                           >
-                            DISCUSSION
+                            {post?.flair?.text}
                           </Tag>
                         ) : (
                           ''
@@ -660,15 +695,10 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                         whiteSpace="nowrap"
                         color="mainBlue"
                         display="flex"
-                        href="https://www.coindesk.com/business/2022/04/13/jack-dorseys-first-tweet-nft-went-on-sale-for-48m-it-ended-with-a-top-bid-of-just-280/"
+                        href={post?.link}
                         alignItems="flex-end"
                       >
-                        <Box>
-                          {'coindesk.com/business/2022/04/13/jack-dorseys-first-tweet-nft-went-on-sale-for-48m-it-ended-with-a-top-bid-of-just-280/'.substring(
-                            0,
-                            20
-                          ) + '...'}
-                        </Box>
+                        <Box>{post?.link?.substring(0, 20) + '...'}</Box>
                         <Icon
                           as={FiExternalLink}
                           verticalAlign="middle"
@@ -700,11 +730,11 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                     >
                       <Skeleton isLoaded={!loading}>
                         {' '}
-                        <Link href="https://www.coindesk.com/business/2022/04/13/jack-dorseys-first-tweet-nft-went-on-sale-for-48m-it-ended-with-a-top-bid-of-just-280/">
+                        <Link href={post?.link}>
                           <Image
                             borderColor="mainBlue"
                             border="1px solid #0079d3;"
-                            src="https://picsum.photos/200"
+                            src={post?.link}
                             width="100%"
                             height="100%"
                           />
@@ -753,7 +783,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                       textTransform="capitalize"
                       verticalAlign="middle"
                     >
-                      238 comments
+                      {post?.replyCount} comments
                     </Text>
                   </Flex>
                   <Flex
@@ -1053,7 +1083,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                           display="inline-block"
                           verticalAlign="text-bottom"
                         >
-                          DISCUSSION
+                          {post?.flair?.text}
                         </Tag>
                       ) : (
                         ''
@@ -1116,7 +1146,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                           display="inline-block"
                           verticalAlign="text-bottom"
                         >
-                          DISCUSSION
+                          {post?.flair?.text}
                         </Tag>
                       ) : (
                         ''
@@ -1186,7 +1216,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                                 fontSize="12px"
                                 lineHeight="16px"
                               >
-                                u/Abydin1973
+                                {`u/${post?.author?.displayName}`}
                               </Text>
                             </Box>
                           </Box>
@@ -1267,7 +1297,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                               display="inline-block"
                               flex="0 0 auto"
                             >
-                              2 days ago
+                              {dateToNow(parseInt(post?.timestamp))}
                             </Text>
                           </Tooltip>
                         </Flex>
@@ -1757,7 +1787,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                             display="inline-block"
                             verticalAlign="text-bottom"
                           >
-                            DISCUSSION
+                            {post?.flair?.text}
                           </Tag>
                         ) : (
                           ''
@@ -1805,7 +1835,8 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                         </Text>
                         {type !== 'subPlebbit' ? (
                           <Tag
-                            bg="rgb(113, 147, 255)"
+                            bg={post?.flair?.color}
+                            color="#fff"
                             borderRadius="20px"
                             padding="2px 8px"
                             size="sm"
@@ -1818,7 +1849,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                             display="inline-block"
                             verticalAlign="text-bottom"
                           >
-                            DISCUSSION
+                            {post?.flair?.text}
                           </Tag>
                         ) : (
                           ''
@@ -1877,7 +1908,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                             {/* User Name */}
                             <Box display="inline-block" flex="0 0 auto">
                               <Box>
-                                <Text
+                                <Link
                                   _hover={{
                                     textDecoration: 'underline',
                                   }}
@@ -1888,8 +1919,8 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                                   fontSize="12px"
                                   lineHeight="16px"
                                 >
-                                  u/Abydin1973
-                                </Text>
+                                  {`u/${post?.author?.displayName}`}
+                                </Link>
                               </Box>
                             </Box>
                             {/* status */}
@@ -1969,7 +2000,7 @@ const Post = ({ type, post, mode = 'card', loading }) => {
                                 display="inline-block"
                                 flex="0 0 auto"
                               >
-                                2 days ago
+                                {dateToNow(parseInt(post?.timestamp))}
                               </Text>
                             </Tooltip>
                           </Flex>

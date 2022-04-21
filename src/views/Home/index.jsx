@@ -22,7 +22,7 @@ import { TiStarburstOutline } from 'react-icons/ti';
 import { BsBoxArrowUp } from 'react-icons/bs';
 import { MdOutlineIndeterminateCheckBox, MdCompress } from 'react-icons/md';
 import Button from '../../components/Button';
-import Post from '../../components/Post';
+import Post from '../../components/Post/index2';
 import { ProfileContext } from '../../store/profileContext';
 import SideBar from './sideBar';
 import { useFeed } from '@plebbit/plebbit-react-hooks';
@@ -484,7 +484,7 @@ const Home = () => {
         </Flex>
         <Box minHeight="1000px" width="100%">
           {feeds?.map((feed) => (
-            <Post post={feed} key={feed?.cid} />
+            <Post post={feed} key={feed?.cid} type={postStyle} />
           ))}
         </Box>
         <Button
