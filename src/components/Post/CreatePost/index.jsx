@@ -20,7 +20,7 @@ import Editor from '../../../../components/Editor';
 const CreatePost = () => {
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const borderColor = useColorModeValue('borderLight', 'borderDark');
-  const bg = useColorModeValue('lightNavBg', 'darkNavBg');
+  const bg = useColorModeValue('white', 'darkNavBg');
   const { colorMode } = useColorMode();
 
   return (

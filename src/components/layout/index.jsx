@@ -7,7 +7,7 @@ import plebbitDarkLogo from '../../assets/svgs/plebbitDarkLogo.svg';
 
 export default function Layout({ children }) {
   const { showSplashcreen } = useContext(ProfileContext);
-  const bg = useColorModeValue('lightLayoutBg', 'darkLayoutBg');
+  const bg = useColorModeValue('lightBg', 'darkLayoutBg');
 
   if (showSplashcreen) {
     return (
@@ -41,13 +41,7 @@ export default function Layout({ children }) {
   }
 
   return (
-    <Box
-      position="relative"
-      align="center"
-      textAlign="left"
-      minH="calc(100vh)"
-      bg={location?.hash === '#/postId' ? '#2F2F30' : bg}
-    >
+    <Box position="relative" align="center" textAlign="left" minH="calc(100vh)" bg={bg}>
       <NavBar />
 
       {children}

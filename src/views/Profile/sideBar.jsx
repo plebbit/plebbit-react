@@ -1,9 +1,13 @@
-import React from 'react';
-import { Box, Text, Flex, Image, useColorModeValue, Icon } from '@chakra-ui/react';
-import { BiCake } from 'react-icons/bi';
-import Button from '../../../../components/Button';
+import React, { useState } from 'react';
+import { Box, Flex, useColorModeValue, Icon, Image } from '@chakra-ui/react';
+import { BsCamera } from 'react-icons/bs';
+import { AiOutlineSetting } from 'react-icons/ai';
+import { SiInformatica } from 'react-icons/si';
+import { RiTShirtFill } from 'react-icons/ri';
+import { GiMoebiusStar, GiCakeSlice } from 'react-icons/gi';
+import Button from '../../components/Button';
 
-const PostDetailSideBar = ({
+const SideBar = ({
   mt,
   borderRadius,
   ml,
@@ -18,18 +22,19 @@ const PostDetailSideBar = ({
   bg,
 }) => {
   const color = useColorModeValue('darkText', 'lightText');
-  const Bg = useColorModeValue('#F8F9FA', '#1A1A1B');
+  const Bg = useColorModeValue('#F8F9FA', '');
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       // behavior: 'smooth',
     });
   };
+  const [showMoreOptions, setShowMoreOptions] = useState(false);
 
   return (
     <Box
       marginLeft={ml || '24px'}
-      marginTop={mt || '28px'}
+      marginTop={mt}
       border={border}
       borderColor={borderColor}
       margin={margin}
@@ -52,84 +57,194 @@ const PostDetailSideBar = ({
       }
     >
       <Flex flexDirection="column" height="100%" width="inherit">
-        <Box borderRadius="4px" overflow="visible" wordBreak="break-word" bg={bg || Bg}>
+        <Box position="relative" overflow="hidden" width="312px">
           <Box
-            maxHeight="none"
-            backgroundPosition="50%"
-            backgroundRepeat="no-repeat"
-            borderTopRadius="4px"
-            h="40px"
-            pos="relative"
-            backgroundColor="#a4a4a4"
+            border="1px solid #ccc"
+            borderRadius="5px 5px 4px 4px"
+            overflow="visible"
+            wordBreak="break-word"
+            bg={bg || Bg}
+            padding="12px"
           >
-            <Text
-              fontSize="16px"
-              fontWeight="500"
-              lineHeight="20px"
-              bottom="8px"
-              color="#fff"
-              left="16px"
+            <Box
+              bgColor="#33a8ff"
+              borderRadius="4px 4px 0 0"
+              height="94px"
+              left="0"
               position="absolute"
-            />
-          </Box>
-          <Flex width="100" padding="12px" alignItems="center" mb="8px">
-            <Image
-              borderRadius="full"
-              boxSize="54px"
-              src="https://bit.ly/dan-abramov"
-              alt="Dan Abramov"
-              mr="8px"
-            />
-            <Box fontSize="16px" fontWeight="500" lineHeight="20px">
-              p/PlebbitFamily
-            </Box>
-          </Flex>
-          <Box marginBottom="8px" position="relative" padding="12px">
-            p/PlebbitFamily is all about plebbit
-          </Box>
-          <Flex marginBottom="8px" padding="12px">
-            <Flex flexDirection="column" paddingRight="4px" flex="auto">
-              <Box fontSize="16px" fontWeight="500" lineHeight="20px">
-                43m
-              </Box>
-              <Box fontSize="12px" fontWeight="500" lineHeight="16px" wordBreak="break-word">
-                Members
-              </Box>
-            </Flex>
-            <Flex flexDirection="column" paddingRight="4px" paddingLeft="16px" flex="auto">
-              <Box fontSize="16px" fontWeight="500" lineHeight="20px">
-                112.4k
-              </Box>
-              <Box fontSize="12px" fontWeight="500" lineHeight="16px" wordBreak="break-word">
-                Online
-              </Box>
-            </Flex>
-            <Flex />
-          </Flex>
-          <Box padding="12px">
-            <hr />
-          </Box>
-          <Box>
-            <Flex
-              alignItems="center"
-              fontSize="14px"
-              fontWeight="400"
-              lineHeight="18px"
-              flexFlow="row nowrap"
-              padding="12px"
+              top="0"
+              width="100%"
             >
-              <Icon as={BiCake} margin="-2px 8px 0 0" w={6} h={6} color="inherit" />
-              <Box>Created Jan 28, 2022 </Box>
+              <Box width="100%" height="100%" position="relative">
+                <Flex
+                  alignItems="center"
+                  backgroundColor="#fff"
+                  borderRadius="50%"
+                  height="36px"
+                  width="36px"
+                  justifyContent="center"
+                  position="absolute"
+                  right="8px"
+                  bottom="8px"
+                >
+                  <Icon as={BsCamera} height="20px" color="#33a8ff" width="20px" />
+                </Flex>
+              </Box>
+            </Box>
+            <Box height="160px" width="125px" textAlign="center" position="relative" margin="auto">
+              <Image
+                height="160px"
+                position="relative"
+                zIndex="1"
+                src="https://i.redd.it/snoovatar/avatars/e4ba26fa-42e3-40e3-9041-c16e6bb3bbe6.png"
+              />
+            </Box>
+            <Box padding="4px" position="absolute" right="12px" mt="-76px">
+              <Icon as={AiOutlineSetting} height="20px" color="#33a8ff" width="20px" />
+            </Box>
+            <Flex
+              textAlign="center"
+              margin="4px 0"
+              fontSize="22px"
+              fontWeight="500"
+              lineHeight="26px"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Box> Abydin</Box>
+              <Icon as={SiInformatica} fill="#ff4500" ml="4px" />
             </Flex>
-          </Box>
-
-          <Box padding="12px">
-            <Button color={color} content="Join" bg="#a4a4a4" height="34px" width="100%" />
+            <Box
+              fontSize="12px"
+              fontWeight="500"
+              lineHeight="16px"
+              textAlign="center"
+              color="#7c7c7c"
+              my="4px"
+            >
+              p/Abydin · 9m
+            </Box>
+            <Button
+              width="100%"
+              bg="linear-gradient(90deg,#ec0623,#ff8717)"
+              color="#fff"
+              padding="3px 16px"
+              mb="8px"
+              mt="8px"
+              content={
+                <Flex
+                  fontSize="14px"
+                  fontWeight="700"
+                  letterSpacing=".5px"
+                  width="100%"
+                  alignItems="center"
+                  lineHeight="17px"
+                >
+                  <Icon as={RiTShirtFill} ml="0" />
+                  <Box flex="1" textAlign="center">
+                    Style Avatar
+                  </Box>
+                </Flex>
+              }
+            />
+            <Flex flexWrap="wrap">
+              <Flex cursor="default" flex="1 1 50%" mb="12px" flexDir="column">
+                <Box fontSize="14px" fontWeight="500" lineHeight="18px">
+                  Karma
+                </Box>
+                <Flex alignItems="center" mt="2px">
+                  <Icon width="12px" height="12px" color="#24a0ed" as={GiMoebiusStar} />
+                  <Box ml="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
+                    254
+                  </Box>
+                </Flex>
+              </Flex>
+              <Flex cursor="default" flex="1 1 50%" mb="12px" flexDir="column">
+                <Box fontSize="14px" fontWeight="500" lineHeight="18px">
+                  Cake Day
+                </Box>
+                <Flex alignItems="center" mt="2px">
+                  <Icon width="12px" height="12px" color="#24a0ed" as={GiCakeSlice} />
+                  <Box ml="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
+                    254
+                  </Box>
+                </Flex>
+              </Flex>
+            </Flex>
+            <Button
+              content="New Post"
+              width="100%"
+              mt="10px"
+              padding="4px 15px"
+              bg="#0079d3"
+              border="none"
+              color="#fff"
+            />
+            {showMoreOptions && (
+              <Flex flexDir="column">
+                <Button
+                  content="Profile Moderation"
+                  border="none"
+                  bg="transparent"
+                  color="#0079d3"
+                  mt="8px"
+                  padding="4px 8px"
+                  sx={{
+                    fontSize: '12px',
+                    fontWeight: '700',
+                    lineHeight: '16px',
+                    justifyContent: 'left',
+                  }}
+                />
+                <Button
+                  content="Add to Custom Feed"
+                  border="none"
+                  bg="transparent"
+                  color="#0079d3"
+                  mt="8px"
+                  padding="4px 8px"
+                  sx={{
+                    fontSize: '12px',
+                    fontWeight: '700',
+                    lineHeight: '16px',
+                    justifyContent: 'left',
+                  }}
+                />
+                <Button
+                  content="Invite Someone to Chat"
+                  border="none"
+                  bg="transparent"
+                  color="#0079d3"
+                  mt="8px"
+                  padding="4px 8px"
+                  sx={{
+                    fontSize: '12px',
+                    fontWeight: '700',
+                    lineHeight: '16px',
+                    justifyContent: 'left',
+                  }}
+                />
+              </Flex>
+            )}
+            <Flex justifyContent="flex-end" mt="12px">
+              <Button
+                content={showMoreOptions ? 'Fewer Options' : 'More Options'}
+                border="none"
+                bg="transparent"
+                color="#0079d3"
+                onClick={() => setShowMoreOptions(!showMoreOptions)}
+                sx={{
+                  fontSize: '14p',
+                  fontWeight: '700',
+                  lineHeight: '17px',
+                }}
+              />
+            </Flex>
           </Box>
         </Box>
 
         <Box flex="1 1 auto" width="inherit" position="relative">
-          <Box position="sticky" top="55px">
+          <Box position="sticky" top="57px">
             <Box marginTop="16px" background={bg || Bg}>
               <Box maxHeight="none">
                 <Flex padding="12px 8px">
@@ -333,4 +448,4 @@ const PostDetailSideBar = ({
   );
 };
 
-export default PostDetailSideBar;
+export default SideBar;

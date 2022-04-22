@@ -360,6 +360,7 @@ const SideBar = ({
             />
           </Flex>
         </Box>
+
         <Box marginTop="16px" width="312px">
           <Box borderRadius="4px" overflow="hidden" wordBreak="break-word" bg={bg || Bg}>
             <Accordion maxHeight="none" allowToggle>

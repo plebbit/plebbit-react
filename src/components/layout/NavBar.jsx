@@ -21,7 +21,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import { ProfileContext } from '../../store/profileContext';
 import PlebLogo from '../../assets/images/plebbit-logo.png';
 import plebbitDarkLogo from '../../assets/svgs/plebbitDarkLogo.svg';
-import plebbitDarkText from '../../assets/svgs/letters-black-grey-dot.svg';
+import plebbitlightText2 from '../../assets/svgs/letters-black-grey-dot.svg';
 import plebbitLightText from '../../assets/svgs/letters-white-grey-dot.svg';
 import { RiSearchLine } from 'react-icons/ri';
 import { BiBell } from 'react-icons/bi';
@@ -38,9 +38,9 @@ const NavBar = () => {
   const { setIsLoggedIn, isLoggedIn } = useContext(ProfileContext);
   const { colorMode } = useColorMode();
   const color = useColorModeValue('lightText', 'darkText');
-  const bg = useColorModeValue('lightNavBg', 'darkNavBg');
+  const bg = useColorModeValue('white', 'darkNavBg');
   const navBtnBg = useColorModeValue('lightButtonBg', 'darkButtonBg');
-  const contBg = useColorModeValue('lightNavBg', 'darkNavBg');
+  const contBg = useColorModeValue('white', 'darkNavBg');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const inputBorder = useColorModeValue('#a4a4a4', '#343536');
   const navBorder = useColorModeValue('#edeff1', '#343536');
@@ -55,9 +55,9 @@ const NavBar = () => {
         left="0"
         right="0"
         top="0"
-        zIndex="80"
         color={color}
         marginTop="0px !important"
+        zIndex="999999"
       >
         <Flex
           as="header"
@@ -88,7 +88,7 @@ const NavBar = () => {
               <Image
                 height="18px"
                 width="auto"
-                src={colorMode === 'light' ? plebbitDarkText : plebbitLightText}
+                src={colorMode === 'light' ? plebbitlightText2 : plebbitLightText}
                 alt="Plebbit Logo"
                 border="none"
                 mr="8px"
