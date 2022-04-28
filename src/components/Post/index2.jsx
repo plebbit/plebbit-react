@@ -333,10 +333,10 @@ const CardPost = (props) => {
               <Skeleton isLoaded={!props.loading}>
                 {' '}
                 {/* flair */}
-                {props.type === 'subPlebbit' && props?.post?.flair?.text.length ? (
+                {props.type === 'subPlebbit' ? (
                   <Tag
-                    bg={props.post?.flair?.backgroundColor}
-                    color={props.post?.flair?.textColor}
+                    bg={props.post?.flair?.color}
+                    color="#fff"
                     borderRadius="20px"
                     padding="2px 8px"
                     size="sm"
@@ -368,10 +368,10 @@ const CardPost = (props) => {
                 >
                   {props.post?.title}
                 </Text>
-                {props.type !== 'subPlebbit' && props?.post?.flair?.text ? (
+                {props.type !== 'subPlebbit' ? (
                   <Tag
-                    bg={props.post?.flair?.backgroundColor}
-                    color={props.post?.flair?.textColor}
+                    bg={props.post?.flair?.color}
+                    color="#fff"
                     borderRadius="20px"
                     padding="2px 8px"
                     size="sm"
@@ -610,9 +610,9 @@ const CardPost = (props) => {
                 <Skeleton mb="30px" isLoaded={!props.loading}>
                   {' '}
                   {/* flair */}
-                  {props.type === 'subPlebbit' && props?.post?.flair?.text ? (
+                  {props.type === 'subPlebbit' ? (
                     <Tag
-                      bg={props?.post?.flair?.color}
+                      bg="rgb(113, 147, 255)"
                       borderRadius="20px"
                       padding="2px 8px"
                       size="sm"
@@ -646,8 +646,8 @@ const CardPost = (props) => {
                   </Text>
                   {props.type !== 'subPlebbit' ? (
                     <Tag
-                      bg={props.post?.flair?.backgroundColor}
-                      color={props.post?.flair?.textColor}
+                      bg={props.post?.flair?.color}
+                      color="#fff"
                       borderRadius="20px"
                       padding="2px 8px"
                       size="sm"
@@ -669,32 +669,28 @@ const CardPost = (props) => {
               </Box>
               {/* Post url */}
               <Flex mt="0">
-                {props?.post?.link ? (
-                  <Link
-                    fontSize="12px"
+                <Link
+                  fontSize="12px"
+                  fontWeight="400"
+                  lineHeight="16px"
+                  margin="4px 8px"
+                  whiteSpace="nowrap"
+                  color="mainBlue"
+                  display="flex"
+                  href={props.post?.link}
+                  alignItems="flex-end"
+                >
+                  <Box>{props.post?.link?.substring(0, 20) + '...'}</Box>
+                  <Icon
+                    as={FiExternalLink}
+                    verticalAlign="middle"
                     fontWeight="400"
-                    lineHeight="16px"
-                    margin="4px 8px"
-                    whiteSpace="nowrap"
-                    color="mainBlue"
-                    display="flex"
-                    href={props.post?.link}
-                    alignItems="flex-end"
-                  >
-                    <Box>{props.post?.link?.substring(0, 20) + '...'}</Box>
-                    <Icon
-                      as={FiExternalLink}
-                      verticalAlign="middle"
-                      fontWeight="400"
-                      width="20px"
-                      height="20px"
-                      fontSize="12px"
-                      paddingLeft="4px"
-                    />
-                  </Link>
-                ) : (
-                  ''
-                )}
+                    width="20px"
+                    height="20px"
+                    fontSize="12px"
+                    paddingLeft="4px"
+                  />
+                </Link>
               </Flex>
             </Flex>
             <Flex
@@ -1073,9 +1069,9 @@ const ClassicPost = (props) => {
               <Skeleton isLoaded={!props.loading}>
                 {' '}
                 {/* flair */}
-                {props.type === 'subPlebbit' && props?.post?.flair?.text ? (
+                {props.type === 'subPlebbit' ? (
                   <Tag
-                    bg={props?.post?.flair?.color}
+                    bg="rgb(113, 147, 255)"
                     borderRadius="20px"
                     padding="2px 8px"
                     size="sm"
@@ -1130,7 +1126,7 @@ const ClassicPost = (props) => {
                     ''
                   )}
                 </Text>
-                {props.type !== 'subPlebbit' && props?.post?.flair?.text ? (
+                {props.type !== 'subPlebbit' ? (
                   <Tag
                     bg={props?.post?.flair?.color}
                     borderRadius="20px"
@@ -1761,9 +1757,9 @@ const CompactPost = (props) => {
                 <Skeleton isLoaded={!props.loading}>
                   {' '}
                   {/* flair */}
-                  {props.type === 'subPlebbit' && props?.post?.flair?.text ? (
+                  {props.type === 'subPlebbit' ? (
                     <Tag
-                      bg={props?.post?.flair?.color}
+                      bg="rgb(113, 147, 255)"
                       borderRadius="20px"
                       padding="2px 8px"
                       size="sm"
@@ -1818,9 +1814,9 @@ const CompactPost = (props) => {
                       ''
                     )}
                   </Text>
-                  {props.type !== 'subPlebbit' && props?.post?.flair?.text ? (
+                  {props.type !== 'subPlebbit' ? (
                     <Tag
-                      bg={props.post?.flair?.backgroundColor}
+                      bg={props.post?.flair?.color}
                       color="#fff"
                       borderRadius="20px"
                       padding="2px 8px"
