@@ -290,7 +290,7 @@ const SubPlebbit = () => {
               fontSize="14px"
               lineHeight="21px"
               fontWeight="400"
-              fonrFamily="inherit"
+              fontFamily="inherit"
             />
             <Box
               borderRadius="4px"
