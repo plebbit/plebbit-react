@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Box, Flex, Icon, useColorModeValue, Input, Image } from '@chakra-ui/react';
 // import { useHistory } from 'react-router';
 import { LinkIcon } from '@chakra-ui/icons';
-import { RiFireFill, RiRocketLine } from 'react-icons/ri';
+import { RiFireFill } from 'react-icons/ri';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { TiStarburstOutline } from 'react-icons/ti';
 import { BsBoxArrowUp } from 'react-icons/bs';
@@ -13,7 +13,6 @@ import {
   MdOutlineViewHeadline,
   MdTableRows,
   MdViewHeadline,
-  MdOutlineKeyboardArrowDown,
 } from 'react-icons/md';
 import Post from '../../components/Post/index2';
 import { ProfileContext } from '../../store/profileContext';
@@ -23,20 +22,19 @@ import { useFeed } from '@plebbit/plebbit-react-hooks';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Home = () => {
-  const { isLoggedIn, postStyle, setPostStyle, feedSort, setFeedSort } = useContext(ProfileContext);
+  const { isLoggedIn, postStyle, setPostStyle } = useContext(ProfileContext);
   // const history = useHistory();
   const bg = useColorModeValue('white', 'darkNavBg');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
-  const { feed, loadMore, hasMore } = useFeed(['news.eth', 'crypto.eth', 'memes.eth'], feedSort);
-
-  const feeds = feed;
+  const { feed: feeds, loadMore, hasMore } = useFeed(['news.eth', 'crypto.eth'], 'hot');
+  console.log('xxx', feeds);
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const border1 = useColorModeValue('#ccc', '#343536');
   const border2 = useColorModeValue('#edeff1', '#343536');
   const inputText = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const activeFilterText = useColorModeValue('lightText', 'bodyTextDark');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
-  console.log('here', feed);
+
   return (
     <Flex maxW="100%" padding="20px 24px" justifyContent="center" margin="0 auto">
       <Box
@@ -98,30 +96,6 @@ const Home = () => {
                 >
                   <Icon width="20px" mr="8px" height="20px" as={RiFireFill} />
                   Hot
-                </Box>
-                <Box
-                  bg={inputBg}
-                  color={activeFilterText}
-                  cursor="default"
-                  fill={activeFilterText}
-                  mr="8px"
-                  textTransform="capitalize"
-                  position="relative"
-                  border="1px solid transparent"
-                  minH="unset"
-                  minW="unset"
-                  padding="6px 8px"
-                  borderRadius="20px"
-                  fontSize="14px"
-                  fontWeight="700"
-                  letterSpacing="unset"
-                  lineHeight="17px"
-                  width="auto"
-                  display="flex"
-                  alignItems="center"
-                >
-                  Everywhere
-                  <Icon width="20px" height="20px" as={MdOutlineKeyboardArrowDown} />
                 </Box>
                 <Box
                   bg="transparent"
@@ -358,7 +332,7 @@ const Home = () => {
                 fontSize="14px"
                 lineHeight="21px"
                 fontWeight="400"
-                fontFamily="inherit"
+                fonrFamily="inherit"
               />
               <Box
                 borderRadius="4px"
@@ -379,7 +353,7 @@ const Home = () => {
                 <LinkIcon height="20px" width="20px" />
               </Box>
             </Flex>
-            {/* feed sorter bar */}
+            {/* feed filter bar */}
             <Flex
               alignItems="center"
               bg={mainBg}
@@ -392,10 +366,10 @@ const Home = () => {
             >
               <Flex alignItems="center" cursor="pointer">
                 <Box
-                  bg={feedSort === 'best' ? inputBg : 'transparent'}
-                  color={feedSort === 'best' ? activeFilterText : iconColor}
+                  bg={inputBg}
+                  color={activeFilterText}
                   cursor="default"
-                  fill={feedSort === 'best' ? activeFilterText : iconColor}
+                  fill={activeFilterText}
                   mr="8px"
                   textTransform="capitalize"
                   position="relative"
@@ -411,47 +385,15 @@ const Home = () => {
                   width="auto"
                   display="flex"
                   alignItems="center"
-                  _hover={{
-                    background: feedSort === 'best' ? '' : inputBg,
-                  }}
-                  // onClick={() => setFeedSort('best')}
-                >
-                  <Icon width="20px" mr="8px" height="20px" as={RiRocketLine} />
-                  Best
-                </Box>
-                <Box
-                  bg={feedSort === 'hot' ? inputBg : 'transparent'}
-                  color={feedSort === 'hot' ? activeFilterText : iconColor}
-                  cursor="default"
-                  fill={feedSort === 'hot' ? activeFilterText : iconColor}
-                  mr="8px"
-                  textTransform="capitalize"
-                  position="relative"
-                  border="1px solid transparent"
-                  minH="unset"
-                  minW="unset"
-                  padding="6px 8px"
-                  borderRadius="20px"
-                  fontSize="14px"
-                  fontWeight="700"
-                  letterSpacing="unset"
-                  lineHeight="17px"
-                  width="auto"
-                  display="flex"
-                  alignItems="center"
-                  _hover={{
-                    background: feedSort === 'hot' ? '' : inputBg,
-                  }}
-                  onClick={() => setFeedSort('hot')}
                 >
                   <Icon width="20px" mr="8px" height="20px" as={RiFireFill} />
                   Hot
                 </Box>
                 <Box
-                  bg={feedSort === 'new' ? inputBg : 'transparent'}
-                  color={feedSort === 'new' ? activeFilterText : iconColor}
+                  bg="transparent"
+                  color={iconColor}
                   cursor="default"
-                  fill={feedSort === 'new' ? activeFilterText : iconColor}
+                  fill={iconColor}
                   mr="8px"
                   textTransform="capitalize"
                   position="relative"
@@ -468,18 +410,17 @@ const Home = () => {
                   display="flex"
                   alignItems="center"
                   _hover={{
-                    background: feedSort === 'new' ? '' : inputBg,
+                    background: inputBg,
                   }}
-                  onClick={() => setFeedSort('new')}
                 >
                   <Icon width="20px" mr="8px" height="20px" as={TiStarburstOutline} />
                   New
                 </Box>
                 <Box
-                  bg={feedSort === 'topAll' ? inputBg : 'transparent'}
-                  color={feedSort === 'topAll' ? activeFilterText : iconColor}
+                  bg="transparent"
+                  color={iconColor}
                   cursor="default"
-                  fill={feedSort === 'topAll' ? activeFilterText : iconColor}
+                  fill={iconColor}
                   mr="8px"
                   textTransform="capitalize"
                   position="relative"
@@ -496,9 +437,8 @@ const Home = () => {
                   display="flex"
                   alignItems="center"
                   _hover={{
-                    background: feedSort === 'topAll' ? '' : inputBg,
+                    background: inputBg,
                   }}
-                  onClick={() => setFeedSort('topAll')}
                 >
                   <Icon width="20px" mr="8px" height="20px" as={BsBoxArrowUp} />
                   Top

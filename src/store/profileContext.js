@@ -7,7 +7,6 @@ export const ProfileDataProvider = (props) => {
   const [profile, setProfile] = useState({});
   const [reloadUser, setReloadUser] = useState(false);
   const [postStyle, setPostStyle] = useState('card');
-  const [feedSort, setFeedSort] = useState('hot');
   const [showSplashcreen, setShowSplashcreen] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -35,8 +34,6 @@ export const ProfileDataProvider = (props) => {
         isLoggedIn,
         setIsLoggedIn,
         showSplashcreen,
-        feedSort,
-        setFeedSort,
       }}
     >
       {children}
