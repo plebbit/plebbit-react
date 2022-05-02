@@ -1,5 +1,5 @@
-<<<<<<< HEAD
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# electron builder binaries
+/bin
 
 # dependencies
 /node_modules
@@ -20,10 +20,6 @@
 .env.test.local
 .env.production.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-=======
 # Logs
 logs
 *.log
@@ -128,4 +124,3 @@ dist
 
 # TernJS port file
 .tern-port
->>>>>>> 2c8790cf3af860704103d2d9d761ecb15081d1c7

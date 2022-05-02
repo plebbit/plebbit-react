@@ -61,8 +61,14 @@
     ]
   },
   "build": {
-    "appId": "com.example.app",
+    "appId": "plebbit.desktop",
     "productName": "Plebbit",
+    "beforePack": "electron/beforePack.js",
+    "extraResources": [{
+      "from": "bin/${os}",
+      "to": "bin",
+      "filter": ["**/*"]
+    }],
     "files": [
       "build/**/*",
       "electron/main.js",
@@ -78,6 +84,7 @@
   "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
   "devDependencies": {
     "concurrently": "^7.0.0",
+    "decompress": "^4.2.1",
     "electron": "^17.1.2",
     "electron-builder": "^22.14.13",
     "eslint": "^8.8.0",

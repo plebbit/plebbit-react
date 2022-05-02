@@ -1,6 +1,35 @@
 const { app, BrowserWindow, screen: electronScreen } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
+const {spawn, spawnSync} = require('child_process');
+
+const startIpfs = () => {
+  const ipfsFileName = process.platform == 'win32' ? 'ipfs.exe' : 'ipfs';
+  let ipfsPath = path.join(process.resourcesPath, 'bin', ipfsFileName);
+
+  // test launching the ipfs binary in dev mode
+  // they must be downloaded first using `yarn electron:build`
+  if (isDev) {
+    let binFolderName = 'win';
+    if (process.platform === 'linux') {
+      binFolderName = 'linux';
+    }
+    if (process.platform === 'darwin') {
+      binFolderName = 'mac';
+    }
+    ipfsPath = path.join(__dirname, '..', 'bin', binFolderName, ipfsFileName);
+  }
+
+  // init ipfs client on first launch
+  try {
+    spawnSync(ipfsPath, ['init']);
+  }
+  catch (e) {
+    console.log(e);
+  }
+  spawn(ipfsPath, ['daemon', '--enable-pubsub-experiment']);
+}
+startIpfs();
 
 const createMainWindow = () => {
   let mainWindow = new BrowserWindow({
