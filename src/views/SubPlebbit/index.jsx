@@ -290,7 +290,7 @@ const SubPlebbit = () => {
               fontSize="14px"
               lineHeight="21px"
               fontWeight="400"
-              fonrFamily="inherit"
+              fontFamily="inherit"
             />
             <Box
               borderRadius="4px"
@@ -467,7 +467,8 @@ const SubPlebbit = () => {
                     _hover={{
                       background: inputBg,
                     }}
-                    borderTop={`1px solid ${border2}`}
+                    borderWidth="1"
+                    borderColor={border2}
                   >
                     <Icon mr="4px" as={MdOutlineTableRows} width={6} height={6} />
                     <Box>Classic</Box>
@@ -485,7 +486,7 @@ const SubPlebbit = () => {
                     _hover={{
                       background: inputBg,
                     }}
-                    borderTop={`1px solid ${border2}`}
+                    borderY={`1px solid ${border2}`}
                   >
                     <Icon mr="4px" as={MdOutlineViewHeadline} width={6} height={6} />
                     <Box>Compact</Box>
