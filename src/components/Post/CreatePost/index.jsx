@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import { ChevronDownIcon, LinkIcon } from '@chakra-ui/icons';
+import { EditorState } from 'draft-js';
 import swal from '@sweetalert/with-react';
 // import { useHistory } from 'react-router-dom';
 import { MdStickyNote2 } from 'react-icons/md';
@@ -33,6 +34,7 @@ const CreatePost = () => {
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
   const [address, setAddress] = useState(null);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const toast = useToast();
 
   // const history = useHistory();
@@ -71,6 +73,11 @@ const CreatePost = () => {
       duration: 5000,
       isClosable: true,
     });
+    setAddress(null);
+    setTitle('');
+    setContent('');
+    setEditorState(EditorState.createEmpty());
+
     console.log('challenge verified', challengeVerification, comment);
   };
   const onChallenge = async (challenges, comment) => {
@@ -312,7 +319,11 @@ const CreatePost = () => {
                     padding="8px 16px"
                     resize="vertical"
                   >
-                    <Editor setValue={setContent} />
+                    <Editor
+                      setValue={setContent}
+                      editorState={editorState}
+                      setEditorState={setEditorState}
+                    />
                   </Box>
                 </Box>
               </Box>

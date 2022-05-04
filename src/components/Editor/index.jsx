@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import { convertToRaw, EditorState } from 'draft-js';
+import React from 'react';
+import { convertToRaw } from 'draft-js';
 import { useColorModeValue } from '@chakra-ui/react';
 import { Editor as MarkdownEditor } from 'react-draft-wysiwyg';
 import draftToMarkdown from 'draftjs-to-markdown';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Wrapper from './style';
 
-const Editor = ({ hideToolBar, wrapperClassName, editorClassName, toolbarClassName, setValue }) => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+const Editor = ({
+  hideToolBar,
+  wrapperClassName,
+  editorClassName,
+  toolbarClassName,
+  setValue,
+  setEditorState,
+  editorState,
+}) => {
   const toolbarBg = useColorModeValue('#F6F7F8', '#272729');
   const toolbarColor = useColorModeValue('#818384', '#818384');
   const wrapperBorder = useColorModeValue('#edeff1', '#343536');
