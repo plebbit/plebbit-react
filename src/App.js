@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { ProfileDataProvider } from './store/profileContext';
 import Layout from './components/layout';
 import Home from './views/Home';
-import PostCreate from './components/Post';
+import PostCreate from './components/Post/CreatePost';
 import Profile from './views/Profile';
 import PostDetails from './components/Post/PostDetails';
 import SubPlebbit from './views/SubPlebbit';

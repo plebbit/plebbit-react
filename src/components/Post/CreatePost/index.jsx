@@ -1,27 +1,109 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Flex,
   Box,
   Input,
   Icon,
   Textarea,
+  Image,
   useColorMode,
   Checkbox,
   useColorModeValue,
+  useToast,
+  Text,
 } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
+import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import { ChevronDownIcon, LinkIcon } from '@chakra-ui/icons';
+import swal from '@sweetalert/with-react';
+// import { useHistory } from 'react-router-dom';
 import { MdStickyNote2 } from 'react-icons/md';
 import { BiHelpCircle } from 'react-icons/bi';
 import { AiOutlinePlus } from 'react-icons/ai';
-import Button from '../../../../components/Button';
+import Button from '../../Button';
 import SideBar from './createPostSideBar';
-import Editor from '../../../../components/Editor';
+import Editor from '../../Editor';
+import DropDown2 from '../../DropDown/DropDown2';
+import subPlebbitData from '../../data/subPlebbits';
 
 const CreatePost = () => {
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const borderColor = useColorModeValue('borderLight', 'borderDark');
   const bg = useColorModeValue('white', 'darkNavBg');
   const { colorMode } = useColorMode();
+  const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
+  const [address, setAddress] = useState(null);
+  const toast = useToast();
+
+  // const history = useHistory();
+
+  const { publishComment } = useAccountsActions();
+  const getChallengeAnswersFromUser = (challenges) => {
+    return swal({
+      buttons: {
+        cancel: 'Close',
+        confirm: true,
+      },
+      content: (
+        <Flex flexDir="column" justifyContent="center" alignItems="center" bg="#ccc" padding="40px">
+          <Text fontWeight="bold" mb="10px">
+            Complete the challenge
+          </Text>
+          <Image
+            margin="auto"
+            width="80%"
+            src={`data:image/png;base64, ${challenges?.challenges[0].challenge}`}
+          />
+        </Flex>
+      ),
+    }).then((value) => {
+      return value;
+    });
+  };
+  const onChallengeVerification = (challengeVerification, comment) => {
+    // if the challengeVerification fails, a new challenge request will be sent automatically
+    // to break the loop, the user must decline to send a challenge answer
+    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
+    toast({
+      title: 'Accepted.',
+      description: 'Action accepted',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+    console.log('challenge verified', challengeVerification, comment);
+  };
+  const onChallenge = async (challenges, comment) => {
+    console.log(address);
+    let challengeAnswers = [];
+
+    try {
+      // ask the user to complete the challenges in a modal window
+      challengeAnswers = await getChallengeAnswersFromUser(challenges);
+    } catch (error) {
+      // if  he declines, throw error and don't get a challenge answer
+      toast({
+        title: 'Declined.',
+        description: 'Action Declined',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+    if (challengeAnswers) {
+      await comment.publishChallengeAnswers(challengeAnswers);
+    }
+  };
+
+  const handlePublishPost = () => {
+    publishComment({
+      content,
+      title,
+      subplebbitAddress: address,
+      onChallenge,
+      onChallengeVerification,
+    });
+  };
 
   return (
     <Flex
@@ -92,38 +174,18 @@ const CreatePost = () => {
           </Flex>
           <Flex marginBottom="8px" alignItems="center">
             <Box
-              marginRight="16px"
               minW="300px"
-              height="40px"
               borderRadius="4px"
               transition="box-shadow .2s ease"
               boxShadow="0 0 0 0 #a4a4a4"
               backgroundColor={bg}
+              zIndex="2"
             >
-              <Flex alignItems="center" height="100%" padding="0 8px">
-                <Box
-                  borderRadius="22px"
-                  border="1px dashed #a4a4a4"
-                  height="22px"
-                  margin="0"
-                  width="22px"
-                  fontSize="22px"
-                  lineHeight="22px"
-                />
-                <Box flex="1" padding="8px">
-                  <Input
-                    placeholder="Choose a community"
-                    spellCheck="false"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    width="100%"
-                    bg="transparent"
-                    border="none"
-                  />
-                </Box>
-                <ChevronDownIcon />
-              </Flex>
+              <DropDown2
+                options={subPlebbitData}
+                onChange={(value) => setAddress(value.value)}
+                value={address}
+              />
             </Box>
           </Flex>
           <Box bg={bg} marginBottom="15px" borderRadius="5px">
@@ -162,6 +224,37 @@ const CreatePost = () => {
                   />
                   Post
                 </Flex>
+                <Flex
+                  color={color}
+                  fontSize="14px"
+                  fontWeight="700"
+                  lineHeight="18px"
+                  cursor="pointer"
+                  outline="none"
+                  zIndex="1"
+                  width="25%"
+                  position="relative"
+                  textAlign="center"
+                  borderColor="#a4a4a4"
+                  borderStyle="solid"
+                  borderWidth="0 1px 1px 0"
+                  borderRadius="0"
+                  justifyContent="center"
+                  alignItems="center"
+                  whiteSpace="nowrap"
+                  padding="15px 17px"
+                >
+                  <LinkIcon
+                    fontSize="20px"
+                    fontWeight="400"
+                    height="20px"
+                    lineHeight="20px"
+                    verticalAlign="middle"
+                    width="20px"
+                    marginRight="8px"
+                  />
+                  Link
+                </Flex>
               </Flex>
             </Box>
             <Box margin="16px">
@@ -176,13 +269,15 @@ const CreatePost = () => {
                     height="39px"
                     color={color}
                     padding="8px 68px 8px 16px"
-                    backgroundColor={bg}
+                    backgroundColor="transparent"
                     resize="none"
                     width="100%"
                     fontSize="14px"
                     fontWeight="400"
                     lineHeight="21px"
                     fontFamily="inherit"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                   />
                   <Box
                     fontSize="10px"
@@ -196,7 +291,7 @@ const CreatePost = () => {
                     right="12px"
                     pointerEvents="none"
                   >
-                    0/300
+                    {`${title.length}/300`}
                   </Box>
                 </Box>
               </Box>
@@ -217,25 +312,7 @@ const CreatePost = () => {
                     padding="8px 16px"
                     resize="vertical"
                   >
-                    {/* <Textarea
-                      placeholder="Text (optional)"
-                      row="1"
-                      spellCheck="false"
-                      overflow="hidden"
-                      overflowWrap="break-word"
-                      height="122px"
-                      opacity=".5"
-                      fontSize="13px"
-                      fontWeight="400"
-                      background="transparent"
-                      border="none"
-                      boxSizing="border-box"
-                      display="block"
-                      ouline="none"
-                      resize="none"
-                      padding="2px"
-                    /> */}
-                    <Editor />
+                    <Editor setValue={setContent} />
                   </Box>
                 </Box>
               </Box>
@@ -405,7 +482,7 @@ const CreatePost = () => {
                   />
                 </Flex>
               </Flex>
-              <hr width="100%" border="0" borderTop="1px solid #edeff1" />
+              <hr width="100%" border="0" borderY="1px solid #edeff1" />
               <Box position="relative" width="100%" marginTop="8px">
                 <Flex flexDir="row-reverse" paddingTop="8px" alignItems="center">
                   <Flex
@@ -424,7 +501,9 @@ const CreatePost = () => {
                         tabIndex: '0',
                         filter: 'grayscale(1)',
                       }}
+                      disabled={!content || !title || !address}
                       content="Post"
+                      onClick={handlePublishPost}
                     />
                   </Flex>
                   <Flex>
@@ -561,7 +640,7 @@ const CreatePost = () => {
           <hr
             style={{
               border: '0',
-              borderTop: '1px solid #edeff1',
+              borderY: '1px solid #edeff1',
               margin: '0px 16px',
             }}
           />
@@ -626,24 +705,6 @@ const CreatePost = () => {
                     padding="8px 16px"
                     resize="vertical"
                   >
-                    {/* <Textarea
-                      placeholder="Text (optional)"
-                      row="1"
-                      spellCheck="false"
-                      overflow="hidden"
-                      overflowWrap="break-word"
-                      height="122px"
-                      opacity=".5"
-                      fontSize="13px"
-                      fontWeight="400"
-                      background="transparent"
-                      border="none"
-                      boxSizing="border-box"
-                      display="block"
-                      ouline="none"
-                      resize="none"
-                      padding="2px"
-                    /> */}
                     <Editor hideToolBar={true} />
                   </Box>
                 </Box>

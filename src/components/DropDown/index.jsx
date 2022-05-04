@@ -3,14 +3,14 @@ import { Box, Flex, Icon, useColorModeValue } from '@chakra-ui/react';
 
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
-const DropDown = ({ inputBg, caret, dropDownTitle, content, options }) => {
+const DropDown = ({ inputBg, caret, dropDownTitle, content, options, wrapSx }) => {
   const shadow = useColorModeValue('rgba(28,28,28,0.03)', 'rgba(215,218,220,0.2)');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const border2 = useColorModeValue('#edeff1', '#343536');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const [show, hide] = useState(false);
   return (
-    <Flex ml="auto" alignItems="center" flexFlow="row nowrap" position="relative">
+    <Flex ml="auto" sx={wrapSx} alignItems="center" flexFlow="row nowrap" position="relative">
       <Flex
         alignItems="center"
         borderRadius="20px"
@@ -64,7 +64,7 @@ const DropDown = ({ inputBg, caret, dropDownTitle, content, options }) => {
                   _hover={{
                     background: inputBg,
                   }}
-                  borderTop={`1px solid ${border2}`}
+                  borderY={`1px solid ${border2}`}
                 >
                   <Icon mr="4px" as={option?.icon} width={6} height={6} />
                   <Box>{option?.label}</Box>

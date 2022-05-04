@@ -135,7 +135,7 @@ const NavDropDownWide = () => {
           top="39.5px"
           borderRadius="0 0 4px 4px"
           border={`1px solid ${border}`}
-          borderTop="none"
+          borderY="none"
           marginTop="-2px"
           maxHeight="80%"
           overflowY="auto"

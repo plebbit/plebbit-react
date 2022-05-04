@@ -10,6 +10,7 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks",
+    "@sweetalert/with-react": "^0.1.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
@@ -27,7 +28,9 @@
     "react-moment": "^1.1.1",
     "react-router-dom": "^5.3.0",
     "react-scripts": "5.0.0",
+    "react-select": "^5.3.1",
     "styled-components": "^5.3.3",
+    "sweetalert": "^2.1.2",
     "web-vitals": "^2.1.3",
     "yarn": "^1.22.18"
   },
