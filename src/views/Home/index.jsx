@@ -20,8 +20,6 @@ const Home = () => {
   );
 
   const feeds = feed;
-  // const border1 = useColorModeValue('#ccc', '#343536');
-  console.log('here', feed);
   return (
     <Flex maxW="100%" padding="20px 24px" justifyContent="center" margin="0 auto">
       <Box
