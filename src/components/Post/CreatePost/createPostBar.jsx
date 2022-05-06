@@ -41,7 +41,7 @@ const CreatePostBar = () => {
         </Box>
       </Box>
       <Input
-        onClick={() => history.push('submit')}
+        onClick={() => history.push('/submit')}
         placeholder="Create Post"
         bg={inputBg}
         border={`1px solid ${border2}`}
