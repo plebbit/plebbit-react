@@ -10,6 +10,7 @@ import {
   Text,
   Tooltip,
   useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { RiCopperCoinLine } from 'react-icons/ri';
 import { BsChat, BsBookmark, BsEyeSlash, BsFlag, BsFileText } from 'react-icons/bs';
@@ -24,6 +25,7 @@ import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { Link as ReactLink } from 'react-router-dom';
 import { dateToNow } from '../../utils/formatDate';
+import PostDetail from './PostDetails';
 
 const CardPost = (props) => {
   return (
@@ -172,6 +174,8 @@ const CardPost = (props) => {
                     {props.type !== 'subPlebbit' ? (
                       <>
                         <Link
+                          as={ReactLink}
+                          to={`p/${props.post?.subplebbitAddress}`}
                           color={props.subPledditTextColor}
                           fontSize="12px"
                           fontWeight="700"
@@ -329,7 +333,7 @@ const CardPost = (props) => {
               </Skeleton>
             </Flex>{' '}
             {/* Post Title */}
-            <Box margin="0 8px">
+            <Box margin="0 8px" onClick={props.onOpen}>
               <Skeleton isLoaded={!props.loading}>
                 {' '}
                 {/* flair */}
@@ -449,6 +453,8 @@ const CardPost = (props) => {
                       {props.type !== 'subPlebbit' ? (
                         <>
                           <Link
+                            as={ReactLink}
+                            to={`/p/${props.post?.subplebbitAddress}`}
                             color={props.subPledditTextColor}
                             fontSize="12px"
                             fontWeight="700"
@@ -606,7 +612,7 @@ const CardPost = (props) => {
                 </Skeleton>
               </Flex>{' '}
               {/* Post Title */}
-              <Box margin="0 8px">
+              <Box margin="0 8px" onClick={props.onOpen}>
                 <Skeleton mb="30px" isLoaded={!props.loading}>
                   {' '}
                   {/* flair */}
@@ -1069,7 +1075,7 @@ const ClassicPost = (props) => {
           {/* Post content */}
           <Box ml="8px" flex="1 1 100%" position="relative" wordBreak="break-word">
             {/* post title */}
-            <Box margin="0 8px">
+            <Box margin="0 8px" onClick={props.onOpen}>
               <Skeleton isLoaded={!props.loading}>
                 {' '}
                 {/* flair */}
@@ -1171,6 +1177,19 @@ const ClassicPost = (props) => {
                     alignItems="center"
                     flexFlow="row wrap"
                   >
+                    <Link
+                      as={ReactLink}
+                      to={`/p/${props.post?.subplebbitAddress}`}
+                      color={props.subPledditTextColor}
+                      fontSize="12px"
+                      fontWeight="700"
+                      display="inline"
+                      lineHeight="20px"
+                      textDecoration="none"
+                      mr="3px"
+                    >
+                      {`p/${props.post?.subplebbitAddress}`}
+                    </Link>
                     <Text color={props.misCol} flex="0 0 auto" mr="3px">
                       Posted by
                     </Text>
@@ -1757,7 +1776,7 @@ const CompactPost = (props) => {
             )}
             <Box flex="1 1 100%" mt="2px" minW="150px" overflow="hidden" wordWrap="brak-word">
               {/* post title */}
-              <Box margin="0 8px">
+              <Box margin="0 8px" onClick={props.onOpen}>
                 <Skeleton isLoaded={!props.loading}>
                   {' '}
                   {/* flair */}
@@ -1885,6 +1904,19 @@ const CompactPost = (props) => {
                       ) : (
                         ''
                       )}
+                      <Link
+                        as={ReactLink}
+                        to={`/p/${props.post?.subplebbitAddress}`}
+                        color={props.subPledditTextColor}
+                        fontSize="12px"
+                        fontWeight="700"
+                        display="inline"
+                        lineHeight="20px"
+                        textDecoration="none"
+                        mr="3px"
+                      >
+                        {`p/${props.post?.subplebbitAddress}`}
+                      </Link>
                       <Text color={props.misCol} flex="0 0 auto" mr="3px">
                         Posted by
                       </Text>
@@ -2035,6 +2067,7 @@ const CompactPost = (props) => {
 
 const Post = ({ type, post, mode = 'compact', loading }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -2077,6 +2110,7 @@ const Post = ({ type, post, mode = 'compact', loading }) => {
             type={type}
             post={post}
             loading={loading}
+            onOpen={onOpen}
           />
         )}
         {/* classic */}
@@ -2104,6 +2138,7 @@ const Post = ({ type, post, mode = 'compact', loading }) => {
             type={type}
             post={post}
             loading={loading}
+            onOpen={onOpen}
           />
         )}
         {/* compact */}
@@ -2129,9 +2164,11 @@ const Post = ({ type, post, mode = 'compact', loading }) => {
             type={type}
             post={post}
             loading={loading}
+            onOpen={onOpen}
           />
         )}
       </Box>
+      {isOpen ? <PostDetail isOpen={isOpen} onOpen={onOpen} onClose={onClose} post={post} /> : ''}
     </Box>
   );
 };
