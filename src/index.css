@@ -194,3 +194,6 @@ body {
   width: 100%;
   margin: 0;
 }
+.swal2-container {
+  z-index: 2000 !important;
+}

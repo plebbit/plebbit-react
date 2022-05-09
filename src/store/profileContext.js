@@ -9,7 +9,7 @@ export const ProfileDataProvider = (props) => {
   const [postStyle, setPostStyle] = useState('card');
   const [feedSort, setFeedSort] = useState('hot');
   const [showSplashcreen, setShowSplashcreen] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const getProfileState = async () => {};
 

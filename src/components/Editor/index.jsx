@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { convertToRaw } from 'draft-js';
-import { useColorModeValue } from '@chakra-ui/react';
+import { Flex, useColorModeValue } from '@chakra-ui/react';
 import { Editor as MarkdownEditor } from 'react-draft-wysiwyg';
 import draftToMarkdown from 'draftjs-to-markdown';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Wrapper from './style';
+import Button from '../Button';
 
 const Editor = ({
   hideToolBar,
@@ -14,12 +15,20 @@ const Editor = ({
   setValue,
   setEditorState,
   editorState,
+  handleSubmit,
+  showSubmit,
 }) => {
   const toolbarBg = useColorModeValue('#F6F7F8', '#272729');
   const toolbarColor = useColorModeValue('#818384', '#818384');
   const wrapperBorder = useColorModeValue('#edeff1', '#343536');
+  const [disabled, setDisabled] = useState(true);
 
   const handleChange = (data) => {
+    if (draftToMarkdown(convertToRaw(data.getCurrentContent())).length) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
     setEditorState(data);
     setValue(() => draftToMarkdown(convertToRaw(data.getCurrentContent())));
   };
@@ -98,6 +107,30 @@ const Editor = ({
           },
         }}
       />
+      {showSubmit && (
+        <Flex
+          width="100%"
+          bg={toolbarBg}
+          borderRadius="0 0 4px 4px"
+          opacity={1}
+          mb="25px"
+          zIndex="1"
+          flexDirection="row-reverse"
+          alignItems="center"
+        >
+          <Button
+            content="comment"
+            cursor="pointer"
+            disabled={disabled}
+            padding="4px 8px"
+            minH="24px"
+            margin="4px 8px"
+            height=""
+            sx={{ filter: 'grayscale(1)' }}
+            onClick={handleSubmit}
+          />
+        </Flex>
+      )}
     </Wrapper>
   );
 };

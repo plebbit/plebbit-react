@@ -9,6 +9,7 @@ import PostDetails from './components/Post/PostDetails';
 import SubPlebbit from './views/SubPlebbit';
 
 const App = () => {
+  // console.log = () => {};
   return (
     <Router>
       <Switch>
