@@ -8,8 +8,12 @@ import {
   useColorModeValue,
   IconButton,
   Icon,
+  useToast,
 } from '@chakra-ui/react';
+import Swal from 'sweetalert2';
+import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
+import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { BsChat } from 'react-icons/bs';
 import Editor from '../../Editor';
@@ -23,6 +27,84 @@ const Comment = ({ comment }) => {
   const [voteMode, setVoteMode] = useState(0);
   const [reply, setShowReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
+  const toast = useToast();
+  const { publishVote, publishComment } = useAccountsActions();
+  const [content, setContent] = useState('');
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  const getChallengeAnswersFromUser = async (challenges) => {
+    const { value } = await Swal.fire({
+      background: '#eff4f7',
+      input: 'text',
+      text: 'Complete the challenge',
+      imageUrl: `data:image/png;base64,  ${challenges?.challenges[0].challenge}`,
+      imageWidth: '80%',
+    });
+    if (value) {
+      return value;
+    }
+  };
+
+  const onChallengeVerification = (challengeVerification, comment) => {
+    // if the challengeVerification fails, a new challenge request will be sent automatically
+    // to break the loop, the user must decline to send a challenge answer
+    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
+    toast({
+      title: 'Accepted.',
+      description: 'Action accepted',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+    setContent('');
+    setEditorState(EditorState.createEmpty());
+
+    console.log('challenge verified', challengeVerification, comment);
+  };
+  const onChallenge = async (challenges, comment) => {
+    let challengeAnswers = [];
+
+    try {
+      // ask the user to complete the challenges in a modal window
+      challengeAnswers = await getChallengeAnswersFromUser(challenges);
+    } catch (error) {
+      // if  he declines, throw error and don't get a challenge answer
+      console.log(error);
+      toast({
+        title: 'Declined.',
+        description: 'Action Declined',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+
+    console.log(challengeAnswers, comment);
+    if (challengeAnswers) {
+      await comment.publishChallengeAnswers(challengeAnswers);
+    }
+  };
+
+  const handleVote = (vote) => {
+    publishVote({
+      vote,
+      commentCid: comment?.cid,
+      subplebbitAddress: comment?.subplebbitAddress,
+      onChallenge,
+      onChallengeVerification,
+    });
+  };
+
+  const handlePublishPost = () => {
+    publishComment({
+      content,
+      postCid: comment?.postCid, // the thread the comment is on
+      parentCommentCid: comment?.parentCid, // if top level reply to a post, same as postCid
+      subplebbitAddress: comment?.subplebbitAddress,
+      onChallenge,
+      onChallengeVerification,
+    });
+  };
 
   const nestedComments = (comment?.replies?.pages?.topAll?.comments || []).map((comment) => {
     return <Comment key={comment?.cid} comment={comment} type="child" />;
@@ -54,7 +136,7 @@ const Comment = ({ comment }) => {
                 width="16px"
                 src="https://www.redditstatic.com/desktop2x/img/communityPoints/tokens/cryptocurrency/moon_yellow.svg"
               />
-              <Box>{numFormatter(Math.floor(Math.random() * (100000000 - 0 + 1)) + 0)}</Box>
+              <Box>{numFormatter(Math.floor(Math.random() * (1000 - 0 + 1)) + 0)}</Box>
             </Flex>
             <Text
               as="span"
@@ -123,6 +205,7 @@ const Comment = ({ comment }) => {
               }}
               onClick={() => {
                 setVoteMode(voteMode === 1 ? 0 : 1);
+                handleVote(voteMode === 1 ? 0 : 1);
               }}
               icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w="20px" h="20px" />}
             />
@@ -148,6 +231,7 @@ const Comment = ({ comment }) => {
               }}
               onClick={() => {
                 setVoteMode(voteMode === -1 ? 0 : -1);
+                handleVote(voteMode === -1 ? 0 : -1);
               }}
               icon={<Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w="20px" h="20px" />}
             />
@@ -300,8 +384,20 @@ const Comment = ({ comment }) => {
           </Link>
         </Flex>
         {reply ? (
-          <Box minH="150px">
-            <Editor />
+          <Box
+            minH="150px"
+            borderRadius="4px"
+            overflow="hidden auto"
+            padding="8px 16px"
+            resize="vertical"
+          >
+            <Editor
+              setValue={setContent}
+              editorState={editorState}
+              setEditorState={setEditorState}
+              showSubmit
+              handleSubmit={handlePublishPost}
+            />
           </Box>
         ) : (
           ''

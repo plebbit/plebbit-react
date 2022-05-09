@@ -13,7 +13,6 @@ const Wrapper = styled.div`
   .wrapperClassName {
     width: 100% !important;
     display: block !important;
-    margin-bottom: 25px !important;
   }
   .editorClassName {
     height: 200px !important;

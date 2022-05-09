@@ -30,6 +30,7 @@ const Button = (props) => {
     _hover,
     fill,
     backgroundColor,
+    cursor,
   } = props;
   return (
     <Btn
@@ -46,11 +47,11 @@ const Button = (props) => {
       borderRadius={borderRadius || '9999px'}
       bg={bg}
       border={border === 'none' ? 'none' : '1px solid'}
-      h={height || '34px'}
+      h={height}
       minH={minH}
       minW={minW || '32px'}
       width={width || 'auto'}
-      cursor="pointer"
+      cursor={cursor || 'pointer'}
       fontFamily="Noto Sans, Arial, sans-serif"
       fontWeight={fontWeight || '700'}
       lineHeight={lineHeight || '17px'}
