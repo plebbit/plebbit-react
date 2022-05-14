@@ -15,8 +15,10 @@ const SubPlebbit = ({ match }) => {
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
   const subPlebbitBorder = useColorModeValue('borderLight1', 'borderDark1');
   const inactiveSubTitle = useColorModeValue('lightText1', 'darkText1');
-  const { feed, loadMore, hasMore } = useFeed([match.params.subplebbitAddress], feedSort);
+  const { feed, loadMore, hasMore } = useFeed([match?.params?.subplebbitAddress], feedSort);
   const feeds = feed;
+
+  console.log(match?.params?.subplebbitAddress);
 
   return (
     <Box width="100%">
