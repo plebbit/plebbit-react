@@ -1,16 +1,22 @@
 import { Flex, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { TiStarburst } from 'react-icons/ti';
-import { RiFireLine } from 'react-icons/ri';
-import { BsBoxArrowUp, BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
+import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
-import Posts from '../../components/Post';
+import Post from '../../components/Post/index2';
+import { useAccountComments } from '@plebbit/plebbit-react-hooks';
+import InfiniteScroll from '../../components/InfiniteScroll';
+import FeedSort from '../../components/Post/FeedSort';
+import { ProfileContext } from '../../store/profileContext';
 
 const Profile = () => {
+  const { defaultAccount } = useContext(ProfileContext);
   const [currentView, setCurrentView] = useState('overview');
   const bg = useColorModeValue('white', 'darkNavBg');
   const { colorMode } = useColorMode();
+  const myPost = useAccountComments();
+
+  console.log('here', myPost, defaultAccount);
 
   return (
     <Flex flexDir="column">
@@ -42,12 +48,12 @@ const Profile = () => {
               margin="0 5px"
               padding="8px"
               height="100%"
-              color={currentView === 'posts' && '#0079d3'}
-              onClick={() => setCurrentView('posts')}
-              borderBottom={currentView === 'posts' && '2px solid #0079d3'}
+              color={currentView === 'post' && '#0079d3'}
+              onClick={() => setCurrentView('post')}
+              borderBottom={currentView === 'post' && '2px solid #0079d3'}
               mb="-3px"
             >
-              Posts
+              Post
             </Box>
           </Link>
           <Link>
@@ -179,63 +185,16 @@ const Profile = () => {
         padding="15px"
       >
         <Flex width="calc(100% - 312px)" flexDir="column">
-          <Flex
-            width="100%"
-            alignItems="center"
-            justifyContent="flex-start"
-            bg={bg}
-            padding="5px 12px"
-            marginBottom="16px"
-            borderRadius="4px"
-            flexFlow="nowrap"
-          >
-            <Link>
-              <Flex
-                alignItems="center"
-                borderRadius="20px"
-                padding="6px 8px"
-                mr="8px"
-                fontSize="14px"
-                fontWeight="700"
-                lineHeight="17px"
-              >
-                <Icon as={TiStarburst} padding="0 8px 0 0" height={8} width={8} fontWeight="400" />
-                <Box>New</Box>
-              </Flex>
-            </Link>
-            <Link>
-              <Flex
-                alignItems="center"
-                borderRadius="20px"
-                padding="6px 8px"
-                mr="8px"
-                fontSize="14px"
-                fontWeight="700"
-                lineHeight="17px"
-              >
-                <Icon as={RiFireLine} padding="0 8px 0 0" height={8} width={8} fontWeight="400" />
-                <Box>Hot</Box>
-              </Flex>
-            </Link>
-            <Link>
-              <Flex
-                alignItems="center"
-                borderRadius="20px"
-                padding="6px 8px"
-                mr="8px"
-                fontSize="14px"
-                fontWeight="700"
-                lineHeight="17px"
-              >
-                <Icon as={BsBoxArrowUp} padding="0 8px 0 0" height={8} width={8} fontWeight="400" />
-                <Box>Top</Box>
-              </Flex>
-            </Link>
-          </Flex>
+          <FeedSort />
 
           {currentView === 'overview' && (
             <Flex width="100%" flexDir="column">
-              <Flex
+              <InfiniteScroll
+                feeds={myPost}
+                loader={<Post loading={true} mode="card" key={Math.random()} />}
+                content={(feed) => <Post post={feed} key={feed?.cid} mode="card" />}
+              />
+              {/* <Flex
                 cursor="pointer"
                 borderRadius="5px"
                 border="none"
@@ -253,7 +212,7 @@ const Profile = () => {
                   flex="1 1 auto"
                   fontSize="12px"
                   fontWeight="400"
-                  liineHeight="16px"
+                  lineHeight="16px"
                 >
                   <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
                   <Flex alignItems="center" flexWrap="wrap">
@@ -291,7 +250,7 @@ const Profile = () => {
                         <Flex
                           alignItems="center"
                           fontSize="12px"
-                          lineWeight="400"
+                          fontWeight="400"
                           lineHeight="16px"
                         >
                           <Box mr="1">esteban</Box>
@@ -315,7 +274,7 @@ const Profile = () => {
                           <Flex
                             alignItems="center"
                             fontSize="12px"
-                            lineWeight="400"
+                            fontWeight="400"
                             lineHeight="16px"
                           >
                             <Box mr="1">Abydin</Box>
@@ -358,407 +317,7 @@ const Profile = () => {
                     </Flex>
                   </Flex>
                 </Flex>
-              </Flex>
-              <Posts />
-
-              <Flex
-                cursor="pointer"
-                borderRadius="5px"
-                border="none"
-                mb="10px"
-                bg={bg}
-                width="100%"
-                flexDir="column"
-              >
-                <Flex
-                  borderTopLeftRadius="4px"
-                  borderTopRightRadius="4px"
-                  borderTopWidth="1px"
-                  alignItems="center"
-                  padding="8px"
-                  flex="1 1 auto"
-                  fontSize="12px"
-                  fontWeight="400"
-                  liineHeight="16px"
-                >
-                  <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
-                  <Flex alignItems="center" flexWrap="wrap">
-                    <Box mr="1">abydin</Box>
-                    <Box mr="1">commented on</Box>
-                    <Box mr="1"> Every single time </Box>
-
-                    <Flex margin="4px 8px">
-                      <Box>i.plebbit.it/75uf7h...</Box>
-
-                      <Icon as={BsBoxArrowUpRight} />
-                    </Flex>
-                    <Box mr="1" fontWeight="700" fontSize="12px" lineHeight="20px">
-                      p/gaming
-                    </Box>
-                    <Box>Posted by u/tomfrumtarn</Box>
-                  </Flex>
-                </Flex>
-                <Box width="100%" px="8px">
-                  <hr
-                    style={{
-                      borderTopWidth: '2px',
-                    }}
-                  />
-                </Box>
-                <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
-                  <Flex width="100%">
-                    <Box
-                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
-                      flex="0 0 1px"
-                      mr="16px"
-                    />
-                    <Flex
-                      flexDir="column"
-                      mb="8px"
-                      padding="4px 8px"
-                      bg="rgba(0,121,211,0.05)"
-                      width="100%"
-                    >
-                      <Flex alignItems="center" fontSize="12px" lineWeight="400" lineHeight="16px">
-                        <Box mr="1">Abydin</Box>
-                        <Box mr="1">1 point</Box> <Box mr="1">3 days ago</Box>
-                      </Flex>
-                      <Flex flexDir="column">
-                        <Box
-                          fontSize="14px"
-                          fontWeight="400"
-                          lineHeight="21px"
-                          wordBreak="break-word"
-                        >
-                          Hello there
-                        </Box>
-                        <Flex
-                          alignItems="center"
-                          fontSize="12px"
-                          fontWeight="700"
-                          lineHeight="16px"
-                          color="#878a8c"
-                        >
-                          <Box cursor="pointer" transition="color .1s">
-                            Reply
-                          </Box>
-                          <Box padding="4px 8px" cursor="pointer" transition="color .1s">
-                            Share
-                          </Box>
-                          <Box
-                            padding="4px 8px"
-                            alignSelf="flex-start"
-                            cursor="pointer"
-                            transition="color .1s"
-                          >
-                            ...
-                          </Box>
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                </Flex>
-              </Flex>
-              <Posts />
-              <Posts />
-
-              <Flex
-                cursor="pointer"
-                borderRadius="5px"
-                border="none"
-                mb="10px"
-                bg={bg}
-                width="100%"
-                flexDir="column"
-              >
-                <Flex
-                  borderTopLeftRadius="4px"
-                  borderTopRightRadius="4px"
-                  borderTopWidth="1px"
-                  alignItems="center"
-                  padding="8px"
-                  flex="1 1 auto"
-                  fontSize="12px"
-                  fontWeight="400"
-                  liineHeight="16px"
-                >
-                  <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
-                  <Flex alignItems="center" flexWrap="wrap">
-                    <Box mr="1">abydin</Box>
-                    <Box mr="1">commented on</Box>
-                    <Box mr="1"> Every single time </Box>
-
-                    <Flex margin="4px 8px">
-                      <Box>i.plebbit.it/75uf7h...</Box>
-
-                      <Icon as={BsBoxArrowUpRight} />
-                    </Flex>
-                    <Box mr="1" fontWeight="700" fontSize="12px" lineHeight="20px">
-                      p/gaming
-                    </Box>
-                    <Box>Posted by u/tomfrumtarn</Box>
-                  </Flex>
-                </Flex>
-                <Box width="100%" px="8px">
-                  <hr
-                    style={{
-                      borderTopWidth: '2px',
-                    }}
-                  />
-                </Box>
-                <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
-                  <Flex width="100%">
-                    <Box
-                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
-                      flex="0 0 1px"
-                      mr="16px"
-                    />
-                    <Flex
-                      flexDir="column"
-                      mb="8px"
-                      padding="4px 8px"
-                      bg="rgba(0,121,211,0.05)"
-                      width="100%"
-                    >
-                      <Flex alignItems="center" fontSize="12px" lineWeight="400" lineHeight="16px">
-                        <Box mr="1">Abydin</Box>
-                        <Box mr="1">1 point</Box> <Box mr="1">3 days ago</Box>
-                      </Flex>
-                      <Flex flexDir="column">
-                        <Box
-                          fontSize="14px"
-                          fontWeight="400"
-                          lineHeight="21px"
-                          wordBreak="break-word"
-                        >
-                          Hello there
-                        </Box>
-                        <Flex
-                          alignItems="center"
-                          fontSize="12px"
-                          fontWeight="700"
-                          lineHeight="16px"
-                          color="#878a8c"
-                        >
-                          <Box cursor="pointer" transition="color .1s">
-                            Reply
-                          </Box>
-                          <Box padding="4px 8px" cursor="pointer" transition="color .1s">
-                            Share
-                          </Box>
-                          <Box
-                            padding="4px 8px"
-                            alignSelf="flex-start"
-                            cursor="pointer"
-                            transition="color .1s"
-                          >
-                            ...
-                          </Box>
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                </Flex>
-              </Flex>
-              <Flex
-                cursor="pointer"
-                borderRadius="5px"
-                border="none"
-                mb="10px"
-                bg={bg}
-                width="100%"
-                flexDir="column"
-              >
-                <Flex
-                  borderTopLeftRadius="4px"
-                  borderTopRightRadius="4px"
-                  borderTopWidth="1px"
-                  alignItems="center"
-                  padding="8px"
-                  flex="1 1 auto"
-                  fontSize="12px"
-                  fontWeight="400"
-                  liineHeight="16px"
-                >
-                  <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
-                  <Flex alignItems="center" flexWrap="wrap">
-                    <Box mr="1">abydin</Box>
-                    <Box mr="1">commented on</Box>
-                    <Box mr="1"> Every single time </Box>
-
-                    <Flex margin="4px 8px">
-                      <Box>i.plebbit.it/75uf7h...</Box>
-
-                      <Icon as={BsBoxArrowUpRight} />
-                    </Flex>
-                    <Box mr="1" fontWeight="700" fontSize="12px" lineHeight="20px">
-                      p/gaming
-                    </Box>
-                    <Box>Posted by u/tomfrumtarn</Box>
-                  </Flex>
-                </Flex>
-                <Box width="100%" px="8px">
-                  <hr
-                    style={{
-                      borderTopWidth: '2px',
-                    }}
-                  />
-                </Box>
-                <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
-                  <Flex width="100%">
-                    <Box
-                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
-                      flex="0 0 1px"
-                      mr="16px"
-                    />
-                    <Flex
-                      flexDir="column"
-                      mb="8px"
-                      padding="4px 8px"
-                      bg="rgba(0,121,211,0.05)"
-                      width="100%"
-                    >
-                      <Flex alignItems="center" fontSize="12px" lineWeight="400" lineHeight="16px">
-                        <Box mr="1">Abydin</Box>
-                        <Box mr="1">1 point</Box> <Box mr="1">3 days ago</Box>
-                      </Flex>
-                      <Flex flexDir="column">
-                        <Box
-                          fontSize="14px"
-                          fontWeight="400"
-                          lineHeight="21px"
-                          wordBreak="break-word"
-                        >
-                          Hello there
-                        </Box>
-                        <Flex
-                          alignItems="center"
-                          fontSize="12px"
-                          fontWeight="700"
-                          lineHeight="16px"
-                          color="#878a8c"
-                        >
-                          <Box cursor="pointer" transition="color .1s">
-                            Reply
-                          </Box>
-                          <Box padding="4px 8px" cursor="pointer" transition="color .1s">
-                            Share
-                          </Box>
-                          <Box
-                            padding="4px 8px"
-                            alignSelf="flex-start"
-                            cursor="pointer"
-                            transition="color .1s"
-                          >
-                            ...
-                          </Box>
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                </Flex>
-              </Flex>
-              <Posts />
-
-              <Flex
-                cursor="pointer"
-                borderRadius="5px"
-                border="none"
-                mb="10px"
-                bg={bg}
-                width="100%"
-                flexDir="column"
-              >
-                <Flex
-                  borderTopLeftRadius="4px"
-                  borderTopRightRadius="4px"
-                  borderTopWidth="1px"
-                  alignItems="center"
-                  padding="8px"
-                  flex="1 1 auto"
-                  fontSize="12px"
-                  fontWeight="400"
-                  liineHeight="16px"
-                >
-                  <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
-                  <Flex alignItems="center" flexWrap="wrap">
-                    <Box mr="1">abydin</Box>
-                    <Box mr="1">commented on</Box>
-                    <Box mr="1"> Every single time </Box>
-
-                    <Flex margin="4px 8px">
-                      <Box>i.plebbit.it/75uf7h...</Box>
-
-                      <Icon as={BsBoxArrowUpRight} />
-                    </Flex>
-                    <Box mr="1" fontWeight="700" fontSize="12px" lineHeight="20px">
-                      p/gaming
-                    </Box>
-                    <Box>Posted by u/tomfrumtarn</Box>
-                  </Flex>
-                </Flex>
-                <Box width="100%" px="8px">
-                  <hr
-                    style={{
-                      borderTopWidth: '2px',
-                    }}
-                  />
-                </Box>
-                <Flex borderBottomLeftRadius="4px" borderBottomRightRadius="4px" padding="8px 16px">
-                  <Flex width="100%">
-                    <Box
-                      borderLeft={`2px dashed ${colorMode === 'light' ? '#edeff1' : '#343536'}`}
-                      flex="0 0 1px"
-                      mr="16px"
-                    />
-                    <Flex
-                      flexDir="column"
-                      mb="8px"
-                      padding="4px 8px"
-                      bg="rgba(0,121,211,0.05)"
-                      width="100%"
-                    >
-                      <Flex alignItems="center" fontSize="12px" lineWeight="400" lineHeight="16px">
-                        <Box mr="1">Abydin</Box>
-                        <Box mr="1">1 point</Box> <Box mr="1">3 days ago</Box>
-                      </Flex>
-                      <Flex flexDir="column">
-                        <Box
-                          fontSize="14px"
-                          fontWeight="400"
-                          lineHeight="21px"
-                          wordBreak="break-word"
-                        >
-                          Hello there
-                        </Box>
-                        <Flex
-                          alignItems="center"
-                          fontSize="12px"
-                          fontWeight="700"
-                          lineHeight="16px"
-                          color="#878a8c"
-                        >
-                          <Box cursor="pointer" transition="color .1s">
-                            Reply
-                          </Box>
-                          <Box padding="4px 8px" cursor="pointer" transition="color .1s">
-                            Share
-                          </Box>
-                          <Box
-                            padding="4px 8px"
-                            alignSelf="flex-start"
-                            cursor="pointer"
-                            transition="color .1s"
-                          >
-                            ...
-                          </Box>
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                </Flex>
-              </Flex>
-              <Posts />
+              </Flex> */}
             </Flex>
           )}
           {currentView === 'comments' && (
@@ -781,7 +340,7 @@ const Profile = () => {
                   flex="1 1 auto"
                   fontSize="12px"
                   fontWeight="400"
-                  liineHeight="16px"
+                  lineHeight="16px"
                 >
                   <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
                   <Flex alignItems="center" flexWrap="wrap">
@@ -819,7 +378,7 @@ const Profile = () => {
                         <Flex
                           alignItems="center"
                           fontSize="12px"
-                          lineWeight="400"
+                          fontWeight="400"
                           lineHeight="16px"
                         >
                           <Box mr="1">esteban</Box>
@@ -843,7 +402,7 @@ const Profile = () => {
                           <Flex
                             alignItems="center"
                             fontSize="12px"
-                            lineWeight="400"
+                            fontWeight="400"
                             lineHeight="16px"
                           >
                             <Box mr="1">Abydin</Box>
@@ -906,7 +465,7 @@ const Profile = () => {
                   flex="1 1 auto"
                   fontSize="12px"
                   fontWeight="400"
-                  liineHeight="16px"
+                  lineHeight="16px"
                 >
                   <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
                   <Flex alignItems="center" flexWrap="wrap">
@@ -946,7 +505,7 @@ const Profile = () => {
                       bg="rgba(0,121,211,0.05)"
                       width="100%"
                     >
-                      <Flex alignItems="center" fontSize="12px" lineWeight="400" lineHeight="16px">
+                      <Flex alignItems="center" fontSize="12px" fontWeight="400" lineHeight="16px">
                         <Box mr="1">Abydin</Box>
                         <Box mr="1">1 point</Box> <Box mr="1">3 days ago</Box>
                       </Flex>
@@ -1005,7 +564,7 @@ const Profile = () => {
                   flex="1 1 auto"
                   fontSize="12px"
                   fontWeight="400"
-                  liineHeight="16px"
+                  lineHeight="16px"
                 >
                   <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
                   <Flex alignItems="center" flexWrap="wrap">
@@ -1045,7 +604,7 @@ const Profile = () => {
                       bg="rgba(0,121,211,0.05)"
                       width="100%"
                     >
-                      <Flex alignItems="center" fontSize="12px" lineWeight="400" lineHeight="16px">
+                      <Flex alignItems="center" fontSize="12px" fontWeight="400" lineHeight="16px">
                         <Box mr="1">Abydin</Box>
                         <Box mr="1">1 point</Box> <Box mr="1">3 days ago</Box>
                       </Flex>
@@ -1103,7 +662,7 @@ const Profile = () => {
                   flex="1 1 auto"
                   fontSize="12px"
                   fontWeight="400"
-                  liineHeight="16px"
+                  lineHeight="16px"
                 >
                   <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
                   <Flex alignItems="center" flexWrap="wrap">
@@ -1143,7 +702,7 @@ const Profile = () => {
                       bg="rgba(0,121,211,0.05)"
                       width="100%"
                     >
-                      <Flex alignItems="center" fontSize="12px" lineWeight="400" lineHeight="16px">
+                      <Flex alignItems="center" fontSize="12px" fontWeight="400" lineHeight="16px">
                         <Box mr="1">Abydin</Box>
                         <Box mr="1">1 point</Box> <Box mr="1">3 days ago</Box>
                       </Flex>
@@ -1201,7 +760,7 @@ const Profile = () => {
                   flex="1 1 auto"
                   fontSize="12px"
                   fontWeight="400"
-                  liineHeight="16px"
+                  lineHeight="16px"
                 >
                   <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
                   <Flex alignItems="center" flexWrap="wrap">
@@ -1241,7 +800,7 @@ const Profile = () => {
                       bg="rgba(0,121,211,0.05)"
                       width="100%"
                     >
-                      <Flex alignItems="center" fontSize="12px" lineWeight="400" lineHeight="16px">
+                      <Flex alignItems="center" fontSize="12px" fontWeight="400" lineHeight="16px">
                         <Box mr="1">Abydin</Box>
                         <Box mr="1">1 point</Box> <Box mr="1">3 days ago</Box>
                       </Flex>
@@ -1299,7 +858,7 @@ const Profile = () => {
                   flex="1 1 auto"
                   fontSize="12px"
                   fontWeight="400"
-                  liineHeight="16px"
+                  lineHeight="16px"
                 >
                   <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
                   <Flex alignItems="center" flexWrap="wrap">
@@ -1339,7 +898,7 @@ const Profile = () => {
                       bg="rgba(0,121,211,0.05)"
                       width="100%"
                     >
-                      <Flex alignItems="center" fontSize="12px" lineWeight="400" lineHeight="16px">
+                      <Flex alignItems="center" fontSize="12px" fontWeight="400" lineHeight="16px">
                         <Box mr="1">Abydin</Box>
                         <Box mr="1">1 point</Box> <Box mr="1">3 days ago</Box>
                       </Flex>
@@ -1397,7 +956,7 @@ const Profile = () => {
                   flex="1 1 auto"
                   fontSize="12px"
                   fontWeight="400"
-                  liineHeight="16px"
+                  lineHeight="16px"
                 >
                   <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
                   <Flex alignItems="center" flexWrap="wrap">
@@ -1437,7 +996,7 @@ const Profile = () => {
                       bg="rgba(0,121,211,0.05)"
                       width="100%"
                     >
-                      <Flex alignItems="center" fontSize="12px" lineWeight="400" lineHeight="16px">
+                      <Flex alignItems="center" fontSize="12px" fontWeight="400" lineHeight="16px">
                         <Box mr="1">Abydin</Box>
                         <Box mr="1">1 point</Box> <Box mr="1">3 days ago</Box>
                       </Flex>
@@ -1495,7 +1054,7 @@ const Profile = () => {
                   flex="1 1 auto"
                   fontSize="12px"
                   fontWeight="400"
-                  liineHeight="16px"
+                  lineHeight="16px"
                 >
                   <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
                   <Flex alignItems="center" flexWrap="wrap">
@@ -1535,7 +1094,7 @@ const Profile = () => {
                       bg="rgba(0,121,211,0.05)"
                       width="100%"
                     >
-                      <Flex alignItems="center" fontSize="12px" lineWeight="400" lineHeight="16px">
+                      <Flex alignItems="center" fontSize="12px" fontWeight="400" lineHeight="16px">
                         <Box mr="1">Abydin</Box>
                         <Box mr="1">1 point</Box> <Box mr="1">3 days ago</Box>
                       </Flex>
@@ -1594,7 +1153,7 @@ const Profile = () => {
                   flex="1 1 auto"
                   fontSize="12px"
                   fontWeight="400"
-                  liineHeight="16px"
+                  lineHeight="16px"
                 >
                   <Icon as={BsChat} width={5} height={5} fontSize="20px" mr="8px" />
                   <Flex alignItems="center" flexWrap="wrap">
@@ -1634,7 +1193,7 @@ const Profile = () => {
                       bg="rgba(0,121,211,0.05)"
                       width="100%"
                     >
-                      <Flex alignItems="center" fontSize="12px" lineWeight="400" lineHeight="16px">
+                      <Flex alignItems="center" fontSize="12px" fontWeight="400" lineHeight="16px">
                         <Box mr="1">Abydin</Box>
                         <Box mr="1">1 point</Box> <Box mr="1">3 days ago</Box>
                       </Flex>
@@ -1676,149 +1235,119 @@ const Profile = () => {
               </Flex>
             </Flex>
           )}
-          {currentView === 'posts' && (
+          {currentView === 'post' && (
             <Flex width="100%" flexDir="column">
-              <Posts hideContent />
-
-              <Posts hideContent />
-              <Posts hideContent />
-
-              <Posts hideContent />
-
-              <Posts hideContent />
-              <Posts hideContent />
-
-              <Posts hideContent />
-              <Posts hideContent />
-
-              <Posts hideContent />
-
-              <Posts hideContent />
+              <InfiniteScroll
+                feeds={myPost}
+                loader={<Post loading={true} mode="classic" key={Math.random()} />}
+                content={(feed) => <Post post={feed} key={feed?.cid} mode="classic" />}
+              />
             </Flex>
           )}
           {currentView === 'saved' && (
             <Flex width="100%" flexDir="column">
-              <Posts hideContent />
+              <Post mode />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
             </Flex>
           )}
-          {currentView === 'upvoted' && (
-            <Flex width="100%" flexDir="column">
-              <Posts hideContent />
-
-              <Posts hideContent />
-              <Posts hideContent />
-
-              <Posts hideContent />
-
-              <Posts hideContent />
-              <Posts hideContent />
-
-              <Posts hideContent />
-              <Posts hideContent />
-
-              <Posts hideContent />
-
-              <Posts hideContent />
-            </Flex>
-          )}
+          {currentView === 'upvoted' && <Flex width="100%" flexDir="column"></Flex>}
           {currentView === 'downvoted' && (
             <Flex width="100%" flexDir="column">
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
             </Flex>
           )}
           {currentView === 'hidden' && (
             <Flex width="100%" flexDir="column">
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
             </Flex>
           )}
           {currentView === 'awardGiven' && (
             <Flex width="100%" flexDir="column">
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
             </Flex>
           )}
           {currentView === 'awardRecieved' && (
             <Flex width="100%" flexDir="column">
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
-              <Posts hideContent />
+              <Post hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
 
-              <Posts hideContent />
+              <Post hideContent />
             </Flex>
           )}
         </Flex>
 
-        <SideBar mt="0px" />
+        <SideBar mt="0px" profile={defaultAccount} />
       </Flex>
     </Flex>
   );

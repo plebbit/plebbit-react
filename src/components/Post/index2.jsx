@@ -28,6 +28,7 @@ import PostDetail from './PostDetails';
 import Swal from 'sweetalert2';
 import { useToast } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import numFormatter from '../../utils/numberFormater';
 
 const CardPost = (props) => {
   return (
@@ -108,7 +109,7 @@ const CardPost = (props) => {
             {!props.loading
               ? props.vote + props.voteMode === 0
                 ? 'vote'
-                : props.vote + props.voteMode
+                : numFormatter(props.vote + props.voteMode)
               : ''}
           </Box>
           <Box
@@ -985,7 +986,9 @@ const ClassicPost = (props) => {
               wordBreak="normal"
             >
               <Skeleton isLoaded={!props.loading}>
-                {props.vote + props.voteMode === 0 ? 'vote' : props.vote + props.voteMode}
+                {props.vote + props.voteMode === 0
+                  ? 'vote'
+                  : numFormatter(props.vote + props.voteMode)}
               </Skeleton>
             </Box>
             <Box
@@ -1675,7 +1678,9 @@ const CompactPost = (props) => {
                 width="32px"
               >
                 <Skeleton isLoaded={!props.loading}>
-                  {props.vote + props.voteMode === 0 ? 'vote' : props.vote + props.voteMode}
+                  {props.vote + props.voteMode === 0
+                    ? 'vote'
+                    : numFormatter(props.vote + props.voteMode)}
                 </Skeleton>
               </Box>
               <Box
