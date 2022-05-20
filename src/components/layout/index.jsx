@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { ProfileContext } from '../../store/profileContext';
 import { Box } from '@chakra-ui/layout';
 import { useColorModeValue, Image } from '@chakra-ui/react';
-import NavBar from './NavBar';
 import plebbitDarkLogo from '../../assets/svgs/plebbitDarkLogo.svg';
+import NavBar from './NavBar';
 
 export default function Layout({ children }) {
   const { showSplashcreen } = useContext(ProfileContext);
@@ -41,10 +41,11 @@ export default function Layout({ children }) {
   }
 
   return (
-    <Box position="relative" align="center" textAlign="left" minH="calc(100vh)" bg={bg}>
-      <NavBar />
-
-      {children}
+    <Box>
+      <Box position="relative" align="center" textAlign="left" minH="calc(100vh - 48px)" bg={bg}>
+        <NavBar />
+        {children}
+      </Box>
     </Box>
   );
 }

@@ -22,14 +22,16 @@ import { CgEnter } from 'react-icons/cg';
 import { MdWhereToVote, MdAccessTime } from 'react-icons/md';
 import { BiUser, BiHelpCircle } from 'react-icons/bi';
 import { RiShieldCheckLine } from 'react-icons/ri';
+import { GiBlackHoleBolas } from 'react-icons/gi';
 import { VscCompass } from 'react-icons/vsc';
 
 import { ProfileContext } from '../../store/profileContext';
 import useVisible from '../../hooks/useVisible';
+import numFormatter from '../../utils/numberFormater';
 
 const NavDropDownWide = () => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
-  const { setIsLoggedIn, isLoggedIn } = useContext(ProfileContext);
+  const { setIsLoggedIn, isLoggedIn, defaultAccount } = useContext(ProfileContext);
   const bg = useColorModeValue('white', 'darkNavBg');
   const border = useColorModeValue('borderLight2', 'borderDark2');
   const { colorMode, toggleColorMode } = useColorMode();
@@ -117,11 +119,18 @@ const NavDropDownWide = () => {
             alignItems="center"
           >
             <Box fontSize="12px" fontWeight="500" lineHeight="16px">
-              Abydin
+              {defaultAccount?.name}
             </Box>
-            <Box fontSize="12px" fontWeight="500" lineHeight="16px" color={iconColor}>
-              2.5m pleb
-            </Box>
+            <Flex
+              alignItems="center"
+              fontSize="12px"
+              fontWeight="500"
+              lineHeight="16px"
+              color={iconColor}
+            >
+              <Icon as={GiBlackHoleBolas} mr="1" />
+              {`${numFormatter(defaultAccount?.karma?.score)} karma`}
+            </Flex>
           </Flex>
           <Icon as={BsChevronDown} color={iconColor} w="20px" h="20px" ml="auto" />
         </Flex>

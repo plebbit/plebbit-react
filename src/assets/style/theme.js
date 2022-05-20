@@ -47,6 +47,7 @@ const theme = extendTheme({
     borderDark: '#474748',
 
     // new color scheme
+
     //light
     lightBody: '#fff',
     metaTextLight: '#7c7c7c',

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Box, Flex, Icon, useColorModeValue } from '@chakra-ui/react';
 // import { useHistory } from 'react-router';
-import { RiFireFill, RiRocketLine } from 'react-icons/ri';
+import { RiFireFill } from 'react-icons/ri';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { TiStarburstOutline } from 'react-icons/ti';
 import { BsBoxArrowUp } from 'react-icons/bs';
@@ -41,7 +41,7 @@ const FeedSort = () => {
           padding="10px 12px"
         >
           <Flex alignItems="center" cursor="pointer">
-            <Box
+            {/* <Box
               bg={feedSort === 'best' ? inputBg : 'transparent'}
               color={feedSort === 'best' ? activeFilterText : iconColor}
               cursor="default"
@@ -68,7 +68,7 @@ const FeedSort = () => {
             >
               <Icon width="20px" mr="8px" height="20px" as={RiRocketLine} />
               Best
-            </Box>
+            </Box> */}
             <Box
               bg={feedSort === 'hot' ? inputBg : 'transparent'}
               color={feedSort === 'hot' ? activeFilterText : iconColor}
