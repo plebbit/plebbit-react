@@ -28,7 +28,6 @@ const NavBar = () => {
           boxSizing="border-box"
           flexGrow={1}
           padding="0 20px"
-          height="100%"
         >
           ggg
         </Flex>

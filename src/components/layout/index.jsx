@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { ProfileContext } from '../../store/profileContext';
-import { Box } from '@chakra-ui/layout';
+import { Box, Flex } from '@chakra-ui/layout';
 import { useColorModeValue, Image } from '@chakra-ui/react';
 import plebbitDarkLogo from '../../assets/svgs/plebbitDarkLogo.svg';
 import NavBar from './NavBar';
@@ -42,9 +42,16 @@ export default function Layout({ children }) {
 
   return (
     <Box>
-      <Box position="relative" align="center" textAlign="left" minH="calc(100vh - 48px)" bg={bg}>
-        <NavBar />
-        {children}
+      <Box minH="calc(100vh - 48px)" bg={bg}>
+        <Box tabIndex={-1} />
+        <Box outline="none">
+          <NavBar />
+          <Box transition="margin-top .3s ease" paddingTop="48px">
+            <Flex flexDirection="column" minH="calc(100vh - 48px)">
+              {children}
+            </Flex>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
