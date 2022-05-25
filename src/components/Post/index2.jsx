@@ -10,6 +10,7 @@ import {
   Text,
   Tooltip,
   useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { RiCopperCoinLine } from 'react-icons/ri';
 import { BsChat, BsBookmark, BsEyeSlash, BsFlag, BsFileText } from 'react-icons/bs';
@@ -17,13 +18,17 @@ import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg';
 import { VscLinkExternal } from 'react-icons/vsc';
-
 import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
 import DropDown from '../../components/DropDown';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { Link as ReactLink } from 'react-router-dom';
 import { dateToNow } from '../../utils/formatDate';
+import PostDetail from './PostDetails';
+import Swal from 'sweetalert2';
+import { useToast } from '@chakra-ui/react';
+import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import numFormatter from '../../utils/numberFormater';
 
 const CardPost = (props) => {
   return (
@@ -79,6 +84,7 @@ const CardPost = (props) => {
               }}
               onClick={() => {
                 props.setVoteMode(props.voteMode === 1 ? 0 : 1);
+                props.handleVote(props.voteMode === 1 ? 0 : 1);
               }}
               color={props.voteMode === 1 ? 'upvoteOrange' : props.iconColor}
             >
@@ -103,7 +109,7 @@ const CardPost = (props) => {
             {!props.loading
               ? props.vote + props.voteMode === 0
                 ? 'vote'
-                : props.vote + props.voteMode
+                : numFormatter(props.vote + props.voteMode)
               : ''}
           </Box>
           <Box
@@ -134,6 +140,7 @@ const CardPost = (props) => {
               }}
               onClick={() => {
                 props.setVoteMode(props.voteMode === -1 ? 0 : -1);
+                props.handleVote(props.voteMode === -1 ? 0 : -1);
               }}
             >
               <Icon
@@ -172,6 +179,8 @@ const CardPost = (props) => {
                     {props.type !== 'subPlebbit' ? (
                       <>
                         <Link
+                          as={ReactLink}
+                          to={`p/${props.post?.subplebbitAddress}`}
                           color={props.subPledditTextColor}
                           fontSize="12px"
                           fontWeight="700"
@@ -329,7 +338,7 @@ const CardPost = (props) => {
               </Skeleton>
             </Flex>{' '}
             {/* Post Title */}
-            <Box margin="0 8px">
+            <Box margin="0 8px" onClick={props.onOpen}>
               <Skeleton isLoaded={!props.loading}>
                 {' '}
                 {/* flair */}
@@ -362,7 +371,6 @@ const CardPost = (props) => {
                   fontWeight="500"
                   lineHeight="22px"
                   paddingRight="5px"
-                  wordWrap="break-word"
                   textDecor="none"
                   wordBreak="break-word"
                 >
@@ -449,6 +457,8 @@ const CardPost = (props) => {
                       {props.type !== 'subPlebbit' ? (
                         <>
                           <Link
+                            as={ReactLink}
+                            to={`/p/${props.post?.subplebbitAddress}`}
                             color={props.subPledditTextColor}
                             fontSize="12px"
                             fontWeight="700"
@@ -606,7 +616,7 @@ const CardPost = (props) => {
                 </Skeleton>
               </Flex>{' '}
               {/* Post Title */}
-              <Box margin="0 8px">
+              <Box margin="0 8px" onClick={props.onOpen}>
                 <Skeleton mb="30px" isLoaded={!props.loading}>
                   {' '}
                   {/* flair */}
@@ -638,7 +648,6 @@ const CardPost = (props) => {
                     fontWeight="500"
                     lineHeight="22px"
                     paddingRight="5px"
-                    wordWrap="break-word"
                     textDecor="none"
                     wordBreak="break-word"
                   >
@@ -954,6 +963,7 @@ const ClassicPost = (props) => {
                 }}
                 onClick={() => {
                   props.setVoteMode(props.voteMode === 1 ? 0 : 1);
+                  props.handleVote(props.voteMode === 1 ? 0 : 1);
                 }}
                 color={props.voteMode === 1 ? 'upvoteOrange' : props.iconColor}
               >
@@ -976,7 +986,9 @@ const ClassicPost = (props) => {
               wordBreak="normal"
             >
               <Skeleton isLoaded={!props.loading}>
-                {props.vote + props.voteMode === 0 ? 'vote' : props.vote + props.voteMode}
+                {props.vote + props.voteMode === 0
+                  ? 'vote'
+                  : numFormatter(props.vote + props.voteMode)}
               </Skeleton>
             </Box>
             <Box
@@ -1007,6 +1019,7 @@ const ClassicPost = (props) => {
                 }}
                 onClick={() => {
                   props.setVoteMode(props.voteMode === -1 ? 0 : -1);
+                  props.handleVote(props.voteMode === -1 ? 0 : -1);
                 }}
               >
                 <Icon
@@ -1069,7 +1082,7 @@ const ClassicPost = (props) => {
           {/* Post content */}
           <Box ml="8px" flex="1 1 100%" position="relative" wordBreak="break-word">
             {/* post title */}
-            <Box margin="0 8px">
+            <Box margin="0 8px" onClick={props.onOpen}>
               <Skeleton isLoaded={!props.loading}>
                 {' '}
                 {/* flair */}
@@ -1101,7 +1114,6 @@ const ClassicPost = (props) => {
                   fontWeight="500"
                   lineHeight="18px"
                   paddingRight="5px"
-                  wordWrap="break-word"
                   textDecor="none"
                   wordBreak="break-word"
                 >
@@ -1171,6 +1183,19 @@ const ClassicPost = (props) => {
                     alignItems="center"
                     flexFlow="row wrap"
                   >
+                    <Link
+                      as={ReactLink}
+                      to={`/p/${props.post?.subplebbitAddress}`}
+                      color={props.subPledditTextColor}
+                      fontSize="12px"
+                      fontWeight="700"
+                      display="inline"
+                      lineHeight="20px"
+                      textDecoration="none"
+                      mr="3px"
+                    >
+                      {`p/${props.post?.subplebbitAddress}`}
+                    </Link>
                     <Text color={props.misCol} flex="0 0 auto" mr="3px">
                       Posted by
                     </Text>
@@ -1628,6 +1653,7 @@ const CompactPost = (props) => {
                   }}
                   onClick={() => {
                     props.setVoteMode(props.voteMode === 1 ? 0 : 1);
+                    props.handleVote(props.voteMode === 1 ? 0 : 1);
                   }}
                   color={props.voteMode === 1 ? 'upvoteOrange' : props.iconColor}
                 >
@@ -1652,7 +1678,9 @@ const CompactPost = (props) => {
                 width="32px"
               >
                 <Skeleton isLoaded={!props.loading}>
-                  {props.vote + props.voteMode === 0 ? 'vote' : props.vote + props.voteMode}
+                  {props.vote + props.voteMode === 0
+                    ? 'vote'
+                    : numFormatter(props.vote + props.voteMode)}
                 </Skeleton>
               </Box>
               <Box
@@ -1684,6 +1712,7 @@ const CompactPost = (props) => {
                   }}
                   onClick={() => {
                     props.setVoteMode(props.voteMode === -1 ? 0 : -1);
+                    props.handleVote(props.voteMode === -1 ? 0 : -1);
                   }}
                 >
                   <Icon
@@ -1757,7 +1786,7 @@ const CompactPost = (props) => {
             )}
             <Box flex="1 1 100%" mt="2px" minW="150px" overflow="hidden" wordWrap="brak-word">
               {/* post title */}
-              <Box margin="0 8px">
+              <Box margin="0 8px" onClick={props.onOpen}>
                 <Skeleton isLoaded={!props.loading}>
                   {' '}
                   {/* flair */}
@@ -1789,7 +1818,6 @@ const CompactPost = (props) => {
                     fontWeight="500"
                     lineHeight="18px"
                     paddingRight="5px"
-                    wordWrap="break-word"
                     textDecor="none"
                     wordBreak="break-word"
                   >
@@ -1885,6 +1913,19 @@ const CompactPost = (props) => {
                       ) : (
                         ''
                       )}
+                      <Link
+                        as={ReactLink}
+                        to={`/p/${props.post?.subplebbitAddress}`}
+                        color={props.subPledditTextColor}
+                        fontSize="12px"
+                        fontWeight="700"
+                        display="inline"
+                        lineHeight="20px"
+                        textDecoration="none"
+                        mr="3px"
+                      >
+                        {`p/${props.post?.subplebbitAddress}`}
+                      </Link>
                       <Text color={props.misCol} flex="0 0 auto" mr="3px">
                         Posted by
                       </Text>
@@ -2033,8 +2074,9 @@ const CompactPost = (props) => {
   );
 };
 
-const Post = ({ type, post, mode = 'compact', loading }) => {
+const Post = ({ type, post, mode, loading }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -2052,6 +2094,70 @@ const Post = ({ type, post, mode = 'compact', loading }) => {
   const [vote] = useState(+post?.upvoteCount - +post?.downvoteCount);
   const [voteMode, setVoteMode] = useState(0);
   const [showContent, setShowContent] = useState(false);
+  const toast = useToast();
+  const { publishVote } = useAccountsActions();
+
+  const getChallengeAnswersFromUser = async (challenges) => {
+    const { value } = await Swal.fire({
+      background: '#eff4f7',
+      input: 'text',
+      text: 'Complete the challenge',
+      imageUrl: `data:image/png;base64,  ${challenges?.challenges[0].challenge}`,
+      imageWidth: '80%',
+    });
+    if (value) {
+      return value;
+    }
+  };
+
+  const onChallengeVerification = (challengeVerification, comment) => {
+    // if the challengeVerification fails, a new challenge request will be sent automatically
+    // to break the loop, the user must decline to send a challenge answer
+    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
+    toast({
+      title: 'Accepted.',
+      description: 'Action accepted',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+
+    console.log('challenge verified', challengeVerification, comment);
+  };
+  const onChallenge = async (challenges, comment) => {
+    let challengeAnswers = [];
+
+    try {
+      // ask the user to complete the challenges in a modal window
+      challengeAnswers = await getChallengeAnswersFromUser(challenges);
+    } catch (error) {
+      // if  he declines, throw error and don't get a challenge answer
+      console.log(error);
+      toast({
+        title: 'Declined.',
+        description: 'Action Declined',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+
+    console.log(challengeAnswers, comment);
+    if (challengeAnswers) {
+      await comment.publishChallengeAnswers(challengeAnswers);
+    }
+  };
+
+  const handleVote = (vote) => {
+    publishVote({
+      vote,
+      commentCid: post?.cid,
+      subplebbitAddress: post?.subplebbitAddress,
+      onChallenge,
+      onChallengeVerification,
+    });
+  };
+
   return (
     <Box>
       <Box>
@@ -2077,6 +2183,8 @@ const Post = ({ type, post, mode = 'compact', loading }) => {
             type={type}
             post={post}
             loading={loading}
+            onOpen={onOpen}
+            handleVote={handleVote}
           />
         )}
         {/* classic */}
@@ -2104,6 +2212,8 @@ const Post = ({ type, post, mode = 'compact', loading }) => {
             type={type}
             post={post}
             loading={loading}
+            onOpen={onOpen}
+            handleVote={handleVote}
           />
         )}
         {/* compact */}
@@ -2129,9 +2239,12 @@ const Post = ({ type, post, mode = 'compact', loading }) => {
             type={type}
             post={post}
             loading={loading}
+            onOpen={onOpen}
+            handleVote={handleVote}
           />
         )}
       </Box>
+      {isOpen ? <PostDetail isOpen={isOpen} onOpen={onOpen} onClose={onClose} post={post} /> : ''}
     </Box>
   );
 };

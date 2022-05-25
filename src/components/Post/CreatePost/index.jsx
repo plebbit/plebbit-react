@@ -5,17 +5,15 @@ import {
   Input,
   Icon,
   Textarea,
-  Image,
   useColorMode,
   Checkbox,
   useColorModeValue,
   useToast,
-  Text,
 } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import { ChevronDownIcon, LinkIcon } from '@chakra-ui/icons';
-import swal from '@sweetalert/with-react';
-// import { useHistory } from 'react-router-dom';
+import { EditorState } from 'draft-js';
+import { useHistory } from 'react-router-dom';
 import { MdStickyNote2 } from 'react-icons/md';
 import { BiHelpCircle } from 'react-icons/bi';
 import { AiOutlinePlus } from 'react-icons/ai';
@@ -24,6 +22,7 @@ import SideBar from './createPostSideBar';
 import Editor from '../../Editor';
 import DropDown2 from '../../DropDown/DropDown2';
 import subPlebbitData from '../../data/subPlebbits';
+import Swal from 'sweetalert2';
 
 const CreatePost = () => {
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
@@ -33,33 +32,26 @@ const CreatePost = () => {
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
   const [address, setAddress] = useState(null);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const toast = useToast();
 
-  // const history = useHistory();
+  const history = useHistory();
 
   const { publishComment } = useAccountsActions();
-  const getChallengeAnswersFromUser = (challenges) => {
-    return swal({
-      buttons: {
-        cancel: 'Close',
-        confirm: true,
-      },
-      content: (
-        <Flex flexDir="column" justifyContent="center" alignItems="center" bg="#ccc" padding="40px">
-          <Text fontWeight="bold" mb="10px">
-            Complete the challenge
-          </Text>
-          <Image
-            margin="auto"
-            width="80%"
-            src={`data:image/png;base64, ${challenges?.challenges[0].challenge}`}
-          />
-        </Flex>
-      ),
-    }).then((value) => {
-      return value;
+
+  const getChallengeAnswersFromUser = async (challenges) => {
+    const { value } = await Swal.fire({
+      background: '#eff4f7',
+      input: 'text',
+      text: 'Complete the challenge',
+      imageUrl: `data:image/png;base64,  ${challenges?.challenges[0].challenge}`,
+      imageWidth: '80%',
     });
+    if (value) {
+      return value;
+    }
   };
+
   const onChallengeVerification = (challengeVerification, comment) => {
     // if the challengeVerification fails, a new challenge request will be sent automatically
     // to break the loop, the user must decline to send a challenge answer
@@ -71,10 +63,14 @@ const CreatePost = () => {
       duration: 5000,
       isClosable: true,
     });
+    setAddress(null);
+    setTitle('');
+    setContent('');
+    setEditorState(EditorState.createEmpty());
+
     console.log('challenge verified', challengeVerification, comment);
   };
   const onChallenge = async (challenges, comment) => {
-    console.log(address);
     let challengeAnswers = [];
 
     try {
@@ -82,6 +78,7 @@ const CreatePost = () => {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
+      console.log(error);
       toast({
         title: 'Declined.',
         description: 'Action Declined',
@@ -90,7 +87,10 @@ const CreatePost = () => {
         isClosable: true,
       });
     }
+
+    console.log(challengeAnswers, comment);
     if (challengeAnswers) {
+      history.push(`/p/${address?.value}`);
       await comment.publishChallengeAnswers(challengeAnswers);
     }
   };
@@ -99,7 +99,7 @@ const CreatePost = () => {
     publishComment({
       content,
       title,
-      subplebbitAddress: address,
+      subplebbitAddress: address?.value,
       onChallenge,
       onChallengeVerification,
     });
@@ -183,7 +183,7 @@ const CreatePost = () => {
             >
               <DropDown2
                 options={subPlebbitData}
-                onChange={(value) => setAddress(value.value)}
+                onChange={(value) => setAddress(value)}
                 value={address}
               />
             </Box>
@@ -312,7 +312,11 @@ const CreatePost = () => {
                     padding="8px 16px"
                     resize="vertical"
                   >
-                    <Editor setValue={setContent} />
+                    <Editor
+                      setValue={setContent}
+                      editorState={editorState}
+                      setEditorState={setEditorState}
+                    />
                   </Box>
                 </Box>
               </Box>

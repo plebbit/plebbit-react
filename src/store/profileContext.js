@@ -1,3 +1,4 @@
+import { useAccount } from '@plebbit/plebbit-react-hooks';
 import React, { createContext, useState, useEffect } from 'react';
 
 export const ProfileContext = createContext();
@@ -9,7 +10,8 @@ export const ProfileDataProvider = (props) => {
   const [postStyle, setPostStyle] = useState('card');
   const [feedSort, setFeedSort] = useState('hot');
   const [showSplashcreen, setShowSplashcreen] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const defaultAccount = useAccount();
 
   const getProfileState = async () => {};
 
@@ -37,6 +39,7 @@ export const ProfileDataProvider = (props) => {
         showSplashcreen,
         feedSort,
         setFeedSort,
+        defaultAccount,
       }}
     >
       {children}

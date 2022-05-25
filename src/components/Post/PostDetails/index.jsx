@@ -13,7 +13,11 @@ import {
   Image,
   Heading,
   Tag,
+  useToast,
 } from '@chakra-ui/react';
+import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import Swal from 'sweetalert2';
+import { EditorState } from 'draft-js';
 import { CloseIcon } from '@chakra-ui/icons';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -40,6 +44,10 @@ function PostDetail({ post, isOpen, onClose }) {
   const bg = useColorModeValue('white', 'darkNavBg');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const borderColor = useColorModeValue('#ccc', '#343536');
+  const toast = useToast();
+  const { publishVote, publishComment } = useAccountsActions();
+  const [content, setContent] = useState('');
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   useEffect(() => {
     window.history.replaceState(null, post?.title, `#/p/${post?.subplebbitAddress}/c/${post?.cid}`);
@@ -47,6 +55,80 @@ function PostDetail({ post, isOpen, onClose }) {
       window.history.replaceState(null, '', '/#');
     };
   }, [isOpen]);
+
+  const getChallengeAnswersFromUser = async (challenges) => {
+    const { value } = await Swal.fire({
+      background: '#eff4f7',
+      input: 'text',
+      text: 'Complete the challenge',
+      imageUrl: `data:image/png;base64,  ${challenges?.challenges[0].challenge}`,
+      imageWidth: '80%',
+    });
+    if (value) {
+      return value;
+    }
+  };
+
+  const onChallengeVerification = (challengeVerification, comment) => {
+    // if the challengeVerification fails, a new challenge request will be sent automatically
+    // to break the loop, the user must decline to send a challenge answer
+    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
+    toast({
+      title: 'Accepted.',
+      description: 'Action accepted',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+    setContent('');
+    setEditorState(EditorState.createEmpty());
+    console.log('challenge verified', challengeVerification, comment);
+  };
+  const onChallenge = async (challenges, comment) => {
+    let challengeAnswers = [];
+
+    try {
+      // ask the user to complete the challenges in a modal window
+      challengeAnswers = await getChallengeAnswersFromUser(challenges);
+    } catch (error) {
+      // if  he declines, throw error and don't get a challenge answer
+      console.log(error);
+      toast({
+        title: 'Declined.',
+        description: 'Action Declined',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+
+    console.log(challengeAnswers, comment);
+    if (challengeAnswers) {
+      await comment.publishChallengeAnswers(challengeAnswers);
+    }
+  };
+
+  const handleVote = (vote) => {
+    publishVote({
+      vote,
+      commentCid: post?.cid,
+      subplebbitAddress: post?.subplebbitAddress,
+      onChallenge,
+      onChallengeVerification,
+    });
+  };
+
+  const handlePublishPost = () => {
+    publishComment({
+      content,
+      postCid: post?.postCid, // the thread the comment is on
+      parentCommentCid: post?.parentCid, // if top level reply to a post, same as postCid
+      subplebbitAddress: post?.subplebbitAddress,
+      onChallenge,
+      onChallengeVerification,
+    });
+  };
+
   return (
     <Box>
       <Modal
@@ -119,6 +201,7 @@ function PostDetail({ post, isOpen, onClose }) {
                   }}
                   onClick={() => {
                     setVoteMode(voteMode === 1 ? 0 : 1);
+                    handleVote(voteMode === 1 ? 0 : 1);
                   }}
                   icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
                 />
@@ -150,6 +233,7 @@ function PostDetail({ post, isOpen, onClose }) {
                   }}
                   onClick={() => {
                     setVoteMode(voteMode === -1 ? 0 : -1);
+                    handleVote(voteMode === -1 ? 0 : -1);
                   }}
                   icon={<Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />}
                 />
@@ -246,6 +330,7 @@ function PostDetail({ post, isOpen, onClose }) {
                       }}
                       onClick={() => {
                         setVoteMode(voteMode === 1 ? 0 : 1);
+                        handleVote(voteMode === 1 ? 0 : 1);
                       }}
                       icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
                     />
@@ -277,6 +362,7 @@ function PostDetail({ post, isOpen, onClose }) {
                       }}
                       onClick={() => {
                         setVoteMode(voteMode === -1 ? 0 : -1);
+                        handleVote(voteMode === -1 ? 0 : -1);
                       }}
                       icon={<Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />}
                     />
@@ -560,6 +646,7 @@ function PostDetail({ post, isOpen, onClose }) {
                           }}
                           onClick={() => {
                             setVoteMode(voteMode === 1 ? 0 : 1);
+                            handleVote(voteMode === 1 ? 0 : 1);
                           }}
                           icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
                         />
@@ -590,6 +677,7 @@ function PostDetail({ post, isOpen, onClose }) {
                           }}
                           onClick={() => {
                             setVoteMode(voteMode === -1 ? 0 : -1);
+                            handleVote(voteMode === -1 ? 0 : -1);
                           }}
                           icon={
                             <Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
@@ -665,8 +753,20 @@ function PostDetail({ post, isOpen, onClose }) {
                   <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
                     Comment As Abydin
                   </Box>
-                  <Box>
-                    <Editor />
+                  <Box
+                    borderRadius="4px"
+                    overflow="hidden auto"
+                    padding="8px 16px"
+                    resize="vertical"
+                    minH="200px"
+                  >
+                    <Editor
+                      setValue={setContent}
+                      editorState={editorState}
+                      setEditorState={setEditorState}
+                      showSubmit
+                      handleSubmit={handlePublishPost}
+                    />
                   </Box>
                   <Box
                     fontSize="12px"

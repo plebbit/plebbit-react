@@ -7,9 +7,10 @@ const DropDown2 = ({
   placeholder,
   options,
   onChange,
-  value,
   getOptionLabel,
   getOptionValue,
+  value,
+  defaultValue,
 }) => {
   const Control = ({ children, ...props }) => {
     const style = { cursor: 'pointer' };
@@ -68,9 +69,10 @@ const DropDown2 = ({
         components={{ Control }}
         isSearchable
         onChange={onChange}
-        value={value}
         getOptionLabel={getOptionLabel}
         getOptionValue={getOptionValue}
+        value={value}
+        defaultValue={defaultValue}
       />
     </Flex>
   );

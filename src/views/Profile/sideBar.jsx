@@ -6,6 +6,7 @@ import { SiInformatica } from 'react-icons/si';
 import { RiTShirtFill } from 'react-icons/ri';
 import { GiMoebiusStar, GiCakeSlice } from 'react-icons/gi';
 import Button from '../../components/Button';
+import numFormatter from '../../utils/numberFormater';
 
 const SideBar = ({
   mt,
@@ -20,6 +21,7 @@ const SideBar = ({
   border,
   borderColor,
   bg,
+  profile,
 }) => {
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '');
@@ -111,7 +113,7 @@ const SideBar = ({
               alignItems="center"
               justifyContent="center"
             >
-              <Box> Abydin</Box>
+              <Box> {profile?.author?.displayName || 'John Doe'}</Box>
               <Icon as={SiInformatica} fill="#ff4500" ml="4px" />
             </Flex>
             <Box
@@ -122,7 +124,7 @@ const SideBar = ({
               color="#7c7c7c"
               my="4px"
             >
-              p/Abydin · 9m
+              {`p/${profile?.author?.address}`} · 9m
             </Box>
             <Button
               width="100%"
@@ -155,7 +157,7 @@ const SideBar = ({
                 <Flex alignItems="center" mt="2px">
                   <Icon width="12px" height="12px" color="#24a0ed" as={GiMoebiusStar} />
                   <Box ml="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
-                    254
+                    {numFormatter(profile?.karma?.score)}
                   </Box>
                 </Flex>
               </Flex>
@@ -166,7 +168,7 @@ const SideBar = ({
                 <Flex alignItems="center" mt="2px">
                   <Icon width="12px" height="12px" color="#24a0ed" as={GiCakeSlice} />
                   <Box ml="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
-                    254
+                    June 29, 2021
                   </Box>
                 </Flex>
               </Flex>

@@ -5,10 +5,10 @@ import Post from '../../components/Post/index2';
 import { ProfileContext } from '../../store/profileContext';
 import SideBar from './sideBar';
 import { useFeed } from '@plebbit/plebbit-react-hooks';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
 import subPlebbitsData from '../../components/data/subPlebbits';
+import InfiniteScroll from '../../components/InfiniteScroll';
 
 const Home = () => {
   const { isLoggedIn, postStyle, feedSort } = useContext(ProfileContext);
@@ -20,8 +20,7 @@ const Home = () => {
   );
 
   const feeds = feed;
-  // const border1 = useColorModeValue('#ccc', '#343536');
-  console.log('here', feed);
+
   return (
     <Flex maxW="100%" padding="20px 24px" justifyContent="center" margin="0 auto">
       <Box
@@ -62,25 +61,12 @@ const Home = () => {
 
         <Box minHeight="1000px" width="100%">
           <InfiniteScroll
-            dataLength={feeds ? feeds.length : 0}
-            next={loadMore}
             hasMore={hasMore}
+            loadMore={loadMore}
+            content={(feed) => <Post post={feed} key={feed?.cid} mode={postStyle} />}
+            feeds={feeds}
             loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
-            // below props only if you need pull down functionality
-            refreshFunction={() => {}}
-            pullDownToRefresh
-            pullDownToRefreshThreshold={50}
-            pullDownToRefreshContent={
-              <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
-            }
-            releaseToRefreshContent={
-              <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-            }
-          >
-            {feeds?.map((feed) => (
-              <Post post={feed} key={feed?.cid} mode={postStyle} />
-            ))}
-          </InfiniteScroll>
+          />
         </Box>
       </Box>
       <SideBar bg={bg} />

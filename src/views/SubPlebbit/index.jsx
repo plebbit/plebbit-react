@@ -1,33 +1,24 @@
-import React from 'react';
-import { Box, Flex, Icon, Image, Input, Tag, Text, useColorModeValue } from '@chakra-ui/react';
+import React, { useContext } from 'react';
+import { Box, Flex, Icon, Image, Tag, Text, useColorModeValue } from '@chakra-ui/react';
 import Button from '../../components/Button';
 import { FaBell } from 'react-icons/fa';
-import { RiFireFill } from 'react-icons/ri';
-import { TiStarburstOutline } from 'react-icons/ti';
-import { BsBoxArrowUp } from 'react-icons/bs';
+import { ProfileContext } from '../../store/profileContext';
+import Post from '../../components/Post/index2';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
+import FeedSort from '../../components/Post/FeedSort';
+import { useFeed } from '@plebbit/plebbit-react-hooks';
 
-import {
-  MdOutlineViewStream,
-  MdViewAgenda,
-  MdOutlineTableRows,
-  MdOutlineViewHeadline,
-} from 'react-icons/md';
-import { FiMoreHorizontal } from 'react-icons/fi';
-import { LinkIcon } from '@chakra-ui/icons';
-import DropDown from '../../components/DropDown';
-import Posts from '../../components/Post/index2';
-
-const SubPlebbit = () => {
+const SubPlebbit = ({ match }) => {
+  const { postStyle, feedSort } = useContext(ProfileContext);
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
   const subPlebbitBorder = useColorModeValue('borderLight1', 'borderDark1');
   const inactiveSubTitle = useColorModeValue('lightText1', 'darkText1');
-  const border1 = useColorModeValue('#ccc', '#343536');
-  const border2 = useColorModeValue('#edeff1', '#343536');
-  const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
-  const inputText = useColorModeValue('bodyTextLight', 'bodyTextDark');
-  const activeFilterText = useColorModeValue('lightText', 'bodyTextDark');
-  const iconColor = useColorModeValue('lightIcon', 'darkIcon');
+  const { feed, loadMore, hasMore } = useFeed([match?.params?.subplebbitAddress], feedSort);
+  const feeds = feed;
+
+  console.log(match?.params?.subplebbitAddress);
 
   return (
     <Box width="100%">
@@ -235,270 +226,36 @@ const SubPlebbit = () => {
         </Flex>
       </Box>
       <Flex maxW="100%" padding="20px 24px" justifyContent="center" margin="0 auto">
-        <Box
-          width="100%"
-          // width="640px"
-          minWidth="0"
-        >
+        <Box width={postStyle === 'card' ? '640px' : '100%'} minWidth="0">
           {/* Create Post Bar */}
-          <Flex
-            bg={mainBg}
-            borderRadius="4px"
-            border={`1px solid ${border1}`}
-            mb="16px"
-            padding="8px"
-          >
-            <Box
-              border="1px solid"
-              borderColor={border2}
-              flexBasis="38px"
-              mr="8px"
-              borderRadius="50%"
-              width="38px"
-              height="38px"
-            >
-              <Box position="relative">
-                <Box borderRadius="50%" width="38px" height="38px" position="relative">
-                  <Box width="100%" height="100%" borderRadius="50%" bg={border2} />
-                  <Box width="100%" position="absolute" bottom="0">
-                    <Image
-                      src={`https://robohash.org/${Math.round(
-                        Math.random() * (5 - 1 + 1) + 1
-                      )}?set=set${Math.floor(Math.random() * (5 - 1 + 1) + 1)}`}
-                      width="100%"
-                      transformOrigin="bottom center"
-                      display="block"
-                      transform="scale(1.3)"
-                    />
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
-            <Input
-              placeholder="Create Post"
-              bg={inputBg}
-              border={`1px solid ${border2}`}
-              boxShadow="none"
-              boxSizing="border-box"
-              color={inputText}
-              display="block"
-              flexGrow="1"
-              height="38px"
-              mr="8px"
-              outline="none"
-              padding="0 16px"
-              fontSize="14px"
-              lineHeight="21px"
-              fontWeight="400"
-              fontFamily="inherit"
-            />
-            <Box
-              borderRadius="4px"
-              position="relative"
-              border="1px solid transparent"
-              color={iconColor}
-              fill={iconColor}
-              _hover={{
-                background: inputBg,
-              }}
-              minH="40px"
-              minW="40px"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              width="auto"
-            >
-              <LinkIcon height="20px" width="20px" />
-            </Box>
-          </Flex>
-          {/* feed filter bar */}
-          <Flex
-            alignItems="center"
-            bg={mainBg}
-            border={`1px solid ${border2}`}
-            borderRadius="4px"
-            flexFlow="nowrap"
-            justifyContent="flex-start"
-            mb="16px"
-            padding="10px 12px"
-          >
-            <Flex alignItems="center" cursor="pointer">
-              <Box
-                bg={inputBg}
-                color={activeFilterText}
-                cursor="default"
-                fill={activeFilterText}
-                mr="8px"
-                textTransform="capitalize"
-                position="relative"
-                border="1px solid transparent"
-                minH="unset"
-                minW="unset"
-                padding="6px 8px"
-                borderRadius="20px"
-                fontSize="14px"
-                fontWeight="700"
-                letterSpacing="unset"
-                lineHeight="17px"
-                width="auto"
-                display="flex"
-                alignItems="center"
-              >
-                <Icon width="20px" mr="8px" height="20px" as={RiFireFill} />
-                Hot
-              </Box>
-              <Box
-                bg="transparent"
-                color={iconColor}
-                cursor="default"
-                fill={iconColor}
-                mr="8px"
-                textTransform="capitalize"
-                position="relative"
-                border="1px solid transparent"
-                minH="unset"
-                minW="unset"
-                padding="6px 8px"
-                borderRadius="20px"
-                fontSize="14px"
-                fontWeight="700"
-                letterSpacing="unset"
-                lineHeight="17px"
-                width="auto"
-                display="flex"
-                alignItems="center"
-                _hover={{
-                  background: inputBg,
-                }}
-              >
-                <Icon width="20px" mr="8px" height="20px" as={TiStarburstOutline} />
-                New
-              </Box>
-              <Box
-                bg="transparent"
-                color={iconColor}
-                cursor="default"
-                fill={iconColor}
-                mr="8px"
-                textTransform="capitalize"
-                position="relative"
-                border="1px solid transparent"
-                minH="unset"
-                minW="unset"
-                padding="6px 8px"
-                borderRadius="20px"
-                fontSize="14px"
-                fontWeight="700"
-                letterSpacing="unset"
-                lineHeight="17px"
-                width="auto"
-                display="flex"
-                alignItems="center"
-                _hover={{
-                  background: inputBg,
-                }}
-              >
-                <Icon width="20px" mr="8px" height="20px" as={BsBoxArrowUp} />
-                Top
-              </Box>
-            </Flex>
-            <Flex alignItems="center" cursor="pointer" display="flex">
-              <Flex alignItems="center" borderRadius="4px">
-                <Box
-                  borderRadius="20px"
-                  color={iconColor}
-                  outLine="none"
-                  padding="8px"
-                  bg="transparent"
-                  cursor="pointer"
-                  display="flex"
-                  alignItems="center"
-                  _hover={{
-                    background: inputBg,
-                  }}
-                >
-                  <Icon as={FiMoreHorizontal} width="20px" height="20px" />
-                </Box>
-              </Flex>
-            </Flex>
-            <DropDown
-              caret
-              inputBg={inputBg}
-              dropDownTitle={
-                <>
-                  {' '}
-                  <Flex color={iconColor} alignItems="center">
-                    <Icon as={MdOutlineViewStream} height={6} width={6} />
-                  </Flex>
-                </>
-              }
-              content={
-                <>
-                  {' '}
-                  <Flex
-                    color={activeFilterText}
-                    fill={activeFilterText}
-                    alignItems="center"
-                    position="relative"
-                    outline="none"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    padding="8px"
-                    textTransform="capitalize"
-                    whiteSpace="nowrap"
-                    _hover={{
-                      background: inputBg,
-                    }}
-                  >
-                    <Icon mr="4px" as={MdViewAgenda} width={6} height={6} />
-                    <Box>Card</Box>
-                  </Flex>
-                  <Flex
-                    alignItems="center"
-                    position="relative"
-                    outline="none"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    padding="8px"
-                    textTransform="capitalize"
-                    whiteSpace="nowrap"
-                    _hover={{
-                      background: inputBg,
-                    }}
-                    borderWidth="1"
-                    borderColor={border2}
-                  >
-                    <Icon mr="4px" as={MdOutlineTableRows} width={6} height={6} />
-                    <Box>Classic</Box>
-                  </Flex>
-                  <Flex
-                    alignItems="center"
-                    position="relative"
-                    outline="none"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    padding="8px"
-                    textTransform="capitalize"
-                    whiteSpace="nowrap"
-                    _hover={{
-                      background: inputBg,
-                    }}
-                    borderY={`1px solid ${border2}`}
-                  >
-                    <Icon mr="4px" as={MdOutlineViewHeadline} width={6} height={6} />
-                    <Box>Compact</Box>
-                  </Flex>
-                </>
-              }
-            />
-          </Flex>
+          <CreatePostBar />
+          {/* feed sort bar */}
+          <FeedSort />
           {/* feed list */}
-          <Box minH="1000px" width="100%">
-            {/* single feed */}
-            {<Posts type="subPlebbit" />}
+
+          <Box minHeight="1000px" width="100%">
+            <InfiniteScroll
+              dataLength={feeds ? feeds.length : 0}
+              next={loadMore}
+              hasMore={hasMore}
+              loader={
+                <Post type="subPlebbit" loading={true} mode={postStyle} key={Math.random()} />
+              }
+              // below props only if you need pull down functionality
+              refreshFunction={() => {}}
+              pullDownToRefresh
+              pullDownToRefreshThreshold={50}
+              pullDownToRefreshContent={
+                <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
+              }
+              releaseToRefreshContent={
+                <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
+              }
+            >
+              {feeds?.map((feed) => (
+                <Post type="subPlebbit" post={feed} key={feed?.cid} mode={postStyle} />
+              ))}
+            </InfiniteScroll>
           </Box>
         </Box>
         {/* side bar */}
