@@ -16,7 +16,12 @@ const Settings = () => {
     { label: 'Chat & Messaging', link: 'messaging' },
   ];
   return (
-    <Box paddingBottom="40px" minH="calc(100vh - 88px)" marginLeft="calc(100vw - 100%)">
+    <Box
+      paddingBottom="40px"
+      minH="calc(100vh - 88px)"
+      marginLeft="calc(100vw - 100%)"
+      background={mainBg}
+    >
       <Box boxSizing="border-box" background={mainBg} position="relative">
         <Text
           maxW="1200px"
@@ -66,7 +71,23 @@ const Settings = () => {
         </Flex>
       </Box>
       <Flex maxW="1200px" margin="0 auto" padding="0 16px">
-        <Box></Box>
+        <Box maxW="688px" flex="1 1 auto">
+          <Text fontSize="20px" fontWeight="500" lineHeight="24px" padding="40px 0">
+            Customize profile
+          </Text>
+          <Text
+            fontSize="10px"
+            fontWeight="700"
+            letterSpacing="0.5px"
+            marginBottom="32px"
+            paddingBottom="6px"
+            borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+            color={metaColor}
+          >
+            PROFILE INFORMATION
+          </Text>
+          <Flex></Flex>
+        </Box>
       </Flex>
     </Box>
   );

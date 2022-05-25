@@ -17,11 +17,11 @@ const App = () => {
         <ProfileDataProvider>
           <Layout>
             <Route exact path="/" component={Home} />
-            <Route exact path={'/submit'} component={PostCreate} />
+            <Route exact path="/submit" component={PostCreate} />
+            <Route exact path="/settings" component={Settings} />
+            <Route exact path="/u/:id" component={Profile} />
             <Route exact path="/p/:subplebbitAddress" component={SubPlebbit} />
             <Route exact path="/p/:subplebbitAddress/c/:commentCid" component={PostDetails} />
-            <Route exact path="/u/:id" component={Profile} />
-            <Route exact path="/settings" component={Settings} />
           </Layout>
         </ProfileDataProvider>
       </Switch>
