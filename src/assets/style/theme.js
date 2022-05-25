@@ -34,8 +34,6 @@ const theme = extendTheme({
     selectedLight: '#edeff1',
     postDetailLightBg: '#323232',
 
-    lightText2: '#1c1c1c',
-
     // dark theme
     darkButtonBg: '#D7DADC',
     darkBg: '#030303',
@@ -53,6 +51,7 @@ const theme = extendTheme({
     metaTextLight: '#7c7c7c',
     borderLight1: '#a4a4a4',
     lightText1: '#373c3f',
+    lightText2: '#1c1c1c',
     borderLight: '#ccc',
     borderLight2: '#edeff1',
     lightInputBg: '#f6f7f8',
