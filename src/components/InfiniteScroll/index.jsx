@@ -5,7 +5,13 @@ const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
   return (
     <Infs
       dataLength={feeds ? feeds.length : 0}
-      next={loadMore}
+      next={() => {
+        try {
+          loadMore();
+        } catch (error) {
+          console.log(error);
+        }
+      }}
       hasMore={hasMore}
       loader={loader}
       // below props only if you need pull down functionality

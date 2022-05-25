@@ -46,7 +46,7 @@ export default function Layout({ children }) {
         <Box tabIndex={-1} />
         <Box outline="none">
           <NavBar />
-          <Box transition="margin-top .3s ease" paddingTop="48px">
+          <Box transition="margin-top .3s ease">
             <Flex flexDirection="column" minH="calc(100vh - 48px)">
               {children}
             </Flex>
