@@ -1,6 +1,9 @@
 # electron builder binaries
 /bin
 
+# script to upload build to server that seeds demo.plebbit.eth
+deploy.sh
+
 # dependencies
 /node_modules
 /.pnp
