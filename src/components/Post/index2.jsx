@@ -319,7 +319,7 @@ const CardPost = (props) => {
                     {/* date/time */}
                     <Tooltip
                       fontSize="10px"
-                      label={props?.post?.timestamp}
+                      label={props?.post?.timestamp * 1000}
                       aria-label="date tooltip"
                       placement="top"
                     >
@@ -330,7 +330,7 @@ const CardPost = (props) => {
                         display="inline-block"
                         flex="0 0 auto"
                       >
-                        {dateToNow(parseInt(props.post?.timestamp))}
+                        {dateToNow(parseInt(props?.post?.timestamp * 1000))}
                       </Text>
                     </Tooltip>
                   </Flex>
@@ -597,7 +597,7 @@ const CardPost = (props) => {
                       {/* date/time */}
                       <Tooltip
                         fontSize="10px"
-                        label={props?.post?.timestamp}
+                        label={props?.post?.timestamp * 1000}
                         aria-label="date tooltip"
                         placement="top"
                       >
@@ -608,7 +608,7 @@ const CardPost = (props) => {
                           display="inline-block"
                           flex="0 0 auto"
                         >
-                          {dateToNow(parseInt(props.post?.timestamp))}
+                          {dateToNow(parseInt(props?.post?.timestamp * 1000))}
                         </Text>
                       </Tooltip>
                     </Flex>
@@ -1310,7 +1310,7 @@ const ClassicPost = (props) => {
                     {/* date/time */}
                     <Tooltip
                       fontSize="10px"
-                      label={props?.post?.timestamp}
+                      label={props?.post?.timestamp * 1000}
                       aria-label="date tooltip"
                       placement="top"
                     >
@@ -1321,7 +1321,7 @@ const ClassicPost = (props) => {
                         display="inline-block"
                         flex="0 0 auto"
                       >
-                        {dateToNow(parseInt(props.post?.timestamp))}
+                        {dateToNow(parseInt(props?.post?.timestamp * 1000))}
                       </Text>
                     </Tooltip>
                   </Flex>
@@ -1977,7 +1977,7 @@ const CompactPost = (props) => {
                       {/* date/time */}
                       <Tooltip
                         fontSize="10px"
-                        label={props?.post?.timestamp}
+                        label={props?.post?.timestamp * 1000}
                         aria-label="date tooltip"
                         placement="top"
                       >
@@ -1988,7 +1988,7 @@ const CompactPost = (props) => {
                           display="inline-block"
                           flex="0 0 auto"
                         >
-                          {dateToNow(parseInt(props.post?.timestamp))}
+                          {dateToNow(parseInt(props?.post?.timestamp * 1000))}
                         </Text>
                       </Tooltip>
                     </Flex>
