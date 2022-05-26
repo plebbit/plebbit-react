@@ -4,6 +4,9 @@
 # script to upload build to server that seeds demo.plebbit.eth
 deploy.sh
 
+# data created by plebbit-js
+.plebbit
+
 # dependencies
 /node_modules
 /.pnp
