@@ -31,6 +31,7 @@ import SideBar from './postDetailSideBar';
 import { dateToNow } from '../../../utils/formatDate';
 import Comment from '../comment';
 import Editor from '../../Editor';
+import truncateString from '../../../utils/truncateString';
 
 function PostDetail({ post, isOpen, onClose }) {
   const postDetCover = useColorModeValue('lightBg', 'black');
@@ -122,12 +123,14 @@ function PostDetail({ post, isOpen, onClose }) {
     publishComment({
       content,
       postCid: post?.postCid, // the thread the comment is on
-      parentCommentCid: post?.parentCid, // if top level reply to a post, same as postCid
+      parentCid: post?.parentCid, // if top level reply to a post, same as postCid
       subplebbitAddress: post?.subplebbitAddress,
       onChallenge,
       onChallengeVerification,
     });
   };
+
+  console.log(post);
 
   return (
     <Box>
@@ -404,7 +407,7 @@ function PostDetail({ post, isOpen, onClose }) {
                             lineHeight="20px"
                             textDecoration="none"
                           >
-                            p/gaming
+                            p/{truncateString(post?.subplebbitAddress, 10, '...')}
                           </Link>
                         </Box>
                         <Text
@@ -421,7 +424,9 @@ function PostDetail({ post, isOpen, onClose }) {
                           Posted By
                         </Text>
 
-                        <Link marginRight="3px">u/Abydin</Link>
+                        <Link marginRight="3px">
+                          u/{post?.author?.displayName || truncateString(post?.author?.address, 5)}
+                        </Link>
 
                         <Link>{dateToNow(parseInt(post?.timestamp))} ago</Link>
                       </Box>
