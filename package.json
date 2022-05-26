@@ -38,12 +38,12 @@
     "start": "react-scripts start",
     "build": "PUBLIC_URL=./ react-scripts build",
     "netLify-build": "react-scripts build",
-    "build-electron": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron:start": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "electron:build": "yarn build-electron && electron-builder build --publish never",
-    "electron:build:all": "yarn build-electron && electron-builder build --publish never -mwl"
+    "electron": "electron .",
+    "electron:start": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:build": "yarn build && electron-builder build --publish never",
+    "electron:build:all": "yarn build && electron-builder build --publish never -mwl"
   },
   "eslintConfig": {
     "extends": [
