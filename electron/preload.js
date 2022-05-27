@@ -12,6 +12,8 @@ window.DefaultPlebbitOptions = {
   ipfsHttpClientOptions: 'http://localhost:5001/api/v0',
   // TODO: having to define pubsubHttpClientOptions and ipfsHttpClientOptions is a bug with plebbit-js
   pubsubHttpClientOptions: 'http://localhost:5001/api/v0',
+  // ipfsGatewayUrl: 'https://cloudflare-ipfs.com',
+  // pubsubHttpClientOptions: 'https://pubsubprovider.xyz/api/v0',
 }
 
 // TODO: create context isolated plebbit-js functions to use

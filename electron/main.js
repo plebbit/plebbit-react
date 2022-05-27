@@ -5,6 +5,7 @@ const {spawn, spawnSync} = require('child_process');
 const fs = require('fs-extra')
 const envPaths = require('env-paths').default('plebbit', {suffix: false})
 const ps = require('node:process')
+const proxyServer = require('./proxyServer')
 
 const startIpfs = () => {
   const ipfsFileName = process.platform == 'win32' ? 'ipfs.exe' : 'ipfs';
@@ -43,6 +44,14 @@ const startIpfs = () => {
 
   // disable gateway because plebbit doesn't use it and it wastes a port
   spawnSync(ipfsPath, ['config', '--json', 'Addresses.Gateway', 'null'], {stdio: 'inherit', env});
+
+  // use different port with proxy for debugging during env
+  let apiAddress = '/ip4/127.0.0.1/tcp/5001'
+  if (isDev) {
+    apiAddress = apiAddress.replace('5001', '5002')
+    proxyServer.start({proxyPort: 5001, targetPort: 5002})
+  }
+  spawnSync(ipfsPath, ['config', 'Addresses.API', apiAddress], {stdio: 'inherit', env});
 
   const ipfsProcess = spawn(ipfsPath, ['daemon', '--enable-pubsub-experiment'], {env});
   console.log(`ipfs daemon process started with pid ${ipfsProcess.pid}`)
