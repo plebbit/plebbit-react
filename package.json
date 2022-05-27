@@ -44,6 +44,9 @@
     "electron:start": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron:build": "yarn build && electron-builder build --publish never",
     "electron:build:all": "yarn build && electron-builder build --publish never -mwl",
+    "electron:build:linux": "electron-builder build --publish never -l",
+    "electron:build:windows": "electron-builder build --publish never -w",
+    "electron:build:mac": "electron-builder build --publish never -m",
     "electron:rebuild": "yarn electron-rebuild"
   },
   "eslintConfig": {
@@ -81,7 +84,7 @@
     ],
     "files": [
       "build/**/*",
-      "electron/main.js",
+      "electron/**/*",
       "package.json"
     ],
     "extends": null,
