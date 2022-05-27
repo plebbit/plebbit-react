@@ -7,6 +7,9 @@ deploy.sh
 # data created by plebbit-js
 .plebbit
 
+# created by the docker electron-builder script
+.dockerignore
+
 # dependencies
 /node_modules
 /.pnp
