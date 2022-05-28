@@ -67,7 +67,7 @@
   },
   "build": {
     "appId": "plebbit.desktop",
-    "productName": "Plebbit",
+    "productName": "plebbit",
     "beforePack": "electron/beforePack.js",
     "extraResources": [
       {
