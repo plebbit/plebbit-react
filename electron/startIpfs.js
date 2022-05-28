@@ -52,7 +52,7 @@ const startIpfs = () => {
   }
   spawnSync(ipfsPath, ['config', 'Addresses.API', apiAddress], {stdio: 'inherit', env});
 
-  const ipfsProcess = spawn(ipfsPath, ['daemon', '--enable-pubsub-experiment'], {env});
+  const ipfsProcess = spawn(ipfsPath, ['daemon', '--enable-pubsub-experiment', '--enable-namesys-pubsub'], {env});
   console.log(`ipfs daemon process started with pid ${ipfsProcess.pid}`)
   ipfsProcess.stderr.on('data', (data) => console.error(data.toString()))
   ipfsProcess.stdin.on('data', (data) => console.log(data.toString()))
