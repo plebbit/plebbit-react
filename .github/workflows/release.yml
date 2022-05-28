@@ -8,13 +8,13 @@ on:
     - '*'
 
 jobs:
-  build-mac:
+  mac:
     runs-on: macOS-latest
     permissions:
       contents: write
     steps:
 
-    # electron builds
+    # electron build
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
       with:
@@ -34,13 +34,13 @@ jobs:
         body: "release"
         allowUpdates: true
 
-  build-linux-windows:
+  linux:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
 
-    # electron builds
+    # electron build
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
       with:
@@ -48,14 +48,38 @@ jobs:
     - run: yarn
     - run: yarn build
     - run: yarn electron:build:linux
-    # TODO: remove better-sqlite3 from deps to build on windows
-    # - run: yarn electron:build:windows
     - run: ls dist
 
     # publish release
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "dist/plebbit*.exe,dist/plebbit*.AppImage"
+        artifacts: "dist/plebbit*.AppImage"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        replacesArtifacts: false
+        prerelease: true
+        body: "release"
+        allowUpdates: true
+
+  windows:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+
+    # electron build
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node_version: 16
+    - run: yarn
+    - run: yarn build
+    - run: yarn electron:build:windows
+    - run: dir dist
+
+    # publish release
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/plebbit*.exe"
         token: ${{ secrets.GITHUB_TOKEN }}
         replacesArtifacts: false
         prerelease: true
