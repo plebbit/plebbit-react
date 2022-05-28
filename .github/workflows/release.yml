@@ -1,0 +1,63 @@
+# docs https://github.com/marketplace/actions/create-release
+
+name: release
+
+on: 
+  push:
+    tags:
+    - '*'
+
+jobs:
+  build-mac:
+    runs-on: macOS-latest
+    permissions:
+      contents: write
+    steps:
+
+    # electron builds
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node_version: 16
+    - run: yarn
+    - run: yarn build
+    - run: yarn electron:build:mac
+    - run: ls dist
+
+    # publish release
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/plebbit*.dmg"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        replacesArtifacts: false
+        prerelease: true
+        body: "release"
+        allowUpdates: true
+
+  build-linux-windows:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+
+    # electron builds
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node_version: 16
+    - run: yarn
+    - run: yarn build
+    - run: yarn electron:build:linux
+    # TODO: remove better-sqlite3 from deps to build on windows
+    # - run: yarn electron:build:windows
+    - run: ls dist
+
+    # publish release
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/plebbit*.exe,dist/plebbit*.AppImage"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        replacesArtifacts: false
+        prerelease: true
+        body: "release"
+        allowUpdates: true
