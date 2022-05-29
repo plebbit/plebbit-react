@@ -5,7 +5,7 @@ const util = require('util')
 const fs = require('fs-extra')
 
 fs.ensureFileSync(envPaths.log)
-const logFile = fs.createWriteStream(envPaths.log, {flags : 'w'})
+const logFile = fs.createWriteStream(envPaths.log, {flags : 'a'})
 const writeLog = (...args) => {
   logFile.write(new Date().toISOString() + ' ')
   for (const arg of args) {
