@@ -1,3 +1,4 @@
+require('./log')
 const { app, BrowserWindow, screen: electronScreen, shell } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
