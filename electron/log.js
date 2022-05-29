@@ -39,4 +39,8 @@ console.debug = (...args) => {
   consoleDebug(...args)
 }
 
+// errors aren't console logged
+process.on('uncaughtException', console.error)
+process.on("unhandledRejection", console.error)
+
 console.log(envPaths)
