@@ -40,7 +40,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "electron .",
-    "electron:start": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:start": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron:build:linux": "electron-builder build --publish never -l",
     "electron:build:windows": "electron-builder build --publish never -w",
     "electron:build:mac": "electron-builder build --publish never -m"
