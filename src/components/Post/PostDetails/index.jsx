@@ -49,11 +49,12 @@ function PostDetail({ post, isOpen, onClose }) {
   const { publishVote, publishComment } = useAccountsActions();
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const initialRoute = window.location.hash;
 
   useEffect(() => {
     window.history.replaceState(null, post?.title, `#/p/${post?.subplebbitAddress}/c/${post?.cid}`);
     return () => {
-      window.history.replaceState(null, '', '/#');
+      window.history.replaceState(null, post?.subplebbitAddress, initialRoute);
     };
   }, [isOpen]);
 
@@ -130,8 +131,6 @@ function PostDetail({ post, isOpen, onClose }) {
     });
   };
 
-  console.log(post);
-
   return (
     <Box>
       <Modal
@@ -140,7 +139,7 @@ function PostDetail({ post, isOpen, onClose }) {
         size="6xl"
         closeOnEsc
         trapFocus={false}
-        onEsc={() => window.history.replaceState(null, 'Plebbit', `/`)}
+        onEsc={onClose}
         returnFocusOnClose
       >
         <ModalOverlay bg="rgba(28,28,28,.9)" backdropFilter="blur(10px) hue-rotate(90deg)" />
@@ -428,7 +427,7 @@ function PostDetail({ post, isOpen, onClose }) {
                           u/{post?.author?.displayName || truncateString(post?.author?.address, 5)}
                         </Link>
 
-                        <Link>{dateToNow(parseInt(post?.timestamp))} ago</Link>
+                        <Link>{dateToNow(parseInt(post?.timestamp * 1000))} ago</Link>
                       </Box>
                       <Icon
                         sx={{

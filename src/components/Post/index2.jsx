@@ -2212,7 +2212,7 @@ const Post = ({ type, post, mode, loading }) => {
             type={type}
             post={post}
             loading={loading}
-            onOpen={onOpen}
+            onOpen={() => onOpen()}
             handleVote={handleVote}
           />
         )}
@@ -2244,7 +2244,7 @@ const Post = ({ type, post, mode, loading }) => {
           />
         )}
       </Box>
-      {isOpen ? <PostDetail isOpen={isOpen} onOpen={onOpen} onClose={onClose} post={post} /> : ''}
+      {isOpen && <PostDetail isOpen={isOpen} onOpen={onOpen} onClose={onClose} post={post} />}
     </Box>
   );
 };
