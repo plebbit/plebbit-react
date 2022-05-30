@@ -62,6 +62,7 @@ const theme = extendTheme({
     lightPostTransBg: 'rgba(255,255,255,0.8)',
     lightVoteText: 'rgb(26, 26, 27)',
     lightIconBg: '#DAE0E6',
+    lightLink: '#0079D3',
 
     //dark
     darkBody: '#1A1A1B',
@@ -77,6 +78,7 @@ const theme = extendTheme({
     darkPostTransBg: 'rgba(26,26,27,0.8)',
     darkVoteTest: 'rgb(215, 218, 220)',
     darkIconBg: '#030303',
+    darkLink: '##4FBCFF',
   },
   fonts: {
     body: 'IBM Plex Sans, sans-serif',

@@ -7,6 +7,7 @@ import { RiTShirtFill } from 'react-icons/ri';
 import { GiMoebiusStar, GiCakeSlice } from 'react-icons/gi';
 import Button from '../../components/Button';
 import numFormatter from '../../utils/numberFormater';
+import { useHistory } from 'react-router-dom';
 
 const SideBar = ({
   mt,
@@ -32,6 +33,7 @@ const SideBar = ({
     });
   };
   const [showMoreOptions, setShowMoreOptions] = useState(false);
+  const history = useHistory();
 
   return (
     <Box
@@ -102,7 +104,13 @@ const SideBar = ({
               />
             </Box>
             <Box padding="4px" position="absolute" right="12px" mt="-76px">
-              <Icon as={AiOutlineSetting} height="20px" color="#33a8ff" width="20px" />
+              <Icon
+                onClick={() => history.push('settings')}
+                as={AiOutlineSetting}
+                height="20px"
+                color="#33a8ff"
+                width="20px"
+              />
             </Box>
             <Flex
               textAlign="center"

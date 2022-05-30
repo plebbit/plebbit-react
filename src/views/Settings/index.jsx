@@ -7,15 +7,25 @@ import {
   Input,
   Textarea,
   Image,
+  Icon,
+  Switch,
+  Link,
+  useDisclosure,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { MdAddCircleOutline } from 'react-icons/md';
+import AddAvatar from './modal/addAvatar';
 
 const Settings = () => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const mainColor = useColorModeValue('lightText2', 'darkText1');
   const metaColor = useColorModeValue('metaTextLight', 'metaTextDark');
+  const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
+  const iconColor = useColorModeValue('lightIcon', 'darkIcon');
+  const linkColor = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
   const [view, setView] = useState('profile');
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const tabs = [
     { label: 'Account', link: 'account' },
     { label: 'Profile', link: 'profile' },
@@ -230,44 +240,187 @@ const Settings = () => {
                   margin="0 12px 0 0"
                   position="relative"
                   width="120px"
+                  cursor="pointer"
+                  onClick={onOpen}
                 >
-                  <Box cursor="pointer">
-                    <Box height="100%" width="100%">
-                      <Box height="100%" position="relative">
-                        <Box
-                          borderRadius="4px"
-                          objectFit="cover"
-                          objectPosition="top"
-                          width="100%"
-                          height="100%"
-                          position="relative"
-                        >
-                          <Box
-                            background={colorMode === 'light' ? '#edeff1' : '#343456'}
-                            width="100%"
-                            height="100%"
-                            borderRadius="50%"
-                          />
-                          <Box width="100%" position="absolute" bottom="0">
-                            <Image
-                              src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
-                              width="100%"
-                              transformOrigin="bottom center"
-                              display="block"
-                              transform="scale(1.3)"
-                              clipPath="polygon(0 68.22%,12.12% 68.22%,12.85% 71.49%,13.86% 74.69%,15.14% 77.79%,16.69% 80.77%,18.49% 83.6%,20.54% 86.26%,22.8% 88.73%,25.28% 91%,27.94% 93.04%,30.77% 94.85%,33.75% 96.4%,36.85% 97.68%,40.05% 98.69%,43.32% 99.42%,46.65% 99.85%,50% 100%,53.35% 99.85%,56.68% 99.42%,59.95% 98.69%,63.15% 97.68%,66.25% 96.4%,69.23% 94.85%,72.06% 93.04%,74.72% 91%,77.2% 88.73%,79.46% 86.26%,81.51% 83.6%,83.31% 80.77%,84.86% 77.79%,86.14% 74.69%,87.15% 71.49%,87.88% 68.22%,100% 68.22%,100% 0,0 0)"
-                            />
-                          </Box>
-                        </Box>
-                      </Box>
+                  <Box
+                    backgroundColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                    width="100%"
+                    height="100%"
+                    borderRadius="50%"
+                  />
+                  <Image
+                    position="absolute"
+                    top="0"
+                    transformOrigin="bottom center"
+                    clipPath="polygon(0 68.22%,12.12% 68.22%,12.85% 71.49%,13.86% 74.69%,15.14% 77.79%,16.69% 80.77%,18.49% 83.6%,20.54% 86.26%,22.8% 88.73%,25.28% 91%,27.94% 93.04%,30.77% 94.85%,33.75% 96.4%,36.85% 97.68%,40.05% 98.69%,43.32% 99.42%,46.65% 99.85%,50% 100%,53.35% 99.85%,56.68% 99.42%,59.95% 98.69%,63.15% 97.68%,66.25% 96.4%,69.23% 94.85%,72.06% 93.04%,74.72% 91%,77.2% 88.73%,79.46% 86.26%,81.51% 83.6%,83.31% 80.77%,84.86% 77.79%,86.14% 74.69%,87.15% 71.49%,87.88% 68.22%,100% 68.22%,100% 0,0 0)"
+                    src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
+                  />
+                </Box>
+                <Box height="100%" margin="0" width="412px">
+                  <Flex
+                    border="1px dashed #d7d7d7"
+                    borderRadius="8px"
+                    boxSizing="border-box"
+                    padding="4px"
+                    cursor="pointer"
+                    alignItems="center"
+                    justifyContent="center"
+                    textAlign="center"
+                    height="100%"
+                    width="100%"
+                    bg={inputBg}
+                    flexDir="column"
+                    onClick={onOpen}
+                  >
+                    <Box marginTop="-8px" marginBottom="4px">
+                      <Icon
+                        as={MdAddCircleOutline}
+                        boxSize={9}
+                        fill={iconColor}
+                        color={iconColor}
+                      />
                     </Box>
-                  </Box>
+                    <Text color={metaColor} fontSize="11px">
+                      Upload Banner Image
+                    </Text>
+                  </Flex>
                 </Box>
               </Flex>
             </Flex>
           </Flex>
+          <Text
+            borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+            fontSize="10px"
+            fontWeight="700"
+            lineHeight="12px"
+            paddingBottom="6px"
+            marginBottom="32px"
+          >
+            PROFILE CATEGORY
+          </Text>
+          <Flex flexFlow="row wrap" marginBottom="32px">
+            <Flex flexDir="column" marginRight="8px" maxWidth="80%">
+              <Box>
+                <Text
+                  fontSize="18px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  NSFW
+                </Text>
+              </Box>
+              <Box>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  This content is NSFW (may contain nudity, pornography, profanity or inappropriate
+                  content for those under 18)
+                </Text>
+              </Box>
+            </Flex>
+            <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
+              <Switch />
+            </Flex>
+          </Flex>
+          <Text
+            borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+            fontSize="10px"
+            fontWeight="700"
+            lineHeight="12px"
+            paddingBottom="6px"
+            marginBottom="32px"
+          >
+            ADVANCED
+          </Text>
+          <Flex flexFlow="row wrap" marginBottom="32px">
+            <Flex flexDir="column" marginRight="8px" maxWidth="80%">
+              <Box>
+                <Text
+                  fontSize="18px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  Allow people to follow you
+                </Text>
+              </Box>
+              <Box>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  Followers will be notified about posts you make to your profile and see them in
+                  their home feed.
+                </Text>
+              </Box>
+            </Flex>
+            <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
+              <Switch />
+            </Flex>
+          </Flex>
+          <Flex flexFlow="row wrap" marginBottom="32px">
+            <Flex flexDir="column" marginRight="8px" maxWidth="80%">
+              <Box>
+                <Text
+                  fontSize="18px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  Content visibility
+                </Text>
+              </Box>
+              <Box>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  Posts to this profile can appear in r/all and your profile can be discovered in
+                  /users
+                </Text>
+              </Box>
+            </Flex>
+            <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
+              <Switch />
+            </Flex>
+          </Flex>
+          <Flex flexFlow="row wrap" marginBottom="32px">
+            <Flex flexDir="column" marginRight="8px" maxWidth="80%">
+              <Box>
+                <Text
+                  fontSize="18px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  Active in communities visibility
+                </Text>
+              </Box>
+              <Box>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  Show which communities I am active in on my profile.
+                </Text>
+              </Box>
+            </Flex>
+            <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
+              <Switch />
+            </Flex>
+          </Flex>
+          <Text
+            borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+            fontSize="10px"
+            fontWeight="700"
+            lineHeight="12px"
+            paddingBottom="6px"
+            marginBottom="32px"
+          >
+            PROFILE MODERATION
+          </Text>
+          <Box>
+            For moderation tools please visit our <br />
+            <Link color={linkColor}>Profile Moderation page</Link>
+          </Box>
         </Box>
       </Flex>
+      {isOpen ? <AddAvatar isOpen={isOpen} onClose={onClose} /> : ''}
     </Box>
   );
 };
