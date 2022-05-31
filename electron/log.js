@@ -3,9 +3,11 @@
 const envPaths = require('env-paths').default('plebbit', {suffix: false})
 const util = require('util')
 const fs = require('fs-extra')
+const path = require('path')
 
-fs.ensureFileSync(envPaths.log)
-const logFile = fs.createWriteStream(envPaths.log, {flags : 'a'})
+const logFilePath = path.join(envPaths.log, `${new Date().getFullYear()}-${new Date().getMonth()+1}`)
+fs.ensureFileSync(logFilePath)
+const logFile = fs.createWriteStream(logFilePath, {flags : 'a'})
 const writeLog = (...args) => {
   logFile.write(new Date().toISOString() + ' ')
   for (const arg of args) {
@@ -41,6 +43,6 @@ console.debug = (...args) => {
 
 // errors aren't console logged
 process.on('uncaughtException', console.error)
-process.on("unhandledRejection", console.error)
+process.on('unhandledRejection', console.error)
 
 console.log(envPaths)
