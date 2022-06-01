@@ -16,8 +16,6 @@ const Profile = () => {
   const { colorMode } = useColorMode();
   const myPost = useAccountComments();
 
-  console.log('here', myPost, defaultAccount);
-
   return (
     <Flex flexDir="column">
       <Flex alignItems="center" justifyContent="center" bg={bg}>

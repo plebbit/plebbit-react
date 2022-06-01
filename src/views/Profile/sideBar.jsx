@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Flex, useColorModeValue, Icon, Image } from '@chakra-ui/react';
+import { Box, Flex, useColorModeValue, Icon, Image, useDisclosure } from '@chakra-ui/react';
 import { BsCamera } from 'react-icons/bs';
 import { AiOutlineSetting } from 'react-icons/ai';
 import { SiInformatica } from 'react-icons/si';
@@ -8,6 +8,7 @@ import { GiMoebiusStar, GiCakeSlice } from 'react-icons/gi';
 import Button from '../../components/Button';
 import numFormatter from '../../utils/numberFormater';
 import { useHistory } from 'react-router-dom';
+import AddAvatar from '../Settings/modal/addAvatar';
 
 const SideBar = ({
   mt,
@@ -34,6 +35,7 @@ const SideBar = ({
   };
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const history = useHistory();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box
@@ -78,6 +80,7 @@ const SideBar = ({
               position="absolute"
               top="0"
               width="100%"
+              onClick={onOpen}
             >
               <Box width="100%" height="100%" position="relative">
                 <Flex
@@ -105,7 +108,7 @@ const SideBar = ({
             </Box>
             <Box padding="4px" position="absolute" right="12px" mt="-76px">
               <Icon
-                onClick={() => history.push('settings')}
+                onClick={() => history.push('/settings', [])}
                 as={AiOutlineSetting}
                 height="20px"
                 color="#33a8ff"
@@ -189,6 +192,7 @@ const SideBar = ({
               bg="#0079d3"
               border="none"
               color="#fff"
+              onClick={() => history.push('/submit', [])}
             />
             {showMoreOptions && (
               <Flex flexDir="column">
@@ -454,6 +458,7 @@ const SideBar = ({
           </Flex>
         </Box>
       </Flex>
+      {isOpen ? <AddAvatar isOpen={isOpen} onClose={onClose} /> : ''}
     </Box>
   );
 };
