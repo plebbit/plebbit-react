@@ -10,7 +10,7 @@ import FeedSort from '../../components/Post/FeedSort';
 import { ProfileContext } from '../../store/profileContext';
 
 const Profile = () => {
-  const { defaultAccount } = useContext(ProfileContext);
+  const { profile } = useContext(ProfileContext);
   const [currentView, setCurrentView] = useState('overview');
   const bg = useColorModeValue('white', 'darkNavBg');
   const { colorMode } = useColorMode();
@@ -1345,7 +1345,7 @@ const Profile = () => {
           )}
         </Flex>
 
-        <SideBar mt="0px" profile={defaultAccount} />
+        <SideBar mt="0px" profile={profile} />
       </Flex>
     </Flex>
   );
