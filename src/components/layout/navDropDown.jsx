@@ -31,7 +31,7 @@ import numFormatter from '../../utils/numberFormater';
 
 const NavDropDownWide = () => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
-  const { setIsLoggedIn, isLoggedIn, defaultAccount } = useContext(ProfileContext);
+  const { setIsLoggedIn, isLoggedIn, profile } = useContext(ProfileContext);
   const bg = useColorModeValue('white', 'darkNavBg');
   const border = useColorModeValue('borderLight2', 'borderDark2');
   const { colorMode, toggleColorMode } = useColorMode();
@@ -119,7 +119,7 @@ const NavDropDownWide = () => {
             alignItems="center"
           >
             <Box fontSize="12px" fontWeight="500" lineHeight="16px">
-              {defaultAccount?.name}
+              {profile?.author?.displayName}
             </Box>
             <Flex
               alignItems="center"
@@ -129,7 +129,7 @@ const NavDropDownWide = () => {
               color={iconColor}
             >
               <Icon as={GiBlackHoleBolas} mr="1" />
-              {`${numFormatter(defaultAccount?.karma?.score)} karma`}
+              {`${numFormatter(profile?.karma?.score)} karma`}
             </Flex>
           </Flex>
           <Icon as={BsChevronDown} color={iconColor} w="20px" h="20px" ml="auto" />

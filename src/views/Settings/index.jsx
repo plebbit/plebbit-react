@@ -11,9 +11,12 @@ import {
   Switch,
   Link,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import React, { useContext, useRef, useState } from 'react';
 import { MdAddCircleOutline } from 'react-icons/md';
+import { ProfileContext } from '../../store/profileContext';
 import AddAvatar from './modal/addAvatar';
 
 const Settings = () => {
@@ -26,6 +29,7 @@ const Settings = () => {
   const { colorMode } = useColorMode();
   const [view, setView] = useState('profile');
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { profile } = useContext(ProfileContext);
   const tabs = [
     { label: 'Account', link: 'account' },
     { label: 'Profile', link: 'profile' },
@@ -34,6 +38,13 @@ const Settings = () => {
     { label: 'Notifications', link: 'notifications' },
     { label: 'Chat & Messaging', link: 'messaging' },
   ];
+  const [userProfile, setUserProfile] = useState(profile);
+  const ref = useRef(null);
+  const { setAccount } = useAccountsActions();
+  const toast = useToast();
+
+  console.log(userProfile);
+
   return (
     <Box
       paddingBottom="40px"
@@ -139,6 +150,32 @@ const Settings = () => {
                 borderRadius="4px"
                 padding="12px 24px 4px 12px"
                 width="100%"
+                value={userProfile?.author?.displayName || ''}
+                maxLength={30}
+                onChange={(e) =>
+                  setUserProfile({
+                    ...userProfile,
+                    author: {
+                      ...userProfile?.author,
+                      displayName: e.target.value,
+                    },
+                  })
+                }
+                onBlur={() =>
+                  setTimeout(async () => {
+                    if (userProfile?.author?.displayName !== profile?.author?.displayName) {
+                      await setAccount(userProfile);
+                      toast({
+                        title: `changes saved`,
+                        variant: 'left-accent',
+                        status: 'success',
+                        isClosable: true,
+                      });
+                    }
+                  }, 300)
+                }
+                name="displayName"
+                ref={ref}
               />
               <Text
                 fontWeight="400"
@@ -147,7 +184,7 @@ const Settings = () => {
                 lineHeight="16px"
                 paddingTop="5px"
               >
-                30 Characters remaining
+                {30 - +userProfile?.author?.displayName?.length} Characters remaining
               </Text>
             </Flex>
           </Flex>
@@ -186,6 +223,31 @@ const Settings = () => {
                 padding="8px"
                 width="100%"
                 resize="both"
+                value={userProfile?.author?.about || ''}
+                maxLength={200}
+                onChange={(e) =>
+                  setUserProfile({
+                    ...userProfile,
+                    author: {
+                      ...userProfile?.author,
+                      about: e.target.value,
+                    },
+                  })
+                }
+                onBlur={() =>
+                  setTimeout(async () => {
+                    if (userProfile?.author?.about !== profile?.author?.about) {
+                      await setAccount(userProfile);
+                      toast({
+                        title: `changes saved`,
+                        variant: 'left-accent',
+                        status: 'success',
+                        isClosable: true,
+                      });
+                    }
+                  }, 300)
+                }
+                name="about"
               />
               <Flex width="100%">
                 <Text
@@ -195,7 +257,7 @@ const Settings = () => {
                   lineHeight="16px"
                   paddingTop="5px"
                 >
-                  200 Characters remaining
+                  {200 - +userProfile?.author?.about?.length} Characters remaining
                 </Text>
               </Flex>
             </Flex>
