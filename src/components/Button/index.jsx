@@ -22,10 +22,6 @@ const Button = (props) => {
     minH,
     minW,
     borderRadius,
-    ml,
-    mb,
-    mr,
-    mt,
     sx,
     _hover,
     fill,
@@ -61,12 +57,9 @@ const Button = (props) => {
       disabled={disabled}
       margin={margin}
       position={position}
-      mr={mr}
-      mb={mb}
-      ml={ml}
-      mt={mt}
       sx={sx}
       fill={fill}
+      {...props}
     >
       {content}
     </Btn>
