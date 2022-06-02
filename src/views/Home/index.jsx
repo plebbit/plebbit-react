@@ -21,8 +21,6 @@ const Home = () => {
 
   const feeds = feed;
 
-  console.log(feeds);
-
   return (
     <Flex maxW="100%" padding="20px 24px" justifyContent="center" margin="0 auto">
       <Box
@@ -65,7 +63,9 @@ const Home = () => {
           <InfiniteScroll
             hasMore={hasMore}
             loadMore={loadMore}
-            content={(feed) => <Post post={feed} key={feed?.cid} mode={postStyle} />}
+            content={(feed) => (
+              <Post post={feed} key={`${Math.random()}${feed?.cid}`} mode={postStyle} />
+            )}
             feeds={feeds}
             loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
           />

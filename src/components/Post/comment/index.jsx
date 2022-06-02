@@ -99,7 +99,7 @@ const Comment = ({ comment }) => {
     publishComment({
       content,
       postCid: comment?.postCid, // the thread the comment is on
-      parentCommentCid: comment?.parentCid, // if top level reply to a post, same as postCid
+      parentCid: comment?.parentCid, // if top level reply to a post, same as postCid
       subplebbitAddress: comment?.subplebbitAddress,
       onChallenge,
       onChallengeVerification,

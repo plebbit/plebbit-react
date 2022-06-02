@@ -18,7 +18,7 @@ const App = () => {
           <Layout>
             <Route exact path="/" component={Home} />
             <Route exact path="/submit" component={PostCreate} />
-            <Route exact path="/settings" component={Settings} />
+            <Route exact path="/settings" component={Settings} name="settings" />
             <Route exact path="/u/:id" component={Profile} />
             <Route exact path="/p/:subplebbitAddress" component={SubPlebbit} />
             <Route exact path="/p/:subplebbitAddress/c/:commentCid" component={PostDetails} />
