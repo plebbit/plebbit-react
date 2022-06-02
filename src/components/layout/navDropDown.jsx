@@ -18,6 +18,7 @@ import {
   AiOutlineInfoCircle,
   AiOutlineFileText,
 } from 'react-icons/ai';
+import { useHistory } from 'react-router-dom';
 import { CgEnter } from 'react-icons/cg';
 import { MdWhereToVote, MdAccessTime } from 'react-icons/md';
 import { BiUser, BiHelpCircle } from 'react-icons/bi';
@@ -37,6 +38,7 @@ const NavDropDownWide = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const [showMenu, setShowMenu] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
+  const history = useHistory();
 
   return (
     <Box
@@ -141,19 +143,47 @@ const NavDropDownWide = () => {
           bg={bg}
           position="fixed"
           right="0"
-          top="39.5px"
+          top="52.5px"
           borderRadius="0 0 4px 4px"
-          border={`1px solid ${border}`}
-          borderY="none"
+          borderWidth="1px"
+          borderStyle="solid"
+          borderColor={border}
           marginTop="-2px"
           maxHeight="80%"
           overflowY="auto"
           overflowX="hidden"
           paddingTop="6px"
-          width="211px"
+          width="252px"
           zIndex="80"
           flexDir="column"
         >
+          <Box
+            fontSize="10px"
+            fontWeight="700"
+            letterSpacing=".5px"
+            lineHeight="12px"
+            textTransform="uppercase"
+            color={iconColor}
+            margin="8px 0 4px 12px"
+          >
+            My Stuff
+          </Box>
+          <Flex
+            alignItems="center"
+            padding="10px 16px"
+            onClick={() => history.push(`/u/${profile?.author?.address}`, [])}
+          >
+            <Box w="20px" h="20px" mr="8px" />
+            <Box>Profile</Box>
+          </Flex>
+          <Flex
+            alignItems="center"
+            padding="10px 16px"
+            onClick={() => history.push(`/settings`, [])}
+          >
+            <Box w="20px" h="20px" mr="8px" />
+            <Box>User Settings</Box>
+          </Flex>
           <Box
             fontSize="10px"
             fontWeight="700"

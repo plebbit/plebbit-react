@@ -12,6 +12,10 @@ import {
   Link,
   useDisclosure,
   useToast,
+  UnorderedList,
+  ListItem,
+  InputGroup,
+  InputRightAddon,
 } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import React, { useContext, useRef, useState } from 'react';
@@ -186,6 +190,108 @@ const Settings = () => {
               >
                 {30 - +userProfile?.author?.displayName?.length} Characters remaining
               </Text>
+            </Flex>
+          </Flex>
+          <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+            <Flex flexDir="column" marginRight="8px" maxW="80%">
+              <Text
+                fontSize="16px"
+                fontWeight="500"
+                lineHeight="20px"
+                color={mainColor}
+                marginBottom="4px"
+              >
+                Address (optional)
+              </Text>
+              <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                Set an Address for your profile..
+              </Text>
+            </Flex>
+            <Flex
+              alignItems="flex-start"
+              marginTop="12px"
+              flexDir="column"
+              flexGrow="1"
+              justifyContent="flex-end"
+            >
+              <InputGroup>
+                <Input
+                  placeholder="Address (optional)"
+                  backgroundColor={mainBg}
+                  color={mainColor}
+                  boxSizing="border-box"
+                  marginBottom="8px"
+                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                  height="48px"
+                  borderRadius="4px"
+                  padding="12px 24px 4px 12px"
+                  width="100%"
+                  value={userProfile?.author?.address || ''}
+                  maxLength={30}
+                  onChange={(e) =>
+                    setUserProfile({
+                      ...userProfile,
+                      author: {
+                        ...userProfile?.author,
+                        address: e.target.value,
+                      },
+                    })
+                  }
+                  onBlur={() =>
+                    setTimeout(async () => {
+                      if (userProfile?.author?.address !== profile?.author?.address) {
+                        await setAccount(userProfile);
+                        toast({
+                          title: `changes saved`,
+                          variant: 'left-accent',
+                          status: 'success',
+                          isClosable: true,
+                        });
+                      }
+                    }, 300)
+                  }
+                  name="address"
+                  ref={ref}
+                />
+                <InputRightAddon
+                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                  height="48px"
+                  borderRadius="4px"
+                  padding="12px 24px 4px 12px"
+                  fontWeight="bold"
+                >
+                  .eth
+                </InputRightAddon>
+              </InputGroup>
+
+              <Text
+                fontWeight="400"
+                color={metaColor}
+                fontSize="12px"
+                lineHeight="16px"
+                paddingTop="5px"
+              >
+                {30 - +userProfile?.author?.address?.length} Characters remaining
+              </Text>
+              <UnorderedList mt={3}>
+                <ListItem fontSize={12}>
+                  Go to{' '}
+                  <Link
+                    color={linkColor}
+                    href={`https://app.ens.domains/name/${userProfile?.author?.address}.eth`}
+                    isExternal
+                  >
+                    {' '}
+                    https://app.ens.domains/name/{userProfile?.author?.address}.eth{' '}
+                  </Link>
+                </ListItem>
+                <ListItem fontSize={12}>Click ADD/EDIT RECORD</ListItem>
+                <ListItem fontSize={12}>
+                  Select "text", write in "key": "plebbit-author", write in next field:
+                </ListItem>
+              </UnorderedList>
             </Flex>
           </Flex>
           <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
