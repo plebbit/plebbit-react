@@ -1,45 +1,23 @@
-const { app, BrowserWindow, screen: electronScreen } = require('electron');
+require('./log')
+const { app, BrowserWindow, screen: electronScreen, shell } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
-const {spawn, spawnSync} = require('child_process');
+const startIpfs = require('./startIpfs')
+const {URL} = require('node:url')
 
-const startIpfs = () => {
-  const ipfsFileName = process.platform == 'win32' ? 'ipfs.exe' : 'ipfs';
-  let ipfsPath = path.join(process.resourcesPath, 'bin', ipfsFileName);
-
-  // test launching the ipfs binary in dev mode
-  // they must be downloaded first using `yarn electron:build`
-  if (isDev) {
-    let binFolderName = 'win';
-    if (process.platform === 'linux') {
-      binFolderName = 'linux';
-    }
-    if (process.platform === 'darwin') {
-      binFolderName = 'mac';
-    }
-    ipfsPath = path.join(__dirname, '..', 'bin', binFolderName, ipfsFileName);
-  }
-
-  // init ipfs client on first launch
-  try {
-    spawnSync(ipfsPath, ['init']);
-  }
-  catch (e) {
-    console.log(e);
-  }
-  spawn(ipfsPath, ['daemon', '--enable-pubsub-experiment']);
-}
 startIpfs();
 
 const createMainWindow = () => {
   let mainWindow = new BrowserWindow({
-    width: electronScreen.getPrimaryDisplay().workArea.width,
-    height: electronScreen.getPrimaryDisplay().workArea.height,
+    width: 900,
+    height: 600,
     show: false,
     backgroundColor: 'white',
     webPreferences: {
-      nodeIntegration: false,
-      devTools: isDev,
+      nodeIntegration: true,
+      contextIsolation: false,
+      devTools: true, // TODO: change to isDev when no bugs left
+      preload: path.join(__dirname, 'preload.js')
     },
   });
   const startURL = isDev
@@ -57,7 +35,40 @@ const createMainWindow = () => {
   mainWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault();
     mainWindow.loadURL(url);
+
+    if (isDev) {
+      mainWindow.openDevTools()
+    }
   });
+
+  // open links in external browser
+  // do not open links in plebbit-react or will lead to remote execution
+  mainWindow.webContents.on('will-navigate', (e, originalUrl) => {
+    if (originalUrl != mainWindow.webContents.getURL()) {
+      e.preventDefault()
+      try {
+        // do not let the user open any url with shell.openExternal
+        // or it will lead to remote execution https://benjamin-altpeter.de/shell-openexternal-dangers/
+
+        // only open valid https urls to prevent remote execution
+        // will throw if url isn't valid
+        const validatedUrl = new URL(originalUrl)
+        if (validatedUrl.protocol !== 'https:') {
+          throw Error(`can't open url '${originalUrl}' not https`)
+        }
+
+        // do not open http protocol, not private
+        // do not open any other protocol, will lead to remote execution
+
+        // open serialized url to prevent remote execution
+        const serializedUrl = validatedUrl.toString()
+        shell.openExternal(serializedUrl);
+      }
+      catch (e) {
+        console.warn(e)
+      }
+    }
+  })
 };
 
 app.whenReady().then(() => {

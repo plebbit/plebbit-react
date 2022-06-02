@@ -1,0 +1,87 @@
+# docs https://github.com/marketplace/actions/create-release
+
+name: release
+
+on: 
+  push:
+    tags:
+    - '*'
+
+jobs:
+  mac:
+    runs-on: macOS-latest
+    permissions:
+      contents: write
+    steps:
+
+    # electron build
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node_version: 16
+    - run: yarn
+    - run: yarn build
+    - run: yarn electron:build:mac
+    - run: ls dist
+
+    # publish release
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/plebbit*.dmg"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        replacesArtifacts: false
+        prerelease: true
+        body: "release"
+        allowUpdates: true
+
+  linux:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+
+    # electron build
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node_version: 16
+    - run: yarn
+    - run: yarn build
+    - run: yarn electron:build:linux
+    - run: ls dist
+
+    # publish release
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/plebbit*.AppImage"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        replacesArtifacts: false
+        prerelease: true
+        body: "release"
+        allowUpdates: true
+
+  windows:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+
+    # electron build
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node_version: 16
+    - run: yarn
+    - run: yarn build
+    - run: yarn electron:build:windows
+    - run: dir dist
+
+    # publish release
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/plebbit*.exe"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        replacesArtifacts: false
+        prerelease: true
+        body: "release"
+        allowUpdates: true
