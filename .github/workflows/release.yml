@@ -31,7 +31,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         replacesArtifacts: false
         prerelease: true
-        body: "release"
+        body: "Progressive web app mirrors:\n- https://demo.plebbit.eth.limo\n- https://demo.plebbit.eth.link\n- https://cloudflare-ipfs.com/ipns/demo.plebbit.eth"
         allowUpdates: true
 
   linux:
@@ -57,7 +57,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         replacesArtifacts: false
         prerelease: true
-        body: "release"
+        body: "Progressive web app mirrors:\n- https://demo.plebbit.eth.limo\n- https://demo.plebbit.eth.link\n- https://cloudflare-ipfs.com/ipns/demo.plebbit.eth"
         allowUpdates: true
 
   windows:
@@ -83,5 +83,5 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         replacesArtifacts: false
         prerelease: true
-        body: "release"
+        body: "Progressive web app mirrors:\n- https://demo.plebbit.eth.limo\n- https://demo.plebbit.eth.link\n- https://cloudflare-ipfs.com/ipns/demo.plebbit.eth"
         allowUpdates: true

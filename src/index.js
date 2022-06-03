@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { PlebbitProvider, setPlebbitJs } from '@plebbit/plebbit-react-hooks';
 // add PlebbitJs to window.PlebbitJs so that the hooks
 // can call setPlebbitJs(PlebbitJs) and use Plebbit with
@@ -23,5 +24,8 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+// set up PWA https://cra.link/PWA
+serviceWorkerRegistration.register();
 
 reportWebVitals();

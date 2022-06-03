@@ -1,6 +1,6 @@
 {
-  "short_name": "Plebbit",
-  "name": "Plebbit Web App",
+  "short_name": "plebbit",
+  "name": "plebbit",
   "icons": [
     {
       "src": "favicon.ico",
