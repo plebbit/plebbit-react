@@ -5,7 +5,16 @@ const util = require('util')
 const fs = require('fs-extra')
 const path = require('path')
 
-const logFilePath = path.join(envPaths.log, `${new Date().getFullYear()}-${new Date().getMonth()+1}`)
+// previous version created a file instead of folder
+// we should remove this at some point
+try {
+  if (fs.lstatSync(envPaths.log).isFile()) {
+    fs.removeSync(envPaths.log)
+  }
+}
+catch (e) {}
+
+const logFilePath = path.join(envPaths.log, new Date().toISOString().substring(0, 7))
 fs.ensureFileSync(logFilePath)
 const logFile = fs.createWriteStream(logFilePath, {flags : 'a'})
 const writeLog = (...args) => {
