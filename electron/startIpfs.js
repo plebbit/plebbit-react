@@ -35,14 +35,14 @@ const startIpfs = () => {
   const env = {IPFS_PATH: ipfsDataPath}
   // init ipfs client on first launch
   try {
-    spawnSync(ipfsPath, ['init'], {stdio: 'inherit', env});
+    spawnSync(ipfsPath, ['init'], {stdio: 'inherit', env, hideWindows: true});
   }
   catch (e) {
     console.error(e);
   }
 
   // disable gateway because plebbit doesn't use it and it wastes a port
-  spawnSync(ipfsPath, ['config', '--json', 'Addresses.Gateway', 'null'], {stdio: 'inherit', env});
+  spawnSync(ipfsPath, ['config', '--json', 'Addresses.Gateway', 'null'], {stdio: 'inherit', env, hideWindows: true});
 
   // use different port with proxy for debugging during env
   let apiAddress = '/ip4/127.0.0.1/tcp/5001'
@@ -50,9 +50,9 @@ const startIpfs = () => {
     apiAddress = apiAddress.replace('5001', '5002')
     proxyServer.start({proxyPort: 5001, targetPort: 5002})
   }
-  spawnSync(ipfsPath, ['config', 'Addresses.API', apiAddress], {stdio: 'inherit', env});
+  spawnSync(ipfsPath, ['config', 'Addresses.API', apiAddress], {stdio: 'inherit', env, hideWindows: true});
 
-  const ipfsProcess = spawn(ipfsPath, ['daemon', '--enable-pubsub-experiment', '--enable-namesys-pubsub'], {env});
+  const ipfsProcess = spawn(ipfsPath, ['daemon', '--enable-pubsub-experiment', '--enable-namesys-pubsub'], {env, hideWindows: true});
   console.log(`ipfs daemon process started with pid ${ipfsProcess.pid}`)
   ipfsProcess.stderr.on('data', (data) => console.error(data.toString()))
   ipfsProcess.stdin.on('data', (data) => console.log(data.toString()))
