@@ -1,12 +1,25 @@
 const isDev = require('electron-is-dev');
 const path = require('path');
-const {spawn, spawnSync} = require('child_process');
+const {spawn} = require('child_process');
 const fs = require('fs-extra')
 const envPaths = require('env-paths').default('plebbit', {suffix: false})
 const ps = require('node:process')
 const proxyServer = require('./proxyServer')
 
-const startIpfs = () => {
+// use this custom function instead of spawnSync for better logging
+const spawnAsync = (...args) => new Promise((resolve, reject) => {
+  const spawedProcess = spawn(...args)
+  spawedProcess.on('exit', (exitCode, signal) => {
+    if (exitCode === 0) resolve()
+    else reject(Error(`spawnAsync process '${spawedProcess.pid}' exited with code '${exitCode}' signal '${signal}'`))
+  })
+  spawedProcess.stderr.on('data', (data) => console.error(data.toString()))
+  spawedProcess.stdin.on('data', (data) => console.log(data.toString()))
+  spawedProcess.stdout.on('data', (data) => console.log(data.toString()))
+  spawedProcess.on('error', (data) => console.error(data.toString()))
+})
+
+const startIpfs = async () => {
   const ipfsFileName = process.platform == 'win32' ? 'ipfs.exe' : 'ipfs';
   let ipfsPath = path.join(process.resourcesPath, 'bin', ipfsFileName);
   let ipfsDataPath = path.join(envPaths.data, 'ipfs')
@@ -35,14 +48,12 @@ const startIpfs = () => {
   const env = {IPFS_PATH: ipfsDataPath}
   // init ipfs client on first launch
   try {
-    spawnSync(ipfsPath, ['init'], {stdio: 'inherit', env, hideWindows: true});
+    await spawnAsync(ipfsPath, ['init'], {env, hideWindows: true});
   }
-  catch (e) {
-    console.log(e);
-  }
+  catch (e) {}
 
   // disable gateway because plebbit doesn't use it and it wastes a port
-  spawnSync(ipfsPath, ['config', '--json', 'Addresses.Gateway', 'null'], {stdio: 'inherit', env, hideWindows: true});
+  await spawnAsync(ipfsPath, ['config', '--json', 'Addresses.Gateway', 'null'], {env, hideWindows: true});
 
   // use different port with proxy for debugging during env
   let apiAddress = '/ip4/127.0.0.1/tcp/5001'
@@ -50,7 +61,7 @@ const startIpfs = () => {
     apiAddress = apiAddress.replace('5001', '5002')
     proxyServer.start({proxyPort: 5001, targetPort: 5002})
   }
-  spawnSync(ipfsPath, ['config', 'Addresses.API', apiAddress], {stdio: 'inherit', env, hideWindows: true});
+  await spawnAsync(ipfsPath, ['config', 'Addresses.API', apiAddress], {env, hideWindows: true});
 
   const ipfsProcess = spawn(ipfsPath, ['daemon', '--enable-pubsub-experiment', '--enable-namesys-pubsub'], {env, hideWindows: true});
   console.log(`ipfs daemon process started with pid ${ipfsProcess.pid}`)
