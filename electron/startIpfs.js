@@ -38,7 +38,7 @@ const startIpfs = () => {
     spawnSync(ipfsPath, ['init'], {stdio: 'inherit', env, hideWindows: true});
   }
   catch (e) {
-    console.error(e);
+    console.log(e);
   }
 
   // disable gateway because plebbit doesn't use it and it wastes a port
