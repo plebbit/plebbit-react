@@ -7,6 +7,7 @@ const ps = require('node:process')
 const proxyServer = require('./proxyServer')
 
 // use this custom function instead of spawnSync for better logging
+// also spawnSync might have been causing crash on start on windows
 const spawnAsync = (...args) => new Promise((resolve, reject) => {
   const spawedProcess = spawn(...args)
   spawedProcess.on('exit', (exitCode, signal) => {
