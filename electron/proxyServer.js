@@ -10,8 +10,19 @@ Debug.enable('proxy')
 const proxy = httpProxy.createProxyServer({})
 
 // rewrite the request
-// proxy.on('proxyReq', function(proxyReq, req, res, options) {
-// })
+proxy.on('proxyReq', function(proxyReq, req, res, options) {
+  // remove headers that could potentially cause an ipfs 403 error
+  proxyReq.removeHeader('X-Forwarded-For')
+  proxyReq.removeHeader('X-Forwarded-Proto')
+  proxyReq.removeHeader('sec-ch-ua')
+  proxyReq.removeHeader('sec-ch-ua-mobile')
+  proxyReq.removeHeader('user-agent')
+  proxyReq.removeHeader('origin')
+  proxyReq.removeHeader('sec-fetch-site')
+  proxyReq.removeHeader('sec-fetch-mode')
+  proxyReq.removeHeader('sec-fetch-dest')
+  proxyReq.removeHeader('referer')
+})
 proxy.on('error', (e) => {
   console.error(e)
 })
@@ -25,6 +36,10 @@ const start = ({proxyPort, targetPort} = {}) => {
 
   server.on('request', async (req, res) => {
     debugProxy(new Date().toISOString(), req.method, req.url, req.rawHeaders)
+
+    // fix cors error from dev url localhost:3000
+    // should not be necessary in production build using file url
+    res.setHeader('Access-Control-Allow-Origin', '*')
  
     proxy.web(req, res, {target: `http://localhost:${targetPort}`})
   })
