@@ -63,6 +63,7 @@ const theme = extendTheme({
     lightVoteText: 'rgb(26, 26, 27)',
     lightIconBg: '#DAE0E6',
     lightLink: '#0079D3',
+    lightIcon2: '#1a1a1b',
 
     //dark
     darkBody: '#1A1A1B',

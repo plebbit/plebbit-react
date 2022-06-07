@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button as Btn } from '@chakra-ui/button';
 
-const Button = (props) => {
+const Button = ({ children, ...props }) => {
   const {
     onClick,
     content,
@@ -61,7 +61,7 @@ const Button = (props) => {
       fill={fill}
       {...props}
     >
-      {content}
+      {content || children}
     </Btn>
   );
 };
