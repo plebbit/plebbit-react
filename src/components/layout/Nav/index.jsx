@@ -46,7 +46,7 @@ const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const history = useHistory();
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
-  const [device] = useState('mobile');
+  const [device] = useState('pc');
   const { setIsLoggedIn, isLoggedIn, profile } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
@@ -107,7 +107,9 @@ const NavBar = () => {
                   sx={{
                     width: '270px',
                     height: '36px',
+                    background: 'transparent',
                   }}
+                  isSearchable={false}
                 />
               </Box>
               <Flex
@@ -265,6 +267,7 @@ const NavBar = () => {
               overflowY="auto"
               overflowX="hidden"
               zIndex="80"
+              bg={bg}
             >
               <Box width="100%" height="40px" color="#787c7e">
                 <Flex alignItems="center" height="100%" padding="0 20px">

@@ -3,11 +3,13 @@ import { ProfileContext } from '../../store/profileContext';
 import { Box, Flex } from '@chakra-ui/layout';
 import { useColorModeValue, Image } from '@chakra-ui/react';
 import plebbitDarkLogo from '../../assets/svgs/plebbitDarkLogo.svg';
-import NavBar from './NavBar';
+import NavBar from './Nav';
 
-export default function Layout({ children }) {
+const Layout = ({ children }) => {
+  const bg = useColorModeValue('lightBody', 'darkBody');
+  const layoutBg = useColorModeValue('lightBg', 'darkBg');
+
   const { showSplashcreen } = useContext(ProfileContext);
-  const bg = useColorModeValue('lightBg', 'darkLayoutBg');
 
   if (showSplashcreen) {
     return (
@@ -21,7 +23,7 @@ export default function Layout({ children }) {
             '@keyframes pulse': {
               '0%': {
                 transform: 'scale(0.95)',
-                boxShadow: '0 0 0 0 rgba(204,169,44, 0.4)',
+                boxShadow: '0 0 0 0 rgba(181,183,183, 0.4)',
               },
               '50%': {
                 transform: 'scale(1.2)',
@@ -41,18 +43,35 @@ export default function Layout({ children }) {
   }
 
   return (
-    <Box>
-      <Box minH="calc(100vh - 48px)" bg={bg}>
-        <Box tabIndex={-1} />
-        <Box outline="none">
-          <NavBar />
-          <Box transition="margin-top .3s ease">
-            <Flex flexDirection="column" minH="calc(100vh - 48px)">
-              {children}
-            </Flex>
-          </Box>
+    <Box bg={bg} minH="calc(100vh - 48px)">
+      <Box tabIndex="-1" />
+      <Box outline="none" />
+      <NavBar />
+      <Box transition="margin-top .3s ease" paddingTop="48px">
+        <Box>
+          <Flex flexDir="column" minH="calc(100vh - 48px)">
+            <Box
+              minH="100%"
+              overflow="hidden"
+              position="relative"
+              flex="none"
+              _before={{
+                content: `""`,
+                position: 'fixed',
+                width: '100%',
+                top: '0',
+                left: '0',
+                willChange: 'transform',
+                height: '100%',
+                background: layoutBg,
+              }}
+            />
+            <Box zIndex="3">{children}</Box>
+          </Flex>
         </Box>
       </Box>
     </Box>
   );
-}
+};
+
+export default Layout;

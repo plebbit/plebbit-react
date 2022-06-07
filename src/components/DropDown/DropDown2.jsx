@@ -14,11 +14,14 @@ const DropDown2 = ({
   sx,
   isClearable,
   placeholderStyles,
+  isSearchable,
   suffix,
   topMenu,
   bottomMenu,
 }) => {
   const mainColor = useColorModeValue('lightText2', 'darkText1');
+  const navBorder = useColorModeValue('#edeff1', '#343536');
+  const mainBg = useColorModeValue('#fff', '#1A1A1B');
 
   const Control = ({ children, ...props }) => {
     const style = { cursor: 'pointer' };
@@ -58,16 +61,16 @@ const DropDown2 = ({
     <Flex width="100%" alignItems="center" borderRadius="4px" sx={sx}>
       <Select
         styles={{
-          container: (styles) => ({ ...styles, width: '100%' }),
+          container: (styles) => ({ ...styles, width: '100%', backgroundColor: mainBg }),
           control: (styles) => ({
             ...styles,
-            backgroundColor: 'white',
-            border: 'none',
+            backgroundColor: 'transparent',
+            border: '1px solid transparent',
             ':hover': {
               ...styles,
-              border: 'none',
+              border: `1px solid ${navBorder}`,
               boxShadow: 'none',
-              borderColor: 'none',
+              backgroundColor: 'transparent',
             },
           }),
           option: (styles) => {
@@ -77,9 +80,15 @@ const DropDown2 = ({
               ':active': {
                 ...styles[':active'],
               },
+              ':hover': {
+                ...styles,
+                color: '#222222',
+              },
             };
           },
           input: (styles) => ({ ...styles }),
+          menu: (styles) => ({ ...styles, border: `1px solid ${navBorder}` }),
+          menuList: (styles) => ({ ...styles, backgroundColor: mainBg }),
           placeholder: (styles) => ({
             ...styles,
             fontWeight: '500',
@@ -97,7 +106,7 @@ const DropDown2 = ({
         placeholder={placeholder || 'Choose a community'}
         options={options}
         components={{ Control, MenuList }}
-        isSearchable
+        isSearchable={isSearchable || true}
         onChange={onChange}
         getOptionLabel={getOptionLabel}
         getOptionValue={getOptionValue}
