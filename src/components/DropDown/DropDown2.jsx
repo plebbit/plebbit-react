@@ -1,4 +1,4 @@
-import { Flex, Box } from '@chakra-ui/react';
+import { Flex, Box, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 import Select, { components } from 'react-select';
 
@@ -11,13 +11,21 @@ const DropDown2 = ({
   getOptionValue,
   value,
   defaultValue,
+  sx,
+  isClearable,
+  placeholderStyles,
+  suffix,
+  topMenu,
+  bottomMenu,
 }) => {
+  const mainColor = useColorModeValue('lightText2', 'darkText1');
+
   const Control = ({ children, ...props }) => {
     const style = { cursor: 'pointer' };
 
     return (
       <components.Control {...props}>
-        {prefix || (
+        {prefix(props?.selectProps?.value) || (
           <Box
             style={style}
             borderRadius="22px"
@@ -31,12 +39,23 @@ const DropDown2 = ({
           />
         )}
         {children}
+        {suffix}
       </components.Control>
     );
   };
 
+  const MenuList = ({ children, ...props }) => {
+    return (
+      <components.MenuList {...props}>
+        {topMenu}
+        {children}
+        {bottomMenu}
+      </components.MenuList>
+    );
+  };
+
   return (
-    <Flex width="100%" alignItems="center">
+    <Flex width="100%" alignItems="center" borderRadius="4px" sx={sx}>
       <Select
         styles={{
           container: (styles) => ({ ...styles, width: '100%' }),
@@ -61,18 +80,30 @@ const DropDown2 = ({
             };
           },
           input: (styles) => ({ ...styles }),
-          placeholder: (styles) => ({ ...styles, fontSize: '14px', fontWeight: '400' }),
-          singleValue: (styles) => ({ ...styles }),
+          placeholder: (styles) => ({
+            ...styles,
+            fontWeight: '500',
+            color: mainColor,
+            ...placeholderStyles,
+          }),
+          singleValue: (styles) => ({ ...styles, fontWeight: '500', color: mainColor }),
+          indicatorSeparator: (styles) => ({ ...styles, display: 'none' }),
+          dropdownIndicator: (styles) => ({
+            ...styles,
+            color: mainColor,
+            fontWeight: '400',
+          }),
         }}
         placeholder={placeholder || 'Choose a community'}
         options={options}
-        components={{ Control }}
+        components={{ Control, MenuList }}
         isSearchable
         onChange={onChange}
         getOptionLabel={getOptionLabel}
         getOptionValue={getOptionValue}
         value={value}
         defaultValue={defaultValue}
+        isClearable={isClearable}
       />
     </Flex>
   );
