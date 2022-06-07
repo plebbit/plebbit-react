@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { ProfileDataProvider } from './store/profileContext';
-import Layout from './components/layout/index2';
+import Layout from './components/layout';
 import Home from './views/Home';
 import PostCreate from './components/Post/CreatePost';
 import Profile from './views/Profile';
