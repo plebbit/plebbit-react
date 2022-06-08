@@ -18,7 +18,8 @@ import { ProfileContext } from '../../../store/profileContext';
 import DropDown from '../../DropDown';
 
 const FeedSort = () => {
-  const { postStyle, setPostStyle, isLoggedIn, feedSort, setFeedSort } = useContext(ProfileContext);
+  const { postStyle, setPostStyle, isLoggedIn, feedSort, setFeedSort, device } =
+    useContext(ProfileContext);
   // const history = useHistory();
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
 
@@ -27,6 +28,8 @@ const FeedSort = () => {
   const border2 = useColorModeValue('#edeff1', '#343536');
   const activeFilterText = useColorModeValue('lightText', 'bodyTextDark');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
+  const mainMobileBg = useColorModeValue('white', 'black');
+
   return (
     <>
       {isLoggedIn ? (
@@ -41,34 +44,6 @@ const FeedSort = () => {
           padding="10px 12px"
         >
           <Flex alignItems="center" cursor="pointer">
-            {/* <Box
-              bg={feedSort === 'best' ? inputBg : 'transparent'}
-              color={feedSort === 'best' ? activeFilterText : iconColor}
-              cursor="default"
-              fill={feedSort === 'best' ? activeFilterText : iconColor}
-              mr="8px"
-              textTransform="capitalize"
-              position="relative"
-              border="1px solid transparent"
-              minH="unset"
-              minW="unset"
-              padding="6px 8px"
-              borderRadius="20px"
-              fontSize="14px"
-              fontWeight="700"
-              letterSpacing="unset"
-              lineHeight="17px"
-              width="auto"
-              display="flex"
-              alignItems="center"
-              _hover={{
-                background: feedSort === 'best' ? '' : inputBg,
-              }}
-              // onClick={() => setFeedSort('best')}
-            >
-              <Icon width="20px" mr="8px" height="20px" as={RiRocketLine} />
-              Best
-            </Box> */}
             <Box
               bg={feedSort === 'hot' ? inputBg : 'transparent'}
               color={feedSort === 'hot' ? activeFilterText : iconColor}
@@ -281,7 +256,7 @@ const FeedSort = () => {
             }
           />
         </Flex>
-      ) : (
+      ) : device !== 'mobile' ? (
         <Flex
           alignItems="center"
           bg={mainBg}
@@ -522,6 +497,24 @@ const FeedSort = () => {
               </>
             }
           />
+        </Flex>
+      ) : (
+        <Flex
+          borderBottom={`1px solid ${border2}`}
+          borderBottomWidth="4px"
+          minH="52px"
+          bg={mainMobileBg}
+          justifyContent="space-between"
+          lineHeight="32px"
+          padding="8px 16px"
+          maxWidth="1000px"
+          margin="0 auto"
+          position="relative"
+          touchAction="manipulation"
+        >
+          <Flex flex="1" justifyContent="space-between" overflow="hidden" lineHeight="32px">
+            <Box flex="1" overflow="hidden"></Box>
+          </Flex>
         </Flex>
       )}
     </>

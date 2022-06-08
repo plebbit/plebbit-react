@@ -10,7 +10,6 @@ import SubPlebbit from './views/SubPlebbit';
 import Settings from './views/Settings';
 
 const App = () => {
-  // console.log = () => {};
   return (
     <Router>
       <Switch>

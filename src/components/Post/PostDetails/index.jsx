@@ -123,7 +123,7 @@ function PostDetail({ post, isOpen, onClose }) {
   const handlePublishPost = () => {
     publishComment({
       content,
-      postCid: post?.postCid, // the thread the comment is on
+      postCid: post?.cid, // the thread the comment is on
       parentCid: post?.parentCid, // if top level reply to a post, same as postCid
       subplebbitAddress: post?.subplebbitAddress,
       onChallenge,
@@ -784,7 +784,7 @@ function PostDetail({ post, isOpen, onClose }) {
                   <hr />
                 </Box>
                 {post?.replies?.pages?.topAll?.comments.map((comment) => (
-                  <Comment comment={comment} key={comment.cid} />
+                  <Comment comment={comment} key={comment.cid} parentCid={post?.cid} />
                 ))}
               </Box>
             </Flex>

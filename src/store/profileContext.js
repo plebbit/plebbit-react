@@ -9,9 +9,25 @@ export const ProfileDataProvider = (props) => {
   const [postStyle, setPostStyle] = useState('card');
   const [feedSort, setFeedSort] = useState('hot');
   const [showSplashcreen, setShowSplashcreen] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [device, setDevice] = useState('pc');
   const defaultAccount = useAccount();
   const profile = defaultAccount;
+
+  const handleResize = () => {
+    if (window.innerWidth > 1200) {
+      setDevice('pc');
+    } else if (window.innerWidth > 960 && window.innerWidth < 1200) {
+      setDevice('tablet');
+    } else {
+      setDevice('mobile');
+    }
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+  }, []);
 
   const getProfileState = async () => {};
 
@@ -38,6 +54,8 @@ export const ProfileDataProvider = (props) => {
         showSplashcreen,
         feedSort,
         setFeedSort,
+        device,
+        setDevice,
       }}
     >
       {children}

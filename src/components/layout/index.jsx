@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
 
-  const { showSplashcreen } = useContext(ProfileContext);
+  const { showSplashcreen, device } = useContext(ProfileContext);
 
   if (showSplashcreen) {
     return (
@@ -43,34 +43,44 @@ const Layout = ({ children }) => {
   }
 
   return (
-    <Box bg={bg} minH="calc(100vh - 48px)">
-      <Box tabIndex="-1" />
-      <Box outline="none" />
-      <NavBar />
-      <Box transition="margin-top .3s ease" paddingTop="48px">
-        <Box>
-          <Flex flexDir="column" minH="calc(100vh - 48px)">
-            <Box
-              minH="100%"
-              overflow="hidden"
-              position="relative"
-              flex="none"
-              _before={{
-                content: `""`,
-                position: 'fixed',
-                width: '100%',
-                top: '0',
-                left: '0',
-                willChange: 'transform',
-                height: '100%',
-                background: layoutBg,
-              }}
-            />
-            <Box zIndex="3">{children}</Box>
-          </Flex>
-        </Box>
+    <>
+      <Box bg={bg} minH="calc(100vh - 48px)">
+        <Box tabIndex="-1" />
+        <Box outline="none" />
+        <NavBar />
+        {device !== 'mobile' ? (
+          <Box transition="margin-top .3s ease" paddingTop="48px">
+            <Box>
+              <Flex flexDir="column" minH="calc(100vh - 48px)">
+                <Box
+                  minH="100%"
+                  overflow="hidden"
+                  position="relative"
+                  flex="none"
+                  _before={{
+                    content: `""`,
+                    position: 'fixed',
+                    width: '100%',
+                    top: '0',
+                    left: '0',
+                    willChange: 'transform',
+                    height: '100%',
+                    background: layoutBg,
+                  }}
+                />
+                <Box zIndex="3">{children}</Box>
+              </Flex>
+            </Box>
+          </Box>
+        ) : (
+          <Box>
+            <Flex minH="100vh" flexDir="column" justifyContent="space-between" paddingTop="48px">
+              <Box>{children}</Box>
+            </Flex>
+          </Box>
+        )}
       </Box>
-    </Box>
+    </>
   );
 };
 

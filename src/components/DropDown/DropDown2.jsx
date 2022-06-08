@@ -28,7 +28,7 @@ const DropDown2 = ({
 
     return (
       <components.Control {...props}>
-        {prefix(props?.selectProps?.value) || (
+        {(prefix && prefix(props?.selectProps?.value)) || (
           <Box
             style={style}
             borderRadius="22px"
