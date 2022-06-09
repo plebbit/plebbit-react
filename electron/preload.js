@@ -10,11 +10,13 @@ mock('ipfs-utils/src/env.js', {
 })
 mock('native-fetch', {default: fetch.default, Headers: fetch.Headers, Request: fetch.Request, Response: fetch.Response})
 
+// dev uses http://localhost, prod uses file://...index.html
+const isDev = window.location.protocol === 'http:'
+
 // add PlebbitJs to window.PlebbitJs so that the hooks
 // can call setPlebbitJs(PlebbitJs) and use Plebbit with
 // all node privileges
 const PlebbitJs = require('@plebbit/plebbit-js');
-const isDev = require('electron-is-dev');
 const envPaths = require('env-paths').default('plebbit', {suffix: false})
 window.PlebbitJs = PlebbitJs
 window.DefaultPlebbitOptions = {

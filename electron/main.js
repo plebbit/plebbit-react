@@ -32,6 +32,11 @@ const createMainWindow = () => {
     mainWindow = null;
   });
 
+  // use common user agent instead of electron
+  // https://www.whatismybrowser.com/guides/the-latest-version/chrome
+  // https://www.whatismybrowser.com/guides/the-latest-user-agent/chrome
+  mainWindow.webContents.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36'
+
   mainWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault();
     mainWindow.loadURL(url);
