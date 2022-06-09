@@ -124,7 +124,7 @@ function PostDetail({ post, isOpen, onClose }) {
     publishComment({
       content,
       postCid: post?.cid, // the thread the comment is on
-      parentCid: post?.parentCid, // if top level reply to a post, same as postCid
+      parentCid: post?.cid, // if top level reply to a post, same as postCid
       subplebbitAddress: post?.subplebbitAddress,
       onChallenge,
       onChallengeVerification,
