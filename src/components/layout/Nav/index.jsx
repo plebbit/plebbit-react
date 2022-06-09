@@ -46,14 +46,13 @@ const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const history = useHistory();
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
-  const [device] = useState('pc');
-  const { setIsLoggedIn, isLoggedIn, profile } = useContext(ProfileContext);
+  const { setIsLoggedIn, isLoggedIn, profile, device } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
 
   return (
     <Box>
-      {device === 'pc' ? (
+      {device !== 'mobile' ? (
         <Flex
           flex="0"
           left="0"

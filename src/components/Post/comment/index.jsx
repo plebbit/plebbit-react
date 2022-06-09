@@ -20,7 +20,7 @@ import Editor from '../../Editor';
 import { dateToNow } from '../../../utils/formatDate';
 import numFormatter from '../../../utils/numberFormater';
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, parentCid }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const [vote] = useState(+comment?.upvoteCount - +comment?.downvoteCount);
@@ -98,8 +98,7 @@ const Comment = ({ comment }) => {
   const handlePublishPost = () => {
     publishComment({
       content,
-      postCid: comment?.postCid, // the thread the comment is on
-      parentCid: comment?.parentCid, // if top level reply to a post, same as postCid
+      parentCid: parentCid, // if top level reply to a post, same as postCid
       subplebbitAddress: comment?.subplebbitAddress,
       onChallenge,
       onChallengeVerification,
@@ -107,7 +106,7 @@ const Comment = ({ comment }) => {
   };
 
   const nestedComments = (comment?.replies?.pages?.topAll?.comments || []).map((comment) => {
-    return <Comment key={comment?.cid} comment={comment} type="child" />;
+    return <Comment key={comment?.cid} comment={comment} type="child" parentCid={comment?.cid} />;
   });
   return (
     <Flex marginTop="15px">
