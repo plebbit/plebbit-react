@@ -2,9 +2,6 @@
 
 const http = require('http')
 const httpProxy = require('http-proxy')
-const Debug = require('debug')
-const debugProxy = require('debug')('proxy')
-Debug.enable('proxy')
 
 // start proxy
 const proxy = httpProxy.createProxyServer({})
@@ -35,7 +32,7 @@ const start = ({proxyPort, targetPort} = {}) => {
   server.keepAliveTimeout = 0
 
   server.on('request', async (req, res) => {
-    debugProxy(new Date().toISOString(), req.method, req.url, req.rawHeaders)
+    console.log(new Date().toISOString(), req.method, req.url, req.rawHeaders)
 
     // fix cors error from dev url localhost:3000
     // should not be necessary in production build using file url

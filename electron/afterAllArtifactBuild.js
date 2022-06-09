@@ -9,7 +9,7 @@ const addPortableToPortableExecutableFileName = () => {
   for (const file of files) {
     if (file.endsWith('.exe') && !file.match('Setup')) {
       const filePath = path.resolve(distFolderPath, file)
-      const renamedFilePath = path.resolve(distFolderPath, file.replace('.exe', ' Portable.exe'))
+      const renamedFilePath = path.resolve(distFolderPath, file.replace('plebbit', 'plebbit Portable'))
       fs.moveSync(filePath, renamedFilePath)
     }
   }
