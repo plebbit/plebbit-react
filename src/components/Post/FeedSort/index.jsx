@@ -32,11 +32,17 @@ const FeedSort = () => {
   const mainMobileBg = useColorModeValue('white', 'black');
   const iconMobileColor = useColorModeValue('lightMobileIcon', 'darkMobileIcon');
   const [mobileSort, setMobileSort] = useState(false);
+  const [viewSelect, setViewSelect] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
+  const {
+    ref: ref2,
+    showComponent: showComponent2,
+    setShowComponent: setShowComponent2,
+  } = useVisible(false);
 
   return (
     <>
-      {isLoggedIn ? (
+      {isLoggedIn && device !== 'mobile' ? (
         <Flex
           alignItems="center"
           bg={mainBg}
@@ -260,7 +266,7 @@ const FeedSort = () => {
             }
           />
         </Flex>
-      ) : device !== 'mobile' ? (
+      ) : !isLoggedIn && device !== 'mobile' ? (
         <Flex
           alignItems="center"
           bg={mainBg}
@@ -555,8 +561,8 @@ const FeedSort = () => {
                   />
                 </Flex>
 
-                {mobileSort ? (
-                  <Box position="fixed" zIndex="20">
+                {mobileSort && showComponent ? (
+                  <Box position="fixed" zIndex="20" ref={ref}>
                     <Box
                       position="fixed"
                       borderWidth="1px"
@@ -621,7 +627,11 @@ const FeedSort = () => {
                           alignItems="flex-start"
                           minH="50px"
                           padding="14px 0"
-                          onClick={() => setFeedSort('hot')}
+                          onClick={() => {
+                            setMobileSort(false);
+                            setShowComponent(false);
+                            setFeedSort('hot');
+                          }}
                         >
                           <Icon
                             as={RiFireFill}
@@ -647,13 +657,17 @@ const FeedSort = () => {
                           alignItems="flex-start"
                           minH="50px"
                           padding="14px 0"
-                          onClick={() => setFeedSort('top')}
+                          onClick={() => {
+                            setMobileSort(false);
+                            setShowComponent(false);
+                            setFeedSort('new');
+                          }}
                         >
                           <Icon
                             as={RiFireFill}
                             w="50px"
                             flex="0 0 5opx"
-                            color={feedSort === 'top' ? activeFilterText : iconMobileColor}
+                            color={feedSort === 'new' ? activeFilterText : iconMobileColor}
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -665,7 +679,7 @@ const FeedSort = () => {
                             whiteSpace="normal"
                             fontSize="16px"
                           >
-                            Top
+                            New
                           </Box>
                         </Flex>
                       </Box>
@@ -677,9 +691,18 @@ const FeedSort = () => {
               </Box>
             </Box>
             <Box>
-              <Flex alignItems="center" color="#a5a4a4" fill="#a5a4a4" height="32px">
+              <Flex
+                alignItems="center"
+                color="#a5a4a4"
+                fill="#a5a4a4"
+                height="32px"
+                onClick={() => {
+                  setViewSelect(!viewSelect);
+                  setShowComponent2(!viewSelect);
+                }}
+              >
                 <Icon
-                  as={MdViewHeadline}
+                  as={postStyle === 'card' ? MdViewAgenda : MdTableRows}
                   width="24px"
                   height="24px"
                   verticalAlign="middle"
@@ -696,11 +719,137 @@ const FeedSort = () => {
                   marginLeft="8px"
                 />
               </Flex>
+              {viewSelect && showComponent2 ? (
+                <Box position="fixed" zIndex="20" ref={ref2}>
+                  <Box
+                    position="fixed"
+                    borderWidth="1px"
+                    borderStyle="solid"
+                    bg="white"
+                    zIndex="1000"
+                    top="149px"
+                    left="214px"
+                    right="8px"
+                    width="auto"
+                    borderColor={border2}
+                  >
+                    <Box
+                      position="fixed"
+                      width="0"
+                      height="0"
+                      zIndex="1001"
+                      left="506px"
+                      borderLeft="8px solid transparent"
+                      borderRight="8px solid transparent"
+                      top="142px"
+                      borderBottomWidth="8px"
+                      borderBottomStyle="solid"
+                      borderBottomColor="inherit"
+                    />
+                    <Box
+                      position="fixed"
+                      width="0"
+                      height="0"
+                      zIndex="1001"
+                      left="507px"
+                      borderLeft="7px solid transparent"
+                      borderRight="7px solid transparent"
+                      top="143px"
+                      borderBottom="7px solid #fff"
+                      borderTopColor="7px solid #fff !important"
+                    />
+                    <Box width="100%" height="100%" overflow="auto">
+                      <Box
+                        bg={mainMobileBg}
+                        color="#a5a4a4"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                        padding="8px 8px 0"
+                        fontSize="10px"
+                        lineHeight="24px"
+                        letterSpacing="1.5"
+                        fontWeight="700"
+                        textTransform="uppercase"
+                      >
+                        View post in:
+                        <Box
+                          borderTopColor={iconMobileColor}
+                          borderTopStyle="solid"
+                          borderTopWidth="1px"
+                          marginTop="8px"
+                        />
+                      </Box>
+                      <Flex
+                        bg={mainMobileBg}
+                        alignItems="flex-start"
+                        minH="50px"
+                        padding="14px 0"
+                        onClick={() => {
+                          setViewSelect(false);
+                          setShowComponent2(false);
+                          setPostStyle('classic');
+                        }}
+                      >
+                        <Icon
+                          as={postStyle === 'classic' ? MdTableRows : MdOutlineTableRows}
+                          w="50px"
+                          flex="0 0 5opx"
+                          color={postStyle === 'classic' ? activeFilterText : iconMobileColor}
+                          textAlign="center"
+                          lineHeight="22px"
+                        />
+                        <Box
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          lineHeight="22px"
+                          maxHeight="44px"
+                          whiteSpace="normal"
+                          fontSize="16px"
+                        >
+                          Classic View
+                        </Box>
+                      </Flex>
+                      <Flex
+                        bg={mainMobileBg}
+                        alignItems="flex-start"
+                        minH="50px"
+                        padding="14px 0"
+                        onClick={() => {
+                          setViewSelect(false);
+                          setShowComponent2(false);
+                          setPostStyle('card');
+                        }}
+                      >
+                        <Icon
+                          as={postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream}
+                          w="50px"
+                          flex="0 0 5opx"
+                          color={postStyle === 'card' ? activeFilterText : iconMobileColor}
+                          textAlign="center"
+                          lineHeight="22px"
+                        />
+                        <Box
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          lineHeight="22px"
+                          maxHeight="44px"
+                          whiteSpace="normal"
+                          fontSize="16px"
+                        >
+                          Card View
+                        </Box>
+                      </Flex>
+                    </Box>
+                  </Box>
+                </Box>
+              ) : (
+                ''
+              )}
             </Box>
           </Flex>
-          {mobileSort && showComponent ? (
+          {(mobileSort && showComponent) || (viewSelect && showComponent2) ? (
             <Box
-              ref={ref}
               background="rgba(0,0,0,.4)"
               position="fixed"
               top="0"
@@ -709,10 +858,6 @@ const FeedSort = () => {
               right="0"
               cursor="pointer"
               zIndex="10"
-              onClick={() => {
-                setMobileSort(!mobileSort);
-                setShowComponent(!mobileSort);
-              }}
             />
           ) : (
             ''
