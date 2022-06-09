@@ -65,6 +65,7 @@ const theme = extendTheme({
     lightLink: '#0079D3',
     lightIcon2: '#1a1a1b',
     lightMobileText: '#000',
+    lightMobileIcon: '#ccccca',
 
     //dark
     darkBody: '#1A1A1B',
@@ -82,6 +83,7 @@ const theme = extendTheme({
     darkIconBg: '#030303',
     darkLink: '##4FBCFF',
     darkMobileText: '#cfd0ca',
+    darkMobileIcon: '#545452',
   },
   fonts: {
     body: 'IBM Plex Sans, sans-serif',

@@ -165,7 +165,7 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
               fontWeight="400"
               lineHeight="16px"
               flexFlow="row nowrap"
-              alignItem="start"
+              alignItems="start"
               margin="0 8px 8px"
               position="relative"
             >
@@ -220,6 +220,8 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                         h="24px"
                         verticalAlign="middle"
                         src="https://picsum.photos/200?random=1"
+                        alt="not-found"
+                        fallbackSrc={require('../../assets/images/fallback.png')}
                       />
                     </Flex>
                     <Flex
@@ -233,6 +235,8 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                         h="24px"
                         verticalAlign="middle"
                         src="https://picsum.photos/200?random=2"
+                        alt="not-found"
+                        fallbackSrc={require('../../assets/images/fallback.png')}
                       />
                     </Flex>
                     {/* User Name */}
@@ -443,7 +447,7 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                 fontWeight="400"
                 lineHeight="16px"
                 flexFlow="row nowrap"
-                alignItem="start"
+                alignItems="start"
                 margin="0 8px 8px"
                 position="relative"
               >
@@ -498,6 +502,8 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                           h="24px"
                           verticalAlign="middle"
                           src="https://picsum.photos/200?random=1"
+                          alt="not-found"
+                          fallbackSrc={require('../../assets/images/fallback.png')}
                         />
                       </Flex>
                       <Flex
@@ -511,6 +517,8 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                           h="24px"
                           verticalAlign="middle"
                           src="https://picsum.photos/200?random=2"
+                          alt="not-found"
+                          fallbackSrc={require('../../assets/images/fallback.png')}
                         />
                       </Flex>
                       {/* User Name */}
@@ -734,6 +742,11 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                       src={post?.link}
                       width="100%"
                       height="100%"
+                      onError={(err) =>
+                        err.onError === null
+                          ? (err.src = 'https://demofree.sirv.com/products/123456/')
+                          : ''
+                      }
                     />
                   </Link>
                 </Skeleton>

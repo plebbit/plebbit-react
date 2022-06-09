@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box, Flex, Icon, useColorModeValue } from '@chakra-ui/react';
 // import { useHistory } from 'react-router';
 import { RiFireFill } from 'react-icons/ri';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { TiStarburstOutline } from 'react-icons/ti';
-import { BsBoxArrowUp } from 'react-icons/bs';
+import { BsBoxArrowUp, BsChevronDown } from 'react-icons/bs';
 import {
   MdOutlineViewStream,
   MdViewAgenda,
@@ -16,6 +16,7 @@ import {
 } from 'react-icons/md';
 import { ProfileContext } from '../../../store/profileContext';
 import DropDown from '../../DropDown';
+import useVisible from '../../../hooks/useVisible';
 
 const FeedSort = () => {
   const { postStyle, setPostStyle, isLoggedIn, feedSort, setFeedSort, device } =
@@ -29,6 +30,9 @@ const FeedSort = () => {
   const activeFilterText = useColorModeValue('lightText', 'bodyTextDark');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const mainMobileBg = useColorModeValue('white', 'black');
+  const iconMobileColor = useColorModeValue('lightMobileIcon', 'darkMobileIcon');
+  const [mobileSort, setMobileSort] = useState(false);
+  const { ref, showComponent, setShowComponent } = useVisible(false);
 
   return (
     <>
@@ -134,7 +138,7 @@ const FeedSort = () => {
               <Box
                 borderRadius="20px"
                 color={iconColor}
-                outLine="none"
+                outline="none"
                 padding="8px"
                 bg="transparent"
                 cursor="pointer"
@@ -376,7 +380,7 @@ const FeedSort = () => {
               <Box
                 borderRadius="20px"
                 color={iconColor}
-                outLine="none"
+                outline="none"
                 padding="8px"
                 bg="transparent"
                 cursor="pointer"
@@ -513,8 +517,206 @@ const FeedSort = () => {
           touchAction="manipulation"
         >
           <Flex flex="1" justifyContent="space-between" overflow="hidden" lineHeight="32px">
-            <Box flex="1" overflow="hidden"></Box>
+            <Box flex="1" overflow="hidden">
+              <Box marginRight="16px" maxW="calc(100% - 2 * 8px)">
+                <Flex
+                  alignItems="center"
+                  flexFlow="row nowrap"
+                  onClick={() => {
+                    setMobileSort(!mobileSort);
+                    setShowComponent(!mobileSort);
+                  }}
+                >
+                  <Icon
+                    as={RiFireFill}
+                    color={iconMobileColor}
+                    w="24px"
+                    h="24px"
+                    flex="0 0 24px"
+                    verticalAlign="middle"
+                  />
+                  <Box
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    whiteSpace="nowrap"
+                    color="#a5a4a4"
+                    marginRight="8px"
+                    textTransform="capitalize"
+                  >
+                    {feedSort}
+                  </Box>
+                  <Icon
+                    as={BsChevronDown}
+                    color={iconMobileColor}
+                    width="16px"
+                    height="16px"
+                    flex="0 0 16px"
+                    verticalAlign="middle"
+                  />
+                </Flex>
+
+                {mobileSort ? (
+                  <Box position="fixed" zIndex="20">
+                    <Box
+                      position="fixed"
+                      borderWidth="1px"
+                      borderStyle="solid"
+                      bg="white"
+                      zIndex="1000"
+                      top="149px"
+                      left="8px"
+                      right="8px"
+                      width="auto"
+                      borderColor={border2}
+                    >
+                      <Box
+                        position="fixed"
+                        width="0"
+                        height="0"
+                        zIndex="1001"
+                        left="43.6484px"
+                        borderLeft="8px solid transparent"
+                        borderRight="8px solid transparent"
+                        top="142px"
+                        borderBottomWidth="8px"
+                        borderBottomStyle="solid"
+                        borderBottomColor="inherit"
+                      />
+                      <Box
+                        position="fixed"
+                        width="0"
+                        height="0"
+                        zIndex="1001"
+                        left="44.6484px"
+                        borderLeft="7px solid transparent"
+                        borderRight="7px solid transparent"
+                        top="143px"
+                        borderBottom="7px solid #fff"
+                        borderTopColor="7px solid #fff !important"
+                      />
+                      <Box width="100%" height="100%" overflow="auto">
+                        <Box
+                          bg={mainMobileBg}
+                          color="#a5a4a4"
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                          padding="8px 8px 0"
+                          fontSize="10px"
+                          lineHeight="24px"
+                          letterSpacing="1.5"
+                          fontWeight="700"
+                          textTransform="uppercase"
+                        >
+                          Sort post by:
+                          <Box
+                            borderTopColor={iconMobileColor}
+                            borderTopStyle="solid"
+                            borderTopWidth="1px"
+                            marginTop="8px"
+                          />
+                        </Box>
+                        <Flex
+                          bg={mainMobileBg}
+                          alignItems="flex-start"
+                          minH="50px"
+                          padding="14px 0"
+                          onClick={() => setFeedSort('hot')}
+                        >
+                          <Icon
+                            as={RiFireFill}
+                            w="50px"
+                            flex="0 0 5opx"
+                            color={feedSort === 'hot' ? activeFilterText : iconMobileColor}
+                            textAlign="center"
+                            lineHeight="22px"
+                          />
+                          <Box
+                            overflow="hidden"
+                            textOverflow="ellipsis"
+                            lineHeight="22px"
+                            maxHeight="44px"
+                            whiteSpace="normal"
+                            fontSize="16px"
+                          >
+                            Hot
+                          </Box>
+                        </Flex>
+                        <Flex
+                          bg={mainMobileBg}
+                          alignItems="flex-start"
+                          minH="50px"
+                          padding="14px 0"
+                          onClick={() => setFeedSort('top')}
+                        >
+                          <Icon
+                            as={RiFireFill}
+                            w="50px"
+                            flex="0 0 5opx"
+                            color={feedSort === 'top' ? activeFilterText : iconMobileColor}
+                            textAlign="center"
+                            lineHeight="22px"
+                          />
+                          <Box
+                            overflow="hidden"
+                            textOverflow="ellipsis"
+                            lineHeight="22px"
+                            maxHeight="44px"
+                            whiteSpace="normal"
+                            fontSize="16px"
+                          >
+                            Top
+                          </Box>
+                        </Flex>
+                      </Box>
+                    </Box>
+                  </Box>
+                ) : (
+                  ''
+                )}
+              </Box>
+            </Box>
+            <Box>
+              <Flex alignItems="center" color="#a5a4a4" fill="#a5a4a4" height="32px">
+                <Icon
+                  as={MdViewHeadline}
+                  width="24px"
+                  height="24px"
+                  verticalAlign="middle"
+                  color={iconMobileColor}
+                  fill={iconMobileColor}
+                />
+                <Icon
+                  as={BsChevronDown}
+                  width="24px"
+                  height="24px"
+                  verticalAlign="middle"
+                  color={iconMobileColor}
+                  fill={iconMobileColor}
+                  marginLeft="8px"
+                />
+              </Flex>
+            </Box>
           </Flex>
+          {mobileSort && showComponent ? (
+            <Box
+              ref={ref}
+              background="rgba(0,0,0,.4)"
+              position="fixed"
+              top="0"
+              bottom="0"
+              left="0"
+              right="0"
+              cursor="pointer"
+              zIndex="10"
+              onClick={() => {
+                setMobileSort(!mobileSort);
+                setShowComponent(!mobileSort);
+              }}
+            />
+          ) : (
+            ''
+          )}
         </Flex>
       )}
     </>

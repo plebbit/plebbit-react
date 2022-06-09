@@ -313,7 +313,7 @@ const CompactPost = ({
                 fontWeight="400"
                 lineHeight="16px"
                 flexFlow="row nowrap"
-                alignItem="start"
+                alignItems="start"
                 margin="0 8px 8px"
                 position="relative"
               >
@@ -379,6 +379,8 @@ const CompactPost = ({
                           h="14px"
                           verticalAlign="middle"
                           src="https://picsum.photos/200?random=1"
+                          alt="not-found"
+                          fallbackSrc={require('../../assets/images/fallback.png')}
                         />
                       </Flex>
                       <Flex
@@ -392,6 +394,8 @@ const CompactPost = ({
                           h="14px"
                           verticalAlign="middle"
                           src="https://picsum.photos/200?random=2"
+                          alt="not-found"
+                          fallbackSrc={require('../../assets/images/fallback.png')}
                         />
                       </Flex>
                       {/* User Name */}

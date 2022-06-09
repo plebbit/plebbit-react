@@ -13,6 +13,7 @@ const Home = () => {
   const { isLoggedIn, postStyle, feedSort, device } = useContext(ProfileContext);
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mobileMainColor = useColorModeValue('lightMobileText', 'darkMobileText');
+  const mainMobileBg = useColorModeValue('white', 'black');
 
   const { feed, loadMore, hasMore } = useFeed(
     subPlebbitsData?.map((x) => x.value),
@@ -72,7 +73,7 @@ const Home = () => {
           <SideBar bg={bg} />
         </Flex>
       ) : (
-        <Box>
+        <Box bg={mainMobileBg}>
           <Text
             fontSize="26px"
             fontWeight="700"
