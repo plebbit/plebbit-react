@@ -171,11 +171,9 @@ const Posts = ({ post, hideContent }) => {
                 Posted By
               </Text>
 
-              <Link
-                as={ReactLink}
-                to={`u/${post?.author?.address}`}
-                marginRight="3px"
-              >{`u/${post?.author?.displayName}`}</Link>
+              <Link as={ReactLink} to={`u/${post?.author?.address}`} marginRight="3px">
+                {getUserName(post?.author)}
+              </Link>
 
               <Link>{dateToNow(parseInt(post?.timestamp))}</Link>
             </Box>

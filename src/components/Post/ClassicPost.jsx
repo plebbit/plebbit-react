@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Box,
   Flex,
@@ -23,6 +24,7 @@ import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { Link as ReactLink } from 'react-router-dom';
 import { dateToNow } from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
+import getUserName from '../../utils/getUserName';
 
 const ClassicPost = ({
   onOpen,
@@ -384,7 +386,7 @@ const ClassicPost = ({
                           fontSize="12px"
                           lineHeight="16px"
                         >
-                          {`u/${post?.author?.displayName}`}
+                          {getUserName(post?.author)}
                         </Text>
                       </Box>
                     </Box>
