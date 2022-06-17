@@ -74,16 +74,18 @@ const Home = () => {
         </Flex>
       ) : (
         <Box bg={mainMobileBg}>
-          <Text
-            fontSize="26px"
-            fontWeight="700"
-            lineHeight="31px"
-            margin="0"
-            color={mobileMainColor}
-            padding="20px 12px 2px"
-          >
-            Popular
-          </Text>
+          {!isLoggedIn && (
+            <Text
+              fontSize="26px"
+              fontWeight="700"
+              lineHeight="31px"
+              margin="0"
+              color={mobileMainColor}
+              padding="20px 12px 2px"
+            >
+              Popular
+            </Text>
+          )}
           <FeedSort />
           <Box bg={mainMobileBg}>
             <InfiniteScroll

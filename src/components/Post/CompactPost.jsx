@@ -378,11 +378,11 @@ const CompactPost = ({
                         mr="4px"
                       >
                         <Image
+                          fallbackSrc={require('../../assets/images/fallback.png')}
                           h="14px"
                           verticalAlign="middle"
                           src="https://picsum.photos/200?random=1"
                           alt="not-found"
-                          fallbackSrc={require('../../assets/images/fallback.png')}
                         />
                       </Flex>
                       <Flex
@@ -393,11 +393,11 @@ const CompactPost = ({
                         mr="4px"
                       >
                         <Image
+                          fallbackSrc={require('../../assets/images/fallback.png')}
                           h="14px"
                           verticalAlign="middle"
                           src="https://picsum.photos/200?random=2"
                           alt="not-found"
-                          fallbackSrc={require('../../assets/images/fallback.png')}
                         />
                       </Flex>
                       {/* User Name */}

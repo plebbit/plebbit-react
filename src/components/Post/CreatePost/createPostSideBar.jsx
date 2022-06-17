@@ -28,6 +28,7 @@ const CreatePostSideBar = () => {
             fontWeight="500"
           >
             <Image
+              fallbackSrc={require('../../../assets/images/fallback.png')}
               height="40px"
               marginRight="8px"
               paddingBottom="5px"

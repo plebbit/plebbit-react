@@ -418,6 +418,7 @@ const Settings = () => {
                     borderRadius="50%"
                   />
                   <Image
+                    fallbackSrc={require('../../assets/images/fallback.png')}
                     position="absolute"
                     top="0"
                     transformOrigin="bottom center"

@@ -28,6 +28,7 @@ const CreatePostBar = () => {
             <Box width="100%" height="100%" borderRadius="50%" bg={border2} />
             <Box width="100%" position="absolute" bottom="0">
               <Image
+                fallbackSrc={require('../../../assets/images/fallback.png')}
                 src={`https://robohash.org/${Math.round(
                   Math.random() * (5 - 1 + 1) + 1
                 )}?set=set${Math.floor(Math.random() * (5 - 1 + 1) + 1)}`}

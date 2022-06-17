@@ -513,11 +513,11 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                             mr="4px"
                           >
                             <Image
+                              fallbackSrc={require('../../assets/images/fallback.png')}
                               h="24px"
                               verticalAlign="middle"
                               src="https://picsum.photos/200?random=1"
                               alt="not-found"
-                              fallbackSrc={require('../../assets/images/fallback.png')}
                             />
                           </Flex>
                           <Flex
@@ -528,11 +528,11 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                             mr="4px"
                           >
                             <Image
+                              fallbackSrc={require('../../assets/images/fallback.png')}
                               h="24px"
                               verticalAlign="middle"
                               src="https://picsum.photos/200?random=2"
                               alt="not-found"
-                              fallbackSrc={require('../../assets/images/fallback.png')}
                             />
                           </Flex>
                           {/* User Name */}
@@ -751,6 +751,7 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                       {' '}
                       <Link href={post?.link}>
                         <Image
+                          fallbackSrc={require('../../assets/images/fallback.png')}
                           borderColor="mainBlue"
                           border="1px solid #0079d3;"
                           src={post?.link}
@@ -998,6 +999,7 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                             width="24px"
                           >
                             <Image
+                              fallbackSrc={require('../../assets/images/fallback.png')}
                               alt="plebbit-post"
                               overflow="hidden"
                               whiteSpace="nowrap"
@@ -1023,7 +1025,9 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                           color="#798389"
                         />
                         <Box>
-                          <Skeleton isLoaded={!loading}>{dateToNow(post?.timestamp)}</Skeleton>
+                          <Skeleton isLoaded={!loading}>
+                            {dateToNow(post?.timestamp * 1000)}
+                          </Skeleton>
                         </Box>
                       </Flex>
                     </Box>

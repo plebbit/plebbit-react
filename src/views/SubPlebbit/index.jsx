@@ -40,6 +40,7 @@ const SubPlebbit = ({ match }) => {
         >
           <Flex marginTop="-14px" marginBottom="12px" alignItems="flex-start">
             <Image
+              fallbackSrc={require('../../assets/images/fallback.png')}
               src="https://styles.redditmedia.com/t5_2wlj3/styles/communityIcon_7jxh2j4ouky41.png?width=256&s=59ea46d93492e9d0951b43d7c580f72982a86974"
               backgroundColor="#fff"
               backgroundSize="cover"
