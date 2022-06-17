@@ -74,6 +74,7 @@ const PostDetailSideBar = ({
           </Box>
           <Flex width="100" padding="12px" alignItems="center" mb="8px">
             <Image
+              fallbackSrc={require('../../../assets/images/fallback.png')}
               borderRadius="full"
               boxSize="54px"
               src="https://bit.ly/dan-abramov"

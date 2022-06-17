@@ -47,6 +47,7 @@ const NDDown = ({ onClick }) => {
                 />
                 <Box width="100%" position="absolute" bottom="0">
                   <Image
+                    fallbackSrc={require('../../../assets/images/fallback.png')}
                     src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
                     display="block"
                   />

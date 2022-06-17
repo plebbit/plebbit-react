@@ -77,6 +77,7 @@ const NavBar = () => {
             <Flex alignItems="center" flexGrow="1">
               <Flex display="flex" alignItems="center">
                 <Image
+                  fallbackSrc={require('../../../assets/images/fallback.png')}
                   borderRadius="full"
                   width="32px"
                   height="32px"
@@ -89,6 +90,7 @@ const NavBar = () => {
                   cursor="pointer"
                 />
                 <Image
+                  fallbackSrc={require('../../../assets/images/fallback.png')}
                   height="18px"
                   width="auto"
                   src={colorMode === 'light' ? plebbitlightText2 : plebbitLightText}
@@ -203,6 +205,7 @@ const NavBar = () => {
           >
             <Flex flexBasis="144px" flex="1 0 130px" mr="auto" alignItems="center">
               <Image
+                fallbackSrc={require('../../../assets/images/fallback.png')}
                 borderRadius="full"
                 width="30px"
                 height="30px"
@@ -214,6 +217,7 @@ const NavBar = () => {
                 cursor="pointer"
               />
               <Image
+                fallbackSrc={require('../../../assets/images/fallback.png')}
                 height="18px"
                 width="auto"
                 src={plebbitLightText}
@@ -250,7 +254,7 @@ const NavBar = () => {
       )}
       {showDropDown && showComponent && (
         <Box ref={ref}>
-          {device === 'pc' ? (
+          {device !== 'mobile' ? (
             <Box
               position="fixed"
               right="16px"
@@ -641,6 +645,7 @@ const NavBar = () => {
                         width="100%"
                       >
                         <Image
+                          fallbackSrc={require('../../../assets/images/fallback.png')}
                           src="https://raw.githubusercontent.com/plebbit/assets/master/logo-square.svg"
                           bg="#fff"
                           borderRadius="50%"

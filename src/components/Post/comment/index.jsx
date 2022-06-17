@@ -112,6 +112,7 @@ const Comment = ({ comment, parentCid }) => {
     <Flex marginTop="15px">
       <Flex marginRight="8px" flexDir="column" alignItems="center">
         <Image
+          fallbackSrc={require('../../../assets/images/fallback.png')}
           src="https://styles.redditmedia.com/t5_1yz875/styles/profileIcon_klqlly9fc4l41.png?width=256&height=256&crop=256:256,smart&s=94486fc13b9ca9e154e9e8926e3d8c43ccc80be3"
           rounded
           height="28px"
@@ -129,6 +130,7 @@ const Comment = ({ comment, parentCid }) => {
             </Box>
             <Flex alignItems="center">
               <Image
+                fallbackSrc={require('../../../assets/images/fallback.png')}
                 mr="5px"
                 rounded
                 height="16px"

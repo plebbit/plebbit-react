@@ -19,6 +19,7 @@ import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { Link as ReactLink } from 'react-router-dom';
 import { dateToNow } from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
+import getUserName from '../../utils/getUserName';
 
 const CompactPost = ({
   loading,
@@ -43,6 +44,7 @@ const CompactPost = ({
   const iconBg = useColorModeValue('lightIconBg', 'darkIconBg');
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
+
   return (
     <Box
       color={iconColor}
@@ -376,11 +378,11 @@ const CompactPost = ({
                         mr="4px"
                       >
                         <Image
+                          fallbackSrc={require('../../assets/images/fallback.png')}
                           h="14px"
                           verticalAlign="middle"
                           src="https://picsum.photos/200?random=1"
                           alt="not-found"
-                          fallbackSrc={require('../../assets/images/fallback.png')}
                         />
                       </Flex>
                       <Flex
@@ -391,11 +393,11 @@ const CompactPost = ({
                         mr="4px"
                       >
                         <Image
+                          fallbackSrc={require('../../assets/images/fallback.png')}
                           h="14px"
                           verticalAlign="middle"
                           src="https://picsum.photos/200?random=2"
                           alt="not-found"
-                          fallbackSrc={require('../../assets/images/fallback.png')}
                         />
                       </Flex>
                       {/* User Name */}
@@ -412,7 +414,7 @@ const CompactPost = ({
                             fontSize="12px"
                             lineHeight="16px"
                           >
-                            {`u/${post?.author?.displayName}`}
+                            {getUserName(post?.author)}
                           </Link>
                         </Box>
                       </Box>

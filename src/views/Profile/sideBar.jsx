@@ -100,6 +100,7 @@ const SideBar = ({
             </Box>
             <Box height="160px" width="125px" textAlign="center" position="relative" margin="auto">
               <Image
+                fallbackSrc={require('../../assets/images/fallback.png')}
                 height="160px"
                 position="relative"
                 zIndex="1"

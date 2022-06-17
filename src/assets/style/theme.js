@@ -65,7 +65,9 @@ const theme = extendTheme({
     lightLink: '#0079D3',
     lightIcon2: '#1a1a1b',
     lightMobileText: '#000',
+    lightMobileText2: '#1a1a1b',
     lightMobileIcon: '#ccccca',
+    lightMobileIcon2: '#787c7e',
 
     //dark
     darkBody: '#1A1A1B',

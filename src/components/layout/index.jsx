@@ -15,6 +15,7 @@ const Layout = ({ children }) => {
     return (
       <Box width="100%" height="100vh" display="flex" justifyContent="center" alignItems="center">
         <Image
+          fallbackSrc={require('../../assets/images/fallback.png')}
           width="200px"
           rounded="full"
           sx={{
