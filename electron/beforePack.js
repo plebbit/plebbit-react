@@ -9,9 +9,12 @@ const ipfsClientsPath = path.join(__dirname, '..', 'bin')
 const ipfsClientWindowsPath = path.join(ipfsClientsPath, 'win')
 const ipfsClientMacPath = path.join(ipfsClientsPath, 'mac')
 const ipfsClientLinuxPath = path.join(ipfsClientsPath, 'linux')
-const ipfsClientWindowsUrl = 'https://dist.ipfs.io/go-ipfs/v0.12.2/go-ipfs_v0.12.2_windows-amd64.zip'
-const ipfsClientMacUrl = 'https://dist.ipfs.io/go-ipfs/v0.12.2/go-ipfs_v0.12.2_darwin-amd64.tar.gz'
-const ipfsClientLinuxPUrl = 'https://dist.ipfs.io/go-ipfs/v0.12.2/go-ipfs_v0.12.2_linux-amd64.tar.gz'
+
+// download links at https://docs.ipfs.io/install/command-line/#system-requirements
+const ipfsClientVersion = '0.13.0'
+const ipfsClientWindowsUrl = `https://dist.ipfs.io/go-ipfs/v${ipfsClientVersion}/go-ipfs_v${ipfsClientVersion}_windows-amd64.zip`
+const ipfsClientMacUrl = `https://dist.ipfs.io/go-ipfs/v${ipfsClientVersion}/go-ipfs_v${ipfsClientVersion}_darwin-amd64.tar.gz`
+const ipfsClientLinuxPUrl = `https://dist.ipfs.io/go-ipfs/v${ipfsClientVersion}/go-ipfs_v${ipfsClientVersion}_linux-amd64.tar.gz`
 
 const downloadWithProgress = (url) => new Promise(resolve => {
   const split = url.split('/')
