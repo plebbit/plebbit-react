@@ -10,7 +10,7 @@ const ipfsClientWindowsPath = path.join(ipfsClientsPath, 'win')
 const ipfsClientMacPath = path.join(ipfsClientsPath, 'mac')
 const ipfsClientLinuxPath = path.join(ipfsClientsPath, 'linux')
 
-// download links at https://docs.ipfs.io/install/command-line/#system-requirements
+// download links https://docs.ipfs.io/install/command-line/#official-distributions
 const ipfsClientVersion = '0.13.0'
 const ipfsClientWindowsUrl = `https://dist.ipfs.io/go-ipfs/v${ipfsClientVersion}/go-ipfs_v${ipfsClientVersion}_windows-amd64.zip`
 const ipfsClientMacUrl = `https://dist.ipfs.io/go-ipfs/v${ipfsClientVersion}/go-ipfs_v${ipfsClientVersion}_darwin-amd64.tar.gz`
