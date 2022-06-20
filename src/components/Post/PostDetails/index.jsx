@@ -14,8 +14,9 @@ import {
   Heading,
   Tag,
   useToast,
+  Button,
 } from '@chakra-ui/react';
-import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import { useAccountsActions, useComment } from '@plebbit/plebbit-react-hooks';
 import Swal from 'sweetalert2';
 import { EditorState } from 'draft-js';
 import { CloseIcon } from '@chakra-ui/icons';
@@ -35,35 +36,50 @@ import truncateString from '../../../utils/truncateString';
 import { ProfileContext } from '../../../store/profileContext';
 import { useHistory } from 'react-router-dom';
 import Post from '../index2';
+import getUserName from '../../../utils/getUserName';
 
-function PostDetail({ post, isOpen, onClose }) {
+function PostDetail({ post, isOpen, onClose, type }) {
   const postDetCover = useColorModeValue('lightBg', 'black');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const titleColor = useColorModeValue('lightText', 'darkText');
-  const [vote] = useState(+post?.upvoteCount - +post?.downvoteCount);
+  const [vote] = useState(post?.upvoteCount - post?.downvoteCount);
   const [voteMode, setVoteMode] = useState(0);
   const subPledditTextColor = useColorModeValue('lightText2', 'darkText');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const borderColor = useColorModeValue('#ccc', '#343536');
+  const borderColor2 = useColorModeValue('#d3d6da', '#545452');
   const mainMobileBg = useColorModeValue('white', 'black');
   const mobileColor = useColorModeValue('lightMobileText2', 'darkMobileText');
   const toast = useToast();
   const { publishVote, publishComment } = useAccountsActions();
+  const detail = post
+    ? post
+    : useComment(window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1));
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const initialRoute = window.location.hash;
-  const { device } = useContext(ProfileContext);
+  const { device, postStyle, profile } = useContext(ProfileContext);
   const history = useHistory();
 
   useEffect(() => {
-    window.history.replaceState(null, post?.title, `#/p/${post?.subplebbitAddress}/c/${post?.cid}`);
+    type === 'direct'
+      ? window.history.replaceState(
+          null,
+          post?.title,
+          `#/p/${post?.subplebbitAddress}/c/${post?.cid}`
+        )
+      : '';
     return () => {
-      window.history.replaceState(null, post?.subplebbitAddress, initialRoute);
+      type === 'direct'
+        ? window.history.replaceState(null, post?.subplebbitAddress, initialRoute)
+        : '';
     };
   }, [isOpen]);
+
+  console.log(detail);
 
   const getChallengeAnswersFromUser = async (challenges) => {
     const { value } = await Swal.fire({
@@ -139,7 +155,7 @@ function PostDetail({ post, isOpen, onClose }) {
   };
 
   return (
-    <>
+    <Box maxWidth="100%">
       {device !== 'mobile' ? (
         <Box>
           <Modal
@@ -769,7 +785,7 @@ function PostDetail({ post, isOpen, onClose }) {
                   <Box maxW="100%" bg={bg} mt="10px" padding="10px">
                     <Box padding="24px 40px">
                       <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                        Comment As Abydin
+                        Comment As {getUserName(profile?.author)}
                       </Box>
                       <Box
                         borderRadius="4px"
@@ -895,19 +911,74 @@ function PostDetail({ post, isOpen, onClose }) {
                           />
                         </Box>
                         <Box fontWeight="700" lineHeight="18px" margin="0">
-                          {`${post?.subplebbitAddress}` || 'p/subPlebbit'}
+                          {`p/${detail?.subplebbitAddress}`}
                         </Box>
                       </Flex>
                     </Box>
                   </Box>
-                  <Post />
+                  <Post post={detail} mode={postStyle} key={detail?.cid} />
                 </Box>
               </Box>
             </Box>
           </Box>
+          <Box minH="calc(100vh - 48px)">
+            <Box padding="8px 16px 4px">
+              <Box
+                _before={{
+                  content: `" "`,
+                  display: 'table',
+                }}
+                _after={{
+                  content: `" "`,
+                  display: 'table',
+                  clear: 'both',
+                }}
+              >
+                <Box w="100%" lineHeight="1.5" mr="0" maxW="100%" padding="4px 0">
+                  <Flex alignItems="center" flexFlow="row nowrap">
+                    <Box>{detail?.replyCount} comments</Box>
+                  </Flex>
+                </Box>
+                <Flex alignItems="center" flexFlow="row nowrap" paddingTop="8px" width="100%">
+                  <Image
+                    h="24px"
+                    verticalAlign="middle"
+                    src="https://picsum.photos/200?random=1"
+                    alt="user-icon"
+                    fallbackSrc={require('../../../assets/images/fallback.png')}
+                    color="transparent"
+                    borderRadius="50%"
+                    w="24px"
+                    mr="8px"
+                  />
+                  <Button
+                    border={`1px solid ${borderColor2}`}
+                    color="#818384"
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    borderRadius="15px"
+                    flex="1"
+                    fontSize="14px"
+                    height="30px"
+                    lineHeight="17px"
+                    textAlign="left"
+                    padding="0 8px"
+                    justifyContent="flex-start"
+                  >
+                    Leave a comment
+                  </Button>
+                </Flex>
+              </Box>
+            </Box>
+            <Box padding="16px" maxW="100%">
+              {detail?.replies?.pages?.topAll?.comments.map((comment) => (
+                <Comment comment={comment} key={comment.cid} parentCid={post?.cid} />
+              ))}
+            </Box>
+          </Box>
         </Box>
       )}
-    </>
+    </Box>
   );
 }
 

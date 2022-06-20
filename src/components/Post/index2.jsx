@@ -10,7 +10,7 @@ import CompactPost from './CompactPost';
 
 const Post = ({ type, post, mode, loading }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [vote] = useState(+post?.upvoteCount - +post?.downvoteCount);
+  const [vote] = useState(post?.upvoteCount - post?.downvoteCount);
   const [voteMode, setVoteMode] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const toast = useToast();

@@ -759,7 +759,7 @@ const ClassicPost = ({
           <Box position="relative" bg={mainMobileBg}>
             {/* Background link */}
             <Link
-              href="#"
+              href={`#/p/${post?.subplebbitAddress}/c/${post?.cid}`}
               bottom="0"
               left="0"
               pointerEvents="all"
