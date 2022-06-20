@@ -21,7 +21,7 @@ import { VscLinkExternal } from 'react-icons/vsc';
 import { FiExternalLink, FiMoreHorizontal, FiShare } from 'react-icons/fi';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link as ReactLink, useHistory } from 'react-router-dom';
 import { dateToNow } from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import getUserName from '../../utils/getUserName';
@@ -29,7 +29,6 @@ import { ProfileContext } from '../../store/profileContext';
 import truncateSting from '../../utils/truncateString';
 
 const ClassicPost = ({
-  onOpen,
   loading,
   setVoteMode,
   voteMode,
@@ -60,6 +59,7 @@ const ClassicPost = ({
   const postHeadColor = useColorModeValue('#1a1a1b', '#0079d3');
   const mobileIconColor = useColorModeValue('lightMobileIcon2', 'darkMobileIcon');
   const { device } = useContext(ProfileContext);
+  const history = useHistory();
 
   return (
     <>
@@ -233,7 +233,10 @@ const ClassicPost = ({
               {/* Post content */}
               <Box ml="8px" flex="1 1 100%" position="relative" wordBreak="break-word">
                 {/* post title */}
-                <Box margin="0 8px" onClick={onOpen}>
+                <Box
+                  margin="0 8px"
+                  onClick={() => history.push(`/p/${post?.subplebbitAddress}/c/${post?.cid}`, [])}
+                >
                   <Skeleton isLoaded={!loading}>
                     {' '}
                     {/* flair */}

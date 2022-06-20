@@ -20,14 +20,14 @@ import DropDown from '../../components/DropDown';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { FiShare } from 'react-icons/fi';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link as ReactLink, useHistory } from 'react-router-dom';
 import { dateToNow } from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import { ProfileContext } from '../../store/profileContext';
 import getUserName from '../../utils/getUserName';
 import truncateSting from '../../utils/truncateString';
 
-const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type, onOpen }) => {
+const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -46,6 +46,7 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
   const postHeadColor = useColorModeValue('#1a1a1b', '#0079d3');
   const border2 = useColorModeValue('#edeff1', '#343536');
   const mobileIconColor = useColorModeValue('lightMobileIcon2', 'darkMobileIcon');
+  const history = useHistory();
 
   const { device } = useContext(ProfileContext);
 
@@ -358,7 +359,10 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                   </Skeleton>
                 </Flex>{' '}
                 {/* Post Title */}
-                <Box margin="0 8px" onClick={onOpen}>
+                <Box
+                  margin="0 8px"
+                  onClick={() => history.push(`/p/${post?.subplebbitAddress}/c/${post?.cid}`, [])}
+                >
                   <Skeleton isLoaded={!loading}>
                     {' '}
                     {/* flair */}
@@ -640,7 +644,10 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                     </Skeleton>
                   </Flex>{' '}
                   {/* Post Title */}
-                  <Box margin="0 8px" onClick={onOpen}>
+                  <Box
+                    margin="0 8px"
+                    onClick={() => history.push(`/p/${post?.subplebbitAddress}/c/${post?.cid}`, [])}
+                  >
                     <Skeleton mb="30px" isLoaded={!loading}>
                       {' '}
                       {/* flair */}

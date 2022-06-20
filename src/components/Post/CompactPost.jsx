@@ -16,7 +16,7 @@ import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg';
 import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link as ReactLink, useHistory } from 'react-router-dom';
 import { dateToNow } from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import getUserName from '../../utils/getUserName';
@@ -29,7 +29,6 @@ const CompactPost = ({
   setVoteMode,
   vote,
   post,
-  onOpen,
   type,
   handleVote,
 }) => {
@@ -44,6 +43,7 @@ const CompactPost = ({
   const iconBg = useColorModeValue('lightIconBg', 'darkIconBg');
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
+  const history = useHistory();
 
   return (
     <Box
@@ -226,7 +226,10 @@ const CompactPost = ({
             )}
             <Box flex="1 1 100%" mt="2px" minW="150px" overflow="hidden" wordWrap="brak-word">
               {/* post title */}
-              <Box margin="0 8px" onClick={onOpen}>
+              <Box
+                margin="0 8px"
+                onClick={() => history.push(`/p/${post?.subplebbitAddress}/c/${post?.cid}`, [])}
+              >
                 <Skeleton isLoaded={!loading}>
                   {' '}
                   {/* flair */}
