@@ -63,6 +63,7 @@ function PostDetail({ post, isOpen, onClose, type }) {
   const initialRoute = window.location.hash;
   const { device, postStyle, profile } = useContext(ProfileContext);
   const history = useHistory();
+  const [showMEditor, setShowMEditor] = useState(false);
 
   useEffect(() => {
     type === 'direct'
@@ -872,6 +873,7 @@ function PostDetail({ post, isOpen, onClose, type }) {
                       backgroundColor={mainMobileBg}
                       borderRadius="20px 20px 0 0"
                       position="relative"
+                      onClick={() => history.goBack()}
                     >
                       <Icon
                         as={CgClose}
@@ -939,35 +941,59 @@ function PostDetail({ post, isOpen, onClose, type }) {
                     <Box>{detail?.replyCount} comments</Box>
                   </Flex>
                 </Box>
-                <Flex alignItems="center" flexFlow="row nowrap" paddingTop="8px" width="100%">
-                  <Image
-                    h="24px"
-                    verticalAlign="middle"
-                    src="https://picsum.photos/200?random=1"
-                    alt="user-icon"
-                    fallbackSrc={require('../../../assets/images/fallback.png')}
-                    color="transparent"
-                    borderRadius="50%"
-                    w="24px"
-                    mr="8px"
-                  />
-                  <Button
-                    border={`1px solid ${borderColor2}`}
-                    color="#818384"
-                    overflow="hidden"
-                    textOverflow="ellipsis"
-                    borderRadius="15px"
-                    flex="1"
-                    fontSize="14px"
-                    height="30px"
-                    lineHeight="17px"
-                    textAlign="left"
-                    padding="0 8px"
-                    justifyContent="flex-start"
-                  >
-                    Leave a comment
-                  </Button>
-                </Flex>
+                {!showMEditor && (
+                  <Flex alignItems="center" flexFlow="row nowrap" paddingTop="8px" width="100%">
+                    <Image
+                      h="24px"
+                      verticalAlign="middle"
+                      src="https://picsum.photos/200?random=1"
+                      alt="user-icon"
+                      fallbackSrc={require('../../../assets/images/fallback.png')}
+                      color="transparent"
+                      borderRadius="50%"
+                      w="24px"
+                      mr="8px"
+                    />
+                    <Button
+                      border={`1px solid ${borderColor2}`}
+                      color="#818384"
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      borderRadius="15px"
+                      flex="1"
+                      fontSize="14px"
+                      height="30px"
+                      lineHeight="17px"
+                      textAlign="left"
+                      padding="0 8px"
+                      justifyContent="flex-start"
+                      onClick={() => setShowMEditor(true)}
+                    >
+                      Leave a comment
+                    </Button>
+                  </Flex>
+                )}
+                {showMEditor && (
+                  <Box margin="0 12px">
+                    <Flex backgroundColor="inherit" color="inherit" margin="0" borderWidth="0">
+                      <Box width="100%">
+                        <Editor
+                          setValue={setContent}
+                          editorState={editorState}
+                          setEditorState={setEditorState}
+                          showSubmit
+                          handleSubmit={handlePublishPost}
+                          submitBtnText="Add Comment"
+                          otherBtn={
+                            <Button mr="auto" onClick={() => setShowMEditor(false)}>
+                              X
+                            </Button>
+                          }
+                        />
+                      </Box>
+                    </Flex>
+                  </Box>
+                )}
               </Box>
             </Box>
             <Box padding="16px" maxW="100%">
