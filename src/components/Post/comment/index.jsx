@@ -19,6 +19,7 @@ import { BsChat } from 'react-icons/bs';
 import Editor from '../../Editor';
 import { dateToNow } from '../../../utils/formatDate';
 import numFormatter from '../../../utils/numberFormater';
+import getUserName from '../../../utils/getUserName';
 
 const Comment = ({ comment, parentCid }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -126,7 +127,7 @@ const Comment = ({ comment, parentCid }) => {
         <Flex flexDir="column" mb="6px">
           <Flex alignItems="center" fontWeight="400" fontSize="12px">
             <Box maxW="50%" mr="5px">
-              <Box isTruncated>{comment?.author?.displayName} </Box>
+              <Box isTruncated>{getUserName(comment?.author)} </Box>
             </Box>
             <Flex alignItems="center">
               <Image
@@ -166,7 +167,7 @@ const Comment = ({ comment, parentCid }) => {
             </Box>
           )}
         </Flex>
-        <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px">
+        <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>
           {comment?.content}
         </Box>
         <Flex>
