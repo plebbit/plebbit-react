@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Box, useDisclosure } from '@chakra-ui/react';
-import PostDetail from './PostDetails';
+import { Box } from '@chakra-ui/react';
 import Swal from 'sweetalert2';
 import { useToast } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
@@ -9,8 +8,7 @@ import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
 
 const Post = ({ type, post, mode, loading }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [vote] = useState(+post?.upvoteCount - +post?.downvoteCount);
+  const vote = post?.upvoteCount - post?.downvoteCount;
   const [voteMode, setVoteMode] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const toast = useToast();
@@ -89,7 +87,6 @@ const Post = ({ type, post, mode, loading }) => {
             type={type}
             post={post}
             loading={loading}
-            onOpen={onOpen}
             handleVote={handleVote}
           />
         )}
@@ -104,7 +101,6 @@ const Post = ({ type, post, mode, loading }) => {
             type={type}
             post={post}
             loading={loading}
-            onOpen={() => onOpen()}
             handleVote={handleVote}
           />
         )}
@@ -119,12 +115,10 @@ const Post = ({ type, post, mode, loading }) => {
             type={type}
             post={post}
             loading={loading}
-            onOpen={onOpen}
             handleVote={handleVote}
           />
         )}
       </Box>
-      {isOpen && <PostDetail isOpen={isOpen} onOpen={onOpen} onClose={onClose} post={post} />}
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import { useAccount } from '@plebbit/plebbit-react-hooks';
+import { useAccount, useAccounts, useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import React, { createContext, useState, useEffect } from 'react';
 
 export const ProfileContext = createContext();
@@ -11,7 +11,10 @@ export const ProfileDataProvider = (props) => {
   const [showSplashcreen, setShowSplashcreen] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [device, setDevice] = useState('pc');
+  const { exportAccount, createAccount, importAccount, setActiveAccount, setAccountsOrder } =
+    useAccountsActions();
   const defaultAccount = useAccount();
+  const accountLists = useAccounts();
   const profile = defaultAccount;
 
   const handleResize = () => {
@@ -56,6 +59,12 @@ export const ProfileDataProvider = (props) => {
         setFeedSort,
         device,
         setDevice,
+        accountLists,
+        exportAccount,
+        importAccount,
+        setActiveAccount,
+        setAccountsOrder,
+        createAccount,
       }}
     >
       {children}

@@ -19,6 +19,7 @@ import { BsChat } from 'react-icons/bs';
 import Editor from '../../Editor';
 import { dateToNow } from '../../../utils/formatDate';
 import numFormatter from '../../../utils/numberFormater';
+import getUserName from '../../../utils/getUserName';
 
 const Comment = ({ comment, parentCid }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -126,7 +127,7 @@ const Comment = ({ comment, parentCid }) => {
         <Flex flexDir="column" mb="6px">
           <Flex alignItems="center" fontWeight="400" fontSize="12px">
             <Box maxW="50%" mr="5px">
-              <Text isTruncated>{comment?.author?.displayName} </Text>{' '}
+              <Box isTruncated>{getUserName(comment?.author)} </Box>
             </Box>
             <Flex alignItems="center">
               <Image
@@ -137,9 +138,9 @@ const Comment = ({ comment, parentCid }) => {
                 width="16px"
                 src="https://www.redditstatic.com/desktop2x/img/communityPoints/tokens/cryptocurrency/moon_yellow.svg"
               />
-              <Box>{numFormatter(Math.floor(Math.random() * (1000 - 0 + 1)) + 0)}</Box>
+              <Box>{numFormatter(Math.floor())}</Box>
             </Flex>
-            <Text
+            <Box
               as="span"
               verticalAlign="middle"
               fontWeight="800"
@@ -148,8 +149,8 @@ const Comment = ({ comment, parentCid }) => {
               margin="0 4px"
             >
               •
-            </Text>
-            <Box>{dateToNow(comment?.timestamp)} ago</Box>
+            </Box>
+            <Box>{dateToNow(comment?.timestamp * 1000)} ago</Box>
           </Flex>
           {comment?.flair?.text && (
             <Box
@@ -166,14 +167,7 @@ const Comment = ({ comment, parentCid }) => {
             </Box>
           )}
         </Flex>
-        <Box
-          padding="2px 0"
-          fontSize="14px"
-          fontWeight="400"
-          lineHeight="21px"
-          wordBreak="break-word"
-          mb="6px"
-        >
+        <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>
           {comment?.content}
         </Box>
         <Flex>
@@ -210,9 +204,9 @@ const Comment = ({ comment, parentCid }) => {
               }}
               icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w="20px" h="20px" />}
             />
-            <Text fontSize="14px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
+            <Box fontSize="14px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
               {numFormatter(vote + voteMode) === 0 ? 'vote' : numFormatter(vote + voteMode)}
-            </Text>
+            </Box>
             <IconButton
               aria-label="Downvote Post"
               color={voteMode === -1 ? 'downvoteBlue' : iconColor}

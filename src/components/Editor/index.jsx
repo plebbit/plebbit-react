@@ -17,6 +17,9 @@ const Editor = ({
   editorState,
   handleSubmit,
   showSubmit,
+  submitBtnStyle,
+  submitBtnText,
+  otherBtn,
 }) => {
   const toolbarBg = useColorModeValue('#F6F7F8', '#272729');
   const toolbarColor = useColorModeValue('#818384', '#818384');
@@ -115,18 +118,19 @@ const Editor = ({
           opacity={1}
           mb="25px"
           zIndex="1"
-          flexDirection="row-reverse"
           alignItems="center"
         >
+          {otherBtn}
           <Button
-            content="comment"
+            content={submitBtnText || 'comment'}
             cursor="pointer"
             disabled={disabled}
             padding="4px 8px"
             minH="24px"
             margin="4px 8px"
             height=""
-            sx={{ filter: 'grayscale(1)' }}
+            marginLeft="auto"
+            sx={{ filter: 'grayscale(1)', ...submitBtnStyle }}
             onClick={handleSubmit}
           />
         </Flex>

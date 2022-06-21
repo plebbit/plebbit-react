@@ -10,6 +10,8 @@ import {
   Input,
   Switch,
   Button,
+  useToast,
+  useDisclosure,
 } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
 import { MdHome } from 'react-icons/md';
@@ -36,6 +38,7 @@ import { CgEnter, CgNotes, CgProfile } from 'react-icons/cg';
 import { ProfileContext } from '../../../store/profileContext';
 import useVisible from '../../../hooks/useVisible';
 import { VscMail } from 'react-icons/vsc';
+import ImportAccount from './modal/importAccount';
 
 const NavBar = () => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -46,9 +49,31 @@ const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const history = useHistory();
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
-  const { setIsLoggedIn, isLoggedIn, profile, device } = useContext(ProfileContext);
+  const {
+    setIsLoggedIn,
+    isLoggedIn,
+    profile,
+    device,
+    accountLists,
+    createAccount,
+    setActiveAccount,
+  } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const toast = useToast();
+
+  const handleCreateAccount = async () => {
+    await createAccount();
+    toast({
+      title: 'Create Account.',
+      description: 'Account Created Successfully',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+  };
 
   return (
     <Box>
@@ -75,7 +100,7 @@ const NavBar = () => {
             height="100%"
           >
             <Flex alignItems="center" flexGrow="1">
-              <Flex display="flex" alignItems="center">
+              <Flex display="flex" alignItems="center" onClick={() => history.push('/', [])}>
                 <Image
                   fallbackSrc={require('../../../assets/images/fallback.png')}
                   borderRadius="full"
@@ -234,6 +259,7 @@ const NavBar = () => {
               width="36px"
               alignItems="center"
               justifyContent="center"
+              onClick={() => history.push('/submit', [])}
             >
               <Icon as={BiPencil} width={6} height={6} color="#fff" />
             </Flex>
@@ -272,8 +298,65 @@ const NavBar = () => {
               zIndex="80"
               bg={bg}
             >
+              <Flex alignItems="center" height="100%" padding="0 10px">
+                <DropDown2
+                  placeholder=" "
+                  topMenu={
+                    <Flex flexDir="column">
+                      <Box
+                        cursor="pointer"
+                        fontSize="14px"
+                        mb="10px"
+                        color="blue.600"
+                        _hover={{
+                          bg: inputBg,
+                        }}
+                        fontWeight="500"
+                        fontStyle="italic"
+                        padding="10px 20px"
+                        onClick={handleCreateAccount}
+                      >
+                        Create Account
+                      </Box>
+                      <Box
+                        cursor="pointer"
+                        fontSize="14px"
+                        mb="10px"
+                        color="blue.600"
+                        padding="5px 20px"
+                        _hover={{
+                          bg: inputBg,
+                        }}
+                        fontWeight="500"
+                        fontStyle="italic"
+                        onClick={onOpen}
+                      >
+                        Import Account
+                      </Box>
+                    </Flex>
+                  }
+                  options={accountLists}
+                  getOptionLabel={(item) =>
+                    item?.author?.displayName ? item?.author?.displayName : item?.name
+                  }
+                  onChange={async (val) => {
+                    await setActiveAccount(val?.name);
+                    toast({
+                      title: 'Account Changed.',
+                      description: `${val?.name} selected`,
+                      status: 'success',
+                      duration: 5000,
+                      isClosable: true,
+                    });
+                  }}
+                  value={profile}
+                  sx={{
+                    background: 'transparent',
+                  }}
+                />
+              </Flex>
               <Box width="100%" height="40px" color="#787c7e">
-                <Flex alignItems="center" height="100%" padding="0 20px">
+                <Flex alignItems="center" height="100%" padding="10px 20px" color="">
                   <Flex
                     justifyContent="center"
                     alignItems="center"
@@ -663,6 +746,73 @@ const NavBar = () => {
                 <Flex
                   alignItems="center"
                   flexFlow="row nowrap"
+                  marginBottom="20px"
+                  marginLeft="-4px"
+                  paddingLeft="2px"
+                  color="#fff"
+                >
+                  <DropDown2
+                    selectStyles={{
+                      background: '#1d2535',
+                    }}
+                    placeholder=" "
+                    topMenu={
+                      <Flex flexDir="column">
+                        <Box
+                          cursor="pointer"
+                          fontSize="14px"
+                          mb="10px"
+                          color="blue.600"
+                          _hover={{
+                            bg: inputBg,
+                          }}
+                          fontWeight="500"
+                          fontStyle="italic"
+                          padding="10px 20px"
+                          onClick={handleCreateAccount}
+                        >
+                          Create Account
+                        </Box>
+                        <Box
+                          cursor="pointer"
+                          fontSize="14px"
+                          mb="10px"
+                          color="blue.600"
+                          padding="5px 20px"
+                          _hover={{
+                            bg: inputBg,
+                          }}
+                          fontWeight="500"
+                          fontStyle="italic"
+                          onClick={onOpen}
+                        >
+                          Import Account
+                        </Box>
+                      </Flex>
+                    }
+                    options={accountLists}
+                    getOptionLabel={(item) =>
+                      item?.author?.displayName ? item?.author?.displayName : item?.name
+                    }
+                    onChange={async (val) => {
+                      await setActiveAccount(val?.name);
+                      toast({
+                        title: 'Account Changed.',
+                        description: `${val?.name} selected`,
+                        status: 'success',
+                        duration: 5000,
+                        isClosable: true,
+                      });
+                    }}
+                    value={profile}
+                    sx={{
+                      background: 'transparent',
+                    }}
+                  />
+                </Flex>
+                <Flex
+                  alignItems="center"
+                  flexFlow="row nowrap"
                   color="#fff"
                   marginBottom="20px"
                   marginLeft="-4px"
@@ -851,6 +1001,7 @@ const NavBar = () => {
                   marginBottom="20px"
                   marginLeft="-4px"
                   paddingLeft="2px"
+                  onClick={() => history.push('/settings', [])}
                 >
                   <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
                     <Flex
@@ -1026,6 +1177,8 @@ const NavBar = () => {
           )}
         </Box>
       )}
+
+      {isOpen ? <ImportAccount isOpen={isOpen} onClose={onClose} /> : ''}
     </Box>
   );
 };

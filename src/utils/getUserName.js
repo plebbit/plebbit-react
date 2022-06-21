@@ -3,7 +3,7 @@ const getUserName = (author) => {
   if (author?.displayName) {
     username += author?.displayName;
     if (username.length > 20) {
-      username = username.substring(0, 20);
+      username = username?.substring(0, 20);
     }
     username += ' ';
   }

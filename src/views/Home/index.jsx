@@ -22,8 +22,6 @@ const Home = () => {
 
   const feeds = feed;
 
-  console.log(feeds);
-
   return (
     <>
       {device !== 'mobile' ? (
