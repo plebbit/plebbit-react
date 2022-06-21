@@ -37,6 +37,7 @@ const Settings = () => {
   const tabs = [
     { label: 'Account', link: 'account' },
     { label: 'Profile', link: 'profile' },
+    { label: 'Plebbit Options', link: 'plebbitOptions' },
     { label: 'Safety & Privacy', link: 'privacy' },
     { label: 'Feed Settings', link: 'feed' },
     { label: 'Notifications', link: 'notifications' },
@@ -107,119 +108,47 @@ const Settings = () => {
             : ''}
         </Flex>
       </Box>
-      <Flex maxW="1200px" margin="0 auto" padding="0 16px">
-        <Box maxW="688px" flex="1 1 auto">
-          <Text fontSize="20px" fontWeight="500" lineHeight="24px" padding="40px 0">
-            Customize profile
-          </Text>
-          <Text
-            fontSize="10px"
-            fontWeight="700"
-            letterSpacing="0.5px"
-            marginBottom="32px"
-            paddingBottom="6px"
-            borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-            color={metaColor}
-          >
-            PROFILE INFORMATION
-          </Text>
-          <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-            <Flex flexDir="column" marginRight="8px" maxW="80%">
-              <Text
-                fontSize="16px"
-                fontWeight="500"
-                lineHeight="20px"
-                color={mainColor}
-                marginBottom="4px"
-              >
-                Display name (optional)
-              </Text>
-              <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
-                Set a display name. This does not change your username.
-              </Text>
-            </Flex>
-            <Flex
-              alignItems="flex-start"
-              marginTop="12px"
-              flexDir="column"
-              flexGrow="1"
-              justifyContent="flex-end"
+      {view === 'profile' && (
+        <Flex maxW="1200px" margin="0 auto" padding="0 16px">
+          <Box maxW="688px" flex="1 1 auto">
+            <Text fontSize="20px" fontWeight="500" lineHeight="24px" padding="40px 0">
+              Customize profile
+            </Text>
+            <Text
+              fontSize="10px"
+              fontWeight="700"
+              letterSpacing="0.5px"
+              marginBottom="32px"
+              paddingBottom="6px"
+              borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+              color={metaColor}
             >
-              <Input
-                placeholder="Display name (optional)"
-                backgroundColor={mainBg}
-                color={mainColor}
-                boxSizing="border-box"
-                marginBottom="8px"
-                border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
-                height="48px"
-                borderRadius="4px"
-                padding="12px 24px 4px 12px"
-                width="100%"
-                value={userProfile?.author?.displayName || ''}
-                maxLength={30}
-                onChange={(e) =>
-                  setUserProfile({
-                    ...userProfile,
-                    author: {
-                      ...userProfile?.author,
-                      displayName: e.target.value,
-                    },
-                  })
-                }
-                onBlur={() =>
-                  setTimeout(async () => {
-                    if (userProfile?.author?.displayName !== profile?.author?.displayName) {
-                      await setAccount(userProfile);
-                      toast({
-                        title: `changes saved`,
-                        variant: 'left-accent',
-                        status: 'success',
-                        isClosable: true,
-                      });
-                    }
-                  }, 300)
-                }
-                name="displayName"
-                ref={ref}
-              />
-              <Text
-                fontWeight="400"
-                color={metaColor}
-                fontSize="12px"
-                lineHeight="16px"
-                paddingTop="5px"
+              PROFILE INFORMATION
+            </Text>
+            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxW="80%">
+                <Text
+                  fontSize="16px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  Display name (optional)
+                </Text>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  Set a display name. This does not change your username.
+                </Text>
+              </Flex>
+              <Flex
+                alignItems="flex-start"
+                marginTop="12px"
+                flexDir="column"
+                flexGrow="1"
+                justifyContent="flex-end"
               >
-                {30 - +userProfile?.author?.displayName?.length} Characters remaining
-              </Text>
-            </Flex>
-          </Flex>
-          <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-            <Flex flexDir="column" marginRight="8px" maxW="80%">
-              <Text
-                fontSize="16px"
-                fontWeight="500"
-                lineHeight="20px"
-                color={mainColor}
-                marginBottom="4px"
-              >
-                Address (optional)
-              </Text>
-              <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
-                Set an Address for your profile..
-              </Text>
-            </Flex>
-            <Flex
-              alignItems="flex-start"
-              marginTop="12px"
-              flexDir="column"
-              flexGrow="1"
-              justifyContent="flex-end"
-            >
-              <InputGroup>
                 <Input
-                  placeholder="Address (optional)"
+                  placeholder="Display name (optional)"
                   backgroundColor={mainBg}
                   color={mainColor}
                   boxSizing="border-box"
@@ -230,20 +159,20 @@ const Settings = () => {
                   borderRadius="4px"
                   padding="12px 24px 4px 12px"
                   width="100%"
-                  value={userProfile?.author?.address || ''}
+                  value={userProfile?.author?.displayName || ''}
                   maxLength={30}
                   onChange={(e) =>
                     setUserProfile({
                       ...userProfile,
                       author: {
                         ...userProfile?.author,
-                        address: e.target.value,
+                        displayName: e.target.value,
                       },
                     })
                   }
                   onBlur={() =>
                     setTimeout(async () => {
-                      if (userProfile?.author?.address !== profile?.author?.address) {
+                      if (userProfile?.author?.displayName !== profile?.author?.displayName) {
                         await setAccount(userProfile);
                         toast({
                           title: `changes saved`,
@@ -254,111 +183,9 @@ const Settings = () => {
                       }
                     }, 300)
                   }
-                  name="address"
+                  name="displayName"
                   ref={ref}
                 />
-                <InputRightAddon
-                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
-                  height="48px"
-                  borderRadius="4px"
-                  padding="12px 24px 4px 12px"
-                  fontWeight="bold"
-                >
-                  .eth
-                </InputRightAddon>
-              </InputGroup>
-
-              <Text
-                fontWeight="400"
-                color={metaColor}
-                fontSize="12px"
-                lineHeight="16px"
-                paddingTop="5px"
-              >
-                {30 - +userProfile?.author?.address?.length} Characters remaining
-              </Text>
-              <UnorderedList mt={3}>
-                <ListItem fontSize={12}>
-                  Go to{' '}
-                  <Link
-                    color={linkColor}
-                    href={`https://app.ens.domains/name/${userProfile?.author?.address}.eth`}
-                    isExternal
-                  >
-                    {' '}
-                    https://app.ens.domains/name/{userProfile?.author?.address}.eth{' '}
-                  </Link>
-                </ListItem>
-                <ListItem fontSize={12}>Click ADD/EDIT RECORD</ListItem>
-                <ListItem fontSize={12}>
-                  Select "text", write in "key": "plebbit-author", write in next field:
-                </ListItem>
-              </UnorderedList>
-            </Flex>
-          </Flex>
-          <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-            <Flex flexDir="column" marginRight="8px" maxW="80%">
-              <Text
-                fontSize="16px"
-                fontWeight="500"
-                lineHeight="20px"
-                color={mainColor}
-                marginBottom="4px"
-              >
-                About (optional)
-              </Text>
-              <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
-                A brief description of yourself shown on your profile.
-              </Text>
-            </Flex>
-            <Flex
-              alignItems="flex-start"
-              marginTop="12px"
-              flexDir="column"
-              flexGrow="1"
-              justifyContent="flex-end"
-            >
-              <Textarea
-                placeholder="About (optional)"
-                backgroundColor={mainBg}
-                color={mainColor}
-                boxSizing="border-box"
-                marginBottom="0px"
-                border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
-                height="48px"
-                borderRadius="4px"
-                padding="8px"
-                width="100%"
-                resize="both"
-                value={userProfile?.author?.about || ''}
-                maxLength={200}
-                onChange={(e) =>
-                  setUserProfile({
-                    ...userProfile,
-                    author: {
-                      ...userProfile?.author,
-                      about: e.target.value,
-                    },
-                  })
-                }
-                onBlur={() =>
-                  setTimeout(async () => {
-                    if (userProfile?.author?.about !== profile?.author?.about) {
-                      await setAccount(userProfile);
-                      toast({
-                        title: `changes saved`,
-                        variant: 'left-accent',
-                        status: 'success',
-                        isClosable: true,
-                      });
-                    }
-                  }, 300)
-                }
-                name="about"
-              />
-              <Flex width="100%">
                 <Text
                   fontWeight="400"
                   color={metaColor}
@@ -366,232 +193,705 @@ const Settings = () => {
                   lineHeight="16px"
                   paddingTop="5px"
                 >
-                  {200 - +userProfile?.author?.about?.length} Characters remaining
+                  {30 - +userProfile?.author?.displayName?.length} Characters remaining
                 </Text>
               </Flex>
             </Flex>
-          </Flex>
-          <Text
-            borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-            fontSize="10px"
-            fontWeight="700"
-            lineHeight="12px"
-            paddingBottom="6px"
-            marginBottom="32px"
-          >
-            Images
-          </Text>
-          <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-            <Flex flexDir="column" marginRight="8px" maxW="80%">
-              <Text
-                fontSize="16px"
-                fontWeight="500"
-                lineHeight="20px"
-                color={mainColor}
-                marginBottom="4px"
-              >
-                Avatar and banner image
-              </Text>
-              <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
-                nft
-              </Text>
-            </Flex>
-            <Flex
-              alignItems="flex-start"
-              marginTop="12px"
-              flexDirection="column"
-              flexGrow="1"
-              justifyContent="flex-end"
-            >
-              <Flex height="120px">
-                <Box
-                  borderRadius="8px"
-                  overflow="hidden"
-                  height="100%"
-                  margin="0 12px 0 0"
-                  position="relative"
-                  width="120px"
-                  cursor="pointer"
-                  onClick={onOpen}
+            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxW="80%">
+                <Text
+                  fontSize="16px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
                 >
-                  <Box
-                    backgroundColor={colorMode === 'light' ? '#edeff1' : '#343456'}
-                    width="100%"
-                    height="100%"
-                    borderRadius="50%"
-                  />
-                  <Image
-                    fallbackSrc={require('../../assets/images/fallback.png')}
-                    position="absolute"
-                    top="0"
-                    transformOrigin="bottom center"
-                    clipPath="polygon(0 68.22%,12.12% 68.22%,12.85% 71.49%,13.86% 74.69%,15.14% 77.79%,16.69% 80.77%,18.49% 83.6%,20.54% 86.26%,22.8% 88.73%,25.28% 91%,27.94% 93.04%,30.77% 94.85%,33.75% 96.4%,36.85% 97.68%,40.05% 98.69%,43.32% 99.42%,46.65% 99.85%,50% 100%,53.35% 99.85%,56.68% 99.42%,59.95% 98.69%,63.15% 97.68%,66.25% 96.4%,69.23% 94.85%,72.06% 93.04%,74.72% 91%,77.2% 88.73%,79.46% 86.26%,81.51% 83.6%,83.31% 80.77%,84.86% 77.79%,86.14% 74.69%,87.15% 71.49%,87.88% 68.22%,100% 68.22%,100% 0,0 0)"
-                    src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
-                  />
-                </Box>
-                <Box height="100%" margin="0" width="412px">
-                  <Flex
-                    border="1px dashed #d7d7d7"
-                    borderRadius="8px"
+                  Address (optional)
+                </Text>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  Set an Address for your profile..
+                </Text>
+              </Flex>
+              <Flex
+                alignItems="flex-start"
+                marginTop="12px"
+                flexDir="column"
+                flexGrow="1"
+                justifyContent="flex-end"
+              >
+                <InputGroup>
+                  <Input
+                    placeholder="Address (optional)"
+                    backgroundColor={mainBg}
+                    color={mainColor}
                     boxSizing="border-box"
-                    padding="4px"
-                    cursor="pointer"
-                    alignItems="center"
-                    justifyContent="center"
-                    textAlign="center"
-                    height="100%"
+                    marginBottom="8px"
+                    border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                    borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                    height="48px"
+                    borderRadius="4px"
+                    padding="12px 24px 4px 12px"
                     width="100%"
-                    bg={inputBg}
-                    flexDir="column"
+                    value={userProfile?.author?.address || ''}
+                    maxLength={30}
+                    onChange={(e) =>
+                      setUserProfile({
+                        ...userProfile,
+                        author: {
+                          ...userProfile?.author,
+                          address: e.target.value,
+                        },
+                      })
+                    }
+                    onBlur={() =>
+                      setTimeout(async () => {
+                        if (userProfile?.author?.address !== profile?.author?.address) {
+                          await setAccount(userProfile);
+                          toast({
+                            title: `changes saved`,
+                            variant: 'left-accent',
+                            status: 'success',
+                            isClosable: true,
+                          });
+                        }
+                      }, 300)
+                    }
+                    name="address"
+                    ref={ref}
+                  />
+                  <InputRightAddon
+                    border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                    borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                    height="48px"
+                    borderRadius="4px"
+                    padding="12px 24px 4px 12px"
+                    fontWeight="bold"
+                  >
+                    .eth
+                  </InputRightAddon>
+                </InputGroup>
+
+                <Text
+                  fontWeight="400"
+                  color={metaColor}
+                  fontSize="12px"
+                  lineHeight="16px"
+                  paddingTop="5px"
+                >
+                  {30 - +userProfile?.author?.address?.length} Characters remaining
+                </Text>
+                <UnorderedList mt={3}>
+                  <ListItem fontSize={12}>
+                    Go to{' '}
+                    <Link
+                      color={linkColor}
+                      href={`https://app.ens.domains/name/${userProfile?.author?.address}.eth`}
+                      isExternal
+                    >
+                      {' '}
+                      https://app.ens.domains/name/{userProfile?.author?.address}.eth{' '}
+                    </Link>
+                  </ListItem>
+                  <ListItem fontSize={12}>Click ADD/EDIT RECORD</ListItem>
+                  <ListItem fontSize={12}>
+                    Select "text", write in "key": "plebbit-author", write in next field:
+                  </ListItem>
+                </UnorderedList>
+              </Flex>
+            </Flex>
+            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxW="80%">
+                <Text
+                  fontSize="16px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  About (optional)
+                </Text>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  A brief description of yourself shown on your profile.
+                </Text>
+              </Flex>
+              <Flex
+                alignItems="flex-start"
+                marginTop="12px"
+                flexDir="column"
+                flexGrow="1"
+                justifyContent="flex-end"
+              >
+                <Textarea
+                  placeholder="About (optional)"
+                  backgroundColor={mainBg}
+                  color={mainColor}
+                  boxSizing="border-box"
+                  marginBottom="0px"
+                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                  height="48px"
+                  borderRadius="4px"
+                  padding="8px"
+                  width="100%"
+                  resize="both"
+                  value={userProfile?.author?.about || ''}
+                  maxLength={200}
+                  onChange={(e) =>
+                    setUserProfile({
+                      ...userProfile,
+                      author: {
+                        ...userProfile?.author,
+                        about: e.target.value,
+                      },
+                    })
+                  }
+                  onBlur={() =>
+                    setTimeout(async () => {
+                      if (userProfile?.author?.about !== profile?.author?.about) {
+                        await setAccount(userProfile);
+                        toast({
+                          title: `changes saved`,
+                          variant: 'left-accent',
+                          status: 'success',
+                          isClosable: true,
+                        });
+                      }
+                    }, 300)
+                  }
+                  name="about"
+                />
+                <Flex width="100%">
+                  <Text
+                    fontWeight="400"
+                    color={metaColor}
+                    fontSize="12px"
+                    lineHeight="16px"
+                    paddingTop="5px"
+                  >
+                    {200 - +userProfile?.author?.about?.length} Characters remaining
+                  </Text>
+                </Flex>
+              </Flex>
+            </Flex>
+            <Text
+              borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+              fontSize="10px"
+              fontWeight="700"
+              lineHeight="12px"
+              paddingBottom="6px"
+              marginBottom="32px"
+            >
+              Images
+            </Text>
+            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxW="80%">
+                <Text
+                  fontSize="16px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  Avatar and banner image
+                </Text>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  nft
+                </Text>
+              </Flex>
+              <Flex
+                alignItems="flex-start"
+                marginTop="12px"
+                flexDirection="column"
+                flexGrow="1"
+                justifyContent="flex-end"
+              >
+                <Flex height="120px">
+                  <Box
+                    borderRadius="8px"
+                    overflow="hidden"
+                    height="100%"
+                    margin="0 12px 0 0"
+                    position="relative"
+                    width="120px"
+                    cursor="pointer"
                     onClick={onOpen}
                   >
-                    <Box marginTop="-8px" marginBottom="4px">
-                      <Icon
-                        as={MdAddCircleOutline}
-                        boxSize={9}
-                        fill={iconColor}
-                        color={iconColor}
-                      />
-                    </Box>
-                    <Text color={metaColor} fontSize="11px">
-                      Upload Banner Image
-                    </Text>
-                  </Flex>
-                </Box>
+                    <Box
+                      backgroundColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                      width="100%"
+                      height="100%"
+                      borderRadius="50%"
+                    />
+                    <Image
+                      fallbackSrc={require('../../assets/images/fallback.png')}
+                      position="absolute"
+                      top="0"
+                      transformOrigin="bottom center"
+                      clipPath="polygon(0 68.22%,12.12% 68.22%,12.85% 71.49%,13.86% 74.69%,15.14% 77.79%,16.69% 80.77%,18.49% 83.6%,20.54% 86.26%,22.8% 88.73%,25.28% 91%,27.94% 93.04%,30.77% 94.85%,33.75% 96.4%,36.85% 97.68%,40.05% 98.69%,43.32% 99.42%,46.65% 99.85%,50% 100%,53.35% 99.85%,56.68% 99.42%,59.95% 98.69%,63.15% 97.68%,66.25% 96.4%,69.23% 94.85%,72.06% 93.04%,74.72% 91%,77.2% 88.73%,79.46% 86.26%,81.51% 83.6%,83.31% 80.77%,84.86% 77.79%,86.14% 74.69%,87.15% 71.49%,87.88% 68.22%,100% 68.22%,100% 0,0 0)"
+                      src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
+                    />
+                  </Box>
+                  <Box height="100%" margin="0" width="412px">
+                    <Flex
+                      border="1px dashed #d7d7d7"
+                      borderRadius="8px"
+                      boxSizing="border-box"
+                      padding="4px"
+                      cursor="pointer"
+                      alignItems="center"
+                      justifyContent="center"
+                      textAlign="center"
+                      height="100%"
+                      width="100%"
+                      bg={inputBg}
+                      flexDir="column"
+                      onClick={onOpen}
+                    >
+                      <Box marginTop="-8px" marginBottom="4px">
+                        <Icon
+                          as={MdAddCircleOutline}
+                          boxSize={9}
+                          fill={iconColor}
+                          color={iconColor}
+                        />
+                      </Box>
+                      <Text color={metaColor} fontSize="11px">
+                        Upload Banner Image
+                      </Text>
+                    </Flex>
+                  </Box>
+                </Flex>
               </Flex>
             </Flex>
-          </Flex>
-          <Text
-            borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-            fontSize="10px"
-            fontWeight="700"
-            lineHeight="12px"
-            paddingBottom="6px"
-            marginBottom="32px"
-          >
-            PROFILE CATEGORY
-          </Text>
-          <Flex flexFlow="row wrap" marginBottom="32px">
-            <Flex flexDir="column" marginRight="8px" maxWidth="80%">
-              <Box>
-                <Text
-                  fontSize="18px"
-                  fontWeight="500"
-                  lineHeight="20px"
-                  color={mainColor}
-                  marginBottom="4px"
-                >
-                  NSFW
-                </Text>
-              </Box>
-              <Box>
-                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
-                  This content is NSFW (may contain nudity, pornography, profanity or inappropriate
-                  content for those under 18)
-                </Text>
-              </Box>
+            <Text
+              borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+              fontSize="10px"
+              fontWeight="700"
+              lineHeight="12px"
+              paddingBottom="6px"
+              marginBottom="32px"
+            >
+              PROFILE CATEGORY
+            </Text>
+            <Flex flexFlow="row wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxWidth="80%">
+                <Box>
+                  <Text
+                    fontSize="18px"
+                    fontWeight="500"
+                    lineHeight="20px"
+                    color={mainColor}
+                    marginBottom="4px"
+                  >
+                    NSFW
+                  </Text>
+                </Box>
+                <Box>
+                  <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                    This content is NSFW (may contain nudity, pornography, profanity or
+                    inappropriate content for those under 18)
+                  </Text>
+                </Box>
+              </Flex>
+              <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
+                <Switch />
+              </Flex>
             </Flex>
-            <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-              <Switch />
+            <Text
+              borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+              fontSize="10px"
+              fontWeight="700"
+              lineHeight="12px"
+              paddingBottom="6px"
+              marginBottom="32px"
+            >
+              ADVANCED
+            </Text>
+            <Flex flexFlow="row wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxWidth="80%">
+                <Box>
+                  <Text
+                    fontSize="18px"
+                    fontWeight="500"
+                    lineHeight="20px"
+                    color={mainColor}
+                    marginBottom="4px"
+                  >
+                    Allow people to follow you
+                  </Text>
+                </Box>
+                <Box>
+                  <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                    Followers will be notified about posts you make to your profile and see them in
+                    their home feed.
+                  </Text>
+                </Box>
+              </Flex>
+              <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
+                <Switch />
+              </Flex>
             </Flex>
-          </Flex>
-          <Text
-            borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-            fontSize="10px"
-            fontWeight="700"
-            lineHeight="12px"
-            paddingBottom="6px"
-            marginBottom="32px"
-          >
-            ADVANCED
-          </Text>
-          <Flex flexFlow="row wrap" marginBottom="32px">
-            <Flex flexDir="column" marginRight="8px" maxWidth="80%">
-              <Box>
-                <Text
-                  fontSize="18px"
-                  fontWeight="500"
-                  lineHeight="20px"
-                  color={mainColor}
-                  marginBottom="4px"
-                >
-                  Allow people to follow you
-                </Text>
-              </Box>
-              <Box>
-                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
-                  Followers will be notified about posts you make to your profile and see them in
-                  their home feed.
-                </Text>
-              </Box>
+            <Flex flexFlow="row wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxWidth="80%">
+                <Box>
+                  <Text
+                    fontSize="18px"
+                    fontWeight="500"
+                    lineHeight="20px"
+                    color={mainColor}
+                    marginBottom="4px"
+                  >
+                    Content visibility
+                  </Text>
+                </Box>
+                <Box>
+                  <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                    Posts to this profile can appear in r/all and your profile can be discovered in
+                    /users
+                  </Text>
+                </Box>
+              </Flex>
+              <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
+                <Switch />
+              </Flex>
             </Flex>
-            <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-              <Switch />
+            <Flex flexFlow="row wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxWidth="80%">
+                <Box>
+                  <Text
+                    fontSize="18px"
+                    fontWeight="500"
+                    lineHeight="20px"
+                    color={mainColor}
+                    marginBottom="4px"
+                  >
+                    Active in communities visibility
+                  </Text>
+                </Box>
+                <Box>
+                  <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                    Show which communities I am active in on my profile.
+                  </Text>
+                </Box>
+              </Flex>
+              <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
+                <Switch />
+              </Flex>
             </Flex>
-          </Flex>
-          <Flex flexFlow="row wrap" marginBottom="32px">
-            <Flex flexDir="column" marginRight="8px" maxWidth="80%">
-              <Box>
-                <Text
-                  fontSize="18px"
-                  fontWeight="500"
-                  lineHeight="20px"
-                  color={mainColor}
-                  marginBottom="4px"
-                >
-                  Content visibility
-                </Text>
-              </Box>
-              <Box>
-                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
-                  Posts to this profile can appear in r/all and your profile can be discovered in
-                  /users
-                </Text>
-              </Box>
-            </Flex>
-            <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-              <Switch />
-            </Flex>
-          </Flex>
-          <Flex flexFlow="row wrap" marginBottom="32px">
-            <Flex flexDir="column" marginRight="8px" maxWidth="80%">
-              <Box>
-                <Text
-                  fontSize="18px"
-                  fontWeight="500"
-                  lineHeight="20px"
-                  color={mainColor}
-                  marginBottom="4px"
-                >
-                  Active in communities visibility
-                </Text>
-              </Box>
-              <Box>
-                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
-                  Show which communities I am active in on my profile.
-                </Text>
-              </Box>
-            </Flex>
-            <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-              <Switch />
-            </Flex>
-          </Flex>
-          <Text
-            borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-            fontSize="10px"
-            fontWeight="700"
-            lineHeight="12px"
-            paddingBottom="6px"
-            marginBottom="32px"
-          >
-            PROFILE MODERATION
-          </Text>
-          <Box>
-            For moderation tools please visit our <br />
-            <Link color={linkColor}>Profile Moderation page</Link>
+            <Text
+              borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+              fontSize="10px"
+              fontWeight="700"
+              lineHeight="12px"
+              paddingBottom="6px"
+              marginBottom="32px"
+            >
+              PROFILE MODERATION
+            </Text>
+            <Box>
+              For moderation tools please visit our <br />
+              <Link color={linkColor}>Profile Moderation page</Link>
+            </Box>
           </Box>
-        </Box>
-      </Flex>
+        </Flex>
+      )}
+      {view === 'plebbitOptions' && (
+        <Flex maxW="1200px" margin="0 auto" padding="0 16px">
+          <Box maxW="688px" flex="1 1 auto">
+            <Text fontSize="20px" fontWeight="500" lineHeight="24px" padding="40px 0">
+              Customize plebbit Options
+            </Text>
+            <Text
+              fontSize="10px"
+              fontWeight="700"
+              letterSpacing="0.5px"
+              marginBottom="32px"
+              paddingBottom="6px"
+              borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+              color={metaColor}
+            >
+              PLEBBIT OPTIONS
+            </Text>
+            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxW="80%">
+                <Text
+                  fontSize="16px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  IPFS Gateway Url (optional)
+                </Text>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  Optional URL of an IPFS gateway
+                </Text>
+              </Flex>
+              <Flex
+                alignItems="flex-start"
+                marginTop="12px"
+                flexDir="column"
+                flexGrow="1"
+                justifyContent="flex-end"
+              >
+                <Input
+                  placeholder="ipfs Gateway Url"
+                  backgroundColor={mainBg}
+                  color={mainColor}
+                  boxSizing="border-box"
+                  marginBottom="8px"
+                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                  height="48px"
+                  borderRadius="4px"
+                  padding="12px 24px 4px 12px"
+                  width="100%"
+                  value={profile?.plebbitOptions?.ipfsGatewayUrl}
+                  onChange={() => {}}
+                  name="ipfsGatewayUrl"
+                />
+                <Text
+                  fontWeight="400"
+                  color={metaColor}
+                  fontSize="12px"
+                  lineHeight="16px"
+                  paddingTop="5px"
+                >
+                  {30 - +userProfile?.author?.displayName?.length} Characters remaining
+                </Text>
+              </Flex>
+            </Flex>
+            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxW="80%">
+                <Text
+                  fontSize="16px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  IPFS Http Client Options (optional)
+                </Text>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  Optional URL of an IPFS API or IpfsHttpClientOptions,{' '}
+                  <strong
+                    style={{
+                      color: 'blue',
+                    }}
+                  >
+                    http://localhost:5001
+                  </strong>{' '}
+                  to use a local IPFS node
+                </Text>
+              </Flex>
+              <Flex
+                alignItems="flex-start"
+                marginTop="12px"
+                flexDir="column"
+                flexGrow="1"
+                justifyContent="flex-end"
+              >
+                <Input
+                  placeholder=" ipfsHttpClientOptions (optional)"
+                  backgroundColor={mainBg}
+                  color={mainColor}
+                  boxSizing="border-box"
+                  marginBottom="8px"
+                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                  height="48px"
+                  borderRadius="4px"
+                  padding="12px 24px 4px 12px"
+                  width="100%"
+                  value={profile?.plebbitOptions?.ipfsHttpClientOptions}
+                  onChange={() => {}}
+                  onBlur={() => {}}
+                  name="ipfsHttpClientOptions"
+                />
+              </Flex>
+            </Flex>
+            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxW="80%">
+                <Text
+                  fontSize="16px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  Pubsub Http Client Options (optional)
+                </Text>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  Optional URL or IpfsHttpClientOptions used for pubsub publishing when
+                  ipfsHttpClientOptions isn't available, like in the browser
+                </Text>
+              </Flex>
+              <Flex
+                alignItems="flex-start"
+                marginTop="12px"
+                flexDir="column"
+                flexGrow="1"
+                justifyContent="flex-end"
+              >
+                <Input
+                  placeholder=" pubsubHttpClientOptions (optional)"
+                  backgroundColor={mainBg}
+                  color={mainColor}
+                  boxSizing="border-box"
+                  marginBottom="8px"
+                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                  height="48px"
+                  borderRadius="4px"
+                  padding="12px 24px 4px 12px"
+                  width="100%"
+                  value={profile?.plebbitOptions?.pubsubHttpClientOptions}
+                  onChange={() => {}}
+                  onBlur={() => {}}
+                  name="pubsubHttpClientOptions"
+                />
+              </Flex>
+            </Flex>
+            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxW="80%">
+                <Text
+                  fontSize="16px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  Data Path (optional)
+                </Text>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  (Node only) Optional folder path to create/resume the user and subplebbit
+                  databases
+                </Text>
+              </Flex>
+              <Flex
+                alignItems="flex-start"
+                marginTop="12px"
+                flexDir="column"
+                flexGrow="1"
+                justifyContent="flex-end"
+              >
+                <Input
+                  placeholder=" dataPath (optional)"
+                  backgroundColor={mainBg}
+                  color={mainColor}
+                  boxSizing="border-box"
+                  marginBottom="8px"
+                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                  height="48px"
+                  borderRadius="4px"
+                  padding="12px 24px 4px 12px"
+                  width="100%"
+                  value="./plebbit"
+                  onChange={() => {}}
+                  onBlur={() => {}}
+                  name="dataPath"
+                  disabled
+                />
+              </Flex>
+            </Flex>
+
+            <Text
+              borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+              fontSize="10px"
+              fontWeight="700"
+              lineHeight="12px"
+              paddingBottom="6px"
+              marginBottom="32px"
+            >
+              blockchainProviders
+            </Text>
+
+            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxW="80%">
+                <Text
+                  fontSize="16px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  url
+                </Text>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  URL of the provider RPC
+                </Text>
+              </Flex>
+              <Flex
+                alignItems="flex-start"
+                marginTop="12px"
+                flexDir="column"
+                flexGrow="1"
+                justifyContent="flex-end"
+              >
+                <Input
+                  placeholder="BlockchainProvider Url"
+                  backgroundColor={mainBg}
+                  color={mainColor}
+                  boxSizing="border-box"
+                  marginBottom="8px"
+                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                  height="48px"
+                  borderRadius="4px"
+                  padding="12px 24px 4px 12px"
+                  width="100%"
+                  value={profile?.blockedAddresses?.url}
+                  onChange={() => {}}
+                  onBlur={() => {}}
+                  name="url"
+                />
+              </Flex>
+            </Flex>
+            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px" maxW="80%">
+                <Text
+                  fontSize="16px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  chainId
+                </Text>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  ID of the EVM chain if any
+                </Text>
+              </Flex>
+              <Flex
+                alignItems="flex-start"
+                marginTop="12px"
+                flexDir="column"
+                flexGrow="1"
+                justifyContent="flex-end"
+              >
+                <Input
+                  placeholder="BlockchainProvider chainId"
+                  backgroundColor={mainBg}
+                  color={mainColor}
+                  boxSizing="border-box"
+                  marginBottom="8px"
+                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                  height="48px"
+                  borderRadius="4px"
+                  padding="12px 24px 4px 12px"
+                  width="100%"
+                  value={profile?.blockedAddresses?.chainId}
+                  onChange={() => {}}
+                  onBlur={() => {}}
+                  name="chainId"
+                />
+              </Flex>
+            </Flex>
+          </Box>
+        </Flex>
+      )}
       {isOpen ? <AddAvatar isOpen={isOpen} onClose={onClose} /> : ''}
     </Box>
   );

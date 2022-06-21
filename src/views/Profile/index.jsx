@@ -1,6 +1,6 @@
 import { Flex, Box, Icon, useColorModeValue, useColorMode, Image } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
 import Post from '../../components/Post/index2';
@@ -23,8 +23,7 @@ const Profile = () => {
   const myPost = useAccountComments();
   const [selectedNav, setSelectedNav] = useState('Overview');
   const navOptions = ['Overview', 'Posts', 'Comments', 'Moderation', 'Saved', 'Hidden'];
-
-  console.log(myPost);
+  const history = useHistory();
 
   return (
     <>
@@ -1489,7 +1488,7 @@ const Profile = () => {
                       <strong>{numFormatter(profile?.karma?.score)}</strong> karma
                     </Box>
                   </Flex>
-                  <Box color={mobileLink}>
+                  <Box color={mobileLink} onClick={() => history.push('/settings', [])}>
                     Edit profile <Icon marginLeft="4px" as={MdEdit} verticalAlign="middle" />
                   </Box>
                 </Box>

@@ -234,6 +234,7 @@ const NavBar = () => {
               width="36px"
               alignItems="center"
               justifyContent="center"
+              onClick={() => history.push('/submit', [])}
             >
               <Icon as={BiPencil} width={6} height={6} color="#fff" />
             </Flex>
