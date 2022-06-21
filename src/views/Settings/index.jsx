@@ -647,18 +647,34 @@ const Settings = () => {
                   padding="12px 24px 4px 12px"
                   width="100%"
                   value={profile?.plebbitOptions?.ipfsGatewayUrl}
-                  onChange={() => {}}
+                  onChange={(e) =>
+                    setUserProfile({
+                      ...userProfile,
+                      plebbitOptions: {
+                        ...userProfile?.plebbitOptions,
+                        ipfsGatewayUrl: e.target.value,
+                      },
+                    })
+                  }
+                  ref={ref}
+                  onBlur={() =>
+                    setTimeout(async () => {
+                      if (
+                        userProfile?.plebbitOptions?.ipfsGatewayUrl !==
+                        profile?.plebbitOptions?.ipfsGatewayUrl
+                      ) {
+                        await setAccount(userProfile);
+                        toast({
+                          title: `changes saved`,
+                          variant: 'left-accent',
+                          status: 'success',
+                          isClosable: true,
+                        });
+                      }
+                    }, 300)
+                  }
                   name="ipfsGatewayUrl"
                 />
-                <Text
-                  fontWeight="400"
-                  color={metaColor}
-                  fontSize="12px"
-                  lineHeight="16px"
-                  paddingTop="5px"
-                >
-                  {30 - +userProfile?.author?.displayName?.length} Characters remaining
-                </Text>
               </Flex>
             </Flex>
             <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
@@ -704,8 +720,32 @@ const Settings = () => {
                   padding="12px 24px 4px 12px"
                   width="100%"
                   value={profile?.plebbitOptions?.ipfsHttpClientOptions}
-                  onChange={() => {}}
-                  onBlur={() => {}}
+                  onChange={(e) =>
+                    setUserProfile({
+                      ...userProfile,
+                      plebbitOptions: {
+                        ...userProfile?.plebbitOptions,
+                        ipfsHttpClientOptions: e.target.value,
+                      },
+                    })
+                  }
+                  ref={ref}
+                  onBlur={() =>
+                    setTimeout(async () => {
+                      if (
+                        userProfile?.plebbitOptions?.ipfsHttpClientOptions !==
+                        profile?.plebbitOptions?.ipfsHttpClientOptions
+                      ) {
+                        await setAccount(userProfile);
+                        toast({
+                          title: `changes saved`,
+                          variant: 'left-accent',
+                          status: 'success',
+                          isClosable: true,
+                        });
+                      }
+                    }, 300)
+                  }
                   name="ipfsHttpClientOptions"
                 />
               </Flex>
@@ -746,8 +786,32 @@ const Settings = () => {
                   padding="12px 24px 4px 12px"
                   width="100%"
                   value={profile?.plebbitOptions?.pubsubHttpClientOptions}
-                  onChange={() => {}}
-                  onBlur={() => {}}
+                  onChange={(e) =>
+                    setUserProfile({
+                      ...userProfile,
+                      plebbitOptions: {
+                        ...userProfile?.plebbitOptions,
+                        pubsubHttpClientOptions: e.target.value,
+                      },
+                    })
+                  }
+                  ref={ref}
+                  onBlur={() =>
+                    setTimeout(async () => {
+                      if (
+                        userProfile?.plebbitOptions?.pubsubHttpClientOptions !==
+                        profile?.plebbitOptions?.pubsubHttpClientOptions
+                      ) {
+                        await setAccount(userProfile);
+                        toast({
+                          title: `changes saved`,
+                          variant: 'left-accent',
+                          status: 'success',
+                          isClosable: true,
+                        });
+                      }
+                    }, 300)
+                  }
                   name="pubsubHttpClientOptions"
                 />
               </Flex>
@@ -842,8 +906,29 @@ const Settings = () => {
                   padding="12px 24px 4px 12px"
                   width="100%"
                   value={profile?.blockedAddresses?.url}
-                  onChange={() => {}}
-                  onBlur={() => {}}
+                  onChange={(e) =>
+                    setUserProfile({
+                      ...userProfile,
+                      blockedAddresses: {
+                        ...userProfile?.blockedAddresses,
+                        url: e.target.value,
+                      },
+                    })
+                  }
+                  ref={ref}
+                  onBlur={() =>
+                    setTimeout(async () => {
+                      if (userProfile?.blockedAddresses?.url !== profile?.blockedAddresses?.url) {
+                        await setAccount(userProfile);
+                        toast({
+                          title: `changes saved`,
+                          variant: 'left-accent',
+                          status: 'success',
+                          isClosable: true,
+                        });
+                      }
+                    }, 300)
+                  }
                   name="url"
                 />
               </Flex>
@@ -883,8 +968,32 @@ const Settings = () => {
                   padding="12px 24px 4px 12px"
                   width="100%"
                   value={profile?.blockedAddresses?.chainId}
-                  onChange={() => {}}
-                  onBlur={() => {}}
+                  onChange={(e) =>
+                    setUserProfile({
+                      ...userProfile,
+                      blockedAddresses: {
+                        ...userProfile?.blockedAddresses,
+                        chainId: e.target.value,
+                      },
+                    })
+                  }
+                  ref={ref}
+                  onBlur={() =>
+                    setTimeout(async () => {
+                      if (
+                        userProfile?.blockedAddresses?.chainId !==
+                        profile?.blockedAddresses?.chainId
+                      ) {
+                        await setAccount(userProfile);
+                        toast({
+                          title: `changes saved`,
+                          variant: 'left-accent',
+                          status: 'success',
+                          isClosable: true,
+                        });
+                      }
+                    }, 300)
+                  }
                   name="chainId"
                 />
               </Flex>
