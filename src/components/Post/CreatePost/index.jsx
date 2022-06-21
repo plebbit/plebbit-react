@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Flex,
   Box,
-  Input,
   Icon,
   Textarea,
   useColorMode,
@@ -11,11 +10,10 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
-import { ChevronDownIcon, LinkIcon } from '@chakra-ui/icons';
+import { LinkIcon } from '@chakra-ui/icons';
 import { EditorState } from 'draft-js';
 import { useHistory } from 'react-router-dom';
 import { MdStickyNote2 } from 'react-icons/md';
-import { BiHelpCircle } from 'react-icons/bi';
 import { AiOutlinePlus } from 'react-icons/ai';
 import Button from '../../Button';
 import SideBar from './createPostSideBar';
@@ -106,38 +104,8 @@ const CreatePost = () => {
   };
 
   return (
-    <Flex
-      maxWidth="100%"
-      justifyContent="center"
-      margin="0 auto !important"
-      height="100vh"
-      sx={{
-        '@media (min-width: 640px)': {
-          padding: '20px 24px',
-          height: 'auto !important',
-        },
-        '@media (max-width: 640px)': {
-          boxSizing: 'border-box',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          margin: '0 auto',
-        },
-      }}
-    >
-      <Box
-        width="740px"
-        sx={{
-          '@media (min-width: 960px)': {
-            minWidth: '0',
-          },
-          '@media (max-width: 960px)': {
-            width: '640px',
-            minWidth: '0',
-            display: 'none',
-          },
-        }}
-      >
+    <Flex maxWidth="100%" justifyContent="center" margin="0 auto !important" height="100vh">
+      <Box width="740px">
         <Flex flexDirection="column">
           <Flex
             justifyContent="space-between"
@@ -589,134 +557,7 @@ const CreatePost = () => {
           </Box>
         </Flex>
       </Box>
-      <Box
-        width="740px"
-        sx={{
-          '@media (min-width: 960px)': {
-            minWidth: '0',
-            display: 'none',
-          },
-          '@media (max-width: 960px)': {
-            width: '640px',
-            minWidth: '0',
-          },
-        }}
-      >
-        <Flex flexDirection="column" bg={bg} height="100vh">
-          <Flex alignItems="center" padding="0 16px">
-            <Box
-              width="100%"
-              height="40px"
-              borderRadius="4px"
-              transition="box-shadow .2s ease"
-              boxShadow="0 0 0 0 #a4a4a4"
-              backgroundColor={bg}
-            >
-              <Flex alignItems="center" height="100%" padding="0 8px">
-                <Box
-                  borderRadius="22px"
-                  border="1px dashed #a4a4a4"
-                  height="22px"
-                  margin="0"
-                  width="22px"
-                  fontSize="22px"
-                  lineHeight="22px"
-                />
-                <Box flex="1" padding="8px">
-                  <Input
-                    placeholder="Choose a community"
-                    spellCheck="false"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    width="100%"
-                    bg="transparent"
-                    border="none"
-                    _focus={{
-                      outline: 'none',
-                    }}
-                  />
-                </Box>
-                <ChevronDownIcon />
-              </Flex>
-            </Box>
-          </Flex>
-          <hr
-            style={{
-              border: '0',
-              borderY: '1px solid #edeff1',
-              margin: '0px 16px',
-            }}
-          />
 
-          <Box bg={bg} marginBottom="15px" borderRadius="5px">
-            <Box margin="16px">
-              <Box marginBottom="8px">
-                <Box position="relative">
-                  <Textarea
-                    maxLength="300"
-                    placeholder="Add an interesting title"
-                    rows="1"
-                    overflowX="hidden"
-                    overflowWrap="break-word"
-                    height="39px"
-                    color={color}
-                    padding="8px 68px 8px 16px"
-                    backgroundColor={bg}
-                    resize="none"
-                    width="100%"
-                    fontSize="14px"
-                    fontWeight="400"
-                    lineHeight="21px"
-                    fontFamily="inherit"
-                  />
-                </Box>
-              </Box>
-              <Box>
-                <Box
-                  borderRadius="4px"
-                  border={
-                    colorMode === 'light'
-                      ? '1px solid #edeff1'
-                      : '1px solid rgba(255, 255, 255, 0.16)'
-                  }
-                  position="relative"
-                >
-                  <Flex
-                    borderTopLeftRadius="4px"
-                    borderTopRightRadius="4px"
-                    boxSizing="border-box"
-                    height="40px"
-                    padding="8px 16px"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    backgroundColor={colorMode === 'light' ? '#f6f7f8' : '#272729'}
-                  >
-                    <Flex alignItems="center">
-                      <Box fontSize="14px" fontWeight="500" lineHeight="18px">
-                        Add your text
-                      </Box>
-                      <Box marginLeft="8px">
-                        <Icon as={BiHelpCircle} fill="#a4a4a4" width="12px" height="12px" />
-                      </Box>
-                    </Flex>
-                    {/* <Flex></Flex> */}
-                  </Flex>
-                  <Box
-                    borderRadius="4px"
-                    minH="300px"
-                    overflow="hidden auto"
-                    padding="8px 16px"
-                    resize="vertical"
-                  >
-                    <Editor hideToolBar={true} />
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-        </Flex>
-      </Box>
       <SideBar />
     </Flex>
   );
