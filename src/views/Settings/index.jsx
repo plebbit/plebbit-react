@@ -16,12 +16,14 @@ import {
   ListItem,
   InputGroup,
   InputRightAddon,
+  Button,
 } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import React, { useContext, useRef, useState } from 'react';
 import { MdAddCircleOutline } from 'react-icons/md';
 import { ProfileContext } from '../../store/profileContext';
 import AddAvatar from './modal/addAvatar';
+import ExportAccount from './modal/exportAccount';
 
 const Settings = () => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -33,6 +35,7 @@ const Settings = () => {
   const { colorMode } = useColorMode();
   const [view, setView] = useState('profile');
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
   const { profile } = useContext(ProfileContext);
   const tabs = [
     { label: 'Account', link: 'account' },
@@ -47,8 +50,6 @@ const Settings = () => {
   const ref = useRef(null);
   const { setAccount } = useAccountsActions();
   const toast = useToast();
-
-  console.log(userProfile);
 
   return (
     <Box
@@ -114,6 +115,9 @@ const Settings = () => {
             <Text fontSize="20px" fontWeight="500" lineHeight="24px" padding="40px 0">
               Customize profile
             </Text>
+            <Box marginBottom="25px">
+              <Button onClick={onExportOpen}>Export Account</Button>
+            </Box>
             <Text
               fontSize="10px"
               fontWeight="700"
@@ -1002,6 +1006,7 @@ const Settings = () => {
         </Flex>
       )}
       {isOpen ? <AddAvatar isOpen={isOpen} onClose={onClose} /> : ''}
+      {isExportOpen ? <ExportAccount isOpen={isExportOpen} onClose={onExportClose} /> : ''}
     </Box>
   );
 };

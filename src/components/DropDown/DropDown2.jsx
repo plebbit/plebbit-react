@@ -18,6 +18,7 @@ const DropDown2 = ({
   suffix,
   topMenu,
   bottomMenu,
+  selectStyles,
 }) => {
   const mainColor = useColorModeValue('lightText2', 'darkText1');
   const navBorder = useColorModeValue('#edeff1', '#343536');
@@ -61,7 +62,12 @@ const DropDown2 = ({
     <Flex width="100%" alignItems="center" borderRadius="4px" sx={sx}>
       <Select
         styles={{
-          container: (styles) => ({ ...styles, width: '100%', backgroundColor: mainBg }),
+          container: (styles) => ({
+            ...styles,
+            width: '100%',
+            backgroundColor: mainBg,
+            ...selectStyles,
+          }),
           control: (styles) => ({
             ...styles,
             backgroundColor: 'transparent',
