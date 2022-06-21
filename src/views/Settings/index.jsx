@@ -77,6 +77,7 @@ const Settings = () => {
           borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
           alignItems="center"
           color={metaColor}
+          overflowX="scroll"
         >
           {tabs
             ? tabs.map((tab) => (
@@ -84,6 +85,8 @@ const Settings = () => {
                   key={tab?.link}
                   fontSize="14px"
                   fontWeight="700"
+                  textOverflow="ellipsis"
+                  whiteSpace="nowrap"
                   lineHeight="unset"
                   marginRight="8px"
                   padding="15px 12px 12px"
