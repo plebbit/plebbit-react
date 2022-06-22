@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { ChevronUpIcon } from '@chakra-ui/icons';
 import Button from '../../components/Button';
+import plebbitReactPackageJson from '../../../package.json';
 
 const SideBar = ({
   mt,
@@ -581,7 +582,7 @@ const SideBar = ({
                       display="inline-block"
                       textTransform="capitalize"
                     >
-                      RePlebbit
+                      Plebbit
                     </Box>
                     <Box
                       fontSize="12px"
@@ -694,9 +695,8 @@ const SideBar = ({
                   marginTop="3px"
                   marginBottom="3px"
                   display="inline-block"
-                  textTransform="capitalize"
                 >
-                  Plebbit Inc © {new Date().getFullYear()} . All rights reserved
+                  plebbit v{plebbitReactPackageJson.version}
                 </Flex>
               </Box>
             </Box>
