@@ -2,7 +2,9 @@
 
 const fs = require('fs-extra')
 const path = require('path')
-const distFolderPath = path.resolve(__dirname, '..', 'dist')
+const {execSync} = require('child_process')
+const rootPath = path.resolve(__dirname, '..')
+const distFolderPath = path.resolve(rootPath, 'dist')
 
 const addPortableToPortableExecutableFileName = () => {
   const files = fs.readdirSync(distFolderPath)
@@ -15,6 +17,28 @@ const addPortableToPortableExecutableFileName = () => {
   }
 }
 
+const createHtmlArchive = () => {
+  if (process.platform !== 'linux') {
+    return
+  }
+  const {version} = require('../package.json')
+  const zipBinPath = path.resolve(rootPath, 'node_modules', '7zip-bin', 'linux', 'x64', '7za')
+  const plebbitHtmlFolderName = `plebbit-html-${version}`
+  const outputFile = path.resolve(distFolderPath, `${plebbitHtmlFolderName}.zip`)
+  const inputFolder = path.resolve(rootPath, 'build')
+  try {
+    // will break if node_modules/7zip-bin changes
+    execSync(`${zipBinPath} a ${outputFile} ${inputFolder}`)
+    // rename 'build' folder to 'plebbit-html-version' inside the archive
+    execSync(`${zipBinPath} rn -r ${outputFile} build ${plebbitHtmlFolderName}`)
+  }
+  catch (e) {
+    e.message = 'electron build createHtmlArchive error: ' + e.message
+    console.log(e)
+  }
+}
+
 exports.default = async (buildResult) => {
   addPortableToPortableExecutableFileName()
+  createHtmlArchive()
 }

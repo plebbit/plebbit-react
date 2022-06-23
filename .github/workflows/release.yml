@@ -53,7 +53,7 @@ jobs:
     # publish release
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "dist/plebbit*.AppImage"
+        artifacts: "dist/plebbit*.AppImage,dist/plebbit-html*.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
         replacesArtifacts: false
         prerelease: true
