@@ -36,7 +36,7 @@ const Settings = () => {
   const [view, setView] = useState('profile');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
-  const { profile } = useContext(ProfileContext);
+  const { profile, device } = useContext(ProfileContext);
   const tabs = [
     { label: 'Account', link: 'account' },
     { label: 'Profile', link: 'profile' },
@@ -55,7 +55,7 @@ const Settings = () => {
     <Box
       paddingBottom="40px"
       minH="calc(100vh - 88px)"
-      marginLeft="calc(100vw - 100%)"
+      marginLeft={device !== 'mobile' ? 'calc(100vw - 100%)' : ''}
       background={mainBg}
     >
       <Box boxSizing="border-box" background={mainBg} position="relative">
@@ -130,7 +130,7 @@ const Settings = () => {
               PROFILE INFORMATION
             </Text>
             <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxW="80%">
+              <Flex flexDir="column" marginRight="8px">
                 <Text
                   fontSize="16px"
                   fontWeight="500"
@@ -202,7 +202,7 @@ const Settings = () => {
               </Flex>
             </Flex>
             <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxW="80%">
+              <Flex flexDir="column" marginRight="8px">
                 <Text
                   fontSize="16px"
                   fontWeight="500"
@@ -298,13 +298,13 @@ const Settings = () => {
                   </ListItem>
                   <ListItem fontSize={12}>Click ADD/EDIT RECORD</ListItem>
                   <ListItem fontSize={12}>
-                    Select "text", write in "key": "plebbit-author", write in next field:
+                    Select "text", write in "key": "plebbit-author-address", write in next field:
                   </ListItem>
                 </UnorderedList>
               </Flex>
             </Flex>
             <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxW="80%">
+              <Flex flexDir="column" marginRight="8px">
                 <Text
                   fontSize="16px"
                   fontWeight="500"
@@ -388,7 +388,7 @@ const Settings = () => {
               Images
             </Text>
             <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxW="80%">
+              <Flex flexDir="column" marginRight="8px">
                 <Text
                   fontSize="16px"
                   fontWeight="500"
@@ -617,7 +617,7 @@ const Settings = () => {
               PLEBBIT OPTIONS
             </Text>
             <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxW="80%">
+              <Flex flexDir="column" marginRight="8px">
                 <Text
                   fontSize="16px"
                   fontWeight="500"
@@ -682,7 +682,7 @@ const Settings = () => {
               </Flex>
             </Flex>
             <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxW="80%">
+              <Flex flexDir="column" marginRight="8px">
                 <Text
                   fontSize="16px"
                   fontWeight="500"
@@ -755,7 +755,7 @@ const Settings = () => {
               </Flex>
             </Flex>
             <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxW="80%">
+              <Flex flexDir="column" marginRight="8px">
                 <Text
                   fontSize="16px"
                   fontWeight="500"
@@ -821,7 +821,7 @@ const Settings = () => {
               </Flex>
             </Flex>
             <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxW="80%">
+              <Flex flexDir="column" marginRight="8px">
                 <Text
                   fontSize="16px"
                   fontWeight="500"
@@ -876,7 +876,7 @@ const Settings = () => {
             </Text>
 
             <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxW="80%">
+              <Flex flexDir="column" marginRight="8px">
                 <Text
                   fontSize="16px"
                   fontWeight="500"
@@ -938,7 +938,7 @@ const Settings = () => {
               </Flex>
             </Flex>
             <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxW="80%">
+              <Flex flexDir="column" marginRight="8px">
                 <Text
                   fontSize="16px"
                   fontWeight="500"
