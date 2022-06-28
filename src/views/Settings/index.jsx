@@ -54,10 +54,11 @@ const Settings = () => {
   return (
     <Box
       paddingBottom="40px"
-      minH="calc(100vh - 88px)"
       marginLeft={device !== 'mobile' ? 'calc(100vw - 100%)' : ''}
       background={mainBg}
     >
+      {isOpen ? <AddAvatar isOpen={isOpen} onClose={onClose} /> : ''}
+      {isExportOpen ? <ExportAccount isOpen={isExportOpen} onClose={onExportClose} /> : ''}
       <Box boxSizing="border-box" background={mainBg} position="relative">
         <Text
           maxW="1200px"
@@ -409,7 +410,7 @@ const Settings = () => {
                 flexGrow="1"
                 justifyContent="flex-end"
               >
-                <Flex height="120px">
+                <Flex height="120px" width="100%">
                   <Box
                     borderRadius="8px"
                     overflow="hidden"
@@ -435,7 +436,7 @@ const Settings = () => {
                       src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
                     />
                   </Box>
-                  <Box height="100%" margin="0" width="412px">
+                  <Box height="100%" margin="0" flexGrow={1}>
                     <Flex
                       border="1px dashed #d7d7d7"
                       borderRadius="8px"
@@ -1005,8 +1006,6 @@ const Settings = () => {
           </Box>
         </Flex>
       )}
-      {isOpen ? <AddAvatar isOpen={isOpen} onClose={onClose} /> : ''}
-      {isExportOpen ? <ExportAccount isOpen={isExportOpen} onClose={onExportClose} /> : ''}
     </Box>
   );
 };
