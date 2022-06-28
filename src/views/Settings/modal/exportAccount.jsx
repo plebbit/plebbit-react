@@ -11,6 +11,7 @@ import {
   Flex,
   useColorModeValue,
   Text,
+  Textarea,
 } from '@chakra-ui/react';
 import { ProfileContext } from '../../../store/profileContext';
 
@@ -33,9 +34,15 @@ const ExportAccount = ({ isOpen, onClose }) => {
         <ModalHeader>Export Account</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>
-          <Flex flexDir="column" border={`1px solid ${navBorder}`} padding="10px" overflow="scroll">
-            {account}
-          </Flex>
+          <Textarea
+            flexDir="column"
+            border={`1px solid ${navBorder}`}
+            padding="10px"
+            overflow="scroll"
+            value={account}
+            height="100%"
+          />
+
           <Flex width="100%">
             <Text fontWeight="400" color="red" fontSize="12px" lineHeight="16px" paddingTop="5px">
               copy this text in the box above and store in a safe place
