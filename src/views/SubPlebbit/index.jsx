@@ -7,7 +7,8 @@ import Post from '../../components/Post/index2';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
-import { useFeed } from '@plebbit/plebbit-react-hooks';
+import { useFeed, useSubplebbit } from '@plebbit/plebbit-react-hooks';
+import truncateString from '../../utils/truncateString';
 
 const SubPlebbit = ({ match }) => {
   const { postStyle, feedSort } = useContext(ProfileContext);
@@ -16,19 +17,14 @@ const SubPlebbit = ({ match }) => {
   const subPlebbitBorder = useColorModeValue('borderLight1', 'borderDark1');
   const inactiveSubTitle = useColorModeValue('lightText1', 'darkText1');
   const { feed, loadMore, hasMore } = useFeed([match?.params?.subplebbitAddress], feedSort);
+  const subPlebbit = useSubplebbit(match?.params?.subplebbitAddress);
   const feeds = feed;
 
-  console.log(match?.params?.subplebbitAddress);
+  console.log(subPlebbit);
 
   return (
     <Box width="100%">
-      <Box
-        minW="260px"
-        margin="0 auto"
-        padding="8px 16px"
-        height="145px"
-        background={`url("https://styles.redditmedia.com/t5_2wlj3/styles/bannerBackgroundImage_bx1bi0qmmcg61.jpg?width=4000&format=pjpg&s=8fbb510f1bae6b0fdd98d075458022e98e4910f4") center center / cover no-repeat rgb(55, 60, 63)`}
-      />
+      <Box minW="260px" margin="0 auto" padding="8px 16px" height="145px" background="blue" />
       <Box bg={mainBg} display="block" width="100%">
         <Flex
           maxWidth="984px"
@@ -70,10 +66,10 @@ const SubPlebbit = ({ match }) => {
                   width="100%"
                   text-overflow="ellipsis"
                 >
-                  Cryptocurrency News & Discussion
+                  {truncateString(subPlebbit?.address, 13, '...')}
                 </Text>
                 <Text fontSize="14px" fontWeight="500" lineHeight="18px" color={subPlebbitSubTitle}>
-                  p/CryptoCurrency
+                  p/{subPlebbit?.address}
                 </Text>
               </Box>
               <Flex>

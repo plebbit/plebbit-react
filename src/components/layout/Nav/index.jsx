@@ -161,11 +161,11 @@ const NavBar = () => {
                         _hover={{
                           bg: inputBg,
                         }}
+                        onClick={() => onOpenCreate()}
                         alignItems="center"
-                        onClick={onOpenCreate}
                       >
-                        <Icon as={BsPlusLg} mr="8px" />
-                        <Box>Create Community</Box>
+                        <Icon onClick={() => onOpenCreate()} as={BsPlusLg} mr="8px" />
+                        <Box onClick={() => onOpenCreate()}>Create Community</Box>
                       </Flex>
                     </Box>
                   }

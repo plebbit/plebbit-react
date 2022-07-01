@@ -12,15 +12,28 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Radio,
+  RadioGroup,
+  Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import React from 'react';
+import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import React, { useState } from 'react';
 
 const CreateSubPlebbit = ({ isOpen, onClose }) => {
   const navBorder = useColorModeValue('#edeff1', '#343536');
+  const [value, setValue] = useState({ type: 'public' });
+  const { createSubplebbit } = useAccountsActions();
+  // const accountSubplebbits = useAccountSubplebbits();
+
+  const handleCreateSubPlebbit = async () => {
+    const subplebbit = await createSubplebbit(value);
+    console.log(subplebbit);
+  };
+  // console.log(accountSubplebbits ? accountSubplebbits : 'none');
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
@@ -32,19 +45,72 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Flex flexDirection="column">
-            <Box>Name</Box>
-            <InputGroup>
+          <Flex flexDirection="column" mb="30px">
+            <Box mb="4px" fontSize="16px" fontWeight="500" lineHeight="20px">
+              Title
+            </Box>
+            <InputGroup mt="12px" mb="8px">
               <InputLeftElement pointerEvents="none" color="gray.300" fontSize="1.2em">
                 p/
               </InputLeftElement>
-              <Input />
+              <Input
+                value={value?.title}
+                onChange={(e) => setValue({ ...value, title: e.target.value })}
+              />
             </InputGroup>
-            <Box>21 Characters remaining</Box>
+            <Box fontSize="12px" lineHeight="16px">
+              21 Characters remaining
+            </Box>
+          </Flex>
+
+          <Flex flexDirection="column">
+            <Box fontSize="16px" fontWeight="500" lineHeight="20px" mb="4px">
+              Community type
+            </Box>
+            <Flex flexDirection="column" mt="12px" alignItems="flex-start">
+              <RadioGroup onChange={(x) => setValue({ ...value, type: x })} value={value?.type}>
+                <Stack direction="column">
+                  <Radio value="public" colorScheme="gray" color="gray">
+                    <Flex alignItems="center">
+                      <Box fontWeight="500" lineHeight="18px" fontSize="14px">
+                        Public
+                      </Box>
+                      <Box mx="1" fontSize="12px" fontWeight="400" lineHeight="16px">
+                        Anyone can view, post, and comment to this community
+                      </Box>
+                    </Flex>
+                  </Radio>
+                  <Radio value="private" colorScheme="gray" color="gray">
+                    <Flex alignItems="center">
+                      <Box fontWeight="500" lineHeight="18px" fontSize="14px">
+                        Private
+                      </Box>
+                      <Box mx="1" fontSize="12px" fontWeight="400" lineHeight="16px">
+                        Only approved users can view and submit to this community
+                      </Box>
+                    </Flex>
+                  </Radio>
+                  <Radio value="restricted" colorScheme="gray" color="gray">
+                    <Flex alignItems="center">
+                      <Box fontWeight="500" lineHeight="18px" fontSize="14px">
+                        Restricted
+                      </Box>
+                      <Box mx="1" fontSize="12px" fontWeight="400" lineHeight="16px">
+                        Anyone can view this community, but only approved users can post
+                      </Box>
+                    </Flex>
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            </Flex>
           </Flex>
         </ModalBody>
 
-        <ModalFooter>
+        <ModalFooter
+          sx={{
+            bg: navBorder,
+          }}
+        >
           <Button
             variant="outline"
             colorScheme="blue"
@@ -56,7 +122,12 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
           >
             Cancel
           </Button>
-          <Button colorScheme="blue" borderRadius="999px" padding="4px 16px">
+          <Button
+            colorScheme="blue"
+            borderRadius="999px"
+            padding="4px 16px"
+            onClick={handleCreateSubPlebbit}
+          >
             Create a community
           </Button>
         </ModalFooter>
