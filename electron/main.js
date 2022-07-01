@@ -9,7 +9,7 @@ startIpfs();
 
 const createMainWindow = () => {
   let mainWindow = new BrowserWindow({
-    width: 900,
+    width: 1000,
     height: 600,
     show: false,
     backgroundColor: 'white',
