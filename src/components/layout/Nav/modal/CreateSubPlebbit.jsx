@@ -19,18 +19,19 @@ import {
 } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const CreateSubPlebbit = ({ isOpen, onClose }) => {
   const navBorder = useColorModeValue('#edeff1', '#343536');
   const [value, setValue] = useState({ type: 'public' });
   const { createSubplebbit } = useAccountsActions();
-  // const accountSubplebbits = useAccountSubplebbits();
+  const history = useHistory();
 
   const handleCreateSubPlebbit = async () => {
     const subplebbit = await createSubplebbit(value);
-    console.log(subplebbit);
+    onClose();
+    history.push(`p/${subplebbit?.address}`, []);
   };
-  // console.log(accountSubplebbits ? accountSubplebbits : 'none');
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">

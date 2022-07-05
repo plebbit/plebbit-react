@@ -2745,7 +2745,7 @@
 
 "@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git":
   version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#b9f3474cd7dedf2ffb39729cd2c37c55b6213153"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#9d6a0a5e23a81fa1b12acf58c8b912a757297d87"
   dependencies:
     "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git"
     "@types/debug" "4.1.7"
