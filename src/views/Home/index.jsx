@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
-import Post from '../../components/Post/index2';
 import { ProfileContext } from '../../store/profileContext';
 import SideBar from './sideBar';
 import { useFeed } from '@plebbit/plebbit-react-hooks';
@@ -8,6 +7,7 @@ import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
 import subPlebbitsData from '../../components/data/subPlebbits';
 import InfiniteScroll from '../../components/InfiniteScroll';
+import Post from '../../components/Post';
 
 const Home = () => {
   const { isLoggedIn, postStyle, feedSort, device } = useContext(ProfileContext);

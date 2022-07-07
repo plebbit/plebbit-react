@@ -3,7 +3,7 @@ import { Box, Flex, Icon, Image, Text, useColorModeValue } from '@chakra-ui/reac
 import Button from '../../components/Button';
 import { FaBell } from 'react-icons/fa';
 import { ProfileContext } from '../../store/profileContext';
-import Post from '../../components/Post/index2';
+import Post from '../../components/Post';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
@@ -63,7 +63,7 @@ const SubPlebbit = ({ match }) => {
             <Flex marginTop="-14px" marginBottom="12px" alignItems="flex-start">
               <Image
                 fallbackSrc={require('../../assets/images/fallback.png')}
-                src="https://styles.redditmedia.com/t5_2wlj3/styles/communityIcon_7jxh2j4ouky41.png?width=256&s=59ea46d93492e9d0951b43d7c580f72982a86974"
+                src=""
                 backgroundColor="#fff"
                 backgroundSize="cover"
                 borderRadius="100%"
@@ -200,7 +200,7 @@ const SubPlebbit = ({ match }) => {
             </Box>
           </Box>
           {/* side bar */}
-          <SideBar />
+          <SideBar subPlebbit={subPlebbit} />
         </Flex>
       </Box>
     </Flex>
