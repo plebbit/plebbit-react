@@ -21,6 +21,7 @@ export const ProfileDataProvider = (props) => {
   const defaultAccount = useAccount();
   const accountLists = useAccounts();
   const accountSubplebbits = useAccountSubplebbits();
+  const { version } = require('../../package.json');
 
   const profile = defaultAccount;
 
@@ -73,6 +74,7 @@ export const ProfileDataProvider = (props) => {
         setAccountsOrder,
         createAccount,
         accountSubplebbits,
+        version,
       }}
     >
       {children}

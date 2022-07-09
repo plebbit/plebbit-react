@@ -64,6 +64,7 @@ const NavBar = () => {
     accountLists,
     createAccount,
     setActiveAccount,
+    version,
   } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
@@ -679,7 +680,7 @@ const NavBar = () => {
                 minH="40px"
                 height="unset"
               >
-                © 2022 Reddit, Inc. All rights reserved{' '}
+                © {new Date().getFullYear()} plebbit ({version}), Inc. All rights reserved{' '}
               </Box>
             </Box>
           ) : (
