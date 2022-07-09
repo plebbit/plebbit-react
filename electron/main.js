@@ -1,5 +1,5 @@
 require('./log')
-const { app, BrowserWindow, screen: electronScreen, shell } = require('electron');
+const { app, BrowserWindow, Menu, Tray, screen: electronScreen, shell } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
 const startIpfs = require('./startIpfs')
@@ -74,6 +74,45 @@ const createMainWindow = () => {
       }
     }
   })
+
+  // tray
+  const trayIconPath = path.join(__dirname, '..', 'build', 'logo512.png');
+  const tray = new Tray(trayIconPath)
+  tray.setToolTip('plebbit');
+  const trayMenu = Menu.buildFromTemplate([
+    {label: 'Open plebbit', click: () => {mainWindow.show()}},
+    {label: 'Quit plebbit', click: () => {
+      mainWindow.destroy();
+      app.quit();
+    }}
+  ]);
+  tray.setContextMenu(trayMenu);
+
+  // show/hide on tray right click
+  tray.on('right-click', () => {
+    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+  });
+  mainWindow.on('show', () => {
+    tray.setHighlightMode('always');
+  });
+  mainWindow.on('hide', () => {
+    tray.setHighlightMode('never');
+  });
+
+  // close to tray
+  if (!isDev) {
+    let isQuiting = false;
+    app.on('before-quit', () => {
+      isQuiting = true;
+    });
+    mainWindow.on('close', (event) => {
+      if (!isQuiting) {
+        event.preventDefault();
+        mainWindow.hide();
+        event.returnValue = false;
+      }
+    });
+  }
 };
 
 app.whenReady().then(() => {
