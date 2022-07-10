@@ -92,12 +92,6 @@ const createMainWindow = () => {
   tray.on('right-click', () => {
     mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
   });
-  mainWindow.on('show', () => {
-    tray.setHighlightMode('always');
-  });
-  mainWindow.on('hide', () => {
-    tray.setHighlightMode('never');
-  });
 
   // close to tray
   if (!isDev) {
