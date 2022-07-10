@@ -52,6 +52,7 @@ const theme = extendTheme({
     borderLight1: '#a4a4a4',
     lightText1: '#373c3f',
     lightText2: '#1c1c1c',
+    lightText3: '#1a1a1b',
     borderLight: '#ccc',
     borderLight2: '#edeff1',
     lightInputBg: '#f6f7f8',

@@ -32,9 +32,5 @@ export function dateToNow(myDate) {
 }
 
 export function dateFormater(date) {
-  const formatedDate = `${moment(`${date}`).format('Do MMM, yyyy')} at ${moment(`${date}`).format(
-    'LT'
-  )}
-  `;
-  return formatedDate;
+  return moment(date).format('LL');
 }

@@ -32,9 +32,10 @@ import Editor from '../../Editor';
 import truncateString from '../../../utils/truncateString';
 import { ProfileContext } from '../../../store/profileContext';
 import { useHistory } from 'react-router-dom';
-import Post from '../index2';
+
 import getUserName from '../../../utils/getUserName';
 import numFormatter from '../../../utils/numberFormater';
+import Post from '..';
 
 function PostDetail() {
   const detail = useComment(

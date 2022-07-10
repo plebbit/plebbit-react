@@ -1,4 +1,9 @@
-import { useAccount, useAccounts, useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import {
+  useAccount,
+  useAccounts,
+  useAccountsActions,
+  useAccountSubplebbits,
+} from '@plebbit/plebbit-react-hooks';
 import React, { createContext, useState, useEffect } from 'react';
 
 export const ProfileContext = createContext();
@@ -15,6 +20,9 @@ export const ProfileDataProvider = (props) => {
     useAccountsActions();
   const defaultAccount = useAccount();
   const accountLists = useAccounts();
+  const accountSubplebbits = useAccountSubplebbits();
+  const { version } = require('../../package.json');
+
   const profile = defaultAccount;
 
   const handleResize = () => {
@@ -65,6 +73,8 @@ export const ProfileDataProvider = (props) => {
         setActiveAccount,
         setAccountsOrder,
         createAccount,
+        accountSubplebbits,
+        version,
       }}
     >
       {children}

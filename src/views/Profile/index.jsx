@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
-import Post from '../../components/Post/index2';
+import Post from '../../components/Post';
 import { useAccountComments } from '@plebbit/plebbit-react-hooks';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import FeedSort from '../../components/Post/FeedSort';

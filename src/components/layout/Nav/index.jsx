@@ -21,7 +21,13 @@ import plebbitlightText2 from '../../../assets/svgs/letters-black-grey-dot.svg';
 import plebbitLightText from '../../../assets/svgs/letters-white-grey-dot.svg';
 import DropDown2 from '../../DropDown/DropDown2';
 import { RiCreativeCommonsByLine, RiSearchLine } from 'react-icons/ri';
-import { BsArrowUpRightCircle, BsBarChartFill, BsChevronDown, BsEye } from 'react-icons/bs';
+import {
+  BsArrowUpRightCircle,
+  BsBarChartFill,
+  BsChevronDown,
+  BsEye,
+  BsPlusLg,
+} from 'react-icons/bs';
 import { HiOutlineChartSquareBar, HiOutlineChat, HiOutlineUserGroup } from 'react-icons/hi';
 import { BiBell, BiBookmarks, BiHelpCircle, BiPencil, BiTrendingUp } from 'react-icons/bi';
 import {
@@ -39,6 +45,7 @@ import { ProfileContext } from '../../../store/profileContext';
 import useVisible from '../../../hooks/useVisible';
 import { VscMail } from 'react-icons/vsc';
 import ImportAccount from './modal/importAccount';
+import CreateSubPlebbit from './modal/CreateSubPlebbit';
 
 const NavBar = () => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -57,10 +64,12 @@ const NavBar = () => {
     accountLists,
     createAccount,
     setActiveAccount,
+    version,
   } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
 
   const toast = useToast();
 
@@ -136,6 +145,31 @@ const NavBar = () => {
                     background: 'transparent',
                   }}
                   isSearchable={false}
+                  topMenu={
+                    <Box>
+                      <Box paddingX="12px" paddingTop="10px" fontSize="10px">
+                        Your Communities
+                      </Box>
+                      <Flex
+                        fontWeight="500"
+                        fontSize="12px"
+                        padding="12px"
+                        cursor="pointer"
+                        color="blue.400"
+                        borderBottomColor={navBorder}
+                        borderBottomWidth="3px"
+                        borderBottomStyle="solid"
+                        _hover={{
+                          bg: inputBg,
+                        }}
+                        onClick={() => onOpenCreate()}
+                        alignItems="center"
+                      >
+                        <Icon onClick={() => onOpenCreate()} as={BsPlusLg} mr="8px" />
+                        <Box onClick={() => onOpenCreate()}>Create Community</Box>
+                      </Flex>
+                    </Box>
+                  }
                 />
               </Box>
               <Flex
@@ -646,7 +680,7 @@ const NavBar = () => {
                 minH="40px"
                 height="unset"
               >
-                © 2022 Reddit, Inc. All rights reserved{' '}
+                © {new Date().getFullYear()} plebbit ({version}), Inc. All rights reserved{' '}
               </Box>
             </Box>
           ) : (
@@ -1179,6 +1213,7 @@ const NavBar = () => {
       )}
 
       {isOpen ? <ImportAccount isOpen={isOpen} onClose={onClose} /> : ''}
+      {isOpenCreate ? <CreateSubPlebbit isOpen={isOpenCreate} onClose={onCloseCreate} /> : ''}
     </Box>
   );
 };
