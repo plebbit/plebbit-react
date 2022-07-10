@@ -53,8 +53,8 @@ const startIpfs = async () => {
   }
   catch (e) {}
 
-  // disable gateway because plebbit doesn't use it and it wastes a port
-  await spawnAsync(ipfsPath, ['config', '--json', 'Addresses.Gateway', 'null'], {env, hideWindows: true});
+  // dont use 8080 port because it's too common
+  await spawnAsync(ipfsPath, ['config', 'Addresses.Gateway', '/ip4/127.0.0.1/tcp/11028'], {env, hideWindows: true});
 
   // use different port with proxy for debugging during env
   let apiAddress = '/ip4/127.0.0.1/tcp/5001'
