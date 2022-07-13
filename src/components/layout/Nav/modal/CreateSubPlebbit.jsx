@@ -30,7 +30,7 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
   const handleCreateSubPlebbit = async () => {
     const subplebbit = await createSubplebbit(value);
     onClose();
-    history.push(`p/${subplebbit?.address}`, []);
+    history.push(`/p/${subplebbit?.address}`, []);
   };
 
   return (

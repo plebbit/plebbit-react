@@ -2675,9 +2675,9 @@
     unist-util-visit "^2.0.3"
 
 "@noble/ed25519@^1.5.1":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@noble/ed25519/-/ed25519-1.6.0.tgz#b55f7c9e532b478bf1d7c4f609e1f3a37850b583"
-  integrity sha512-UKju89WV37IUALIMfKhKW3psO8AqmrE/GvH6QbPKjzolQ98zM7WmGUeY+xdIgSf5tqPFf75ZCYMgym6E9Jsw3Q==
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@noble/ed25519/-/ed25519-1.6.1.tgz#bad3e77008c7825a0859304ab8b4177703cd438d"
+  integrity sha512-Gptpue6qPmg7p1E5LBO5GDtXw5WMc2DVtUmu4EQequOcoCvum1dT9sY6s9M8aSJWq9YopCN4jmTOAvqMdw3q7w==
 
 "@noble/secp256k1@^1.3.0":
   version "1.6.0"
@@ -2723,9 +2723,10 @@
 
 "@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git":
   version "0.0.3"
-  resolved "https://github.com/plebbit/plebbit-js.git#961ce595b9b307b6fada2ac8c290745303349231"
+  resolved "https://github.com/plebbit/plebbit-js.git#d81ae4b5d0f9b73972041c53f77455568c1ad1ae"
   dependencies:
     "@keyv/sqlite" "3.5.2"
+    "@types/node-fetch" "2.6.2"
     "@types/uuid" "8.3.4"
     assert "2.0.0"
     buffer "6.0.3"
@@ -2745,7 +2746,7 @@
 
 "@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git":
   version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#9d6a0a5e23a81fa1b12acf58c8b912a757297d87"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#4c187f8eef019a1aa9ddcb6a781bd500b996ca09"
   dependencies:
     "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git"
     "@types/debug" "4.1.7"
@@ -3385,15 +3386,18 @@
   resolved "https://registry.yarnpkg.com/@types/ms/-/ms-0.7.31.tgz#31b7ca6407128a3d2bbc27fe2d21b345397f6197"
   integrity sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==
 
-"@types/node@*":
-  version "17.0.35"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.35.tgz#635b7586086d51fb40de0a2ec9d1014a5283ba4a"
-  integrity sha512-vu1SrqBjbbZ3J6vwY17jBs8Sr/BKA+/a/WtjRG+whKg1iuLFOosq872EXS0eXWILdO36DHQQeku/ZcL6hz2fpg==
+"@types/node-fetch@2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.6.2.tgz#d1a9c5fd049d9415dce61571557104dec3ec81da"
+  integrity sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==
+  dependencies:
+    "@types/node" "*"
+    form-data "^3.0.0"
 
-"@types/node@>=13.7.0":
-  version "18.0.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.0.0.tgz#67c7b724e1bcdd7a8821ce0d5ee184d3b4dd525a"
-  integrity sha512-cHlGmko4gWLVI27cGJntjs/Sj8th9aYwplmZFwmmgYQQvL5NUsgVJG7OddLvNfLqYS31KFN0s3qlaD9qCaxACA==
+"@types/node@*", "@types/node@>=13.7.0":
+  version "18.0.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.0.3.tgz#463fc47f13ec0688a33aec75d078a0541a447199"
+  integrity sha512-HzNRZtp4eepNitP+BD6k2L6DROIDG4Q0fm4x+dwfsr6LGmROENnok75VGw40628xf+iR24WeMFcHuuBDUAzzsQ==
 
 "@types/node@^16.11.26":
   version "16.11.36"

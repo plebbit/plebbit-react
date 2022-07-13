@@ -58,8 +58,6 @@ const Post = ({ type, post, mode, loading }) => {
         isClosable: true,
       });
     }
-
-    console.log(challengeAnswers, comment);
     if (challengeAnswers) {
       await comment.publishChallengeAnswers(challengeAnswers);
     }

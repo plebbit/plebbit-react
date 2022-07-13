@@ -20,6 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import React, { useContext, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { MdAddCircleOutline } from 'react-icons/md';
 import { ProfileContext } from '../../store/profileContext';
 import AddAvatar from './modal/addAvatar';
@@ -50,6 +51,10 @@ const Settings = () => {
   const ref = useRef(null);
   const { setAccount } = useAccountsActions();
   const toast = useToast();
+
+  useEffect(() => {
+    setUserProfile({ ...profile });
+  }, [profile]);
 
   return (
     <Box
@@ -551,7 +556,7 @@ const Settings = () => {
                 </Box>
                 <Box>
                   <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
-                    Posts to this profile can appear in r/all and your profile can be discovered in
+                    Posts to this profile can appear in p/all and your profile can be discovered in
                     /users
                   </Text>
                 </Box>

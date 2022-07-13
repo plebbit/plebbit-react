@@ -13,8 +13,10 @@ import {
   GridItem,
   Select,
   Switch,
+  Tag,
+  Textarea,
+  Button,
 } from '@chakra-ui/react';
-import Button from '../../components/Button';
 import { FiMail, FiShield } from 'react-icons/fi';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { GiCakeSlice } from 'react-icons/gi';
@@ -22,7 +24,7 @@ import { BiChevronDown } from 'react-icons/bi';
 import { MdAdd } from 'react-icons/md';
 import { BsEye } from 'react-icons/bs';
 import CreatableMulti from '../../components/DropDown/creatableMulti';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import truncateString from '../../utils/truncateString';
 import { dateFormater } from '../../utils/formatDate';
 
@@ -40,6 +42,11 @@ const SideBar = ({
   borderColor,
   bg,
   subPlebbit,
+  setData,
+  data,
+  profile,
+  loading,
+  handleSaveChanges,
 }) => {
   const color = useColorModeValue('lightText3', 'darkText1');
   const Bg = useColorModeValue('#F8F9FA', '');
@@ -52,11 +59,13 @@ const SideBar = ({
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const [showAddSubtopic, hideSubTopic] = useState(false);
+  const [showAddDescription, hideAddDescription] = useState(false);
   const [showComOptions, hideComOptions] = useState(false);
+  const history = useHistory();
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      // behavior: 'smooth',
+      behavior: 'smooth',
     });
   };
 
@@ -113,34 +122,112 @@ const SideBar = ({
                 About Community
               </Box>
             </Box>
-            <Box
-              margin="auto 0 auto auto"
-              paddingTop="10px"
-              verticalAlign="middle"
-              cursor="pointer"
-            >
-              <Flex borderRadius="2px" padding="4px" alignItems="center" fontWeight="400">
-                <Icon as={FiShield} width={5} height={5} mr="4px" />
-                <Box>Mod tools</Box>
-              </Flex>
-            </Box>
+
+            {subPlebbit?.roles &&
+              Object.keys(subPlebbit?.roles).includes(profile?.author?.address) && (
+                <Box
+                  margin="auto 0 auto auto"
+                  paddingTop="10px"
+                  verticalAlign="middle"
+                  cursor="pointer"
+                >
+                  <Link to={`/p/${subPlebbit?.address}/about/moderators`}>
+                    <Flex borderRadius="2px" padding="4px" alignItems="center" fontWeight="400">
+                      <Icon as={FiShield} width={5} height={5} mr="4px" />
+                      <Box>Mod tools</Box>
+                    </Flex>
+                  </Link>
+                </Box>
+              )}
           </Flex>
           <Box maxH="none" padding="12px">
-            <Box
-              tabIndex={0}
-              transition="all .1s linear 0s"
-              bg={inputBg}
-              borderRadius="4px"
-              padding="8px"
-              marginBottom="12px"
-              marginTop="8px"
-              border={`1px solid ${border2}`}
-              cursor="pointer"
-            >
-              <Box fontSize="12px" fontWeight="700" lineHeight="16px">
-                Add description
-              </Box>
+            <Box mb="8px" pos="relative">
+              {subPlebbit?.description && (
+                <Box
+                  fontSize="14px"
+                  fontWeight="400"
+                  lineHeight="21px"
+                  sx={{
+                    wordWrap: 'break-word',
+                  }}
+                >
+                  {subPlebbit?.description}
+                </Box>
+              )}
+              {showAddDescription && (
+                <Flex
+                  flexDir="column"
+                  border={`1px solid `}
+                  borderColor={linkColor}
+                  borderRadius="4px"
+                  padding="8px"
+                >
+                  <Textarea
+                    border="none"
+                    mb="5px"
+                    bg={inputBg}
+                    fontSize="14px"
+                    fontWeight="400"
+                    lineHeight="21px"
+                    disabled={loading}
+                    noOfLines={1}
+                    value={data?.description}
+                    onChange={(e) => setData({ ...data, description: e.target.value })}
+                  />
+                  <Flex alignItems="center" justifyContent="space-between">
+                    <Box fontSize="12px" lineHeight="14px">
+                      0/25
+                    </Box>
+
+                    <Flex>
+                      <Box
+                        mr="5px"
+                        color="red"
+                        fontSize="14px"
+                        fontWeight="500"
+                        cursor="pointer"
+                        onClick={() => hideAddDescription(false)}
+                      >
+                        cancel
+                      </Box>
+                      <Box
+                        onClick={() => {
+                          handleSaveChanges();
+                          hideAddDescription(false);
+                        }}
+                        color="#0079D3"
+                        fontSize="14px"
+                        fontWeight="500"
+                        cursor="pointer"
+                      >
+                        save
+                      </Box>
+                    </Flex>
+                  </Flex>
+                </Flex>
+              )}
             </Box>
+            {!showAddDescription && (
+              <Button
+                tabIndex={0}
+                transition="all .1s linear 0s"
+                bg={inputBg}
+                borderRadius="4px"
+                padding="8px"
+                marginBottom="12px"
+                marginTop="8px"
+                border={`1px solid ${border2}`}
+                cursor="pointer"
+                onClick={() => hideAddDescription(true)}
+                width="100%"
+                justifyContent="flex-start"
+                isLoading={loading}
+              >
+                <Box fontSize="12px" fontWeight="700" lineHeight="16px">
+                  Add description
+                </Box>
+              </Button>
+            )}
             <Grid gap="12px" templateColumns="auto auto 42px">
               <GridItem w="100%">
                 <Box fontSize="16px" fontWeight="500" lineHeight="20px">
@@ -190,7 +277,12 @@ const SideBar = ({
                 <Icon as={AiOutlineInfoCircle} ml="4px" />
               </Flex>
               <Box>
-                <Select variant="flushed" border="none" defaultValue={subPlebbit?.pubsubTopic}>
+                <Select
+                  disabled
+                  variant="flushed"
+                  border="none"
+                  defaultValue={subPlebbit?.pubsubTopic}
+                >
                   <option value="activism">Activism</option>
                   <option value="addictionSupport">Addiction Support</option>
                   <option value="animals">Animals And Pet</option>
@@ -200,9 +292,6 @@ const SideBar = ({
                   <option value="crypto">Crypto</option>
                   <option value="food">Food</option>
                   <option value="option3">None Of These Topics</option>
-                  <option value={subPlebbit?.pubsubTopic}>
-                    {truncateString(subPlebbit?.pubsubTopic, 14)}
-                  </option>
                 </Select>
               </Box>
               <Box tabIndex="-1" borderRadius="4px" border={`1px solid ${border1}`}>
@@ -228,7 +317,7 @@ const SideBar = ({
                     <Box> Add Subtopics</Box>
                   </Flex>
                 )}
-                {showAddSubtopic && <CreatableMulti />}
+                {showAddSubtopic && <CreatableMulti disabled />}
 
                 {showAddSubtopic && (
                   <Flex alignItems="center" justifyContent="space-between" padding="8px">
@@ -256,7 +345,15 @@ const SideBar = ({
               </Box>
             </Box>
             <Box marginTop="12px">
-              <Button width="100%" bg={headerBg} color={headerColor}>
+              <Button
+                height="32px"
+                padding="4px 16px"
+                borderRadius="999px"
+                width="100%"
+                bg={headerBg}
+                color={headerColor}
+                onClick={() => history.push(`/p/${subPlebbit?.address}/submit`)}
+              >
                 Create Post
               </Button>
             </Box>
@@ -316,6 +413,56 @@ const SideBar = ({
             >
               <Box padding="12px 0 0" fontSize="16px" fontWeight="500" lineHeight="20px">
                 <Box fontSize="14px" fontWeight="700" lineHeight="18px" textTransform="none">
+                  Filter by flair
+                </Box>
+              </Box>
+            </Flex>
+            <Box maxH="none" padding="12px">
+              <Flex flexFlow="row wrap" paddingTop="4px" w="100%">
+                {subPlebbit &&
+                  subPlebbit?.flairs?.author.map((flair, index) => (
+                    <Tag
+                      key={index}
+                      maxW="100%"
+                      mr="5px"
+                      mb="3px"
+                      textOverflow="ellipsis"
+                      overflow="hidden"
+                      borderRadius="20px"
+                      padding="7px 12px"
+                      bg={flair?.backgroundColor}
+                      color={flair?.textColor}
+                    >
+                      {flair?.text}
+                    </Tag>
+                  ))}
+              </Flex>
+            </Box>
+          </Box>
+        </Box>
+        <Box marginTop="16px" width="312px">
+          <Box
+            bg={mainBg}
+            color={color}
+            border={`1px solid ${bordercolor}`}
+            borderRadius="4px"
+            overflow="visible"
+            wordBreak="break-word"
+          >
+            <Flex
+              fontSize="10px"
+              fontWeight="400"
+              letterSpacing=".5px"
+              lineHeight="12px"
+              textTransform="uppercase"
+              backgroundColor={headerBg}
+              borderRadius="3px 3px 0 0"
+              color={headerColor}
+              padding="0 12px 12px"
+              alignItems="center"
+            >
+              <Box padding="12px 0 0" fontSize="16px" fontWeight="500" lineHeight="20px">
+                <Box fontSize="14px" fontWeight="700" lineHeight="18px" textTransform="none">
                   Moderators
                 </Box>
               </Box>
@@ -334,26 +481,49 @@ const SideBar = ({
                 justifyContent="center"
                 border={`1px solid`}
                 width="auto"
+                cursor="pointer"
               >
                 <Icon as={FiMail} mr="4px" width="20px" height="20px" />
                 <Box>Message the mods</Box>
               </Flex>
-              {subPlebbit?.moderatorAddresses?.map((item, index) => (
-                <Flex
-                  fontSize="12px"
-                  fontWeight="500"
-                  lineHeight="16px"
-                  marginBottom="16px"
-                  width="100%"
-                  key={index}
-                >
-                  <Link>
-                    <Box color={linkColor}>{`u/${truncateString(item, 25, '...')}`}</Box>
-                  </Link>
-                </Flex>
-              ))}
+              {subPlebbit?.roles &&
+                Object.keys(subPlebbit?.roles)?.map((item, index) => (
+                  <Flex
+                    fontSize="12px"
+                    fontWeight="500"
+                    lineHeight="16px"
+                    marginBottom="16px"
+                    width="100%"
+                    key={index}
+                    alignItems="center"
+                  >
+                    <Link>
+                      <Box maxWidth="100%" color={linkColor}>{`u/${truncateString(
+                        item,
+                        25,
+                        '...'
+                      )}`}</Box>
+                    </Link>
+                    <Tag
+                      textOverflow="ellipsis"
+                      overflow="hidden"
+                      fontSize="12px"
+                      fontWeight="500"
+                      whiteSpace="pre"
+                    >
+                      {subPlebbit?.roles[item]?.role}
+                    </Tag>
+                  </Flex>
+                ))}
               <Flex padding="0 12px 12px" overflow="hidden" justifyContent="flex-end">
-                <Link>
+                <Link
+                  to={
+                    subPlebbit?.roles &&
+                    Object.keys(subPlebbit?.roles).includes(profile?.author?.address)
+                      ? `/p/${subPlebbit?.address}/about/moderators`
+                      : `/p/${subPlebbit?.address}/moderators`
+                  }
+                >
                   <Box
                     fontSize="12px"
                     fontWeight="700"

@@ -20,7 +20,7 @@ import SideBar from './createPostSideBar';
 import Editor from '../../Editor';
 import DropDown2 from '../../DropDown/DropDown2';
 import subPlebbitData from '../../data/subPlebbits';
-import Swal from 'sweetalert2';
+import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 
 const CreatePost = () => {
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
@@ -36,19 +36,6 @@ const CreatePost = () => {
   const history = useHistory();
 
   const { publishComment } = useAccountsActions();
-
-  const getChallengeAnswersFromUser = async (challenges) => {
-    const { value } = await Swal.fire({
-      background: '#eff4f7',
-      input: 'text',
-      text: 'Complete the challenge',
-      imageUrl: `data:image/png;base64,  ${challenges?.challenges[0].challenge}`,
-      imageWidth: '80%',
-    });
-    if (value) {
-      return value;
-    }
-  };
 
   const onChallengeVerification = (challengeVerification, comment) => {
     // if the challengeVerification fails, a new challenge request will be sent automatically
