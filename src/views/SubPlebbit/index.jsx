@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Box, Flex, Icon, Image, Text, useColorModeValue } from '@chakra-ui/react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Box, Flex, Icon, Image, Text, useColorModeValue, useToast } from '@chakra-ui/react';
 import Button from '../../components/Button';
 import { FaBell } from 'react-icons/fa';
 import { ProfileContext } from '../../store/profileContext';
@@ -7,13 +7,13 @@ import Post from '../../components/Post';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
-import { useFeed, useSubplebbit } from '@plebbit/plebbit-react-hooks';
-import truncateString from '../../utils/truncateString';
+import { useAccountsActions, useFeed, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import { Link } from 'react-router-dom';
 import SideBar from './sideBar';
+import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 
 const SubPlebbit = ({ match }) => {
-  const { postStyle, feedSort } = useContext(ProfileContext);
+  const { postStyle, feedSort, profile } = useContext(ProfileContext);
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const pseuBg = useColorModeValue('#DAE0E6', '#030303');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -22,6 +22,59 @@ const SubPlebbit = ({ match }) => {
   const { feed, loadMore, hasMore } = useFeed([match?.params?.subplebbitAddress], feedSort);
   const subPlebbit = useSubplebbit(match?.params?.subplebbitAddress);
   const feeds = feed;
+  const [data, setData] = useState({ ...subPlebbit });
+  const toast = useToast();
+  const [loading, setLoading] = useState(false);
+  const { publishSubplebbitEdit } = useAccountsActions();
+
+  useEffect(() => {
+    setData({ ...subPlebbit });
+  }, [subPlebbit]);
+
+  const onChallengeVerification = (challengeVerification, subplebbitEdit) => {
+    // if the challengeVerification fails, a new challenge request will be sent automatically
+    // to break the loop, the user must decline to send a challenge answer
+    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
+    toast({
+      title: 'Accepted.',
+      description: 'Action accepted',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+    setLoading(false);
+    console.log('challenge verified', challengeVerification, subplebbitEdit);
+  };
+
+  const onChallenge = async (challenges, subplebbitEdit) => {
+    let challengeAnswers = [];
+    try {
+      // ask the user to complete the challenges in a modal window
+      challengeAnswers = await getChallengeAnswersFromUser(challenges);
+    } catch (error) {
+      // if  he declines, throw error and don't get a challenge answer
+      console.log(error);
+      toast({
+        title: 'Declined.',
+        description: 'Action Declined',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+    if (challengeAnswers) {
+      await subplebbitEdit.publishChallengeAnswers(challengeAnswers);
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    setLoading(true);
+    await publishSubplebbitEdit(subPlebbit?.address, {
+      ...data,
+      onChallenge,
+      onChallengeVerification,
+    });
+  };
 
   return (
     <Flex flexDirection="column" minH="calc(100vh - 48px)">
@@ -92,7 +145,7 @@ const SubPlebbit = ({ match }) => {
                     width="100%"
                     text-overflow="ellipsis"
                   >
-                    {truncateString(subPlebbit?.address, 13, '...')}
+                    {subPlebbit?.title || subPlebbit?.address}
                   </Text>
                   <Text
                     fontSize="14px"
@@ -200,7 +253,14 @@ const SubPlebbit = ({ match }) => {
             </Box>
           </Box>
           {/* side bar */}
-          <SideBar subPlebbit={subPlebbit} />
+          <SideBar
+            profile={profile}
+            handleSaveChanges={handleSaveChanges}
+            loading={loading}
+            data={data}
+            setData={setData}
+            subPlebbit={subPlebbit}
+          />
         </Flex>
       </Box>
     </Flex>
