@@ -24,7 +24,7 @@ import { BiChevronDown } from 'react-icons/bi';
 import { MdAdd } from 'react-icons/md';
 import { BsEye } from 'react-icons/bs';
 import CreatableMulti from '../../components/DropDown/creatableMulti';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import truncateString from '../../utils/truncateString';
 import { dateFormater } from '../../utils/formatDate';
 
@@ -61,12 +61,15 @@ const SideBar = ({
   const [showAddSubtopic, hideSubTopic] = useState(false);
   const [showAddDescription, hideAddDescription] = useState(false);
   const [showComOptions, hideComOptions] = useState(false);
+  const history = useHistory();
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     });
   };
+
+  console.log(subPlebbit);
 
   return (
     <Box
@@ -120,21 +123,22 @@ const SideBar = ({
               </Box>
             </Box>
 
-            {Object.keys(subPlebbit.roles).includes(profile?.author?.address) && (
-              <Box
-                margin="auto 0 auto auto"
-                paddingTop="10px"
-                verticalAlign="middle"
-                cursor="pointer"
-              >
-                <Link to={`/p/${subPlebbit?.address}/about/moderators`}>
-                  <Flex borderRadius="2px" padding="4px" alignItems="center" fontWeight="400">
-                    <Icon as={FiShield} width={5} height={5} mr="4px" />
-                    <Box>Mod tools</Box>
-                  </Flex>
-                </Link>
-              </Box>
-            )}
+            {subPlebbit?.roles &&
+              Object.keys(subPlebbit?.roles).includes(profile?.author?.address) && (
+                <Box
+                  margin="auto 0 auto auto"
+                  paddingTop="10px"
+                  verticalAlign="middle"
+                  cursor="pointer"
+                >
+                  <Link to={`/p/${subPlebbit?.address}/about/moderators`}>
+                    <Flex borderRadius="2px" padding="4px" alignItems="center" fontWeight="400">
+                      <Icon as={FiShield} width={5} height={5} mr="4px" />
+                      <Box>Mod tools</Box>
+                    </Flex>
+                  </Link>
+                </Box>
+              )}
           </Flex>
           <Box maxH="none" padding="12px">
             <Box mb="8px" pos="relative">
@@ -348,6 +352,7 @@ const SideBar = ({
                 width="100%"
                 bg={headerBg}
                 color={headerColor}
+                onClick={() => history.push(`/p/${subPlebbit?.address}/submit`)}
               >
                 Create Post
               </Button>
@@ -413,7 +418,25 @@ const SideBar = ({
               </Box>
             </Flex>
             <Box maxH="none" padding="12px">
-              <Box paddingTop="4px" w="100%"></Box>
+              <Flex flexFlow="row wrap" paddingTop="4px" w="100%">
+                {subPlebbit &&
+                  subPlebbit?.flairs?.author.map((flair, index) => (
+                    <Tag
+                      key={index}
+                      maxW="100%"
+                      mr="5px"
+                      mb="3px"
+                      textOverflow="ellipsis"
+                      overflow="hidden"
+                      borderRadius="20px"
+                      padding="7px 12px"
+                      bg={flair?.backgroundColor}
+                      color={flair?.textColor}
+                    >
+                      {flair?.text}
+                    </Tag>
+                  ))}
+              </Flex>
             </Box>
           </Box>
         </Box>
