@@ -36,7 +36,7 @@ import {
   AiOutlinePlus,
   AiOutlineThunderbolt,
 } from 'react-icons/ai';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import subPlebbitsData from '../../data/subPlebbits';
 import NDDown from './nDDown';
 import { GiHamburgerMenu, GiTwoCoins } from 'react-icons/gi';
@@ -46,6 +46,7 @@ import useVisible from '../../../hooks/useVisible';
 import { VscMail } from 'react-icons/vsc';
 import ImportAccount from './modal/importAccount';
 import CreateSubPlebbit from './modal/CreateSubPlebbit';
+import truncateString from '../../../utils/truncateString';
 
 const NavBar = () => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -65,6 +66,7 @@ const NavBar = () => {
     createAccount,
     setActiveAccount,
     version,
+    accountSubplebbits,
   } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
@@ -147,6 +149,31 @@ const NavBar = () => {
                   isSearchable={false}
                   topMenu={
                     <Box>
+                      <Box paddingX="12px" paddingTop="10px" fontSize="10px">
+                        Moderating
+                      </Box>
+                      {Object.keys(accountSubplebbits)?.map((pages, index) => (
+                        <Link key={index} to={`/p/${pages}/about/`}>
+                          <Box
+                            _hover={{
+                              bg: '#DEEBFF',
+                            }}
+                            padding="8px 12px"
+                            textTransform="capitalize"
+                            fontWeight="400"
+                            fontSize="14px"
+                            borderBottom={`1px solid ${navBorder}`}
+                          >
+                            {truncateString(
+                              accountSubplebbits[pages]?.title ||
+                                accountSubplebbits[pages]?.address,
+                              20,
+                              '...'
+                            )}
+                          </Box>
+                        </Link>
+                      ))}
+
                       <Box paddingX="12px" paddingTop="10px" fontSize="10px">
                         Your Communities
                       </Box>
@@ -262,7 +289,13 @@ const NavBar = () => {
             paddingLeft="16px"
             paddingRight="8px"
           >
-            <Flex flexBasis="144px" flex="1 0 130px" mr="auto" alignItems="center">
+            <Flex
+              flexBasis="144px"
+              flex="1 0 130px"
+              mr="auto"
+              alignItems="center"
+              onClick={() => history.push('/', [])}
+            >
               <Image
                 fallbackSrc={require('../../../assets/images/fallback.png')}
                 borderRadius="full"

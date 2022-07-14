@@ -1074,7 +1074,7 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
             {/* Footer */}
             <Box
               paddingBottom="12px"
-              paddddingTop="8px"
+              paddingTop="8px"
               padding="8px 16px"
               borderBottom={`8px solid ${border2}`}
               pointerEvents="none"

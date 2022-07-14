@@ -69,8 +69,6 @@ const SideBar = ({
     });
   };
 
-  console.log(subPlebbit);
-
   return (
     <Box
       marginLeft={ml || '24px'}
@@ -419,23 +417,24 @@ const SideBar = ({
             </Flex>
             <Box maxH="none" padding="12px">
               <Flex flexFlow="row wrap" paddingTop="4px" w="100%">
-                {subPlebbit &&
-                  subPlebbit?.flairs?.author.map((flair, index) => (
-                    <Tag
-                      key={index}
-                      maxW="100%"
-                      mr="5px"
-                      mb="3px"
-                      textOverflow="ellipsis"
-                      overflow="hidden"
-                      borderRadius="20px"
-                      padding="7px 12px"
-                      bg={flair?.backgroundColor}
-                      color={flair?.textColor}
-                    >
-                      {flair?.text}
-                    </Tag>
-                  ))}
+                {subPlebbit
+                  ? subPlebbit?.flairs?.post?.map((flair, index) => (
+                      <Tag
+                        key={index}
+                        maxW="100%"
+                        mr="5px"
+                        mb="3px"
+                        textOverflow="ellipsis"
+                        overflow="hidden"
+                        borderRadius="20px"
+                        padding="7px 12px"
+                        bg={flair?.backgroundColor}
+                        color={flair?.textColor}
+                      >
+                        {flair?.text}
+                      </Tag>
+                    ))
+                  : ''}
               </Flex>
             </Box>
           </Box>

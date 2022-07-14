@@ -2680,9 +2680,9 @@
   integrity sha512-Gptpue6qPmg7p1E5LBO5GDtXw5WMc2DVtUmu4EQequOcoCvum1dT9sY6s9M8aSJWq9YopCN4jmTOAvqMdw3q7w==
 
 "@noble/secp256k1@^1.3.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@noble/secp256k1/-/secp256k1-1.6.0.tgz#602afbbfcfb7e169210469b697365ef740d7e930"
-  integrity sha512-DWSsg8zMHOYMYBqIQi96BQuthZrp98LCeMNcUOaffCIVYQ5yxDbNikLF+H7jEnmNNmXbtVic46iCuVWzar+MgA==
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/@noble/secp256k1/-/secp256k1-1.6.2.tgz#ee040d2a290febc2342f39790b0e40723fd8dcb8"
+  integrity sha512-4AmNQqf+ysJx67kw3SMiPQl/JMjGB97dRGvAmwEu7txbY8B8FAHanQ0V9+i2b1ti+uQt5Cs9OByeDrFOaN1kjw==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -2723,7 +2723,7 @@
 
 "@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git":
   version "0.0.3"
-  resolved "https://github.com/plebbit/plebbit-js.git#d81ae4b5d0f9b73972041c53f77455568c1ad1ae"
+  resolved "https://github.com/plebbit/plebbit-js.git#c92a736cf4c18800dd00b54300f3bccbb04eb41b"
   dependencies:
     "@keyv/sqlite" "3.5.2"
     "@types/node-fetch" "2.6.2"
@@ -2746,7 +2746,7 @@
 
 "@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git":
   version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#4c187f8eef019a1aa9ddcb6a781bd500b996ca09"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#664539d7a098359be4c875ab5dfbaf3bea5291b9"
   dependencies:
     "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git"
     "@types/debug" "4.1.7"
@@ -3395,9 +3395,9 @@
     form-data "^3.0.0"
 
 "@types/node@*", "@types/node@>=13.7.0":
-  version "18.0.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.0.3.tgz#463fc47f13ec0688a33aec75d078a0541a447199"
-  integrity sha512-HzNRZtp4eepNitP+BD6k2L6DROIDG4Q0fm4x+dwfsr6LGmROENnok75VGw40628xf+iR24WeMFcHuuBDUAzzsQ==
+  version "18.0.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.0.4.tgz#48aedbf35efb3af1248e4cd4d792c730290cd5d6"
+  integrity sha512-M0+G6V0Y4YV8cqzHssZpaNCqvYwlCiulmm0PwpNLF55r/+cT8Ol42CHRU1SEaYFH2rTwiiE1aYg/2g2rrtGdPA==
 
 "@types/node@^16.11.26":
   version "16.11.36"
