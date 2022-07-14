@@ -6,9 +6,7 @@ name: release
 on: 
   push:
     tags:
-      - '*'
-    tags-ignore:
-      - 'latest'
+      - 'v*'
 
 jobs:
   linux:
