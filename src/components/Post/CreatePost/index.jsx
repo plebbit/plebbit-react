@@ -9,7 +9,7 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import { useAccountsActions, useAccountSubplebbits } from '@plebbit/plebbit-react-hooks';
 import { LinkIcon } from '@chakra-ui/icons';
 import { EditorState } from 'draft-js';
 import { useHistory } from 'react-router-dom';
@@ -21,6 +21,7 @@ import Editor from '../../Editor';
 import DropDown2 from '../../DropDown/DropDown2';
 import subPlebbitData from '../../data/subPlebbits';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
+import truncateString from '../../../utils/truncateString';
 
 const CreatePost = () => {
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
@@ -31,8 +32,18 @@ const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [address, setAddress] = useState(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const accountSubplebbits = useAccountSubplebbits();
   const toast = useToast();
-
+  const mySubplebbits = [
+    Object.keys(accountSubplebbits)?.map((pages) => ({
+      value: pages,
+      label: truncateString(
+        accountSubplebbits[pages]?.title || accountSubplebbits[pages]?.address,
+        15,
+        '...'
+      ),
+    }))[0],
+  ];
   const history = useHistory();
 
   const { publishComment } = useAccountsActions();
@@ -90,6 +101,8 @@ const CreatePost = () => {
     });
   };
 
+  console.log([...mySubplebbits, ...subPlebbitData]);
+
   return (
     <Flex maxWidth="100%" justifyContent="center" margin="0 auto !important" height="100vh">
       <Box width="740px">
@@ -137,7 +150,7 @@ const CreatePost = () => {
               zIndex="2"
             >
               <DropDown2
-                options={subPlebbitData}
+                options={[...mySubplebbits, ...subPlebbitData]}
                 onChange={(value) => setAddress(value)}
                 value={address}
               />
@@ -441,7 +454,7 @@ const CreatePost = () => {
                   />
                 </Flex>
               </Flex>
-              <hr width="100%" border="0" borderY="1px solid #edeff1" />
+              <hr width="100%" border="0" borderTop="1px solid #edeff1" />
               <Box position="relative" width="100%" marginTop="8px">
                 <Flex flexDir="row-reverse" paddingTop="8px" alignItems="center">
                   <Flex

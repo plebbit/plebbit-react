@@ -223,7 +223,7 @@ const FeedSort = () => {
                   _hover={{
                     background: inputBg,
                   }}
-                  borderY={`1px solid ${border2}`}
+                  borderTop={`1px solid ${border2}`}
                   onClick={() => setPostStyle('classic')}
                   cursor="pointer"
                 >
@@ -250,7 +250,7 @@ const FeedSort = () => {
                   _hover={{
                     background: inputBg,
                   }}
-                  borderY={`1px solid ${border2}`}
+                  borderTop={`1px solid ${border2}`}
                   onClick={() => setPostStyle('compact')}
                   cursor="pointer"
                 >
@@ -465,7 +465,7 @@ const FeedSort = () => {
                   _hover={{
                     background: inputBg,
                   }}
-                  borderY={`1px solid ${border2}`}
+                  borderTop={`1px solid ${border2}`}
                   onClick={() => setPostStyle('classic')}
                   cursor="pointer"
                 >
@@ -492,7 +492,7 @@ const FeedSort = () => {
                   _hover={{
                     background: inputBg,
                   }}
-                  borderY={`1px solid ${border2}`}
+                  borderTop={`1px solid ${border2}`}
                   onClick={() => setPostStyle('compact')}
                   cursor="pointer"
                 >
