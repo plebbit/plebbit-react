@@ -16,15 +16,24 @@ import {
   useColorModeValue,
   useToast,
   Link as Lk,
+  InputRightAddon,
+  useColorMode,
+  InputGroup,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaChevronLeft, FaEye, FaLock, FaUser } from 'react-icons/fa';
 import CreatableMulti from '../../components/DropDown/creatableMulti';
-import { useAccountsActions, useSubplebbit } from '@plebbit/plebbit-react-hooks';
+import {
+  useAccountsActions,
+  useResolvedAuthorAddress,
+  useSubplebbit,
+} from '@plebbit/plebbit-react-hooks';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 
 const CommunitySettings = ({ match }) => {
+  const { colorMode } = useColorMode();
+
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -40,6 +49,7 @@ const CommunitySettings = ({ match }) => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const { publishSubplebbitEdit } = useAccountsActions();
+  const resolvedAuthorAddress = useResolvedAuthorAddress(subplebbit.address);
 
   useEffect(() => {
     setData({ ...subplebbit });
@@ -83,12 +93,22 @@ const CommunitySettings = ({ match }) => {
 
   const handleSaveChanges = async () => {
     setLoading(true);
-    await publishSubplebbitEdit(subplebbit?.address, {
+    const postData = {
       ...data,
+      address:
+        resolvedAuthorAddress === data?.signer?.address ? data?.address : subplebbit?.address,
+    };
+
+    await publishSubplebbitEdit(subplebbit?.address, {
+      postData,
       onChallenge,
       onChallengeVerification,
     });
   };
+
+  useEffect(() => {
+    setData({ ...subplebbit });
+  }, [subplebbit]);
 
   return (
     <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
@@ -337,30 +357,60 @@ const CommunitySettings = ({ match }) => {
                     flexGrow="1"
                     justifyContent="flex-end"
                   >
-                    <Input
-                      fontSize="14px"
-                      fontWeight="400"
-                      lineHeight="21px"
-                      value={data?.address}
-                      bg={mainBg}
-                      border={`1px solid ${border1}`}
-                      borderColor={border1}
-                      height="48px"
-                      mb="8px"
-                      borderRadius="4px"
-                      padding="12px 24px 4px 12px"
-                      disabled={loading}
-                      onChange={(e) => setData({ ...data, address: e.target.value })}
-                    />
-                    <Box
-                      color={metaColor}
-                      pt="4px"
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                    >
-                      94 Characters remaining
-                    </Box>
+                    <InputGroup>
+                      <Input
+                        fontSize="14px"
+                        fontWeight="400"
+                        lineHeight="21px"
+                        value={data?.address}
+                        bg={mainBg}
+                        border={`1px solid ${border1}`}
+                        borderColor={border1}
+                        height="48px"
+                        mb="8px"
+                        borderRadius="4px"
+                        padding="12px 24px 4px 12px"
+                        disabled={loading}
+                        onChange={(e) => setData({ ...data, address: e.target.value })}
+                      />
+                      {data?.address.endsWith('.eth') && (
+                        <InputRightAddon
+                          border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                          borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                          height="48px"
+                          borderRadius="4px"
+                          padding="12px 24px 4px 12px"
+                          fontWeight="bold"
+                        >
+                          .eth
+                        </InputRightAddon>
+                      )}
+                    </InputGroup>
+                    {resolvedAuthorAddress !== data?.signer.address ? (
+                      <Box
+                        color={metaColor}
+                        pt="4px"
+                        fontSize="12px"
+                        fontWeight="400"
+                        lineHeight="16px"
+                      >
+                        94
+                        {data?.address.endsWith('.eth')
+                          ? data?.address
+                          : `${data?.address}.eth`}{' '}
+                        has not been acquired by you yet !!!
+                      </Box>
+                    ) : (
+                      <Box
+                        color={metaColor}
+                        pt="4px"
+                        fontSize="12px"
+                        fontWeight="400"
+                        lineHeight="16px"
+                      >
+                        94 Characters remaining
+                      </Box>
+                    )}
                     <UnorderedList mt={3}>
                       <ListItem fontSize={12}>
                         Go to{' '}
