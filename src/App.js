@@ -36,7 +36,6 @@ const App = () => {
                 '/p/:subplebbitAddress/about/',
                 '/p/:subplebbitAddress/about/moderators',
                 '/p/:subplebbitAddress/about/modqueue',
-                '/p/:subplebbitAddress/about/modqueue',
                 '/p/:subplebbitAddress/about/spam',
                 '/p/:subplebbitAddress/about/edited',
                 '/p/:subplebbitAddress/about/ummoderated',

@@ -26,11 +26,16 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
   const [value, setValue] = useState({ type: 'public' });
   const { createSubplebbit } = useAccountsActions();
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
   const handleCreateSubPlebbit = async () => {
+    setLoading(true);
     const subplebbit = await createSubplebbit(value);
-    onClose();
-    history.push(`/p/${subplebbit?.address}`, []);
+    setTimeout(() => {
+      history.push(`/p/${subplebbit?.address}`, []);
+      setLoading(false);
+      onClose();
+    }, 1000);
   };
 
   return (
@@ -55,6 +60,7 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
                 p/
               </InputLeftElement>
               <Input
+                disabled={loading}
                 value={value?.title}
                 onChange={(e) => setValue({ ...value, title: e.target.value })}
               />
@@ -128,6 +134,7 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
             borderRadius="999px"
             padding="4px 16px"
             onClick={handleCreateSubPlebbit}
+            isLoading={loading}
           >
             Create a community
           </Button>

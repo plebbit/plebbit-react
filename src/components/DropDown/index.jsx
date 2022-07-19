@@ -64,7 +64,7 @@ const DropDown = ({ inputBg, caret, dropDownTitle, content, options, wrapSx }) =
                   _hover={{
                     background: inputBg,
                   }}
-                  borderY={`1px solid ${border2}`}
+                  borderTop={`1px solid ${border2}`}
                 >
                   <Icon mr="4px" as={option?.icon} width={6} height={6} />
                   <Box>{option?.label}</Box>
