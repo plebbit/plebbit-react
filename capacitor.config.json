@@ -1,0 +1,6 @@
+{
+  "appId": "plebbit.android",
+  "appName": "plebbit",
+  "webDir": "build",
+  "bundledWebRuntime": false
+}
