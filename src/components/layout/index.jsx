@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
         <Image
           fallbackSrc={require('../../assets/images/fallback.png')}
           width="200px"
-          rounded="full"
+          borderRadius="full"
           sx={{
             transform: 'scale(1)',
             animation: 'pulse 1.5s infinite',

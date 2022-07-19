@@ -11,7 +11,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import Swal from 'sweetalert2';
-import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import { useAccountsActions, useAuthorAvatarImageUrl } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -20,6 +20,7 @@ import Editor from '../../Editor';
 import { dateToNow } from '../../../utils/formatDate';
 import numFormatter from '../../../utils/numberFormater';
 import getUserName from '../../../utils/getUserName';
+import yellowMoon from '../../../assets/svgs/yelloMoon.svg';
 
 const Comment = ({ comment, parentCid }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -32,6 +33,7 @@ const Comment = ({ comment, parentCid }) => {
   const { publishVote, publishComment } = useAccountsActions();
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const authorAvatarImageUrl = useAuthorAvatarImageUrl(comment.author);
 
   const getChallengeAnswersFromUser = async (challenges) => {
     const { value } = await Swal.fire({
@@ -114,8 +116,8 @@ const Comment = ({ comment, parentCid }) => {
       <Flex marginRight="8px" flexDir="column" alignItems="center">
         <Image
           fallbackSrc={require('../../../assets/images/fallback.png')}
-          src="https://styles.redditmedia.com/t5_1yz875/styles/profileIcon_klqlly9fc4l41.png?width=256&height=256&crop=256:256,smart&s=94486fc13b9ca9e154e9e8926e3d8c43ccc80be3"
-          rounded
+          src={authorAvatarImageUrl}
+          borderRadius="full"
           height="28px"
           maxW="28px"
           mb="10px"
@@ -133,10 +135,10 @@ const Comment = ({ comment, parentCid }) => {
               <Image
                 fallbackSrc={require('../../../assets/images/fallback.png')}
                 mr="5px"
-                rounded
+                borderRadius="full"
                 height="16px"
                 width="16px"
-                src="https://www.redditstatic.com/desktop2x/img/communityPoints/tokens/cryptocurrency/moon_yellow.svg"
+                src={yellowMoon}
               />
               <Box>{numFormatter(Math.floor())}</Box>
             </Flex>

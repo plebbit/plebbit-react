@@ -18,9 +18,8 @@ import {
   InputRightAddon,
   Button,
 } from '@chakra-ui/react';
-import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
-import React, { useContext, useRef, useState } from 'react';
-import { useEffect } from 'react';
+import { useAccountsActions, useResolvedAuthorAddress } from '@plebbit/plebbit-react-hooks';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { MdAddCircleOutline } from 'react-icons/md';
 import { ProfileContext } from '../../store/profileContext';
 import AddAvatar from './modal/addAvatar';
@@ -51,6 +50,10 @@ const Settings = () => {
   const ref = useRef(null);
   const { setAccount } = useAccountsActions();
   const toast = useToast();
+
+  const resolvedAuthorAddress = useResolvedAuthorAddress(profile?.author?.address);
+
+  console.log(resolvedAuthorAddress, profile);
 
   useEffect(() => {
     setUserProfile({ ...profile });
@@ -88,9 +91,9 @@ const Settings = () => {
           overflowX="scroll"
         >
           {tabs
-            ? tabs.map((tab) => (
+            ? tabs.map((tab, index) => (
                 <Box
-                  key={tab?.link}
+                  key={index}
                   fontSize="14px"
                   fontWeight="700"
                   textOverflow="ellipsis"
@@ -216,7 +219,7 @@ const Settings = () => {
                   color={mainColor}
                   marginBottom="4px"
                 >
-                  Address (optional)
+                  Address
                 </Text>
                 <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
                   Set an Address for your profile..
@@ -255,7 +258,10 @@ const Settings = () => {
                     }
                     onBlur={() =>
                       setTimeout(async () => {
-                        if (userProfile?.author?.address !== profile?.author?.address) {
+                        if (
+                          userProfile?.author?.address !== profile?.author?.address &&
+                          resolvedAuthorAddress === userProfile?.signer?.address
+                        ) {
                           await setAccount(userProfile);
                           toast({
                             title: `changes saved`,
@@ -269,42 +275,71 @@ const Settings = () => {
                     name="address"
                     ref={ref}
                   />
-                  <InputRightAddon
-                    border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                    borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
-                    height="48px"
-                    borderRadius="4px"
-                    padding="12px 24px 4px 12px"
-                    fontWeight="bold"
-                  >
-                    .eth
-                  </InputRightAddon>
+                  {userProfile?.author?.address.endsWith('.eth') && (
+                    <InputRightAddon
+                      border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                      borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                      height="48px"
+                      borderRadius="4px"
+                      padding="12px 24px 4px 12px"
+                      fontWeight="bold"
+                    >
+                      .eth
+                    </InputRightAddon>
+                  )}
                 </InputGroup>
 
-                <Text
-                  fontWeight="400"
-                  color={metaColor}
-                  fontSize="12px"
-                  lineHeight="16px"
-                  paddingTop="5px"
-                >
-                  {30 - +userProfile?.author?.address?.length} Characters remaining
-                </Text>
+                {resolvedAuthorAddress !== userProfile?.signer?.address ? (
+                  <Text
+                    fontWeight="400"
+                    color="red"
+                    fontSize="12px"
+                    lineHeight="16px"
+                    paddingTop="5px"
+                  >
+                    {userProfile?.author?.address.endsWith('.eth')
+                      ? userProfile?.author?.address
+                      : `${userProfile?.author?.address}.eth`}{' '}
+                    has not been acquired by you yet !!!
+                  </Text>
+                ) : (
+                  <Text
+                    fontWeight="400"
+                    color={metaColor}
+                    fontSize="12px"
+                    lineHeight="16px"
+                    paddingTop="5px"
+                  >
+                    {30 - +userProfile?.author?.address?.length} Characters remaining
+                  </Text>
+                )}
                 <UnorderedList mt={3}>
                   <ListItem fontSize={12}>
                     Go to{' '}
                     <Link
                       color={linkColor}
-                      href={`https://app.ens.domains/name/${userProfile?.author?.address}.eth`}
+                      href={`https://app.ens.domains/name/${
+                        userProfile?.author?.address.endsWith('.eth')
+                          ? userProfile?.author?.address
+                          : `${userProfile?.author?.address}.eth`
+                      }`}
                       isExternal
                     >
                       {' '}
-                      https://app.ens.domains/name/{userProfile?.author?.address}.eth{' '}
+                      https://app.ens.domains/name/
+                      {userProfile?.author?.address.endsWith('.eth')
+                        ? userProfile?.author?.address
+                        : `${userProfile?.author?.address}.eth`}{' '}
                     </Link>
                   </ListItem>
                   <ListItem fontSize={12}>Click ADD/EDIT RECORD</ListItem>
                   <ListItem fontSize={12}>
-                    Select "text", write in "key": "plebbit-author-address", write in next field:
+                    Select "text", write in "key": "plebbit-author-address", write in next field:{' '}
+                    <b>
+                      {userProfile?.author?.address.endsWith('.eth')
+                        ? userProfile?.author?.address
+                        : `${userProfile?.author?.address}.eth`}
+                    </b>
                   </ListItem>
                 </UnorderedList>
               </Flex>
@@ -438,7 +473,7 @@ const Settings = () => {
                       top="0"
                       transformOrigin="bottom center"
                       clipPath="polygon(0 68.22%,12.12% 68.22%,12.85% 71.49%,13.86% 74.69%,15.14% 77.79%,16.69% 80.77%,18.49% 83.6%,20.54% 86.26%,22.8% 88.73%,25.28% 91%,27.94% 93.04%,30.77% 94.85%,33.75% 96.4%,36.85% 97.68%,40.05% 98.69%,43.32% 99.42%,46.65% 99.85%,50% 100%,53.35% 99.85%,56.68% 99.42%,59.95% 98.69%,63.15% 97.68%,66.25% 96.4%,69.23% 94.85%,72.06% 93.04%,74.72% 91%,77.2% 88.73%,79.46% 86.26%,81.51% 83.6%,83.31% 80.77%,84.86% 77.79%,86.14% 74.69%,87.15% 71.49%,87.88% 68.22%,100% 68.22%,100% 0,0 0)"
-                      src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
+                      src={require('../../assets/images/fallback.png')}
                     />
                   </Box>
                   <Box height="100%" margin="0" flexGrow={1}>
