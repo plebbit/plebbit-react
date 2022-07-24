@@ -13,7 +13,7 @@ import SideBar from './sideBar';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 
 const SubPlebbit = ({ match }) => {
-  const { postStyle, feedSort, profile } = useContext(ProfileContext);
+  const { postStyle, feedSort, profile, subscriptions } = useContext(ProfileContext);
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const pseuBg = useColorModeValue('#DAE0E6', '#030303');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -25,7 +25,8 @@ const SubPlebbit = ({ match }) => {
   const [data, setData] = useState({ ...subPlebbit });
   const toast = useToast();
   const [loading, setLoading] = useState(false);
-  const { publishSubplebbitEdit } = useAccountsActions();
+  const [subLoading, setSubLoading] = useState(false);
+  const { publishSubplebbitEdit, subscribe, unsubscribe } = useAccountsActions();
 
   useEffect(() => {
     setData({ ...subPlebbit });
@@ -65,6 +66,30 @@ const SubPlebbit = ({ match }) => {
     if (challengeAnswers) {
       await subplebbitEdit.publishChallengeAnswers(challengeAnswers);
     }
+  };
+
+  const handleSubscribe = async () => {
+    setSubLoading(true);
+    await subscribe(subPlebbit?.address);
+    toast({
+      title: 'Subscribed.',
+      description: 'Joined successfully',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+  const handleUnSubscribe = async () => {
+    setSubLoading(true);
+    await unsubscribe(subPlebbit?.address);
+
+    toast({
+      title: 'Unsubscribed.',
+      description: 'Unsubscribed successfully',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   const handleSaveChanges = async () => {
@@ -160,10 +185,16 @@ const SubPlebbit = ({ match }) => {
                   <Box width="96px">
                     <Button
                       bg="transparent"
-                      content="Joined"
+                      content={subscriptions?.includes(subPlebbit?.address) ? 'Joined' : 'Join'}
                       padding="4px 16px"
                       minW="32px"
                       minH="32px"
+                      loading={subLoading}
+                      onClick={
+                        subscriptions?.includes(subPlebbit?.address)
+                          ? handleUnSubscribe
+                          : handleSubscribe
+                      }
                     />
                   </Box>
                   <Box>

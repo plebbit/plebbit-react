@@ -47,6 +47,7 @@ import { VscMail } from 'react-icons/vsc';
 import ImportAccount from './modal/importAccount';
 import CreateSubPlebbit from './modal/CreateSubPlebbit';
 import truncateString from '../../../utils/truncateString';
+import getUserName from '../../../utils/getUserName';
 
 const NavBar = () => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -138,6 +139,7 @@ const NavBar = () => {
               </Flex>
               <Box>
                 <DropDown2
+                  onChange={(x) => history.push(`/p/${x?.value}`)}
                   prefix={() => <Icon as={MdHome} h={6} w={8} />}
                   options={subPlebbitsData}
                   placeholder="Home"
@@ -806,7 +808,7 @@ const NavBar = () => {
                       </Box>
                     </Flex>
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      {profile?.author?.displayName}
+                      {getUserName(profile?.author)}
                     </Box>
                   </Flex>
                 </Flex>
