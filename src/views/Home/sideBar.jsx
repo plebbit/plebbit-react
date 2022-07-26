@@ -15,7 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { ChevronUpIcon } from '@chakra-ui/icons';
 import Button from '../../components/Button';
-import plebbitReactPackageJson from '../../../package.json';
+import BottomSideBar from '../../components/sidebar/bottomSideBar';
+import BacktoTopButton from '../../components/sidebar/backtoTopButton';
 
 const SideBar = ({
   mt,
@@ -33,12 +34,6 @@ const SideBar = ({
 }) => {
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '');
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      // behavior: 'smooth',
-    });
-  };
 
   return (
     <Box
@@ -524,203 +519,8 @@ const SideBar = ({
           </Box>
         </Box>
         <Box flex="1 1 auto" width="inherit" position="relative">
-          <Box position="sticky" top="57px">
-            <Box marginTop="16px" background={bg || Bg}>
-              <Box maxHeight="none">
-                <Flex padding="12px 8px">
-                  <Flex flexFlow="column" flexWrap="nowrap" width="50%" padding="0 4px">
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Help
-                    </Box>
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Plebbit Coins
-                    </Box>
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Plebbit Premium
-                    </Box>
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Communities
-                    </Box>
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Plebbit
-                    </Box>
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Topics
-                    </Box>
-                  </Flex>
-                  <Flex flexFlow="column" flexWrap="nowrap" width="50%" padding="0 4px">
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      About
-                    </Box>
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Careers
-                    </Box>
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Press
-                    </Box>
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Advertise
-                    </Box>
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Blog
-                    </Box>
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Content Policy
-                    </Box>
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Privacy Policy
-                    </Box>
-                    <Box
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      marginTop="3px"
-                      marginBottom="3px"
-                      display="inline-block"
-                      textTransform="capitalize"
-                    >
-                      Mod Policy
-                    </Box>
-                  </Flex>
-                </Flex>
-                <Flex
-                  padding="12px"
-                  fontSize="12px"
-                  fontWeight="400"
-                  lineHeight="16px"
-                  marginTop="3px"
-                  marginBottom="3px"
-                  display="inline-block"
-                >
-                  plebbit v{plebbitReactPackageJson.version}
-                </Flex>
-              </Box>
-            </Box>
-          </Box>
-          <Flex
-            top="calc(100vh - 8px)"
-            position="sticky"
-            marginTop="45px"
-            justifyContent="center"
-            textAlign="center"
-            transform="translateY(-100%)"
-          >
-            <Button
-              border="none"
-              content="Back to Top"
-              width="128px"
-              position="relative"
-              bg="#a4a4a4"
-              color={color}
-              fontSize="14px"
-              fontWeight="700"
-              onClick={scrollToTop}
-            />
-          </Flex>
+          <BottomSideBar bg={bg} />
+          <BacktoTopButton />
         </Box>
       </Flex>
     </Box>

@@ -3,8 +3,20 @@ import { Box, Flex, Icon, useColorModeValue } from '@chakra-ui/react';
 
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
-const DropDown = ({ inputBg, caret, dropDownTitle, content, options, wrapSx }) => {
-  const shadow = useColorModeValue('rgba(28,28,28,0.03)', 'rgba(215,218,220,0.2)');
+const DropDown = ({
+  inputBg,
+  caret,
+  dropDownTitle,
+  content,
+  options,
+  wrapSx,
+  stopAutoHide,
+  topOffset,
+  render,
+  width,
+  onChange,
+}) => {
+  const shadow = useColorModeValue('rgba(28,28,28,0.2)', 'rgba(215,218,220,0.2)');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const border2 = useColorModeValue('#edeff1', '#343536');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -34,7 +46,7 @@ const DropDown = ({ inputBg, caret, dropDownTitle, content, options, wrapSx }) =
       </Flex>
       {show ? (
         <Box
-          onMouseLeave={() => hide(false)}
+          onMouseLeave={() => (stopAutoHide ? {} : hide(false))}
           ml="-9px"
           minW="99px"
           border={`1px solid ${border2}`}
@@ -45,31 +57,37 @@ const DropDown = ({ inputBg, caret, dropDownTitle, content, options, wrapSx }) =
           zIndex="10"
           color={iconColor}
           fill={iconColor}
-          top="24px"
+          top={topOffset || '24px'}
           left="10px"
+          width={width}
         >
           {options
-            ? options?.map((option) => (
-                <Flex
-                  key={option?.id}
-                  alignItems="center"
-                  position="relative"
-                  outline="none"
-                  fontSize="14px"
-                  fontWeight="500"
-                  lineHeight="18px"
-                  padding="8px"
-                  textTransform="capitalize"
-                  whiteSpace="nowrap"
-                  _hover={{
-                    background: inputBg,
-                  }}
-                  borderTop={`1px solid ${border2}`}
-                >
-                  <Icon mr="4px" as={option?.icon} width={6} height={6} />
-                  <Box>{option?.label}</Box>
-                </Flex>
-              ))
+            ? options?.map((option) =>
+                render ? (
+                  !option.disabled && render(option)
+                ) : (
+                  <Flex
+                    key={option?.id}
+                    alignItems="center"
+                    position="relative"
+                    outline="none"
+                    fontSize="14px"
+                    fontWeight="500"
+                    lineHeight="18px"
+                    padding="8px"
+                    textTransform="capitalize"
+                    whiteSpace="nowrap"
+                    _hover={{
+                      background: inputBg,
+                    }}
+                    onClick={(option) => onChange(option)}
+                    borderTop={`1px solid ${border2}`}
+                  >
+                    <Icon mr="4px" as={option?.icon} width={6} height={6} />
+                    <Box>{option?.label}</Box>
+                  </Flex>
+                )
+              )
             : content}
         </Box>
       ) : (

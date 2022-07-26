@@ -12,7 +12,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { RiCopperCoinLine } from 'react-icons/ri';
-import { BsChat, BsBookmark, BsEyeSlash } from 'react-icons/bs';
+import { BsChat, BsBookmark, BsEyeSlash, BsFlag } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
@@ -59,7 +59,6 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
           cursor="pointer"
           transition="color .5s,fill .5s,box-shadow .5s"
           mb="10px"
-          overflow="hidden"
           border={`1px solid ${border1}`}
           bg={postTransBg}
           color={iconColor}
@@ -171,14 +170,15 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
               </Box>
             </Flex>
           </Flex>
-          <Link
-            textDecoration="none"
-            sx={{
-              textDecoration: 'none !important',
-            }}
-            href={`#/p/${post?.subplebbitAddress}/c/${post?.cid}`}
-          >
-            <Box bg={mainBg} position="relative" paddingTop="8px">
+
+          <Box bg={mainBg} position="relative" paddingTop="8px">
+            <Link
+              textDecoration="none"
+              sx={{
+                textDecoration: 'none !important',
+              }}
+              href={`#/p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            >
               {post?.content ? (
                 <>
                   {/* Post Head */}
@@ -773,11 +773,6 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                             src={post?.link}
                             width="100%"
                             height="100%"
-                            onError={(err) =>
-                              err.onError === null
-                                ? (err.src = 'https://demofree.sirv.com/products/123456/')
-                                : ''
-                            }
                           />
                         </Link>
                       </Skeleton>
@@ -785,17 +780,18 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                   </Flex>
                 </Flex>
               )}
-              {/* Post Footer */}
-              <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
-                <Flex
-                  fontSize="12px"
-                  fontWeight="700"
-                  lineHeight="16px"
-                  alignItems="stretch"
-                  overflow="hidden"
-                  padding="0 8px 0 4px"
-                  flexGrow="1"
-                >
+            </Link>
+            {/* Post Footer */}
+            <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
+              <Flex
+                fontSize="12px"
+                fontWeight="700"
+                lineHeight="16px"
+                alignItems="stretch"
+                padding="0 8px 0 4px"
+                flexGrow="1"
+              >
+                <Link href={`#/p/${post?.subplebbitAddress}/c/${post?.cid}`}>
                   <Flex
                     padding="8px"
                     wordBreak="normal"
@@ -827,131 +823,136 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                       {post?.replyCount} comments
                     </Text>
                   </Flex>
-                  <Flex
-                    padding="8px"
-                    wordBreak="normal"
-                    mr="4px"
-                    alignItems="center"
-                    borderRadius="2px"
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    boxSizing="border-box"
-                    _hover={{
-                      backgroundColor: inputBg,
-                    }}
+                </Link>
+                <Flex
+                  padding="8px"
+                  wordBreak="normal"
+                  mr="4px"
+                  alignItems="center"
+                  borderRadius="2px"
+                  fontSize="12px"
+                  fontWeight="700"
+                  lineHeight="16px"
+                  boxSizing="border-box"
+                  _hover={{
+                    backgroundColor: inputBg,
+                  }}
+                >
+                  <Icon
+                    as={GoGift}
+                    width="20px"
+                    height="20px"
+                    verticalAlign="middle"
+                    fontWeight="400"
+                    mr="6px"
+                  />
+                  <Text
+                    display="inline-block"
+                    lineHeight={1}
+                    textTransform="capitalize"
+                    verticalAlign="middle"
                   >
-                    <Icon
-                      as={GoGift}
-                      width="20px"
-                      height="20px"
-                      verticalAlign="middle"
-                      fontWeight="400"
-                      mr="6px"
-                    />
-                    <Text
-                      display="inline-block"
-                      lineHeight={1}
-                      textTransform="capitalize"
-                      verticalAlign="middle"
-                    >
-                      Award
-                    </Text>
-                  </Flex>
-                  <Flex
-                    padding="8px"
-                    wordBreak="normal"
-                    mr="4px"
-                    alignItems="center"
-                    borderRadius="2px"
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    boxSizing="border-box"
-                    _hover={{
-                      backgroundColor: inputBg,
-                    }}
+                    Award
+                  </Text>
+                </Flex>
+                <Flex
+                  padding="8px"
+                  wordBreak="normal"
+                  mr="4px"
+                  alignItems="center"
+                  borderRadius="2px"
+                  fontSize="12px"
+                  fontWeight="700"
+                  lineHeight="16px"
+                  boxSizing="border-box"
+                  _hover={{
+                    backgroundColor: inputBg,
+                  }}
+                >
+                  <Icon
+                    as={FaShare}
+                    width="20px"
+                    height="20px"
+                    verticalAlign="middle"
+                    fontWeight="400"
+                    mr="6px"
+                  />
+                  <Text
+                    display="inline-block"
+                    lineHeight={1}
+                    textTransform="capitalize"
+                    verticalAlign="middle"
                   >
-                    <Icon
-                      as={FaShare}
-                      width="20px"
-                      height="20px"
-                      verticalAlign="middle"
-                      fontWeight="400"
-                      mr="6px"
-                    />
-                    <Text
-                      display="inline-block"
-                      lineHeight={1}
-                      textTransform="capitalize"
-                      verticalAlign="middle"
-                    >
-                      Share
-                    </Text>
-                  </Flex>
-                  <Flex
-                    padding="8px"
-                    wordBreak="normal"
-                    mr="4px"
-                    alignItems="center"
-                    borderRadius="2px"
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    boxSizing="border-box"
-                    _hover={{
-                      backgroundColor: inputBg,
-                    }}
+                    Share
+                  </Text>
+                </Flex>
+                <Flex
+                  padding="8px"
+                  wordBreak="normal"
+                  mr="4px"
+                  alignItems="center"
+                  borderRadius="2px"
+                  fontSize="12px"
+                  fontWeight="700"
+                  lineHeight="16px"
+                  boxSizing="border-box"
+                  _hover={{
+                    backgroundColor: inputBg,
+                  }}
+                >
+                  <Icon
+                    as={BsBookmark}
+                    width="20px"
+                    height="20px"
+                    verticalAlign="middle"
+                    fontWeight="400"
+                    mr="6px"
+                  />
+                  <Text
+                    display="inline-block"
+                    lineHeight={1}
+                    textTransform="capitalize"
+                    verticalAlign="middle"
                   >
-                    <Icon
-                      as={BsBookmark}
-                      width="20px"
-                      height="20px"
-                      verticalAlign="middle"
-                      fontWeight="400"
-                      mr="6px"
-                    />
-                    <Text
-                      display="inline-block"
-                      lineHeight={1}
-                      textTransform="capitalize"
-                      verticalAlign="middle"
-                    >
-                      Save
-                    </Text>
-                  </Flex>
-                  <Flex justifyContent="center">
-                    <DropDown
-                      dropDownTitle={
-                        <Flex
-                          borderRadius="2px"
-                          height="24px"
-                          verticalAlign="middle"
-                          padding="0 4px"
-                          width="100%"
-                          bg="transparent"
-                          border="none"
-                          alignItems="center"
-                          _hover={{
-                            backgroundColor: inputBg,
-                          }}
-                        >
-                          <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
-                        </Flex>
-                      }
-                      options={[
-                        {
-                          label: 'Hide',
-                          icon: BsEyeSlash,
-                          id: Math.random(),
-                        },
-                      ]}
-                    />
-                  </Flex>
+                    Save
+                  </Text>
+                </Flex>
+                <Flex justifyContent="center">
+                  <DropDown
+                    dropDownTitle={
+                      <Flex
+                        borderRadius="2px"
+                        height="24px"
+                        verticalAlign="middle"
+                        padding="0 4px"
+                        width="100%"
+                        bg="transparent"
+                        border="none"
+                        alignItems="center"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
+                      >
+                        <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
+                      </Flex>
+                    }
+                    options={[
+                      {
+                        label: 'Hide',
+                        icon: BsEyeSlash,
+                        id: Math.random(),
+                      },
+                      {
+                        label: 'Report',
+                        icon: BsFlag,
+                        id: Math.random(),
+                      },
+                    ]}
+                  />
                 </Flex>
               </Flex>
-            </Box>
-          </Link>
+            </Flex>
+          </Box>
         </Box>
       ) : (
         <Box>
