@@ -720,7 +720,7 @@ function PostDetail() {
                               <Box>save</Box>
                             </Link>
 
-                            {profile?.author?.address !== detail?.author?.address ? (
+                            {profile?.author?.address === detail?.author?.address ? (
                               <Link
                                 display="flex"
                                 alignItems="center"
@@ -770,9 +770,9 @@ function PostDetail() {
                                       id: 'Save',
                                     },
                                     {
-                                      label: 'Hide',
+                                      label: 'Block Author',
                                       icon: BsEyeSlash,
-                                      id: 'Hide',
+                                      id: 'block',
                                     },
                                     {
                                       label: 'Delete',
@@ -819,7 +819,7 @@ function PostDetail() {
                                   }}
                                 >
                                   <Icon as={BsEyeSlash} height={5} width={5} mr="5px" />
-                                  <Box>Hide</Box>
+                                  <Box>Block Author</Box>
                                 </Link>
                                 <Link
                                   display="flex"
@@ -1069,7 +1069,7 @@ function PostDetail() {
         <Box>
           <Box>
             <Box position="relative" bg={mainMobileBg}>
-              <Box pointerEvents="none" position="relative">
+              <Box position="relative">
                 <Box paddingTop="0">
                   <Box
                     backgroundPosition="top"
@@ -1090,20 +1090,20 @@ function PostDetail() {
                       top="0"
                     />
                     <Box
-                      bottom="0"
+                      bottom="20px"
                       left="0"
                       pos="absolute"
                       right="0"
                       top="0"
-                      onClick={() => history.push(`p/${detail?.subplebbitAddress}`)}
+                      onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}
                     />
                     <Box
                       backgroundColor={mainMobileBg}
                       borderRadius="20px 20px 0 0"
                       position="relative"
-                      onClick={() => history.goBack()}
                     >
                       <Icon
+                        onClick={() => history.goBack()}
                         as={CgClose}
                         color={mobileColor}
                         fill={mobileColor}
@@ -1140,13 +1140,57 @@ function PostDetail() {
                             src={require('../../../assets/images/plebbit-logo.png')}
                           />
                         </Box>
-                        <Box fontWeight="700" lineHeight="18px" margin="0">
+
+                        <Box
+                          onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}
+                          fontWeight="700"
+                          lineHeight="18px"
+                          margin="5px"
+                        >
                           {`p/${detail?.subplebbitAddress}`}
                         </Box>
                       </Flex>
                     </Box>
                   </Box>
-                  <Post post={detail} mode={postStyle} key={detail?.cid} />
+                  {edit ? (
+                    <Box marginTop="8px" padding="10px">
+                      <Editor
+                        editorState={postEditorState}
+                        setEditorState={setPostEditorState}
+                        setValue={setEditPost}
+                      />
+                      <Flex alignItems="center" mt="8px" justifyContent="flex-end">
+                        <Button
+                          borderRadius="999px"
+                          border="transparent"
+                          bg="transparent"
+                          onClick={() => setEdit(false)}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          borderRadius="999px"
+                          padding="5px 10px"
+                          minW="90px"
+                          minH="27px"
+                          onClick={() =>
+                            handleEditPost(detail?.cid, editPost, detail?.subplebbitAddress)
+                          }
+                          isLoading={editLoading}
+                        >
+                          Save
+                        </Button>
+                      </Flex>
+                    </Box>
+                  ) : (
+                    <Post
+                      detail
+                      post={detail}
+                      mode={postStyle}
+                      key={detail?.cid}
+                      handleOption={handleOption}
+                    />
+                  )}
                 </Box>
               </Box>
             </Box>

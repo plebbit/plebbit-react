@@ -12,7 +12,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { RiCopperCoinLine } from 'react-icons/ri';
-import { BsChat, BsBookmark, BsEyeSlash, BsFlag } from 'react-icons/bs';
+import { BsChat, BsBookmark, BsEyeSlash, BsPencil } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
@@ -27,7 +27,17 @@ import { ProfileContext } from '../../store/profileContext';
 import getUserName from '../../utils/getUserName';
 import truncateSting from '../../utils/truncateString';
 
-const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type }) => {
+const CardPost = ({
+  post,
+  setVoteMode,
+  voteMode,
+  handleVote,
+  vote,
+  loading,
+  type,
+  detail,
+  handleOption,
+}) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -48,7 +58,7 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
   const mobileIconColor = useColorModeValue('lightMobileIcon2', 'darkMobileIcon');
   const history = useHistory();
 
-  const { device } = useContext(ProfileContext);
+  const { device, profile } = useContext(ProfileContext);
 
   return (
     <>
@@ -938,14 +948,9 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                     }
                     options={[
                       {
-                        label: 'Hide',
+                        label: 'Block author',
                         icon: BsEyeSlash,
-                        id: Math.random(),
-                      },
-                      {
-                        label: 'Report',
-                        icon: BsFlag,
-                        id: Math.random(),
+                        id: 'block',
                       },
                     ]}
                   />
@@ -968,7 +973,7 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
               top="0"
             />
             {/*Header */}
-            <Box pointerEvents="none" position="relative">
+            <Box position="relative">
               <Box paddingTop="0">
                 <Flex alignItems="center">
                   <Box
@@ -1051,14 +1056,37 @@ const CardPost = ({ post, setVoteMode, voteMode, handleVote, vote, loading, type
                     </Box>
                   </Box>
                   <Box padding="0" flex="0 0 auto" whiteSpace="nowrap" />
-                  <Box
-                    pointerEvents="all"
-                    color="#565758"
-                    padding="8px 16px 8px 12px"
-                    verticalAlign="middle"
-                  >
-                    <Icon as={FiMoreHorizontal} verticalAlign="inherit" height={5} w={5} />
-                  </Box>
+                  <DropDown
+                    onChange={(x) => {
+                      console.log(x);
+                      handleOption(x);
+                    }}
+                    rightOffset="10px"
+                    leftOffset="none"
+                    dropDownTitle={
+                      <Box
+                        pointerEvents="all"
+                        color="#565758"
+                        padding="8px 16px 8px 12px"
+                        verticalAlign="middle"
+                      >
+                        <Icon as={FiMoreHorizontal} verticalAlign="inherit" height={5} w={5} />
+                      </Box>
+                    }
+                    options={[
+                      {
+                        label: 'Edit',
+                        icon: BsPencil,
+                        id: 'Edit',
+                        disabled: !(profile?.author?.address === post?.author?.address && detail),
+                      },
+                      {
+                        label: 'Block Author',
+                        icon: BsEyeSlash,
+                        id: 'block',
+                      },
+                    ]}
+                  />
                 </Flex>
                 <Box
                   color={mobileMainColor}

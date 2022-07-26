@@ -39,7 +39,7 @@ export const ProfileDataProvider = (props) => {
   useEffect(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
-  }, []);
+  }, [device]);
 
   const getProfileState = async () => {};
 

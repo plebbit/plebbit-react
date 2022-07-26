@@ -7,7 +7,7 @@ import CardPost from './CardPost';
 import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
 
-const Post = ({ type, post, mode, loading }) => {
+const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const vote = post?.upvoteCount - post?.downvoteCount;
   const [voteMode, setVoteMode] = useState(0);
   const [showContent, setShowContent] = useState(false);
@@ -86,6 +86,8 @@ const Post = ({ type, post, mode, loading }) => {
             post={post}
             loading={loading}
             handleVote={handleVote}
+            detail={detail}
+            handleOption={handleOption}
           />
         )}
         {/* classic */}
@@ -100,6 +102,8 @@ const Post = ({ type, post, mode, loading }) => {
             post={post}
             loading={loading}
             handleVote={handleVote}
+            detail={detail}
+            handleOption={handleOption}
           />
         )}
         {/* compact */}
@@ -114,6 +118,8 @@ const Post = ({ type, post, mode, loading }) => {
             post={post}
             loading={loading}
             handleVote={handleVote}
+            detail={detail}
+            handleOption={handleOption}
           />
         )}
       </Box>
