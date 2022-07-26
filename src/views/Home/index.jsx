@@ -10,13 +10,13 @@ import InfiniteScroll from '../../components/InfiniteScroll';
 import Post from '../../components/Post';
 
 const Home = () => {
-  const { isLoggedIn, postStyle, feedSort, device } = useContext(ProfileContext);
+  const { isLoggedIn, postStyle, feedSort, device, subscriptions } = useContext(ProfileContext);
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mobileMainColor = useColorModeValue('lightMobileText', 'darkMobileText');
   const mainMobileBg = useColorModeValue('white', 'black');
 
   const { feed, loadMore, hasMore } = useFeed(
-    subPlebbitsData?.map((x) => x.value),
+    subscriptions?.length ? subscriptions : subPlebbitsData?.map((x) => x.value),
     feedSort
   );
 

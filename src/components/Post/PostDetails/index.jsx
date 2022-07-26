@@ -15,12 +15,12 @@ import {
 } from '@chakra-ui/react';
 import { useAccountsActions, useComment } from '@plebbit/plebbit-react-hooks';
 import Swal from 'sweetalert2';
-import { EditorState } from 'draft-js';
+import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import { CloseIcon } from '@chakra-ui/icons';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import PdMenu from './pdMenu';
-import { BsChat, BsBookmark } from 'react-icons/bs';
+import { BsChat, BsBookmark, BsEyeSlash, BsPencil, BsFlag } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { FiMoreHorizontal, FiShare, FiBell } from 'react-icons/fi';
@@ -32,10 +32,11 @@ import Editor from '../../Editor';
 import truncateString from '../../../utils/truncateString';
 import { ProfileContext } from '../../../store/profileContext';
 import { useHistory } from 'react-router-dom';
-
 import getUserName from '../../../utils/getUserName';
 import numFormatter from '../../../utils/numberFormater';
 import Post from '..';
+import DropDown from '../../DropDown';
+import { MdOutlineDeleteOutline } from 'react-icons/md';
 
 function PostDetail() {
   const detail = useComment(
@@ -53,14 +54,24 @@ function PostDetail() {
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const borderColor = useColorModeValue('#ccc', '#343536');
   const borderColor2 = useColorModeValue('#d3d6da', '#545452');
+  const border2 = useColorModeValue('#edeff1', '#343536');
   const mainMobileBg = useColorModeValue('white', 'black');
   const mobileColor = useColorModeValue('lightMobileText2', 'darkMobileText');
   const toast = useToast();
-  const { publishVote, publishComment } = useAccountsActions();
-
+  const { publishVote, publishComment, publishCommentEdit, subscribe, unsubscribe } =
+    useAccountsActions();
+  const [subLoading, setSubLoading] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [editPost, setEditPost] = useState(detail?.content);
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const { device, postStyle, profile } = useContext(ProfileContext);
+  const [postEditorState, setPostEditorState] = useState(
+    EditorState.createWithContent(
+      ContentState.createFromBlockArray(convertFromHTML(`<p>${editPost}</p>`))
+    )
+  );
+  const { device, postStyle, profile, subscriptions } = useContext(ProfileContext);
   const history = useHistory();
   const [showMEditor, setShowMEditor] = useState(false);
 
@@ -89,6 +100,7 @@ function PostDetail() {
       isClosable: true,
     });
     setContent('');
+    setEdit(false);
     setEditorState(EditorState.createEmpty());
     console.log('challenge verified', challengeVerification, comment);
   };
@@ -126,8 +138,8 @@ function PostDetail() {
     });
   };
 
-  const handlePublishPost = () => {
-    publishComment({
+  const handlePublishPost = async () => {
+    await publishComment({
       content,
       postCid: detail?.cid, // the thread the comment is on
       parentCid: detail?.cid, // if top level reply to a post, same as postCid
@@ -135,6 +147,47 @@ function PostDetail() {
       onChallenge,
       onChallengeVerification,
     });
+  };
+  const handleEditPost = async (cid, content, address) => {
+    setEditLoading(true);
+    await publishCommentEdit({
+      commentCid: cid,
+      content: content,
+      subplebbitAddress: address,
+      onChallenge,
+      onChallengeVerification,
+    });
+    setEditLoading(false);
+  };
+
+  const handleSubscribe = async () => {
+    setSubLoading(true);
+    await subscribe(detail?.subplebbitAddress);
+    toast({
+      title: 'Subscribed.',
+      description: 'Joined successfully',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+  const handleUnSubscribe = async () => {
+    setSubLoading(true);
+    await unsubscribe(detail?.subplebbitAddress);
+
+    toast({
+      title: 'Unsubscribed.',
+      description: 'Unsubscribed successfully',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
+  const handleOption = (option) => {
+    if (option?.id === 'Edit') {
+      setEdit(true);
+    }
   };
 
   return (
@@ -501,37 +554,76 @@ function PostDetail() {
                             paddingRight="5px"
                             wordBreak="break-word"
                           >
-                            {detail?.title}
+                            {detail?.title}{' '}
+                            {detail?.flair?.text && (
+                              <Tag
+                                borderRadius="20px"
+                                p="2px 8px"
+                                mr="5px"
+                                background={detail?.flair?.backgroundColor}
+                                color={detail?.flair?.textColor}
+                              >
+                                {detail?.flair.text}
+                              </Tag>
+                            )}
                           </Heading>
-
-                          <Tag borderRadius="20px" p="2px 8px" mr="5px">
-                            {detail?.tag || 'pleb'}
-                          </Tag>
                         </Flex>
                         {/* post Body */}
-                        <Box marginTop="8px">
-                          {detail?.content ? (
-                            <Box
-                              color={subPledditTextColor}
-                              padding="5px 8px 10px"
-                              fontFamily="Noto sans, Arial, sans-serif"
-                              fontSize="14px"
-                              fontWeight="400"
-                              lineHeight="21px"
-                              wordBreak="break-word"
-                              overflow="hidden"
-                            >
-                              {detail?.content}
-                            </Box>
-                          ) : (
-                            <Box display="flex" justifyContent="center">
-                              <Image
-                                fallbackSrc="https://via.placeholder.com/150"
-                                src={detail?.link}
-                              />
-                            </Box>
-                          )}
-                        </Box>
+                        {edit ? (
+                          <Box marginTop="8px" padding="10px">
+                            <Editor
+                              editorState={postEditorState}
+                              setEditorState={setPostEditorState}
+                              setValue={setEditPost}
+                            />
+                            <Flex alignItems="center" mt="8px" justifyContent="flex-end">
+                              <Button
+                                borderRadius="999px"
+                                border="transparent"
+                                bg="transparent"
+                                onClick={() => setEdit(false)}
+                              >
+                                Cancel
+                              </Button>
+                              <Button
+                                borderRadius="999px"
+                                padding="5px 10px"
+                                minW="90px"
+                                minH="27px"
+                                onClick={() =>
+                                  handleEditPost(detail?.cid, editPost, detail?.subplebbitAddress)
+                                }
+                                isLoading={editLoading}
+                              >
+                                Save
+                              </Button>
+                            </Flex>
+                          </Box>
+                        ) : (
+                          <Box marginTop="8px">
+                            {detail?.content ? (
+                              <Box
+                                color={subPledditTextColor}
+                                padding="5px 8px 10px"
+                                fontFamily="Noto sans, Arial, sans-serif"
+                                fontSize="14px"
+                                fontWeight="400"
+                                lineHeight="21px"
+                                wordBreak="break-word"
+                                overflow="hidden"
+                              >
+                                {detail?.content}
+                              </Box>
+                            ) : (
+                              <Box display="flex" justifyContent="center">
+                                <Image
+                                  fallbackSrc="https://via.placeholder.com/150"
+                                  src={detail?.link}
+                                />
+                              </Box>
+                            )}
+                          </Box>
+                        )}
                         {/* Post Bottom Bar */}
                         <Flex
                           sx={{
@@ -553,7 +645,6 @@ function PostDetail() {
                             fontSize="12px"
                             fontWeight="700"
                             lineHeight="16px"
-                            overflow="hidden"
                           >
                             <Link
                               display="flex"
@@ -628,23 +719,128 @@ function PostDetail() {
                               <Icon as={BsBookmark} height={5} width={5} mr="5px" />
                               <Box>save</Box>
                             </Link>
-                            <Link
-                              display="flex"
-                              alignItems="center"
-                              borderRadius="2px"
-                              padding="8px"
-                              marginRight="4px"
-                              _hover={{
-                                textDecor: 'none',
-                                outline: 'none',
-                                bg: bottomButtonHover,
-                              }}
-                              _focus={{
-                                boxShadow: 'none',
-                              }}
-                            >
-                              <Icon as={FiMoreHorizontal} height={5} width={5} mr="5px" />
-                            </Link>
+
+                            {profile?.author?.address !== detail?.author?.address ? (
+                              <Link
+                                display="flex"
+                                alignItems="center"
+                                borderRadius="2px"
+                                padding="8px"
+                                marginRight="4px"
+                                _hover={{
+                                  textDecor: 'none',
+                                  outline: 'none',
+                                  bg: bottomButtonHover,
+                                }}
+                                _focus={{
+                                  boxShadow: 'none',
+                                }}
+                              >
+                                <DropDown
+                                  topOffset="30px"
+                                  width="215px"
+                                  dropDownTitle={
+                                    <Flex
+                                      borderRadius="2px"
+                                      height="24px"
+                                      verticalAlign="middle"
+                                      padding="0 4px"
+                                      width="100%"
+                                      bg="transparent"
+                                      border="none"
+                                      alignItems="center"
+                                    >
+                                      <Icon
+                                        as={FiMoreHorizontal}
+                                        color={iconColor}
+                                        h="20px"
+                                        w="20px"
+                                      />
+                                    </Flex>
+                                  }
+                                  options={[
+                                    {
+                                      label: 'Edit Post',
+                                      icon: BsPencil,
+                                      id: 'Edit',
+                                    },
+                                    {
+                                      label: 'Save',
+                                      icon: BsBookmark,
+                                      id: 'Save',
+                                    },
+                                    {
+                                      label: 'Hide',
+                                      icon: BsEyeSlash,
+                                      id: 'Hide',
+                                    },
+                                    {
+                                      label: 'Delete',
+                                      icon: MdOutlineDeleteOutline,
+                                      id: 'Delete',
+                                    },
+                                  ]}
+                                  render={(item) => (
+                                    <Flex
+                                      alignItems="center"
+                                      padding="8px"
+                                      fontSize="14px"
+                                      lineHeight="18px"
+                                      fontWeight="500"
+                                      color={iconColor}
+                                      borderTop={`1px solid ${border2}`}
+                                      textTransform="capitalize"
+                                      _hover={{
+                                        bg: bottomButtonHover,
+                                      }}
+                                      onClick={() => handleOption(item)}
+                                    >
+                                      <Icon as={item?.icon} w="20px" h="20px" mr="6px" />
+                                      <Box>{item?.label}</Box>
+                                    </Flex>
+                                  )}
+                                />
+                              </Link>
+                            ) : (
+                              <>
+                                <Link
+                                  display="flex"
+                                  alignItems="center"
+                                  borderRadius="2px"
+                                  padding="8px"
+                                  marginRight="4px"
+                                  _hover={{
+                                    textDecor: 'none',
+                                    outline: 'none',
+                                    bg: bottomButtonHover,
+                                  }}
+                                  _focus={{
+                                    boxShadow: 'none',
+                                  }}
+                                >
+                                  <Icon as={BsEyeSlash} height={5} width={5} mr="5px" />
+                                  <Box>Hide</Box>
+                                </Link>
+                                <Link
+                                  display="flex"
+                                  alignItems="center"
+                                  borderRadius="2px"
+                                  padding="8px"
+                                  marginRight="4px"
+                                  _hover={{
+                                    textDecor: 'none',
+                                    outline: 'none',
+                                    bg: bottomButtonHover,
+                                  }}
+                                  _focus={{
+                                    boxShadow: 'none',
+                                  }}
+                                >
+                                  <Icon as={BsFlag} height={5} width={5} mr="5px" />
+                                  <Box>Report</Box>
+                                </Link>
+                              </>
+                            )}
                           </Flex>
                         </Flex>
 
@@ -857,6 +1053,12 @@ function PostDetail() {
                         display: 'none',
                       },
                     }}
+                    handleSubscribe={handleSubscribe}
+                    handleUnSubscribe={handleUnSubscribe}
+                    subLoading={subLoading}
+                    setSubLoading={setSubLoading}
+                    subscriptions={subscriptions}
+                    detail={detail}
                   />
                 </Flex>
               </Box>
