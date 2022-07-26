@@ -12,6 +12,8 @@ const DropDown = ({
   wrapSx,
   stopAutoHide,
   topOffset,
+  rightOffset,
+  leftOffset,
   render,
   width,
   onChange,
@@ -58,14 +60,15 @@ const DropDown = ({
           color={iconColor}
           fill={iconColor}
           top={topOffset || '24px'}
-          left="10px"
+          left={leftOffset || '10px'}
+          right={rightOffset}
           width={width}
         >
           {options
             ? options?.map((option) =>
-                render ? (
-                  !option.disabled && render(option)
-                ) : (
+                render && option.disabled !== true ? (
+                  render(option)
+                ) : option.disabled !== true ? (
                   <Flex
                     key={option?.id}
                     alignItems="center"
@@ -80,12 +83,14 @@ const DropDown = ({
                     _hover={{
                       background: inputBg,
                     }}
-                    onClick={(option) => onChange(option)}
+                    onClick={() => onChange(option)}
                     borderTop={`1px solid ${border2}`}
                   >
                     <Icon mr="4px" as={option?.icon} width={6} height={6} />
                     <Box>{option?.label}</Box>
                   </Flex>
+                ) : (
+                  ''
                 )
               )
             : content}

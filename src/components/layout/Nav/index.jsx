@@ -48,6 +48,7 @@ import ImportAccount from './modal/importAccount';
 import CreateSubPlebbit from './modal/CreateSubPlebbit';
 import truncateString from '../../../utils/truncateString';
 import getUserName from '../../../utils/getUserName';
+import NavItem from './navItem';
 
 const NavBar = () => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -296,7 +297,9 @@ const NavBar = () => {
               flex="1 0 130px"
               mr="auto"
               alignItems="center"
-              onClick={() => history.push('/', [])}
+              onClick={() => {
+                history.push('/', []);
+              }}
             >
               <Image
                 fallbackSrc={require('../../../assets/images/fallback.png')}
@@ -777,7 +780,11 @@ const NavBar = () => {
                   <Flex
                     alignItems="center"
                     flexFlow="row nowrap"
-                    onClick={() => history.push('/profile', [])}
+                    onClick={() => {
+                      history.push('/profile', []);
+                      setShowDropDown(!showDropDown);
+                      setShowComponent(!showDropDown);
+                    }}
                   >
                     <Flex
                       alignItems="center"
@@ -959,60 +966,152 @@ const NavBar = () => {
                     </Box>
                   </Flex>
                 </Flex>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
+                <NavItem
+                  head={
                     <Flex
                       alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
+                      flexFlow="row nowrap"
+                      color="#fff"
+                      marginBottom="20px"
+                      marginLeft="-4px"
+                      paddingLeft="2px"
                     >
-                      <Icon as={BiHelpCircle} w={5} h={5} opacity=".5" />
-                    </Flex>
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      Recent Communities
-                    </Box>
+                      <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
+                        <Flex
+                          alignItems="center"
+                          flex="0 0 24px"
+                          height="24px"
+                          justifyContent="center"
+                          mr="8px"
+                          position="8px"
+                          width="24px"
+                        >
+                          <Icon as={BiHelpCircle} w={5} h={5} opacity=".5" />
+                        </Flex>
+                        <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
+                          Recent Communities
+                        </Box>
 
-                    <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
-                  </Flex>
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
+                        <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
+                      </Flex>
+                    </Flex>
+                  }
+                  body={
+                    <Flex
+                      flexDirection="column"
+                      color="#fff"
+                      marginBottom="20px"
+                      marginLeft="-4px"
+                      paddingLeft="20px"
+                    >
+                      {subPlebbitsData?.map((pages, index) => (
+                        <Link key={index} to={`/p/${pages?.value}`}>
+                          <Flex
+                            alignItems="center"
+                            flexFlow="row nowrap"
+                            cursor="pointer"
+                            onClick={() => {
+                              setShowDropDown(!showDropDown);
+                              setShowComponent(!showDropDown);
+                            }}
+                          >
+                            <Flex
+                              alignItems="center"
+                              flex="0 0 24px"
+                              height="24px"
+                              justifyContent="center"
+                              mr="8px"
+                              position="8px"
+                              width="24px"
+                            >
+                              {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */}
+                            </Flex>
+                            <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
+                              {pages.label}
+                            </Box>
+                          </Flex>
+                        </Link>
+                      ))}
+                    </Flex>
+                  }
+                />
+
+                <NavItem
+                  head={
                     <Flex
                       alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
+                      flexFlow="row nowrap"
+                      color="#fff"
+                      marginBottom="20px"
+                      marginLeft="-4px"
+                      paddingLeft="2px"
                     >
-                      <Icon as={HiOutlineUserGroup} w={5} h={5} opacity=".5" />
-                    </Flex>
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      My Communities
-                    </Box>
+                      <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
+                        <Flex
+                          alignItems="center"
+                          flex="0 0 24px"
+                          height="24px"
+                          justifyContent="center"
+                          mr="8px"
+                          position="8px"
+                          width="24px"
+                        >
+                          <Icon as={HiOutlineUserGroup} w={5} h={5} opacity=".5" />
+                        </Flex>
+                        <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
+                          My Communities
+                        </Box>
 
-                    <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
-                  </Flex>
-                </Flex>
+                        <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
+                      </Flex>
+                    </Flex>
+                  }
+                  body={
+                    <Flex
+                      flexDirection="column"
+                      color="#fff"
+                      marginBottom="20px"
+                      marginLeft="-4px"
+                      paddingLeft="20px"
+                    >
+                      {Object.keys(accountSubplebbits)?.map((pages, index) => (
+                        <Link key={index} to={`/p/${pages}/about/`}>
+                          {' '}
+                          <Flex
+                            alignItems="center"
+                            flexFlow="row nowrap"
+                            cursor="pointer"
+                            onClick={() => {
+                              setShowDropDown(!showDropDown);
+                              setShowComponent(!showDropDown);
+                            }}
+                          >
+                            <Flex
+                              alignItems="center"
+                              flex="0 0 24px"
+                              height="24px"
+                              justifyContent="center"
+                              mr="8px"
+                              position="8px"
+                              width="24px"
+                            >
+                              {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */}
+                            </Flex>
+                            <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
+                              {truncateString(
+                                accountSubplebbits[pages]?.title ||
+                                  accountSubplebbits[pages]?.address,
+                                20,
+                                '...'
+                              )}
+                            </Box>
+                          </Flex>
+                        </Link>
+                      ))}
+                    </Flex>
+                  }
+                />
+
                 <Flex
                   alignItems="center"
                   flexFlow="row nowrap"
@@ -1070,7 +1169,11 @@ const NavBar = () => {
                   marginBottom="20px"
                   marginLeft="-4px"
                   paddingLeft="2px"
-                  onClick={() => history.push('/settings', [])}
+                  onClick={() => {
+                    history.push('/settings', []);
+                    setShowDropDown(!showDropDown);
+                    setShowComponent(!showDropDown);
+                  }}
                 >
                   <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
                     <Flex

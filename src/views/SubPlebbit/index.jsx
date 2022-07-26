@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Flex, Icon, Image, Text, useColorModeValue, useToast } from '@chakra-ui/react';
+import { Box, Flex, Icon, Image, useColorModeValue, useToast } from '@chakra-ui/react';
 import Button from '../../components/Button';
 import { FaBell } from 'react-icons/fa';
 import { ProfileContext } from '../../store/profileContext';
@@ -13,7 +13,7 @@ import SideBar from './sideBar';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 
 const SubPlebbit = ({ match }) => {
-  const { postStyle, feedSort, profile, subscriptions } = useContext(ProfileContext);
+  const { postStyle, feedSort, profile, subscriptions, device } = useContext(ProfileContext);
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const pseuBg = useColorModeValue('#DAE0E6', '#030303');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -138,7 +138,12 @@ const SubPlebbit = ({ match }) => {
             margin="0 auto"
             padding="0 16px 0 24px"
           >
-            <Flex marginTop="-14px" marginBottom="12px" alignItems="flex-start">
+            <Flex
+              marginTop="-14px"
+              marginBottom="12px"
+              alignItems={device !== 'mobile' ? 'flex-start' : 'center'}
+              flexDir={device !== 'mobile' ? 'row' : 'column'}
+            >
               <Image
                 fallbackSrc={require('../../assets/images/fallback.png')}
                 src=""
@@ -153,35 +158,34 @@ const SubPlebbit = ({ match }) => {
               <Flex
                 boxSizing="border-box"
                 alignContent="flex-start"
+                flexDirection={device !== 'mobile' ? 'row' : 'column'}
                 flex="1"
                 paddingLeft="16px"
                 marginTop="24px"
-                justifyContent="space-between"
-                width="calc(100% - 80px)"
+                justifyContent={device !== 'mobile' ? 'space-between' : 'center'}
+                width={device !== 'mobile' ? '"calc(100% - 80px)"' : '100%'}
               >
                 <Box paddingRight="24px" box-sizing="border-box">
-                  <Text
-                    flex="1"
+                  <Box
                     fontSize="28px"
                     fontWeight="700"
                     lineHeight="32px"
-                    overflow="hidden"
                     padding="0 2px 4px 0"
                     width="100%"
-                    text-overflow="ellipsis"
                   >
                     {subPlebbit?.title || subPlebbit?.address}
-                  </Text>
-                  <Text
+                  </Box>
+                  <Box
                     fontSize="14px"
                     fontWeight="500"
                     lineHeight="18px"
                     color={subPlebbitSubTitle}
+                    wordBreak="break-all"
                   >
                     p/{subPlebbit?.address}
-                  </Text>
+                  </Box>
                 </Box>
-                <Flex>
+                <Flex alignItems="center" mt="10px">
                   <Box width="96px">
                     <Button
                       bg="transparent"

@@ -27,6 +27,7 @@ import numFormatter from '../../utils/numberFormater';
 import getUserName from '../../utils/getUserName';
 import { ProfileContext } from '../../store/profileContext';
 import truncateSting from '../../utils/truncateString';
+import DropDown from '../DropDown';
 
 const ClassicPost = ({
   loading,
@@ -854,14 +855,31 @@ const ClassicPost = ({
                     </Box>
                   </Box>
                   <Box padding="0" flex="0 0 auto" whiteSpace="nowrap" />
-                  <Box
-                    pointerEvents="all"
-                    color="#565758"
-                    padding="8px 16px 8px 12px"
-                    verticalAlign="middle"
-                  >
-                    <Icon as={FiMoreHorizontal} verticalAlign="inherit" height={5} w={5} />
-                  </Box>
+                  <DropDown
+                    leftOffset="-40px"
+                    dropDownTitle={
+                      <Box
+                        pointerEvents="all"
+                        color="#565758"
+                        padding="8px 16px 8px 12px"
+                        verticalAlign="middle"
+                      >
+                        <Icon as={FiMoreHorizontal} verticalAlign="inherit" height={5} w={5} />
+                      </Box>
+                    }
+                    options={[
+                      {
+                        label: 'Hide',
+                        icon: BsEyeSlash,
+                        id: Math.random(),
+                      },
+                      {
+                        label: 'Report',
+                        icon: BsFlag,
+                        id: Math.random(),
+                      },
+                    ]}
+                  />
                 </Flex>
                 {post?.link ? (
                   <Flex
