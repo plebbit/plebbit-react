@@ -973,7 +973,7 @@ const CardPost = ({
               top="0"
             />
             {/*Header */}
-            <Box position="relative">
+            <Box pointerEvents="none" position="relative">
               <Box paddingTop="0">
                 <Flex alignItems="center">
                   <Box
