@@ -168,8 +168,9 @@ const NavBar = () => {
                             borderBottom={`1px solid ${navBorder}`}
                           >
                             {truncateString(
-                              accountSubplebbits[pages]?.title ||
-                                accountSubplebbits[pages]?.address,
+                              accountSubplebbits[index]?.title ||
+                                accountSubplebbits[pages]?.address ||
+                                pages,
                               20,
                               '...'
                             )}
@@ -192,7 +193,7 @@ const NavBar = () => {
                         _hover={{
                           bg: inputBg,
                         }}
-                        onClick={() => onOpenCreate()}
+                        onClick={onOpenCreate}
                         alignItems="center"
                       >
                         <Icon onClick={() => onOpenCreate()} as={BsPlusLg} mr="8px" />

@@ -30,12 +30,16 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
 
   const handleCreateSubPlebbit = async () => {
     setLoading(true);
-    const subplebbit = await createSubplebbit(value);
-    setTimeout(() => {
-      history.push(`/p/${subplebbit?.address}`, []);
-      setLoading(false);
-      onClose();
-    }, 1000);
+    try {
+      const subplebbit = await createSubplebbit(value);
+      setTimeout(() => {
+        history.push(`/p/${subplebbit?.address}`, []);
+        setLoading(false);
+        onClose();
+      }, 1000);
+    } catch (error) {
+      console.log('here', error);
+    }
   };
 
   return (

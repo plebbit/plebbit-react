@@ -72,13 +72,14 @@ const SideBar = ({
       border={border}
       borderColor={borderColor}
       margin={margin}
-      width={width}
+      width={width || '312px'}
       padding={padding}
       borderRadius={borderRadius}
       top={top}
       right={right}
       sx={
-        sx || {
+        ({ ...sx },
+        {
           '@media (min-width: 960px)': {
             display: 'block',
           },
@@ -87,7 +88,7 @@ const SideBar = ({
             width: '312px',
             flex: '0 0 312px',
           },
-        }
+        })
       }
     >
       <Flex flexDirection="column" height="100%" width="inherit">
