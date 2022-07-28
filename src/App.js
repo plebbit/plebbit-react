@@ -28,8 +28,8 @@ const App = () => {
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/p/:subplebbitAddress" component={SubPlebbit} />
             <Route exact path="/p/:subplebbitAddress/c/:commentCid" component={PostDetails} />
-            <Route exact path={`/p/:subplebbitAddress/about/edit`} component={CommunitySettings} />
-            <Route exact path={`/p/:subplebbitAddress/moderators`} component={Moderators} />
+            <Route exact path="/p/:subplebbitAddress/about/edit" component={CommunitySettings} />
+            <Route exact path="/p/:subplebbitAddress/moderators" component={Moderators} />
             <Route
               exact
               path={[
