@@ -605,6 +605,7 @@ const NavBar = () => {
                   _hover={{
                     bg: inputBg,
                   }}
+                  onClick={onOpenCreate}
                 >
                   <Flex alignItems="center" height="100%" padding="0 20px">
                     <Flex
