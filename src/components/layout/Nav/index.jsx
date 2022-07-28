@@ -1013,33 +1013,37 @@ const NavBar = () => {
                       marginLeft="-4px"
                       paddingLeft="20px"
                     >
-                      {subPlebbitData?.map((pages, index) => (
-                        <Link key={index} to={`/p/${pages?.value}`}>
+                      {[
+                        { label: 'Home', value: subscriptions },
+                        { label: 'All', value: subPlebbitData?.map((x) => x?.value) },
+                        ...subPlebbitData,
+                      ]?.map((pages, index) => (
+                        <Flex
+                          key={index}
+                          alignItems="center"
+                          flexFlow="row nowrap"
+                          cursor="pointer"
+                          onClick={() => {
+                            setShowDropDown(!showDropDown);
+                            setShowComponent(!showDropDown);
+                            setPostView(pages.value);
+                          }}
+                        >
                           <Flex
                             alignItems="center"
-                            flexFlow="row nowrap"
-                            cursor="pointer"
-                            onClick={() => {
-                              setShowDropDown(!showDropDown);
-                              setShowComponent(!showDropDown);
-                            }}
+                            flex="0 0 24px"
+                            height="24px"
+                            justifyContent="center"
+                            mr="8px"
+                            position="8px"
+                            width="24px"
                           >
-                            <Flex
-                              alignItems="center"
-                              flex="0 0 24px"
-                              height="24px"
-                              justifyContent="center"
-                              mr="8px"
-                              position="8px"
-                              width="24px"
-                            >
-                              {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */}
-                            </Flex>
-                            <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                              {pages.label}
-                            </Box>
+                            {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */}
                           </Flex>
-                        </Link>
+                          <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
+                            {pages.label}
+                          </Box>
+                        </Flex>
                       ))}
                     </Flex>
                   }

@@ -14,7 +14,7 @@ const Home = () => {
   const mobileMainColor = useColorModeValue('lightMobileText', 'darkMobileText');
   const mainMobileBg = useColorModeValue('white', 'black');
 
-  const { feed, loadMore, hasMore } = useFeed([...postView], feedSort);
+  const { feed, loadMore, hasMore } = useFeed(postView, feedSort);
 
   const feeds = feed;
 

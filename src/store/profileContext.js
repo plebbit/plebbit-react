@@ -25,9 +25,7 @@ export const ProfileDataProvider = (props) => {
   const subPlebbitDefData = useSubPlebbitDefaultData();
   const { version } = require('../../package.json');
   const subscriptions = defaultAccount ? defaultAccount?.subscriptions : [];
-  const [postView, setPostView] = useState(
-    subscriptions?.length ? subscriptions : subPlebbitDefData
-  );
+  const [postView, setPostView] = useState([]);
 
   const profile = defaultAccount;
 
@@ -40,6 +38,12 @@ export const ProfileDataProvider = (props) => {
       setDevice('mobile');
     }
   };
+
+  useEffect(() => {
+    subscriptions
+      ? setPostView(subscriptions)
+      : setPostView(subPlebbitDefData?.map((x) => x?.value));
+  }, [subscriptions]);
 
   useEffect(() => {
     handleResize();

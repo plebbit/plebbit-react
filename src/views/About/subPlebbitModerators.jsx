@@ -1,10 +1,11 @@
 import { Box, Button, Flex, Icon, Image, Input, useColorModeValue } from '@chakra-ui/react';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import { HiPencil } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import PlebbitLogo from '../../assets/images/plebbit-logo.png';
+import { ProfileContext } from '../../store/profileContext';
 import truncateString from '../../utils/truncateString';
 
 const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod }) => {
@@ -12,6 +13,13 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const border1 = useColorModeValue('#edeff1', '#343536');
+  const { device, profile } = useContext(ProfileContext);
+
+  useEffect(() => {
+    if (subPlebbit?.roles[profile?.author?.id]?.role !== ('admin' || 'owner' || 'moderator')) {
+      history.push(`/`);
+    }
+  }, []);
 
   return (
     <Box>
@@ -19,9 +27,9 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod }) => {
         alignItems="center"
         background={border1}
         height="48px"
-        justifyContent="flex-end"
-        left="280px"
-        padding="0 24px"
+        justifyContent={device !== 'mobile' ? 'flex-end' : 'flex-start'}
+        left={device !== 'mobile' ? '280px' : '0'}
+        padding={device !== 'mobile' ? '0 24px' : '5px 24px'}
         position="fixed"
         right="0"
         zIndex="3"
@@ -38,11 +46,12 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod }) => {
           alignItems="center"
           justifyContent="center"
           textAlign="center"
-          width="auto"
+          width="max-content"
           borderRadius="999px"
           padding="4px 16px"
-          height="32px"
+          height={device !== 'mobile' ? '32px' : '24px'}
           onClick={openLeaveMod}
+          mt={device === 'mobile' && '6px'}
         >
           Leave as mod
         </Button>
@@ -59,8 +68,9 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod }) => {
           width="auto"
           borderRadius="999px"
           padding="4px 16px"
-          height="32px"
+          height={device !== 'mobile' ? '32px' : '24px'}
           onClick={openRoleMod}
+          mt={device === 'mobile' && '6px'}
         >
           Invite user as mod
         </Button>
