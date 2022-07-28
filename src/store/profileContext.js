@@ -5,6 +5,7 @@ import {
   useAccountSubplebbits,
 } from '@plebbit/plebbit-react-hooks';
 import React, { createContext, useState, useEffect } from 'react';
+import useSubPlebbitDefaultData from '../hooks/useSubPlebbitDefaultData';
 
 export const ProfileContext = createContext();
 
@@ -21,8 +22,12 @@ export const ProfileDataProvider = (props) => {
   const defaultAccount = useAccount();
   const accountLists = useAccounts();
   const accountSubplebbits = useAccountSubplebbits();
+  const subPlebbitDefData = useSubPlebbitDefaultData();
   const { version } = require('../../package.json');
   const subscriptions = defaultAccount ? defaultAccount?.subscriptions : [];
+  const [postView, setPostView] = useState(
+    subscriptions?.length ? subscriptions : subPlebbitDefData
+  );
 
   const profile = defaultAccount;
 
@@ -41,15 +46,12 @@ export const ProfileDataProvider = (props) => {
     window.addEventListener('resize', handleResize);
   }, [device]);
 
-  const getProfileState = async () => {};
-
   const logUserOut = () => {};
 
   useEffect(() => {
     setTimeout(() => {
       setShowSplashcreen(false);
     }, 4000);
-    getProfileState();
   }, [reloadUser]);
 
   return (
@@ -77,6 +79,8 @@ export const ProfileDataProvider = (props) => {
         accountSubplebbits,
         version,
         subscriptions,
+        postView,
+        setPostView,
       }}
     >
       {children}

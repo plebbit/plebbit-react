@@ -5,20 +5,16 @@ import SideBar from './sideBar';
 import { useFeed } from '@plebbit/plebbit-react-hooks';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
-import subPlebbitsData from '../../components/data/subPlebbits';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import Post from '../../components/Post';
 
 const Home = () => {
-  const { isLoggedIn, postStyle, feedSort, device, subscriptions } = useContext(ProfileContext);
+  const { isLoggedIn, postStyle, feedSort, device, postView } = useContext(ProfileContext);
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mobileMainColor = useColorModeValue('lightMobileText', 'darkMobileText');
   const mainMobileBg = useColorModeValue('white', 'black');
 
-  const { feed, loadMore, hasMore } = useFeed(
-    subscriptions?.length ? subscriptions : subPlebbitsData?.map((x) => x.value),
-    feedSort
-  );
+  const { feed, loadMore, hasMore } = useFeed([...postView], feedSort);
 
   const feeds = feed;
 
