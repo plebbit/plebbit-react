@@ -2745,14 +2745,6 @@
     pify "^5.0.0"
     sqlite3 "^5.0.9"
 
-"@keyv/sqlite@3.5.3":
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/@keyv/sqlite/-/sqlite-3.5.3.tgz#107db164fc86728b8a2e6da7746ab9d87b06f3dd"
-  integrity sha512-lw6we8MVW9RvpET4cDvGT2MEmGRlqaeu+aiQz2zWonHbw4VdnayXOigbdqVlV+NWFCEQ64mNIj/3wAQye0LMLQ==
-  dependencies:
-    pify "^5.0.0"
-    sqlite3 "^5.0.9"
-
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz#b2ac626d6cb9c8718ab459166d4bb405b8ffa78b"
@@ -2868,42 +2860,6 @@
     peer-id "0.16.0"
     sqlite3 "5.0.10"
     tinycache "1.1.2"
-    uuid "8.3.2"
-
-"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#f03fa02d0c9c7d847530a4db910f4effcbc2305e":
-  version "0.0.3"
-  resolved "https://github.com/plebbit/plebbit-js.git#f03fa02d0c9c7d847530a4db910f4effcbc2305e"
-  dependencies:
-    "@keyv/sqlite" "3.5.3"
-    "@types/node-fetch" "2.6.2"
-    "@types/uuid" "8.3.4"
-    assert "2.0.0"
-    buffer "6.0.3"
-    captcha-canvas "3.1.0"
-    ethers "5.6.9"
-    form-data "4.0.0"
-    ipfs-http-client "56.0.3"
-    jose "4.8.3"
-    js-sha256 "0.9.0"
-    keyv "4.3.3"
-    knex "2.2.0"
-    libp2p-crypto "0.21.2"
-    peer-id "0.16.0"
-    sqlite3 "5.0.10"
-    tinycache "1.1.2"
-    uuid "8.3.2"
-
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git":
-  version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#bafe9938c225ed59ff1444222e29beea65002efe"
-  dependencies:
-    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#f03fa02d0c9c7d847530a4db910f4effcbc2305e"
-    "@types/debug" "4.1.7"
-    "@types/uuid" "8.3.4"
-    assert "2.0.0"
-    debug "4.3.3"
-    ethers "5.6.9"
-    localforage "1.10.0"
     uuid "8.3.2"
 
 "@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#bafe9938c225ed59ff1444222e29beea65002efe":
@@ -5409,11 +5365,6 @@ colorette@^2.0.10:
   version "2.0.16"
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.16.tgz#713b9af84fdb000139f04546bd4a93f62a5085da"
   integrity sha512-hUewv7oMjCp+wkBv5Rm0v87eJhq4woh5rSR+42YSQJKecCqgIqNkZ6lAlQms/BwHPJA5NKMRlpxPRv0n8HQW6g==
-
-colorette@2.0.19:
-  version "2.0.19"
-  resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.19.tgz#cdf044f47ad41a0f4b56b3a0d5b4e6e1a2d5a798"
-  integrity sha512-3tlv/dIP7FWvj3BsbHrGLJ6l/oKh1O3TcgBqMn+yyCagOxc23fyzDS6HypQbgxWbkpDnf52p1LuR4eWDQ/K9WQ==
 
 colors@1.0.3:
   version "1.0.3"
@@ -10119,14 +10070,6 @@ keyv@4.3.3:
     compress-brotli "^1.3.8"
     json-buffer "3.0.1"
 
-keyv@4.3.3:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/keyv/-/keyv-4.3.3.tgz#6c1bcda6353a9e96fc1b4e1aeb803a6e35090ba9"
-  integrity sha512-AcysI17RvakTh8ir03+a3zJr5r0ovnAH/XTXei/4HIv3bL2K/jzvgivLK9UuI/JbU1aJjM3NSAnVvVVd3n+4DQ==
-  dependencies:
-    compress-brotli "^1.3.8"
-    json-buffer "3.0.1"
-
 keyv@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/keyv/-/keyv-3.1.0.tgz#ecc228486f69991e49e9476485a5be1e8fc5c4d9"
@@ -10158,26 +10101,6 @@ klona@^2.0.4, klona@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.5.tgz#d166574d90076395d9963aa7a928fabb8d76afbc"
   integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
-
-knex@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/knex/-/knex-2.2.0.tgz#86a3176924d37303b3f9ff7f70087418c263ce7a"
-  integrity sha512-yhm1Qe9Ok0TeXBq3nNHqZYJPrQ4Iw2tq9k/HxjrZ/EWec2ifOjJlkNHr26v8cQrWtk5iG3iwfUazTIWy+VKG5g==
-  dependencies:
-    colorette "2.0.19"
-    commander "^9.1.0"
-    debug "4.3.4"
-    escalade "^3.1.1"
-    esm "^3.2.25"
-    get-package-type "^0.1.0"
-    getopts "2.3.0"
-    interpret "^2.2.0"
-    lodash "^4.17.21"
-    pg-connection-string "2.5.0"
-    rechoir "^0.8.0"
-    resolve-from "^5.0.0"
-    tarn "^3.0.2"
-    tildify "2.0.0"
 
 knex@2.2.0:
   version "2.2.0"
@@ -14176,19 +14099,6 @@ sqlite3@5.0.10, sqlite3@^5.0.9:
   version "5.0.10"
   resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-5.0.10.tgz#64e1efb1b5a1ae343d2cc64ce9e582e5f5db24ba"
   integrity sha512-xG4XPp7+b/lIlb/acs4XzBmmahI1Qq3Yhy+jZnZJivwB6DXpoOpGR6QinRbsQkHJIvMZyUsJDXouSva/JXcWFA==
-
-  dependencies:
-    "@mapbox/node-pre-gyp" "^1.0.0"
-    node-addon-api "^4.2.0"
-    tar "^6.1.11"
-  optionalDependencies:
-    node-gyp "8.x"
-
-sqlite3@5.0.9, sqlite3@^5.0.8:
-  version "5.0.9"
-  resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-5.0.9.tgz#421b9c065480f1c589f89cabd6d0ea9575a69855"
-  integrity sha512-e2lEKevUF65UJu4IIuuFytgW7yNMkmCkfyn66jXWeb7OcdHvRo7nXhF+IQ25iW6x2grB0DyKdGCpx8Rd8EkA2Q==
-
   dependencies:
     "@mapbox/node-pre-gyp" "^1.0.0"
     node-addon-api "^4.2.0"

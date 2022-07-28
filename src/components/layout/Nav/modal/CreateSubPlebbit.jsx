@@ -16,6 +16,7 @@ import {
   RadioGroup,
   Stack,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import React, { useState } from 'react';
@@ -27,18 +28,23 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
   const { createSubplebbit } = useAccountsActions();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   const handleCreateSubPlebbit = async () => {
     setLoading(true);
     try {
       const subplebbit = await createSubplebbit(value);
-      setTimeout(() => {
-        history.push(`/p/${subplebbit?.address}`, []);
-        setLoading(false);
-        onClose();
-      }, 1000);
+      setLoading(false);
+      onClose();
+      history.push(`/p/${subplebbit?.address}`, []);
     } catch (error) {
-      console.log('here', error);
+      toast({
+        title: 'Create Subplebbit.',
+        description: 'Error Creating Subplebbit',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
