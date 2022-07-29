@@ -407,7 +407,7 @@ const CommunitySettings = ({ match }) => {
                             </InputRightAddon>
                           )}
                         </InputGroup>
-                        {resolvedAuthorAddress !== data?.signer.address ? (
+                        {resolvedAuthorAddress !== data?.signer?.address ? (
                           <Box
                             color={metaColor}
                             pt="4px"
