@@ -43,11 +43,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "electron .",
-    "electron:start": "yarn download-ipfs && rimraf .plebbit && concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:start": "yarn electron:download-ipfs && rimraf .plebbit && concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron:build:linux": "electron-builder build --publish never -l",
     "electron:build:windows": "electron-builder build --publish never -w",
     "electron:build:mac": "electron-builder build --publish never -m",
-    "download-ipfs": "node electron/downloadIpfs",
+    "electron:download-ipfs": "node electron/downloadIpfs",
     "android:build:icons": "cordova-res android --skip-config --copy --resources /tmp/plebbit-react-android-icons --icon-source ./android/icons/icon.png --splash-source ./android/icons/splash.png --icon-foreground-source ./android/icons/icon-foreground.png --icon-background-source '#ffffff'"
   },
   "eslintConfig": {
