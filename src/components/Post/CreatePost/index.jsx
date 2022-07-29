@@ -19,11 +19,12 @@ import Button from '../../Button';
 import SideBar from './createPostSideBar';
 import Editor from '../../Editor';
 import DropDown2 from '../../DropDown/DropDown2';
-import subPlebbitData from '../../data/subPlebbits';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 import truncateString from '../../../utils/truncateString';
+import useSubPlebbitDefaultData from '../../../hooks/useSubPlebbitDefaultData';
 
 const CreatePost = () => {
+  const subPlebbitData = useSubPlebbitDefaultData();
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const borderColor = useColorModeValue('borderLight', 'borderDark');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -35,14 +36,16 @@ const CreatePost = () => {
   const accountSubplebbits = useAccountSubplebbits();
   const toast = useToast();
   const mySubplebbits = [
-    Object.keys(accountSubplebbits)?.map((pages) => ({
-      value: pages,
-      label: truncateString(
-        accountSubplebbits[pages]?.title || accountSubplebbits[pages]?.address,
-        15,
-        '...'
-      ),
-    }))[0],
+    accountSubplebbits === {}
+      ? Object.keys(accountSubplebbits)?.map((pages) => ({
+          value: pages,
+          label: truncateString(
+            accountSubplebbits[pages]?.title || accountSubplebbits[pages]?.address,
+            15,
+            '...'
+          ),
+        }))[0]
+      : [],
   ];
   const history = useHistory();
 
@@ -100,8 +103,6 @@ const CreatePost = () => {
       onChallengeVerification,
     });
   };
-
-  console.log([...mySubplebbits, ...subPlebbitData]);
 
   return (
     <Flex maxWidth="100%" justifyContent="center" margin="0 auto !important" height="100vh">

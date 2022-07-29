@@ -37,12 +37,12 @@ import {
   AiOutlineThunderbolt,
 } from 'react-icons/ai';
 import { Link, useHistory } from 'react-router-dom';
-import subPlebbitsData from '../../data/subPlebbits';
 import NDDown from './nDDown';
 import { GiHamburgerMenu, GiTwoCoins } from 'react-icons/gi';
 import { CgEnter, CgNotes, CgProfile } from 'react-icons/cg';
 import { ProfileContext } from '../../../store/profileContext';
 import useVisible from '../../../hooks/useVisible';
+import useSubPlebbitDefaultData from '../../../hooks/useSubPlebbitDefaultData';
 import { VscMail } from 'react-icons/vsc';
 import ImportAccount from './modal/importAccount';
 import CreateSubPlebbit from './modal/CreateSubPlebbit';
@@ -51,6 +51,7 @@ import getUserName from '../../../utils/getUserName';
 import NavItem from './navItem';
 
 const NavBar = () => {
+  const subPlebbitData = useSubPlebbitDefaultData();
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mainColor = useColorModeValue('lightText2', 'darkText1');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -67,8 +68,10 @@ const NavBar = () => {
     accountLists,
     createAccount,
     setActiveAccount,
+    subscriptions,
     version,
     accountSubplebbits,
+    setPostView,
   } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
@@ -140,9 +143,13 @@ const NavBar = () => {
               </Flex>
               <Box>
                 <DropDown2
-                  onChange={(x) => history.push(`/p/${x?.value}`)}
+                  onChange={(x) => setPostView(x.value)}
                   prefix={() => <Icon as={MdHome} h={6} w={8} />}
-                  options={subPlebbitsData}
+                  options={[
+                    { label: 'Home', value: subscriptions },
+                    { label: 'All', value: subPlebbitData?.map((x) => x?.value) },
+                    ...subPlebbitData,
+                  ]}
                   placeholder="Home"
                   sx={{
                     width: '270px',
@@ -1006,33 +1013,37 @@ const NavBar = () => {
                       marginLeft="-4px"
                       paddingLeft="20px"
                     >
-                      {subPlebbitsData?.map((pages, index) => (
-                        <Link key={index} to={`/p/${pages?.value}`}>
+                      {[
+                        { label: 'Home', value: subscriptions },
+                        { label: 'All', value: subPlebbitData?.map((x) => x?.value) },
+                        ...subPlebbitData,
+                      ]?.map((pages, index) => (
+                        <Flex
+                          key={index}
+                          alignItems="center"
+                          flexFlow="row nowrap"
+                          cursor="pointer"
+                          onClick={() => {
+                            setShowDropDown(!showDropDown);
+                            setShowComponent(!showDropDown);
+                            setPostView(pages.value);
+                          }}
+                        >
                           <Flex
                             alignItems="center"
-                            flexFlow="row nowrap"
-                            cursor="pointer"
-                            onClick={() => {
-                              setShowDropDown(!showDropDown);
-                              setShowComponent(!showDropDown);
-                            }}
+                            flex="0 0 24px"
+                            height="24px"
+                            justifyContent="center"
+                            mr="8px"
+                            position="8px"
+                            width="24px"
                           >
-                            <Flex
-                              alignItems="center"
-                              flex="0 0 24px"
-                              height="24px"
-                              justifyContent="center"
-                              mr="8px"
-                              position="8px"
-                              width="24px"
-                            >
-                              {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */}
-                            </Flex>
-                            <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                              {pages.label}
-                            </Box>
+                            {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */}
                           </Flex>
-                        </Link>
+                          <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
+                            {pages.label}
+                          </Box>
+                        </Flex>
                       ))}
                     </Flex>
                   }
