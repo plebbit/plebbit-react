@@ -45,6 +45,7 @@ window.DefaultPlebbitOptions = {
 // TODO: create context isolated plebbit-js functions to use
 // without contextIsolation: true for improved security
 
+// try/catch localStorage.debug because was causing unknown error sometimes
 try {
   localStorage.debug = 'plebbit-js:*,plebbit-react-hooks:*';
 } catch (e) {
