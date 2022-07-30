@@ -76,7 +76,7 @@ const createMainWindow = () => {
   });
 
   // tray
-  const trayIconPath = path.join(__dirname, '..', 'build', 'logo512.png');
+  const trayIconPath = path.join(__dirname, '..', 'build', 'electron-tray-icon.png');
   const tray = new Tray(trayIconPath);
   tray.setToolTip('plebbit');
   const trayMenu = Menu.buildFromTemplate([
