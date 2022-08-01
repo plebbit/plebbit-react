@@ -11,7 +11,9 @@
     "@chakra-ui/react": "1.7.4",
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",
-    "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#7561b579560e03f2846f78c7634138c312f33ffe",
+
+    "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#db3d922039eebba41b319f3fcd45bc6f1fac28b4",
+
     "@sweetalert/with-react": "0.1.1",
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/react": "12.1.2",

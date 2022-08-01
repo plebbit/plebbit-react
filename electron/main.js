@@ -76,7 +76,7 @@ const createMainWindow = () => {
   });
 
   // tray
-  const trayIconPath = path.join(__dirname, '..', 'build', 'electron-tray-icon.png');
+  const trayIconPath = path.join(__dirname, '..', isDev ? 'public' : 'build', 'electron-tray-icon.png');
   const tray = new Tray(trayIconPath);
   tray.setToolTip('plebbit');
   const trayMenu = Menu.buildFromTemplate([
@@ -115,6 +115,10 @@ const createMainWindow = () => {
       }
     });
   }
+
+  // hide useless electron help menu
+  const menuWithoutHelp = Menu.getApplicationMenu()?.items.filter((item) => item.role !== 'help')
+  Menu.setApplicationMenu(Menu.buildFromTemplate(menuWithoutHelp))
 };
 
 app.whenReady().then(() => {
