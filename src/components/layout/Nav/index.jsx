@@ -46,7 +46,6 @@ import useSubPlebbitDefaultData from '../../../hooks/useSubPlebbitDefaultData';
 import { VscMail } from 'react-icons/vsc';
 import ImportAccount from './modal/importAccount';
 import CreateSubPlebbit from './modal/CreateSubPlebbit';
-import truncateString from '../../../utils/truncateString';
 import getUserName from '../../../utils/getUserName';
 import NavItem from './navItem';
 
@@ -146,9 +145,12 @@ const NavBar = () => {
                   onChange={(x) => setPostView(x.value)}
                   prefix={() => <Icon as={MdHome} h={6} w={8} />}
                   options={[
-                    { label: 'Home', value: subscriptions },
-                    { label: 'All', value: subPlebbitData?.map((x) => x?.value) },
+                    { label: 'Home', value: subscriptions?.map((x) => x?.address) },
+                    { label: 'p/All', value: subPlebbitData?.map((x) => x?.value) },
                     ...subPlebbitData,
+                    subscriptions?.length
+                      ? subscriptions?.map((x) => ({ label: x?.title, value: x?.address }))
+                      : {},
                   ]}
                   placeholder="Home"
                   sx={{
@@ -162,28 +164,24 @@ const NavBar = () => {
                       <Box paddingX="12px" paddingTop="10px" fontSize="10px">
                         Moderating
                       </Box>
-                      {Object.keys(accountSubplebbits)?.map((pages, index) => (
-                        <Link key={index} to={`/p/${pages}/about/`}>
-                          <Box
-                            _hover={{
-                              bg: '#DEEBFF',
-                            }}
-                            padding="8px 12px"
-                            textTransform="capitalize"
-                            fontWeight="400"
-                            fontSize="14px"
-                            borderBottom={`1px solid ${navBorder}`}
-                          >
-                            {truncateString(
-                              accountSubplebbits[index]?.title ||
-                                accountSubplebbits[pages]?.address ||
-                                pages,
-                              20,
-                              '...'
-                            )}
-                          </Box>
-                        </Link>
-                      ))}
+                      {Object.keys(accountSubplebbits)?.length
+                        ? Object.keys(accountSubplebbits)?.map((pages, index) => (
+                            <Link key={index} to={`/p/${pages}/`}>
+                              <Box
+                                _hover={{
+                                  bg: '#DEEBFF',
+                                }}
+                                padding="8px 12px"
+                                textTransform="capitalize"
+                                fontWeight="400"
+                                fontSize="14px"
+                                borderBottom={`1px solid ${navBorder}`}
+                              >
+                                {accountSubplebbits[pages]?.title}
+                              </Box>
+                            </Link>
+                          ))
+                        : ''}
 
                       <Box paddingX="12px" paddingTop="10px" fontSize="10px">
                         Your Communities
@@ -231,7 +229,7 @@ const NavBar = () => {
                   <InputLeftElement>
                     <Icon as={RiSearchLine} color={iconColor} w="20px" h="20px" />
                   </InputLeftElement>
-                  <Input placeholder="Enter amount" />
+                  <Input placeholder="Search plebbit " />
                 </InputGroup>
               </Flex>
             </Flex>
@@ -1017,6 +1015,7 @@ const NavBar = () => {
                         { label: 'Home', value: subscriptions },
                         { label: 'All', value: subPlebbitData?.map((x) => x?.value) },
                         ...subPlebbitData,
+                        ...subscriptions.map((x) => ({ label: x?.title, value: x?.address })),
                       ]?.map((pages, index) => (
                         <Flex
                           key={index}
@@ -1088,7 +1087,7 @@ const NavBar = () => {
                       paddingLeft="20px"
                     >
                       {Object.keys(accountSubplebbits)?.map((pages, index) => (
-                        <Link key={index} to={`/p/${pages}/about/`}>
+                        <Link key={index} to={`/p/${pages}/`}>
                           {' '}
                           <Flex
                             alignItems="center"
@@ -1111,12 +1110,7 @@ const NavBar = () => {
                               {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */}
                             </Flex>
                             <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                              {truncateString(
-                                accountSubplebbits[pages]?.title ||
-                                  accountSubplebbits[pages]?.address,
-                                20,
-                                '...'
-                              )}
+                              {accountSubplebbits[pages]?.title}
                             </Box>
                           </Flex>
                         </Link>

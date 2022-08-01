@@ -86,7 +86,7 @@ const Home = () => {
               hasMore={hasMore}
               loadMore={loadMore}
               content={(feed) => <Post post={feed} key={feed?.cid} mode={postStyle} />}
-              feeds={feeds}
+              feeds={feeds || []}
               loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
             />
           </Box>

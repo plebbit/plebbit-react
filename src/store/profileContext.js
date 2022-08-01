@@ -3,6 +3,7 @@ import {
   useAccounts,
   useAccountsActions,
   useAccountSubplebbits,
+  useSubplebbits,
 } from '@plebbit/plebbit-react-hooks';
 import React, { createContext, useState, useEffect } from 'react';
 import useSubPlebbitDefaultData from '../hooks/useSubPlebbitDefaultData';
@@ -22,10 +23,14 @@ export const ProfileDataProvider = (props) => {
   const defaultAccount = useAccount();
   const accountLists = useAccounts();
   const accountSubplebbits = useAccountSubplebbits();
+  const subscriptions = useSubplebbits(defaultAccount?.subscriptions);
   const subPlebbitDefData = useSubPlebbitDefaultData();
   const { version } = require('../../package.json');
-  const subscriptions = defaultAccount ? defaultAccount?.subscriptions : [];
-  const [postView, setPostView] = useState([]);
+  const [postView, setPostView] = useState(
+    subscriptions?.length
+      ? subscriptions?.map((x) => x?.address)
+      : subPlebbitDefData?.map((x) => x?.value)
+  );
 
   const profile = defaultAccount;
 
@@ -38,12 +43,6 @@ export const ProfileDataProvider = (props) => {
       setDevice('mobile');
     }
   };
-
-  useEffect(() => {
-    subscriptions
-      ? setPostView(subscriptions)
-      : setPostView(subPlebbitDefData?.map((x) => x?.value));
-  }, [subscriptions]);
 
   useEffect(() => {
     handleResize();

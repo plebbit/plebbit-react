@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { BsFillShieldFill } from 'react-icons/bs';
 import LeaveMod from './modal/leaveMod';
 import { useSubplebbit } from '@plebbit/plebbit-react-hooks';
@@ -17,10 +17,9 @@ import Moderators from './subPlebbitModerators';
 import AboutsideBar from './sideBar';
 import { ProfileContext } from '../../store/profileContext';
 import { HamburgerIcon } from '@chakra-ui/icons';
-import { useEffect } from 'react';
 
 const About = ({ match }) => {
-  const { device, profile } = useContext(ProfileContext);
+  const { device, accountSubplebbits } = useContext(ProfileContext);
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -32,15 +31,7 @@ const About = ({ match }) => {
   const { isOpen: leaveModShow, onOpen: openLeaveMod, onClose: closeLeaveMod } = useDisclosure();
   const { isOpen: roleModShow, onOpen: openRoleMod, onClose: closeRoleMod } = useDisclosure();
   const [showSidebar, setShowSideBar] = useState(false);
-  const history = useHistory();
-
-  console.log(subPlebbit?.roles['david.eth']);
-
-  useEffect(() => {
-    if (subPlebbit?.roles[profile?.author?.id]?.role !== ('admin' || 'owner' || 'moderator')) {
-      history.push(`/`);
-    }
-  }, []);
+  const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
 
   return (
     <>
@@ -86,7 +77,7 @@ const About = ({ match }) => {
           </Flex>
           <Flex margin="40px 0">
             {/* sideBar */}
-            <AboutsideBar page={page} />
+            <AboutsideBar page={page} role={role} />
             {/*Body */}
             <Box paddingLeft="280px" boxSizing="border-box" width="100%">
               {page === '' && (
@@ -108,13 +99,14 @@ const About = ({ match }) => {
                   subPlebbit={subPlebbit}
                   openLeaveMod={openLeaveMod}
                   openRoleMod={openRoleMod}
+                  role={role}
                 />
               )}
             </Box>
           </Flex>
 
-          {leaveModShow && <LeaveMod isOpen={leaveModShow} onClose={closeLeaveMod} />}
-          {roleModShow && <ModRole isOpen={roleModShow} onClose={closeRoleMod} />}
+          {leaveModShow && <LeaveMod role={role} isOpen={leaveModShow} onClose={closeLeaveMod} />}
+          {roleModShow && <ModRole role={role} isOpen={roleModShow} onClose={closeRoleMod} />}
         </Flex>
       ) : (
         <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
@@ -166,7 +158,7 @@ const About = ({ match }) => {
             {/* sideBar */}
             {showSidebar && (
               <Box zIndex={28}>
-                <AboutsideBar page={page} />
+                <AboutsideBar page={page} role={role} />
               </Box>
             )}
             {/*Body */}
@@ -190,6 +182,7 @@ const About = ({ match }) => {
                   subPlebbit={subPlebbit}
                   openLeaveMod={openLeaveMod}
                   openRoleMod={openRoleMod}
+                  role={role}
                 />
               )}
             </Box>

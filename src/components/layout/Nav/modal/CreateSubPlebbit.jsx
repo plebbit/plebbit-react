@@ -34,6 +34,7 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
     setLoading(true);
     try {
       const subplebbit = await createSubplebbit(value);
+      console.log(subplebbit);
       setLoading(false);
       onClose();
       history.push(`/p/${subplebbit?.address}`, []);
@@ -45,6 +46,7 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
         duration: 5000,
         isClosable: true,
       });
+      setLoading(false);
     }
   };
 
