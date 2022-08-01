@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Flex,
   Box,
@@ -9,7 +9,7 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { useAccountsActions, useAccountSubplebbits } from '@plebbit/plebbit-react-hooks';
+import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import { LinkIcon } from '@chakra-ui/icons';
 import { EditorState } from 'draft-js';
 import { useHistory } from 'react-router-dom';
@@ -22,8 +22,10 @@ import DropDown2 from '../../DropDown/DropDown2';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 import truncateString from '../../../utils/truncateString';
 import useSubPlebbitDefaultData from '../../../hooks/useSubPlebbitDefaultData';
+import { ProfileContext } from '../../../store/profileContext';
 
 const CreatePost = () => {
+  const { accountSubplebbits } = useContext(ProfileContext);
   const subPlebbitData = useSubPlebbitDefaultData();
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const borderColor = useColorModeValue('borderLight', 'borderDark');
@@ -33,10 +35,9 @@ const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [address, setAddress] = useState(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const accountSubplebbits = useAccountSubplebbits();
   const toast = useToast();
   const mySubplebbits = [
-    accountSubplebbits === {}
+    Object.keys(accountSubplebbits)?.length
       ? Object.keys(accountSubplebbits)?.map((pages) => ({
           value: pages,
           label: truncateString(
@@ -44,10 +45,11 @@ const CreatePost = () => {
             15,
             '...'
           ),
-        }))[0]
+        }))
       : [],
   ];
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
   const { publishComment } = useAccountsActions();
 
@@ -62,6 +64,7 @@ const CreatePost = () => {
       duration: 5000,
       isClosable: true,
     });
+    setLoading(false);
     setAddress(null);
     setTitle('');
     setContent('');
@@ -94,8 +97,9 @@ const CreatePost = () => {
     }
   };
 
-  const handlePublishPost = () => {
-    publishComment({
+  const handlePublishPost = async () => {
+    setLoading(true);
+    await publishComment({
       content,
       title,
       subplebbitAddress: address?.value,
@@ -103,6 +107,8 @@ const CreatePost = () => {
       onChallengeVerification,
     });
   };
+
+  console.log(accountSubplebbits);
 
   return (
     <Flex maxWidth="100%" justifyContent="center" margin="0 auto !important" height="100vh">
@@ -474,9 +480,10 @@ const CreatePost = () => {
                         tabIndex: '0',
                         filter: 'grayscale(1)',
                       }}
-                      disabled={!content || !title || !address}
+                      disabled={!content || !title || !address || loading}
                       content="Post"
                       onClick={handlePublishPost}
+                      loading={loading}
                     />
                   </Flex>
                   <Flex>

@@ -52,8 +52,8 @@ const CommunitySettings = ({ match }) => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const { publishSubplebbitEdit } = useAccountsActions();
-  const resolvedAuthorAddress = useResolvedAuthorAddress(subplebbit.address);
-  const { device, profile } = useContext(ProfileContext);
+  const resolvedAuthorAddress = useResolvedAuthorAddress(subplebbit?.address);
+  const { device, accountSubplebbits } = useContext(ProfileContext);
   const [showSidebar, setShowSideBar] = useState(false);
 
   const onChallengeVerification = (challengeVerification, subplebbitEdit) => {
@@ -107,15 +107,13 @@ const CommunitySettings = ({ match }) => {
     });
   };
 
+  const role = accountSubplebbits[subplebbit?.address]?.role?.role;
+
+  console.log(role);
+
   useEffect(() => {
     setData({ ...subplebbit });
   }, [subplebbit]);
-
-  useEffect(() => {
-    if (subplebbit?.roles[profile?.author?.id]?.role !== ('admin' || 'owner' || 'moderator')) {
-      history.push(`/`);
-    }
-  }, []);
 
   return (
     <>
@@ -284,6 +282,7 @@ const CommunitySettings = ({ match }) => {
                   height="32px"
                   onClick={handleSaveChanges}
                   isLoading={loading}
+                  disabled={role !== ('owner' || 'moderator')}
                 >
                   Save changes
                 </Button>
@@ -391,10 +390,10 @@ const CommunitySettings = ({ match }) => {
                             mb="8px"
                             borderRadius="4px"
                             padding="12px 24px 4px 12px"
-                            disabled={loading}
+                            disabled={loading || role !== ('owner' || 'moderator')}
                             onChange={(e) => setData({ ...data, address: e.target.value })}
                           />
-                          {data?.address.endsWith('.eth') && (
+                          {data?.address?.endsWith('.eth') && (
                             <InputRightAddon
                               border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
                               borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
@@ -528,7 +527,7 @@ const CommunitySettings = ({ match }) => {
                           borderRadius="4px"
                           padding="8px"
                           resize="both"
-                          disabled={loading}
+                          disabled={loading || role !== ('owner' || 'moderator')}
                           onChange={(e) => setData({ ...data, description: e.target.value })}
                         />
                         <Box
@@ -841,6 +840,7 @@ const CommunitySettings = ({ match }) => {
                   height="24px"
                   onClick={handleSaveChanges}
                   isLoading={loading}
+                  disabled={loading || role !== ('owner' || 'moderator')}
                   mt="6px"
                 >
                   Save changes
@@ -905,7 +905,7 @@ const CommunitySettings = ({ match }) => {
                           mb="8px"
                           borderRadius="4px"
                           padding="12px 24px 4px 12px"
-                          disabled={loading}
+                          disabled={loading || role !== ('owner' || 'moderator')}
                           onChange={(e) => setData({ ...data, title: e.target.value })}
                         />
                         <Box
@@ -949,7 +949,7 @@ const CommunitySettings = ({ match }) => {
                             mb="8px"
                             borderRadius="4px"
                             padding="12px 24px 4px 12px"
-                            disabled={loading}
+                            disabled={loading || role !== ('owner' || 'moderator')}
                             onChange={(e) => setData({ ...data, address: e.target.value })}
                           />
                           {data?.address.endsWith('.eth') && (
@@ -1086,7 +1086,7 @@ const CommunitySettings = ({ match }) => {
                           borderRadius="4px"
                           padding="8px"
                           resize="both"
-                          disabled={loading}
+                          disabled={loading || role !== ('owner' || 'moderator')}
                           onChange={(e) => setData({ ...data, description: e.target.value })}
                         />
                         <Box

@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Icon, Image, Input, useColorModeValue } from '@chakra-ui/react';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import { HiPencil } from 'react-icons/hi';
@@ -8,18 +8,12 @@ import PlebbitLogo from '../../assets/images/plebbit-logo.png';
 import { ProfileContext } from '../../store/profileContext';
 import truncateString from '../../utils/truncateString';
 
-const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod }) => {
+const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const border1 = useColorModeValue('#edeff1', '#343536');
-  const { device, profile } = useContext(ProfileContext);
-
-  useEffect(() => {
-    if (subPlebbit?.roles[profile?.author?.id]?.role !== ('admin' || 'owner' || 'moderator')) {
-      history.push(`/`);
-    }
-  }, []);
+  const { device } = useContext(ProfileContext);
 
   return (
     <Box>
@@ -52,6 +46,7 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod }) => {
           height={device !== 'mobile' ? '32px' : '24px'}
           onClick={openLeaveMod}
           mt={device === 'mobile' && '6px'}
+          disabled={role !== ('owner' || 'moderators')}
         >
           Leave as mod
         </Button>
@@ -71,6 +66,7 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod }) => {
           height={device !== 'mobile' ? '32px' : '24px'}
           onClick={openRoleMod}
           mt={device === 'mobile' && '6px'}
+          disabled={role !== ('owner' || 'moderators')}
         >
           Invite user as mod
         </Button>

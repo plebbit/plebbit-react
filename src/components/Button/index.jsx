@@ -31,7 +31,7 @@ const Button = ({ children, ...props }) => {
   return (
     <Btn
       onClick={onClick}
-      loading={loading}
+      isLoading={loading}
       _hover={
         _hover || {
           opacity: '0.8',

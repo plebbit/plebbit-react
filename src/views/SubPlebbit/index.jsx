@@ -14,7 +14,8 @@ import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser
 import truncateString from '../../utils/truncateString';
 
 const SubPlebbit = ({ match }) => {
-  const { postStyle, feedSort, profile, subscriptions, device } = useContext(ProfileContext);
+  const { postStyle, feedSort, profile, subscriptions, device, accountSubplebbits } =
+    useContext(ProfileContext);
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const pseuBg = useColorModeValue('#DAE0E6', '#030303');
   const border1 = useColorModeValue('#efefed', '#353535');
@@ -32,6 +33,7 @@ const SubPlebbit = ({ match }) => {
   const [subLoading, setSubLoading] = useState(false);
   const { publishSubplebbitEdit, subscribe, unsubscribe } = useAccountsActions();
   const history = useHistory();
+  const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
 
   useEffect(() => {
     setData({ ...subPlebbit });
@@ -105,6 +107,8 @@ const SubPlebbit = ({ match }) => {
       onChallengeVerification,
     });
   };
+
+  console.log(role);
 
   return (
     <>
@@ -302,6 +306,7 @@ const SubPlebbit = ({ match }) => {
                 data={data}
                 setData={setData}
                 subPlebbit={subPlebbit}
+                role={role}
               />
             </Flex>
           </Box>

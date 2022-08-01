@@ -2863,6 +2863,7 @@
     uuid "8.3.2"
 
 "@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#0ae8e1ab538b71d54175a758551c5d4797acfeba":
+
   version "0.0.1"
   resolved "https://github.com/plebbit/plebbit-react-hooks.git#0ae8e1ab538b71d54175a758551c5d4797acfeba"
   dependencies:
@@ -2878,6 +2879,19 @@
 "@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#db3d922039eebba41b319f3fcd45bc6f1fac28b4":
   version "0.0.1"
   resolved "https://github.com/plebbit/plebbit-react-hooks.git#db3d922039eebba41b319f3fcd45bc6f1fac28b4"
+  dependencies:
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#f6ccda9b4e15adef4cda394e75cd9b84e7e7cb13"
+    "@types/debug" "4.1.7"
+    "@types/uuid" "8.3.4"
+    assert "2.0.0"
+    debug "4.3.3"
+    ethers "5.6.9"
+    localforage "1.10.0"
+    uuid "8.3.2"
+
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#7561b579560e03f2846f78c7634138c312f33ffe":
+  version "0.0.1"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#7561b579560e03f2846f78c7634138c312f33ffe"
   dependencies:
     "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#f6ccda9b4e15adef4cda394e75cd9b84e7e7cb13"
     "@types/debug" "4.1.7"
@@ -3533,9 +3547,9 @@
     form-data "^3.0.0"
 
 "@types/node@*", "@types/node@>=13.7.0":
-  version "18.6.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.6.2.tgz#ffc5f0f099d27887c8d9067b54e55090fcd54126"
-  integrity sha512-KcfkBq9H4PI6Vpu5B/KoPeuVDAbmi+2mDBqGPGUgoL7yXQtcWGu2vJWmmRkneWK3Rh0nIAX192Aa87AqKHYChQ==
+  version "18.6.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.6.3.tgz#4e4a95b6fe44014563ceb514b2598b3e623d1c98"
+  integrity sha512-6qKpDtoaYLM+5+AFChLhHermMQxc3TOEFIDzrZLPRGHPrLEwqFkkT5Kx3ju05g6X7uDPazz3jHbKPX0KzCjntg==
 
 "@types/node@^16.11.26":
   version "16.11.36"
@@ -14226,10 +14240,21 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
-sqlite3@5.0.10, sqlite3@^5.0.9:
+sqlite3@5.0.10:
   version "5.0.10"
   resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-5.0.10.tgz#64e1efb1b5a1ae343d2cc64ce9e582e5f5db24ba"
   integrity sha512-xG4XPp7+b/lIlb/acs4XzBmmahI1Qq3Yhy+jZnZJivwB6DXpoOpGR6QinRbsQkHJIvMZyUsJDXouSva/JXcWFA==
+  dependencies:
+    "@mapbox/node-pre-gyp" "^1.0.0"
+    node-addon-api "^4.2.0"
+    tar "^6.1.11"
+  optionalDependencies:
+    node-gyp "8.x"
+
+sqlite3@^5.0.9:
+  version "5.0.11"
+  resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-5.0.11.tgz#102c835d70be66da9d95a383fd6ea084a082ef7f"
+  integrity sha512-4akFOr7u9lJEeAWLJxmwiV43DJcGV7w3ab7SjQFAFaTVyknY3rZjvXTKIVtWqUoY4xwhjwoHKYs2HDW2SoHVsA==
   dependencies:
     "@mapbox/node-pre-gyp" "^1.0.0"
     node-addon-api "^4.2.0"

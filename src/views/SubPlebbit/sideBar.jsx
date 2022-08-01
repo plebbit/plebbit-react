@@ -49,6 +49,7 @@ const SideBar = ({
   profile,
   loading,
   handleSaveChanges,
+  role,
 }) => {
   const color = useColorModeValue('lightText3', 'darkText1');
   const Bg = useColorModeValue('#F8F9FA', '');
@@ -64,6 +65,8 @@ const SideBar = ({
   const [showAddDescription, hideAddDescription] = useState(false);
   const [showComOptions, hideComOptions] = useState(false);
   const history = useHistory();
+
+  console.log(subPlebbit);
 
   return (
     <Box
@@ -118,22 +121,21 @@ const SideBar = ({
               </Box>
             </Box>
 
-            {subPlebbit?.roles &&
-              Object.keys(subPlebbit?.roles).includes(profile?.author?.address) && (
-                <Box
-                  margin="auto 0 auto auto"
-                  paddingTop="10px"
-                  verticalAlign="middle"
-                  cursor="pointer"
-                >
-                  <Link to={`/p/${subPlebbit?.address}/about/moderators`}>
-                    <Flex borderRadius="2px" padding="4px" alignItems="center" fontWeight="400">
-                      <Icon as={FiShield} width={5} height={5} mr="4px" />
-                      <Box>Mod tools</Box>
-                    </Flex>
-                  </Link>
-                </Box>
-              )}
+            {role === ('owner' || 'moderator') && (
+              <Box
+                margin="auto 0 auto auto"
+                paddingTop="10px"
+                verticalAlign="middle"
+                cursor="pointer"
+              >
+                <Link to={`/p/${subPlebbit?.address}/about/moderators`}>
+                  <Flex borderRadius="2px" padding="4px" alignItems="center" fontWeight="400">
+                    <Icon as={FiShield} width={5} height={5} mr="4px" />
+                    <Box>Mod tools</Box>
+                  </Flex>
+                </Link>
+              </Box>
+            )}
           </Flex>
           <Box maxH="none" padding="12px">
             <Box mb="8px" pos="relative">
