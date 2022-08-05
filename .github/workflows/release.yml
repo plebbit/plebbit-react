@@ -20,7 +20,7 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: 16
-    - run: yarn
+    - run: yarn install --frozen-lockfile
     - run: yarn build
     - run: yarn electron:build:linux
     - run: ls dist
@@ -45,7 +45,7 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: 16
-    - run: yarn
+    - run: yarn install --frozen-lockfile
     - run: yarn build
     - run: yarn electron:build:mac
     - run: ls dist
@@ -70,7 +70,7 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: 16
-    - run: yarn
+    - run: yarn install --frozen-lockfile
     - run: yarn build
     - run: yarn electron:build:windows
     - run: dir dist
@@ -100,7 +100,7 @@ jobs:
     - run: sudo apt install -y apksigner zipalign
 
     # build react app
-    - run: yarn
+    - run: yarn install --frozen-lockfile
     - run: yarn build
     # build apk
     - run: npx cap update
