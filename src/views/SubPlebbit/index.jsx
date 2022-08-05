@@ -108,7 +108,7 @@ const SubPlebbit = ({ match }) => {
     });
   };
 
-  console.log(role);
+  console.log('subplebbit', match?.params?.subplebbitAddress, subPlebbit);
 
   return (
     <>

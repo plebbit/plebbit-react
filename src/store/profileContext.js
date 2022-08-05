@@ -27,9 +27,9 @@ export const ProfileDataProvider = (props) => {
   const subPlebbitDefData = useSubPlebbitDefaultData();
   const { version } = require('../../package.json');
   const [postView, setPostView] = useState(
-    subscriptions?.length
-      ? subscriptions?.map((x) => x?.address)
-      : subPlebbitDefData?.map((x) => x?.value)
+    defaultAccount?.subscriptions === 'undefined'
+      ? subPlebbitDefData?.map((x) => x?.value)
+      : defaultAccount?.subscriptions
   );
 
   const profile = defaultAccount;
@@ -56,6 +56,8 @@ export const ProfileDataProvider = (props) => {
       setShowSplashcreen(false);
     }, 4000);
   }, [reloadUser]);
+
+  console.log(postView);
 
   return (
     <ProfileContext.Provider

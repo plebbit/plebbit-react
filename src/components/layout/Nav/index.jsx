@@ -48,6 +48,7 @@ import ImportAccount from './modal/importAccount';
 import CreateSubPlebbit from './modal/CreateSubPlebbit';
 import getUserName from '../../../utils/getUserName';
 import NavItem from './navItem';
+import truncateString from '../../../utils/truncateString';
 
 const NavBar = () => {
   const subPlebbitData = useSubPlebbitDefaultData();
@@ -149,7 +150,10 @@ const NavBar = () => {
                     { label: 'p/All', value: subPlebbitData?.map((x) => x?.value) },
                     ...subPlebbitData,
                     subscriptions?.length
-                      ? subscriptions?.map((x) => ({ label: x?.title, value: x?.address }))
+                      ? subscriptions?.map((x) => ({
+                          label: x?.title ? x?.title : truncateString(x?.address, 20, '...'),
+                          value: x?.address,
+                        }))
                       : {},
                   ]}
                   placeholder="Home"
@@ -177,7 +181,9 @@ const NavBar = () => {
                                 fontSize="14px"
                                 borderBottom={`1px solid ${navBorder}`}
                               >
-                                {accountSubplebbits[pages]?.title}
+                                {accountSubplebbits[pages]?.title
+                                  ? accountSubplebbits[pages]?.title
+                                  : truncateString(accountSubplebbits[pages]?.title, 20, '...')}
                               </Box>
                             </Link>
                           ))

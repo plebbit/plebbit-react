@@ -34,11 +34,12 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
     setLoading(true);
     try {
       const subplebbit = await createSubplebbit(value);
-      console.log(subplebbit);
+      console.log('create-sub', subplebbit);
       setLoading(false);
       onClose();
       history.push(`/p/${subplebbit?.address}`, []);
     } catch (error) {
+      setLoading(false);
       toast({
         title: 'Create Subplebbit.',
         description: 'Error Creating Subplebbit',
@@ -46,7 +47,6 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
         duration: 5000,
         isClosable: true,
       });
-      setLoading(false);
     }
   };
 
