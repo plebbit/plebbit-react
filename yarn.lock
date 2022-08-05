@@ -2839,9 +2839,9 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#f6ccda9b4e15adef4cda394e75cd9b84e7e7cb13":
+"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#945a0911a39f94074e77c9390223a9e07cd64437":
   version "0.0.3"
-  resolved "https://github.com/plebbit/plebbit-js.git#f6ccda9b4e15adef4cda394e75cd9b84e7e7cb13"
+  resolved "https://github.com/plebbit/plebbit-js.git#945a0911a39f94074e77c9390223a9e07cd64437"
   dependencies:
     "@keyv/sqlite" "3.5.3"
     "@types/node-fetch" "2.6.2"
@@ -2862,12 +2862,11 @@
     tinycache "1.1.2"
     uuid "8.3.2"
 
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#0ae8e1ab538b71d54175a758551c5d4797acfeba":
-
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#640b1e28fab22b1c4b524f8b675b13515707253a":
   version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#0ae8e1ab538b71d54175a758551c5d4797acfeba"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#640b1e28fab22b1c4b524f8b675b13515707253a"
   dependencies:
-    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#f6ccda9b4e15adef4cda394e75cd9b84e7e7cb13"
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#945a0911a39f94074e77c9390223a9e07cd64437"
     "@types/debug" "4.1.7"
     "@types/uuid" "8.3.4"
     assert "2.0.0"
@@ -2875,32 +2874,7 @@
     ethers "5.6.9"
     localforage "1.10.0"
     uuid "8.3.2"
-
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#db3d922039eebba41b319f3fcd45bc6f1fac28b4":
-  version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#db3d922039eebba41b319f3fcd45bc6f1fac28b4"
-  dependencies:
-    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#f6ccda9b4e15adef4cda394e75cd9b84e7e7cb13"
-    "@types/debug" "4.1.7"
-    "@types/uuid" "8.3.4"
-    assert "2.0.0"
-    debug "4.3.3"
-    ethers "5.6.9"
-    localforage "1.10.0"
-    uuid "8.3.2"
-
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#7561b579560e03f2846f78c7634138c312f33ffe":
-  version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#7561b579560e03f2846f78c7634138c312f33ffe"
-  dependencies:
-    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#f6ccda9b4e15adef4cda394e75cd9b84e7e7cb13"
-    "@types/debug" "4.1.7"
-    "@types/uuid" "8.3.4"
-    assert "2.0.0"
-    debug "4.3.3"
-    ethers "5.6.9"
-    localforage "1.10.0"
-    uuid "8.3.2"
+    zustand "4.0.0"
 
 "@pmmmwh/react-refresh-webpack-plugin@^0.5.3":
   version "0.5.7"
@@ -15436,6 +15410,11 @@ use-sidecar@^1.0.1, use-sidecar@^1.0.5:
     detect-node-es "^1.1.0"
     tslib "^2.0.0"
 
+use-sync-external-store@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
+
 user-home@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/user-home/-/user-home-2.0.0.tgz#9c70bfd8169bc1dcbf48604e0f04b8b49cde9e9f"
@@ -16274,6 +16253,13 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zustand@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.0.0.tgz#739cba69209ffe67b31e7d6741c25b51496114a7"
+  integrity sha512-OrsfQTnRXF1LZ9/vR/IqN9ws5EXUhb149xmPjErZnUrkgxS/gAHGy2dPNIVkVvoxrVe1sIydn4JjF0dYHmGeeQ==
+  dependencies:
+    use-sync-external-store "1.2.0"
 
 zwitch@^2.0.0:
   version "2.0.2"
