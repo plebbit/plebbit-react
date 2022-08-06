@@ -7,13 +7,19 @@ const useSubPlebbitDefaultData = () => {
     fetch(
       'https://raw.githubusercontent.com/plebbit/temporary-default-subplebbits/master/subplebbits.json'
     )
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return [];
+        }
+      })
       .then((data) => {
         setValue(data);
       });
 
-  useEffect(() => {
-    subplebbits();
+  useEffect(async () => {
+    await subplebbits();
   }, []);
 
   return value;

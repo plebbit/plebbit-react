@@ -15,7 +15,6 @@ import {
   UnorderedList,
   ListItem,
   InputGroup,
-  InputRightAddon,
   Button,
 } from '@chakra-ui/react';
 import { useAccountsActions, useResolvedAuthorAddress } from '@plebbit/plebbit-react-hooks';
@@ -275,18 +274,6 @@ const Settings = () => {
                     name="address"
                     ref={ref}
                   />
-                  {userProfile?.author?.address.endsWith('.eth') && (
-                    <InputRightAddon
-                      border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                      borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
-                      height="48px"
-                      borderRadius="4px"
-                      padding="12px 24px 4px 12px"
-                      fontWeight="bold"
-                    >
-                      .eth
-                    </InputRightAddon>
-                  )}
                 </InputGroup>
 
                 {resolvedAuthorAddress !== userProfile?.signer?.address ? (
@@ -297,10 +284,7 @@ const Settings = () => {
                     lineHeight="16px"
                     paddingTop="5px"
                   >
-                    {userProfile?.author?.address.endsWith('.eth')
-                      ? userProfile?.author?.address
-                      : `${userProfile?.author?.address}.eth`}{' '}
-                    has not been acquired by you yet !!!
+                    {userProfile?.author?.address} has not been acquired by you yet !!!
                   </Text>
                 ) : (
                   <Text
@@ -318,28 +302,18 @@ const Settings = () => {
                     Go to{' '}
                     <Link
                       color={linkColor}
-                      href={`https://app.ens.domains/name/${
-                        userProfile?.author?.address.endsWith('.eth')
-                          ? userProfile?.author?.address
-                          : `${userProfile?.author?.address}.eth`
-                      }`}
+                      href={`https://app.ens.domains/name/${userProfile?.author?.address}`}
                       isExternal
                     >
                       {' '}
                       https://app.ens.domains/name/
-                      {userProfile?.author?.address.endsWith('.eth')
-                        ? userProfile?.author?.address
-                        : `${userProfile?.author?.address}.eth`}{' '}
+                      {userProfile?.author?.address}{' '}
                     </Link>
                   </ListItem>
                   <ListItem fontSize={12}>Click ADD/EDIT RECORD</ListItem>
                   <ListItem fontSize={12}>
                     Select "text", write in "key": "plebbit-author-address", write in next field:{' '}
-                    <b>
-                      {userProfile?.author?.address.endsWith('.eth')
-                        ? userProfile?.author?.address
-                        : `${userProfile?.author?.address}.eth`}
-                    </b>
+                    <b>{userProfile?.author?.address}</b>
                   </ListItem>
                 </UnorderedList>
               </Flex>

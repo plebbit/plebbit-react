@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -9,11 +9,71 @@ import {
   ModalCloseButton,
   Button,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
+import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
+import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 
-const LeaveMod = ({ onClose, isOpen }) => {
+const LeaveMod = ({ onClose, isOpen, subPlebbit, profile }) => {
   const border1 = useColorModeValue('#edeff1', '#343536');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
+  const { publishSubplebbitEdit } = useAccountsActions();
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+  const data = subPlebbit;
+
+  const onChallengeVerification = (challengeVerification, subplebbitEdit) => {
+    // if the challengeVerification fails, a new challenge request will be sent automatically
+    // to break the loop, the user must decline to send a challenge answer
+    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
+    toast({
+      title: 'Accepted.',
+      description: 'Action accepted',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+    setLoading(false);
+    onClose();
+    console.log('challenge verified', challengeVerification, subplebbitEdit);
+  };
+
+  const onChallenge = async (challenges, subplebbitEdit) => {
+    let challengeAnswers = [];
+    try {
+      // ask the user to complete the challenges in a modal window
+      challengeAnswers = await getChallengeAnswersFromUser(challenges);
+    } catch (error) {
+      // if  he declines, throw error and don't get a challenge answer
+      console.log(error);
+      toast({
+        title: 'Declined.',
+        description: 'Action Declined',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+    if (challengeAnswers) {
+      await subplebbitEdit.publishChallengeAnswers(challengeAnswers);
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    setLoading(true);
+
+    await publishSubplebbitEdit(subPlebbit?.address, {
+      roles: subPlebbit?.roles,
+      onChallenge,
+      onChallengeVerification,
+    });
+  };
+
+  const handleDelete = async () => {
+    setLoading(true);
+    await delete data?.roles[profile?.author?.address];
+    await handleSaveChanges();
+  };
 
   return (
     <Modal onClose={onClose} size="xl" isOpen={isOpen} isCentered>
@@ -42,7 +102,13 @@ const LeaveMod = ({ onClose, isOpen }) => {
           >
             Cancel
           </Button>
-          <Button h="32px" borderRadius="999px" colorScheme="blackAlpha" onClick={() => {}}>
+          <Button
+            isLoading={loading}
+            h="32px"
+            borderRadius="999px"
+            colorScheme="blackAlpha"
+            onClick={handleDelete}
+          >
             Leave
           </Button>
         </ModalFooter>

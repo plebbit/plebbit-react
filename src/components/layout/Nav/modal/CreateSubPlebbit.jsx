@@ -4,7 +4,6 @@ import {
   Flex,
   Input,
   InputGroup,
-  InputLeftElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -24,7 +23,7 @@ import { useHistory } from 'react-router-dom';
 
 const CreateSubPlebbit = ({ isOpen, onClose }) => {
   const navBorder = useColorModeValue('#edeff1', '#343536');
-  const [value, setValue] = useState({ type: 'public' });
+  const [value, setValue] = useState({ title: '', type: 'public' });
   const { createSubplebbit } = useAccountsActions();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
@@ -68,13 +67,11 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
               Title
             </Box>
             <InputGroup mt="12px" mb="8px">
-              <InputLeftElement pointerEvents="none" color="gray.300" fontSize="1.2em">
-                p/
-              </InputLeftElement>
               <Input
                 disabled={loading}
                 value={value?.title}
                 onChange={(e) => setValue({ ...value, title: e.target.value })}
+                placeholder="input subplebbit title"
               />
             </InputGroup>
             <Box fontSize="12px" lineHeight="16px">

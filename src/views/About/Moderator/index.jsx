@@ -42,7 +42,7 @@ const Moderators = ({ match }) => {
         />
         <Link to={`/p/${subPlebbit?.address}`}>
           <Flex alignItems="center" color={linkColor} mr="4px">
-            P/{subPlebbit?.title || subPlebbit?.address} {'  '}
+            {subPlebbit?.title || subPlebbit?.address} {'  '}
             <Box color={mainColor}>/ MODERATORS</Box>
           </Flex>
         </Link>
@@ -56,7 +56,7 @@ const Moderators = ({ match }) => {
           marginBottom="16px"
           alignItems="center"
         >
-          <Box>Moderators of p/{subPlebbit?.title}</Box>
+          <Box>Moderators of {subPlebbit?.title}</Box>
           <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
         </Flex>
         <Flex
