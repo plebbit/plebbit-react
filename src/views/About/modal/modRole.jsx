@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -13,18 +13,73 @@ import {
   Box,
   Checkbox,
   Text,
+  useToast,
 } from '@chakra-ui/react';
+import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
+import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 
-const ModRole = ({ onClose, isOpen }) => {
+const ModRole = ({ onClose, isOpen, subPlebbit }) => {
   const border1 = useColorModeValue('#edeff1', '#343536');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const metaColor = useColorModeValue('metaTextLight', 'metaTextDark');
+  const { publishSubplebbitEdit } = useAccountsActions();
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+  const [data, setData] = useState({ ...subPlebbit });
+
+  const onChallengeVerification = (challengeVerification, subplebbitEdit) => {
+    // if the challengeVerification fails, a new challenge request will be sent automatically
+    // to break the loop, the user must decline to send a challenge answer
+    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
+    toast({
+      title: 'Accepted.',
+      description: 'Action accepted',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+    setLoading(false);
+    console.log('challenge verified', challengeVerification, subplebbitEdit);
+  };
+
+  const onChallenge = async (challenges, subplebbitEdit) => {
+    let challengeAnswers = [];
+    try {
+      // ask the user to complete the challenges in a modal window
+      challengeAnswers = await getChallengeAnswersFromUser(challenges);
+    } catch (error) {
+      // if  he declines, throw error and don't get a challenge answer
+      console.log(error);
+      toast({
+        title: 'Declined.',
+        description: 'Action Declined',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+    if (challengeAnswers) {
+      await subplebbitEdit.publishChallengeAnswers(challengeAnswers);
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    setLoading(true);
+
+    await publishSubplebbitEdit(subPlebbit?.address, {
+      roles: data?.roles,
+      onChallenge,
+      onChallengeVerification,
+    });
+  };
+
+  console.log(subPlebbit);
 
   return (
     <Modal onClose={onClose} size="xl" isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader borderBottom={`1px solid ${border1}`}>Invite Moderators</ModalHeader>
+        <ModalHeader borderBottom={`1px solid ${border1}`}>Add Moderator</ModalHeader>
         <ModalCloseButton />
         <ModalBody
           padding="16px"
@@ -41,13 +96,19 @@ const ModRole = ({ onClose, isOpen }) => {
               border={`1px solid ${border1}`}
               borderColor={border1}
               fontSize="14px"
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  roles: { ...data?.roles, [e.target.value]: { role: 'moderator' } },
+                })
+              }
             />
           </Box>
           <Box fontSize="16px" fontWeight="500" lineHeight="20px" color={mainColor}>
             Give them access to...
           </Box>
           <Box mt="16px">
-            <Checkbox borderColor="gray.300" colorScheme="gray" defaultChecked>
+            <Checkbox disabled borderColor="gray.300" colorScheme="gray" defaultChecked>
               <Text color={mainColor} fontSize="12px" fontWeight="700" lineHeight="16px">
                 Everything
               </Text>
@@ -68,7 +129,7 @@ const ModRole = ({ onClose, isOpen }) => {
             />
           </Box>
           <Box mt="16px">
-            <Checkbox borderColor="gray.300" colorScheme="gray" defaultChecked>
+            <Checkbox disabled borderColor="gray.300" colorScheme="gray" defaultChecked>
               <Text color={mainColor} fontSize="12px" fontWeight="700" lineHeight="16px">
                 Manage Users
               </Text>
@@ -84,7 +145,7 @@ const ModRole = ({ onClose, isOpen }) => {
             </Box>
           </Box>
           <Box mt="16px">
-            <Checkbox borderColor="gray.300" colorScheme="gray" defaultChecked>
+            <Checkbox disabled borderColor="gray.300" colorScheme="gray" defaultChecked>
               <Text color={mainColor} fontSize="12px" fontWeight="700" lineHeight="16px">
                 Manage Settings
               </Text>
@@ -100,7 +161,7 @@ const ModRole = ({ onClose, isOpen }) => {
             </Box>
           </Box>
           <Box mt="16px">
-            <Checkbox borderColor="gray.300" colorScheme="gray" defaultChecked>
+            <Checkbox disabled borderColor="gray.300" colorScheme="gray" defaultChecked>
               <Text color={mainColor} fontSize="12px" fontWeight="700" lineHeight="16px">
                 Manage Mod Mail
               </Text>
@@ -116,7 +177,7 @@ const ModRole = ({ onClose, isOpen }) => {
             </Box>
           </Box>
           <Box mt="16px">
-            <Checkbox borderColor="gray.300" colorScheme="gray" defaultChecked>
+            <Checkbox disabled borderColor="gray.300" colorScheme="gray" defaultChecked>
               <Text color={mainColor} fontSize="12px" fontWeight="700" lineHeight="16px">
                 Manage Flair
               </Text>
@@ -132,7 +193,7 @@ const ModRole = ({ onClose, isOpen }) => {
             </Box>
           </Box>
           <Box mt="16px">
-            <Checkbox borderColor="gray.300" colorScheme="gray" defaultChecked>
+            <Checkbox disabled borderColor="gray.300" colorScheme="gray" defaultChecked>
               <Text color={mainColor} fontSize="12px" fontWeight="700" lineHeight="16px">
                 Manage Posts & Comments
               </Text>
@@ -148,7 +209,7 @@ const ModRole = ({ onClose, isOpen }) => {
             </Box>
           </Box>
           <Box mt="16px">
-            <Checkbox borderColor="gray.300" colorScheme="gray" defaultChecked>
+            <Checkbox disabled borderColor="gray.300" colorScheme="gray" defaultChecked>
               <Text color={mainColor} fontSize="12px" fontWeight="700" lineHeight="16px">
                 Manage Wiki Pages
               </Text>
@@ -179,7 +240,13 @@ const ModRole = ({ onClose, isOpen }) => {
           >
             Cancel
           </Button>
-          <Button h="32px" borderRadius="999px" colorScheme="blackAlpha" onClick={() => {}}>
+          <Button
+            h="32px"
+            borderRadius="999px"
+            colorScheme="blackAlpha"
+            onClick={handleSaveChanges}
+            isLoading={loading}
+          >
             Invite
           </Button>
         </ModalFooter>

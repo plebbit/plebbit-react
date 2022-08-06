@@ -26,11 +26,7 @@ export const ProfileDataProvider = (props) => {
   const subscriptions = useSubplebbits(defaultAccount?.subscriptions);
   const subPlebbitDefData = useSubPlebbitDefaultData();
   const { version } = require('../../package.json');
-  const [postView, setPostView] = useState(
-    defaultAccount?.subscriptions === 'undefined'
-      ? subPlebbitDefData?.map((x) => x?.value)
-      : defaultAccount?.subscriptions
-  );
+  const [postView, setPostView] = useState(subPlebbitDefData?.map((x) => x?.value));
 
   const profile = defaultAccount;
 
@@ -57,7 +53,23 @@ export const ProfileDataProvider = (props) => {
     }, 4000);
   }, [reloadUser]);
 
-  console.log(postView);
+  useEffect(() => {
+    if (subscriptions?.length) {
+      const add = subscriptions?.map((x) => {
+        if (!x?.address) {
+          return '';
+        }
+        return x?.address;
+      });
+      if (Object.keys(accountSubplebbits)) {
+        setPostView([...add, ...Object.keys(accountSubplebbits)]);
+      } else {
+        setPostView(subscriptions?.map((x) => x?.address));
+      }
+    } else {
+      setPostView(subPlebbitDefData?.map((x) => x?.value));
+    }
+  }, [subPlebbitDefData, subscriptions]);
 
   return (
     <ProfileContext.Provider

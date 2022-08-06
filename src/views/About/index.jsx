@@ -19,7 +19,7 @@ import { ProfileContext } from '../../store/profileContext';
 import { HamburgerIcon } from '@chakra-ui/icons';
 
 const About = ({ match }) => {
-  const { device, accountSubplebbits } = useContext(ProfileContext);
+  const { device, accountSubplebbits, profile } = useContext(ProfileContext);
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -61,7 +61,7 @@ const About = ({ match }) => {
             />
             <Link to={`/p/${subPlebbit?.address}`}>
               <Flex alignItems="center" color={linkColor} mr="4px">
-                P/{subPlebbit?.title || subPlebbit?.address} {'  '}
+                {subPlebbit?.title || subPlebbit?.address} {'  '}
                 <Box color={mainColor}>
                   /{' '}
                   {page === 'modqueue'
@@ -91,7 +91,7 @@ const About = ({ match }) => {
                   padding="60px"
                 >
                   <Icon as={BsFillShieldFill} color={iconColor} width="30px" height="30px" />
-                  <Box>Welcome to the mod tools for p/bydino</Box>
+                  <Box>Welcome to the mod tools for bydino</Box>
                 </Flex>
               )}
               {page === 'moderators' && (
@@ -105,8 +105,23 @@ const About = ({ match }) => {
             </Box>
           </Flex>
 
-          {leaveModShow && <LeaveMod role={role} isOpen={leaveModShow} onClose={closeLeaveMod} />}
-          {roleModShow && <ModRole role={role} isOpen={roleModShow} onClose={closeRoleMod} />}
+          {leaveModShow && (
+            <LeaveMod
+              isOpen={leaveModShow}
+              onClose={closeLeaveMod}
+              subPlebbit={subPlebbit}
+              profile={profile}
+              role={role}
+            />
+          )}
+          {roleModShow && (
+            <ModRole
+              role={role}
+              isOpen={roleModShow}
+              onClose={closeRoleMod}
+              subPlebbit={subPlebbit}
+            />
+          )}
         </Flex>
       ) : (
         <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
@@ -140,7 +155,7 @@ const About = ({ match }) => {
             />
             <Link to={`/p/${subPlebbit?.address}`}>
               <Flex alignItems="center" color={linkColor} mr="4px">
-                P/{subPlebbit?.title || subPlebbit?.address} {'  '}
+                {subPlebbit?.title || subPlebbit?.address} {'  '}
                 <Box color={mainColor}>
                   /{' '}
                   {page === 'modqueue'
@@ -174,7 +189,7 @@ const About = ({ match }) => {
                   padding="60px"
                 >
                   <Icon as={BsFillShieldFill} color={iconColor} width="30px" height="30px" />
-                  <Box>Welcome to the mod tools for p/bydino</Box>
+                  <Box>Welcome to the mod tools for bydino</Box>
                 </Flex>
               )}
               {page === 'moderators' && (
@@ -188,8 +203,17 @@ const About = ({ match }) => {
             </Box>
           </Flex>
 
-          {leaveModShow && <LeaveMod isOpen={leaveModShow} onClose={closeLeaveMod} />}
-          {roleModShow && <ModRole isOpen={roleModShow} onClose={closeRoleMod} />}
+          {leaveModShow && (
+            <LeaveMod
+              isOpen={leaveModShow}
+              onClose={closeLeaveMod}
+              subPlebbit={subPlebbit}
+              profile={profile}
+            />
+          )}
+          {roleModShow && (
+            <ModRole isOpen={roleModShow} onClose={closeRoleMod} subPlebbit={subPlebbit} />
+          )}
         </Flex>
       )}
     </>

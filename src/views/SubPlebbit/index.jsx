@@ -77,18 +77,49 @@ const SubPlebbit = ({ match }) => {
 
   const handleSubscribe = async () => {
     setSubLoading(true);
-    await subscribe(subPlebbit?.address);
-    toast({
-      title: 'Subscribed.',
-      description: 'Joined successfully',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
+    try {
+      await subscribe(subPlebbit?.address);
+      toast({
+        title: 'Subscribed.',
+        description: 'Joined successfully',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      setSubLoading(false);
+    } catch (error) {
+      toast({
+        title: 'Subscribed.',
+        description: error,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      setSubLoading(false);
+    }
   };
   const handleUnSubscribe = async () => {
     setSubLoading(true);
-    await unsubscribe(subPlebbit?.address);
+    try {
+      await unsubscribe(subPlebbit?.address);
+      toast({
+        title: 'Unsubscribed.',
+        description: 'Unsubscribed successfully',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      setSubLoading(false);
+    } catch (error) {
+      toast({
+        title: 'Unsubscribed.',
+        description: error,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      setSubLoading(false);
+    }
 
     toast({
       title: 'Unsubscribed.',
@@ -97,6 +128,7 @@ const SubPlebbit = ({ match }) => {
       duration: 3000,
       isClosable: true,
     });
+    setSubLoading(false);
   };
 
   const handleSaveChanges = async () => {
@@ -108,7 +140,7 @@ const SubPlebbit = ({ match }) => {
     });
   };
 
-  console.log('subplebbit', match?.params?.subplebbitAddress, subPlebbit);
+  console.log('subplebbit', role);
 
   return (
     <>
@@ -200,13 +232,18 @@ const SubPlebbit = ({ match }) => {
                       <Box width="96px">
                         <Button
                           bg="transparent"
-                          content={subscriptions?.includes(subPlebbit?.address) ? 'Joined' : 'Join'}
+                          content={
+                            role === ('owner' || 'admin' || 'moderator') ||
+                            subscriptions?.map((x) => x?.address)?.includes(subPlebbit?.address)
+                              ? 'Joined'
+                              : 'Join'
+                          }
                           padding="4px 16px"
                           minW="32px"
                           minH="32px"
                           loading={subLoading}
                           onClick={
-                            subscriptions?.includes(subPlebbit?.address)
+                            subscriptions?.map((x) => x?.address)?.includes(subPlebbit?.address)
                               ? handleUnSubscribe
                               : handleSubscribe
                           }
@@ -365,13 +402,17 @@ const SubPlebbit = ({ match }) => {
                 <Flex justifyContent="center" mt="8px" mb="10px">
                   <Button
                     bg="transparent"
-                    content={subscriptions?.includes(subPlebbit?.address) ? 'Joined' : 'Join'}
+                    content={
+                      subscriptions?.map((x) => x?.address)?.includes(subPlebbit?.address)
+                        ? 'Joined'
+                        : 'Join'
+                    }
                     padding="4px 32px"
                     minW="32px"
                     minH="32px"
                     loading={subLoading}
                     onClick={
-                      subscriptions?.includes(subPlebbit?.address)
+                      subscriptions?.map((x) => x?.address)?.includes(subPlebbit?.address)
                         ? handleUnSubscribe
                         : handleSubscribe
                     }

@@ -190,6 +190,8 @@ function PostDetail() {
     }
   };
 
+  console.log('sss', detail);
+
   return (
     <Box maxWidth="100%">
       {device !== 'mobile' ? (

@@ -57,7 +57,9 @@ const Home = () => {
               <InfiniteScroll
                 hasMore={hasMore}
                 loadMore={loadMore}
-                content={(feed) => <Post post={feed} key={feed?.cid} mode={postStyle} />}
+                content={(feed, index) => (
+                  <Post post={feed} key={`${feed?.cid}${index}`} mode={postStyle} />
+                )}
                 feeds={feeds}
                 loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
               />

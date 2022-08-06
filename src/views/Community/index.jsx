@@ -16,8 +16,6 @@ import {
   useColorModeValue,
   useToast,
   Link as Lk,
-  InputRightAddon,
-  useColorMode,
   InputGroup,
   IconButton,
 } from '@chakra-ui/react';
@@ -35,8 +33,6 @@ import { ProfileContext } from '../../store/profileContext';
 import { HamburgerIcon } from '@chakra-ui/icons';
 
 const CommunitySettings = ({ match }) => {
-  const { colorMode } = useColorMode();
-
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -94,14 +90,11 @@ const CommunitySettings = ({ match }) => {
 
   const handleSaveChanges = async () => {
     setLoading(true);
-    const postData = {
-      ...data,
+    await publishSubplebbitEdit(subplebbit?.address, {
+      title: data?.title,
+      description: data?.description,
       address:
         resolvedAuthorAddress === data?.signer?.address ? data?.address : subplebbit?.address,
-    };
-
-    await publishSubplebbitEdit(subplebbit?.address, {
-      postData,
       onChallenge,
       onChallengeVerification,
     });
@@ -143,7 +136,7 @@ const CommunitySettings = ({ match }) => {
             />
             <Link to={`/p/${data?.address}`}>
               <Flex alignItems="center" color={linkColor} mr="4px">
-                P/{subplebbit?.title || subplebbit?.address} {'  '}
+                {subplebbit?.title || subplebbit?.address} {'  '}
                 <Box color={mainColor} textTransform="uppercase">
                   / community settings
                 </Box>
@@ -393,18 +386,6 @@ const CommunitySettings = ({ match }) => {
                             disabled={loading || role !== ('owner' || 'moderator')}
                             onChange={(e) => setData({ ...data, address: e.target.value })}
                           />
-                          {data?.address?.endsWith('.eth') && (
-                            <InputRightAddon
-                              border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                              borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
-                              height="48px"
-                              borderRadius="4px"
-                              padding="12px 24px 4px 12px"
-                              fontWeight="bold"
-                            >
-                              .eth
-                            </InputRightAddon>
-                          )}
                         </InputGroup>
                         {resolvedAuthorAddress !== data?.signer?.address ? (
                           <Box
@@ -415,9 +396,7 @@ const CommunitySettings = ({ match }) => {
                             lineHeight="16px"
                           >
                             94
-                            {data?.address.endsWith('.eth')
-                              ? data?.address
-                              : `${data?.address}.eth`}{' '}
+                            {data?.address}
                             has not been acquired by you yet !!!
                           </Box>
                         ) : (
@@ -436,11 +415,11 @@ const CommunitySettings = ({ match }) => {
                             Go to{' '}
                             <Lk
                               color={linkColor}
-                              href={`https://app.ens.domains/name/${data?.address}.eth`}
+                              href={`https://app.ens.domains/name/${data?.address}`}
                               isExternal
                             >
                               {' '}
-                              https://app.ens.domains/name/{data?.address}.eth{' '}
+                              https://app.ens.domains/name/{data?.address}
                             </Lk>
                           </ListItem>
                           <ListItem fontSize={12}>Click ADD/EDIT RECORD</ListItem>
@@ -699,7 +678,7 @@ const CommunitySettings = ({ match }) => {
             />
             <Link to={`/p/${data?.address}`}>
               <Flex alignItems="center" color={linkColor} mr="4px">
-                P/{subplebbit?.title || subplebbit?.address} {'  '}
+                {subplebbit?.title || subplebbit?.address} {'  '}
                 <Box color={mainColor} textTransform="uppercase">
                   / community settings
                 </Box>
@@ -952,18 +931,6 @@ const CommunitySettings = ({ match }) => {
                             disabled={loading || role !== ('owner' || 'moderator')}
                             onChange={(e) => setData({ ...data, address: e.target.value })}
                           />
-                          {data?.address.endsWith('.eth') && (
-                            <InputRightAddon
-                              border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                              borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
-                              height="48px"
-                              borderRadius="4px"
-                              padding="12px 24px 4px 12px"
-                              fontWeight="bold"
-                            >
-                              .eth
-                            </InputRightAddon>
-                          )}
                         </InputGroup>
                         {resolvedAuthorAddress !== data?.signer.address ? (
                           <Box
@@ -974,10 +941,7 @@ const CommunitySettings = ({ match }) => {
                             lineHeight="16px"
                           >
                             94
-                            {data?.address.endsWith('.eth')
-                              ? data?.address
-                              : `${data?.address}.eth`}{' '}
-                            has not been acquired by you yet !!!
+                            {data?.address} has not been acquired by you yet !!!
                           </Box>
                         ) : (
                           <Box
@@ -995,11 +959,11 @@ const CommunitySettings = ({ match }) => {
                             Go to{' '}
                             <Lk
                               color={linkColor}
-                              href={`https://app.ens.domains/name/${data?.address}.eth`}
+                              href={`https://app.ens.domains/name/${data?.address}`}
                               isExternal
                             >
                               {' '}
-                              https://app.ens.domains/name/{data?.address}.eth{' '}
+                              https://app.ens.domains/name/{data?.address}{' '}
                             </Lk>
                           </ListItem>
                           <ListItem fontSize={12}>Click ADD/EDIT RECORD</ListItem>

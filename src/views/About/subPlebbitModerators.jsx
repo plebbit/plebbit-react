@@ -47,6 +47,7 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
           onClick={openLeaveMod}
           mt={device === 'mobile' && '6px'}
           disabled={role !== ('owner' || 'moderators')}
+          color={mainColor}
         >
           Leave as mod
         </Button>
@@ -67,8 +68,9 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
           onClick={openRoleMod}
           mt={device === 'mobile' && '6px'}
           disabled={role !== ('owner' || 'moderators')}
+          color={mainColor}
         >
-          Invite user as mod
+          Add user as a mod
         </Button>
       </Flex>
       <Box ml="24px" mr="24px" paddingTop="64px" borderRadius="0 0 4px 4px" overflow="hidden">
@@ -80,7 +82,7 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
           marginBottom="16px"
           alignItems="center"
         >
-          <Box>Moderators of p/{subPlebbit?.title}</Box>
+          <Box>Moderators of {subPlebbit?.title}</Box>
           <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
         </Flex>
         <Flex
@@ -250,7 +252,7 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
                 </Box>
                 <Flex alignItems="center" ml="auto" minW="0">
                   <Box padding="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                    Everything
+                    {subPlebbit?.roles[user]?.role}
                   </Box>
                   <Box cursor="pointer">
                     <Icon as={HiPencil} width="16px" height="16px" />
