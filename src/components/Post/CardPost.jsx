@@ -1058,7 +1058,6 @@ const CardPost = ({
                   <Box padding="0" flex="0 0 auto" whiteSpace="nowrap" />
                   <DropDown
                     onChange={(x) => {
-                      console.log(x);
                       handleOption(x);
                     }}
                     rightOffset="10px"
