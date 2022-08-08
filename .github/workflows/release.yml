@@ -30,7 +30,7 @@ jobs:
       with:
         artifacts: "dist/plebbit*.AppImage,dist/plebbit-html*.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
-        replacesArtifacts: false
+        replacesArtifacts: true
         body: "Progressive web app mirrors:\n- https://demo.plebbit.eth.limo\n- https://demo.plebbit.eth.link\n- https://cloudflare-ipfs.com/ipns/demo.plebbit.eth"
         allowUpdates: true
 
@@ -55,7 +55,7 @@ jobs:
       with:
         artifacts: "dist/plebbit*.dmg"
         token: ${{ secrets.GITHUB_TOKEN }}
-        replacesArtifacts: false
+        replacesArtifacts: true
         body: "Progressive web app mirrors:\n- https://demo.plebbit.eth.limo\n- https://demo.plebbit.eth.link\n- https://cloudflare-ipfs.com/ipns/demo.plebbit.eth"
         allowUpdates: true
 
@@ -80,7 +80,7 @@ jobs:
       with:
         artifacts: "dist/plebbit*.exe"
         token: ${{ secrets.GITHUB_TOKEN }}
-        replacesArtifacts: false
+        replacesArtifacts: true
         body: "Progressive web app mirrors:\n- https://demo.plebbit.eth.limo\n- https://demo.plebbit.eth.link\n- https://cloudflare-ipfs.com/ipns/demo.plebbit.eth"
         allowUpdates: true
 
@@ -121,6 +121,6 @@ jobs:
       with:
         artifacts: "dist/plebbit*.apk"
         token: ${{ secrets.GITHUB_TOKEN }}
-        replacesArtifacts: false
+        replacesArtifacts: true
         body: "Progressive web app mirrors:\n- https://demo.plebbit.eth.limo\n- https://demo.plebbit.eth.link\n- https://cloudflare-ipfs.com/ipns/demo.plebbit.eth"
         allowUpdates: true
