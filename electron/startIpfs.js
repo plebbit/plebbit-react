@@ -64,18 +64,26 @@ const startIpfs = async () => {
   }
   await spawnAsync(ipfsPath, ['config', 'Addresses.API', apiAddress], {env, hideWindows: true});
 
-  const ipfsProcess = spawn(ipfsPath, ['daemon', '--enable-pubsub-experiment', '--enable-namesys-pubsub'], {env, hideWindows: true});
-  console.log(`ipfs daemon process started with pid ${ipfsProcess.pid}`)
-  ipfsProcess.stderr.on('data', (data) => console.error(data.toString()))
-  ipfsProcess.stdin.on('data', (data) => console.log(data.toString()))
-  ipfsProcess.stdout.on('data', (data) => console.log(data.toString()))
-  ipfsProcess.on('error', (data) => console.error(data.toString()))
-  ipfsProcess.on('exit', () => {
-    console.error(`ipfs process with pid ${ipfsProcess.pid} exited`)
-    process.exit(1)
-  })
-  process.on('exit', () => {
-    ps.kill(ipfsProcess.pid + 1)
+  await new Promise((resolve, reject) => {
+    const ipfsProcess = spawn(ipfsPath, ['daemon', '--enable-pubsub-experiment', '--enable-namesys-pubsub'], {env, hideWindows: true});
+    console.log(`ipfs daemon process started with pid ${ipfsProcess.pid}`)
+    let lastError
+    ipfsProcess.stderr.on('data', (data) => {
+      lastError = data.toString()
+      console.error(data.toString())
+    })
+    ipfsProcess.stdin.on('data', (data) => console.log(data.toString()))
+    ipfsProcess.stdout.on('data', (data) => console.log(data.toString()))
+    ipfsProcess.on('error', (data) => console.error(data.toString()))
+    ipfsProcess.on('exit', () => {
+      console.error(`ipfs process with pid ${ipfsProcess.pid} exited`)
+      reject(Error(lastError))
+    })
+    process.on('exit', () => {
+      ps.kill(ipfsProcess.pid)
+      // sometimes ipfs doesnt exit unless we kill pid +1
+      ps.kill(ipfsProcess.pid + 1)
+    })
   })
 }
 
