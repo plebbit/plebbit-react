@@ -113,7 +113,7 @@ jobs:
     # to create keystore: keytool -genkey -v -keystore plebbit.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias release
     - run: cd android/app/build/outputs/apk/release && apksigner sign --ks ../../../../../plebbit.keystore --ks-pass pass:${{ secrets.PLEBBIT_REACT_KEYSTORE_PASSWORD }} --ks-key-alias release --out app-release-signed.apk app-release-unsigned-zip.apk
     # move apk to dist folder
-    - run: mv android/app/build/outputs/apk/release/app-release-signed.apk dist/plebbit-$(node -e "console.log(require('./package.json').version)").apk
+    - run: mkdir -p dist && mv android/app/build/outputs/apk/release/app-release-signed.apk dist/plebbit-$(node -e "console.log(require('./package.json').version)").apk
     - run: ls dist
 
     # publish version release
