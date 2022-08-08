@@ -1071,7 +1071,6 @@ const NavBar = () => {
                           height="24px"
                           justifyContent="center"
                           mr="8px"
-                          position="8px"
                           width="24px"
                         >
                           <Icon as={HiOutlineUserGroup} w={5} h={5} opacity=".5" />
@@ -1092,6 +1091,47 @@ const NavBar = () => {
                       marginLeft="-4px"
                       paddingLeft="20px"
                     >
+                      <Box
+                        width="100%"
+                        height="40px"
+                        color={mainColor}
+                        cursor="pointer"
+                        _hover={{
+                          bg: inputBg,
+                        }}
+                        onClick={() => {
+                          setShowDropDown(!showDropDown);
+                          setShowComponent(!showDropDown);
+                          onOpenCreate();
+                        }}
+                      >
+                        <Flex alignItems="center" height="100%" padding="0 20px">
+                          <Flex
+                            justifyContent="center"
+                            alignItems="center"
+                            flex="0 0"
+                            fontSize="20px"
+                            mr="12px"
+                            minW="20px"
+                            w="20px"
+                          >
+                            <Icon as={RiCreativeCommonsByLine} width={5} height={5} />
+                          </Flex>
+                          <Box
+                            flex="1 1 100%"
+                            fontSize="14px"
+                            fontWeight="500"
+                            lineHeight="18px"
+                            textAlign="left"
+                            width="100%"
+                            textOverflow="ellipsis"
+                            whiteSpace="nowrap"
+                            overflow="hidden"
+                          >
+                            Create Community
+                          </Box>
+                        </Flex>
+                      </Box>
                       {Object.keys(accountSubplebbits)?.map((pages, index) => (
                         <Link key={index} to={`/p/${pages}/`}>
                           {' '}
