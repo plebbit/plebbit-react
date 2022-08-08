@@ -403,6 +403,7 @@ const SubPlebbit = ({ match }) => {
                   <Button
                     bg="transparent"
                     content={
+                      role === ('owner' || 'admin' || 'moderator') ||
                       subscriptions?.map((x) => x?.address)?.includes(subPlebbit?.address)
                         ? 'Joined'
                         : 'Join'
