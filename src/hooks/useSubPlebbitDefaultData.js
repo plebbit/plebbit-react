@@ -5,7 +5,8 @@ const useSubPlebbitDefaultData = () => {
 
   const subplebbits = async () =>
     fetch(
-      'https://raw.githubusercontent.com/plebbit/temporary-default-subplebbits/master/subplebbits.json'
+      'https://raw.githubusercontent.com/plebbit/temporary-default-subplebbits/master/subplebbits.json',
+      { cache: 'no-cache' }
     )
       .then((response) => {
         if (response.ok) {

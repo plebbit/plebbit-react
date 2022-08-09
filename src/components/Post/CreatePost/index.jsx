@@ -23,9 +23,10 @@ import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromU
 import truncateString from '../../../utils/truncateString';
 import useSubPlebbitDefaultData from '../../../hooks/useSubPlebbitDefaultData';
 import { ProfileContext } from '../../../store/profileContext';
+import logger from '../../../utils/logger';
 
 const CreatePost = () => {
-  const { accountSubplebbits } = useContext(ProfileContext);
+  const { accountSubplebbits, subscriptions } = useContext(ProfileContext);
   const subPlebbitData = useSubPlebbitDefaultData();
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const borderColor = useColorModeValue('borderLight', 'borderDark');
@@ -36,18 +37,16 @@ const CreatePost = () => {
   const [address, setAddress] = useState(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const toast = useToast();
-  const mySubplebbits = [
-    Object.keys(accountSubplebbits)?.length
-      ? Object.keys(accountSubplebbits)?.map((pages) => ({
-          value: pages,
-          label: truncateString(
-            accountSubplebbits[pages]?.title || accountSubplebbits[pages]?.address,
-            15,
-            '...'
-          ),
-        }))
-      : [],
-  ];
+  const mySubplebbits = Object.keys(accountSubplebbits)?.length
+    ? Object.keys(accountSubplebbits)?.map((pages) => ({
+        label: truncateString(accountSubplebbits[pages]?.title),
+        value: pages,
+      }))
+    : [];
+  const subs = subscriptions?.length
+    ? subscriptions?.map((x) => ({ value: x?.address, label: x?.title }))
+    : '';
+
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 
@@ -69,8 +68,7 @@ const CreatePost = () => {
     setTitle('');
     setContent('');
     setEditorState(EditorState.createEmpty());
-
-    console.log('challenge verified', challengeVerification, comment);
+    logger('create post challenge verified', { challengeVerification, comment });
   };
   const onChallenge = async (challenges, comment) => {
     let challengeAnswers = [];
@@ -80,35 +78,35 @@ const CreatePost = () => {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      console.log(error);
+      logger('challengeAnswer-error', error);
       toast({
         title: 'Declined.',
-        description: 'Action Declined',
+        description: error,
         status: 'error',
         duration: 5000,
         isClosable: true,
       });
     }
 
-    console.log(challengeAnswers, comment);
+    logger('challengeAndcomment', { challengeAnswers, comment });
     if (challengeAnswers) {
       history.push(`/p/${address?.value}`);
-      await comment.publishChallengeAnswers(challengeAnswers);
+      const res = await comment.publishChallengeAnswers(challengeAnswers);
+      logger('publish_challenge_answer', res);
     }
   };
 
   const handlePublishPost = async () => {
     setLoading(true);
-    await publishComment({
+    const res = await publishComment({
       content,
       title,
       subplebbitAddress: address?.value,
       onChallenge,
       onChallengeVerification,
     });
+    logger('create-post', res);
   };
-
-  console.log(accountSubplebbits);
 
   return (
     <Flex maxWidth="100%" justifyContent="center" margin="0 auto !important" height="100vh">
@@ -157,7 +155,7 @@ const CreatePost = () => {
               zIndex="2"
             >
               <DropDown2
-                options={[...mySubplebbits, ...subPlebbitData]}
+                options={[...mySubplebbits, ...subs, ...subPlebbitData]}
                 onChange={(value) => setAddress(value)}
                 value={address}
               />

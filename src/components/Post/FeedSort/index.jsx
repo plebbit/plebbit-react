@@ -520,7 +520,9 @@ const FeedSort = () => {
           maxWidth="1000px"
           margin="0 auto"
           position="relative"
-          touchAction="manipulation"
+          sx={{
+            touchAction: 'manipulation',
+          }}
         >
           <Flex flex="1" justifyContent="space-between" overflow="hidden" lineHeight="32px">
             <Box flex="1" overflow="hidden">

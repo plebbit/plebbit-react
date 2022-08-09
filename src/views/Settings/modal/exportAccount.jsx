@@ -24,7 +24,6 @@ const ExportAccount = ({ isOpen, onClose }) => {
   useEffect(async () => {
     const exportedAccount = await exportAccount();
     setAccount(exportedAccount);
-    console.log(exportedAccount);
   }, []);
 
   return (

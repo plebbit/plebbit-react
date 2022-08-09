@@ -19,7 +19,7 @@ import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import { CloseIcon } from '@chakra-ui/icons';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
-import PdMenu from './pdMenu';
+// import PdMenu from './pdMenu';
 import { BsChat, BsBookmark, BsEyeSlash, BsPencil, BsFlag } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
@@ -37,6 +37,7 @@ import numFormatter from '../../../utils/numberFormater';
 import Post from '..';
 import DropDown from '../../DropDown';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
+import logger from '../../../utils/logger';
 
 function PostDetail() {
   const detail = useComment(
@@ -159,6 +160,17 @@ function PostDetail() {
     });
     setEditLoading(false);
   };
+  const handleDeletePost = async (cid, address) => {
+    setEditLoading(true);
+    await publishCommentEdit({
+      commentCid: cid,
+      deleted: true,
+      subplebbitAddress: address,
+      onChallenge,
+      onChallengeVerification,
+    });
+    setEditLoading(false);
+  };
 
   const handleSubscribe = async () => {
     setSubLoading(true);
@@ -188,9 +200,24 @@ function PostDetail() {
     if (option?.id === 'Edit') {
       setEdit(true);
     }
+    if (option?.id === 'Delete') {
+      Swal.fire({
+        title: 'Do you want to delete this post?',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          handleDeletePost(detail?.cid, detail?.subplebbitAddress);
+        }
+      });
+    }
   };
 
-  console.log('sss', detail);
+  logger('feed:detail', {
+    address: window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1) + 1,
+    detail,
+  });
 
   return (
     <Box maxWidth="100%">
@@ -226,10 +253,12 @@ function PostDetail() {
               height="100%"
               left="0"
               position="fixed"
-              backfaceVisibility="hidden"
               right="0"
               width="100%"
               zIndex="50"
+              sx={{
+                backfaceVisibility: 'hidden',
+              }}
             >
               <Box
                 height="100%"
@@ -543,7 +572,7 @@ function PostDetail() {
                               height="16px"
                               width="16px"
                             />
-                            <PdMenu />
+                            {/* <PdMenu /> */}
                           </Flex>
                         </Flex>
                         {/* post Title */}

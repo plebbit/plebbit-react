@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import React, { useState } from 'react';
+import logger from '../../../../utils/logger';
 import { useHistory } from 'react-router-dom';
 
 const CreateSubPlebbit = ({ isOpen, onClose }) => {
@@ -33,11 +34,12 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
     setLoading(true);
     try {
       const subplebbit = await createSubplebbit(value);
-      console.log('create-sub', subplebbit);
+      logger('create-sub', subplebbit);
       setLoading(false);
       onClose();
       history.push(`/p/${subplebbit?.address}`, []);
     } catch (error) {
+      logger('create-sub', error);
       setLoading(false);
       toast({
         title: 'Create Subplebbit.',

@@ -27,6 +27,7 @@ const ImportAccount = ({ isOpen, onClose }) => {
 
   const handleImportAccount = async () => {
     await importAccount(account);
+
     toast({
       title: 'Import Account.',
       description: 'Account Imported Successfully',

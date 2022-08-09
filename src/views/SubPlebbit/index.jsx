@@ -4,7 +4,6 @@ import Button from '../../components/Button';
 import { FaBell } from 'react-icons/fa';
 import { ProfileContext } from '../../store/profileContext';
 import Post from '../../components/Post';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
 import { useAccountsActions, useFeed, useSubplebbit } from '@plebbit/plebbit-react-hooks';
@@ -12,6 +11,7 @@ import { Link, useHistory } from 'react-router-dom';
 import SideBar from './sideBar';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 import truncateString from '../../utils/truncateString';
+import InfiniteScroll from '../../components/InfiniteScroll';
 
 const SubPlebbit = ({ match }) => {
   const { postStyle, feedSort, profile, subscriptions, device, accountSubplebbits } =
@@ -312,27 +312,21 @@ const SubPlebbit = ({ match }) => {
 
                 <Box minHeight="1000px" width="100%">
                   <InfiniteScroll
-                    dataLength={feeds ? feeds.length : 0}
-                    next={loadMore}
                     hasMore={hasMore}
+                    loadMore={loadMore}
+                    content={(feed, index) => (
+                      <Post
+                        type="subPlebbit"
+                        post={feed}
+                        key={`${feed?.cid}${index}`}
+                        mode={postStyle}
+                      />
+                    )}
+                    feeds={feeds}
                     loader={
                       <Post type="subPlebbit" loading={true} mode={postStyle} key={Math.random()} />
                     }
-                    // below props only if you need pull down functionality
-                    refreshFunction={() => {}}
-                    pullDownToRefresh
-                    pullDownToRefreshThreshold={50}
-                    pullDownToRefreshContent={
-                      <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
-                    }
-                    releaseToRefreshContent={
-                      <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-                    }
-                  >
-                    {feeds?.map((feed) => (
-                      <Post type="subPlebbit" post={feed} key={feed?.cid} mode={postStyle} />
-                    ))}
-                  </InfiniteScroll>
+                  />
                 </Box>
               </Box>
               {/* side bar */}

@@ -48,7 +48,7 @@ const CommunitySettings = ({ match }) => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const { publishSubplebbitEdit } = useAccountsActions();
-  const resolvedAuthorAddress = useResolvedAuthorAddress(subplebbit?.address);
+  const resolvedAuthorAddress = useResolvedAuthorAddress(data ? data?.address : '');
   const { device, accountSubplebbits } = useContext(ProfileContext);
   const [showSidebar, setShowSideBar] = useState(false);
 
@@ -101,8 +101,6 @@ const CommunitySettings = ({ match }) => {
   };
 
   const role = accountSubplebbits[subplebbit?.address]?.role?.role;
-
-  console.log(role);
 
   useEffect(() => {
     setData({ ...subplebbit });
@@ -425,7 +423,7 @@ const CommunitySettings = ({ match }) => {
                           <ListItem fontSize={12}>Click ADD/EDIT RECORD</ListItem>
                           <ListItem fontSize={12}>
                             Select "text", write in "key": "subplebbit-address", write in next
-                            field:
+                            field: {data?.signer?.address}
                           </ListItem>
                         </UnorderedList>
                       </Flex>
@@ -921,6 +919,7 @@ const CommunitySettings = ({ match }) => {
                             fontWeight="400"
                             lineHeight="21px"
                             value={data?.address}
+                            placeholder="Input public key (optional)"
                             bg={mainBg}
                             border={`1px solid ${border1}`}
                             borderColor={border1}
@@ -969,7 +968,7 @@ const CommunitySettings = ({ match }) => {
                           <ListItem fontSize={12}>Click ADD/EDIT RECORD</ListItem>
                           <ListItem fontSize={12}>
                             Select "text", write in "key": "subplebbit-address", write in next
-                            field:
+                            field:{data?.signer?.address}
                           </ListItem>
                         </UnorderedList>
                       </Flex>

@@ -23,6 +23,7 @@ import { MdAddCircleOutline } from 'react-icons/md';
 import { ProfileContext } from '../../store/profileContext';
 import AddAvatar from './modal/addAvatar';
 import ExportAccount from './modal/exportAccount';
+import logger from '../../utils/logger';
 
 const Settings = () => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -50,9 +51,10 @@ const Settings = () => {
   const { setAccount } = useAccountsActions();
   const toast = useToast();
 
-  const resolvedAuthorAddress = useResolvedAuthorAddress(profile?.author?.address);
-
-  console.log(resolvedAuthorAddress, profile);
+  const resolvedAuthorAddress = useResolvedAuthorAddress(
+    userProfile ? userProfile?.author?.address : ''
+  );
+  logger('resolvedAddress', resolvedAuthorAddress);
 
   useEffect(() => {
     setUserProfile({ ...profile });
@@ -186,6 +188,7 @@ const Settings = () => {
                     setTimeout(async () => {
                       if (userProfile?.author?.displayName !== profile?.author?.displayName) {
                         await setAccount(userProfile);
+                        logger('account:update', userProfile);
                         toast({
                           title: `changes saved`,
                           variant: 'left-accent',
@@ -233,7 +236,7 @@ const Settings = () => {
               >
                 <InputGroup>
                   <Input
-                    placeholder="Address (optional)"
+                    placeholder="Input public key (optional)"
                     backgroundColor={mainBg}
                     color={mainColor}
                     boxSizing="border-box"
@@ -257,11 +260,10 @@ const Settings = () => {
                     }
                     onBlur={() =>
                       setTimeout(async () => {
-                        if (
-                          userProfile?.author?.address !== profile?.author?.address &&
-                          resolvedAuthorAddress === userProfile?.signer?.address
-                        ) {
+                        if (resolvedAuthorAddress === userProfile?.signer?.address) {
                           await setAccount(userProfile);
+                          logger('account:update', userProfile);
+
                           toast({
                             title: `changes saved`,
                             variant: 'left-accent',
@@ -313,7 +315,7 @@ const Settings = () => {
                   <ListItem fontSize={12}>Click ADD/EDIT RECORD</ListItem>
                   <ListItem fontSize={12}>
                     Select "text", write in "key": "plebbit-author-address", write in next field:{' '}
-                    <b>{userProfile?.author?.address}</b>
+                    <b>{userProfile?.signer?.address}</b>
                   </ListItem>
                 </UnorderedList>
               </Flex>
@@ -368,6 +370,7 @@ const Settings = () => {
                     setTimeout(async () => {
                       if (userProfile?.author?.about !== profile?.author?.about) {
                         await setAccount(userProfile);
+                        logger('account:update', userProfile);
                         toast({
                           title: `changes saved`,
                           variant: 'left-accent',
@@ -822,6 +825,7 @@ const Settings = () => {
                         profile?.plebbitOptions?.pubsubHttpClientOptions
                       ) {
                         await setAccount(userProfile);
+                        logger('account:update', userProfile);
                         toast({
                           title: `changes saved`,
                           variant: 'left-accent',
@@ -939,6 +943,8 @@ const Settings = () => {
                     setTimeout(async () => {
                       if (userProfile?.blockedAddresses?.url !== profile?.blockedAddresses?.url) {
                         await setAccount(userProfile);
+                        logger('account:update', userProfile);
+
                         toast({
                           title: `changes saved`,
                           variant: 'left-accent',
@@ -1004,6 +1010,8 @@ const Settings = () => {
                         profile?.blockedAddresses?.chainId
                       ) {
                         await setAccount(userProfile);
+                        logger('account:update', userProfile);
+
                         toast({
                           title: `changes saved`,
                           variant: 'left-accent',
