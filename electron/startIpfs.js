@@ -80,9 +80,19 @@ const startIpfs = async () => {
       reject(Error(lastError))
     })
     process.on('exit', () => {
-      ps.kill(ipfsProcess.pid)
-      // sometimes ipfs doesnt exit unless we kill pid +1
-      ps.kill(ipfsProcess.pid + 1)
+      try {
+        ps.kill(ipfsProcess.pid);
+      }
+      catch (e) {
+        console.log(e);
+      }
+      try {
+        // sometimes ipfs doesnt exit unless we kill pid +1
+        ps.kill(ipfsProcess.pid + 1);
+      }
+      catch (e) {
+        console.log(e);
+      }
     })
   })
 }
