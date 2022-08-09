@@ -2876,6 +2876,20 @@
     uuid "8.3.2"
     zustand "4.0.0"
 
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#a081631b5779ec63137976b6effe9b49fa7a0ce6":
+  version "0.0.1"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#a081631b5779ec63137976b6effe9b49fa7a0ce6"
+  dependencies:
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#38e29c0c4b0a14f959236cdd0df34924a555df63"
+    "@types/debug" "4.1.7"
+    "@types/uuid" "8.3.4"
+    assert "2.0.0"
+    debug "4.3.3"
+    ethers "5.6.9"
+    localforage "1.10.0"
+    uuid "8.3.2"
+    zustand "4.0.0"
+
 "@pmmmwh/react-refresh-webpack-plugin@^0.5.3":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.5.7.tgz#58f8217ba70069cc6a73f5d7e05e85b458c150e2"

@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2';
+import logger from './logger';
 
 const getChallengeAnswersFromUser = async (challenges) => {
   const { value } = await Swal.fire({
@@ -9,6 +10,7 @@ const getChallengeAnswersFromUser = async (challenges) => {
     imageWidth: '80%',
   });
   if (value) {
+    logger('getChallenge answer', value);
     return value;
   }
 };

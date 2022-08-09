@@ -4,7 +4,7 @@ import plebbitReactPackageJson from '../../../package.json';
 import { Link } from 'react-router-dom';
 
 const BottomSideBar = ({ bg }) => {
-  const Bg = useColorModeValue('#F8F9FA', '');
+  const Bg = useColorModeValue('lightBody', 'darkBody');
   const bottomData1 = [
     { label: 'Help', link: '' },
     { label: 'Plebbit Coins', link: '' },
@@ -73,8 +73,7 @@ const BottomSideBar = ({ bg }) => {
             marginBottom="3px"
             display="inline-block"
           >
-            plebbit Inc v{plebbitReactPackageJson.version} © {new Date().getFullYear()} . All rights
-            reserved
+            plebbit v{plebbitReactPackageJson.version} GPL-2.0
           </Flex>
         </Box>
       </Box>

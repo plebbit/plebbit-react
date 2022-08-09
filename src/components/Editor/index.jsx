@@ -20,6 +20,7 @@ const Editor = ({
   submitBtnStyle,
   submitBtnText,
   otherBtn,
+  loading,
 }) => {
   const toolbarBg = useColorModeValue('#F6F7F8', '#272729');
   const toolbarColor = useColorModeValue('#818384', '#818384');
@@ -132,6 +133,7 @@ const Editor = ({
             marginLeft="auto"
             sx={{ filter: 'grayscale(1)', ...submitBtnStyle }}
             onClick={handleSubmit}
+            loading={loading}
           />
         </Flex>
       )}

@@ -10,7 +10,6 @@ import {
   Icon,
   useToast,
 } from '@chakra-ui/react';
-import Swal from 'sweetalert2';
 import { useAccountsActions, useAuthorAvatarImageUrl } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
@@ -21,6 +20,8 @@ import { dateToNow } from '../../../utils/formatDate';
 import numFormatter from '../../../utils/numberFormater';
 import getUserName from '../../../utils/getUserName';
 import yellowMoon from '../../../assets/svgs/yelloMoon.svg';
+import logger from '../../../utils/logger';
+import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 
 const Comment = ({ comment, parentCid }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -34,19 +35,7 @@ const Comment = ({ comment, parentCid }) => {
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(comment.author);
-
-  const getChallengeAnswersFromUser = async (challenges) => {
-    const { value } = await Swal.fire({
-      background: '#eff4f7',
-      input: 'text',
-      text: 'Complete the challenge',
-      imageUrl: `data:image/png;base64,  ${challenges?.challenges[0].challenge}`,
-      imageWidth: '80%',
-    });
-    if (value) {
-      return value;
-    }
-  };
+  const [loader, setLoader] = useState(false);
 
   const onChallengeVerification = (challengeVerification, comment) => {
     // if the challengeVerification fails, a new challenge request will be sent automatically
@@ -61,8 +50,8 @@ const Comment = ({ comment, parentCid }) => {
     });
     setContent('');
     setEditorState(EditorState.createEmpty());
-
-    console.log('challenge verified', challengeVerification, comment);
+    setLoader(false);
+    logger('challenge verified', challengeVerification, comment);
   };
   const onChallenge = async (challenges, comment) => {
     let challengeAnswers = [];
@@ -72,7 +61,7 @@ const Comment = ({ comment, parentCid }) => {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      console.log(error);
+      logger(error);
       toast({
         title: 'Declined.',
         description: 'Action Declined',
@@ -82,9 +71,10 @@ const Comment = ({ comment, parentCid }) => {
       });
     }
 
-    console.log(challengeAnswers, comment);
+    logger(challengeAnswers, comment);
     if (challengeAnswers) {
-      await comment.publishChallengeAnswers(challengeAnswers);
+      const res = await comment.publishChallengeAnswers(challengeAnswers);
+      logger('create:comment:response', res);
     }
   };
 
@@ -99,6 +89,7 @@ const Comment = ({ comment, parentCid }) => {
   };
 
   const handlePublishPost = () => {
+    setLoader(true);
     publishComment({
       content,
       parentCid: parentCid, // if top level reply to a post, same as postCid
@@ -394,6 +385,7 @@ const Comment = ({ comment, parentCid }) => {
               setEditorState={setEditorState}
               showSubmit
               handleSubmit={handlePublishPost}
+              loading={loader}
             />
           </Box>
         ) : (

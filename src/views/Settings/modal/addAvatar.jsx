@@ -22,6 +22,7 @@ import {
 import { ProfileContext } from '../../../store/profileContext';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import logger from '../../../utils/logger';
 
 const AddAvatar = ({ isOpen, onClose }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -163,6 +164,8 @@ const AddAvatar = ({ isOpen, onClose }) => {
                 ? setTimeout(async () => {
                     if (signature) {
                       await setAccount(userProfile);
+                      logger('account:update', userProfile);
+
                       toast({
                         title: `changes saved`,
                         variant: 'left-accent',
