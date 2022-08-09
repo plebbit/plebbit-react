@@ -1,11 +1,15 @@
 require('./log');
-const { app, BrowserWindow, Menu, Tray, screen: electronScreen, shell } = require('electron');
+const { app, BrowserWindow, Menu, Tray, screen: electronScreen, shell, dialog } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
 const startIpfs = require('./startIpfs');
 const { URL } = require('node:url');
 
-startIpfs();
+let startIpfsError;
+startIpfs().catch(e => {
+  startIpfsError = e
+  console.error(e)
+});
 
 const createMainWindow = () => {
   let mainWindow = new BrowserWindow({
@@ -26,7 +30,17 @@ const createMainWindow = () => {
 
   mainWindow.loadURL(startURL);
 
-  mainWindow.once('ready-to-show', () => mainWindow.show());
+  mainWindow.once('ready-to-show', async () => {
+    mainWindow.show()
+
+    if (isDev) {
+      mainWindow.openDevTools();
+    }
+
+    if (startIpfsError) {
+      dialog.showErrorBox('IPFS error', startIpfsError.message);
+    }
+  });
 
   mainWindow.on('closed', () => {
     mainWindow = null;
