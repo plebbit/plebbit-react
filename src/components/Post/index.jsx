@@ -12,8 +12,10 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const vote = post?.upvoteCount - post?.downvoteCount;
   const [voteMode, setVoteMode] = useState(0);
   const [showContent, setShowContent] = useState(false);
+  const [copied, setCopied] = useState(false);
   const toast = useToast();
   const { publishVote } = useAccountsActions();
+  console.log(window.location.href);
 
   const getChallengeAnswersFromUser = async (challenges) => {
     const { value } = await Swal.fire({
@@ -99,6 +101,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleVote={handleVote}
             detail={detail}
             handleOption={handleOption}
+            copied={copied}
+            setCopied={setCopied}
+            location={`${window.location.href}p/${post?.subplebbitAddress}/c/${post?.cid}`}
           />
         )}
         {/* classic */}
@@ -115,6 +120,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleVote={handleVote}
             detail={detail}
             handleOption={handleOption}
+            copied={copied}
+            setCopied={setCopied}
+            location={`${window.location.href}p/${post?.subplebbitAddress}/c/${post?.cid}`}
           />
         )}
         {/* compact */}
@@ -131,6 +139,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleVote={handleVote}
             detail={detail}
             handleOption={handleOption}
+            copied={copied}
+            setCopied={setCopied}
+            location={`${window.location.href}p/${post?.subplebbitAddress}/c/${post?.cid}`}
           />
         )}
       </Box>
