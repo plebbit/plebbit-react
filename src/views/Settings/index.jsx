@@ -197,6 +197,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             description: error?.message,
@@ -282,6 +283,7 @@ const Settings = () => {
                               isClosable: true,
                             });
                           } catch (error) {
+                            console.log(error);
                             toast({
                               title: `Account update`,
                               variant: 'left-update',
@@ -399,6 +401,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             variant: 'left-update',
@@ -698,7 +701,7 @@ const Settings = () => {
                   borderRadius="4px"
                   padding="12px 24px 4px 12px"
                   width="100%"
-                  value={profile?.plebbitOptions?.ipfsGatewayUrl}
+                  value={userProfile?.plebbitOptions?.ipfsGatewayUrl}
                   onChange={(e) =>
                     setUserProfile({
                       ...userProfile,
@@ -724,6 +727,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             variant: 'left-update',
@@ -781,7 +785,7 @@ const Settings = () => {
                   borderRadius="4px"
                   padding="12px 24px 4px 12px"
                   width="100%"
-                  value={profile?.plebbitOptions?.ipfsHttpClientOptions}
+                  value={userProfile?.plebbitOptions?.ipfsHttpClientOptions}
                   onChange={(e) =>
                     setUserProfile({
                       ...userProfile,
@@ -807,6 +811,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             variant: 'left-update',
@@ -857,7 +862,7 @@ const Settings = () => {
                   borderRadius="4px"
                   padding="12px 24px 4px 12px"
                   width="100%"
-                  value={profile?.plebbitOptions?.pubsubHttpClientOptions}
+                  value={userProfile?.plebbitOptions?.pubsubHttpClientOptions}
                   onChange={(e) =>
                     setUserProfile({
                       ...userProfile,
@@ -884,6 +889,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             variant: 'left-update',
@@ -988,7 +994,7 @@ const Settings = () => {
                   borderRadius="4px"
                   padding="12px 24px 4px 12px"
                   width="100%"
-                  value={profile?.blockedAddresses?.url}
+                  value={userProfile?.blockedAddresses?.url}
                   onChange={(e) =>
                     setUserProfile({
                       ...userProfile,
@@ -1013,6 +1019,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             variant: 'left-update',
@@ -1062,7 +1069,7 @@ const Settings = () => {
                   borderRadius="4px"
                   padding="12px 24px 4px 12px"
                   width="100%"
-                  value={profile?.blockedAddresses?.chainId}
+                  value={userProfile?.blockedAddresses?.chainId}
                   onChange={(e) =>
                     setUserProfile({
                       ...userProfile,
@@ -1090,6 +1097,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             variant: 'left-update',

@@ -72,6 +72,8 @@ const ModRole = ({ onClose, isOpen, subPlebbit }) => {
         onChallengeVerification,
       });
     } catch (error) {
+      console.log('addmod', error);
+
       toast({
         title: 'Declined.',
         description: error?.message,
@@ -81,8 +83,6 @@ const ModRole = ({ onClose, isOpen, subPlebbit }) => {
       });
     }
   };
-
-  console.log(subPlebbit);
 
   return (
     <Modal onClose={onClose} size="xl" isOpen={isOpen} isCentered>

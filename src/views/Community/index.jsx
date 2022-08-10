@@ -101,6 +101,7 @@ const CommunitySettings = ({ match }) => {
       });
       setLoading(false);
     } catch (error) {
+      console.log('editComm', error);
       toast({
         title: 'Declined.',
         description: error?.message,

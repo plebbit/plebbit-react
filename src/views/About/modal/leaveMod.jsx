@@ -68,6 +68,7 @@ const LeaveMod = ({ onClose, isOpen, subPlebbit, profile }) => {
         onChallengeVerification,
       });
     } catch (error) {
+      console.log('leavemod', error);
       toast({
         title: 'Declined.',
         description: error?.message,

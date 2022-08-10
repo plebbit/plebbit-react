@@ -88,6 +88,7 @@ const Comment = ({ comment, parentCid }) => {
         onChallengeVerification,
       });
     } catch (error) {
+      console.log(error);
       toast({
         title: 'Voting Declined.',
         description: error?.message,
@@ -109,6 +110,8 @@ const Comment = ({ comment, parentCid }) => {
         onChallengeVerification,
       });
     } catch (error) {
+      logger('create:comment:response', error);
+      console.log(error);
       toast({
         title: 'Comment Declined.',
         description: error?.message,
@@ -116,7 +119,6 @@ const Comment = ({ comment, parentCid }) => {
         duration: 5000,
         isClosable: true,
       });
-      logger('create:comment:response', error);
     }
   };
 

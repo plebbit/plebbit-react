@@ -1,8 +1,8 @@
 import Debug from 'debug';
 
-export const logger = (name, data) => {
+export const logger = (name, ...data) => {
   const log = Debug(`plebbit-react:${name}`);
-  return log(data);
+  return log(...data);
 };
 
 export default logger;
