@@ -14,6 +14,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { useAccountsActions, useComment } from '@plebbit/plebbit-react-hooks';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Swal from 'sweetalert2';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import { CloseIcon } from '@chakra-ui/icons';
@@ -66,6 +67,7 @@ function PostDetail() {
   const [edit, setEdit] = useState(false);
   const [editPost, setEditPost] = useState(detail?.content);
   const [content, setContent] = useState('');
+  const [copied, setCopied] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [postEditorState, setPostEditorState] = useState(
     EditorState.createWithContent(
@@ -780,24 +782,34 @@ function PostDetail() {
                               <Icon as={GoGift} height={5} width={5} mr="5px" />
                               <Box>Award</Box>
                             </Link>
-                            <Link
-                              display="flex"
-                              alignItems="center"
-                              borderRadius="2px"
-                              padding="8px"
-                              marginRight="4px"
-                              _hover={{
-                                textDecor: 'none',
-                                outline: 'none',
-                                bg: bottomButtonHover,
-                              }}
-                              _focus={{
-                                boxShadow: 'none',
+                            <CopyToClipboard
+                              text={window.location.href}
+                              onCopy={() => {
+                                setCopied(true);
+                                setTimeout(() => {
+                                  setCopied(false);
+                                }, 3000);
                               }}
                             >
-                              <Icon as={FaShare} height={5} width={5} mr="5px" />
-                              <Box>share</Box>
-                            </Link>
+                              <Link
+                                display="flex"
+                                alignItems="center"
+                                borderRadius="2px"
+                                padding="8px"
+                                marginRight="4px"
+                                _hover={{
+                                  textDecor: 'none',
+                                  outline: 'none',
+                                  bg: bottomButtonHover,
+                                }}
+                                _focus={{
+                                  boxShadow: 'none',
+                                }}
+                              >
+                                <Icon as={FaShare} height={5} width={5} mr="5px" />
+                                <Box>{copied ? 'Copied' : 'share'}</Box>
+                              </Link>
+                            </CopyToClipboard>
 
                             <Link
                               display="flex"
@@ -1074,31 +1086,41 @@ function PostDetail() {
                               <Icon as={BsChat} height={5} width={5} mr="5px" />
                               <Box>{detail?.replyCount}</Box>
                             </Link>
-                            <Link
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="center"
-                              borderRadius="50%"
-                              _hover={{
-                                textDecor: 'none',
-                              }}
-                              _focus={{
-                                boxShadow: 'none',
-                              }}
-                              ml="auto"
-                              border={`1px solid ${borderColor}`}
-                              minW="32px"
-                              height="32px"
-                              flexShrink="0"
-                              sx={{
-                                '@media (min-width: 1280px)': {},
-                                '@media (max-width: 1120px)': {
-                                  display: 'none',
-                                },
+                            <CopyToClipboard
+                              text={window.location.href}
+                              onCopy={() => {
+                                setCopied(true);
+                                setTimeout(() => {
+                                  setCopied(false);
+                                }, 3000);
                               }}
                             >
-                              <Icon as={FiShare} height={5} width={5} />
-                            </Link>
+                              <Link
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                borderRadius="50%"
+                                _hover={{
+                                  textDecor: 'none',
+                                }}
+                                _focus={{
+                                  boxShadow: 'none',
+                                }}
+                                ml="auto"
+                                border={`1px solid ${borderColor}`}
+                                minW="32px"
+                                height="32px"
+                                flexShrink="0"
+                                sx={{
+                                  '@media (min-width: 1280px)': {},
+                                  '@media (max-width: 1120px)': {
+                                    display: 'none',
+                                  },
+                                }}
+                              >
+                                {copied ? 'Copied' : <Icon as={FiShare} height={5} width={5} />}
+                              </Link>
+                            </CopyToClipboard>
                           </Flex>
                         </Flex>
                       </Flex>

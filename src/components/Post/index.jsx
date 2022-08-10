@@ -15,7 +15,6 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const [copied, setCopied] = useState(false);
   const toast = useToast();
   const { publishVote } = useAccountsActions();
-  console.log(window.location.href);
 
   const getChallengeAnswersFromUser = async (challenges) => {
     const { value } = await Swal.fire({
