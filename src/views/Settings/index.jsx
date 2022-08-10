@@ -271,7 +271,7 @@ const Settings = () => {
                     }
                     onBlur={() =>
                       setTimeout(async () => {
-                        if (resolvedAuthorAddress === userProfile?.signer?.address) {
+                        if (userProfile?.author?.address !== profile?.author?.address) {
                           try {
                             await setAccount(userProfile);
                             logger('account:update', userProfile);
