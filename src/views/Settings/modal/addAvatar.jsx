@@ -163,15 +163,25 @@ const AddAvatar = ({ isOpen, onClose }) => {
               signature
                 ? setTimeout(async () => {
                     if (signature) {
-                      await setAccount(userProfile);
-                      logger('account:update', userProfile);
+                      try {
+                        await setAccount(userProfile);
+                        logger('account:update', userProfile);
 
-                      toast({
-                        title: `changes saved`,
-                        variant: 'left-accent',
-                        status: 'success',
-                        isClosable: true,
-                      });
+                        toast({
+                          title: `changes saved`,
+                          variant: 'left-accent',
+                          status: 'success',
+                          isClosable: true,
+                        });
+                      } catch (error) {
+                        toast({
+                          title: `Account update`,
+                          variant: 'left-update',
+                          description: error?.message,
+                          status: 'error',
+                          isClosable: true,
+                        });
+                      }
                     }
                   }, 300)
                 : data?.tokenId &&

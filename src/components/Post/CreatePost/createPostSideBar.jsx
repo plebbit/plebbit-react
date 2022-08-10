@@ -38,12 +38,14 @@ const CreatePostSideBar = () => {
             Posting to Plebbit
           </Flex>
           <Flex
-            listStylePos=""
-            listStyle="decimal"
             flexDir="column"
             fontSize="14px"
             lineHeight="18px"
             fontWeight="500"
+            sx={{
+              listStylePos: '',
+              listStyle: 'decimal',
+            }}
           >
             <Flex borderBottom="1px solid #edeff1" padding="10px 5px">
               1.Remember the human

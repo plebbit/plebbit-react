@@ -79,9 +79,10 @@ const CreatePost = () => {
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
       logger('challengeAnswer-error', error);
+      console.log('this', error.message);
       toast({
         title: 'Declined.',
-        description: error,
+        description: error?.message,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -97,15 +98,26 @@ const CreatePost = () => {
   };
 
   const handlePublishPost = async () => {
-    setLoading(true);
-    const res = await publishComment({
-      content,
-      title,
-      subplebbitAddress: address?.value,
-      onChallenge,
-      onChallengeVerification,
-    });
-    logger('create-post', res);
+    try {
+      setLoading(true);
+      const res = await publishComment({
+        content,
+        title,
+        subplebbitAddress: address?.value,
+        onChallenge,
+        onChallengeVerification,
+      });
+      logger('create-post', res);
+    } catch (error) {
+      setLoading(false);
+      toast({
+        title: 'Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return (

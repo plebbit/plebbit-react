@@ -11,6 +11,7 @@ import {
   Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react';
+// import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { BsChat, BsFileText } from 'react-icons/bs';
 import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg';
 import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
@@ -31,6 +32,9 @@ const CompactPost = ({
   post,
   type,
   handleVote,
+  // setCopied,
+  // location,
+  // copied,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -354,21 +358,20 @@ const CompactPost = ({
                           </Box>
                         </>
                       ) : (
-                        ''
+                        <Link
+                          as={ReactLink}
+                          to={`/p/${post?.subplebbitAddress}`}
+                          color={subPledditTextColor}
+                          fontSize="12px"
+                          fontWeight="700"
+                          display="inline"
+                          lineHeight="20px"
+                          textDecoration="none"
+                          mr="3px"
+                        >
+                          {`p/${post?.subplebbitAddress}`}
+                        </Link>
                       )}
-                      <Link
-                        as={ReactLink}
-                        to={`/p/${post?.subplebbitAddress}`}
-                        color={subPledditTextColor}
-                        fontSize="12px"
-                        fontWeight="700"
-                        display="inline"
-                        lineHeight="20px"
-                        textDecoration="none"
-                        mr="3px"
-                      >
-                        {`p/${post?.subplebbitAddress}`}
-                      </Link>
                       <Text color={misCol} flex="0 0 auto" mr="3px">
                         Posted by
                       </Text>

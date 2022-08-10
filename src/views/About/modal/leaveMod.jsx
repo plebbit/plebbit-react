@@ -48,7 +48,7 @@ const LeaveMod = ({ onClose, isOpen, subPlebbit, profile }) => {
       console.log(error);
       toast({
         title: 'Declined.',
-        description: 'Action Declined',
+        description: error?.message,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -61,12 +61,21 @@ const LeaveMod = ({ onClose, isOpen, subPlebbit, profile }) => {
 
   const handleSaveChanges = async () => {
     setLoading(true);
-
-    await publishSubplebbitEdit(subPlebbit?.address, {
-      roles: subPlebbit?.roles,
-      onChallenge,
-      onChallengeVerification,
-    });
+    try {
+      await publishSubplebbitEdit(subPlebbit?.address, {
+        roles: subPlebbit?.roles,
+        onChallenge,
+        onChallengeVerification,
+      });
+    } catch (error) {
+      toast({
+        title: 'Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   const handleDelete = async () => {

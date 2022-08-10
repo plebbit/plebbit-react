@@ -14,6 +14,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { useAccountsActions, useComment } from '@plebbit/plebbit-react-hooks';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Swal from 'sweetalert2';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import { CloseIcon } from '@chakra-ui/icons';
@@ -66,6 +67,7 @@ function PostDetail() {
   const [edit, setEdit] = useState(false);
   const [editPost, setEditPost] = useState(detail?.content);
   const [content, setContent] = useState('');
+  const [copied, setCopied] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [postEditorState, setPostEditorState] = useState(
     EditorState.createWithContent(
@@ -113,10 +115,10 @@ function PostDetail() {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      console.log(error);
+      logger(error);
       toast({
         title: 'Declined.',
-        description: 'Action Declined',
+        description: error?.message || 'failed Challenge',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -130,70 +132,137 @@ function PostDetail() {
   };
 
   const handleVote = (vote) => {
-    publishVote({
-      vote,
-      commentCid: detail?.cid,
-      subplebbitAddress: detail?.subplebbitAddress,
-      onChallenge,
-      onChallengeVerification,
-    });
+    try {
+      publishVote({
+        vote,
+        commentCid: detail?.cid,
+        subplebbitAddress: detail?.subplebbitAddress,
+        onChallenge,
+        onChallengeVerification,
+      });
+    } catch (error) {
+      toast({
+        title: 'Voting Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      logger('post:detail:voting:', error);
+    }
   };
 
   const handlePublishPost = async () => {
-    await publishComment({
-      content,
-      postCid: detail?.cid, // the thread the comment is on
-      parentCid: detail?.cid, // if top level reply to a post, same as postCid
-      subplebbitAddress: detail?.subplebbitAddress,
-      onChallenge,
-      onChallengeVerification,
-    });
+    try {
+      await publishComment({
+        content,
+        postCid: detail?.cid, // the thread the comment is on
+        parentCid: detail?.cid, // if top level reply to a post, same as postCid
+        subplebbitAddress: detail?.subplebbitAddress,
+        onChallenge,
+        onChallengeVerification,
+      });
+    } catch (error) {
+      toast({
+        title: 'Comment Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      logger('post:comment:response:', error);
+    }
   };
   const handleEditPost = async (cid, content, address) => {
-    setEditLoading(true);
-    await publishCommentEdit({
-      commentCid: cid,
-      content: content,
-      subplebbitAddress: address,
-      onChallenge,
-      onChallengeVerification,
-    });
-    setEditLoading(false);
+    try {
+      setEditLoading(true);
+      await publishCommentEdit({
+        commentCid: cid,
+        content: content,
+        subplebbitAddress: address,
+        onChallenge,
+        onChallengeVerification,
+      });
+      setEditLoading(false);
+    } catch (error) {
+      setEditLoading(false);
+      toast({
+        title: 'Comment Edit Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
   const handleDeletePost = async (cid, address) => {
-    setEditLoading(true);
-    await publishCommentEdit({
-      commentCid: cid,
-      deleted: true,
-      subplebbitAddress: address,
-      onChallenge,
-      onChallengeVerification,
-    });
-    setEditLoading(false);
+    try {
+      setEditLoading(true);
+      await publishCommentEdit({
+        commentCid: cid,
+        deleted: true,
+        subplebbitAddress: address,
+        onChallenge,
+        onChallengeVerification,
+      });
+      setEditLoading(false);
+    } catch (error) {
+      setSubLoading(false);
+      toast({
+        title: 'Deleting declined',
+        description: error?.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
   const handleSubscribe = async () => {
-    setSubLoading(true);
-    await subscribe(detail?.subplebbitAddress);
-    toast({
-      title: 'Subscribed.',
-      description: 'Joined successfully',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
+    try {
+      setSubLoading(true);
+      await subscribe(detail?.subplebbitAddress);
+      toast({
+        title: 'Subscription.',
+        description: 'Joined successfully',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      setSubLoading(false);
+    } catch (error) {
+      setSubLoading(false);
+      toast({
+        title: 'Subscription declined',
+        description: error?.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
   const handleUnSubscribe = async () => {
-    setSubLoading(true);
-    await unsubscribe(detail?.subplebbitAddress);
-
-    toast({
-      title: 'Unsubscribed.',
-      description: 'Unsubscribed successfully',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
+    try {
+      setSubLoading(true);
+      await unsubscribe(detail?.subplebbitAddress);
+      toast({
+        title: 'Unsubscribed.',
+        description: 'Unsubscribed successfully',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      setSubLoading(false);
+    } catch (error) {
+      setSubLoading(false);
+      toast({
+        title: 'UnSubscribe declined',
+        description: error?.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
   const handleOption = (option) => {
@@ -713,24 +782,34 @@ function PostDetail() {
                               <Icon as={GoGift} height={5} width={5} mr="5px" />
                               <Box>Award</Box>
                             </Link>
-                            <Link
-                              display="flex"
-                              alignItems="center"
-                              borderRadius="2px"
-                              padding="8px"
-                              marginRight="4px"
-                              _hover={{
-                                textDecor: 'none',
-                                outline: 'none',
-                                bg: bottomButtonHover,
-                              }}
-                              _focus={{
-                                boxShadow: 'none',
+                            <CopyToClipboard
+                              text={window.location.href}
+                              onCopy={() => {
+                                setCopied(true);
+                                setTimeout(() => {
+                                  setCopied(false);
+                                }, 3000);
                               }}
                             >
-                              <Icon as={FaShare} height={5} width={5} mr="5px" />
-                              <Box>share</Box>
-                            </Link>
+                              <Link
+                                display="flex"
+                                alignItems="center"
+                                borderRadius="2px"
+                                padding="8px"
+                                marginRight="4px"
+                                _hover={{
+                                  textDecor: 'none',
+                                  outline: 'none',
+                                  bg: bottomButtonHover,
+                                }}
+                                _focus={{
+                                  boxShadow: 'none',
+                                }}
+                              >
+                                <Icon as={FaShare} height={5} width={5} mr="5px" />
+                                <Box>{copied ? 'Copied' : 'share'}</Box>
+                              </Link>
+                            </CopyToClipboard>
 
                             <Link
                               display="flex"
@@ -1007,31 +1086,41 @@ function PostDetail() {
                               <Icon as={BsChat} height={5} width={5} mr="5px" />
                               <Box>{detail?.replyCount}</Box>
                             </Link>
-                            <Link
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="center"
-                              borderRadius="50%"
-                              _hover={{
-                                textDecor: 'none',
-                              }}
-                              _focus={{
-                                boxShadow: 'none',
-                              }}
-                              ml="auto"
-                              border={`1px solid ${borderColor}`}
-                              minW="32px"
-                              height="32px"
-                              flexShrink="0"
-                              sx={{
-                                '@media (min-width: 1280px)': {},
-                                '@media (max-width: 1120px)': {
-                                  display: 'none',
-                                },
+                            <CopyToClipboard
+                              text={window.location.href}
+                              onCopy={() => {
+                                setCopied(true);
+                                setTimeout(() => {
+                                  setCopied(false);
+                                }, 3000);
                               }}
                             >
-                              <Icon as={FiShare} height={5} width={5} />
-                            </Link>
+                              <Link
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                borderRadius="50%"
+                                _hover={{
+                                  textDecor: 'none',
+                                }}
+                                _focus={{
+                                  boxShadow: 'none',
+                                }}
+                                ml="auto"
+                                border={`1px solid ${borderColor}`}
+                                minW="32px"
+                                height="32px"
+                                flexShrink="0"
+                                sx={{
+                                  '@media (min-width: 1280px)': {},
+                                  '@media (max-width: 1120px)': {
+                                    display: 'none',
+                                  },
+                                }}
+                              >
+                                {copied ? 'Copied' : <Icon as={FiShare} height={5} width={5} />}
+                              </Link>
+                            </CopyToClipboard>
                           </Flex>
                         </Flex>
                       </Flex>

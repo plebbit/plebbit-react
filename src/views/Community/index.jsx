@@ -31,6 +31,7 @@ import {
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 import { ProfileContext } from '../../store/profileContext';
 import { HamburgerIcon } from '@chakra-ui/icons';
+import logger from '../../utils/logger';
 
 const CommunitySettings = ({ match }) => {
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
@@ -64,7 +65,7 @@ const CommunitySettings = ({ match }) => {
       isClosable: true,
     });
     setLoading(false);
-    console.log('challenge verified', challengeVerification, subplebbitEdit);
+    logger('challenge verified', challengeVerification, subplebbitEdit);
   };
 
   const onChallenge = async (challenges, subplebbitEdit) => {
@@ -74,10 +75,10 @@ const CommunitySettings = ({ match }) => {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      console.log(error);
+      logger(error);
       toast({
         title: 'Declined.',
-        description: 'Action Declined',
+        description: error?.message,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -89,15 +90,25 @@ const CommunitySettings = ({ match }) => {
   };
 
   const handleSaveChanges = async () => {
-    setLoading(true);
-    await publishSubplebbitEdit(subplebbit?.address, {
-      title: data?.title,
-      description: data?.description,
-      address:
-        resolvedAuthorAddress === data?.signer?.address ? data?.address : subplebbit?.address,
-      onChallenge,
-      onChallengeVerification,
-    });
+    try {
+      setLoading(true);
+      await publishSubplebbitEdit(subplebbit?.address, {
+        title: data?.title,
+        description: data?.description,
+        address: data?.address,
+        onChallenge,
+        onChallengeVerification,
+      });
+      setLoading(false);
+    } catch (error) {
+      toast({
+        title: 'Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   const role = accountSubplebbits[subplebbit?.address]?.role?.role;
@@ -105,6 +116,8 @@ const CommunitySettings = ({ match }) => {
   useEffect(() => {
     setData({ ...subplebbit });
   }, [subplebbit]);
+
+  console.log(resolvedAuthorAddress, data);
 
   return (
     <>
@@ -273,7 +286,7 @@ const CommunitySettings = ({ match }) => {
                   height="32px"
                   onClick={handleSaveChanges}
                   isLoading={loading}
-                  disabled={role !== ('owner' || 'moderator')}
+                  disabled={role !== ('owner' || 'admin' || 'moderator')}
                 >
                   Save changes
                 </Button>
@@ -381,7 +394,7 @@ const CommunitySettings = ({ match }) => {
                             mb="8px"
                             borderRadius="4px"
                             padding="12px 24px 4px 12px"
-                            disabled={loading || role !== ('owner' || 'moderator')}
+                            disabled={loading || role !== ('owner' || 'admin' || 'moderator')}
                             onChange={(e) => setData({ ...data, address: e.target.value })}
                           />
                         </InputGroup>
@@ -882,7 +895,7 @@ const CommunitySettings = ({ match }) => {
                           mb="8px"
                           borderRadius="4px"
                           padding="12px 24px 4px 12px"
-                          disabled={loading || role !== ('owner' || 'moderator')}
+                          disabled={loading || role !== ('owner' || 'admin' || 'moderator')}
                           onChange={(e) => setData({ ...data, title: e.target.value })}
                         />
                         <Box
@@ -927,7 +940,7 @@ const CommunitySettings = ({ match }) => {
                             mb="8px"
                             borderRadius="4px"
                             padding="12px 24px 4px 12px"
-                            disabled={loading || role !== ('owner' || 'moderator')}
+                            disabled={loading || role !== ('owner' || 'admin' || 'moderator')}
                             onChange={(e) => setData({ ...data, address: e.target.value })}
                           />
                         </InputGroup>

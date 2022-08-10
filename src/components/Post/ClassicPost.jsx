@@ -12,6 +12,7 @@ import {
   Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { RiCopperCoinLine } from 'react-icons/ri';
 import { BsChat, BsBookmark, BsEyeSlash, BsFlag, BsFileText } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
@@ -39,6 +40,9 @@ const ClassicPost = ({
   type,
   showContent,
   setShowContent,
+  setCopied,
+  location,
+  copied,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -610,37 +614,47 @@ const ClassicPost = ({
                         Award
                       </Text>
                     </Flex>
-                    <Flex
-                      padding="8px"
-                      wordBreak="normal"
-                      mr="4px"
-                      alignItems="center"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      boxSizing="border-box"
-                      _hover={{
-                        backgroundColor: inputBg,
+                    <CopyToClipboard
+                      text={location}
+                      onCopy={() => {
+                        setCopied(true);
+                        setTimeout(() => {
+                          setCopied(false);
+                        }, 3000);
                       }}
                     >
-                      <Icon
-                        as={FaShare}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                      <Text
-                        display="inline-block"
-                        lineHeight={1}
-                        textTransform="capitalize"
-                        verticalAlign="middle"
+                      <Flex
+                        padding="8px"
+                        wordBreak="normal"
+                        mr="4px"
+                        alignItems="center"
+                        borderRadius="2px"
+                        fontSize="12px"
+                        fontWeight="700"
+                        lineHeight="16px"
+                        boxSizing="border-box"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
                       >
-                        Share
-                      </Text>
-                    </Flex>
+                        <Icon
+                          as={FaShare}
+                          width="20px"
+                          height="20px"
+                          verticalAlign="middle"
+                          fontWeight="400"
+                          mr="6px"
+                        />
+                        <Text
+                          display="inline-block"
+                          lineHeight={1}
+                          textTransform="capitalize"
+                          verticalAlign="middle"
+                        >
+                          {copied ? 'copied' : 'Share'}
+                        </Text>
+                      </Flex>
+                    </CopyToClipboard>
                     <Flex
                       padding="8px"
                       wordBreak="normal"

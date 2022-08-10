@@ -6,11 +6,13 @@ import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import CardPost from './CardPost';
 import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
+import logger from '../../utils/logger';
 
 const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const vote = post?.upvoteCount - post?.downvoteCount;
   const [voteMode, setVoteMode] = useState(0);
   const [showContent, setShowContent] = useState(false);
+  const [copied, setCopied] = useState(false);
   const toast = useToast();
   const { publishVote } = useAccountsActions();
 
@@ -39,7 +41,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       isClosable: true,
     });
 
-    console.log('challenge verified', challengeVerification, comment);
+    logger('challenge verified', challengeVerification, comment);
   };
   const onChallenge = async (challenges, comment) => {
     let challengeAnswers = [];
@@ -49,10 +51,10 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      console.log(error);
+      logger('post:challeng', error);
       toast({
-        title: 'Declined.',
-        description: 'Action Declined',
+        title: 'Challenge Declined.',
+        description: error?.message,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -64,13 +66,23 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   };
 
   const handleVote = (vote) => {
-    publishVote({
-      vote,
-      commentCid: post?.cid,
-      subplebbitAddress: post?.subplebbitAddress,
-      onChallenge,
-      onChallengeVerification,
-    });
+    try {
+      publishVote({
+        vote,
+        commentCid: post?.cid,
+        subplebbitAddress: post?.subplebbitAddress,
+        onChallenge,
+        onChallengeVerification,
+      });
+    } catch (error) {
+      toast({
+        title: 'Voting Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -88,6 +100,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleVote={handleVote}
             detail={detail}
             handleOption={handleOption}
+            copied={copied}
+            setCopied={setCopied}
+            location={`${window.location.href}p/${post?.subplebbitAddress}/c/${post?.cid}`}
           />
         )}
         {/* classic */}
@@ -104,6 +119,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleVote={handleVote}
             detail={detail}
             handleOption={handleOption}
+            copied={copied}
+            setCopied={setCopied}
+            location={`${window.location.href}p/${post?.subplebbitAddress}/c/${post?.cid}`}
           />
         )}
         {/* compact */}
@@ -120,6 +138,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleVote={handleVote}
             detail={detail}
             handleOption={handleOption}
+            copied={copied}
+            setCopied={setCopied}
+            location={`${window.location.href}p/${post?.subplebbitAddress}/c/${post?.cid}`}
           />
         )}
       </Box>

@@ -187,14 +187,24 @@ const Settings = () => {
                   onBlur={() =>
                     setTimeout(async () => {
                       if (userProfile?.author?.displayName !== profile?.author?.displayName) {
-                        await setAccount(userProfile);
-                        logger('account:update', userProfile);
-                        toast({
-                          title: `changes saved`,
-                          variant: 'left-accent',
-                          status: 'success',
-                          isClosable: true,
-                        });
+                        try {
+                          await setAccount(userProfile);
+                          logger('account:update', userProfile);
+                          toast({
+                            title: `changes saved`,
+                            variant: 'left-accent',
+                            status: 'success',
+                            isClosable: true,
+                          });
+                        } catch (error) {
+                          toast({
+                            title: `Account update`,
+                            description: error?.message,
+                            variant: 'left-accent',
+                            status: 'error',
+                            isClosable: true,
+                          });
+                        }
                       }
                     }, 300)
                   }
@@ -261,15 +271,25 @@ const Settings = () => {
                     onBlur={() =>
                       setTimeout(async () => {
                         if (resolvedAuthorAddress === userProfile?.signer?.address) {
-                          await setAccount(userProfile);
-                          logger('account:update', userProfile);
+                          try {
+                            await setAccount(userProfile);
+                            logger('account:update', userProfile);
 
-                          toast({
-                            title: `changes saved`,
-                            variant: 'left-accent',
-                            status: 'success',
-                            isClosable: true,
-                          });
+                            toast({
+                              title: `changes saved`,
+                              variant: 'left-accent',
+                              status: 'success',
+                              isClosable: true,
+                            });
+                          } catch (error) {
+                            toast({
+                              title: `Account update`,
+                              variant: 'left-update',
+                              description: error?.message,
+                              status: 'error',
+                              isClosable: true,
+                            });
+                          }
                         }
                       }, 300)
                     }
@@ -369,14 +389,24 @@ const Settings = () => {
                   onBlur={() =>
                     setTimeout(async () => {
                       if (userProfile?.author?.about !== profile?.author?.about) {
-                        await setAccount(userProfile);
-                        logger('account:update', userProfile);
-                        toast({
-                          title: `changes saved`,
-                          variant: 'left-accent',
-                          status: 'success',
-                          isClosable: true,
-                        });
+                        try {
+                          await setAccount(userProfile);
+                          logger('account:update', userProfile);
+                          toast({
+                            title: `changes saved`,
+                            variant: 'left-accent',
+                            status: 'success',
+                            isClosable: true,
+                          });
+                        } catch (error) {
+                          toast({
+                            title: `Account update`,
+                            variant: 'left-update',
+                            description: error?.message,
+                            status: 'error',
+                            isClosable: true,
+                          });
+                        }
                       }
                     }, 300)
                   }
@@ -685,13 +715,23 @@ const Settings = () => {
                         userProfile?.plebbitOptions?.ipfsGatewayUrl !==
                         profile?.plebbitOptions?.ipfsGatewayUrl
                       ) {
-                        await setAccount(userProfile);
-                        toast({
-                          title: `changes saved`,
-                          variant: 'left-accent',
-                          status: 'success',
-                          isClosable: true,
-                        });
+                        try {
+                          await setAccount(userProfile);
+                          toast({
+                            title: `changes saved`,
+                            variant: 'left-accent',
+                            status: 'success',
+                            isClosable: true,
+                          });
+                        } catch (error) {
+                          toast({
+                            title: `Account update`,
+                            variant: 'left-update',
+                            description: error?.message,
+                            status: 'error',
+                            isClosable: true,
+                          });
+                        }
                       }
                     }, 300)
                   }
@@ -758,13 +798,23 @@ const Settings = () => {
                         userProfile?.plebbitOptions?.ipfsHttpClientOptions !==
                         profile?.plebbitOptions?.ipfsHttpClientOptions
                       ) {
-                        await setAccount(userProfile);
-                        toast({
-                          title: `changes saved`,
-                          variant: 'left-accent',
-                          status: 'success',
-                          isClosable: true,
-                        });
+                        try {
+                          await setAccount(userProfile);
+                          toast({
+                            title: `changes saved`,
+                            variant: 'left-accent',
+                            status: 'success',
+                            isClosable: true,
+                          });
+                        } catch (error) {
+                          toast({
+                            title: `Account update`,
+                            variant: 'left-update',
+                            description: error?.message,
+                            status: 'error',
+                            isClosable: true,
+                          });
+                        }
                       }
                     }, 300)
                   }
@@ -824,14 +874,24 @@ const Settings = () => {
                         userProfile?.plebbitOptions?.pubsubHttpClientOptions !==
                         profile?.plebbitOptions?.pubsubHttpClientOptions
                       ) {
-                        await setAccount(userProfile);
-                        logger('account:update', userProfile);
-                        toast({
-                          title: `changes saved`,
-                          variant: 'left-accent',
-                          status: 'success',
-                          isClosable: true,
-                        });
+                        try {
+                          await setAccount(userProfile);
+                          logger('account:update', userProfile);
+                          toast({
+                            title: `changes saved`,
+                            variant: 'left-accent',
+                            status: 'success',
+                            isClosable: true,
+                          });
+                        } catch (error) {
+                          toast({
+                            title: `Account update`,
+                            variant: 'left-update',
+                            description: error?.message,
+                            status: 'error',
+                            isClosable: true,
+                          });
+                        }
                       }
                     }, 300)
                   }
@@ -942,15 +1002,25 @@ const Settings = () => {
                   onBlur={() =>
                     setTimeout(async () => {
                       if (userProfile?.blockedAddresses?.url !== profile?.blockedAddresses?.url) {
-                        await setAccount(userProfile);
-                        logger('account:update', userProfile);
+                        try {
+                          await setAccount(userProfile);
+                          logger('account:update', userProfile);
 
-                        toast({
-                          title: `changes saved`,
-                          variant: 'left-accent',
-                          status: 'success',
-                          isClosable: true,
-                        });
+                          toast({
+                            title: `changes saved`,
+                            variant: 'left-accent',
+                            status: 'success',
+                            isClosable: true,
+                          });
+                        } catch (error) {
+                          toast({
+                            title: `Account update`,
+                            variant: 'left-update',
+                            description: error?.message,
+                            status: 'error',
+                            isClosable: true,
+                          });
+                        }
                       }
                     }, 300)
                   }
@@ -1009,15 +1079,25 @@ const Settings = () => {
                         userProfile?.blockedAddresses?.chainId !==
                         profile?.blockedAddresses?.chainId
                       ) {
-                        await setAccount(userProfile);
-                        logger('account:update', userProfile);
+                        try {
+                          await setAccount(userProfile);
+                          logger('account:update', userProfile);
 
-                        toast({
-                          title: `changes saved`,
-                          variant: 'left-accent',
-                          status: 'success',
-                          isClosable: true,
-                        });
+                          toast({
+                            title: `changes saved`,
+                            variant: 'left-accent',
+                            status: 'success',
+                            isClosable: true,
+                          });
+                        } catch (error) {
+                          toast({
+                            title: `Account update`,
+                            variant: 'left-update',
+                            description: error?.message,
+                            status: 'error',
+                            isClosable: true,
+                          });
+                        }
                       }
                     }, 300)
                   }

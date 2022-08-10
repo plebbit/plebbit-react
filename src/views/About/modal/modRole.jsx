@@ -52,7 +52,7 @@ const ModRole = ({ onClose, isOpen, subPlebbit }) => {
       console.log(error);
       toast({
         title: 'Declined.',
-        description: 'Action Declined',
+        description: error?.message,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -64,13 +64,22 @@ const ModRole = ({ onClose, isOpen, subPlebbit }) => {
   };
 
   const handleSaveChanges = async () => {
-    setLoading(true);
-
-    await publishSubplebbitEdit(subPlebbit?.address, {
-      roles: data?.roles,
-      onChallenge,
-      onChallengeVerification,
-    });
+    try {
+      setLoading(true);
+      await publishSubplebbitEdit(subPlebbit?.address, {
+        roles: data?.roles,
+        onChallenge,
+        onChallengeVerification,
+      });
+    } catch (error) {
+      toast({
+        title: 'Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   console.log(subPlebbit);
