@@ -197,6 +197,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             description: error?.message,
@@ -282,6 +283,7 @@ const Settings = () => {
                               isClosable: true,
                             });
                           } catch (error) {
+                            console.log(error);
                             toast({
                               title: `Account update`,
                               variant: 'left-update',
@@ -399,6 +401,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             variant: 'left-update',
@@ -724,6 +727,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             variant: 'left-update',
@@ -807,6 +811,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             variant: 'left-update',
@@ -884,6 +889,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             variant: 'left-update',
@@ -1013,6 +1019,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             variant: 'left-update',
@@ -1090,6 +1097,7 @@ const Settings = () => {
                             isClosable: true,
                           });
                         } catch (error) {
+                          console.log(error);
                           toast({
                             title: `Account update`,
                             variant: 'left-update',
