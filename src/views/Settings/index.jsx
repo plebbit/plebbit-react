@@ -24,6 +24,8 @@ import { ProfileContext } from '../../store/profileContext';
 import AddAvatar from './modal/addAvatar';
 import ExportAccount from './modal/exportAccount';
 import logger from '../../utils/logger';
+import AddBlockProvide from './modal/addBlockProvider';
+import Swal from 'sweetalert2';
 
 const Settings = () => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -33,9 +35,11 @@ const Settings = () => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
+  const [bPLoading, setBpLoading] = useState(false);
   const [view, setView] = useState('profile');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
+  const { isOpen: isBlockOpen, onOpen: onBlockOpen, onClose: onBlockClose } = useDisclosure();
   const { profile, device } = useContext(ProfileContext);
   const tabs = [
     { label: 'Account', link: 'account' },
@@ -60,6 +64,82 @@ const Settings = () => {
     setUserProfile({ ...profile });
   }, [profile]);
 
+  const handleConfirm = (val) => {
+    Swal.fire({
+      title: 'Do you want to delete this Block Provider?',
+      showCancelButton: true,
+      confirmButtonText: 'Delete',
+      cancelButtonColor: '#d33',
+      confirmButtonColor: '#3085d6',
+      icon: 'warning',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        handleDelete(val);
+      }
+    });
+  };
+
+  const handleDelete = async (val) => {
+    await delete userProfile?.plebbitOptions?.blockchainProviders[val];
+    try {
+      await setAccount(userProfile);
+      toast({
+        title: `changes saved`,
+        variant: 'left-accent',
+        status: 'success',
+        isClosable: true,
+      });
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: `Account update`,
+        variant: 'left-update',
+        description: error?.message,
+        status: 'error',
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleSave = async (data) => {
+    try {
+      setBpLoading(true);
+      await setAccount({
+        ...userProfile,
+        plebbitOptions: {
+          ...userProfile?.plebbitOptions,
+          blockchainProviders: {
+            ...userProfile?.plebbitOptions?.blockchainProviders,
+            [data?.chainTicker]: {
+              ...data,
+            },
+          },
+        },
+      });
+      setBpLoading(false);
+      onBlockClose();
+      toast({
+        title: `changes saved`,
+        variant: 'left-accent',
+        status: 'success',
+        isClosable: true,
+      });
+    } catch (error) {
+      console.log(error);
+      setBpLoading(false);
+      toast({
+        title: `Account update`,
+        variant: 'left-update',
+        description: error?.message,
+        status: 'error',
+        isClosable: true,
+      });
+    }
+  };
+
+  console.log('this', profile);
+
   return (
     <Box
       paddingBottom="40px"
@@ -68,6 +148,16 @@ const Settings = () => {
     >
       {isOpen ? <AddAvatar isOpen={isOpen} onClose={onClose} /> : ''}
       {isExportOpen ? <ExportAccount isOpen={isExportOpen} onClose={onExportClose} /> : ''}
+      {isBlockOpen ? (
+        <AddBlockProvide
+          isOpen={isBlockOpen}
+          onClose={onBlockClose}
+          handleSave={handleSave}
+          loading={bPLoading}
+        />
+      ) : (
+        ''
+      )}
       <Box boxSizing="border-box" background={mainBg} position="relative">
         <Text
           maxW="1200px"
@@ -259,7 +349,6 @@ const Settings = () => {
                     padding="12px 24px 4px 12px"
                     width="100%"
                     value={userProfile?.author?.address || ''}
-                    maxLength={30}
                     onChange={(e) =>
                       setUserProfile({
                         ...userProfile,
@@ -313,12 +402,12 @@ const Settings = () => {
                 ) : (
                   <Text
                     fontWeight="400"
-                    color={metaColor}
+                    color="green"
                     fontSize="12px"
                     lineHeight="16px"
                     paddingTop="5px"
                   >
-                    {30 - +userProfile?.author?.address?.length} Characters remaining
+                    your ens is set correctly
                   </Text>
                 )}
                 <UnorderedList mt={3}>
@@ -948,171 +1037,256 @@ const Settings = () => {
                 />
               </Flex>
             </Flex>
-
-            <Text
+            <Flex
+              justifyContent="space-between"
               borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-              fontSize="10px"
-              fontWeight="700"
-              lineHeight="12px"
-              paddingBottom="6px"
-              marginBottom="32px"
+              alignItems="center"
             >
-              blockchainProviders
-            </Text>
-
-            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px">
-                <Text
-                  fontSize="16px"
-                  fontWeight="500"
-                  lineHeight="20px"
-                  color={mainColor}
-                  marginBottom="4px"
-                >
-                  url
-                </Text>
-                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
-                  URL of the provider RPC
-                </Text>
-              </Flex>
-              <Flex
-                alignItems="flex-start"
-                marginTop="12px"
-                flexDir="column"
-                flexGrow="1"
-                justifyContent="flex-end"
+              <Text
+                fontSize="10px"
+                fontWeight="700"
+                lineHeight="12px"
+                paddingBottom="6px"
+                marginBottom="32px"
               >
-                <Input
-                  placeholder="BlockchainProvider Url"
-                  backgroundColor={mainBg}
-                  color={mainColor}
-                  boxSizing="border-box"
-                  marginBottom="8px"
-                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
-                  height="48px"
-                  borderRadius="4px"
-                  padding="12px 24px 4px 12px"
-                  width="100%"
-                  value={userProfile?.blockedAddresses?.url}
-                  onChange={(e) =>
-                    setUserProfile({
-                      ...userProfile,
-                      blockedAddresses: {
-                        ...userProfile?.blockedAddresses,
-                        url: e.target.value,
-                      },
-                    })
-                  }
-                  ref={ref}
-                  onBlur={() =>
-                    setTimeout(async () => {
-                      if (userProfile?.blockedAddresses?.url !== profile?.blockedAddresses?.url) {
-                        try {
-                          await setAccount(userProfile);
-                          logger('account:update', userProfile);
-
-                          toast({
-                            title: `changes saved`,
-                            variant: 'left-accent',
-                            status: 'success',
-                            isClosable: true,
-                          });
-                        } catch (error) {
-                          console.log(error);
-                          toast({
-                            title: `Account update`,
-                            variant: 'left-update',
-                            description: error?.message,
-                            status: 'error',
-                            isClosable: true,
-                          });
-                        }
-                      }
-                    }, 300)
-                  }
-                  name="url"
-                />
-              </Flex>
-            </Flex>
-            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px">
-                <Text
-                  fontSize="16px"
-                  fontWeight="500"
-                  lineHeight="20px"
-                  color={mainColor}
-                  marginBottom="4px"
-                >
-                  chainId
-                </Text>
-                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
-                  ID of the EVM chain if any
-                </Text>
-              </Flex>
-              <Flex
-                alignItems="flex-start"
-                marginTop="12px"
-                flexDir="column"
-                flexGrow="1"
-                justifyContent="flex-end"
+                blockchainProviders
+              </Text>
+              <Button
+                fontSize="10px"
+                fontWeight="700"
+                lineHeight="12px"
+                paddingBottom="6px"
+                marginBottom="32px"
+                padding="8px"
+                borderRadius="3px"
+                onClick={onBlockOpen}
               >
-                <Input
-                  placeholder="BlockchainProvider chainId"
-                  backgroundColor={mainBg}
-                  color={mainColor}
-                  boxSizing="border-box"
-                  marginBottom="8px"
-                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
-                  height="48px"
-                  borderRadius="4px"
-                  padding="12px 24px 4px 12px"
-                  width="100%"
-                  value={userProfile?.blockedAddresses?.chainId}
-                  onChange={(e) =>
-                    setUserProfile({
-                      ...userProfile,
-                      blockedAddresses: {
-                        ...userProfile?.blockedAddresses,
-                        chainId: e.target.value,
-                      },
-                    })
-                  }
-                  ref={ref}
-                  onBlur={() =>
-                    setTimeout(async () => {
-                      if (
-                        userProfile?.blockedAddresses?.chainId !==
-                        profile?.blockedAddresses?.chainId
-                      ) {
-                        try {
-                          await setAccount(userProfile);
-                          logger('account:update', userProfile);
-
-                          toast({
-                            title: `changes saved`,
-                            variant: 'left-accent',
-                            status: 'success',
-                            isClosable: true,
-                          });
-                        } catch (error) {
-                          console.log(error);
-                          toast({
-                            title: `Account update`,
-                            variant: 'left-update',
-                            description: error?.message,
-                            status: 'error',
-                            isClosable: true,
-                          });
-                        }
-                      }
-                    }, 300)
-                  }
-                  name="chainId"
-                />
-              </Flex>
+                add custom
+              </Button>
             </Flex>
+            {Object.keys(userProfile?.plebbitOptions?.blockchainProviders)?.map((val) => (
+              <Box key={val}>
+                <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+                  <Flex justifyContent="space-between">
+                    <Flex flexDir="column" marginRight="8px">
+                      <Text
+                        fontSize="16px"
+                        fontWeight="500"
+                        lineHeight="20px"
+                        color={mainColor}
+                        marginBottom="4px"
+                      >
+                        {val}
+                      </Text>
+                      <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                        ChainTicker of the provider RPC
+                      </Text>
+                    </Flex>
+                    <Button backgroundColor="red" onClick={() => handleConfirm(val)}>
+                      X
+                    </Button>
+                  </Flex>
+                  <Flex
+                    alignItems="flex-start"
+                    marginTop="12px"
+                    flexDir="column"
+                    flexGrow="1"
+                    justifyContent="flex-end"
+                  >
+                    <Input
+                      placeholder="BlockchainProvider Chain Ticker"
+                      backgroundColor={mainBg}
+                      color={mainColor}
+                      boxSizing="border-box"
+                      marginBottom="8px"
+                      border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                      borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                      height="48px"
+                      borderRadius="4px"
+                      padding="12px 24px 4px 12px"
+                      width="100%"
+                      value={val}
+                      disabled
+                      name={val}
+                    />
+                  </Flex>
+                </Flex>
+                <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+                  <Flex flexDir="column" marginRight="8px">
+                    <Text
+                      fontSize="16px"
+                      fontWeight="500"
+                      lineHeight="20px"
+                      color={mainColor}
+                      marginBottom="4px"
+                    >
+                      url
+                    </Text>
+                    <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                      URL of the provider RPC
+                    </Text>
+                  </Flex>
+                  <Flex
+                    alignItems="flex-start"
+                    marginTop="12px"
+                    flexDir="column"
+                    flexGrow="1"
+                    justifyContent="flex-end"
+                  >
+                    <Input
+                      placeholder="BlockchainProvider Url"
+                      backgroundColor={mainBg}
+                      color={mainColor}
+                      boxSizing="border-box"
+                      marginBottom="8px"
+                      border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                      borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                      height="48px"
+                      borderRadius="4px"
+                      padding="12px 24px 4px 12px"
+                      width="100%"
+                      value={userProfile?.plebbitOptions?.blockchainProviders[val]?.url}
+                      onChange={(e) =>
+                        setUserProfile({
+                          ...userProfile,
+                          plebbitOptions: {
+                            ...userProfile?.plebbitOptions,
+                            blockchainProviders: {
+                              ...userProfile?.plebbitOptions?.blockchainProviders,
+                              [val]: {
+                                ...userProfile?.plebbitOptions?.blockchainProviders[val],
+                                url: e.target.value,
+                              },
+                            },
+                          },
+                        })
+                      }
+                      ref={ref}
+                      onBlur={() =>
+                        setTimeout(async () => {
+                          if (
+                            userProfile?.plebbitOptions?.blockchainProviders[val]?.url !==
+                            profile?.plebbitOptions?.blockchainProviders[val]?.url
+                          ) {
+                            try {
+                              await setAccount(userProfile);
+                              logger('account:update', userProfile);
+                              toast({
+                                title: `changes saved`,
+                                variant: 'left-accent',
+                                status: 'success',
+                                isClosable: true,
+                              });
+                            } catch (error) {
+                              console.log(error);
+                              toast({
+                                title: `Account update`,
+                                variant: 'left-update',
+                                description: error?.message,
+                                status: 'error',
+                                isClosable: true,
+                              });
+                            }
+                          }
+                        }, 300)
+                      }
+                      name="url"
+                    />
+                  </Flex>
+                </Flex>
+                <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+                  <Flex flexDir="column" marginRight="8px">
+                    <Text
+                      fontSize="16px"
+                      fontWeight="500"
+                      lineHeight="20px"
+                      color={mainColor}
+                      marginBottom="4px"
+                    >
+                      chainId
+                    </Text>
+                    <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                      ID of the EVM chain if any
+                    </Text>
+                  </Flex>
+                  <Flex
+                    alignItems="flex-start"
+                    marginTop="12px"
+                    flexDir="column"
+                    flexGrow="1"
+                    justifyContent="flex-end"
+                  >
+                    <Input
+                      placeholder="BlockchainProvider chainId"
+                      backgroundColor={mainBg}
+                      color={mainColor}
+                      boxSizing="border-box"
+                      marginBottom="8px"
+                      border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                      borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                      height="48px"
+                      borderRadius="4px"
+                      padding="12px 24px 4px 12px"
+                      width="100%"
+                      type="number"
+                      value={userProfile?.plebbitOptions?.blockchainProviders[val]?.chainId}
+                      onChange={(e) =>
+                        setUserProfile({
+                          ...userProfile,
+                          plebbitOptions: {
+                            ...userProfile?.plebbitOptions,
+                            blockchainProviders: {
+                              ...userProfile?.plebbitOptions?.blockchainProviders,
+                              [val]: {
+                                ...userProfile?.plebbitOptions?.blockchainProviders[val],
+                                chainId: e.target.value,
+                              },
+                            },
+                          },
+                        })
+                      }
+                      ref={ref}
+                      onBlur={() =>
+                        setTimeout(async () => {
+                          if (
+                            userProfile?.plebbitOptions?.blockchainProviders[val]?.chainId !==
+                            profile?.plebbitOptions?.blockchainProviders[val]?.chainId
+                          ) {
+                            try {
+                              await setAccount(userProfile);
+                              logger('account:update', userProfile);
+
+                              toast({
+                                title: `changes saved`,
+                                variant: 'left-accent',
+                                status: 'success',
+                                isClosable: true,
+                              });
+                            } catch (error) {
+                              console.log(error);
+                              toast({
+                                title: `Account update`,
+                                variant: 'left-update',
+                                description: error?.message,
+                                status: 'error',
+                                isClosable: true,
+                              });
+                            }
+                          }
+                        }, 300)
+                      }
+                      name="chainId"
+                    />
+                  </Flex>
+                </Flex>
+                <hr
+                  style={{
+                    marginTop: '20px',
+                    marginBottom: '20px',
+                  }}
+                />
+              </Box>
+            ))}
           </Box>
         </Flex>
       )}
