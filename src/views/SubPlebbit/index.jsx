@@ -317,13 +317,8 @@ const SubPlebbit = ({ match }) => {
                   <InfiniteScroll
                     hasMore={hasMore}
                     loadMore={loadMore}
-                    content={(feed, index) => (
-                      <Post
-                        type="subPlebbit"
-                        post={feed}
-                        key={`${feed?.cid}${index}`}
-                        mode={postStyle}
-                      />
+                    content={(feed) => (
+                      <Post type="subPlebbit" post={feed} key={Math.random()} mode={postStyle} />
                     )}
                     feeds={feeds}
                     loader={
@@ -460,27 +455,16 @@ const SubPlebbit = ({ match }) => {
               <FeedSort />
               {/* feed list */}
               <InfiniteScroll
-                dataLength={feeds ? feeds.length : 0}
-                next={loadMore}
                 hasMore={hasMore}
+                loadMore={loadMore}
+                content={(feed) => (
+                  <Post type="subPlebbit" post={feed} key={Math.random()} mode={postStyle} />
+                )}
+                feeds={feeds}
                 loader={
                   <Post type="subPlebbit" loading={true} mode={postStyle} key={Math.random()} />
                 }
-                // below props only if you need pull down functionality
-                refreshFunction={() => {}}
-                pullDownToRefresh
-                pullDownToRefreshThreshold={50}
-                pullDownToRefreshContent={
-                  <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
-                }
-                releaseToRefreshContent={
-                  <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-                }
-              >
-                {feeds?.map((feed) => (
-                  <Post type="subPlebbit" post={feed} key={feed?.cid} mode={postStyle} />
-                ))}
-              </InfiniteScroll>
+              />
             </Box>
           </Box>
         </Flex>
