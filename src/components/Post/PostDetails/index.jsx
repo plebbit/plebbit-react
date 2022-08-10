@@ -141,6 +141,8 @@ function PostDetail() {
         onChallengeVerification,
       });
     } catch (error) {
+      logger('post:detail:voting:', error);
+      console.log(error);
       toast({
         title: 'Voting Declined.',
         description: error?.message,
@@ -148,7 +150,6 @@ function PostDetail() {
         duration: 5000,
         isClosable: true,
       });
-      logger('post:detail:voting:', error);
     }
   };
 
@@ -163,6 +164,7 @@ function PostDetail() {
         onChallengeVerification,
       });
     } catch (error) {
+      console.log(error);
       toast({
         title: 'Comment Declined.',
         description: error?.message,

@@ -109,6 +109,8 @@ const CreatePost = () => {
       });
       logger('create-post', res);
     } catch (error) {
+      console.log(error);
+      logger('create-post', error);
       setLoading(false);
       toast({
         title: 'Declined.',
