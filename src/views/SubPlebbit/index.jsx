@@ -90,8 +90,8 @@ const SubPlebbit = ({ match }) => {
     } catch (error) {
       toast({
         title: 'Subscribed.',
-        description: error,
-        status: 'success',
+        description: error?.message,
+        status: 'error',
         duration: 3000,
         isClosable: true,
       });
@@ -99,8 +99,8 @@ const SubPlebbit = ({ match }) => {
     }
   };
   const handleUnSubscribe = async () => {
-    setSubLoading(true);
     try {
+      setSubLoading(true);
       await unsubscribe(subPlebbit?.address);
       toast({
         title: 'Unsubscribed.',
@@ -111,36 +111,39 @@ const SubPlebbit = ({ match }) => {
       });
       setSubLoading(false);
     } catch (error) {
+      setSubLoading(false);
       toast({
         title: 'Unsubscribed.',
-        description: error,
-        status: 'success',
+        description: error?.message,
+        status: 'error',
         duration: 3000,
         isClosable: true,
       });
-      setSubLoading(false);
     }
 
-    toast({
-      title: 'Unsubscribed.',
-      description: 'Unsubscribed successfully',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
     setSubLoading(false);
   };
 
   const handleSaveChanges = async () => {
-    setLoading(true);
-    await publishSubplebbitEdit(subPlebbit?.address, {
-      ...data,
-      onChallenge,
-      onChallengeVerification,
-    });
+    try {
+      setLoading(true);
+      await publishSubplebbitEdit(subPlebbit?.address, {
+        ...data,
+        onChallenge,
+        onChallengeVerification,
+      });
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      toast({
+        title: 'Supplebbit Edit declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
-
-  console.log('subplebbit', role);
 
   return (
     <>

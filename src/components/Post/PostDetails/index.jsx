@@ -113,10 +113,10 @@ function PostDetail() {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      console.log(error);
+      logger(error);
       toast({
         title: 'Declined.',
-        description: 'Action Declined',
+        description: error?.message || 'failed Challenge',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -130,70 +130,137 @@ function PostDetail() {
   };
 
   const handleVote = (vote) => {
-    publishVote({
-      vote,
-      commentCid: detail?.cid,
-      subplebbitAddress: detail?.subplebbitAddress,
-      onChallenge,
-      onChallengeVerification,
-    });
+    try {
+      publishVote({
+        vote,
+        commentCid: detail?.cid,
+        subplebbitAddress: detail?.subplebbitAddress,
+        onChallenge,
+        onChallengeVerification,
+      });
+    } catch (error) {
+      toast({
+        title: 'Voting Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      logger('post:detail:voting:', error);
+    }
   };
 
   const handlePublishPost = async () => {
-    await publishComment({
-      content,
-      postCid: detail?.cid, // the thread the comment is on
-      parentCid: detail?.cid, // if top level reply to a post, same as postCid
-      subplebbitAddress: detail?.subplebbitAddress,
-      onChallenge,
-      onChallengeVerification,
-    });
+    try {
+      await publishComment({
+        content,
+        postCid: detail?.cid, // the thread the comment is on
+        parentCid: detail?.cid, // if top level reply to a post, same as postCid
+        subplebbitAddress: detail?.subplebbitAddress,
+        onChallenge,
+        onChallengeVerification,
+      });
+    } catch (error) {
+      toast({
+        title: 'Comment Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      logger('post:comment:response:', error);
+    }
   };
   const handleEditPost = async (cid, content, address) => {
-    setEditLoading(true);
-    await publishCommentEdit({
-      commentCid: cid,
-      content: content,
-      subplebbitAddress: address,
-      onChallenge,
-      onChallengeVerification,
-    });
-    setEditLoading(false);
+    try {
+      setEditLoading(true);
+      await publishCommentEdit({
+        commentCid: cid,
+        content: content,
+        subplebbitAddress: address,
+        onChallenge,
+        onChallengeVerification,
+      });
+      setEditLoading(false);
+    } catch (error) {
+      setEditLoading(false);
+      toast({
+        title: 'Comment Edit Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
   const handleDeletePost = async (cid, address) => {
-    setEditLoading(true);
-    await publishCommentEdit({
-      commentCid: cid,
-      deleted: true,
-      subplebbitAddress: address,
-      onChallenge,
-      onChallengeVerification,
-    });
-    setEditLoading(false);
+    try {
+      setEditLoading(true);
+      await publishCommentEdit({
+        commentCid: cid,
+        deleted: true,
+        subplebbitAddress: address,
+        onChallenge,
+        onChallengeVerification,
+      });
+      setEditLoading(false);
+    } catch (error) {
+      setSubLoading(false);
+      toast({
+        title: 'Deleting declined',
+        description: error?.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
   const handleSubscribe = async () => {
-    setSubLoading(true);
-    await subscribe(detail?.subplebbitAddress);
-    toast({
-      title: 'Subscribed.',
-      description: 'Joined successfully',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
+    try {
+      setSubLoading(true);
+      await subscribe(detail?.subplebbitAddress);
+      toast({
+        title: 'Subscription.',
+        description: 'Joined successfully',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      setSubLoading(false);
+    } catch (error) {
+      setSubLoading(false);
+      toast({
+        title: 'Subscription declined',
+        description: error?.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
   const handleUnSubscribe = async () => {
-    setSubLoading(true);
-    await unsubscribe(detail?.subplebbitAddress);
-
-    toast({
-      title: 'Unsubscribed.',
-      description: 'Unsubscribed successfully',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
+    try {
+      setSubLoading(true);
+      await unsubscribe(detail?.subplebbitAddress);
+      toast({
+        title: 'Unsubscribed.',
+        description: 'Unsubscribed successfully',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      setSubLoading(false);
+    } catch (error) {
+      setSubLoading(false);
+      toast({
+        title: 'UnSubscribe declined',
+        description: error?.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
   const handleOption = (option) => {

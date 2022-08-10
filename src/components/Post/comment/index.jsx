@@ -64,7 +64,7 @@ const Comment = ({ comment, parentCid }) => {
       logger(error);
       toast({
         title: 'Declined.',
-        description: 'Action Declined',
+        description: error?.message,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -79,24 +79,45 @@ const Comment = ({ comment, parentCid }) => {
   };
 
   const handleVote = (vote) => {
-    publishVote({
-      vote,
-      commentCid: comment?.cid,
-      subplebbitAddress: comment?.subplebbitAddress,
-      onChallenge,
-      onChallengeVerification,
-    });
+    try {
+      publishVote({
+        vote,
+        commentCid: comment?.cid,
+        subplebbitAddress: comment?.subplebbitAddress,
+        onChallenge,
+        onChallengeVerification,
+      });
+    } catch (error) {
+      toast({
+        title: 'Voting Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   const handlePublishPost = () => {
-    setLoader(true);
-    publishComment({
-      content,
-      parentCid: parentCid, // if top level reply to a post, same as postCid
-      subplebbitAddress: comment?.subplebbitAddress,
-      onChallenge,
-      onChallengeVerification,
-    });
+    try {
+      setLoader(true);
+      publishComment({
+        content,
+        parentCid: parentCid, // if top level reply to a post, same as postCid
+        subplebbitAddress: comment?.subplebbitAddress,
+        onChallenge,
+        onChallengeVerification,
+      });
+    } catch (error) {
+      toast({
+        title: 'Comment Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      logger('create:comment:response', error);
+    }
   };
 
   const nestedComments = (comment?.replies?.pages?.topAll?.comments || []).map((comment) => {
