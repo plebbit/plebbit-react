@@ -11,6 +11,19 @@ startIpfs().catch(e => {
   console.error(e)
 });
 
+// add right click menu
+const contextMenu = require('electron-context-menu');
+contextMenu({
+  showLookUpSelection: false,
+  showCopyImage: true,
+  showCopyImageAddress: true,
+  showSaveImageAs: true,
+  showSaveLinkAs: true,
+  showInspectElement: true,
+  showServices: false,
+  showSearchWithGoogle: false,
+});
+
 const createMainWindow = () => {
   let mainWindow = new BrowserWindow({
     width: 1000,
