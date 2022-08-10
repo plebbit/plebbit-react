@@ -276,6 +276,9 @@ function PostDetail() {
         title: 'Do you want to delete this post?',
         showCancelButton: true,
         confirmButtonText: 'Delete',
+        cancelButtonColor: '#d33',
+        confirmButtonColor: '#3085d6',
+        icon: 'warning',
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
