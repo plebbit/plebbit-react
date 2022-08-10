@@ -18,6 +18,9 @@ const createMainWindow = () => {
     show: false,
     backgroundColor: 'white',
     webPreferences: {
+      // fix cors error for blockchain providers
+      webSecurity: false,
+
       nodeIntegration: true,
       contextIsolation: false,
       devTools: true, // TODO: change to isDev when no bugs left
@@ -55,10 +58,6 @@ const createMainWindow = () => {
   mainWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault();
     mainWindow.loadURL(url);
-
-    if (isDev) {
-      mainWindow.openDevTools();
-    }
   });
 
   // open links in external browser
