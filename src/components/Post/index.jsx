@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box } from '@chakra-ui/react';
 import Swal from 'sweetalert2';
 import { useToast } from '@chakra-ui/react';
@@ -7,6 +7,7 @@ import CardPost from './CardPost';
 import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
 import logger from '../../utils/logger';
+import { ProfileContext } from '../../store/profileContext';
 
 const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const vote = post?.upvoteCount - post?.downvoteCount;
@@ -16,6 +17,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const toast = useToast();
   const { publishVote } = useAccountsActions();
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(post.author);
+  const { mode: location } = useContext(ProfileContext);
 
   const getChallengeAnswersFromUser = async (challenges) => {
     const { value } = await Swal.fire({
@@ -85,7 +87,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       });
     }
   };
-
+  console.log('here', location);
   return (
     <Box>
       <Box>
@@ -103,7 +105,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleOption={handleOption}
             copied={copied}
             setCopied={setCopied}
-            location={`${window.location.href}p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            location={`${location === 'http:' ? 'plebbitdemo.eth.limo/' : window.location.href}p/${
+              post?.subplebbitAddress
+            }/c/${post?.cid}`}
             avatar={authorAvatarImageUrl}
           />
         )}
@@ -123,7 +127,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleOption={handleOption}
             copied={copied}
             setCopied={setCopied}
-            location={`${window.location.href}p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            location={`${location === 'http:' ? 'plebbitdemo.eth.limo/' : window.location.href}p/${
+              post?.subplebbitAddress
+            }/c/${post?.cid}`}
             avatar={authorAvatarImageUrl}
           />
         )}
@@ -143,7 +149,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleOption={handleOption}
             copied={copied}
             setCopied={setCopied}
-            location={`${window.location.href}p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            location={`${location === 'http:' ? 'plebbitdemo.eth.limo/' : window.location.href}p/${
+              post?.subplebbitAddress
+            }/c/${post?.cid}`}
             avatar={authorAvatarImageUrl}
           />
         )}

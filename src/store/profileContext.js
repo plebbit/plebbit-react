@@ -30,6 +30,7 @@ export const ProfileDataProvider = (props) => {
   const { version } = require('../../package.json');
   const [postView, setPostView] = useState(subPlebbitDefData?.map((x) => x?.value));
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(profile?.author);
+  const mode = window?.location?.protocol;
 
   const handleResize = () => {
     if (window.innerWidth > 1200) {
@@ -100,6 +101,7 @@ export const ProfileDataProvider = (props) => {
         postView,
         setPostView,
         authorAvatarImageUrl,
+        mode,
       }}
     >
       {children}
