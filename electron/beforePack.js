@@ -11,10 +11,10 @@ const ipfsClientMacPath = path.join(ipfsClientsPath, 'mac')
 const ipfsClientLinuxPath = path.join(ipfsClientsPath, 'linux')
 
 // download links https://docs.ipfs.io/install/command-line/#official-distributions
-const ipfsClientVersion = '0.13.0'
-const ipfsClientWindowsUrl = `https://dist.ipfs.io/go-ipfs/v${ipfsClientVersion}/go-ipfs_v${ipfsClientVersion}_windows-amd64.zip`
-const ipfsClientMacUrl = `https://dist.ipfs.io/go-ipfs/v${ipfsClientVersion}/go-ipfs_v${ipfsClientVersion}_darwin-amd64.tar.gz`
-const ipfsClientLinuxPUrl = `https://dist.ipfs.io/go-ipfs/v${ipfsClientVersion}/go-ipfs_v${ipfsClientVersion}_linux-amd64.tar.gz`
+const ipfsClientVersion = '0.14.0'
+const ipfsClientWindowsUrl = `https://dist.ipfs.io/kubo/v${ipfsClientVersion}/kubo_v${ipfsClientVersion}_windows-amd64.zip`
+const ipfsClientMacUrl = `https://dist.ipfs.io/kubo/v${ipfsClientVersion}/kubo_v${ipfsClientVersion}_darwin-amd64.tar.gz`
+const ipfsClientLinuxPUrl = `https://dist.ipfs.io/kubo/v${ipfsClientVersion}/kubo_v${ipfsClientVersion}_linux-amd64.tar.gz`
 
 const downloadWithProgress = (url) => new Promise(resolve => {
   const split = url.split('/')
@@ -58,7 +58,7 @@ const download = async (url, destinationPath) => {
   fs.ensureDirSync(destinationPath)
   await fs.writeFile(dowloadPath, file)
   await decompress(dowloadPath, destinationPath)
-  const extractedPath = path.join(destinationPath, 'go-ipfs')
+  const extractedPath = path.join(destinationPath, 'kubo')
   const extractedBinPath = path.join(extractedPath, binName)
   fs.moveSync(extractedBinPath, binPath)
   fs.removeSync(extractedPath)
