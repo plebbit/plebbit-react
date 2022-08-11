@@ -25,7 +25,7 @@ import { FaChevronLeft, FaEye, FaLock, FaUser } from 'react-icons/fa';
 import CreatableMulti from '../../components/DropDown/creatableMulti';
 import {
   useAccountsActions,
-  useResolvedAuthorAddress,
+  useResolvedSubplebbitAddress,
   useSubplebbit,
 } from '@plebbit/plebbit-react-hooks';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
@@ -49,7 +49,7 @@ const CommunitySettings = ({ match }) => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const { publishSubplebbitEdit } = useAccountsActions();
-  const resolvedAuthorAddress = useResolvedAuthorAddress(data ? data?.address : '');
+  const resolvedAuthorAddress = useResolvedSubplebbitAddress(data ? data?.address : '');
   const { device, accountSubplebbits } = useContext(ProfileContext);
   const [showSidebar, setShowSideBar] = useState(false);
 

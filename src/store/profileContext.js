@@ -3,6 +3,7 @@ import {
   useAccounts,
   useAccountsActions,
   useAccountSubplebbits,
+  useAuthorAvatarImageUrl,
   useSubplebbits,
 } from '@plebbit/plebbit-react-hooks';
 import React, { createContext, useState, useEffect } from 'react';
@@ -22,13 +23,13 @@ export const ProfileDataProvider = (props) => {
     useAccountsActions();
   const defaultAccount = useAccount();
   const accountLists = useAccounts();
+  const profile = defaultAccount;
   const accountSubplebbits = useAccountSubplebbits();
   const subscriptions = useSubplebbits(defaultAccount?.subscriptions);
   const subPlebbitDefData = useSubPlebbitDefaultData();
   const { version } = require('../../package.json');
   const [postView, setPostView] = useState(subPlebbitDefData?.map((x) => x?.value));
-
-  const profile = defaultAccount;
+  const authorAvatarImageUrl = useAuthorAvatarImageUrl(profile?.author);
 
   const handleResize = () => {
     if (window.innerWidth > 1200) {
@@ -98,6 +99,7 @@ export const ProfileDataProvider = (props) => {
         subscriptions,
         postView,
         setPostView,
+        authorAvatarImageUrl,
       }}
     >
       {children}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box } from '@chakra-ui/react';
 import Swal from 'sweetalert2';
 import { useToast } from '@chakra-ui/react';
-import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import { useAccountsActions, useAuthorAvatarImageUrl } from '@plebbit/plebbit-react-hooks';
 import CardPost from './CardPost';
 import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
@@ -15,6 +15,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const [copied, setCopied] = useState(false);
   const toast = useToast();
   const { publishVote } = useAccountsActions();
+  const authorAvatarImageUrl = useAuthorAvatarImageUrl(post.author);
 
   const getChallengeAnswersFromUser = async (challenges) => {
     const { value } = await Swal.fire({
@@ -103,6 +104,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             copied={copied}
             setCopied={setCopied}
             location={`${window.location.href}p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            avatar={authorAvatarImageUrl}
           />
         )}
         {/* classic */}
@@ -122,6 +124,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             copied={copied}
             setCopied={setCopied}
             location={`${window.location.href}p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            avatar={authorAvatarImageUrl}
           />
         )}
         {/* compact */}
@@ -141,6 +144,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             copied={copied}
             setCopied={setCopied}
             location={`${window.location.href}p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            avatar={authorAvatarImageUrl}
           />
         )}
       </Box>
