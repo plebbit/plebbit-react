@@ -43,6 +43,7 @@ const ClassicPost = ({
   setCopied,
   location,
   copied,
+  avatar,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -370,22 +371,7 @@ const ClassicPost = ({
                             fallbackSrc={require('../../assets/images/fallback.png')}
                             h="24px"
                             verticalAlign="middle"
-                            src="https://picsum.photos/200?random=1"
-                            alt="not-found"
-                          />
-                        </Flex>
-                        <Flex
-                          alignItems="center"
-                          display="inline-flex"
-                          justifyContent="center"
-                          verticalAlign="middle"
-                          mr="4px"
-                        >
-                          <Image
-                            fallbackSrc={require('../../assets/images/fallback.png')}
-                            h="24px"
-                            verticalAlign="middle"
-                            src="https://picsum.photos/200?random=2"
+                            src={avatar}
                             alt="not-found"
                           />
                         </Flex>

@@ -32,6 +32,7 @@ const CompactPost = ({
   post,
   type,
   handleVote,
+  avatar,
   // setCopied,
   // location,
   // copied,
@@ -387,22 +388,7 @@ const CompactPost = ({
                           fallbackSrc={require('../../assets/images/fallback.png')}
                           h="14px"
                           verticalAlign="middle"
-                          src="https://picsum.photos/200?random=1"
-                          alt="not-found"
-                        />
-                      </Flex>
-                      <Flex
-                        alignItems="center"
-                        display="inline-flex"
-                        justifyContent="center"
-                        verticalAlign="middle"
-                        mr="4px"
-                      >
-                        <Image
-                          fallbackSrc={require('../../assets/images/fallback.png')}
-                          h="14px"
-                          verticalAlign="middle"
-                          src="https://picsum.photos/200?random=2"
+                          src={avatar}
                           alt="not-found"
                         />
                       </Flex>

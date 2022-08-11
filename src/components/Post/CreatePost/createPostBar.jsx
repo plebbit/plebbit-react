@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Flex, useColorModeValue, Input, Image } from '@chakra-ui/react';
 import { useHistory } from 'react-router';
 import { LinkIcon } from '@chakra-ui/icons';
+import { ProfileContext } from '../../../store/profileContext';
 
 const CreatePostBar = () => {
   const history = useHistory();
@@ -11,6 +12,7 @@ const CreatePostBar = () => {
   const border2 = useColorModeValue('#edeff1', '#343536');
   const inputText = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
+  const { authorAvatarImageUrl } = useContext(ProfileContext);
 
   return (
     <Flex bg={mainBg} borderRadius="4px" border={`1px solid ${border1}`} mb="16px" padding="8px">
@@ -29,9 +31,7 @@ const CreatePostBar = () => {
             <Box width="100%" position="absolute" bottom="0">
               <Image
                 fallbackSrc={require('../../../assets/images/fallback.png')}
-                src={`https://robohash.org/${Math.round(
-                  Math.random() * (5 - 1 + 1) + 1
-                )}?set=set${Math.floor(Math.random() * (5 - 1 + 1) + 1)}`}
+                src={authorAvatarImageUrl}
                 width="100%"
                 transformOrigin="bottom center"
                 display="block"

@@ -72,6 +72,7 @@ const NavBar = () => {
     version,
     accountSubplebbits,
     setPostView,
+    authorAvatarImageUrl,
   } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
@@ -818,7 +819,7 @@ const NavBar = () => {
                       >
                         <Image
                           fallbackSrc={require('../../../assets/images/fallback.png')}
-                          src="https://raw.githubusercontent.com/plebbit/assets/master/logo-square.svg"
+                          src={authorAvatarImageUrl}
                           bg="#fff"
                           borderRadius="50%"
                           height="100%"

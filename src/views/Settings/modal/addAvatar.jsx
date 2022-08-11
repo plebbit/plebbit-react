@@ -15,10 +15,14 @@ import {
   useColorModeValue,
   useColorMode,
   Text,
-  Link,
   Textarea,
   useToast,
+  Box,
+  RadioGroup,
+  Stack,
+  Radio,
 } from '@chakra-ui/react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ProfileContext } from '../../../store/profileContext';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
@@ -36,8 +40,13 @@ const AddAvatar = ({ isOpen, onClose }) => {
   });
   const [message, setMessage] = useState('');
   const [signature, setSignature] = useState('');
+  const [type, setType] = useState('eip191');
+  const [chainTicker, setChainTicker] = useState('');
   const [userProfile, setUserProfile] = useState(profile);
+  const [copied, setCopied] = useState(false);
   const toast = useToast();
+
+  console.log(chainTicker);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -91,18 +100,23 @@ const AddAvatar = ({ isOpen, onClose }) => {
             )}
             {message?.length ? (
               <FormControl>
+                <CopyToClipboard
+                  text={message}
+                  onCopy={() => {
+                    setCopied(true);
+                    setTimeout(() => {
+                      setCopied(false);
+                    }, 3000);
+                  }}
+                >
+                  <Button>{copied ? 'Copied' : 'Copy'}</Button>
+                </CopyToClipboard>
                 <Text fontSize="13px" fontWeight="bold" color="red">
                   copy the message in the box above and sign it on{' '}
-                  <Link
-                    color={linkColor}
-                    href="https://etherscan.io/verifiedSignatures"
-                    isExternal
-                    fontSize="12px"
-                    fontStyle="italic"
-                  >
+                  <Box color={linkColor} fontSize="12px" fontStyle="italic">
                     https://etherscan.io/verifiedSignatures
                     <ExternalLinkIcon mx="2px" />
-                  </Link>
+                  </Box>
                 </Text>
               </FormControl>
             ) : (
@@ -110,10 +124,24 @@ const AddAvatar = ({ isOpen, onClose }) => {
             )}
             {message ? (
               <FormControl mt="15px">
+                <FormLabel>Chain Ticker</FormLabel>
+                <Input
+                  value={chainTicker}
+                  onChange={(e) => setChainTicker(e.target.value.toLowerCase())}
+                  mb="10px"
+                  placeholder="input ticker of the chain, like ETH, AVAX, SOL, etc"
+                />
+                <RadioGroup onChange={setType} value={type}>
+                  <Stack mb="10px" direction="row">
+                    <Radio value="eip191">eip191</Radio>
+                    <Radio isDisabled value="rsa">
+                      rsa
+                    </Radio>
+                  </Stack>
+                </RadioGroup>
                 <FormLabel>Signature</FormLabel>
                 <Textarea
                   border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
                   placeholder="Input signature"
                   value={signature}
                   onChange={(e) => {
@@ -123,10 +151,13 @@ const AddAvatar = ({ isOpen, onClose }) => {
                         ...userProfile?.author,
                         avatar: {
                           ...userProfile?.author?.avatar,
+                          chainTicker: chainTicker,
+                          address: data?.tokenAddress,
+                          id: data?.tokenId,
                           signature: {
                             ...userProfile?.author?.avatar?.signature,
                             signature: e.target.value,
-                            type: 'eip191',
+                            type: type,
                             signedPropertyNames: Object.keys(data),
                           },
                         },
@@ -136,17 +167,11 @@ const AddAvatar = ({ isOpen, onClose }) => {
                   }}
                 />
                 <Text fontSize="10px" fontWeight="bold">
-                  paste the signature gotten from{' '}
-                  <Link
-                    color={linkColor}
-                    href="https://etherscan.io/verifiedSignatures"
-                    isExternal
-                    fontSize="12px"
-                    fontStyle="italic"
-                  >
+                  paste the signature hash gotten from{' '}
+                  <Box color={linkColor} fontSize="12px" fontStyle="italic">
                     https://etherscan.io/verifiedSignatures
-                    <ExternalLinkIcon mx="2px" />
-                  </Link>{' '}
+                    <ExternalLinkIcon mx="2px" /> after publishing
+                  </Box>{' '}
                   in the box above
                 </Text>
               </FormControl>
@@ -166,13 +191,13 @@ const AddAvatar = ({ isOpen, onClose }) => {
                       try {
                         await setAccount(userProfile);
                         logger('account:update', userProfile);
-
                         toast({
                           title: `changes saved`,
                           variant: 'left-accent',
                           status: 'success',
                           isClosable: true,
                         });
+                        onClose();
                       } catch (error) {
                         toast({
                           title: `Account update`,
