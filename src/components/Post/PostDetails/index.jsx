@@ -74,7 +74,7 @@ function PostDetail() {
       ContentState.createFromBlockArray(convertFromHTML(`<p>${editPost}</p>`))
     )
   );
-  const { device, postStyle, profile, subscriptions } = useContext(ProfileContext);
+  const { device, postStyle, profile, mode, subscriptions } = useContext(ProfileContext);
   const history = useHistory();
   const [showMEditor, setShowMEditor] = useState(false);
 
@@ -788,7 +788,11 @@ function PostDetail() {
                               <Box>Award</Box>
                             </Link>
                             <CopyToClipboard
-                              text={window.location.href}
+                              text={
+                                mode === 'http:'
+                                  ? `plebbitdemo.eth.limo/p/${detail?.subplebbitAddress}/c/${detail?.cid}`
+                                  : window?.location?.href
+                              }
                               onCopy={() => {
                                 setCopied(true);
                                 setTimeout(() => {
@@ -1092,7 +1096,11 @@ function PostDetail() {
                               <Box>{detail?.replyCount}</Box>
                             </Link>
                             <CopyToClipboard
-                              text={window.location.href}
+                              text={
+                                mode === 'http:'
+                                  ? `plebbitdemo.eth.limo/p/${detail?.subplebbitAddress}/c/${detail?.cid}`
+                                  : window?.location?.href
+                              }
                               onCopy={() => {
                                 setCopied(true);
                                 setTimeout(() => {
