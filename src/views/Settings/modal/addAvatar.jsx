@@ -127,16 +127,28 @@ const AddAvatar = ({ isOpen, onClose }) => {
                 <FormLabel>Chain Ticker</FormLabel>
                 <Input
                   value={chainTicker}
-                  onChange={(e) => setChainTicker(e.target.value.toLowerCase())}
+                  onChange={(e) => {
+                    setUserProfile({
+                      ...userProfile,
+                      author: {
+                        ...userProfile?.author,
+                        avatar: {
+                          ...userProfile?.author?.avatar,
+                          chainTicker: e.target.value,
+                        },
+                      },
+                    });
+                    setChainTicker(e.target.value?.toLowerCase());
+                  }}
                   mb="10px"
-                  placeholder="input ticker of the chain, like ETH, AVAX, SOL, etc"
+                  placeholder="input ticker of the chain, like eth, avax, sol, matic, etc"
                 />
                 <RadioGroup onChange={setType} value={type}>
                   <Stack mb="10px" direction="row">
                     <Radio value="eip191">eip191</Radio>
-                    <Radio isDisabled value="rsa">
+                    {/* <Radio isDisabled value="rsa">
                       rsa
-                    </Radio>
+                    </Radio> */}
                   </Stack>
                 </RadioGroup>
                 <FormLabel>Signature</FormLabel>

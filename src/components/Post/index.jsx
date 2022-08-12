@@ -87,7 +87,6 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       });
     }
   };
-  console.log('here', location);
   return (
     <Box>
       <Box>

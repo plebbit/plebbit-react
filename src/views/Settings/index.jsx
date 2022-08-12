@@ -16,10 +16,11 @@ import {
   ListItem,
   InputGroup,
   Button,
+  Spinner,
 } from '@chakra-ui/react';
 import { useAccountsActions, useResolvedAuthorAddress } from '@plebbit/plebbit-react-hooks';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { MdAddCircleOutline } from 'react-icons/md';
+import { RiDeleteBinLine } from 'react-icons/ri';
 import { ProfileContext } from '../../store/profileContext';
 import AddAvatar from './modal/addAvatar';
 import ExportAccount from './modal/exportAccount';
@@ -31,8 +32,6 @@ const Settings = () => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const mainColor = useColorModeValue('lightText2', 'darkText1');
   const metaColor = useColorModeValue('metaTextLight', 'metaTextDark');
-  const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
-  const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
   const [bPLoading, setBpLoading] = useState(false);
@@ -41,6 +40,7 @@ const Settings = () => {
   const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
   const { isOpen: isBlockOpen, onOpen: onBlockOpen, onClose: onBlockClose } = useDisclosure();
   const { profile, device, authorAvatarImageUrl } = useContext(ProfileContext);
+  const [loader, setLoader] = useState(false);
   const tabs = [
     { label: 'Account', link: 'account' },
     { label: 'Profile', link: 'profile' },
@@ -52,7 +52,7 @@ const Settings = () => {
   ];
   const [userProfile, setUserProfile] = useState(profile);
   const ref = useRef(null);
-  const { setAccount } = useAccountsActions();
+  const { setAccount, deleteAccount } = useAccountsActions();
   const toast = useToast();
 
   const resolvedAuthorAddress = useResolvedAuthorAddress(
@@ -64,9 +64,9 @@ const Settings = () => {
     setUserProfile({ ...profile });
   }, [profile]);
 
-  const handleConfirm = (val) => {
+  const handleConfirm = (warning, callback) => {
     Swal.fire({
-      title: 'Do you want to delete this Block Provider?',
+      title: warning,
       showCancelButton: true,
       confirmButtonText: 'Delete',
       cancelButtonColor: '#d33',
@@ -75,7 +75,7 @@ const Settings = () => {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        handleDelete(val);
+        callback();
       }
     });
   };
@@ -138,7 +138,33 @@ const Settings = () => {
     }
   };
 
-  console.log('this', authorAvatarImageUrl, profile);
+  const handleDeleteAccount = async () => {
+    setLoader(true);
+    try {
+      await deleteAccount();
+      toast({
+        title: `Account deleted`,
+        variant: 'left-accent',
+        status: 'success',
+        isClosable: true,
+      });
+      setTimeout(() => {
+        setLoader(false);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      setLoader(false);
+      toast({
+        title: `Account not deleted`,
+        variant: 'left-update',
+        description: error?.message,
+        status: 'error',
+        isClosable: true,
+      });
+    }
+  };
+
+  console.log('this', profile);
 
   return (
     <Box
@@ -146,6 +172,22 @@ const Settings = () => {
       marginLeft={device !== 'mobile' ? 'calc(100vw - 100%)' : ''}
       background={mainBg}
     >
+      {loader && (
+        <Flex
+          position="fixed"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          bg="blackAlpha.300"
+          backdropFilter="blur(10px) hue-rotate(90deg)"
+          zIndex="9999"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
+        </Flex>
+      )}
       {isOpen ? <AddAvatar isOpen={isOpen} onClose={onClose} /> : ''}
       {isExportOpen ? <ExportAccount isOpen={isExportOpen} onClose={onExportClose} /> : ''}
       {isBlockOpen ? (
@@ -209,6 +251,136 @@ const Settings = () => {
             : ''}
         </Flex>
       </Box>
+      {view === 'account' && (
+        <Flex maxW="1200px" margin="0 auto" padding="0 16px">
+          <Box maxW="688px" flex="1 1 auto">
+            <Text fontSize="20px" fontWeight="500" lineHeight="24px" padding="40px 0">
+              Account settings
+            </Text>
+
+            <Text
+              fontSize="10px"
+              fontWeight="700"
+              letterSpacing="0.5px"
+              marginBottom="32px"
+              paddingBottom="6px"
+              borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+              color={metaColor}
+            >
+              ACCOUNT PREFERENCES
+            </Text>
+            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+              <Flex flexDir="column" marginRight="8px">
+                <Text
+                  fontSize="16px"
+                  fontWeight="500"
+                  lineHeight="20px"
+                  color={mainColor}
+                  marginBottom="4px"
+                >
+                  Account name (optional)
+                </Text>
+                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                  Set an account name.
+                </Text>
+              </Flex>
+              <Flex
+                alignItems="flex-start"
+                marginTop="12px"
+                flexDir="column"
+                flexGrow="1"
+                justifyContent="flex-end"
+              >
+                <Input
+                  placeholder="Accouny name (optional)"
+                  backgroundColor={mainBg}
+                  color={mainColor}
+                  boxSizing="border-box"
+                  marginBottom="8px"
+                  border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                  borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                  height="48px"
+                  borderRadius="4px"
+                  padding="12px 24px 4px 12px"
+                  width="100%"
+                  value={userProfile?.name}
+                  maxLength={30}
+                  onChange={(e) =>
+                    setUserProfile({
+                      ...userProfile,
+                      name: e.target.value,
+                    })
+                  }
+                  onBlur={() =>
+                    setTimeout(async () => {
+                      if (userProfile?.name !== profile?.name) {
+                        try {
+                          await setAccount(userProfile);
+                          logger('account:update', userProfile);
+                          toast({
+                            title: `changes saved`,
+                            variant: 'left-accent',
+                            status: 'success',
+                            isClosable: true,
+                          });
+                        } catch (error) {
+                          console.log(error);
+                          toast({
+                            title: `Account update`,
+                            description: error?.message,
+                            variant: 'left-accent',
+                            status: 'error',
+                            isClosable: true,
+                          });
+                        }
+                      }
+                    }, 300)
+                  }
+                  name="accountName"
+                  ref={ref}
+                />
+                <Text
+                  fontWeight="400"
+                  color={metaColor}
+                  fontSize="12px"
+                  lineHeight="16px"
+                  paddingTop="5px"
+                >
+                  {30 - +userProfile?.name?.length} Characters remaining
+                </Text>
+              </Flex>
+            </Flex>
+
+            <Text
+              borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+              fontSize="10px"
+              fontWeight="700"
+              lineHeight="12px"
+              paddingBottom="6px"
+              marginBottom="32px"
+            >
+              DELETE ACCOUNT
+            </Text>
+            <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+              <Flex
+                alignItems="center"
+                justifyContent="flex-end"
+                fontSize="14px"
+                fontWeight="700"
+                lineHeight="16.91px"
+                color="red"
+                cursor="pointer"
+                onClick={() =>
+                  handleConfirm('Do you want to delete this Account?', handleDeleteAccount)
+                }
+              >
+                <Icon as={RiDeleteBinLine} mr="5px" />
+                <Box>DELETE ACCOUNT</Box>
+              </Flex>
+            </Flex>
+          </Box>
+        </Flex>
+      )}
       {view === 'profile' && (
         <Flex maxW="1200px" margin="0 auto" padding="0 16px">
           <Box maxW="688px" flex="1 1 auto">
@@ -512,7 +684,7 @@ const Settings = () => {
                     lineHeight="16px"
                     paddingTop="5px"
                   >
-                    {200 - +userProfile?.author?.about?.length} Characters remaining
+                    {200 - (+userProfile?.author?.about?.length || 0)} Characters remaining
                   </Text>
                 </Flex>
               </Flex>
@@ -536,7 +708,7 @@ const Settings = () => {
                   color={mainColor}
                   marginBottom="4px"
                 >
-                  Avatar and banner image
+                  Avatar image
                 </Text>
                 <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
                   nft
@@ -573,36 +745,8 @@ const Settings = () => {
                       transformOrigin="bottom center"
                       clipPath="polygon(0 68.22%,12.12% 68.22%,12.85% 71.49%,13.86% 74.69%,15.14% 77.79%,16.69% 80.77%,18.49% 83.6%,20.54% 86.26%,22.8% 88.73%,25.28% 91%,27.94% 93.04%,30.77% 94.85%,33.75% 96.4%,36.85% 97.68%,40.05% 98.69%,43.32% 99.42%,46.65% 99.85%,50% 100%,53.35% 99.85%,56.68% 99.42%,59.95% 98.69%,63.15% 97.68%,66.25% 96.4%,69.23% 94.85%,72.06% 93.04%,74.72% 91%,77.2% 88.73%,79.46% 86.26%,81.51% 83.6%,83.31% 80.77%,84.86% 77.79%,86.14% 74.69%,87.15% 71.49%,87.88% 68.22%,100% 68.22%,100% 0,0 0)"
                       src={authorAvatarImageUrl}
-                    />
-                  </Box>
-                  <Box height="100%" margin="0" flexGrow={1}>
-                    <Flex
-                      border="1px dashed #d7d7d7"
-                      borderRadius="8px"
-                      boxSizing="border-box"
-                      padding="4px"
-                      cursor="pointer"
-                      alignItems="center"
-                      justifyContent="center"
-                      textAlign="center"
-                      height="100%"
-                      width="100%"
-                      bg={inputBg}
-                      flexDir="column"
                       onClick={onOpen}
-                    >
-                      <Box marginTop="-8px" marginBottom="4px">
-                        <Icon
-                          as={MdAddCircleOutline}
-                          boxSize={9}
-                          fill={iconColor}
-                          color={iconColor}
-                        />
-                      </Box>
-                      <Text color={metaColor} fontSize="11px">
-                        Upload Banner Image
-                      </Text>
-                    </Flex>
+                    />
                   </Box>
                 </Flex>
               </Flex>
@@ -1029,7 +1173,7 @@ const Settings = () => {
                   borderRadius="4px"
                   padding="12px 24px 4px 12px"
                   width="100%"
-                  value="./plebbit"
+                  value={userProfile?.plebbitOptions?.dataPath}
                   onChange={() => {}}
                   onBlur={() => {}}
                   name="dataPath"
@@ -1082,7 +1226,15 @@ const Settings = () => {
                         ChainTicker of the provider RPC
                       </Text>
                     </Flex>
-                    <Button backgroundColor="red" onClick={() => handleConfirm(val)}>
+                    <Button
+                      backgroundColor="red"
+                      onClick={() =>
+                        handleConfirm(
+                          'Do you want to delete this Block Provider?',
+                          handleDelete(val)
+                        )
+                      }
+                    >
                       X
                     </Button>
                   </Flex>

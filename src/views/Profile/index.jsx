@@ -13,7 +13,7 @@ import numFormatter from '../../utils/numberFormater';
 import { MdEdit } from 'react-icons/md';
 
 const Profile = () => {
-  const { profile, device } = useContext(ProfileContext);
+  const { profile, device, authorAvatarImageUrl } = useContext(ProfileContext);
   const [currentView, setCurrentView] = useState('overview');
   const bg = useColorModeValue('white', 'darkNavBg');
   const mobileBg = useColorModeValue('white', 'black');
@@ -1439,7 +1439,7 @@ const Profile = () => {
               )}
             </Flex>
 
-            <SideBar mt="0px" profile={profile} />
+            <SideBar mt="0px" profile={profile} avatar={authorAvatarImageUrl} />
           </Flex>
         </Flex>
       ) : (
