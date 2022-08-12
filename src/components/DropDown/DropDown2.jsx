@@ -19,6 +19,8 @@ const DropDown2 = ({
   topMenu,
   bottomMenu,
   selectStyles,
+  selectedBg,
+  unselectedBg,
 }) => {
   const mainColor = useColorModeValue('lightText2', 'darkText1');
   const navBorder = useColorModeValue('#edeff1', '#343536');
@@ -79,12 +81,13 @@ const DropDown2 = ({
               backgroundColor: 'transparent',
             },
           }),
-          option: (styles) => {
+          option: (styles, { isDisabled, isSelected }) => {
             return {
               ...styles,
 
               ':active': {
                 ...styles[':active'],
+                backgroundColor: !isDisabled ? (isSelected ? selectedBg : unselectedBg) : undefined,
               },
               ':hover': {
                 ...styles,

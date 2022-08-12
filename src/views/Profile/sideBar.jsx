@@ -24,6 +24,7 @@ const SideBar = ({
   borderColor,
   bg,
   profile,
+  avatar,
 }) => {
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '');
@@ -104,7 +105,7 @@ const SideBar = ({
                 height="160px"
                 position="relative"
                 zIndex="1"
-                src="https://i.redd.it/snoovatar/avatars/e4ba26fa-42e3-40e3-9041-c16e6bb3bbe6.png"
+                src={avatar}
               />
             </Box>
             <Box padding="4px" position="absolute" right="12px" mt="-76px">
@@ -125,7 +126,7 @@ const SideBar = ({
               alignItems="center"
               justifyContent="center"
             >
-              <Box> {profile?.author?.displayName || 'John Doe'}</Box>
+              <Box> {profile?.author?.displayName || profile?.name}</Box>
               <Icon as={SiInformatica} fill="#ff4500" ml="4px" />
             </Flex>
             <Box

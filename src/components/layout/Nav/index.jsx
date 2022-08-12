@@ -134,12 +134,12 @@ const NavBar = () => {
                 <Image
                   fallbackSrc={require('../../../assets/images/fallback.png')}
                   height="18px"
-                  width="auto"
                   src={colorMode === 'light' ? plebbitlightText2 : plebbitLightText}
                   alt="Plebbit Logo"
                   border="none"
                   mr="20px"
                   cursor="pointer"
+                  overflow="hidden"
                 />
               </Flex>
               <Box>
@@ -158,6 +158,7 @@ const NavBar = () => {
                       : {},
                   ]}
                   placeholder="Home"
+                  getOptionValue={(item) => item?.value}
                   sx={{
                     width: '270px',
                     height: '36px',
@@ -424,6 +425,7 @@ const NavBar = () => {
                   getOptionLabel={(item) =>
                     item?.author?.displayName ? item?.author?.displayName : item?.name
                   }
+                  getOptionValue={(item) => item?.id}
                   onChange={async (val) => {
                     await setActiveAccount(val?.name);
                     toast({
@@ -884,6 +886,7 @@ const NavBar = () => {
                     getOptionLabel={(item) =>
                       item?.author?.displayName ? item?.author?.displayName : item?.name
                     }
+                    getOptionValue={(item) => item?.id}
                     onChange={async (val) => {
                       await setActiveAccount(val?.name);
                       toast({
