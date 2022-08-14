@@ -13,7 +13,7 @@ import {
   useToast,
   Button,
 } from '@chakra-ui/react';
-import { useAccountsActions, useComment } from '@plebbit/plebbit-react-hooks';
+import { useAccountsActions, useComment, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Swal from 'sweetalert2';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
@@ -32,16 +32,20 @@ import Comment from '../comment';
 import Editor from '../../Editor';
 import truncateString from '../../../utils/truncateString';
 import { ProfileContext } from '../../../store/profileContext';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import getUserName from '../../../utils/getUserName';
 import numFormatter from '../../../utils/numberFormater';
 import Post from '..';
 import DropDown from '../../DropDown';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
 import logger from '../../../utils/logger';
+import Layout from '../../layout';
 
 function PostDetail() {
   const detail = useComment(
+    window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
+  );
+  const subplebbit = useSubplebbit(
     window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
   );
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -77,7 +81,7 @@ function PostDetail() {
   const { device, postStyle, profile, mode, subscriptions } = useContext(ProfileContext);
   const history = useHistory();
   const [showMEditor, setShowMEditor] = useState(false);
-
+  const location = useLocation();
   const getChallengeAnswersFromUser = async (challenges) => {
     const { value } = await Swal.fire({
       background: '#eff4f7',
@@ -293,36 +297,23 @@ function PostDetail() {
     detail,
   });
 
+  console.log(location);
+
   return (
-    <Box maxWidth="100%">
-      {device !== 'mobile' ? (
-        <Box>
-          <Box
-            top="48px"
-            backgroundColor="rgba(28,28,28,.9)"
-            bottom="0"
-            height="100%"
-            left="0"
-            position="fixed"
-            right="0"
-            width="100%"
-            zIndex="50"
-            _after={{
-              background: detBg,
-              bottom: '0',
-              height: '100%',
-              content: `" "`,
-              left: '0',
-              margin: '0 auto',
-              maxWidth: '1280px',
-              position: 'fixed',
-              right: '0',
-              width: 'calc(100% - 160px)',
-              top: '0',
-            }}
-          >
+    <Layout
+      name={{
+        label:
+          subplebbit?.title ||
+          window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1),
+        value: location?.pathname,
+      }}
+    >
+      <Box maxWidth="100%">
+        {device !== 'mobile' ? (
+          <Box>
             <Box
               top="48px"
+              backgroundColor="rgba(28,28,28,.9)"
               bottom="0"
               height="100%"
               left="0"
@@ -330,194 +321,76 @@ function PostDetail() {
               right="0"
               width="100%"
               zIndex="50"
-              sx={{
-                backfaceVisibility: 'hidden',
+              _after={{
+                background: detBg,
+                bottom: '0',
+                height: '100%',
+                content: `" "`,
+                left: '0',
+                margin: '0 auto',
+                maxWidth: '1280px',
+                position: 'fixed',
+                right: '0',
+                width: 'calc(100% - 160px)',
+                top: '0',
               }}
             >
               <Box
+                top="48px"
+                bottom="0"
                 height="100%"
-                overflowY="auto"
-                position="relative"
+                left="0"
+                position="fixed"
+                right="0"
                 width="100%"
-                willChange="transform"
+                zIndex="50"
                 sx={{
-                  contain: 'layout style size',
+                  backfaceVisibility: 'hidden',
                 }}
               >
-                {/* head */}
                 <Box
-                  background="#030303"
-                  height="48px"
-                  left="0"
-                  margin="0 auto"
-                  maxW="1280px"
-                  position="sticky"
-                  right="0"
-                  top="0"
-                  transition="top .3s ease"
-                  width="calc(100% -160px)"
-                  zIndex="70"
-                  tabIndex="-1"
+                  height="100%"
+                  overflowY="auto"
+                  position="relative"
+                  width="100%"
+                  willChange="transform"
+                  sx={{
+                    contain: 'layout style size',
+                  }}
                 >
-                  <Flex
-                    alignItems="center"
-                    height="100%"
-                    margin="auto"
-                    maxWidth="1128px"
-                    width="100%"
-                    padding="0 32px"
+                  {/* head */}
+                  <Box
+                    background="#030303"
+                    height="48px"
+                    left="0"
+                    margin="0 auto"
+                    maxW="1280px"
+                    position="sticky"
+                    right="0"
+                    top="0"
+                    transition="top .3s ease"
+                    width="calc(100% -160px)"
+                    zIndex="70"
+                    tabIndex="-1"
                   >
-                    <Flex alignItems="center" flex="1" maxW="calc(100% - 324px)" width="100%">
-                      <Flex alignItems="center" margin="0" padding="0 2px">
-                        <Box
-                          borderRight="1px solid #a4a4a4"
-                          height="16px"
-                          mr="8px"
-                          content=""
-                          verticalAlign="text-bottom"
-                          width="0"
-                        />
-                        <IconButton
-                          aria-label="Upvote Post"
-                          color={voteMode === 1 ? 'upvoteOrange' : iconColor}
-                          w="24px"
-                          h="24px"
-                          bg="none"
-                          minW="24px"
-                          minH="24px"
-                          border="none"
-                          borderRadius="2px"
-                          _hover={{
-                            bg: iconBg,
-                            color: 'upvoteOrange',
-                          }}
-                          _focus={{
-                            outline: 'none',
-                          }}
-                          onClick={() => {
-                            setVoteMode(voteMode === 1 ? 0 : 1);
-                            handleVote(voteMode === 1 ? 0 : 1);
-                          }}
-                          icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
-                        />
-                        <Text
-                          fontSize="12px"
-                          fontWeight="700"
-                          lineHeight="16px"
-                          pointerEvents="none"
-                          color="#D7DADC"
-                        >
-                          {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
-                        </Text>
-                        <IconButton
-                          aria-label="Downvote Post"
-                          color={voteMode === -1 ? 'downvoteBlue' : iconColor}
-                          w="24px"
-                          h="24px"
-                          minW="24px"
-                          minH="24px"
-                          border="none"
-                          bg="none"
-                          borderRadius="2px"
-                          _hover={{
-                            bg: iconBg,
-                            color: 'downvoteBlue',
-                          }}
-                          _focus={{
-                            outline: 'none',
-                          }}
-                          onClick={() => {
-                            setVoteMode(voteMode === -1 ? 0 : -1);
-                            handleVote(voteMode === -1 ? 0 : -1);
-                          }}
-                          icon={
-                            <Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
-                          }
-                        />
-                        <Box
-                          borderRight="1px solid #a4a4a4"
-                          height="16px"
-                          margin="0 8px"
-                          verticalAlign="text-bottom"
-                          content=""
-                          width="0"
-                        />
-                      </Flex>
-                      <Icon as={CgNotes} mr="8px" color="#D7DADC" />
-
-                      <Text
-                        color="#D7DADC"
-                        fontSize="14px"
-                        fontWeight="500"
-                        lineHeight="18px"
-                        minWidth="0"
-                        ml="2px"
-                        paddingRight="5px"
-                        sx={{
-                          '@media (max-width: 768px)': {
-                            display: 'none',
-                          },
-                        }}
-                        isTruncated
-                      >
-                        {detail?.title}
-                      </Text>
-                    </Flex>
                     <Flex
                       alignItems="center"
-                      justifyContent="flex-end"
-                      fontSize="12px"
-                      lineHeight="16px"
-                      fontWeight="700"
-                      width="312px"
-                      marginLeft="12px"
-                      color="#d7dadc"
+                      height="100%"
+                      margin="auto"
+                      maxWidth="1128px"
+                      width="100%"
+                      padding="0 32px"
                     >
-                      <CloseIcon mr="5px" onClick={() => history.goBack()} cursor="pointer" />
-                      <Box onClick={() => history.goBack()} cursor="pointer">
-                        Close
-                      </Box>
-                    </Flex>
-                  </Flex>
-                </Box>
-                <Flex
-                  tabIndex="-1"
-                  justifyContent="center"
-                  margin="0 auto"
-                  maxWidth="1280px"
-                  paddingBottom="32px"
-                  position="relative"
-                  width="calc(100% - 160px)"
-                >
-                  <Box
-                    maxW="740px"
-                    flex="1"
-                    margin="32px 12px 32px 32px"
-                    minH="100vh"
-                    minW="0"
-                    paddingBottom="1px"
-                    width="100%"
-                    wordBreak="break-word"
-                  >
-                    {/* Main */}
-                    <Flex width="100%" bg={bg} borderRadius="4px">
-                      {/* vote column */}
-                      <Flex display="flex">
-                        <Flex
-                          flexDir="column"
-                          w="40px"
-                          h="revert"
-                          borderLeft="4px solid transparent"
-                          borderRadius="4px"
-                          bg="none"
-                          alignItems="center"
-                          p="8px 4px 8px 0"
-                          sx={{
-                            '@media (max-width: 960px)': {
-                              display: 'none',
-                            },
-                          }}
-                        >
+                      <Flex alignItems="center" flex="1" maxW="calc(100% - 324px)" width="100%">
+                        <Flex alignItems="center" margin="0" padding="0 2px">
+                          <Box
+                            borderRight="1px solid #a4a4a4"
+                            height="16px"
+                            mr="8px"
+                            content=""
+                            verticalAlign="text-bottom"
+                            width="0"
+                          />
                           <IconButton
                             aria-label="Upvote Post"
                             color={voteMode === 1 ? 'upvoteOrange' : iconColor}
@@ -546,7 +419,7 @@ function PostDetail() {
                             fontWeight="700"
                             lineHeight="16px"
                             pointerEvents="none"
-                            color=""
+                            color="#D7DADC"
                           >
                             {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
                           </Text>
@@ -575,539 +448,632 @@ function PostDetail() {
                               <Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
                             }
                           />
-                        </Flex>
-                      </Flex>
-                      {/* post Details */}
-                      <Flex flexDir="column" paddingTop="8px" flex="1">
-                        {/* post Head */}
-                        <Flex
-                          alignItems="start"
-                          fontSize="12px"
-                          fontWeight="400"
-                          lineHeight="16px"
-                          margin="0 8px 8px"
-                          position="relative"
-                        >
-                          <Image
-                            fallbackSrc={require('../../../assets/images/fallback.png')}
-                            src="https://place-hold.it/100x100"
-                            width="20px"
-                            height="20px"
-                            marginRight="4px"
-                            borderRadius="100%"
-                            verticalAlign="middle"
+                          <Box
+                            borderRight="1px solid #a4a4a4"
+                            height="16px"
+                            margin="0 8px"
+                            verticalAlign="text-bottom"
+                            content=""
+                            width="0"
                           />
+                        </Flex>
+                        <Icon as={CgNotes} mr="8px" color="#D7DADC" />
+
+                        <Text
+                          color="#D7DADC"
+                          fontSize="14px"
+                          fontWeight="500"
+                          lineHeight="18px"
+                          minWidth="0"
+                          ml="2px"
+                          paddingRight="5px"
+                          sx={{
+                            '@media (max-width: 768px)': {
+                              display: 'none',
+                            },
+                          }}
+                          isTruncated
+                        >
+                          {detail?.title}
+                        </Text>
+                      </Flex>
+                      <Flex
+                        alignItems="center"
+                        justifyContent="flex-end"
+                        fontSize="12px"
+                        lineHeight="16px"
+                        fontWeight="700"
+                        width="312px"
+                        marginLeft="12px"
+                        color="#d7dadc"
+                      >
+                        <CloseIcon mr="5px" onClick={() => history.goBack()} cursor="pointer" />
+                        <Box onClick={() => history.goBack()} cursor="pointer">
+                          Close
+                        </Box>
+                      </Flex>
+                    </Flex>
+                  </Box>
+                  <Flex
+                    tabIndex="-1"
+                    justifyContent="center"
+                    margin="0 auto"
+                    maxWidth="1280px"
+                    paddingBottom="32px"
+                    position="relative"
+                    width="calc(100% - 160px)"
+                  >
+                    <Box
+                      maxW="740px"
+                      flex="1"
+                      margin="32px 12px 32px 32px"
+                      minH="100vh"
+                      minW="0"
+                      paddingBottom="1px"
+                      width="100%"
+                      wordBreak="break-word"
+                    >
+                      {/* Main */}
+                      <Flex width="100%" bg={bg} borderRadius="4px">
+                        {/* vote column */}
+                        <Flex display="flex">
                           <Flex
+                            flexDir="column"
+                            w="40px"
+                            h="revert"
+                            borderLeft="4px solid transparent"
+                            borderRadius="4px"
+                            bg="none"
                             alignItems="center"
-                            flexWrap="wrap"
-                            flex="1 1 auto"
-                            justifyContent="space-between"
+                            p="8px 4px 8px 0"
+                            sx={{
+                              '@media (max-width: 960px)': {
+                                display: 'none',
+                              },
+                            }}
+                          >
+                            <IconButton
+                              aria-label="Upvote Post"
+                              color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                              w="24px"
+                              h="24px"
+                              bg="none"
+                              minW="24px"
+                              minH="24px"
+                              border="none"
+                              borderRadius="2px"
+                              _hover={{
+                                bg: iconBg,
+                                color: 'upvoteOrange',
+                              }}
+                              _focus={{
+                                outline: 'none',
+                              }}
+                              onClick={() => {
+                                setVoteMode(voteMode === 1 ? 0 : 1);
+                                handleVote(voteMode === 1 ? 0 : 1);
+                              }}
+                              icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
+                            />
+                            <Text
+                              fontSize="12px"
+                              fontWeight="700"
+                              lineHeight="16px"
+                              pointerEvents="none"
+                              color=""
+                            >
+                              {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
+                            </Text>
+                            <IconButton
+                              aria-label="Downvote Post"
+                              color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                              w="24px"
+                              h="24px"
+                              minW="24px"
+                              minH="24px"
+                              border="none"
+                              bg="none"
+                              borderRadius="2px"
+                              _hover={{
+                                bg: iconBg,
+                                color: 'downvoteBlue',
+                              }}
+                              _focus={{
+                                outline: 'none',
+                              }}
+                              onClick={() => {
+                                setVoteMode(voteMode === -1 ? 0 : -1);
+                                handleVote(voteMode === -1 ? 0 : -1);
+                              }}
+                              icon={
+                                <Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
+                              }
+                            />
+                          </Flex>
+                        </Flex>
+                        {/* post Details */}
+                        <Flex flexDir="column" paddingTop="8px" flex="1">
+                          {/* post Head */}
+                          <Flex
+                            alignItems="start"
+                            fontSize="12px"
+                            fontWeight="400"
+                            lineHeight="16px"
+                            margin="0 8px 8px"
                             position="relative"
                           >
-                            <Box display="inline">
-                              <Box display="inline-block" flex="0 0 auto">
-                                <Link
-                                  color={subPledditTextColor}
-                                  fontSize="12px"
-                                  fontWeight="700"
-                                  display="inline"
+                            <Image
+                              fallbackSrc={require('../../../assets/images/fallback.png')}
+                              src="https://place-hold.it/100x100"
+                              width="20px"
+                              height="20px"
+                              marginRight="4px"
+                              borderRadius="100%"
+                              verticalAlign="middle"
+                            />
+                            <Flex
+                              alignItems="center"
+                              flexWrap="wrap"
+                              flex="1 1 auto"
+                              justifyContent="space-between"
+                              position="relative"
+                            >
+                              <Box display="inline">
+                                <Box display="inline-block" flex="0 0 auto">
+                                  <Link
+                                    color={subPledditTextColor}
+                                    fontSize="12px"
+                                    fontWeight="700"
+                                    display="inline"
+                                    lineHeight="20px"
+                                    textDecoration="none"
+                                  >
+                                    p/{truncateString(detail?.subplebbitAddress, 10, '...')}
+                                  </Link>
+                                </Box>
+                                <Text
+                                  color={separatorColor}
+                                  as="span"
+                                  verticalAlign="middle"
+                                  fontSize="6px"
                                   lineHeight="20px"
-                                  textDecoration="none"
+                                  margin="0 4px"
                                 >
-                                  p/{truncateString(detail?.subplebbitAddress, 10, '...')}
-                                </Link>
+                                  •
+                                </Text>
+                                <Text as="span" marginRight="3px">
+                                  Posted By
+                                </Text>
+
+                                <Link marginRight="3px">{getUserName(detail?.author)}</Link>
+
+                                <Link>{dateToNow(parseInt(detail?.timestamp * 1000))} ago</Link>
                               </Box>
-                              <Text
-                                color={separatorColor}
-                                as="span"
-                                verticalAlign="middle"
-                                fontSize="6px"
-                                lineHeight="20px"
-                                margin="0 4px"
-                              >
-                                •
-                              </Text>
-                              <Text as="span" marginRight="3px">
-                                Posted By
-                              </Text>
-
-                              <Link marginRight="3px">{getUserName(detail?.author)}</Link>
-
-                              <Link>{dateToNow(parseInt(detail?.timestamp * 1000))} ago</Link>
-                            </Box>
-                            <Icon
-                              sx={{
-                                '@media (min-width: 1280px)': {},
-                                '@media (max-width: 1120px)': {
-                                  display: 'none',
-                                },
-                              }}
-                              as={FiBell}
-                              height="16px"
-                              width="16px"
-                            />
-                            {/* <PdMenu /> */}
-                          </Flex>
-                        </Flex>
-                        {/* post Title */}
-                        <Flex margin="0 8px" display="flex" alignItems="center">
-                          <Heading
-                            color={titleColor}
-                            fontSize="18px"
-                            fontWeight="500"
-                            lineHeight="22px"
-                            paddingRight="5px"
-                            wordBreak="break-word"
-                          >
-                            {detail?.title}{' '}
-                            {detail?.flair?.text && (
-                              <Tag
-                                borderRadius="20px"
-                                p="2px 8px"
-                                mr="5px"
-                                background={detail?.flair?.backgroundColor}
-                                color={detail?.flair?.textColor}
-                              >
-                                {detail?.flair.text}
-                              </Tag>
-                            )}
-                          </Heading>
-                        </Flex>
-                        {/* post Body */}
-                        {edit ? (
-                          <Box marginTop="8px" padding="10px">
-                            <Editor
-                              editorState={postEditorState}
-                              setEditorState={setPostEditorState}
-                              setValue={setEditPost}
-                            />
-                            <Flex alignItems="center" mt="8px" justifyContent="flex-end">
-                              <Button
-                                borderRadius="999px"
-                                border="transparent"
-                                bg="transparent"
-                                onClick={() => setEdit(false)}
-                              >
-                                Cancel
-                              </Button>
-                              <Button
-                                borderRadius="999px"
-                                padding="5px 10px"
-                                minW="90px"
-                                minH="27px"
-                                onClick={() =>
-                                  handleEditPost(detail?.cid, editPost, detail?.subplebbitAddress)
-                                }
-                                isLoading={editLoading}
-                              >
-                                Save
-                              </Button>
+                              <Icon
+                                sx={{
+                                  '@media (min-width: 1280px)': {},
+                                  '@media (max-width: 1120px)': {
+                                    display: 'none',
+                                  },
+                                }}
+                                as={FiBell}
+                                height="16px"
+                                width="16px"
+                              />
+                              {/* <PdMenu /> */}
                             </Flex>
-                          </Box>
-                        ) : (
-                          <Box marginTop="8px">
-                            {detail?.content ? (
-                              <Box
-                                color={subPledditTextColor}
-                                padding="5px 8px 10px"
-                                fontFamily="Noto sans, Arial, sans-serif"
-                                fontSize="14px"
-                                fontWeight="400"
-                                lineHeight="21px"
-                                wordBreak="break-word"
-                                overflow="hidden"
-                              >
-                                {detail?.content}
-                              </Box>
-                            ) : (
-                              <Box display="flex" justifyContent="center">
-                                <Image
-                                  fallbackSrc="https://via.placeholder.com/150"
-                                  src={detail?.link}
-                                />
-                              </Box>
-                            )}
-                          </Box>
-                        )}
-                        {/* Post Bottom Bar */}
-                        <Flex
-                          sx={{
-                            '@media (max-width: 960px)': {
-                              display: 'none',
-                            },
-                          }}
-                          flexDirection="row"
-                          alignItems="center"
-                          paddingRight="10px"
-                          overflowY="visible"
-                          mb="2px"
-                        >
-                          <Flex
-                            flexDirection="row"
-                            alignItems="stretch"
-                            flexGrow={1}
-                            padding="0 8px 0 4px"
-                            fontSize="12px"
-                            fontWeight="700"
-                            lineHeight="16px"
-                          >
-                            <Link
-                              display="flex"
-                              alignItems="center"
-                              borderRadius="2px"
-                              padding="8px"
-                              marginRight="4px"
-                              _hover={{
-                                textDecor: 'none',
-                                outline: 'none',
-                                bg: bottomButtonHover,
-                              }}
-                              _focus={{
-                                boxShadow: 'none',
-                              }}
-                            >
-                              <Icon as={BsChat} height={5} width={5} mr="5px" />
-                              <Box>{detail?.replyCount} Comments</Box>
-                            </Link>
-                            <Link
-                              display="flex"
-                              alignItems="center"
-                              borderRadius="2px"
-                              padding="8px"
-                              marginRight="4px"
-                              _hover={{
-                                textDecor: 'none',
-                                outline: 'none',
-                                bg: bottomButtonHover,
-                              }}
-                              _focus={{
-                                boxShadow: 'none',
-                              }}
-                            >
-                              <Icon as={GoGift} height={5} width={5} mr="5px" />
-                              <Box>Award</Box>
-                            </Link>
-                            <CopyToClipboard
-                              text={
-                                mode === 'http:'
-                                  ? `plebbitdemo.eth.limo/p/${detail?.subplebbitAddress}/c/${detail?.cid}`
-                                  : window?.location?.href
-                              }
-                              onCopy={() => {
-                                setCopied(true);
-                                setTimeout(() => {
-                                  setCopied(false);
-                                }, 3000);
-                              }}
-                            >
-                              <Link
-                                display="flex"
-                                alignItems="center"
-                                borderRadius="2px"
-                                padding="8px"
-                                marginRight="4px"
-                                _hover={{
-                                  textDecor: 'none',
-                                  outline: 'none',
-                                  bg: bottomButtonHover,
-                                }}
-                                _focus={{
-                                  boxShadow: 'none',
-                                }}
-                              >
-                                <Icon as={FaShare} height={5} width={5} mr="5px" />
-                                <Box>{copied ? 'Copied' : 'share'}</Box>
-                              </Link>
-                            </CopyToClipboard>
-
-                            <Link
-                              display="flex"
-                              alignItems="center"
-                              borderRadius="2px"
-                              padding="8px"
-                              marginRight="4px"
-                              _hover={{
-                                textDecor: 'none',
-                                outline: 'none',
-                                bg: bottomButtonHover,
-                              }}
-                              _focus={{
-                                boxShadow: 'none',
-                              }}
-                            >
-                              <Icon as={BsBookmark} height={5} width={5} mr="5px" />
-                              <Box>save</Box>
-                            </Link>
-
-                            {profile?.author?.address === detail?.author?.address ? (
-                              <Link
-                                display="flex"
-                                alignItems="center"
-                                borderRadius="2px"
-                                padding="8px"
-                                marginRight="4px"
-                                _hover={{
-                                  textDecor: 'none',
-                                  outline: 'none',
-                                  bg: bottomButtonHover,
-                                }}
-                                _focus={{
-                                  boxShadow: 'none',
-                                }}
-                              >
-                                <DropDown
-                                  topOffset="30px"
-                                  width="215px"
-                                  dropDownTitle={
-                                    <Flex
-                                      borderRadius="2px"
-                                      height="24px"
-                                      verticalAlign="middle"
-                                      padding="0 4px"
-                                      width="100%"
-                                      bg="transparent"
-                                      border="none"
-                                      alignItems="center"
-                                    >
-                                      <Icon
-                                        as={FiMoreHorizontal}
-                                        color={iconColor}
-                                        h="20px"
-                                        w="20px"
-                                      />
-                                    </Flex>
-                                  }
-                                  options={[
-                                    {
-                                      label: 'Edit Post',
-                                      icon: BsPencil,
-                                      id: 'Edit',
-                                    },
-                                    {
-                                      label: 'Save',
-                                      icon: BsBookmark,
-                                      id: 'Save',
-                                    },
-                                    {
-                                      label: 'Block Author',
-                                      icon: BsEyeSlash,
-                                      id: 'block',
-                                    },
-                                    {
-                                      label: 'Delete',
-                                      icon: MdOutlineDeleteOutline,
-                                      id: 'Delete',
-                                    },
-                                  ]}
-                                  render={(item) => (
-                                    <Flex
-                                      alignItems="center"
-                                      padding="8px"
-                                      fontSize="14px"
-                                      lineHeight="18px"
-                                      fontWeight="500"
-                                      color={iconColor}
-                                      borderTop={`1px solid ${border2}`}
-                                      textTransform="capitalize"
-                                      _hover={{
-                                        bg: bottomButtonHover,
-                                      }}
-                                      onClick={() => handleOption(item)}
-                                    >
-                                      <Icon as={item?.icon} w="20px" h="20px" mr="6px" />
-                                      <Box>{item?.label}</Box>
-                                    </Flex>
-                                  )}
-                                />
-                              </Link>
-                            ) : (
-                              <>
-                                <Link
-                                  display="flex"
-                                  alignItems="center"
-                                  borderRadius="2px"
-                                  padding="8px"
-                                  marginRight="4px"
-                                  _hover={{
-                                    textDecor: 'none',
-                                    outline: 'none',
-                                    bg: bottomButtonHover,
-                                  }}
-                                  _focus={{
-                                    boxShadow: 'none',
-                                  }}
-                                >
-                                  <Icon as={BsEyeSlash} height={5} width={5} mr="5px" />
-                                  <Box>Block Author</Box>
-                                </Link>
-                                <Link
-                                  display="flex"
-                                  alignItems="center"
-                                  borderRadius="2px"
-                                  padding="8px"
-                                  marginRight="4px"
-                                  _hover={{
-                                    textDecor: 'none',
-                                    outline: 'none',
-                                    bg: bottomButtonHover,
-                                  }}
-                                  _focus={{
-                                    boxShadow: 'none',
-                                  }}
-                                >
-                                  <Icon as={BsFlag} height={5} width={5} mr="5px" />
-                                  <Box>Report</Box>
-                                </Link>
-                              </>
-                            )}
                           </Flex>
-                        </Flex>
-
-                        <Flex
-                          flexDirection="row"
-                          alignItems="center"
-                          overflowY="visible"
-                          mb="2px"
-                          paddingBottom="12px"
-                          paddingTop="8px"
-                          sx={{
-                            '@media (min-width: 960px)': {
-                              display: 'none',
-                            },
-                          }}
-                        >
+                          {/* post Title */}
+                          <Flex margin="0 8px" display="flex" alignItems="center">
+                            <Heading
+                              color={titleColor}
+                              fontSize="18px"
+                              fontWeight="500"
+                              lineHeight="22px"
+                              paddingRight="5px"
+                              wordBreak="break-word"
+                            >
+                              {detail?.title}{' '}
+                              {detail?.flair?.text && (
+                                <Tag
+                                  borderRadius="20px"
+                                  p="2px 8px"
+                                  mr="5px"
+                                  background={detail?.flair?.backgroundColor}
+                                  color={detail?.flair?.textColor}
+                                >
+                                  {detail?.flair.text}
+                                </Tag>
+                              )}
+                            </Heading>
+                          </Flex>
+                          {/* post Body */}
+                          {edit ? (
+                            <Box marginTop="8px" padding="10px">
+                              <Editor
+                                editorState={postEditorState}
+                                setEditorState={setPostEditorState}
+                                setValue={setEditPost}
+                              />
+                              <Flex alignItems="center" mt="8px" justifyContent="flex-end">
+                                <Button
+                                  borderRadius="999px"
+                                  border="transparent"
+                                  bg="transparent"
+                                  onClick={() => setEdit(false)}
+                                >
+                                  Cancel
+                                </Button>
+                                <Button
+                                  borderRadius="999px"
+                                  padding="5px 10px"
+                                  minW="90px"
+                                  minH="27px"
+                                  onClick={() =>
+                                    handleEditPost(detail?.cid, editPost, detail?.subplebbitAddress)
+                                  }
+                                  isLoading={editLoading}
+                                >
+                                  Save
+                                </Button>
+                              </Flex>
+                            </Box>
+                          ) : (
+                            <Box marginTop="8px">
+                              {detail?.content ? (
+                                <Box
+                                  color={subPledditTextColor}
+                                  padding="5px 8px 10px"
+                                  fontFamily="Noto sans, Arial, sans-serif"
+                                  fontSize="14px"
+                                  fontWeight="400"
+                                  lineHeight="21px"
+                                  wordBreak="break-word"
+                                  overflow="hidden"
+                                >
+                                  {detail?.content}
+                                </Box>
+                              ) : (
+                                <Box display="flex" justifyContent="center">
+                                  <Image
+                                    fallbackSrc="https://via.placeholder.com/150"
+                                    src={detail?.link}
+                                  />
+                                </Box>
+                              )}
+                            </Box>
+                          )}
+                          {/* Post Bottom Bar */}
                           <Flex
+                            sx={{
+                              '@media (max-width: 960px)': {
+                                display: 'none',
+                              },
+                            }}
                             flexDirection="row"
-                            alignItems="stretch"
-                            flexGrow={1}
-                            padding="0 8px 0 8px"
-                            fontSize="12px"
-                            fontWeight="500"
-                            lineHeight="16px"
-                            overflow="hidden"
+                            alignItems="center"
+                            paddingRight="10px"
+                            overflowY="visible"
+                            mb="2px"
                           >
                             <Flex
-                              borderRadius="16px"
-                              alignItems="center"
-                              maxH=""
-                              p=""
-                              width="auto"
-                              maxWidth="110px"
-                              minWidth="32px"
-                              mr="10px"
-                              flexShrink="0"
-                              border={`1px solid ${borderColor}`}
+                              flexDirection="row"
+                              alignItems="stretch"
+                              flexGrow={1}
+                              padding="0 8px 0 4px"
+                              fontSize="12px"
+                              fontWeight="700"
+                              lineHeight="16px"
                             >
-                              <IconButton
-                                aria-label="Upvote Post"
-                                color={voteMode === 1 ? 'upvoteOrange' : iconColor}
-                                w="24px"
-                                h="24px"
-                                bg="none"
-                                minW="24px"
-                                minH="24px"
-                                border="none"
+                              <Link
+                                display="flex"
+                                alignItems="center"
                                 borderRadius="2px"
+                                padding="8px"
+                                marginRight="4px"
                                 _hover={{
-                                  color: 'upvoteOrange',
+                                  textDecor: 'none',
+                                  outline: 'none',
+                                  bg: bottomButtonHover,
                                 }}
                                 _focus={{
-                                  outline: 'none',
+                                  boxShadow: 'none',
                                 }}
-                                onClick={() => {
-                                  setVoteMode(voteMode === 1 ? 0 : 1);
-                                  handleVote(voteMode === 1 ? 0 : 1);
-                                }}
-                                icon={
-                                  <Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />
-                                }
-                              />
-                              <Text
-                                fontSize="12px"
-                                fontWeight="700"
-                                lineHeight="16px"
-                                pointerEvents="none"
-                                color=""
                               >
-                                {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
-                              </Text>
-                              <IconButton
-                                aria-label="Downvote Post"
-                                color={voteMode === -1 ? 'downvoteBlue' : iconColor}
-                                w="24px"
-                                h="24px"
-                                minW="24px"
-                                minH="24px"
-                                border="none"
-                                bg="none"
+                                <Icon as={BsChat} height={5} width={5} mr="5px" />
+                                <Box>{detail?.replyCount} Comments</Box>
+                              </Link>
+                              <Link
+                                display="flex"
+                                alignItems="center"
                                 borderRadius="2px"
+                                padding="8px"
+                                marginRight="4px"
                                 _hover={{
-                                  color: 'downvoteBlue',
+                                  textDecor: 'none',
+                                  outline: 'none',
+                                  bg: bottomButtonHover,
                                 }}
                                 _focus={{
-                                  outline: 'none',
+                                  boxShadow: 'none',
                                 }}
-                                onClick={() => {
-                                  setVoteMode(voteMode === -1 ? 0 : -1);
-                                  handleVote(voteMode === -1 ? 0 : -1);
-                                }}
-                                icon={
-                                  <Icon
-                                    as={voteMode === -1 ? ImArrowDown : BiDownvote}
-                                    w={4}
-                                    h={4}
-                                  />
+                              >
+                                <Icon as={GoGift} height={5} width={5} mr="5px" />
+                                <Box>Award</Box>
+                              </Link>
+                              <CopyToClipboard
+                                text={
+                                  mode === 'http:'
+                                    ? `plebbitdemo.eth.limo/p/${detail?.subplebbitAddress}/c/${detail?.cid}`
+                                    : window?.location?.href
                                 }
-                              />
+                                onCopy={() => {
+                                  setCopied(true);
+                                  setTimeout(() => {
+                                    setCopied(false);
+                                  }, 3000);
+                                }}
+                              >
+                                <Link
+                                  display="flex"
+                                  alignItems="center"
+                                  borderRadius="2px"
+                                  padding="8px"
+                                  marginRight="4px"
+                                  _hover={{
+                                    textDecor: 'none',
+                                    outline: 'none',
+                                    bg: bottomButtonHover,
+                                  }}
+                                  _focus={{
+                                    boxShadow: 'none',
+                                  }}
+                                >
+                                  <Icon as={FaShare} height={5} width={5} mr="5px" />
+                                  <Box>{copied ? 'Copied' : 'share'}</Box>
+                                </Link>
+                              </CopyToClipboard>
+
+                              <Link
+                                display="flex"
+                                alignItems="center"
+                                borderRadius="2px"
+                                padding="8px"
+                                marginRight="4px"
+                                _hover={{
+                                  textDecor: 'none',
+                                  outline: 'none',
+                                  bg: bottomButtonHover,
+                                }}
+                                _focus={{
+                                  boxShadow: 'none',
+                                }}
+                              >
+                                <Icon as={BsBookmark} height={5} width={5} mr="5px" />
+                                <Box>save</Box>
+                              </Link>
+
+                              {profile?.author?.address === detail?.author?.address ? (
+                                <Link
+                                  display="flex"
+                                  alignItems="center"
+                                  borderRadius="2px"
+                                  padding="8px"
+                                  marginRight="4px"
+                                  _hover={{
+                                    textDecor: 'none',
+                                    outline: 'none',
+                                    bg: bottomButtonHover,
+                                  }}
+                                  _focus={{
+                                    boxShadow: 'none',
+                                  }}
+                                >
+                                  <DropDown
+                                    topOffset="30px"
+                                    width="215px"
+                                    dropDownTitle={
+                                      <Flex
+                                        borderRadius="2px"
+                                        height="24px"
+                                        verticalAlign="middle"
+                                        padding="0 4px"
+                                        width="100%"
+                                        bg="transparent"
+                                        border="none"
+                                        alignItems="center"
+                                      >
+                                        <Icon
+                                          as={FiMoreHorizontal}
+                                          color={iconColor}
+                                          h="20px"
+                                          w="20px"
+                                        />
+                                      </Flex>
+                                    }
+                                    options={[
+                                      {
+                                        label: 'Edit Post',
+                                        icon: BsPencil,
+                                        id: 'Edit',
+                                      },
+                                      {
+                                        label: 'Save',
+                                        icon: BsBookmark,
+                                        id: 'Save',
+                                      },
+                                      {
+                                        label: 'Block Author',
+                                        icon: BsEyeSlash,
+                                        id: 'block',
+                                      },
+                                      {
+                                        label: 'Delete',
+                                        icon: MdOutlineDeleteOutline,
+                                        id: 'Delete',
+                                      },
+                                    ]}
+                                    render={(item) => (
+                                      <Flex
+                                        alignItems="center"
+                                        padding="8px"
+                                        fontSize="14px"
+                                        lineHeight="18px"
+                                        fontWeight="500"
+                                        color={iconColor}
+                                        borderTop={`1px solid ${border2}`}
+                                        textTransform="capitalize"
+                                        _hover={{
+                                          bg: bottomButtonHover,
+                                        }}
+                                        onClick={() => handleOption(item)}
+                                      >
+                                        <Icon as={item?.icon} w="20px" h="20px" mr="6px" />
+                                        <Box>{item?.label}</Box>
+                                      </Flex>
+                                    )}
+                                  />
+                                </Link>
+                              ) : (
+                                <>
+                                  <Link
+                                    display="flex"
+                                    alignItems="center"
+                                    borderRadius="2px"
+                                    padding="8px"
+                                    marginRight="4px"
+                                    _hover={{
+                                      textDecor: 'none',
+                                      outline: 'none',
+                                      bg: bottomButtonHover,
+                                    }}
+                                    _focus={{
+                                      boxShadow: 'none',
+                                    }}
+                                  >
+                                    <Icon as={BsEyeSlash} height={5} width={5} mr="5px" />
+                                    <Box>Block Author</Box>
+                                  </Link>
+                                  <Link
+                                    display="flex"
+                                    alignItems="center"
+                                    borderRadius="2px"
+                                    padding="8px"
+                                    marginRight="4px"
+                                    _hover={{
+                                      textDecor: 'none',
+                                      outline: 'none',
+                                      bg: bottomButtonHover,
+                                    }}
+                                    _focus={{
+                                      boxShadow: 'none',
+                                    }}
+                                  >
+                                    <Icon as={BsFlag} height={5} width={5} mr="5px" />
+                                    <Box>Report</Box>
+                                  </Link>
+                                </>
+                              )}
                             </Flex>
-                            <Link
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="center"
-                              borderRadius="50%"
-                              _hover={{
-                                textDecor: 'none',
-                              }}
-                              _focus={{
-                                boxShadow: 'none',
-                              }}
-                              mr="10px"
-                              border={`1px solid ${borderColor}`}
-                              minW="32px"
-                              height="32px"
-                              flexShrink="0"
+                          </Flex>
+
+                          <Flex
+                            flexDirection="row"
+                            alignItems="center"
+                            overflowY="visible"
+                            mb="2px"
+                            paddingBottom="12px"
+                            paddingTop="8px"
+                            sx={{
+                              '@media (min-width: 960px)': {
+                                display: 'none',
+                              },
+                            }}
+                          >
+                            <Flex
+                              flexDirection="row"
+                              alignItems="stretch"
+                              flexGrow={1}
+                              padding="0 8px 0 8px"
+                              fontSize="12px"
+                              fontWeight="500"
+                              lineHeight="16px"
+                              overflow="hidden"
                             >
-                              <Icon as={GoGift} height={5} width={5} />
-                            </Link>
-                            <Link
-                              borderRadius="16px"
-                              alignItems="center"
-                              maxH=""
-                              p="2px 8px"
-                              width="auto"
-                              maxWidth="100px"
-                              minWidth="32px"
-                              mr="10px"
-                              flexShrink="0"
-                              border={`1px solid ${borderColor}`}
-                              display="flex"
-                            >
-                              <Icon as={BsChat} height={5} width={5} mr="5px" />
-                              <Box>{detail?.replyCount}</Box>
-                            </Link>
-                            <CopyToClipboard
-                              text={
-                                mode === 'http:'
-                                  ? `plebbitdemo.eth.limo/p/${detail?.subplebbitAddress}/c/${detail?.cid}`
-                                  : window?.location?.href
-                              }
-                              onCopy={() => {
-                                setCopied(true);
-                                setTimeout(() => {
-                                  setCopied(false);
-                                }, 3000);
-                              }}
-                            >
+                              <Flex
+                                borderRadius="16px"
+                                alignItems="center"
+                                maxH=""
+                                p=""
+                                width="auto"
+                                maxWidth="110px"
+                                minWidth="32px"
+                                mr="10px"
+                                flexShrink="0"
+                                border={`1px solid ${borderColor}`}
+                              >
+                                <IconButton
+                                  aria-label="Upvote Post"
+                                  color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                                  w="24px"
+                                  h="24px"
+                                  bg="none"
+                                  minW="24px"
+                                  minH="24px"
+                                  border="none"
+                                  borderRadius="2px"
+                                  _hover={{
+                                    color: 'upvoteOrange',
+                                  }}
+                                  _focus={{
+                                    outline: 'none',
+                                  }}
+                                  onClick={() => {
+                                    setVoteMode(voteMode === 1 ? 0 : 1);
+                                    handleVote(voteMode === 1 ? 0 : 1);
+                                  }}
+                                  icon={
+                                    <Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />
+                                  }
+                                />
+                                <Text
+                                  fontSize="12px"
+                                  fontWeight="700"
+                                  lineHeight="16px"
+                                  pointerEvents="none"
+                                  color=""
+                                >
+                                  {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
+                                </Text>
+                                <IconButton
+                                  aria-label="Downvote Post"
+                                  color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                                  w="24px"
+                                  h="24px"
+                                  minW="24px"
+                                  minH="24px"
+                                  border="none"
+                                  bg="none"
+                                  borderRadius="2px"
+                                  _hover={{
+                                    color: 'downvoteBlue',
+                                  }}
+                                  _focus={{
+                                    outline: 'none',
+                                  }}
+                                  onClick={() => {
+                                    setVoteMode(voteMode === -1 ? 0 : -1);
+                                    handleVote(voteMode === -1 ? 0 : -1);
+                                  }}
+                                  icon={
+                                    <Icon
+                                      as={voteMode === -1 ? ImArrowDown : BiDownvote}
+                                      w={4}
+                                      h={4}
+                                    />
+                                  }
+                                />
+                              </Flex>
                               <Link
                                 display="flex"
                                 alignItems="center"
@@ -1119,297 +1085,346 @@ function PostDetail() {
                                 _focus={{
                                   boxShadow: 'none',
                                 }}
-                                ml="auto"
+                                mr="10px"
                                 border={`1px solid ${borderColor}`}
                                 minW="32px"
                                 height="32px"
                                 flexShrink="0"
-                                sx={{
-                                  '@media (min-width: 1280px)': {},
-                                  '@media (max-width: 1120px)': {
-                                    display: 'none',
-                                  },
+                              >
+                                <Icon as={GoGift} height={5} width={5} />
+                              </Link>
+                              <Link
+                                borderRadius="16px"
+                                alignItems="center"
+                                maxH=""
+                                p="2px 8px"
+                                width="auto"
+                                maxWidth="100px"
+                                minWidth="32px"
+                                mr="10px"
+                                flexShrink="0"
+                                border={`1px solid ${borderColor}`}
+                                display="flex"
+                              >
+                                <Icon as={BsChat} height={5} width={5} mr="5px" />
+                                <Box>{detail?.replyCount}</Box>
+                              </Link>
+                              <CopyToClipboard
+                                text={
+                                  mode === 'http:'
+                                    ? `plebbitdemo.eth.limo/p/${detail?.subplebbitAddress}/c/${detail?.cid}`
+                                    : window?.location?.href
+                                }
+                                onCopy={() => {
+                                  setCopied(true);
+                                  setTimeout(() => {
+                                    setCopied(false);
+                                  }, 3000);
                                 }}
                               >
-                                {copied ? 'Copied' : <Icon as={FiShare} height={5} width={5} />}
-                              </Link>
-                            </CopyToClipboard>
+                                <Link
+                                  display="flex"
+                                  alignItems="center"
+                                  justifyContent="center"
+                                  borderRadius="50%"
+                                  _hover={{
+                                    textDecor: 'none',
+                                  }}
+                                  _focus={{
+                                    boxShadow: 'none',
+                                  }}
+                                  ml="auto"
+                                  border={`1px solid ${borderColor}`}
+                                  minW="32px"
+                                  height="32px"
+                                  flexShrink="0"
+                                  sx={{
+                                    '@media (min-width: 1280px)': {},
+                                    '@media (max-width: 1120px)': {
+                                      display: 'none',
+                                    },
+                                  }}
+                                >
+                                  {copied ? 'Copied' : <Icon as={FiShare} height={5} width={5} />}
+                                </Link>
+                              </CopyToClipboard>
+                            </Flex>
                           </Flex>
                         </Flex>
                       </Flex>
-                    </Flex>
-                    <Box maxW="100%" bg={bg} mt="10px" padding="10px">
-                      <Box padding="24px 40px">
-                        <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                          Comment As {getUserName(profile?.author)}
+                      <Box maxW="100%" bg={bg} mt="10px" padding="10px">
+                        <Box padding="24px 40px">
+                          <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
+                            Comment As {getUserName(profile?.author)}
+                          </Box>
+                          <Box
+                            borderRadius="4px"
+                            overflow="hidden auto"
+                            padding="8px 16px"
+                            resize="vertical"
+                            minH="200px"
+                          >
+                            <Editor
+                              setValue={setContent}
+                              editorState={editorState}
+                              setEditorState={setEditorState}
+                              showSubmit
+                              handleSubmit={handlePublishPost}
+                            />
+                          </Box>
+                          <Box
+                            fontSize="12px"
+                            fontWeight="700"
+                            lineHeight="16px"
+                            marginTop="16px"
+                            marginBottom="4px "
+                          >
+                            Sort By: Best
+                          </Box>
+                          <hr />
                         </Box>
-                        <Box
-                          borderRadius="4px"
-                          overflow="hidden auto"
-                          padding="8px 16px"
-                          resize="vertical"
-                          minH="200px"
-                        >
+                        {detail?.replies?.pages?.topAll?.comments.map((comment) => (
+                          <Comment comment={comment} key={comment.cid} parentCid={detail?.cid} />
+                        ))}
+                      </Box>
+                    </Box>
+                    <SideBar
+                      margin="32px 0"
+                      borderRadius="4px"
+                      padding="0"
+                      right="0"
+                      top="0"
+                      width="312px"
+                      sx={{
+                        '@media (max-width: 1120px)': {
+                          display: 'none',
+                        },
+                      }}
+                      handleSubscribe={handleSubscribe}
+                      handleUnSubscribe={handleUnSubscribe}
+                      subLoading={subLoading}
+                      setSubLoading={setSubLoading}
+                      subscriptions={subscriptions}
+                      detail={detail}
+                    />
+                  </Flex>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        ) : (
+          <Box>
+            <Box>
+              <Box position="relative" bg={mainMobileBg}>
+                <Box position="relative">
+                  <Box paddingTop="0">
+                    <Box
+                      backgroundPosition="top"
+                      backgroundRepeat="no-repeat"
+                      backgroundSize="auto 96px"
+                      overflow="hidden"
+                      paddingTop="48px"
+                      position="relative"
+                      backgroundColor="#212a3b"
+                    >
+                      <Box
+                        backgroundPosition="50%"
+                        backgroundSize="cover"
+                        left="0"
+                        paddingTop="30%"
+                        position="absolute"
+                        right="0"
+                        top="0"
+                      />
+                      <Box
+                        bottom="20px"
+                        left="0"
+                        pos="absolute"
+                        right="0"
+                        top="0"
+                        onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}
+                      />
+                      <Box
+                        backgroundColor={mainMobileBg}
+                        borderRadius="20px 20px 0 0"
+                        position="relative"
+                      >
+                        <Icon
+                          onClick={() => history.goBack()}
+                          as={CgClose}
+                          color={mobileColor}
+                          fill={mobileColor}
+                          width={6}
+                          height={6}
+                          lineHeight="20px"
+                          verticalAlign="middle"
+                          bg="#efefed"
+                          position="absolute"
+                          borderRadius="50%"
+                          right="16px"
+                          top="16px"
+                          pointerEvents="all"
+                          _before={{
+                            verticalAlign: 'inherit',
+                          }}
+                        />
+                        <Flex alignItems="center" flexFlow="column nowrap">
+                          <Box
+                            height="72px"
+                            marginBottom="8px"
+                            marginTop="-36px"
+                            width="72px"
+                            backgroundColor="#24a0ed"
+                            borderRadius="50%"
+                            position="relative"
+                          >
+                            <Image
+                              backgroundColor="#0079d3"
+                              borderRadius="50%"
+                              height="100%"
+                              objectPosition="0 0"
+                              width="100%"
+                              src={require('../../../assets/images/plebbit-logo.png')}
+                            />
+                          </Box>
+
+                          <Box
+                            onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}
+                            fontWeight="700"
+                            lineHeight="18px"
+                            margin="5px"
+                          >
+                            {`p/${detail?.subplebbitAddress}`}
+                          </Box>
+                        </Flex>
+                      </Box>
+                    </Box>
+                    {edit ? (
+                      <Box marginTop="8px" padding="10px">
+                        <Editor
+                          editorState={postEditorState}
+                          setEditorState={setPostEditorState}
+                          setValue={setEditPost}
+                        />
+                        <Flex alignItems="center" mt="8px" justifyContent="flex-end">
+                          <Button
+                            borderRadius="999px"
+                            border="transparent"
+                            bg="transparent"
+                            onClick={() => setEdit(false)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            borderRadius="999px"
+                            padding="5px 10px"
+                            minW="90px"
+                            minH="27px"
+                            onClick={() =>
+                              handleEditPost(detail?.cid, editPost, detail?.subplebbitAddress)
+                            }
+                            isLoading={editLoading}
+                          >
+                            Save
+                          </Button>
+                        </Flex>
+                      </Box>
+                    ) : (
+                      <Post
+                        detail
+                        post={detail}
+                        mode={postStyle}
+                        key={detail?.cid}
+                        handleOption={handleOption}
+                      />
+                    )}
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+            <Box minH="calc(100vh - 48px)">
+              <Box padding="8px 16px 4px">
+                <Box
+                  _before={{
+                    content: `" "`,
+                    display: 'table',
+                  }}
+                  _after={{
+                    content: `" "`,
+                    display: 'table',
+                    clear: 'both',
+                  }}
+                >
+                  <Box w="100%" lineHeight="1.5" mr="0" maxW="100%" padding="4px 0">
+                    <Flex alignItems="center" flexFlow="row nowrap">
+                      <Box>{detail?.replyCount} comments</Box>
+                    </Flex>
+                  </Box>
+                  {!showMEditor && (
+                    <Flex alignItems="center" flexFlow="row nowrap" paddingTop="8px" width="100%">
+                      <Image
+                        h="24px"
+                        verticalAlign="middle"
+                        src="https://picsum.photos/200?random=1"
+                        alt="user-icon"
+                        fallbackSrc={require('../../../assets/images/fallback.png')}
+                        color="transparent"
+                        borderRadius="50%"
+                        w="24px"
+                        mr="8px"
+                      />
+                      <Button
+                        border={`1px solid ${borderColor2}`}
+                        color="#818384"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        borderRadius="15px"
+                        flex="1"
+                        fontSize="14px"
+                        height="30px"
+                        lineHeight="17px"
+                        textAlign="left"
+                        padding="0 8px"
+                        justifyContent="flex-start"
+                        onClick={() => setShowMEditor(true)}
+                      >
+                        Leave a comment
+                      </Button>
+                    </Flex>
+                  )}
+                  {showMEditor && (
+                    <Box margin="0 12px">
+                      <Flex backgroundColor="inherit" color="inherit" margin="0" borderWidth="0">
+                        <Box width="100%">
                           <Editor
                             setValue={setContent}
                             editorState={editorState}
                             setEditorState={setEditorState}
                             showSubmit
                             handleSubmit={handlePublishPost}
+                            submitBtnText="Add Comment"
+                            otherBtn={
+                              <Button mr="auto" onClick={() => setShowMEditor(false)}>
+                                X
+                              </Button>
+                            }
                           />
-                        </Box>
-                        <Box
-                          fontSize="12px"
-                          fontWeight="700"
-                          lineHeight="16px"
-                          marginTop="16px"
-                          marginBottom="4px "
-                        >
-                          Sort By: Best
-                        </Box>
-                        <hr />
-                      </Box>
-                      {detail?.replies?.pages?.topAll?.comments.map((comment) => (
-                        <Comment comment={comment} key={comment.cid} parentCid={detail?.cid} />
-                      ))}
-                    </Box>
-                  </Box>
-                  <SideBar
-                    margin="32px 0"
-                    borderRadius="4px"
-                    padding="0"
-                    right="0"
-                    top="0"
-                    width="312px"
-                    sx={{
-                      '@media (max-width: 1120px)': {
-                        display: 'none',
-                      },
-                    }}
-                    handleSubscribe={handleSubscribe}
-                    handleUnSubscribe={handleUnSubscribe}
-                    subLoading={subLoading}
-                    setSubLoading={setSubLoading}
-                    subscriptions={subscriptions}
-                    detail={detail}
-                  />
-                </Flex>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-      ) : (
-        <Box>
-          <Box>
-            <Box position="relative" bg={mainMobileBg}>
-              <Box position="relative">
-                <Box paddingTop="0">
-                  <Box
-                    backgroundPosition="top"
-                    backgroundRepeat="no-repeat"
-                    backgroundSize="auto 96px"
-                    overflow="hidden"
-                    paddingTop="48px"
-                    position="relative"
-                    backgroundColor="#212a3b"
-                  >
-                    <Box
-                      backgroundPosition="50%"
-                      backgroundSize="cover"
-                      left="0"
-                      paddingTop="30%"
-                      position="absolute"
-                      right="0"
-                      top="0"
-                    />
-                    <Box
-                      bottom="20px"
-                      left="0"
-                      pos="absolute"
-                      right="0"
-                      top="0"
-                      onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}
-                    />
-                    <Box
-                      backgroundColor={mainMobileBg}
-                      borderRadius="20px 20px 0 0"
-                      position="relative"
-                    >
-                      <Icon
-                        onClick={() => history.goBack()}
-                        as={CgClose}
-                        color={mobileColor}
-                        fill={mobileColor}
-                        width={6}
-                        height={6}
-                        lineHeight="20px"
-                        verticalAlign="middle"
-                        bg="#efefed"
-                        position="absolute"
-                        borderRadius="50%"
-                        right="16px"
-                        top="16px"
-                        pointerEvents="all"
-                        _before={{
-                          verticalAlign: 'inherit',
-                        }}
-                      />
-                      <Flex alignItems="center" flexFlow="column nowrap">
-                        <Box
-                          height="72px"
-                          marginBottom="8px"
-                          marginTop="-36px"
-                          width="72px"
-                          backgroundColor="#24a0ed"
-                          borderRadius="50%"
-                          position="relative"
-                        >
-                          <Image
-                            backgroundColor="#0079d3"
-                            borderRadius="50%"
-                            height="100%"
-                            objectPosition="0 0"
-                            width="100%"
-                            src={require('../../../assets/images/plebbit-logo.png')}
-                          />
-                        </Box>
-
-                        <Box
-                          onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}
-                          fontWeight="700"
-                          lineHeight="18px"
-                          margin="5px"
-                        >
-                          {`p/${detail?.subplebbitAddress}`}
                         </Box>
                       </Flex>
                     </Box>
-                  </Box>
-                  {edit ? (
-                    <Box marginTop="8px" padding="10px">
-                      <Editor
-                        editorState={postEditorState}
-                        setEditorState={setPostEditorState}
-                        setValue={setEditPost}
-                      />
-                      <Flex alignItems="center" mt="8px" justifyContent="flex-end">
-                        <Button
-                          borderRadius="999px"
-                          border="transparent"
-                          bg="transparent"
-                          onClick={() => setEdit(false)}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          borderRadius="999px"
-                          padding="5px 10px"
-                          minW="90px"
-                          minH="27px"
-                          onClick={() =>
-                            handleEditPost(detail?.cid, editPost, detail?.subplebbitAddress)
-                          }
-                          isLoading={editLoading}
-                        >
-                          Save
-                        </Button>
-                      </Flex>
-                    </Box>
-                  ) : (
-                    <Post
-                      detail
-                      post={detail}
-                      mode={postStyle}
-                      key={detail?.cid}
-                      handleOption={handleOption}
-                    />
                   )}
                 </Box>
               </Box>
-            </Box>
-          </Box>
-          <Box minH="calc(100vh - 48px)">
-            <Box padding="8px 16px 4px">
-              <Box
-                _before={{
-                  content: `" "`,
-                  display: 'table',
-                }}
-                _after={{
-                  content: `" "`,
-                  display: 'table',
-                  clear: 'both',
-                }}
-              >
-                <Box w="100%" lineHeight="1.5" mr="0" maxW="100%" padding="4px 0">
-                  <Flex alignItems="center" flexFlow="row nowrap">
-                    <Box>{detail?.replyCount} comments</Box>
-                  </Flex>
-                </Box>
-                {!showMEditor && (
-                  <Flex alignItems="center" flexFlow="row nowrap" paddingTop="8px" width="100%">
-                    <Image
-                      h="24px"
-                      verticalAlign="middle"
-                      src="https://picsum.photos/200?random=1"
-                      alt="user-icon"
-                      fallbackSrc={require('../../../assets/images/fallback.png')}
-                      color="transparent"
-                      borderRadius="50%"
-                      w="24px"
-                      mr="8px"
-                    />
-                    <Button
-                      border={`1px solid ${borderColor2}`}
-                      color="#818384"
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      borderRadius="15px"
-                      flex="1"
-                      fontSize="14px"
-                      height="30px"
-                      lineHeight="17px"
-                      textAlign="left"
-                      padding="0 8px"
-                      justifyContent="flex-start"
-                      onClick={() => setShowMEditor(true)}
-                    >
-                      Leave a comment
-                    </Button>
-                  </Flex>
-                )}
-                {showMEditor && (
-                  <Box margin="0 12px">
-                    <Flex backgroundColor="inherit" color="inherit" margin="0" borderWidth="0">
-                      <Box width="100%">
-                        <Editor
-                          setValue={setContent}
-                          editorState={editorState}
-                          setEditorState={setEditorState}
-                          showSubmit
-                          handleSubmit={handlePublishPost}
-                          submitBtnText="Add Comment"
-                          otherBtn={
-                            <Button mr="auto" onClick={() => setShowMEditor(false)}>
-                              X
-                            </Button>
-                          }
-                        />
-                      </Box>
-                    </Flex>
-                  </Box>
-                )}
+              <Box padding="16px" maxW="100%">
+                {detail?.replies?.pages?.topAll?.comments.map((comment) => (
+                  <Comment comment={comment} key={comment.cid} parentCid={detail?.cid} />
+                ))}
               </Box>
             </Box>
-            <Box padding="16px" maxW="100%">
-              {detail?.replies?.pages?.topAll?.comments.map((comment) => (
-                <Comment comment={comment} key={comment.cid} parentCid={detail?.cid} />
-              ))}
-            </Box>
           </Box>
-        </Box>
-      )}
-    </Box>
+        )}
+      </Box>
+    </Layout>
   );
 }
 

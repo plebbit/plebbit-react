@@ -57,14 +57,19 @@ export const ProfileDataProvider = (props) => {
 
   useEffect(() => {
     if (subscriptions?.length) {
-      const add = subscriptions?.map((x) => {
-        if (!x?.address) {
-          return '';
-        }
-        return x?.address;
-      });
+      const add = subscriptions
+        ?.map((x) => {
+          if (!x?.address) {
+            return '';
+          }
+          return x?.address;
+        })
+        ?.filter((x) => x !== '');
       if (Object.keys(accountSubplebbits)) {
-        setPostView([...add, ...Object.keys(accountSubplebbits)]);
+        if (add?.length) {
+          setPostView([...add, ...Object.keys(accountSubplebbits)]);
+          setPostView([...Object.keys(accountSubplebbits)]);
+        }
       } else {
         setPostView(subscriptions?.map((x) => x?.address));
       }
