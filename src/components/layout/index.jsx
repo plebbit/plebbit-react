@@ -5,7 +5,7 @@ import { useColorModeValue, Image } from '@chakra-ui/react';
 import plebbitDarkLogo from '../../assets/svgs/plebbitDarkLogo.svg';
 import NavBar from './Nav';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, name }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
 
@@ -48,7 +48,7 @@ const Layout = ({ children }) => {
       <Box bg={bg} minH="calc(100vh - 48px)">
         <Box tabIndex="-1" />
         <Box outline="none" />
-        <NavBar />
+        <NavBar location={name} />
         {device !== 'mobile' ? (
           <Box transition="margin-top .3s ease" paddingTop="48px">
             <Box>

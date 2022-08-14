@@ -7,22 +7,20 @@ import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import Post from '../../components/Post';
+import Layout from '../../components/layout';
 
 const Home = () => {
-  const { isLoggedIn, postStyle, feedSort, device, postView } = useContext(ProfileContext);
+  const { isLoggedIn, postStyle, feedSort, device, postView, subscriptions } =
+    useContext(ProfileContext);
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mobileMainColor = useColorModeValue('lightMobileText', 'darkMobileText');
   const mainMobileBg = useColorModeValue('white', 'black');
 
-  const { feed, loadMore, hasMore } = useFeed(
-    typeof postView === 'object' ? postView : [postView],
-    feedSort
-  );
-
+  const { feed, loadMore, hasMore } = useFeed(postView, feedSort);
   const feeds = feed;
-
+  console.log('post-view', postView);
   return (
-    <>
+    <Layout name={{ label: 'Home', value: subscriptions?.map((x) => x?.address) }}>
       {device !== 'mobile' ? (
         <Flex
           maxW="100%"
@@ -95,7 +93,7 @@ const Home = () => {
           </Box>
         </Box>
       )}
-    </>
+    </Layout>
   );
 };
 

@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { BsFillShieldFill } from 'react-icons/bs';
 import LeaveMod from './modal/leaveMod';
 import { useSubplebbit } from '@plebbit/plebbit-react-hooks';
@@ -17,6 +17,7 @@ import Moderators from './subPlebbitModerators';
 import AboutsideBar from './sideBar';
 import { ProfileContext } from '../../store/profileContext';
 import { HamburgerIcon } from '@chakra-ui/icons';
+import Layout from '../../components/layout';
 
 const About = ({ match }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -32,191 +33,194 @@ const About = ({ match }) => {
   const { isOpen: roleModShow, onOpen: openRoleMod, onClose: closeRoleMod } = useDisclosure();
   const [showSidebar, setShowSideBar] = useState(false);
   const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
+  const location = useLocation();
 
   return (
-    <>
-      {device !== 'mobile' ? (
-        <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
-          <Flex
-            fontSize="12px"
-            fontWeight="700"
-            letterSpacing="0.5px"
-            textTransform="uppercase"
-            lineHeight="24px"
-            alignItems="center"
-            bg={mainBg}
-            height="40px"
-            paddingLeft="24px"
-            position="fixed"
-            width="100%"
-            zIndex="30"
-          >
-            <Image
-              fallbackSrc={require('../../assets/images/fallback.png')}
-              src=""
-              width="20px"
-              height="20px"
-              mr="8px"
-              borderRadius="999px"
-            />
-            <Link to={`/p/${subPlebbit?.address}`}>
-              <Flex alignItems="center" color={linkColor} mr="4px">
-                {subPlebbit?.title || subPlebbit?.address} {'  '}
-                <Box color={mainColor}>
-                  /{' '}
-                  {page === 'modqueue'
-                    ? 'mod queue'
-                    : page === 'scheduledposts'
-                    ? 'Scheduled posts'
-                    : page === 'eventposts'
-                    ? 'event posts'
-                    : page.toUpperCase()}{' '}
-                </Box>
-              </Flex>
-            </Link>
-          </Flex>
-          <Flex margin="40px 0">
-            {/* sideBar */}
-            <AboutsideBar page={page} role={role} />
-            {/*Body */}
-            <Box paddingLeft="280px" boxSizing="border-box" width="100%">
-              {page === '' && (
-                <Flex
-                  alignItems="center"
-                  bg={inputBg}
-                  color={mainColor}
-                  flexDirection="column"
-                  justifyContent="center"
-                  margin="30px"
-                  padding="60px"
-                >
-                  <Icon as={BsFillShieldFill} color={iconColor} width="30px" height="30px" />
-                  <Box>Welcome to the mod tools for bydino</Box>
+    <Layout name={{ label: subPlebbit?.title || subPlebbit?.address, value: location?.pathname }}>
+      <>
+        {device !== 'mobile' ? (
+          <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
+            <Flex
+              fontSize="12px"
+              fontWeight="700"
+              letterSpacing="0.5px"
+              textTransform="uppercase"
+              lineHeight="24px"
+              alignItems="center"
+              bg={mainBg}
+              height="40px"
+              paddingLeft="24px"
+              position="fixed"
+              width="100%"
+              zIndex="30"
+            >
+              <Image
+                fallbackSrc={require('../../assets/images/fallback.png')}
+                src=""
+                width="20px"
+                height="20px"
+                mr="8px"
+                borderRadius="999px"
+              />
+              <Link to={`/p/${subPlebbit?.address}`}>
+                <Flex alignItems="center" color={linkColor} mr="4px">
+                  {subPlebbit?.title || subPlebbit?.address} {'  '}
+                  <Box color={mainColor}>
+                    /{' '}
+                    {page === 'modqueue'
+                      ? 'mod queue'
+                      : page === 'scheduledposts'
+                      ? 'Scheduled posts'
+                      : page === 'eventposts'
+                      ? 'event posts'
+                      : page.toUpperCase()}{' '}
+                  </Box>
                 </Flex>
-              )}
-              {page === 'moderators' && (
-                <Moderators
-                  subPlebbit={subPlebbit}
-                  openLeaveMod={openLeaveMod}
-                  openRoleMod={openRoleMod}
-                  role={role}
-                />
-              )}
-            </Box>
-          </Flex>
-
-          {leaveModShow && (
-            <LeaveMod
-              isOpen={leaveModShow}
-              onClose={closeLeaveMod}
-              subPlebbit={subPlebbit}
-              profile={profile}
-              role={role}
-            />
-          )}
-          {roleModShow && (
-            <ModRole
-              role={role}
-              isOpen={roleModShow}
-              onClose={closeRoleMod}
-              subPlebbit={subPlebbit}
-            />
-          )}
-        </Flex>
-      ) : (
-        <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
-          <Flex
-            fontSize="12px"
-            fontWeight="700"
-            letterSpacing="0.5px"
-            textTransform="uppercase"
-            lineHeight="24px"
-            alignItems="center"
-            bg={mainBg}
-            height="48px"
-            position="fixed"
-            width="100%"
-            zIndex="30"
-            padding="5px"
-          >
-            <IconButton
-              onClick={() => setShowSideBar(!showSidebar)}
-              variant="outline"
-              icon={<HamburgerIcon />}
-              mr="10px"
-            />
-            <Image
-              fallbackSrc={require('../../assets/images/fallback.png')}
-              src=""
-              width="20px"
-              height="20px"
-              mr="8px"
-              borderRadius="999px"
-            />
-            <Link to={`/p/${subPlebbit?.address}`}>
-              <Flex alignItems="center" color={linkColor} mr="4px">
-                {subPlebbit?.title || subPlebbit?.address} {'  '}
-                <Box color={mainColor}>
-                  /{' '}
-                  {page === 'modqueue'
-                    ? 'mod queue'
-                    : page === 'scheduledposts'
-                    ? 'Scheduled posts'
-                    : page === 'eventposts'
-                    ? 'event posts'
-                    : page.toUpperCase()}{' '}
-                </Box>
-              </Flex>
-            </Link>
-          </Flex>
-          <Flex margin="40px 0">
-            {/* sideBar */}
-            {showSidebar && (
-              <Box zIndex={28}>
-                <AboutsideBar page={page} role={role} />
+              </Link>
+            </Flex>
+            <Flex margin="40px 0">
+              {/* sideBar */}
+              <AboutsideBar page={page} role={role} />
+              {/*Body */}
+              <Box paddingLeft="280px" boxSizing="border-box" width="100%">
+                {page === '' && (
+                  <Flex
+                    alignItems="center"
+                    bg={inputBg}
+                    color={mainColor}
+                    flexDirection="column"
+                    justifyContent="center"
+                    margin="30px"
+                    padding="60px"
+                  >
+                    <Icon as={BsFillShieldFill} color={iconColor} width="30px" height="30px" />
+                    <Box>Welcome to the mod tools for bydino</Box>
+                  </Flex>
+                )}
+                {page === 'moderators' && (
+                  <Moderators
+                    subPlebbit={subPlebbit}
+                    openLeaveMod={openLeaveMod}
+                    openRoleMod={openRoleMod}
+                    role={role}
+                  />
+                )}
               </Box>
-            )}
-            {/*Body */}
-            <Box boxSizing="border-box" width="100%">
-              {page === '' && (
-                <Flex
-                  alignItems="center"
-                  bg={inputBg}
-                  color={mainColor}
-                  flexDirection="column"
-                  justifyContent="center"
-                  margin="30px"
-                  padding="60px"
-                >
-                  <Icon as={BsFillShieldFill} color={iconColor} width="30px" height="30px" />
-                  <Box>Welcome to the mod tools for bydino</Box>
-                </Flex>
-              )}
-              {page === 'moderators' && (
-                <Moderators
-                  subPlebbit={subPlebbit}
-                  openLeaveMod={openLeaveMod}
-                  openRoleMod={openRoleMod}
-                  role={role}
-                />
-              )}
-            </Box>
-          </Flex>
+            </Flex>
 
-          {leaveModShow && (
-            <LeaveMod
-              isOpen={leaveModShow}
-              onClose={closeLeaveMod}
-              subPlebbit={subPlebbit}
-              profile={profile}
-            />
-          )}
-          {roleModShow && (
-            <ModRole isOpen={roleModShow} onClose={closeRoleMod} subPlebbit={subPlebbit} />
-          )}
-        </Flex>
-      )}
-    </>
+            {leaveModShow && (
+              <LeaveMod
+                isOpen={leaveModShow}
+                onClose={closeLeaveMod}
+                subPlebbit={subPlebbit}
+                profile={profile}
+                role={role}
+              />
+            )}
+            {roleModShow && (
+              <ModRole
+                role={role}
+                isOpen={roleModShow}
+                onClose={closeRoleMod}
+                subPlebbit={subPlebbit}
+              />
+            )}
+          </Flex>
+        ) : (
+          <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
+            <Flex
+              fontSize="12px"
+              fontWeight="700"
+              letterSpacing="0.5px"
+              textTransform="uppercase"
+              lineHeight="24px"
+              alignItems="center"
+              bg={mainBg}
+              height="48px"
+              position="fixed"
+              width="100%"
+              zIndex="30"
+              padding="5px"
+            >
+              <IconButton
+                onClick={() => setShowSideBar(!showSidebar)}
+                variant="outline"
+                icon={<HamburgerIcon />}
+                mr="10px"
+              />
+              <Image
+                fallbackSrc={require('../../assets/images/fallback.png')}
+                src=""
+                width="20px"
+                height="20px"
+                mr="8px"
+                borderRadius="999px"
+              />
+              <Link to={`/p/${subPlebbit?.address}`}>
+                <Flex alignItems="center" color={linkColor} mr="4px">
+                  {subPlebbit?.title || subPlebbit?.address} {'  '}
+                  <Box color={mainColor}>
+                    /{' '}
+                    {page === 'modqueue'
+                      ? 'mod queue'
+                      : page === 'scheduledposts'
+                      ? 'Scheduled posts'
+                      : page === 'eventposts'
+                      ? 'event posts'
+                      : page.toUpperCase()}{' '}
+                  </Box>
+                </Flex>
+              </Link>
+            </Flex>
+            <Flex margin="40px 0">
+              {/* sideBar */}
+              {showSidebar && (
+                <Box zIndex={28}>
+                  <AboutsideBar page={page} role={role} />
+                </Box>
+              )}
+              {/*Body */}
+              <Box boxSizing="border-box" width="100%">
+                {page === '' && (
+                  <Flex
+                    alignItems="center"
+                    bg={inputBg}
+                    color={mainColor}
+                    flexDirection="column"
+                    justifyContent="center"
+                    margin="30px"
+                    padding="60px"
+                  >
+                    <Icon as={BsFillShieldFill} color={iconColor} width="30px" height="30px" />
+                    <Box>Welcome to the mod tools for bydino</Box>
+                  </Flex>
+                )}
+                {page === 'moderators' && (
+                  <Moderators
+                    subPlebbit={subPlebbit}
+                    openLeaveMod={openLeaveMod}
+                    openRoleMod={openRoleMod}
+                    role={role}
+                  />
+                )}
+              </Box>
+            </Flex>
+
+            {leaveModShow && (
+              <LeaveMod
+                isOpen={leaveModShow}
+                onClose={closeLeaveMod}
+                subPlebbit={subPlebbit}
+                profile={profile}
+              />
+            )}
+            {roleModShow && (
+              <ModRole isOpen={roleModShow} onClose={closeRoleMod} subPlebbit={subPlebbit} />
+            )}
+          </Flex>
+        )}
+      </>
+    </Layout>
   );
 };
 

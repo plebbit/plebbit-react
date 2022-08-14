@@ -50,11 +50,12 @@ import getUserName from '../../../utils/getUserName';
 import NavItem from './navItem';
 import truncateString from '../../../utils/truncateString';
 
-const NavBar = () => {
+const NavBar = ({ location }) => {
   const subPlebbitData = useSubPlebbitDefaultData();
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mainColor = useColorModeValue('lightText2', 'darkText1');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
+  const metaColor = useColorModeValue('metaTextLight', 'metaTextDark');
   const iconColor2 = useColorModeValue('lightIcon2', 'darkText1');
   const navBorder = useColorModeValue('#edeff1', '#343536');
   const { colorMode, toggleColorMode } = useColorMode();
@@ -72,6 +73,8 @@ const NavBar = () => {
     version,
     accountSubplebbits,
     setPostView,
+    postView,
+
     authorAvatarImageUrl,
   } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
@@ -91,6 +94,8 @@ const NavBar = () => {
       isClosable: true,
     });
   };
+
+  console.log(location);
 
   return (
     <Box>
@@ -144,18 +149,24 @@ const NavBar = () => {
               </Flex>
               <Box>
                 <DropDown2
-                  onChange={(x) => setPostView(x.value)}
+                  onChange={(x) => {
+                    if (location.label === 'Home') {
+                      setPostView(x.value);
+                    } else {
+                      if (typeof x?.value === 'object') {
+                        history.push('/');
+                      } else {
+                        history.push(x?.value);
+                      }
+                    }
+                  }}
                   prefix={() => <Icon as={MdHome} h={6} w={8} />}
                   options={[
-                    { label: 'Home', value: subscriptions?.map((x) => x?.address) },
-                    { label: 'p/All', value: subPlebbitData?.map((x) => x?.value) },
-                    ...subPlebbitData,
-                    subscriptions?.length
-                      ? subscriptions?.map((x) => ({
-                          label: x?.title ? x?.title : truncateString(x?.address, 20, '...'),
-                          value: x?.address,
-                        }))
-                      : {},
+                    location || {},
+                    {
+                      label: location?.label !== 'Home' ? 'Home' : 'p/All',
+                      value: subPlebbitData?.map((x) => x?.value),
+                    },
                   ]}
                   placeholder="Home"
                   getOptionValue={(item) => item?.value}
@@ -164,6 +175,17 @@ const NavBar = () => {
                     height: '36px',
                     background: 'transparent',
                   }}
+                  value={
+                    location?.label !== 'Home'
+                      ? location
+                      : [
+                          { label: 'Home', value: subscriptions?.map((x) => x?.address) },
+                          {
+                            label: 'p/All',
+                            value: subPlebbitData?.map((x) => x?.value),
+                          },
+                        ].find((x) => x?.value === postView)
+                  }
                   isSearchable={false}
                   topMenu={
                     <Box>
@@ -190,7 +212,10 @@ const NavBar = () => {
                             </Link>
                           ))
                         : ''}
-
+                    </Box>
+                  }
+                  bottomMenu={
+                    <>
                       <Box paddingX="12px" paddingTop="10px" fontSize="10px">
                         Your Communities
                       </Box>
@@ -212,7 +237,29 @@ const NavBar = () => {
                         <Icon onClick={() => onOpenCreate()} as={BsPlusLg} mr="8px" />
                         <Box onClick={() => onOpenCreate()}>Create Community</Box>
                       </Flex>
-                    </Box>
+                      {[
+                        ...subPlebbitData,
+                        subscriptions?.map((x) => ({
+                          label: x?.title ? x?.title : truncateString(x?.address, 20, '...'),
+                          value: x?.address,
+                        })),
+                      ]?.map((pages, index) => (
+                        <Link key={index} to={`/p/${pages?.value}/`}>
+                          <Box
+                            _hover={{
+                              bg: '#DEEBFF',
+                            }}
+                            padding="8px 12px"
+                            textTransform="capitalize"
+                            fontWeight="400"
+                            fontSize="14px"
+                            borderBottom={`1px solid ${navBorder}`}
+                          >
+                            {pages?.label}
+                          </Box>
+                        </Link>
+                      ))}
+                    </>
                   }
                 />
               </Box>
@@ -224,6 +271,8 @@ const NavBar = () => {
                 border="1px solid transparent"
                 borderRadius="4px"
                 alignItems="center"
+                flexDirection="column"
+                position="relative"
               >
                 <InputGroup
                   boxShadow="none"
@@ -239,6 +288,38 @@ const NavBar = () => {
                   </InputLeftElement>
                   <Input placeholder="Search plebbit " />
                 </InputGroup>
+                {1 === 2 && (
+                  <Flex
+                    padding="20px"
+                    borderWidth="1px"
+                    borderStyle="solid"
+                    borderRadius="5px"
+                    borderColor={navBorder}
+                    top="45px"
+                    width="100%"
+                    position="absolute"
+                    background={bg}
+                  >
+                    <Flex flexDirection="row" alignItems="center">
+                      <Image
+                        h="24px"
+                        verticalAlign="middle"
+                        alt="not-found"
+                        fallbackSrc={require('../../../assets/images/fallback.png')}
+                        rounded="full"
+                        mr="8px"
+                      />
+                      <Flex flexDir="column">
+                        <Box fontSize="14px" fontWeight="500" lineHeight="18px">
+                          Title
+                        </Box>
+                        <Box color={metaColor} fontSize="12px" fontWeight="400" lineHeight="16px">
+                          Subplebbit address
+                        </Box>
+                      </Flex>
+                    </Flex>
+                  </Flex>
+                )}
               </Flex>
             </Flex>
             <Flex alignItems="center" flexGrow="0">
@@ -425,7 +506,7 @@ const NavBar = () => {
                   getOptionLabel={(item) =>
                     item?.author?.displayName ? item?.author?.displayName : item?.name
                   }
-                  getOptionValue={(item) => item?.id}
+                  getOptionValue={(item) => item?.name}
                   onChange={async (val) => {
                     await setActiveAccount(val?.name);
                     toast({
@@ -1022,8 +1103,37 @@ const NavBar = () => {
                       paddingLeft="20px"
                     >
                       {[
-                        { label: 'Home', value: subscriptions },
-                        { label: 'All', value: subPlebbitData?.map((x) => x?.value) },
+                        { label: 'Home', value: subscriptions?.map((x) => x?.address) },
+                        { label: 'p/All', value: subPlebbitData?.map((x) => x?.value) },
+                      ]?.map((pages, index) => (
+                        <Flex
+                          key={index}
+                          alignItems="center"
+                          flexFlow="row nowrap"
+                          cursor="pointer"
+                          onClick={() => {
+                            setShowDropDown(!showDropDown);
+                            setShowComponent(!showDropDown);
+                            setPostView(pages.value);
+                          }}
+                        >
+                          <Flex
+                            alignItems="center"
+                            flex="0 0 24px"
+                            height="24px"
+                            justifyContent="center"
+                            mr="8px"
+                            position="8px"
+                            width="24px"
+                          >
+                            {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */}
+                          </Flex>
+                          <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
+                            {pages.label}
+                          </Box>
+                        </Flex>
+                      ))}
+                      {[
                         ...subPlebbitData,
                         ...subscriptions.map((x) => ({ label: x?.title, value: x?.address })),
                       ]?.map((pages, index) => (
