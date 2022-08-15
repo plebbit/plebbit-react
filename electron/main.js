@@ -1,5 +1,5 @@
 require('./log');
-const { app, BrowserWindow, Menu, Tray, screen: electronScreen, shell, dialog } = require('electron');
+const { app, BrowserWindow, Menu, MenuItem, Tray, screen: electronScreen, shell, dialog } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
 const startIpfs = require('./startIpfs');
@@ -14,6 +14,26 @@ startIpfs().catch(e => {
 // add right click menu
 const contextMenu = require('electron-context-menu');
 contextMenu({
+  // prepend custom buttons to top
+  prepend: (defaultActions, parameters, browserWindow) => [
+    {
+      label: 'Back',
+      visible: parameters.mediaType === 'none',
+      enabled: browserWindow?.webContents?.canGoBack(),
+      click: () => browserWindow?.webContents?.goBack()
+    },
+    {
+      label: 'Forward',
+      visible: parameters.mediaType === 'none',
+      enabled: browserWindow?.webContents?.canGoForward(),
+      click: () => browserWindow?.webContents?.goForward()
+    },
+    {
+      label: 'Reload',
+      visible: parameters.mediaType === 'none',
+      click: () => browserWindow?.webContents?.reload()
+    }
+  ],
   showLookUpSelection: false,
   showCopyImage: true,
   showCopyImageAddress: true,
@@ -47,6 +67,9 @@ const createMainWindow = () => {
   mainWindow.loadURL(startURL);
 
   mainWindow.once('ready-to-show', async () => {
+    // make sure back button is disabled on launch
+    mainWindow.webContents.clearHistory()
+
     mainWindow.show()
 
     if (isDev) {
@@ -142,9 +165,26 @@ const createMainWindow = () => {
     });
   }
 
+  // application menu
   // hide useless electron help menu
-  const menuWithoutHelp = Menu.getApplicationMenu()?.items.filter((item) => item.role !== 'help')
-  Menu.setApplicationMenu(Menu.buildFromTemplate(menuWithoutHelp))
+  const originalAppMenuWithoutHelp = Menu.getApplicationMenu()?.items.filter((item) => item.role !== 'help')
+  const appMenuBack = new MenuItem({
+    label: '←',
+    enabled: mainWindow?.webContents?.canGoBack(),
+    click: () => mainWindow?.webContents?.goBack()
+  })
+  const appMenuForward = new MenuItem({
+    label: '→',
+    enabled: mainWindow?.webContents?.canGoForward(),
+    click: () => mainWindow?.webContents?.goForward()
+  })
+  const appMenuReload = new MenuItem({
+    label: '⟳',
+    role: 'reload',
+    click: () => mainWindow?.webContents?.reload()
+  })
+  const appMenu = [appMenuBack, appMenuForward, appMenuReload, ...originalAppMenuWithoutHelp]
+  Menu.setApplicationMenu(Menu.buildFromTemplate(appMenu))
 };
 
 app.whenReady().then(() => {
