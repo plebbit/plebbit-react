@@ -394,9 +394,9 @@ const SubPlebbit = ({ match }) => {
               </Box>
               <Box fontSize="14px" textAlign="center" padding="0 12px">
                 <Box fontSize="20px" fontWeight="700" padding="0 20px" color={mobileMainColor}>
-                  {subPlebbit?.title || truncateString(subPlebbit?.address, 20, '...')}
+                  {subPlebbit?.title || truncateString(subPlebbit?.address, 20)}
                 </Box>
-                <Box color="#a5a4a4">p/{truncateString(subPlebbit?.address, 20, '...')}</Box>
+                <Box color="#a5a4a4">p/{truncateString(subPlebbit?.address, 20)}</Box>
                 <Box mt="10px" fontSize="14px" padding="0 12px">
                   <Box>1 member • 4 online</Box>
                   <Flex justifyContent="center" mt="8px" mb="10px">

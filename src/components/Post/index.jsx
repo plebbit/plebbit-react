@@ -16,7 +16,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const [copied, setCopied] = useState(false);
   const toast = useToast();
   const { publishVote } = useAccountsActions();
-  const authorAvatarImageUrl = useAuthorAvatarImageUrl(post.author);
+  const authorAvatarImageUrl = useAuthorAvatarImageUrl(post?.author);
   const { mode: location } = useContext(ProfileContext);
 
   const getChallengeAnswersFromUser = async (challenges) => {
@@ -24,7 +24,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       background: '#eff4f7',
       input: 'text',
       text: 'Complete the challenge',
-      imageUrl: `data:image/png;base64,  ${challenges?.challenges[0].challenge}`,
+      imageUrl: `data:image/png;base64,  ${challenges?.challenges[0]?.challenge}`,
       imageWidth: '80%',
     });
     if (value) {

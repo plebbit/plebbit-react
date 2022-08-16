@@ -164,7 +164,7 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
                           </Box>
                         </Box>
                       </Box>
-                      <Box>{truncateString(user, 14, '...')}</Box>
+                      <Box>{truncateString(user, 14)}</Box>
                     </Flex>
                   </Link>
                 </Box>
@@ -237,7 +237,7 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
                           </Box>
                         </Box>
                       </Box>
-                      <Box>{truncateString(user, 14, '...')}</Box>
+                      <Box>{truncateString(user, 14)}</Box>
                     </Flex>
                   </Link>
                 </Box>
