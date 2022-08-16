@@ -496,11 +496,7 @@ const SideBar = ({
                     alignItems="center"
                   >
                     <Link>
-                      <Box maxWidth="100%" color={linkColor}>{`u/${truncateString(
-                        item,
-                        25,
-                        '...'
-                      )}`}</Box>
+                      <Box maxWidth="100%" color={linkColor}>{`u/${truncateString(item, 25)}`}</Box>
                     </Link>
                     <Tag
                       textOverflow="ellipsis"
@@ -554,7 +550,7 @@ const SideBar = ({
             >
               <Box padding="12px 0 0" fontSize="16px" fontWeight="500" lineHeight="20px">
                 <Box fontSize="14px" fontWeight="700" lineHeight="18px" textTransform="none">
-                  {`p/${truncateString(subPlebbit?.address, 14, '...')} `} rules
+                  {`p/${truncateString(subPlebbit?.address, 14)} `} rules
                 </Box>
               </Box>
             </Flex>
@@ -571,7 +567,7 @@ const SideBar = ({
                         lineHeight="12px"
                         textTransform="uppercase"
                       >
-                        {`${index + 1}. ${truncateString(item, 20, '...')}`}
+                        {`${index + 1}. ${truncateString(item, 20)}`}
                       </Box>
                       <AccordionIcon color="#a4a4a4" />
                     </AccordionButton>

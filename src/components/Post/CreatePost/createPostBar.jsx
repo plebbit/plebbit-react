@@ -36,8 +36,21 @@ const CreatePostBar = () => {
                 transformOrigin="bottom center"
                 display="block"
                 transform="scale(1.3)"
+                rounded="full"
               />
             </Box>
+            <Box
+              width="12px"
+              height="12px"
+              rounded="full"
+              bg="#46d160"
+              position="absolute"
+              borderWidth="2px"
+              borderColor="#fff"
+              borderStyle="solid"
+              right="0"
+              top="75%"
+            />
           </Box>
         </Box>
       </Box>
@@ -75,6 +88,7 @@ const CreatePostBar = () => {
         justifyContent="center"
         alignItems="center"
         width="auto"
+        onClick={() => history.push('/submit')}
       >
         <LinkIcon height="20px" width="20px" />
       </Box>

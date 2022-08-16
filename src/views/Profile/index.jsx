@@ -1235,7 +1235,7 @@ const Profile = () => {
                 )}
                 {currentView === 'saved' && (
                   <Flex width="100%" flexDir="column">
-                    <Post mode />
+                    {/* <Post mode />
 
                     <Post hideContent />
                     <Post hideContent />
@@ -1250,13 +1250,13 @@ const Profile = () => {
 
                     <Post hideContent />
 
-                    <Post hideContent />
+                    <Post hideContent /> */}
                   </Flex>
                 )}
                 {currentView === 'upvoted' && <Flex width="100%" flexDir="column"></Flex>}
                 {currentView === 'downvoted' && (
                   <Flex width="100%" flexDir="column">
-                    <Post hideContent />
+                    {/* <Post hideContent />
 
                     <Post hideContent />
                     <Post hideContent />
@@ -1271,12 +1271,12 @@ const Profile = () => {
 
                     <Post hideContent />
 
-                    <Post hideContent />
+                    <Post hideContent /> */}
                   </Flex>
                 )}
                 {currentView === 'hidden' && (
                   <Flex width="100%" flexDir="column">
-                    <Post hideContent />
+                    {/* <Post hideContent />
 
                     <Post hideContent />
                     <Post hideContent />
@@ -1291,12 +1291,12 @@ const Profile = () => {
 
                     <Post hideContent />
 
-                    <Post hideContent />
+                    <Post hideContent /> */}
                   </Flex>
                 )}
                 {currentView === 'awardGiven' && (
                   <Flex width="100%" flexDir="column">
-                    <Post hideContent />
+                    {/* <Post hideContent />
 
                     <Post hideContent />
                     <Post hideContent />
@@ -1311,12 +1311,12 @@ const Profile = () => {
 
                     <Post hideContent />
 
-                    <Post hideContent />
+                    <Post hideContent /> */}
                   </Flex>
                 )}
                 {currentView === 'awardRecieved' && (
                   <Flex width="100%" flexDir="column">
-                    <Post hideContent />
+                    {/* <Post hideContent />
 
                     <Post hideContent />
                     <Post hideContent />
@@ -1331,7 +1331,7 @@ const Profile = () => {
 
                     <Post hideContent />
 
-                    <Post hideContent />
+                    <Post hideContent /> */}
                   </Flex>
                 )}
               </Flex>

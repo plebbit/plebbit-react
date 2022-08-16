@@ -4,7 +4,7 @@ import { BiCake } from 'react-icons/bi';
 import Button from '../../Button';
 import BottomSideBar from '../../sidebar/bottomSideBar';
 import BacktoTopButton from '../../sidebar/backtoTopButton';
-import { useSubplebbit } from '@plebbit/plebbit-react-hooks';
+import { useAuthorAvatarImageUrl, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import { dateFormater } from '../../../utils/formatDate';
 
 const PostDetailSideBar = ({
@@ -29,6 +29,7 @@ const PostDetailSideBar = ({
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '#1A1A1B');
   const subPlebbit = useSubplebbit(detail?.subplebbitAddress);
+  const avatar = useAuthorAvatarImageUrl(detail?.author?.address);
 
   return (
     <Box
@@ -81,8 +82,8 @@ const PostDetailSideBar = ({
               fallbackSrc={require('../../../assets/images/fallback.png')}
               borderRadius="full"
               boxSize="54px"
-              src="https://bit.ly/dan-abramov"
-              alt="Dan Abramov"
+              src={avatar}
+              alt="user Avatar"
               mr="8px"
             />
             <Box fontSize="16px" fontWeight="500" lineHeight="20px" text-overflow="ellipsis">

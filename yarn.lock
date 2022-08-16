@@ -2862,9 +2862,9 @@
     tinycache "1.1.2"
     uuid "8.3.2"
 
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#aa84a5218b6ea343002cdd7adf62aa45df98787c":
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#75069ec1e138aad07a4c63b7fa77ff33ee14e0d9":
   version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#aa84a5218b6ea343002cdd7adf62aa45df98787c"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#75069ec1e138aad07a4c63b7fa77ff33ee14e0d9"
   dependencies:
     "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#66db8eb723bbad97f6adcf9ad4cb523b4f991b7c"
     "@types/debug" "4.1.7"

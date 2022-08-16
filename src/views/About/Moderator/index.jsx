@@ -141,7 +141,7 @@ const Moderators = ({ match }) => {
                             </Box>
                           </Box>
                         </Box>
-                        <Box>{truncateString(user, 14, '...')}</Box>
+                        <Box>{truncateString(user, 14)}</Box>
                       </Flex>
                     </Link>
                   </Box>

@@ -35,8 +35,10 @@ const CreatePost = () => {
   const { colorMode } = useColorMode();
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
+  const [link, setLink] = useState('');
   const [address, setAddress] = useState(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [mode, setMode] = useState('post');
   const toast = useToast();
   const mySubplebbits = Object.keys(accountSubplebbits)?.length
     ? Object.keys(accountSubplebbits)?.map((pages) => ({
@@ -105,6 +107,7 @@ const CreatePost = () => {
       const res = await publishComment({
         content,
         title,
+        link,
         subplebbitAddress: address?.value,
         onChallenge,
         onChallengeVerification,
@@ -200,7 +203,11 @@ const CreatePost = () => {
                     alignItems="center"
                     whiteSpace="nowrap"
                     padding="15px 17px"
-                    borderBottom="2px solid #a4a4a4"
+                    borderBottom={mode === 'post' && '3px solid #a4a4a4'}
+                    onClick={() => {
+                      setMode('post');
+                      setLink('');
+                    }}
                   >
                     <Icon
                       as={MdStickyNote2}
@@ -228,11 +235,16 @@ const CreatePost = () => {
                     borderColor="#a4a4a4"
                     borderStyle="solid"
                     borderWidth="0 1px 1px 0"
+                    borderBottom={mode === 'link' && '3px solid #a4a4a4'}
                     borderRadius="0"
                     justifyContent="center"
                     alignItems="center"
                     whiteSpace="nowrap"
                     padding="15px 17px"
+                    onClick={() => {
+                      setMode('link');
+                      setContent('');
+                    }}
                   >
                     <LinkIcon
                       fontSize="20px"
@@ -303,7 +315,7 @@ const CreatePost = () => {
                       resize="vertical"
                     >
                       <Editor
-                        setValue={setContent}
+                        setValue={mode === 'post' ? setContent : setLink}
                         editorState={editorState}
                         setEditorState={setEditorState}
                       />

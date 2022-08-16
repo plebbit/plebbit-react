@@ -17,7 +17,7 @@ import { useAccountsActions, useComment, useSubplebbit } from '@plebbit/plebbit-
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Swal from 'sweetalert2';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
-import { CloseIcon } from '@chakra-ui/icons';
+import { CloseIcon, LinkIcon } from '@chakra-ui/icons';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 // import PdMenu from './pdMenu';
@@ -37,7 +37,7 @@ import getUserName from '../../../utils/getUserName';
 import numFormatter from '../../../utils/numberFormater';
 import Post from '..';
 import DropDown from '../../DropDown';
-import { MdOutlineDeleteOutline } from 'react-icons/md';
+import { MdOutlineDeleteOutline, MdStickyNote2 } from 'react-icons/md';
 import logger from '../../../utils/logger';
 import Layout from '../../layout';
 
@@ -48,6 +48,7 @@ function PostDetail() {
   const subplebbit = useSubplebbit(
     window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
   );
+  const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const detBg = useColorModeValue('#bbbdbf', '#030303');
@@ -70,7 +71,9 @@ function PostDetail() {
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editPost, setEditPost] = useState(detail?.content);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(detail?.content);
+  const [link, setLink] = useState(detail?.link);
+  const [editMode, setEditMode] = useState(detail?.content ? 'post' : 'link');
   const [copied, setCopied] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [postEditorState, setPostEditorState] = useState(
@@ -78,7 +81,8 @@ function PostDetail() {
       ContentState.createFromBlockArray(convertFromHTML(`<p>${editPost}</p>`))
     )
   );
-  const { device, postStyle, profile, mode, subscriptions } = useContext(ProfileContext);
+  const { device, postStyle, profile, mode, subscriptions, authorAvatarImageUrl } =
+    useContext(ProfileContext);
   const history = useHistory();
   const [showMEditor, setShowMEditor] = useState(false);
   const location = useLocation();
@@ -184,7 +188,8 @@ function PostDetail() {
       setEditLoading(true);
       await publishCommentEdit({
         commentCid: cid,
-        content: content,
+        content,
+        link,
         subplebbitAddress: address,
         onChallenge,
         onChallengeVerification,
@@ -297,7 +302,7 @@ function PostDetail() {
     detail,
   });
 
-  console.log(location);
+  console.log(detail);
 
   return (
     <Layout
@@ -628,7 +633,7 @@ function PostDetail() {
                                     lineHeight="20px"
                                     textDecoration="none"
                                   >
-                                    p/{truncateString(detail?.subplebbitAddress, 10, '...')}
+                                    p/{truncateString(detail?.subplebbitAddress, 10)}
                                   </Link>
                                 </Box>
                                 <Text
@@ -690,6 +695,81 @@ function PostDetail() {
                           {/* post Body */}
                           {edit ? (
                             <Box marginTop="8px" padding="10px">
+                              <Flex alignItems="stretch">
+                                <Flex
+                                  color={color}
+                                  fontSize="14px"
+                                  fontWeight="700"
+                                  lineHeight="18px"
+                                  cursor="pointer"
+                                  outline="none"
+                                  zIndex="1"
+                                  width="25%"
+                                  position="relative"
+                                  textAlign="center"
+                                  borderColor="#a4a4a4"
+                                  borderStyle="solid"
+                                  borderWidth="0 1px 1px 0"
+                                  borderRadius="0"
+                                  justifyContent="center"
+                                  alignItems="center"
+                                  whiteSpace="nowrap"
+                                  padding="15px 17px"
+                                  borderBottom={editMode === 'post' && '3px solid #a4a4a4'}
+                                  onClick={() => {
+                                    setEditMode('post');
+                                    setLink('');
+                                  }}
+                                >
+                                  <Icon
+                                    as={MdStickyNote2}
+                                    fontSize="20px"
+                                    fontWeight="400"
+                                    height="20px"
+                                    lineHeight="20px"
+                                    verticalAlign="middle"
+                                    width="20px"
+                                    marginRight="8px"
+                                  />
+                                  Post
+                                </Flex>
+                                <Flex
+                                  color={color}
+                                  fontSize="14px"
+                                  fontWeight="700"
+                                  lineHeight="18px"
+                                  cursor="pointer"
+                                  outline="none"
+                                  zIndex="1"
+                                  width="25%"
+                                  position="relative"
+                                  textAlign="center"
+                                  borderColor="#a4a4a4"
+                                  borderStyle="solid"
+                                  borderWidth="0 1px 1px 0"
+                                  borderBottom={editMode === 'link' && '3px solid #a4a4a4'}
+                                  borderRadius="0"
+                                  justifyContent="center"
+                                  alignItems="center"
+                                  whiteSpace="nowrap"
+                                  padding="15px 17px"
+                                  onClick={() => {
+                                    setEditMode('link');
+                                    setContent('');
+                                  }}
+                                >
+                                  <LinkIcon
+                                    fontSize="20px"
+                                    fontWeight="400"
+                                    height="20px"
+                                    lineHeight="20px"
+                                    verticalAlign="middle"
+                                    width="20px"
+                                    marginRight="8px"
+                                  />
+                                  Link
+                                </Flex>
+                              </Flex>
                               <Editor
                                 editorState={postEditorState}
                                 setEditorState={setPostEditorState}
@@ -1330,13 +1410,15 @@ function PostDetail() {
                         </Flex>
                       </Box>
                     ) : (
-                      <Post
-                        detail
-                        post={detail}
-                        mode={postStyle}
-                        key={detail?.cid}
-                        handleOption={handleOption}
-                      />
+                      <Flex flexDir="column">
+                        <Post
+                          detail
+                          post={detail}
+                          mode={postStyle}
+                          key={detail?.cid}
+                          handleOption={handleOption}
+                        />
+                      </Flex>
                     )}
                   </Box>
                 </Box>
@@ -1365,7 +1447,7 @@ function PostDetail() {
                       <Image
                         h="24px"
                         verticalAlign="middle"
-                        src="https://picsum.photos/200?random=1"
+                        src={authorAvatarImageUrl}
                         alt="user-icon"
                         fallbackSrc={require('../../../assets/images/fallback.png')}
                         color="transparent"

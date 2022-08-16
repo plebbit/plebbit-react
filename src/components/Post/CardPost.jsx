@@ -65,6 +65,8 @@ const CardPost = ({
 
   const { device, profile } = useContext(ProfileContext);
 
+  console.log(detail);
+
   return (
     <>
       {device !== 'mobile' ? (
@@ -1012,7 +1014,7 @@ const CardPost = ({
                               alt="plebbit-post"
                               overflow="hidden"
                               whiteSpace="nowrap"
-                              src="https://bit.ly/dan-abramov"
+                              src={avatar}
                             />
                           </Flex>
                           <Skeleton isLoaded={!loading}>{`p/${truncateSting(
@@ -1084,6 +1086,26 @@ const CardPost = ({
                   <Skeleton isLoaded={!loading}>{post?.title}</Skeleton>
                 </Box>
               </Box>
+            </Box>
+            <Box marginTop="8px">
+              {detail && (
+                <Box
+                  color={subPledditTextColor}
+                  padding="5px 8px 10px"
+                  fontFamily="Noto sans, Arial, sans-serif"
+                  fontSize="14px"
+                  fontWeight="400"
+                  lineHeight="21px"
+                  wordBreak="break-word"
+                  overflow="hidden"
+                >
+                  {post?.content || (
+                    <Box display="flex" justifyContent="center">
+                      <Image fallbackSrc="https://via.placeholder.com/150" src={post?.link} />
+                    </Box>
+                  )}
+                </Box>
+              )}
             </Box>
             {/* Footer */}
             <Box

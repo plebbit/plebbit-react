@@ -17,8 +17,6 @@ import React, { useContext, useState } from 'react';
 import { MdHome } from 'react-icons/md';
 import PlebLogo from '../../../assets/images/plebbit-logo.png';
 import plebbitDarkLogo from '../../../assets/svgs/plebbitDarkLogo.svg';
-import plebbitlightText2 from '../../../assets/svgs/letters-black-grey-dot.svg';
-import plebbitLightText from '../../../assets/svgs/letters-white-grey-dot.svg';
 import DropDown2 from '../../DropDown/DropDown2';
 import { RiCreativeCommonsByLine, RiSearchLine } from 'react-icons/ri';
 import {
@@ -49,6 +47,7 @@ import CreateSubPlebbit from './modal/CreateSubPlebbit';
 import getUserName from '../../../utils/getUserName';
 import NavItem from './navItem';
 import truncateString from '../../../utils/truncateString';
+import { PlebbitTextLogo } from '../../../assets/svgs/svg';
 
 const NavBar = ({ location }) => {
   const subPlebbitData = useSubPlebbitDefaultData();
@@ -95,8 +94,6 @@ const NavBar = ({ location }) => {
     });
   };
 
-  console.log(location);
-
   return (
     <Box>
       {device !== 'mobile' ? (
@@ -129,22 +126,20 @@ const NavBar = ({ location }) => {
                   width="32px"
                   height="32px"
                   maxWidth="32px"
-                  src={colorMode === 'light' ? plebbitDarkLogo : PlebLogo}
+                  src={plebbitDarkLogo}
                   alt="Plebbit Logo"
-                  border="1px"
-                  borderColor="#ccc"
                   mr="8px"
                   cursor="pointer"
                 />
-                <Image
-                  fallbackSrc={require('../../../assets/images/fallback.png')}
-                  height="18px"
-                  src={colorMode === 'light' ? plebbitlightText2 : plebbitLightText}
-                  alt="Plebbit Logo"
-                  border="none"
-                  mr="20px"
-                  cursor="pointer"
-                  overflow="hidden"
+                <PlebbitTextLogo
+                  style={{
+                    height: '20px',
+                    border: 'none',
+                    marginRight: '10px',
+                    cursor: 'pointer',
+                    overflow: 'hidden',
+                  }}
+                  color={colorMode === 'light' ? '#000' : '#fff'}
                 />
               </Flex>
               <Box>
@@ -181,7 +176,7 @@ const NavBar = ({ location }) => {
                       : [
                           { label: 'Home', value: subscriptions?.map((x) => x?.address) },
                           {
-                            label: 'p/All',
+                            label: location?.label !== 'Home' ? 'Home' : 'p/All',
                             value: subPlebbitData?.map((x) => x?.value),
                           },
                         ].find((x) => x?.value === postView)
@@ -207,7 +202,7 @@ const NavBar = ({ location }) => {
                               >
                                 {accountSubplebbits[pages]?.title
                                   ? accountSubplebbits[pages]?.title
-                                  : truncateString(accountSubplebbits[pages]?.title, 20, '...')}
+                                  : truncateString(accountSubplebbits[pages]?.title, 20)}
                               </Box>
                             </Link>
                           ))
@@ -240,7 +235,7 @@ const NavBar = ({ location }) => {
                       {[
                         ...subPlebbitData,
                         subscriptions?.map((x) => ({
-                          label: x?.title ? x?.title : truncateString(x?.address, 20, '...'),
+                          label: x?.title ? x?.title : truncateString(x?.address, 20),
                           value: x?.address,
                         })),
                       ]?.map((pages, index) => (
@@ -408,15 +403,15 @@ const NavBar = ({ location }) => {
                 mr="4px"
                 cursor="pointer"
               />
-              <Image
-                fallbackSrc={require('../../../assets/images/fallback.png')}
-                height="18px"
-                width="auto"
-                src={plebbitLightText}
-                alt="Plebbit Logo"
-                border="none"
-                mr="20px"
-                cursor="pointer"
+              <PlebbitTextLogo
+                style={{
+                  height: '20px',
+                  border: 'none',
+                  marginRight: '10px',
+                  cursor: 'pointer',
+                  overflow: 'hidden',
+                }}
+                color="#fff"
               />
             </Flex>
             <Flex

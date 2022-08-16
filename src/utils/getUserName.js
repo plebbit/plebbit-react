@@ -8,7 +8,7 @@ const getUserName = (author) => {
     username += ' ';
   }
   username += 'u/';
-  if (author?.address.endsWith('.eth')) {
+  if (author?.address.includes('.')) {
     username += author?.address;
   } else {
     username += author?.address.substring(0, 14);
