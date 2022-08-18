@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 
 const useSubPlebbitDefaultData = () => {
   const [value, setValue] = useState([]);
-
-  const subplebbits = async () =>
-    fetch(
+  const subplebbits = async () => {
+    return fetch(
       'https://raw.githubusercontent.com/plebbit/temporary-default-subplebbits/master/subplebbits.json',
       { cache: 'no-cache' }
     )
@@ -18,11 +17,12 @@ const useSubPlebbitDefaultData = () => {
       .then((data) => {
         setValue(data);
       });
+  };
 
   useEffect(async () => {
     await subplebbits();
   }, []);
 
-  return value;
+  return value === [] ? [] : value;
 };
 export default useSubPlebbitDefaultData;

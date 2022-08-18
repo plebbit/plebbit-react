@@ -17,7 +17,6 @@ export const ProfileDataProvider = (props) => {
   const [postStyle, setPostStyle] = useState('card');
   const [feedSort, setFeedSort] = useState('hot');
   const [showSplashcreen, setShowSplashcreen] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [device, setDevice] = useState('pc');
   const { exportAccount, createAccount, importAccount, setActiveAccount, setAccountsOrder } =
     useAccountsActions();
@@ -26,9 +25,38 @@ export const ProfileDataProvider = (props) => {
   const profile = defaultAccount;
   const accountSubplebbits = useAccountSubplebbits();
   const subscriptions = useSubplebbits(defaultAccount?.subscriptions);
-  const subPlebbitDefData = useSubPlebbitDefaultData();
+  const [homeAdd, setHomeAdd] = useState(
+    [
+      subscriptions
+        ?.map((x) => {
+          if (!x?.address) {
+            return '';
+          }
+          return x?.address;
+        })
+        ?.filter((x) => x !== ''),
+      ...Object.keys(accountSubplebbits),
+    ]?.flat()
+  );
+  const subPlebbitData = useSubPlebbitDefaultData();
+  const subPlebbitDefData = useSubplebbits(
+    [
+      subscriptions
+        ?.map((x) => {
+          if (!x?.address) {
+            return '';
+          }
+          return x?.address;
+        })
+        ?.filter((x) => x !== ''),
+      ...Object.keys(accountSubplebbits),
+      subPlebbitData ? subPlebbitData?.map((x) => x?.address) : [],
+    ].flat()
+  );
   const { version } = require('../../package.json');
-  const [postView, setPostView] = useState(subPlebbitDefData?.map((x) => x?.value));
+  const [postView, setPostView] = useState(
+    homeAdd ? homeAdd : [homeAdd, subPlebbitDefData?.map((x) => x?.address)].flat()
+  );
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(profile?.author);
   const mode = window?.location?.protocol;
 
@@ -47,36 +75,27 @@ export const ProfileDataProvider = (props) => {
     window.addEventListener('resize', handleResize);
   }, [device]);
 
-  const logUserOut = () => {};
+  useEffect(() => {
+    setHomeAdd(
+      [
+        subscriptions
+          ?.map((x) => {
+            if (!x?.address) {
+              return '';
+            }
+            return x?.address;
+          })
+          ?.filter((x) => x !== ''),
+        ...Object.keys(accountSubplebbits),
+      ].flat()
+    );
+  }, [subscriptions]);
 
   useEffect(() => {
     setTimeout(() => {
       setShowSplashcreen(false);
-    }, 4000);
+    }, 5000);
   }, [reloadUser]);
-
-  useEffect(() => {
-    if (subscriptions?.length) {
-      const add = subscriptions
-        ?.map((x) => {
-          if (!x?.address) {
-            return '';
-          }
-          return x?.address;
-        })
-        ?.filter((x) => x !== '');
-      if (Object.keys(accountSubplebbits)) {
-        if (add?.length) {
-          setPostView([...add, ...Object.keys(accountSubplebbits)]);
-          setPostView([...Object.keys(accountSubplebbits)]);
-        }
-      } else {
-        setPostView(subscriptions?.map((x) => x?.address));
-      }
-    } else {
-      setPostView(subPlebbitDefData?.map((x) => x?.value));
-    }
-  }, [subPlebbitDefData, subscriptions]);
 
   return (
     <ProfileContext.Provider
@@ -84,11 +103,8 @@ export const ProfileDataProvider = (props) => {
         profile,
         setReloadUser,
         reloadUser,
-        logUserOut,
         postStyle,
         setPostStyle,
-        isLoggedIn,
-        setIsLoggedIn,
         showSplashcreen,
         feedSort,
         setFeedSort,
@@ -107,6 +123,9 @@ export const ProfileDataProvider = (props) => {
         setPostView,
         authorAvatarImageUrl,
         mode,
+        homeAdd,
+        subPlebbitDefData,
+        subPlebbitData,
       }}
     >
       {children}

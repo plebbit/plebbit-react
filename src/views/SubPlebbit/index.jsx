@@ -13,6 +13,7 @@ import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser
 import truncateString from '../../utils/truncateString';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import Layout from '../../components/layout';
+import getIsOnline from '../../utils/getIsOnline';
 
 const SubPlebbit = ({ match }) => {
   const { postStyle, feedSort, profile, subscriptions, device, accountSubplebbits } =
@@ -36,6 +37,7 @@ const SubPlebbit = ({ match }) => {
   const history = useHistory();
   const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
   const location = useLocation();
+  const isOnline = getIsOnline(subPlebbit?.updatedAt);
 
   useEffect(() => {
     setData({ ...subPlebbit });
@@ -193,17 +195,36 @@ const SubPlebbit = ({ match }) => {
                     alignItems={device !== 'mobile' ? 'flex-start' : 'center'}
                     flexDir={device !== 'mobile' ? 'row' : 'column'}
                   >
-                    <Image
-                      fallbackSrc={require('../../assets/images/fallback.png')}
-                      src=""
-                      backgroundColor="#fff"
-                      backgroundSize="cover"
-                      borderRadius="100%"
-                      border="4px solid #fff"
-                      display="inline-block"
-                      height="76px"
-                      width="76px"
-                    />
+                    <Box position="relative">
+                      <Box borderRadius="50%" width="76px" height="76px" position="relative">
+                        <Box width="100%" position="absolute" bottom="0">
+                          <Image
+                            fallbackSrc={require('../../assets/images/fallback.png')}
+                            src=""
+                            backgroundColor="#fff"
+                            backgroundSize="cover"
+                            borderRadius="100%"
+                            border="4px solid #fff"
+                            display="inline-block"
+                            height="76px"
+                            width="76px"
+                          />
+                        </Box>
+                        <Box
+                          width="15px"
+                          height="15px"
+                          rounded="full"
+                          bg={isOnline ? '#46d160' : 'red'}
+                          position="absolute"
+                          borderWidth="3px"
+                          borderColor="#fff"
+                          borderStyle="solid"
+                          right="1"
+                          top="67%"
+                        />
+                      </Box>
+                    </Box>
+
                     <Flex
                       boxSizing="border-box"
                       alignContent="flex-start"

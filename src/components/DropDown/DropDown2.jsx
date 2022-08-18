@@ -21,10 +21,19 @@ const DropDown2 = ({
   selectStyles,
   selectedBg,
   unselectedBg,
+  render,
 }) => {
   const mainColor = useColorModeValue('lightText2', 'darkText1');
   const navBorder = useColorModeValue('#edeff1', '#343536');
   const mainBg = useColorModeValue('#fff', '#1A1A1B');
+
+  const Option = ({ children, ...props }) => {
+    return render ? (
+      <components.Option {...props}>{render(props?.data)}</components.Option>
+    ) : (
+      <components.Option {...props}>{children}</components.Option>
+    );
+  };
 
   const Control = ({ children, ...props }) => {
     const style = { cursor: 'pointer' };
@@ -104,7 +113,11 @@ const DropDown2 = ({
             color: mainColor,
             ...placeholderStyles,
           }),
-          singleValue: (styles) => ({ ...styles, fontWeight: '500', color: mainColor }),
+          singleValue: (styles) => ({
+            ...styles,
+            fontWeight: '500',
+            color: mainColor,
+          }),
           indicatorSeparator: (styles) => ({ ...styles, display: 'none' }),
           dropdownIndicator: (styles) => ({
             ...styles,
@@ -114,7 +127,11 @@ const DropDown2 = ({
         }}
         placeholder={placeholder || 'Choose a community'}
         options={options}
-        components={{ Control, MenuList }}
+        components={{
+          Control,
+          MenuList,
+          Option: Option,
+        }}
         isSearchable={isSearchable || true}
         onChange={onChange}
         getOptionLabel={getOptionLabel}

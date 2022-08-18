@@ -16,6 +16,7 @@ import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { BsChat } from 'react-icons/bs';
 import Editor from '../../Editor';
+import Marked from '../../Editor/marked';
 import { dateToNow } from '../../../utils/formatDate';
 import numFormatter from '../../../utils/numberFormater';
 import getUserName from '../../../utils/getUserName';
@@ -184,7 +185,7 @@ const Comment = ({ comment, parentCid }) => {
           )}
         </Flex>
         <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>
-          {comment?.content}
+          <Marked content={comment?.content} />
         </Box>
         <Flex>
           <Flex

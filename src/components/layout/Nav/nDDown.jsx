@@ -84,7 +84,7 @@ const NDDown = ({ onClick }) => {
                 color={mainColor}
                 whiteSpace="nowrap"
               >
-                {profile?.author?.displayName}
+                {profile?.author?.displayName || profile?.name}
               </Box>
               <Box fontSize="12px" fontWeight="500" lineHeight="16px" color="#a8aaab">
                 <Icon as={GiBlackHoleBolas} mr="1px" />

@@ -2,12 +2,17 @@ import React, { useContext, useState } from 'react';
 import { Box } from '@chakra-ui/react';
 import Swal from 'sweetalert2';
 import { useToast } from '@chakra-ui/react';
-import { useAccountsActions, useAuthorAvatarImageUrl } from '@plebbit/plebbit-react-hooks';
+import {
+  useAccountsActions,
+  useAuthorAvatarImageUrl,
+  useSubplebbit,
+} from '@plebbit/plebbit-react-hooks';
 import CardPost from './CardPost';
 import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
 import logger from '../../utils/logger';
 import { ProfileContext } from '../../store/profileContext';
+import getIsOnline from '../../utils/getIsOnline';
 
 const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const vote = post?.upvoteCount - post?.downvoteCount;
@@ -18,7 +23,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const { publishVote } = useAccountsActions();
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(post?.author);
   const { mode: location } = useContext(ProfileContext);
-
+  const getSub = useSubplebbit(post?.subplebbitAddress);
   const getChallengeAnswersFromUser = async (challenges) => {
     const { value } = await Swal.fire({
       background: '#eff4f7',
@@ -32,6 +37,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
     }
   };
 
+  const isOnline = getIsOnline(getSub?.updatedAt);
   const onChallengeVerification = (challengeVerification, comment) => {
     // if the challengeVerification fails, a new challenge request will be sent automatically
     // to break the loop, the user must decline to send a challenge answer
@@ -64,7 +70,17 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       });
     }
     if (challengeAnswers) {
-      await comment.publishChallengeAnswers(challengeAnswers);
+      try {
+        await comment.publishChallengeAnswers(challengeAnswers);
+      } catch (error) {
+        toast({
+          title: 'Publish Challenge Declined.',
+          description: error?.message,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     }
   };
 
@@ -87,6 +103,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       });
     }
   };
+
   return (
     <Box>
       <Box>
@@ -108,6 +125,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
               post?.subplebbitAddress
             }/c/${post?.cid}`}
             avatar={authorAvatarImageUrl}
+            isOnline={isOnline}
+            subPlebbit={getSub}
           />
         )}
         {/* classic */}
@@ -130,6 +149,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
               post?.subplebbitAddress
             }/c/${post?.cid}`}
             avatar={authorAvatarImageUrl}
+            isOnline={isOnline}
+            subPlebbit={getSub}
           />
         )}
         {/* compact */}
@@ -152,6 +173,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
               post?.subplebbitAddress
             }/c/${post?.cid}`}
             avatar={authorAvatarImageUrl}
+            isOnline={isOnline}
+            subPlebbit={getSub}
           />
         )}
       </Box>

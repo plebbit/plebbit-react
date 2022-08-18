@@ -5,9 +5,9 @@ import {
   Icon,
   Textarea,
   useColorMode,
-  Checkbox,
   useColorModeValue,
   useToast,
+  Image,
 } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import { LinkIcon } from '@chakra-ui/icons';
@@ -21,14 +21,13 @@ import Editor from '../../Editor';
 import DropDown2 from '../../DropDown/DropDown2';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 import truncateString from '../../../utils/truncateString';
-import useSubPlebbitDefaultData from '../../../hooks/useSubPlebbitDefaultData';
 import { ProfileContext } from '../../../store/profileContext';
 import logger from '../../../utils/logger';
 import Layout from '../../layout';
+import getIsOnline from '../../../utils/getIsOnline';
 
 const CreatePost = () => {
-  const { accountSubplebbits, subscriptions } = useContext(ProfileContext);
-  const subPlebbitData = useSubPlebbitDefaultData();
+  const { accountSubplebbits, subscriptions, subPlebbitDefData } = useContext(ProfileContext);
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const borderColor = useColorModeValue('borderLight', 'borderDark');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -39,15 +38,17 @@ const CreatePost = () => {
   const [address, setAddress] = useState(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [mode, setMode] = useState('post');
+  const [spoiler, setSpoiler] = useState(false);
   const toast = useToast();
   const mySubplebbits = Object.keys(accountSubplebbits)?.length
     ? Object.keys(accountSubplebbits)?.map((pages) => ({
         label: truncateString(accountSubplebbits[pages]?.title),
         value: pages,
+        ...accountSubplebbits[pages],
       }))
     : [];
   const subs = subscriptions?.length
-    ? subscriptions?.map((x) => ({ value: x?.address, label: x?.title }))
+    ? subscriptions?.map((x) => ({ ...x, value: x?.address, label: x?.title }))
     : '';
 
   const history = useHistory();
@@ -105,9 +106,10 @@ const CreatePost = () => {
     try {
       setLoading(true);
       const res = await publishComment({
-        content,
+        content: content ? content : undefined,
         title,
-        link,
+        link: link ? link : undefined,
+        spoiler: spoiler ? spoiler : undefined,
         subplebbitAddress: address?.value,
         onChallenge,
         onChallengeVerification,
@@ -175,9 +177,58 @@ const CreatePost = () => {
                 zIndex="2"
               >
                 <DropDown2
-                  options={[...mySubplebbits, ...subs, ...subPlebbitData]}
+                  options={[
+                    ...mySubplebbits,
+                    ...subs,
+                    subPlebbitDefData.map((x) => ({ ...x, label: x?.title, value: x?.address })),
+                  ].flat()}
                   onChange={(value) => setAddress(value)}
                   value={address}
+                  render={(data) => (
+                    <Flex
+                      alignItems="center"
+                      _hover={{
+                        bg: '#DEEBFF',
+                      }}
+                      padding="8px 12px"
+                      textTransform="capitalize"
+                      fontWeight="400"
+                      fontSize="14px"
+                    >
+                      <Box
+                        borderRadius="50%"
+                        width="20px"
+                        height="20px"
+                        position="relative"
+                        mr="8px"
+                      >
+                        <Box width="100%" position="absolute" bottom="0">
+                          <Image
+                            fallbackSrc={require('../../../assets/images/fallback.png')}
+                            src={data?.avatar}
+                            width="100%"
+                            transformOrigin="bottom center"
+                            display="block"
+                            transform="scale(1.3)"
+                            rounded="full"
+                          />
+                        </Box>
+                        <Box
+                          width="12.5px"
+                          height="12.5px"
+                          rounded="full"
+                          bg={getIsOnline(data?.updatedAt) ? '#46d160' : 'red'}
+                          position="absolute"
+                          borderWidth="2px"
+                          borderColor="#fff"
+                          borderStyle="solid"
+                          right="-0.5"
+                          bottom="0"
+                        />
+                      </Box>
+                      <Box>{data?.label ? data?.label : truncateString(data?.address, 20)}</Box>
+                    </Flex>
+                  )}
                 />
               </Box>
             </Flex>
@@ -375,10 +426,11 @@ const CreatePost = () => {
                       mb="8px"
                       mr="4px"
                       zIndex="1"
-                      position="relative"
+                      backgroundColor={spoiler && '#3293db'}
                       border="1px solid #878a8c"
-                      color="#878a8c"
+                      color={spoiler ? '#fff' : '#878a8c'}
                       fill="#878a8c"
+                      position="relative"
                       fontSize="14px"
                       fontWeight="700"
                       lineHeight="17px"
@@ -387,7 +439,7 @@ const CreatePost = () => {
                       borderRadius="30px"
                       justifyContent="center"
                       width="auto"
-                      disabled={true}
+                      onClick={() => setSpoiler(!spoiler)}
                       display="flex"
                       sx={{
                         padding: '4px 16px',
@@ -531,65 +583,6 @@ const CreatePost = () => {
                     </Flex>
                   </Flex>
                 </Box>
-              </Flex>
-              <Flex
-                backgroundColor={bg}
-                borderRadius="0 0 6px 6px"
-                flexFlow="column"
-                padding="8px 16px 21px"
-                position="relative"
-              >
-                <Flex marginTop="8px" width="100%">
-                  <Flex flexFlow="column" marginRight="auto" alignSelf="flex-start">
-                    <Flex alignItems="center">
-                      <Flex
-                        marginBottom="8px"
-                        fontSize="14px"
-                        fontWeight="500"
-                        lineHeight="18px"
-                        color="#1c1c1c"
-                        cursor="pointer"
-                        alignItems="center"
-                      >
-                        <Checkbox colorScheme="gray" defaultChecked>
-                          <Box
-                            marginRight="4px"
-                            fontSize="14px"
-                            fontWeight="500"
-                            lineHeight="18px"
-                            color={color}
-                          >
-                            Send me post reply notifications
-                          </Box>
-                        </Checkbox>
-                      </Flex>
-                    </Flex>
-                    <Flex alignItems="center">
-                      <Flex
-                        marginBottom="8px"
-                        fontSize="14px"
-                        fontWeight="500"
-                        lineHeight="18px"
-                        color="#1c1c1c"
-                        cursor="pointer"
-                        alignItems="center"
-                      >
-                        <Checkbox colorScheme="gray" defaultChecked>
-                          <Box
-                            marginRight="4px"
-                            fontSize="14px"
-                            fontWeight="500"
-                            lineHeight="18px"
-                            color={color}
-                          >
-                            Share this post on Twitter
-                          </Box>
-                        </Checkbox>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                  <Flex flexFlow="column"></Flex>
-                </Flex>
               </Flex>
             </Box>
           </Flex>

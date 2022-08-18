@@ -4,8 +4,9 @@ import { BiCake } from 'react-icons/bi';
 import Button from '../../Button';
 import BottomSideBar from '../../sidebar/bottomSideBar';
 import BacktoTopButton from '../../sidebar/backtoTopButton';
-import { useAuthorAvatarImageUrl, useSubplebbit } from '@plebbit/plebbit-react-hooks';
+import { useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import { dateFormater } from '../../../utils/formatDate';
+import getIsOnline from '../../../utils/getIsOnline';
 
 const PostDetailSideBar = ({
   mt,
@@ -29,7 +30,6 @@ const PostDetailSideBar = ({
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '#1A1A1B');
   const subPlebbit = useSubplebbit(detail?.subplebbitAddress);
-  const avatar = useAuthorAvatarImageUrl(detail?.author?.address);
 
   return (
     <Box
@@ -78,20 +78,42 @@ const PostDetailSideBar = ({
             />
           </Box>
           <Flex width="100" padding="12px" alignItems="center" mb="8px">
-            <Image
-              fallbackSrc={require('../../../assets/images/fallback.png')}
-              borderRadius="full"
-              boxSize="54px"
-              src={avatar}
-              alt="user Avatar"
+            <Box
+              height="54px"
+              marginBottom="8px"
+              width="54px"
+              backgroundColor="#24a0ed"
+              borderRadius="50%"
+              position="relative"
               mr="8px"
-            />
+            >
+              <Image
+                fallbackSrc={require('../../../assets/images/fallback.png')}
+                borderRadius="full"
+                boxSize="54px"
+                src={subPlebbit?.avatar}
+                alt="user Avatar"
+              />
+              <Box
+                width="20px"
+                height="20px"
+                rounded="full"
+                bg={getIsOnline(subPlebbit?.updatedAt) ? '#46d160' : 'red'}
+                position="absolute"
+                borderWidth="2px"
+                borderColor="#fff"
+                borderStyle="solid"
+                right="0"
+                bottom="0"
+              />
+            </Box>
+
             <Box fontSize="16px" fontWeight="500" lineHeight="20px" text-overflow="ellipsis">
               p/{subPlebbit?.title || subPlebbit?.address}
             </Box>
           </Flex>
           <Box marginBottom="8px" position="relative" padding="12px">
-            p/{subPlebbit?.title || subPlebbit?.address} - about blah blah ....
+            {subPlebbit?.about}
           </Box>
           <Flex marginBottom="8px" padding="12px">
             <Flex flexDirection="column" paddingRight="4px" flex="auto">
