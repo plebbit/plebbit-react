@@ -37,10 +37,9 @@ import {
 import { Link, useHistory } from 'react-router-dom';
 import NDDown from './nDDown';
 import { GiHamburgerMenu, GiTwoCoins } from 'react-icons/gi';
-import { CgEnter, CgNotes, CgProfile } from 'react-icons/cg';
+import { CgNotes, CgProfile } from 'react-icons/cg';
 import { ProfileContext } from '../../../store/profileContext';
 import useVisible from '../../../hooks/useVisible';
-import useSubPlebbitDefaultData from '../../../hooks/useSubPlebbitDefaultData';
 import { VscMail } from 'react-icons/vsc';
 import ImportAccount from './modal/importAccount';
 import CreateSubPlebbit from './modal/CreateSubPlebbit';
@@ -48,9 +47,9 @@ import getUserName from '../../../utils/getUserName';
 import NavItem from './navItem';
 import truncateString from '../../../utils/truncateString';
 import { PlebbitTextLogo } from '../../../assets/svgs/svg';
+import getIsOnline from '../../../utils/getIsOnline';
 
 const NavBar = ({ location }) => {
-  const subPlebbitData = useSubPlebbitDefaultData();
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mainColor = useColorModeValue('lightText2', 'darkText1');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -61,8 +60,6 @@ const NavBar = ({ location }) => {
   const history = useHistory();
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const {
-    setIsLoggedIn,
-    isLoggedIn,
     profile,
     device,
     accountLists,
@@ -73,8 +70,9 @@ const NavBar = ({ location }) => {
     accountSubplebbits,
     setPostView,
     postView,
-
     authorAvatarImageUrl,
+    homeAdd,
+    subPlebbitDefData: subPlebbitData,
   } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
@@ -160,7 +158,7 @@ const NavBar = ({ location }) => {
                     location || {},
                     {
                       label: location?.label !== 'Home' ? 'Home' : 'p/All',
-                      value: subPlebbitData?.map((x) => x?.value),
+                      value: subPlebbitData?.map((x) => x?.address),
                     },
                   ]}
                   placeholder="Home"
@@ -174,10 +172,10 @@ const NavBar = ({ location }) => {
                     location?.label !== 'Home'
                       ? location
                       : [
-                          { label: 'Home', value: subscriptions?.map((x) => x?.address) },
+                          { label: 'Home', value: homeAdd },
                           {
                             label: location?.label !== 'Home' ? 'Home' : 'p/All',
-                            value: subPlebbitData?.map((x) => x?.value),
+                            value: subPlebbitData?.map((x) => x?.address),
                           },
                         ].find((x) => x?.value === postView)
                   }
@@ -190,7 +188,8 @@ const NavBar = ({ location }) => {
                       {Object.keys(accountSubplebbits)?.length
                         ? Object.keys(accountSubplebbits)?.map((pages, index) => (
                             <Link key={index} to={`/p/${pages}/`}>
-                              <Box
+                              <Flex
+                                alignItems="center"
                                 _hover={{
                                   bg: '#DEEBFF',
                                 }}
@@ -200,10 +199,47 @@ const NavBar = ({ location }) => {
                                 fontSize="14px"
                                 borderBottom={`1px solid ${navBorder}`}
                               >
-                                {accountSubplebbits[pages]?.title
-                                  ? accountSubplebbits[pages]?.title
-                                  : truncateString(accountSubplebbits[pages]?.title, 20)}
-                              </Box>
+                                <Box
+                                  borderRadius="50%"
+                                  width="20px"
+                                  height="20px"
+                                  position="relative"
+                                  mr="8px"
+                                >
+                                  <Box width="100%" position="absolute" bottom="0">
+                                    <Image
+                                      fallbackSrc={require('../../../assets/images/fallback.png')}
+                                      src={pages?.avatar}
+                                      width="100%"
+                                      transformOrigin="bottom center"
+                                      display="block"
+                                      transform="scale(1.3)"
+                                      rounded="full"
+                                    />
+                                  </Box>
+                                  <Box
+                                    width="12.5px"
+                                    height="12.5px"
+                                    rounded="full"
+                                    bg={
+                                      getIsOnline(accountSubplebbits[pages]?.updatedAt)
+                                        ? '#46d160'
+                                        : 'red'
+                                    }
+                                    position="absolute"
+                                    borderWidth="2px"
+                                    borderColor="#fff"
+                                    borderStyle="solid"
+                                    right="-0.5"
+                                    bottom="0"
+                                  />
+                                </Box>
+                                <Box>
+                                  {accountSubplebbits[pages]?.title
+                                    ? accountSubplebbits[pages]?.title
+                                    : truncateString(accountSubplebbits[pages]?.title, 20)}
+                                </Box>
+                              </Flex>
                             </Link>
                           ))
                         : ''}
@@ -233,27 +269,66 @@ const NavBar = ({ location }) => {
                         <Box onClick={() => onOpenCreate()}>Create Community</Box>
                       </Flex>
                       {[
-                        ...subPlebbitData,
-                        subscriptions?.map((x) => ({
+                        subPlebbitData?.map((x) => ({
+                          ...x,
                           label: x?.title ? x?.title : truncateString(x?.address, 20),
                           value: x?.address,
                         })),
-                      ]?.map((pages, index) => (
-                        <Link key={index} to={`/p/${pages?.value}/`}>
-                          <Box
-                            _hover={{
-                              bg: '#DEEBFF',
-                            }}
-                            padding="8px 12px"
-                            textTransform="capitalize"
-                            fontWeight="400"
-                            fontSize="14px"
-                            borderBottom={`1px solid ${navBorder}`}
-                          >
-                            {pages?.label}
-                          </Box>
-                        </Link>
-                      ))}
+                        subscriptions?.map((x) => ({
+                          ...x,
+                          label: x?.title ? x?.title : truncateString(x?.address, 20),
+                          value: x?.address,
+                        })),
+                      ]
+                        .flat()
+                        ?.map((pages, index) => (
+                          <Link key={index} to={`/p/${pages?.value}/`}>
+                            <Flex
+                              _hover={{
+                                bg: '#DEEBFF',
+                              }}
+                              padding="8px 12px"
+                              textTransform="capitalize"
+                              fontWeight="400"
+                              fontSize="14px"
+                              borderBottom={`1px solid ${navBorder}`}
+                              alignItems="center"
+                            >
+                              <Box
+                                borderRadius="50%"
+                                width="20px"
+                                height="20px"
+                                position="relative"
+                                mr="8px"
+                              >
+                                <Box width="100%" position="absolute" bottom="0">
+                                  <Image
+                                    fallbackSrc={require('../../../assets/images/fallback.png')}
+                                    src={pages?.avatar}
+                                    width="100%"
+                                    transformOrigin="bottom center"
+                                    display="block"
+                                    transform="scale(1.3)"
+                                    rounded="full"
+                                  />
+                                </Box>
+                                <Box
+                                  width="12.5px"
+                                  height="12.5px"
+                                  rounded="full"
+                                  bg={getIsOnline(pages?.updatedAt) ? '#46d160' : 'red'}
+                                  position="absolute"
+                                  borderWidth="2px"
+                                  borderColor="#fff"
+                                  borderStyle="solid"
+                                  right="-0.5"
+                                  bottom="0"
+                                />
+                              </Box>
+                              <Box>{pages?.label || pages?.address}</Box>
+                            </Flex>
+                          </Link>
+                        ))}
                     </>
                   }
                 />
@@ -781,7 +856,7 @@ const NavBar = ({ location }) => {
                 </Box>
               </Box>
 
-              <Box
+              {/* <Box
                 width="100%"
                 height="40px"
                 color={mainColor}
@@ -798,7 +873,7 @@ const NavBar = ({ location }) => {
                     <Box onClick={() => setIsLoggedIn(false)}>Log Out</Box>
                   )}
                 </Flex>
-              </Box>
+              </Box> */}
               <Box
                 color={iconColor}
                 width="100%"
@@ -1098,8 +1173,8 @@ const NavBar = ({ location }) => {
                       paddingLeft="20px"
                     >
                       {[
-                        { label: 'Home', value: subscriptions?.map((x) => x?.address) },
-                        { label: 'p/All', value: subPlebbitData?.map((x) => x?.value) },
+                        { label: 'Home', value: homeAdd },
+                        { label: 'p/All', value: subPlebbitData?.map((x) => x?.address) },
                       ]?.map((pages, index) => (
                         <Flex
                           key={index}
@@ -1128,37 +1203,66 @@ const NavBar = ({ location }) => {
                           </Box>
                         </Flex>
                       ))}
-                      {[
-                        ...subPlebbitData,
-                        ...subscriptions.map((x) => ({ label: x?.title, value: x?.address })),
-                      ]?.map((pages, index) => (
-                        <Flex
-                          key={index}
-                          alignItems="center"
-                          flexFlow="row nowrap"
-                          cursor="pointer"
-                          onClick={() => {
-                            setShowDropDown(!showDropDown);
-                            setShowComponent(!showDropDown);
-                            setPostView(pages.value);
-                          }}
-                        >
+                      {[subPlebbitData.map((x) => ({ ...x, label: x?.title, value: x?.address }))]
+                        .flat()
+                        ?.map((pages, index) => (
                           <Flex
+                            key={index}
                             alignItems="center"
-                            flex="0 0 24px"
-                            height="24px"
-                            justifyContent="center"
-                            mr="8px"
-                            position="8px"
-                            width="24px"
+                            flexFlow="row nowrap"
+                            cursor="pointer"
+                            onClick={() => {
+                              setShowDropDown(!showDropDown);
+                              setShowComponent(!showDropDown);
+                              setPostView(pages.value);
+                            }}
                           >
-                            {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */}
+                            <Flex
+                              alignItems="center"
+                              flex="0 0 24px"
+                              height="24px"
+                              justifyContent="center"
+                              mr="8px"
+                              position="8px"
+                              width="24px"
+                            >
+                              <Box
+                                borderRadius="50%"
+                                width="20px"
+                                height="20px"
+                                position="relative"
+                                mr="8px"
+                              >
+                                <Box width="100%" position="absolute" bottom="0">
+                                  <Image
+                                    fallbackSrc={require('../../../assets/images/fallback.png')}
+                                    src={pages?.avatar}
+                                    width="100%"
+                                    transformOrigin="bottom center"
+                                    display="block"
+                                    transform="scale(1.3)"
+                                    rounded="full"
+                                  />
+                                </Box>
+                                <Box
+                                  width="12.5px"
+                                  height="12.5px"
+                                  rounded="full"
+                                  bg={getIsOnline(pages?.updatedAt) ? '#46d160' : 'red'}
+                                  position="absolute"
+                                  borderWidth="2px"
+                                  borderColor="#fff"
+                                  borderStyle="solid"
+                                  right="-0.5"
+                                  bottom="0"
+                                />
+                              </Box>
+                            </Flex>
+                            <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
+                              {pages.label}
+                            </Box>
                           </Flex>
-                          <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                            {pages.label}
-                          </Box>
-                        </Flex>
-                      ))}
+                        ))}
                     </Flex>
                   }
                 />
@@ -1243,7 +1347,6 @@ const NavBar = ({ location }) => {
                       </Box>
                       {Object.keys(accountSubplebbits)?.map((pages, index) => (
                         <Link key={index} to={`/p/${pages}/`}>
-                          {' '}
                           <Flex
                             alignItems="center"
                             flexFlow="row nowrap"
@@ -1262,7 +1365,41 @@ const NavBar = ({ location }) => {
                               position="8px"
                               width="24px"
                             >
-                              {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */}
+                              <Box
+                                borderRadius="50%"
+                                width="20px"
+                                height="20px"
+                                position="relative"
+                                mr="8px"
+                              >
+                                <Box width="100%" position="absolute" bottom="0">
+                                  <Image
+                                    fallbackSrc={require('../../../assets/images/fallback.png')}
+                                    src={pages?.avatar}
+                                    width="100%"
+                                    transformOrigin="bottom center"
+                                    display="block"
+                                    transform="scale(1.3)"
+                                    rounded="full"
+                                  />
+                                </Box>
+                                <Box
+                                  width="12.5px"
+                                  height="12.5px"
+                                  rounded="full"
+                                  bg={
+                                    getIsOnline(accountSubplebbits[pages]?.updatedAt)
+                                      ? '#46d160'
+                                      : 'red'
+                                  }
+                                  position="absolute"
+                                  borderWidth="2px"
+                                  borderColor="#fff"
+                                  borderStyle="solid"
+                                  right="-0.5"
+                                  bottom="0"
+                                />
+                              </Box>
                             </Flex>
                             <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
                               {accountSubplebbits[pages]?.title}
@@ -1389,7 +1526,12 @@ const NavBar = ({ location }) => {
                   marginLeft="-4px"
                   paddingLeft="2px"
                 >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer">
+                  <Flex
+                    alignItems="center"
+                    flexFlow="row nowrap"
+                    cursor="pointer"
+                    onClick={() => setPostView(subPlebbitData?.map((x) => x?.address))}
+                  >
                     <Flex
                       alignItems="center"
                       flex="0 0 24px"

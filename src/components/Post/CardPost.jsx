@@ -26,7 +26,7 @@ import { dateToNow } from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import { ProfileContext } from '../../store/profileContext';
 import getUserName from '../../utils/getUserName';
-import truncateSting from '../../utils/truncateString';
+import Marked from '../Editor/marked';
 
 const CardPost = ({
   post,
@@ -42,6 +42,8 @@ const CardPost = ({
   location,
   copied,
   avatar,
+  isOnline,
+  subPlebbit,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -64,8 +66,6 @@ const CardPost = ({
   const history = useHistory();
 
   const { device, profile } = useContext(ProfileContext);
-
-  console.log(detail);
 
   return (
     <>
@@ -219,6 +219,37 @@ const CardPost = ({
                         >
                           {type !== 'subPlebbit' ? (
                             <>
+                              <Box
+                                borderRadius="50%"
+                                width="24px"
+                                height="24px"
+                                position="relative"
+                                mr="8px"
+                              >
+                                <Box width="100%" position="absolute" bottom="0">
+                                  <Image
+                                    h="100%"
+                                    verticalAlign="middle"
+                                    src={subPlebbit?.avatar}
+                                    alt="not-found"
+                                    fallbackSrc={require('../../assets/images/fallback.png')}
+                                    rounded="full"
+                                  />
+                                </Box>
+                                <Box
+                                  width="12px"
+                                  height="12px"
+                                  rounded="full"
+                                  bg={isOnline ? '#46d160' : 'red'}
+                                  position="absolute"
+                                  borderWidth="2px"
+                                  borderColor="#fff"
+                                  borderStyle="solid"
+                                  right="0.5"
+                                  bottom="0"
+                                />
+                              </Box>
+
                               <Link
                                 as={ReactLink}
                                 to={`p/${post?.subplebbitAddress}`}
@@ -236,10 +267,8 @@ const CardPost = ({
                                 color={subPlebbitSubTitle}
                                 fontSize="6px"
                                 lineHeight="20px"
-                                margin="0 4px"
-                              >
-                                •
-                              </Box>
+                                margin="0 5px"
+                              />
                             </>
                           ) : (
                             ''
@@ -254,6 +283,7 @@ const CardPost = ({
                             justifyContent="center"
                             verticalAlign="middle"
                             mr="4px"
+                            rounded="full"
                           >
                             <Image
                               h="24px"
@@ -261,6 +291,7 @@ const CardPost = ({
                               src={avatar}
                               alt="not-found"
                               fallbackSrc={require('../../assets/images/fallback.png')}
+                              rounded="full"
                             />
                           </Flex>
                           {/* User Name */}
@@ -453,7 +484,7 @@ const CardPost = ({
                           paddingBottom="1px"
                           marginBottom="-1px"
                         >
-                          {post?.content}
+                          {<Marked content={post?.content} />}
                         </Box>
                       </Skeleton>
                     </Box>
@@ -508,7 +539,15 @@ const CardPost = ({
                                   lineHeight="20px"
                                   margin="0 4px"
                                 >
-                                  •
+                                  <Box
+                                    width="12px"
+                                    height="12px"
+                                    rounded="full"
+                                    bg={isOnline ? '#46d160' : 'red'}
+                                    borderWidth="2px"
+                                    borderColor="#fff"
+                                    borderStyle="solid"
+                                  />
                                 </Box>
                               </>
                             ) : (
@@ -531,6 +570,7 @@ const CardPost = ({
                                 verticalAlign="middle"
                                 src={avatar}
                                 alt="not-found"
+                                rounded="full"
                               />
                             </Flex>
                             {/* User Name */}
@@ -1008,33 +1048,33 @@ const CardPost = ({
                             overflow="hidden"
                             verticalAlign="middle"
                             width="24px"
+                            position="relative"
                           >
-                            <Image
-                              fallbackSrc={require('../../assets/images/fallback.png')}
-                              alt="plebbit-post"
-                              overflow="hidden"
-                              whiteSpace="nowrap"
-                              src={avatar}
+                            <Box width="100%" position="absolute" bottom="0">
+                              <Image
+                                fallbackSrc={require('../../assets/images/fallback.png')}
+                                alt="plebbit-post"
+                                overflow="hidden"
+                                whiteSpace="nowrap"
+                                src={subPlebbit?.avatar}
+                              />
+                            </Box>
+                            <Box
+                              width="12px"
+                              height="12px"
+                              rounded="full"
+                              bg={isOnline ? '#46d160' : 'red'}
+                              position="absolute"
+                              borderWidth="2px"
+                              borderColor="#fff"
+                              borderStyle="solid"
+                              right="0.5"
+                              bottom="0"
                             />
                           </Flex>
-                          <Skeleton isLoaded={!loading}>{`p/${truncateSting(
-                            post?.subplebbitAddress,
-                            14
-                          )}`}</Skeleton>
+                          <Skeleton isLoaded={!loading}>{`p/${post?.subplebbitAddress}`}</Skeleton>
                         </Flex>
-                        <Box
-                          _after={{
-                            color: '#818384',
-                            content: `"•"`,
-                            margin: '0 4px',
-                            position: 'relative',
-                            top: '-1px',
-                            verticalAlign: 'middle',
-                          }}
-                          fontSize="14px"
-                          lineHeight="18px"
-                          color="#798389"
-                        />
+
                         <Box>
                           <Skeleton isLoaded={!loading}>
                             {dateToNow(post?.timestamp * 1000)}
@@ -1099,7 +1139,7 @@ const CardPost = ({
                   wordBreak="break-word"
                   overflow="hidden"
                 >
-                  {post?.content || (
+                  {<Marked content={post?.content} /> || (
                     <Box display="flex" justifyContent="center">
                       <Image fallbackSrc="https://via.placeholder.com/150" src={post?.link} />
                     </Box>

@@ -27,8 +27,8 @@ import { dateToNow } from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import getUserName from '../../utils/getUserName';
 import { ProfileContext } from '../../store/profileContext';
-import truncateSting from '../../utils/truncateString';
 import DropDown from '../DropDown';
+import Marked from '../Editor/marked';
 
 const ClassicPost = ({
   loading,
@@ -45,6 +45,8 @@ const ClassicPost = ({
   copied,
   avatar,
   detail,
+  isOnline,
+  subPlebbit,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -344,6 +346,37 @@ const ClassicPost = ({
                         alignItems="center"
                         flexFlow="row wrap"
                       >
+                        <Box
+                          borderRadius="50%"
+                          width="24px"
+                          height="24px"
+                          position="relative"
+                          mr="8px"
+                          my="5px"
+                        >
+                          <Box width="100%" position="absolute" bottom="0">
+                            <Image
+                              h="100%"
+                              verticalAlign="middle"
+                              src={subPlebbit?.avatar}
+                              alt="not-found"
+                              fallbackSrc={require('../../assets/images/fallback.png')}
+                              rounded="full"
+                            />
+                          </Box>
+                          <Box
+                            width="12px"
+                            height="12px"
+                            rounded="full"
+                            bg={isOnline ? '#46d160' : 'red'}
+                            position="absolute"
+                            borderWidth="2px"
+                            borderColor="#fff"
+                            borderStyle="solid"
+                            right="0.5"
+                            bottom="0"
+                          />
+                        </Box>
                         <Link
                           as={ReactLink}
                           to={`/p/${post?.subplebbitAddress}`}
@@ -353,7 +386,7 @@ const ClassicPost = ({
                           display="inline"
                           lineHeight="20px"
                           textDecoration="none"
-                          mr="3px"
+                          mr="5px"
                         >
                           {`p/${post?.subplebbitAddress}`}
                         </Link>
@@ -374,6 +407,7 @@ const ClassicPost = ({
                             verticalAlign="middle"
                             src={avatar}
                             alt="not-found"
+                            rounded="full"
                           />
                         </Flex>
                         {/* User Name */}
@@ -751,7 +785,7 @@ const ClassicPost = ({
                   paddingBottom="1px"
                   marginBottom="-1px"
                 >
-                  {post?.content}
+                  <Marked content={post?.content} />
                 </Box>
               </Box>
             ) : (
@@ -820,19 +854,31 @@ const ClassicPost = ({
                             overflow="hidden"
                             verticalAlign="middle"
                             width="24px"
+                            position="relative"
                           >
-                            <Image
-                              fallbackSrc={require('../../assets/images/fallback.png')}
-                              alt="plebbit-post"
-                              overflow="hidden"
-                              whiteSpace="nowrap"
-                              src={avatar}
+                            <Box width="100%" position="absolute" bottom="0">
+                              <Image
+                                fallbackSrc={require('../../assets/images/fallback.png')}
+                                alt="plebbit-post"
+                                overflow="hidden"
+                                whiteSpace="nowrap"
+                                src={subPlebbit?.avatar}
+                              />
+                            </Box>
+                            <Box
+                              width="12px"
+                              height="12px"
+                              rounded="full"
+                              bg={isOnline ? '#46d160' : 'red'}
+                              position="absolute"
+                              borderWidth="2px"
+                              borderColor="#fff"
+                              borderStyle="solid"
+                              right="0.5"
+                              bottom="0"
                             />
                           </Flex>
-                          <Skeleton isLoaded={!loading}>{`p/${truncateSting(
-                            post?.subplebbitAddress,
-                            14
-                          )}`}</Skeleton>
+                          <Skeleton isLoaded={!loading}>{`p/${post?.subplebbitAddress}`}</Skeleton>
                         </Flex>
                         <Box
                           _after={{

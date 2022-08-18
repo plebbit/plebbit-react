@@ -20,7 +20,6 @@ import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import { CloseIcon, LinkIcon } from '@chakra-ui/icons';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
-// import PdMenu from './pdMenu';
 import { BsChat, BsBookmark, BsEyeSlash, BsPencil, BsFlag } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
@@ -30,7 +29,6 @@ import SideBar from './postDetailSideBar';
 import { dateToNow } from '../../../utils/formatDate';
 import Comment from '../comment';
 import Editor from '../../Editor';
-import truncateString from '../../../utils/truncateString';
 import { ProfileContext } from '../../../store/profileContext';
 import { useHistory, useLocation } from 'react-router-dom';
 import getUserName from '../../../utils/getUserName';
@@ -40,14 +38,14 @@ import DropDown from '../../DropDown';
 import { MdOutlineDeleteOutline, MdStickyNote2 } from 'react-icons/md';
 import logger from '../../../utils/logger';
 import Layout from '../../layout';
+import Marked from '../../Editor/marked';
+import getIsOnline from '../../../utils/getIsOnline';
 
 function PostDetail() {
   const detail = useComment(
     window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
   );
-  const subplebbit = useSubplebbit(
-    window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
-  );
+  const subplebbit = useSubplebbit(detail?.subplebbitAddress);
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
@@ -76,6 +74,9 @@ function PostDetail() {
   const [editMode, setEditMode] = useState(detail?.content ? 'post' : 'link');
   const [copied, setCopied] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  // const getSub = useSubplebbit(detail?.subplebbitAddress);
+  // const isOnline = new Date(getSub?.updatedAt).getHours() <= 1;
+
   const [postEditorState, setPostEditorState] = useState(
     EditorState.createWithContent(
       ContentState.createFromBlockArray(convertFromHTML(`<p>${editPost}</p>`))
@@ -302,7 +303,7 @@ function PostDetail() {
     detail,
   });
 
-  console.log(detail);
+  console.log(subplebbit);
 
   return (
     <Layout
@@ -605,17 +606,38 @@ function PostDetail() {
                             fontWeight="400"
                             lineHeight="16px"
                             margin="0 8px 8px"
-                            position="relative"
                           >
-                            <Image
-                              fallbackSrc={require('../../../assets/images/fallback.png')}
-                              src="https://place-hold.it/100x100"
+                            <Box
+                              borderRadius="50%"
                               width="20px"
                               height="20px"
-                              marginRight="4px"
-                              borderRadius="100%"
-                              verticalAlign="middle"
-                            />
+                              position="relative"
+                              mr="8px"
+                            >
+                              <Box width="100%" position="absolute" bottom="0">
+                                <Image
+                                  fallbackSrc={require('../../../assets/images/fallback.png')}
+                                  src={subplebbit?.avatar}
+                                  width="100%"
+                                  transformOrigin="bottom center"
+                                  display="block"
+                                  rounded="full"
+                                />
+                              </Box>
+                              <Box
+                                width="8px"
+                                height="8px"
+                                rounded="full"
+                                bg={getIsOnline(subplebbit?.updatedAt) ? '#46d160' : 'red'}
+                                position="absolute"
+                                borderWidth="2px"
+                                borderColor="#fff"
+                                borderStyle="solid"
+                                right="0"
+                                bottom="0"
+                              />
+                            </Box>
+
                             <Flex
                               alignItems="center"
                               flexWrap="wrap"
@@ -625,16 +647,19 @@ function PostDetail() {
                             >
                               <Box display="inline">
                                 <Box display="inline-block" flex="0 0 auto">
-                                  <Link
+                                  <Box
                                     color={subPledditTextColor}
                                     fontSize="12px"
                                     fontWeight="700"
                                     display="inline"
                                     lineHeight="20px"
                                     textDecoration="none"
+                                    onClick={() =>
+                                      history.push(`/p/${detail?.subplebbitAddress}`, [])
+                                    }
                                   >
-                                    p/{truncateString(detail?.subplebbitAddress, 10)}
-                                  </Link>
+                                    p/{detail?.subplebbitAddress}
+                                  </Box>
                                 </Box>
                                 <Text
                                   color={separatorColor}
@@ -811,7 +836,7 @@ function PostDetail() {
                                   wordBreak="break-word"
                                   overflow="hidden"
                                 >
-                                  {detail?.content}
+                                  <Marked content={detail?.content} />
                                 </Box>
                               ) : (
                                 <Box display="flex" justifyContent="center">
@@ -1364,7 +1389,20 @@ function PostDetail() {
                               height="100%"
                               objectPosition="0 0"
                               width="100%"
-                              src={require('../../../assets/images/plebbit-logo.png')}
+                              fallbackSrc={require('../../../assets/images/fallback.png')}
+                              src={subplebbit?.avatar}
+                            />
+                            <Box
+                              width="20px"
+                              height="20px"
+                              rounded="full"
+                              bg={getIsOnline(subplebbit?.updatedAt) ? '#46d160' : 'red'}
+                              position="absolute"
+                              borderWidth="2px"
+                              borderColor="#fff"
+                              borderStyle="solid"
+                              right="0"
+                              bottom="0"
                             />
                           </Box>
 
@@ -1373,8 +1411,9 @@ function PostDetail() {
                             fontWeight="700"
                             lineHeight="18px"
                             margin="5px"
+                            textAlign="center"
                           >
-                            {`p/${detail?.subplebbitAddress}`}
+                            {subplebbit?.title || subplebbit?.address}
                           </Box>
                         </Flex>
                       </Box>

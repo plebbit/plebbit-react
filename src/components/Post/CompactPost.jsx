@@ -21,6 +21,7 @@ import { Link as ReactLink, useHistory } from 'react-router-dom';
 import { dateToNow } from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import getUserName from '../../utils/getUserName';
+import Marked from '../Editor/marked';
 
 const CompactPost = ({
   loading,
@@ -33,6 +34,8 @@ const CompactPost = ({
   type,
   handleVote,
   avatar,
+  isOnline,
+  subPlebbit,
   // setCopied,
   // location,
   // copied,
@@ -338,6 +341,37 @@ const CompactPost = ({
                     >
                       {type !== 'subPlebbit' ? (
                         <>
+                          <Box
+                            borderRadius="50%"
+                            width="24px"
+                            height="24px"
+                            position="relative"
+                            mr="8px"
+                            ny="5px"
+                          >
+                            <Box width="100%" position="absolute" bottom="0">
+                              <Image
+                                h="100%"
+                                verticalAlign="middle"
+                                src={subPlebbit?.avatar}
+                                alt="not-found"
+                                fallbackSrc={require('../../assets/images/fallback.png')}
+                                rounded="full"
+                              />
+                            </Box>
+                            <Box
+                              width="12px"
+                              height="12px"
+                              rounded="full"
+                              bg={isOnline ? '#46d160' : 'red'}
+                              position="absolute"
+                              borderWidth="2px"
+                              borderColor="#fff"
+                              borderStyle="solid"
+                              right="0.5"
+                              bottom="0"
+                            />
+                          </Box>
                           <Link
                             color={subPledditTextColor}
                             fontSize="12px"
@@ -354,9 +388,7 @@ const CompactPost = ({
                             fontSize="6px"
                             lineHeight="20px"
                             margin="0 4px"
-                          >
-                            •
-                          </Box>
+                          />
                         </>
                       ) : (
                         <Link
@@ -390,6 +422,7 @@ const CompactPost = ({
                           verticalAlign="middle"
                           src={avatar}
                           alt="not-found"
+                          rounded="full"
                         />
                       </Flex>
                       {/* User Name */}
@@ -499,7 +532,7 @@ const CompactPost = ({
               paddingBottom="1px"
               marginBottom="-1px"
             >
-              {post?.content}
+              <Marked content={post?.content} />
             </Box>
           </Box>
         </Box>

@@ -82,6 +82,7 @@ const DropDown = ({
                     whiteSpace="nowrap"
                     _hover={{
                       background: inputBg,
+                      color: 'blue',
                     }}
                     onClick={() => onChange(option)}
                     borderTop={`1px solid ${border2}`}
