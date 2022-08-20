@@ -7,8 +7,8 @@ const BottomSideBar = ({ bg }) => {
   const bottomData1 = [
     { label: 'Report a Bug', link: 'https://t.me/plebbit' },
     { label: 'PLEB Token', link: 'https://plebbit.eth.limo' },
-    { label: 'PLEB NFTs', link: 'https://plebbit.eth.limo' },
-    { label: 'Win/Mac/Linux/Android Client', link: 'https://github.com/plebbit/plebbit-react/releases/latest' },
+    { label: 'Plebbit NFTs', link: 'https://plebbit.eth.limo' },
+    { label: 'Desktop & Android App', link: 'https://github.com/plebbit/plebbit-react/releases/latest' },
     { label: 'Whitepaper', link: 'https://github.com/plebbit/whitepaper/discussions/2' },
     { label: 'Github', link: 'https://github.com/plebbit' },
     { label: 'Open Source Code', link: 'https://github.com/plebbit/plebbit-js/blob/master/LICENSE' },
@@ -38,7 +38,6 @@ const BottomSideBar = ({ bg }) => {
                     marginTop="3px"
                     marginBottom="3px"
                     display="inline-block"
-                    textTransform="capitalize"
                   >
                     {item?.label}
                   </Box>
@@ -55,7 +54,6 @@ const BottomSideBar = ({ bg }) => {
                     marginTop="3px"
                     marginBottom="3px"
                     display="inline-block"
-                    textTransform="capitalize"
                   >
                     {item?.label}
                   </Box>
