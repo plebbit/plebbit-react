@@ -81,7 +81,7 @@ const SideBar = ({
               left="16px"
               position="absolute"
             >
-              Top Gaming Communities
+              Top Communities
             </Text>
           </Box>
           <List>
