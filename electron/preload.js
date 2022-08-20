@@ -47,7 +47,7 @@ window.DefaultPlebbitOptions = {
 
 // try/catch localStorage.debug because was causing unknown error sometimes
 try {
-  localStorage.debug = 'plebbit-js:*,plebbit-react-hooks:*, plebbit-react:*';
+  localStorage.debug = 'plebbit-js:*,plebbit-react-hooks:*,plebbit-react:*';
 } catch (e) {
   console.log(e);
 }
