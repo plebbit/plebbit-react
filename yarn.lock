@@ -2839,6 +2839,31 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#62aca809a9df7d711d97aefb62d731d996c73c5d":
+  version "0.0.3"
+  resolved "https://github.com/plebbit/plebbit-js.git#62aca809a9df7d711d97aefb62d731d996c73c5d"
+  dependencies:
+    "@keyv/sqlite" "3.5.3"
+    "@types/node-fetch" "2.6.2"
+    "@types/uuid" "8.3.4"
+    assert "2.0.0"
+    buffer "6.0.3"
+    captcha-canvas "3.1.0"
+    err-code "^3.0.1"
+    ethers "5.6.9"
+    form-data "4.0.0"
+    ipfs-http-client "56.0.3"
+    is-ipfs "6.0.2"
+    jose "4.8.3"
+    js-sha256 "0.9.0"
+    keyv "4.3.3"
+    knex "2.2.0"
+    libp2p-crypto "0.21.2"
+    peer-id "0.16.0"
+    sqlite3 "5.0.10"
+    tinycache "1.1.2"
+    uuid "8.3.2"
+
 "@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#66db8eb723bbad97f6adcf9ad4cb523b4f991b7c":
   version "0.0.3"
   resolved "https://github.com/plebbit/plebbit-js.git#66db8eb723bbad97f6adcf9ad4cb523b4f991b7c"
@@ -2861,6 +2886,26 @@
     sqlite3 "5.0.10"
     tinycache "1.1.2"
     uuid "8.3.2"
+
+"@plebbit/plebbit-logger@https://github.com/plebbit/plebbit-logger.git":
+  version "0.0.1"
+  resolved "https://github.com/plebbit/plebbit-logger.git#9525ca9539479918931c3b334e8d490d1c87e507"
+  dependencies:
+    debug "4.3.3"
+
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#ac6d05d8176ac396501806a03a51e0960bab3208":
+  version "0.0.1"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#ac6d05d8176ac396501806a03a51e0960bab3208"
+  dependencies:
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#62aca809a9df7d711d97aefb62d731d996c73c5d"
+    "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
+    "@types/uuid" "8.3.4"
+    assert "2.0.0"
+    ethers "5.6.9"
+    git "^0.1.5"
+    localforage "1.10.0"
+    uuid "8.3.2"
+    zustand "4.0.0"
 
 "@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#e2d029a8ca368866780becdec06679a278093dfd":
   version "0.0.1"
@@ -8078,6 +8123,13 @@ git-username@^1.0.0:
     parse-github-url "^1.0.2"
     remote-origin-url "^1.0.0"
 
+git@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/git/-/git-0.1.5.tgz#9ef62df93f851c27542143bf52d1c68b1017ca15"
+  integrity sha512-N+bfOrXyKMU/fQtCj6D/U9MQOEN0DAA8TLHSLdUQRSWBOkeRvsjJHdrdkvcq05xO7GSDKWc3nDEGoTZ4DfCCSg==
+  dependencies:
+    mime "1.2.9"
+
 github-from-package@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/github-from-package/-/github-from-package-0.0.0.tgz#97fb5d96bfde8973313f20e8288ef9a167fa64ce"
@@ -9282,6 +9334,17 @@ is-ip@^3.1.0:
   dependencies:
     ip-regex "^4.0.0"
 
+is-ipfs@6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/is-ipfs/-/is-ipfs-6.0.2.tgz#8cc195fd6f39500aa6d844bc4a6dd05acf1cf084"
+  integrity sha512-RinUnsggL4hlLoHlZcvs2+92OE46Uflg/YVU1m5fXhyDBS/zh3bq+i6Aw7IbzJZ9oZXJx26TgxpqCuCr+LH/DA==
+  dependencies:
+    iso-url "^1.1.3"
+    mafmt "^10.0.0"
+    multiaddr "^10.0.0"
+    multiformats "^9.0.0"
+    uint8arrays "^3.0.0"
+
 is-lambda@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/is-lambda/-/is-lambda-1.0.1.tgz#3d9877899e6a53efc0160504cde15f82e6f061d5"
@@ -9513,7 +9576,7 @@ iso-random-stream@^2.0.0:
     events "^3.3.0"
     readable-stream "^3.4.0"
 
-iso-url@^1.1.5:
+iso-url@^1.1.3, iso-url@^1.1.5:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/iso-url/-/iso-url-1.2.1.tgz#db96a49d8d9a64a1c889fc07cc525d093afb1811"
   integrity sha512-9JPDgCN4B7QPkLtYAAOrEuAWvP9rWvR5offAr0/SeF046wIkglqH3VXgYYP6NcsKslH80UIVgmPqNe3j7tG2ng==
@@ -10599,6 +10662,13 @@ lz-string@^1.4.4:
   resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
   integrity sha1-wNjq82BZ9wV5bh40SBHPTEmNOiY=
 
+mafmt@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/mafmt/-/mafmt-10.0.0.tgz#431726f16e51090b32ada621c402acbdb64fce9c"
+  integrity sha512-K1bziJOXcnepfztu+2Xy9FLKVLaFMDuspmiyJIYRxnO0WOxFSV7XKSdMxMrVZxcvg1+YjlTIvSGTImUHU2k4Aw==
+  dependencies:
+    multiaddr "^10.0.0"
+
 magic-string@^0.25.0, magic-string@^0.25.7:
   version "0.25.9"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.9.tgz#de7f9faf91ef8a1c91d02c2e5314c8277dbcdd1c"
@@ -11176,6 +11246,11 @@ mime-types@^2.1.12, mime-types@^2.1.27, mime-types@^2.1.31, mime-types@~2.1.17, 
   dependencies:
     mime-db "1.52.0"
 
+mime@1.2.9:
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/mime/-/mime-1.2.9.tgz#009cd40867bd35de521b3b966f04e2f8d4d13d09"
+  integrity sha512-WiLgbHTIq5AYUvU/Luli4mZ1bUcHpGNHyCsbl+KPMg4zt+XUDpQehWjuBjdLaEvDTinvKj/FgfQt3fPoT7j08g==
+
 mime@1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
@@ -11442,7 +11517,7 @@ multicast-dns@^7.2.4:
     dns-packet "^5.2.2"
     thunky "^1.0.2"
 
-multiformats@^9.0.2, multiformats@^9.4.2, multiformats@^9.4.5, multiformats@^9.5.1, multiformats@^9.5.4:
+multiformats@^9.0.0, multiformats@^9.0.2, multiformats@^9.4.2, multiformats@^9.4.5, multiformats@^9.5.1, multiformats@^9.5.4:
   version "9.7.1"
   resolved "https://registry.yarnpkg.com/multiformats/-/multiformats-9.7.1.tgz#ab348e5fd6f8e7fb3fd56033211bda48854e2173"
   integrity sha512-TaVmGEBt0fhxiNJMGphBfB+oGvUxFs8KgGvgl8d3C+GWtrFcvXdJ2196eg+dYhmSFClmgFfSfJEklo+SZzdNuw==
