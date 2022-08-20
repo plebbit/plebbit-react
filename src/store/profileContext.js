@@ -50,7 +50,7 @@ export const ProfileDataProvider = (props) => {
         })
         ?.filter((x) => x !== ''),
       ...Object.keys(accountSubplebbits),
-      subPlebbitData ? subPlebbitData?.map((x) => x?.address) : [],
+      subPlebbitData ? subPlebbitData?.map((x) => x?.address).filter(Boolean) : [],
     ].flat()
   );
   const { version } = require('../../package.json');
