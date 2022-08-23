@@ -40,6 +40,7 @@ import logger from '../../../utils/logger';
 import Layout from '../../layout';
 import Marked from '../../Editor/marked';
 import getIsOnline from '../../../utils/getIsOnline';
+import Avatar from '../../Avatar';
 
 function PostDetail() {
   const detail = useComment(
@@ -299,11 +300,9 @@ function PostDetail() {
   };
 
   logger('feed:detail', {
-    address: window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1) + 1,
+    address: window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1),
     detail,
   });
-
-  console.log(subplebbit);
 
   return (
     <Layout
@@ -607,37 +606,13 @@ function PostDetail() {
                             lineHeight="16px"
                             margin="0 8px 8px"
                           >
-                            <Box
-                              borderRadius="50%"
-                              width="20px"
-                              height="20px"
-                              position="relative"
+                            <Avatar
+                              width={20}
+                              height={20}
                               mr="8px"
-                            >
-                              <Box width="100%" position="absolute" bottom="0">
-                                <Image
-                                  fallbackSrc={require('../../../assets/images/fallback.png')}
-                                  src={subplebbit?.avatar}
-                                  width="100%"
-                                  transformOrigin="bottom center"
-                                  display="block"
-                                  rounded="full"
-                                />
-                              </Box>
-                              <Box
-                                width="8px"
-                                height="8px"
-                                rounded="full"
-                                bg={getIsOnline(subplebbit?.updatedAt) ? '#46d160' : 'red'}
-                                position="absolute"
-                                borderWidth="2px"
-                                borderColor="#fff"
-                                borderStyle="solid"
-                                right="0"
-                                bottom="0"
-                              />
-                            </Box>
-
+                              badge
+                              isOnline={getIsOnline(subplebbit?.updatedAt)}
+                            />
                             <Flex
                               alignItems="center"
                               flexWrap="wrap"
@@ -658,7 +633,7 @@ function PostDetail() {
                                       history.push(`/p/${detail?.subplebbitAddress}`, [])
                                     }
                                   >
-                                    p/{detail?.subplebbitAddress}
+                                    p/{subplebbit?.title || detail?.subplebbitAddress}
                                   </Box>
                                 </Box>
                                 <Text
@@ -1374,37 +1349,14 @@ function PostDetail() {
                           }}
                         />
                         <Flex alignItems="center" flexFlow="column nowrap">
-                          <Box
-                            height="72px"
-                            marginBottom="8px"
-                            marginTop="-36px"
-                            width="72px"
-                            backgroundColor="#24a0ed"
-                            borderRadius="50%"
-                            position="relative"
-                          >
-                            <Image
-                              backgroundColor="#0079d3"
-                              borderRadius="50%"
-                              height="100%"
-                              objectPosition="0 0"
-                              width="100%"
-                              fallbackSrc={require('../../../assets/images/fallback.png')}
-                              src={subplebbit?.avatar}
-                            />
-                            <Box
-                              width="20px"
-                              height="20px"
-                              rounded="full"
-                              bg={getIsOnline(subplebbit?.updatedAt) ? '#46d160' : 'red'}
-                              position="absolute"
-                              borderWidth="2px"
-                              borderColor="#fff"
-                              borderStyle="solid"
-                              right="0"
-                              bottom="0"
-                            />
-                          </Box>
+                          <Avatar
+                            width={72}
+                            height={72}
+                            avatar={subplebbit?.avatar}
+                            badge
+                            isOnline={getIsOnline(subplebbit?.updatedAt)}
+                            mb="8px"
+                          />
 
                           <Box
                             onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}

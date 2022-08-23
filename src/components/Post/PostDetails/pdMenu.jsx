@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Flex, Icon } from '@chakra-ui/react';
 import { FiMoreHorizontal, FiLink } from 'react-icons/fi';
 import { FaRegUser } from 'react-icons/fa';
-import { PlebbitDarkLogo } from '../../../assets/svgs/svg';
+import { PlebLogo } from '../../../assets/svgs/svg';
 
 const PdMenu = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -78,7 +78,7 @@ const PdMenu = () => {
                   marginRight: '0.5rem',
                 }}
               >
-                <PlebbitDarkLogo bg="none" outline="#a4a4a4" />
+                <PlebLogo bg="none" outline="#a4a4a4" />
               </div>
               <Box>More from p/Plebbit</Box>
             </Flex>

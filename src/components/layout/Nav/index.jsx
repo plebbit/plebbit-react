@@ -15,8 +15,6 @@ import {
 } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
 import { MdHome } from 'react-icons/md';
-import PlebLogo from '../../../assets/images/plebbit-logo.png';
-import plebbitDarkLogo from '../../../assets/svgs/plebbitDarkLogo.svg';
 import DropDown2 from '../../DropDown/DropDown2';
 import { RiCreativeCommonsByLine, RiSearchLine } from 'react-icons/ri';
 import {
@@ -46,8 +44,9 @@ import CreateSubPlebbit from './modal/CreateSubPlebbit';
 import getUserName from '../../../utils/getUserName';
 import NavItem from './navItem';
 import truncateString from '../../../utils/truncateString';
-import { PlebbitTextLogo } from '../../../assets/svgs/svg';
 import getIsOnline from '../../../utils/getIsOnline';
+import Avatar from '../../Avatar';
+import { PlebLogo, PlebbitTextLogo } from '../../svgs';
 
 const NavBar = ({ location }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -118,17 +117,16 @@ const NavBar = ({ location }) => {
           >
             <Flex alignItems="center" flexGrow="1">
               <Flex display="flex" alignItems="center" onClick={() => history.push('/', [])}>
-                <Image
-                  fallbackSrc={require('../../../assets/images/fallback.png')}
+                <Box
+                  mr="8px"
+                  cursor="pointer"
                   borderRadius="full"
                   width="32px"
                   height="32px"
                   maxWidth="32px"
-                  src={plebbitDarkLogo}
-                  alt="Plebbit Logo"
-                  mr="8px"
-                  cursor="pointer"
-                />
+                >
+                  <PlebLogo />
+                </Box>
                 <PlebbitTextLogo
                   style={{
                     height: '20px',
@@ -199,41 +197,15 @@ const NavBar = ({ location }) => {
                                 fontSize="14px"
                                 borderBottom={`1px solid ${navBorder}`}
                               >
-                                <Box
-                                  borderRadius="50%"
-                                  width="20px"
-                                  height="20px"
-                                  position="relative"
+                                <Avatar
+                                  width={20}
+                                  height={20}
                                   mr="8px"
-                                >
-                                  <Box width="100%" position="absolute" bottom="0">
-                                    <Image
-                                      fallbackSrc={require('../../../assets/images/fallback.png')}
-                                      src={pages?.avatar}
-                                      width="100%"
-                                      transformOrigin="bottom center"
-                                      display="block"
-                                      transform="scale(1.3)"
-                                      rounded="full"
-                                    />
-                                  </Box>
-                                  <Box
-                                    width="12.5px"
-                                    height="12.5px"
-                                    rounded="full"
-                                    bg={
-                                      getIsOnline(accountSubplebbits[pages]?.updatedAt)
-                                        ? '#46d160'
-                                        : 'red'
-                                    }
-                                    position="absolute"
-                                    borderWidth="2px"
-                                    borderColor="#fff"
-                                    borderStyle="solid"
-                                    right="-0.5"
-                                    bottom="0"
-                                  />
-                                </Box>
+                                  avatar={accountSubplebbits[pages]?.avatar}
+                                  badge
+                                  isOnline={getIsOnline(accountSubplebbits[pages]?.updatedAt)}
+                                />
+
                                 <Box>
                                   {accountSubplebbits[pages]?.title
                                     ? accountSubplebbits[pages]?.title
@@ -294,37 +266,15 @@ const NavBar = ({ location }) => {
                               borderBottom={`1px solid ${navBorder}`}
                               alignItems="center"
                             >
-                              <Box
-                                borderRadius="50%"
-                                width="20px"
-                                height="20px"
-                                position="relative"
+                              <Avatar
+                                width={20}
+                                height={20}
                                 mr="8px"
-                              >
-                                <Box width="100%" position="absolute" bottom="0">
-                                  <Image
-                                    fallbackSrc={require('../../../assets/images/fallback.png')}
-                                    src={pages?.avatar}
-                                    width="100%"
-                                    transformOrigin="bottom center"
-                                    display="block"
-                                    transform="scale(1.3)"
-                                    rounded="full"
-                                  />
-                                </Box>
-                                <Box
-                                  width="12.5px"
-                                  height="12.5px"
-                                  rounded="full"
-                                  bg={getIsOnline(pages?.updatedAt) ? '#46d160' : 'red'}
-                                  position="absolute"
-                                  borderWidth="2px"
-                                  borderColor="#fff"
-                                  borderStyle="solid"
-                                  right="-0.5"
-                                  bottom="0"
-                                />
-                              </Box>
+                                avatar={pages?.avatar}
+                                badge
+                                isOnline={getIsOnline(pages?.updatedAt)}
+                              />
+
                               <Box>{pages?.label || pages?.address}</Box>
                             </Flex>
                           </Link>
@@ -466,18 +416,9 @@ const NavBar = ({ location }) => {
                 history.push('/', []);
               }}
             >
-              <Image
-                fallbackSrc={require('../../../assets/images/fallback.png')}
-                borderRadius="full"
-                width="30px"
-                height="30px"
-                src={PlebLogo}
-                alt="Plebbit Logo"
-                border="1px"
-                borderColor="#ccc"
-                mr="4px"
-                cursor="pointer"
-              />
+              <Box mr="4px" cursor="pointer" borderRadius="full" width="30px" height="30px">
+                <PlebLogo />
+              </Box>
               <PlebbitTextLogo
                 style={{
                   height: '20px',
@@ -953,34 +894,7 @@ const NavBar = ({ location }) => {
                       setShowComponent(!showDropDown);
                     }}
                   >
-                    <Flex
-                      alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
-                    >
-                      <Box
-                        bg="#24a0ed"
-                        backgroundRepeat="no-repeat"
-                        borderRadius="50%"
-                        height="100%"
-                        position="relative"
-                        width="100%"
-                      >
-                        <Image
-                          fallbackSrc={require('../../../assets/images/fallback.png')}
-                          src={authorAvatarImageUrl}
-                          bg="#fff"
-                          borderRadius="50%"
-                          height="100%"
-                          objectPosition="0 0"
-                          width="100%"
-                        />
-                      </Box>
-                    </Flex>
+                    <Avatar width={24} height={24} mr="8px" avatar={authorAvatarImageUrl} />
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                       {getUserName(profile?.author)}
                     </Box>
@@ -1217,47 +1131,15 @@ const NavBar = ({ location }) => {
                               setPostView(pages.value);
                             }}
                           >
-                            <Flex
-                              alignItems="center"
-                              flex="0 0 24px"
-                              height="24px"
-                              justifyContent="center"
+                            <Avatar
+                              badge
+                              avatar={pages?.avatar}
+                              width={24}
+                              height={24}
                               mr="8px"
-                              position="8px"
-                              width="24px"
-                            >
-                              <Box
-                                borderRadius="50%"
-                                width="20px"
-                                height="20px"
-                                position="relative"
-                                mr="8px"
-                              >
-                                <Box width="100%" position="absolute" bottom="0">
-                                  <Image
-                                    fallbackSrc={require('../../../assets/images/fallback.png')}
-                                    src={pages?.avatar}
-                                    width="100%"
-                                    transformOrigin="bottom center"
-                                    display="block"
-                                    transform="scale(1.3)"
-                                    rounded="full"
-                                  />
-                                </Box>
-                                <Box
-                                  width="12.5px"
-                                  height="12.5px"
-                                  rounded="full"
-                                  bg={getIsOnline(pages?.updatedAt) ? '#46d160' : 'red'}
-                                  position="absolute"
-                                  borderWidth="2px"
-                                  borderColor="#fff"
-                                  borderStyle="solid"
-                                  right="-0.5"
-                                  bottom="0"
-                                />
-                              </Box>
-                            </Flex>
+                              isOnline={getIsOnline(pages?.updatedAt)}
+                            />
+
                             <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
                               {pages.label}
                             </Box>
@@ -1356,51 +1238,15 @@ const NavBar = ({ location }) => {
                               setShowComponent(!showDropDown);
                             }}
                           >
-                            <Flex
-                              alignItems="center"
-                              flex="0 0 24px"
-                              height="24px"
-                              justifyContent="center"
+                            <Avatar
+                              badge
+                              avatar={accountSubplebbits[pages]?.avatar}
+                              width={24}
+                              height={24}
                               mr="8px"
-                              position="8px"
-                              width="24px"
-                            >
-                              <Box
-                                borderRadius="50%"
-                                width="20px"
-                                height="20px"
-                                position="relative"
-                                mr="8px"
-                              >
-                                <Box width="100%" position="absolute" bottom="0">
-                                  <Image
-                                    fallbackSrc={require('../../../assets/images/fallback.png')}
-                                    src={pages?.avatar}
-                                    width="100%"
-                                    transformOrigin="bottom center"
-                                    display="block"
-                                    transform="scale(1.3)"
-                                    rounded="full"
-                                  />
-                                </Box>
-                                <Box
-                                  width="12.5px"
-                                  height="12.5px"
-                                  rounded="full"
-                                  bg={
-                                    getIsOnline(accountSubplebbits[pages]?.updatedAt)
-                                      ? '#46d160'
-                                      : 'red'
-                                  }
-                                  position="absolute"
-                                  borderWidth="2px"
-                                  borderColor="#fff"
-                                  borderStyle="solid"
-                                  right="-0.5"
-                                  bottom="0"
-                                />
-                              </Box>
-                            </Flex>
+                              isOnline={getIsOnline(accountSubplebbits[pages]?.updatedAt)}
+                            />
+
                             <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
                               {accountSubplebbits[pages]?.title}
                             </Box>

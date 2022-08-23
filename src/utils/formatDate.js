@@ -1,5 +1,3 @@
-import React from 'react';
-import Moment from 'react-moment';
 import moment from 'moment';
 
 function dateToFromNowDaily(myDate) {
@@ -8,16 +6,7 @@ function dateToFromNowDaily(myDate) {
   const fromNow = moment(myDate).fromNow();
   // var fromNow = <Moment fromNow>{myDate}</Moment>
 
-  const calendarStrings = {
-    lastDay: '[Yesterday]',
-    sameDay: '[Today]',
-    nextDay: '[Tomorrow]',
-    lastWeek: '[last] dddd',
-    nextWeek: 'dddd',
-    sameElse: () => `[ ${fromNow} ]`,
-  };
-
-  return <Moment calendar={calendarStrings}>{myDate}</Moment>;
+  return fromNow;
 }
 
 export default dateToFromNowDaily;
@@ -25,6 +14,7 @@ export default dateToFromNowDaily;
 export function dateToNow(myDate) {
   // get from-now for this date
   // console.log('date', myDate);
+
   const toNow = moment(myDate).toNow(true);
   // var fromNow = <Moment fromNow>{myDate}</Moment>
 

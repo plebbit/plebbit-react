@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Box,
   Flex,
-  Image,
   Text,
   Link,
   useColorModeValue,
@@ -20,9 +19,9 @@ import Marked from '../../Editor/marked';
 import { dateToNow } from '../../../utils/formatDate';
 import numFormatter from '../../../utils/numberFormater';
 import getUserName from '../../../utils/getUserName';
-import yellowMoon from '../../../assets/svgs/yelloMoon.svg';
 import logger from '../../../utils/logger';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
+import Avatar from '../../Avatar';
 
 const Comment = ({ comment, parentCid }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -129,14 +128,8 @@ const Comment = ({ comment, parentCid }) => {
   return (
     <Flex marginTop="15px">
       <Flex marginRight="8px" flexDir="column" alignItems="center">
-        <Image
-          fallbackSrc={require('../../../assets/images/fallback.png')}
-          src={authorAvatarImageUrl}
-          borderRadius="full"
-          height="28px"
-          maxW="28px"
-          mb="10px"
-        />
+        <Avatar width={28} height={28} avatar={authorAvatarImageUrl} mb="10px" />
+
         <Box borderRight="2px solid #edeff1" width="0" height="100%" />
       </Flex>
 
@@ -146,17 +139,7 @@ const Comment = ({ comment, parentCid }) => {
             <Box maxW="50%" mr="5px">
               <Box isTruncated>{getUserName(comment?.author)} </Box>
             </Box>
-            <Flex alignItems="center">
-              <Image
-                fallbackSrc={require('../../../assets/images/fallback.png')}
-                mr="5px"
-                borderRadius="full"
-                height="16px"
-                width="16px"
-                src={yellowMoon}
-              />
-              <Box>{numFormatter(Math.floor())}</Box>
-            </Flex>
+
             <Box
               as="span"
               verticalAlign="middle"

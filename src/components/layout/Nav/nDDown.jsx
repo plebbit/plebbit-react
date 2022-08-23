@@ -1,9 +1,10 @@
-import { Box, Flex, Image, Icon, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Icon, useColorModeValue } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { GiBlackHoleBolas } from 'react-icons/gi';
 import numFormatter from '../../../utils/numberFormater';
 import { ProfileContext } from '../../../store/profileContext';
+import Avatar from '../../Avatar';
 
 const NDDown = ({ onClick }) => {
   const mainColor = useColorModeValue('lightText2', 'darkText1');
@@ -30,52 +31,7 @@ const NDDown = ({ onClick }) => {
       >
         <Flex>
           <Flex width="175px" alignItems="center" ml="8px" textAlign="left">
-            <Box mr="5px" position="relative">
-              <Box
-                borderRadius="4px"
-                float="left"
-                maxH="24px"
-                maxW="24px"
-                height="24px"
-                width="24px"
-                position="relative"
-              >
-                <Box
-                  borderRadius="50%"
-                  border={`1px solid ${navBorder}`}
-                  height="100%"
-                  width="100%"
-                />
-                <Box width="100%" position="absolute" bottom="0">
-                  <Image
-                    fallbackSrc={require('../../../assets/images/fallback.png')}
-                    src={authorAvatarImageUrl}
-                    display="block"
-                    borderRadius="50%"
-                  />
-                </Box>
-              </Box>
-              <svg
-                viewBox="0 0 12 12"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{
-                  height: '50%',
-                  fill: '#46d160',
-                  left: '59%',
-                  width: '50%',
-                  position: 'absolute',
-                  top: '59%',
-                }}
-              >
-                <circle cx="6" cy="6" r="4"></circle>
-                <path
-                  fill="#fff"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6C0 2.68629 2.68629 0 6 0C9.31371 0 12 2.68629 12 6ZM6 10C8.20914 10 10 8.20914 10 6C10 3.79086 8.20914 2 6 2C3.79086 2 2 3.79086 2 6C2 8.20914 3.79086 10 6 10Z"
-                ></path>
-              </svg>
-            </Box>
+            <Avatar avatar={authorAvatarImageUrl} width={24} height={24} mr="5px" />
             <Box>
               <Box
                 fontSize="12px"

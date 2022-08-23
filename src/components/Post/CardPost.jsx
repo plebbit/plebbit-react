@@ -22,11 +22,12 @@ import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { FiShare } from 'react-icons/fi';
 import { Link as ReactLink, useHistory } from 'react-router-dom';
-import { dateToNow } from '../../utils/formatDate';
+import dateToFromNowDaily from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import { ProfileContext } from '../../store/profileContext';
 import getUserName from '../../utils/getUserName';
 import Marked from '../Editor/marked';
+import Avatar from '../Avatar';
 
 const CardPost = ({
   post,
@@ -41,7 +42,6 @@ const CardPost = ({
   setCopied,
   location,
   copied,
-  avatar,
   isOnline,
   subPlebbit,
 }) => {
@@ -219,36 +219,15 @@ const CardPost = ({
                         >
                           {type !== 'subPlebbit' ? (
                             <>
-                              <Box
-                                borderRadius="50%"
-                                width="24px"
-                                height="24px"
-                                position="relative"
+                              <Avatar
+                                avatar={subPlebbit?.avatar}
+                                width={24}
+                                height={24}
                                 mr="8px"
-                              >
-                                <Box width="100%" position="absolute" bottom="0">
-                                  <Image
-                                    h="100%"
-                                    verticalAlign="middle"
-                                    src={subPlebbit?.avatar}
-                                    alt="not-found"
-                                    fallbackSrc={require('../../assets/images/fallback.png')}
-                                    rounded="full"
-                                  />
-                                </Box>
-                                <Box
-                                  width="12px"
-                                  height="12px"
-                                  rounded="full"
-                                  bg={isOnline ? '#46d160' : 'red'}
-                                  position="absolute"
-                                  borderWidth="2px"
-                                  borderColor="#fff"
-                                  borderStyle="solid"
-                                  right="0.5"
-                                  bottom="0"
-                                />
-                              </Box>
+                                badge
+                                isOnline={isOnline}
+                                mb="5px"
+                              />
 
                               <Link
                                 as={ReactLink}
@@ -276,30 +255,12 @@ const CardPost = ({
                           <Text color={misCol} flex="0 0 auto" mr="3px">
                             Posted by
                           </Text>
-                          {/* User Badge */}{' '}
-                          <Flex
-                            alignItems="center"
-                            display="inline-flex"
-                            justifyContent="center"
-                            verticalAlign="middle"
-                            mr="4px"
-                            rounded="full"
-                          >
-                            <Image
-                              h="24px"
-                              verticalAlign="middle"
-                              src={avatar}
-                              alt="not-found"
-                              fallbackSrc={require('../../assets/images/fallback.png')}
-                              rounded="full"
-                            />
-                          </Flex>
+
                           {/* User Name */}
                           <Box display="inline-block" flex="0 0 auto">
                             <Box>
                               <Link
                                 as={ReactLink}
-                                to={`u/${post?.author?.address}`}
                                 _hover={{
                                   textDecoration: 'underline',
                                 }}
@@ -354,18 +315,7 @@ const CardPost = ({
                                   color: '#cc3700',
                                 }}
                               />
-                              <Text
-                                fontSize="12px"
-                                fontWeight="400"
-                                lineHeight="16px"
-                                color={subPlebbitSubTitle}
-                                ml="5px"
-                                _hover={{
-                                  textDecoration: 'underline',
-                                }}
-                              >
-                                3.2k
-                              </Text>
+
                               <Box
                                 verticalAlign="middle"
                                 color={subPlebbitSubTitle}
@@ -391,7 +341,7 @@ const CardPost = ({
                               display="inline-block"
                               flex="0 0 auto"
                             >
-                              {dateToNow(parseInt(post?.timestamp * 1000))}
+                              {dateToFromNowDaily(parseInt(post?.timestamp * 1000))}
                             </Text>
                           </Tooltip>
                         </Flex>
@@ -556,23 +506,7 @@ const CardPost = ({
                             <Text color={misCol} flex="0 0 auto" mr="3px">
                               Posted by
                             </Text>
-                            {/* User Badge */}{' '}
-                            <Flex
-                              alignItems="center"
-                              display="inline-flex"
-                              justifyContent="center"
-                              verticalAlign="middle"
-                              mr="4px"
-                            >
-                              <Image
-                                fallbackSrc={require('../../assets/images/fallback.png')}
-                                h="24px"
-                                verticalAlign="middle"
-                                src={avatar}
-                                alt="not-found"
-                                rounded="full"
-                              />
-                            </Flex>
+
                             {/* User Name */}
                             <Box display="inline-block" flex="0 0 auto">
                               <Box>
@@ -581,7 +515,6 @@ const CardPost = ({
                                     textDecoration: 'underline',
                                   }}
                                   as={ReactLink}
-                                  to={`u/${post?.author?.address}`}
                                   color={misCol}
                                   fontWeight="700"
                                   mr="3px"
@@ -633,18 +566,7 @@ const CardPost = ({
                                     color: '#cc3700',
                                   }}
                                 />
-                                <Text
-                                  fontSize="12px"
-                                  fontWeight="400"
-                                  lineHeight="16px"
-                                  color={subPlebbitSubTitle}
-                                  ml="5px"
-                                  _hover={{
-                                    textDecoration: 'underline',
-                                  }}
-                                >
-                                  3.2k
-                                </Text>
+
                                 <Box
                                   verticalAlign="middle"
                                   color={subPlebbitSubTitle}
@@ -670,7 +592,7 @@ const CardPost = ({
                                 display="inline-block"
                                 flex="0 0 auto"
                               >
-                                {dateToNow(parseInt(post?.timestamp * 1000))}
+                                {dateToFromNowDaily(parseInt(post?.timestamp * 1000))}
                               </Text>
                             </Tooltip>
                           </Flex>
@@ -1038,46 +960,20 @@ const CardPost = ({
                           lineHeight="18px"
                           color={postHeadColor}
                         >
-                          <Flex
-                            bg={mainMobileBg}
-                            alignItems="center"
-                            borderRadius="50%"
-                            height="24px"
-                            justifyContent="center"
-                            marginRight="8px"
-                            overflow="hidden"
-                            verticalAlign="middle"
-                            width="24px"
-                            position="relative"
-                          >
-                            <Box width="100%" position="absolute" bottom="0">
-                              <Image
-                                fallbackSrc={require('../../assets/images/fallback.png')}
-                                alt="plebbit-post"
-                                overflow="hidden"
-                                whiteSpace="nowrap"
-                                src={subPlebbit?.avatar}
-                              />
-                            </Box>
-                            <Box
-                              width="12px"
-                              height="12px"
-                              rounded="full"
-                              bg={isOnline ? '#46d160' : 'red'}
-                              position="absolute"
-                              borderWidth="2px"
-                              borderColor="#fff"
-                              borderStyle="solid"
-                              right="0.5"
-                              bottom="0"
-                            />
-                          </Flex>
+                          <Avatar
+                            avatar={subPlebbit?.avatar}
+                            width={24}
+                            height={24}
+                            mr="8px"
+                            badge
+                            isOnline={isOnline}
+                          />
                           <Skeleton isLoaded={!loading}>{`p/${post?.subplebbitAddress}`}</Skeleton>
                         </Flex>
 
                         <Box>
                           <Skeleton isLoaded={!loading}>
-                            {dateToNow(post?.timestamp * 1000)}
+                            {dateToFromNowDaily(post?.timestamp * 1000)}
                           </Skeleton>
                         </Box>
                       </Flex>

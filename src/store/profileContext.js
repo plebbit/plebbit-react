@@ -25,34 +25,38 @@ export const ProfileDataProvider = (props) => {
   const profile = defaultAccount;
   const accountSubplebbits = useAccountSubplebbits();
   const subscriptions = useSubplebbits(defaultAccount?.subscriptions);
-  const [homeAdd, setHomeAdd] = useState(
-    [
-      subscriptions
-        ?.map((x) => {
-          if (!x?.address) {
-            return '';
-          }
-          return x?.address;
-        })
-        ?.filter((x) => x !== ''),
-      ...Object.keys(accountSubplebbits),
-    ]?.flat()
-  );
+  const [homeAdd, setHomeAdd] = useState([
+    ...new Set(
+      [
+        subscriptions
+          ?.map((x) => {
+            if (!x?.address) {
+              return '';
+            }
+            return x?.address;
+          })
+          ?.filter((x) => x !== ''),
+        ...Object.keys(accountSubplebbits),
+      ]?.flat()
+    ),
+  ]);
   const subPlebbitData = useSubPlebbitDefaultData();
-  const subPlebbitDefData = useSubplebbits(
-    [
-      subscriptions
-        ?.map((x) => {
-          if (!x?.address) {
-            return '';
-          }
-          return x?.address;
-        })
-        ?.filter((x) => x !== ''),
-      ...Object.keys(accountSubplebbits),
-      subPlebbitData ? subPlebbitData?.map((x) => x?.address) : [],
-    ].flat()
-  );
+  const subPlebbitDefData = useSubplebbits([
+    ...new Set(
+      [
+        subscriptions
+          ?.map((x) => {
+            if (!x?.address) {
+              return '';
+            }
+            return x?.address;
+          })
+          ?.filter((x) => x !== ''),
+        ...Object.keys(accountSubplebbits),
+        subPlebbitData ? subPlebbitData?.map((x) => x?.address) : [],
+      ].flat()
+    ),
+  ]);
   const { version } = require('../../package.json');
   const [postView, setPostView] = useState(
     homeAdd ? homeAdd : [homeAdd, subPlebbitDefData?.map((x) => x?.address)].flat()

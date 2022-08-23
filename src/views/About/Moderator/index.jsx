@@ -1,11 +1,12 @@
-import { Box, Button, Flex, Icon, Image, Input, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Flex, Icon, Input, useColorModeValue } from '@chakra-ui/react';
 import { useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import React from 'react';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import { Link, useLocation } from 'react-router-dom';
-import PlebbitLogo from '../../../assets/images/plebbit-logo.png';
+import Avatar from '../../../components/Avatar';
 import Layout from '../../../components/layout';
+import { PlebLogo } from '../../../components/svgs';
 import truncateString from '../../../utils/truncateString';
 
 const Moderators = ({ match }) => {
@@ -17,7 +18,6 @@ const Moderators = ({ match }) => {
   const location = useLocation();
 
   const subPlebbit = useSubplebbit(match?.params?.subplebbitAddress);
-
   return (
     <Layout name={{ label: subPlebbit?.title || subPlebbit?.address, value: location?.pathname }}>
       <Box>
@@ -35,14 +35,7 @@ const Moderators = ({ match }) => {
           width="100%"
           zIndex="30"
         >
-          <Image
-            fallbackSrc={require('../../../assets/images/fallback.png')}
-            src=""
-            width="20px"
-            height="20px"
-            mr="8px"
-            borderRadius="999px"
-          />
+          <Avatar width={20} height={20} mr="8px" />
           <Link to={`/p/${subPlebbit?.address}`}>
             <Flex alignItems="center" color={linkColor} mr="4px">
               {subPlebbit?.title || subPlebbit?.address} {'  '}
@@ -130,13 +123,13 @@ const Moderators = ({ match }) => {
                             <Box borderRadius="4px" width="100%" height="100%" position="relative">
                               <Box bg={border1} width="100%" height="100%" borderRadius="50%" />
                               <Box width="100%" position="absolute" bottom="0">
-                                <Image
-                                  fallbackSrc={require('../../../assets/images/fallback.png')}
-                                  src={PlebbitLogo}
+                                <Box
                                   width="100%"
                                   border={`1px solid ${border1}`}
                                   borderRadius="50%"
-                                />
+                                >
+                                  <PlebLogo />
+                                </Box>
                               </Box>
                             </Box>
                           </Box>
