@@ -13,7 +13,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { RiCopperCoinLine } from 'react-icons/ri';
+// import { RiCopperCoinLine } from 'react-icons/ri';
 import { BsChat, BsBookmark, BsEyeSlash, BsFlag, BsFileText } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
@@ -49,7 +49,7 @@ const ClassicPost = ({
   subPlebbit,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
-  const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
+  // const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
   const border1 = useColorModeValue('#ccc', '#343536');
   const border2 = useColorModeValue('#edeff1', '#343536');
@@ -401,39 +401,6 @@ const ClassicPost = ({
                           </Text>
                         </Box> */}
                         {/* tips */}
-                        <Tooltip
-                          fontSize="10px"
-                          label={`Tip ${post?.author?.displayName} with Moons`}
-                          aria-label="tip tooltip"
-                        >
-                          <Flex
-                            cursor="pointer"
-                            alignItems="center"
-                            display="inline-flex"
-                            margin="-2px 0 0 4px"
-                            verticalAlign="middle"
-                          >
-                            <Icon
-                              color={iconColor}
-                              as={RiCopperCoinLine}
-                              height="16px"
-                              width="16px"
-                              _hover={{
-                                color: '#cc3700',
-                              }}
-                            />
-
-                            <Box
-                              verticalAlign="middle"
-                              color={subPlebbitSubTitle}
-                              fontSize="6px"
-                              lineHeight="20px"
-                              margin="0 4px"
-                            >
-                              •
-                            </Box>
-                          </Flex>
-                        </Tooltip>
                         {/* date/time */}
                         <Tooltip
                           fontSize="10px"

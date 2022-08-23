@@ -12,7 +12,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { RiCopperCoinLine } from 'react-icons/ri';
+// import { RiCopperCoinLine } from 'react-icons/ri';
 import { BsChat, BsBookmark, BsEyeSlash, BsPencil } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
@@ -294,41 +294,7 @@ const CardPost = ({
                             </Text>
                           </Box> */}
                           {/* tips */}
-                          <Tooltip
-                            fontSize="10px"
-                            label={`Tip ${
-                              post?.author?.displayName || getUserName(post?.author)
-                            } with Moons`}
-                            aria-label="tip tooltip"
-                          >
-                            <Flex
-                              cursor="pointer"
-                              alignItems="center"
-                              display="inline-flex"
-                              margin="-2px 0 0 4px"
-                              verticalAlign="middle"
-                            >
-                              <Icon
-                                color={iconColor}
-                                as={RiCopperCoinLine}
-                                height="16px"
-                                width="16px"
-                                _hover={{
-                                  color: '#cc3700',
-                                }}
-                              />
 
-                              <Box
-                                verticalAlign="middle"
-                                color={subPlebbitSubTitle}
-                                fontSize="6px"
-                                lineHeight="20px"
-                                margin="0 4px"
-                              >
-                                •
-                              </Box>
-                            </Flex>
-                          </Tooltip>
                           {/* date/time */}
                           <Tooltip
                             fontSize="10px"
@@ -472,6 +438,15 @@ const CardPost = ({
                           >
                             {type !== 'subPlebbit' ? (
                               <>
+                                <Avatar
+                                  avatar={subPlebbit?.avatar}
+                                  width={24}
+                                  height={24}
+                                  mr="8px"
+                                  badge
+                                  isOnline={isOnline}
+                                  mb="5px"
+                                />
                                 <Link
                                   as={ReactLink}
                                   to={`/p/${post?.subplebbitAddress}`}
@@ -481,26 +456,10 @@ const CardPost = ({
                                   display="inline"
                                   lineHeight="20px"
                                   textDecoration="none"
+                                  mx="4px"
                                 >
-                                  {`p/${post?.subplebbitAddress}`}
+                                  {`p/${getAddress(post?.subplebbitAddress)}`}
                                 </Link>
-                                <Box
-                                  verticalAlign="middle"
-                                  color={subPlebbitSubTitle}
-                                  fontSize="6px"
-                                  lineHeight="20px"
-                                  margin="0 4px"
-                                >
-                                  <Box
-                                    width="12px"
-                                    height="12px"
-                                    rounded="full"
-                                    bg={isOnline ? '#46d160' : 'red'}
-                                    borderWidth="2px"
-                                    borderColor="#fff"
-                                    borderStyle="solid"
-                                  />
-                                </Box>
                               </>
                             ) : (
                               ''
@@ -547,39 +506,7 @@ const CardPost = ({
                               </Text>
                             </Box> */}
                             {/* tips */}
-                            <Tooltip
-                              fontSize="10px"
-                              label={`Tip ${post?.author?.displayName} with Moons`}
-                              aria-label="tip tooltip"
-                            >
-                              <Flex
-                                cursor="pointer"
-                                alignItems="center"
-                                display="inline-flex"
-                                margin="-2px 0 0 4px"
-                                verticalAlign="middle"
-                              >
-                                <Icon
-                                  color={iconColor}
-                                  as={RiCopperCoinLine}
-                                  height="16px"
-                                  width="16px"
-                                  _hover={{
-                                    color: '#cc3700',
-                                  }}
-                                />
 
-                                <Box
-                                  verticalAlign="middle"
-                                  color={subPlebbitSubTitle}
-                                  fontSize="6px"
-                                  lineHeight="20px"
-                                  margin="0 4px"
-                                >
-                                  •
-                                </Box>
-                              </Flex>
-                            </Tooltip>
                             {/* date/time */}
                             <Tooltip
                               fontSize="10px"

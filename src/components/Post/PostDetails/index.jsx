@@ -54,7 +54,7 @@ function PostDetail() {
   const titleColor = useColorModeValue('lightText', 'darkText');
   const vote = detail?.upvoteCount - detail?.downvoteCount;
   const [voteMode, setVoteMode] = useState(0);
-  const subPledditTextColor = useColorModeValue('lightText2', 'darkText');
+  const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
