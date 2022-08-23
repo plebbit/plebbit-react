@@ -59,9 +59,9 @@ const ClassicPost = ({
   const voteColor = useColorModeValue('lightVoteText', 'darkVoteTest');
   const iconBg = useColorModeValue('lightIconBg', 'darkIconBg');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
-  const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
+  // const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const shadow = useColorModeValue('lightShadow', 'darkShadow2');
-  const statusColor = useColorModeValue('lightVoteText', 'fff');
+  // const statusColor = useColorModeValue('lightVoteText', 'fff');
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mobileMainColor = useColorModeValue('lightMobileText', 'darkMobileText');
   const mainMobileBg = useColorModeValue('white', 'black');
@@ -383,7 +383,7 @@ const ClassicPost = ({
                           </Box>
                         </Box>
                         {/* status */}
-                        <Box display="inline" verticalAlign="text-top">
+                        {/* <Box display="inline" verticalAlign="text-top">
                           <Text
                             bg={statusBg}
                             color={statusColor}
@@ -399,7 +399,7 @@ const ClassicPost = ({
                           >
                             texting Text
                           </Text>
-                        </Box>
+                        </Box> */}
                         {/* tips */}
                         <Tooltip
                           fontSize="10px"
