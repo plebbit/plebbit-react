@@ -41,9 +41,8 @@ import useVisible from '../../../hooks/useVisible';
 import { VscMail } from 'react-icons/vsc';
 import ImportAccount from './modal/importAccount';
 import CreateSubPlebbit from './modal/CreateSubPlebbit';
-import getUserName from '../../../utils/getUserName';
+import getUserName, { getAddress } from '../../../utils/getUserName';
 import NavItem from './navItem';
-import truncateString from '../../../utils/truncateString';
 import getIsOnline from '../../../utils/getIsOnline';
 import Avatar from '../../Avatar';
 import { PlebLogo, PlebbitTextLogo } from '../../svgs';
@@ -209,7 +208,7 @@ const NavBar = ({ location }) => {
                                 <Box>
                                   {accountSubplebbits[pages]?.title
                                     ? accountSubplebbits[pages]?.title
-                                    : truncateString(accountSubplebbits[pages]?.title, 20)}
+                                    : getAddress(accountSubplebbits[pages]?.address)}
                                 </Box>
                               </Flex>
                             </Link>
@@ -243,12 +242,12 @@ const NavBar = ({ location }) => {
                       {[
                         subPlebbitData?.map((x) => ({
                           ...x,
-                          label: x?.title ? x?.title : truncateString(x?.address, 20),
+                          label: x?.title ? x?.title : getAddress(x?.address),
                           value: x?.address,
                         })),
                         subscriptions?.map((x) => ({
                           ...x,
-                          label: x?.title ? x?.title : truncateString(x?.address, 20),
+                          label: x?.title ? x?.title : getAddress(x?.address),
                           value: x?.address,
                         })),
                       ]
@@ -275,7 +274,7 @@ const NavBar = ({ location }) => {
                                 isOnline={getIsOnline(pages?.updatedAt)}
                               />
 
-                              <Box>{pages?.label || pages?.address}</Box>
+                              <Box>{pages?.label || getAddress(pages?.address)}</Box>
                             </Flex>
                           </Link>
                         ))}
@@ -1117,7 +1116,13 @@ const NavBar = ({ location }) => {
                           </Box>
                         </Flex>
                       ))}
-                      {[subPlebbitData.map((x) => ({ ...x, label: x?.title, value: x?.address }))]
+                      {[
+                        subPlebbitData.map((x) => ({
+                          ...x,
+                          label: x?.title || getAddress(x?.address),
+                          value: x?.address,
+                        })),
+                      ]
                         .flat()
                         ?.map((pages, index) => (
                           <Flex
@@ -1248,7 +1253,8 @@ const NavBar = ({ location }) => {
                             />
 
                             <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                              {accountSubplebbits[pages]?.title}
+                              {accountSubplebbits[pages]?.title ||
+                                getAddress(accountSubplebbits[pages]?.address)}
                             </Box>
                           </Flex>
                         </Link>

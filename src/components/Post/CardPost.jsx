@@ -25,7 +25,7 @@ import { Link as ReactLink, useHistory } from 'react-router-dom';
 import dateToFromNowDaily from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import { ProfileContext } from '../../store/profileContext';
-import getUserName from '../../utils/getUserName';
+import getUserName, { getAddress } from '../../utils/getUserName';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
 
@@ -239,7 +239,7 @@ const CardPost = ({
                                 lineHeight="20px"
                                 textDecoration="none"
                               >
-                                {`p/${post?.subplebbitAddress}`}
+                                {`p/${getAddress(post?.subplebbitAddress)}`}
                               </Link>
                               <Box
                                 verticalAlign="middle"
@@ -296,7 +296,9 @@ const CardPost = ({
                           {/* tips */}
                           <Tooltip
                             fontSize="10px"
-                            label={`Tip ${post?.author?.displayName} with Moons`}
+                            label={`Tip ${
+                              post?.author?.displayName || getUserName(post?.author)
+                            } with Moons`}
                             aria-label="tip tooltip"
                           >
                             <Flex
@@ -968,10 +970,12 @@ const CardPost = ({
                             badge
                             isOnline={isOnline}
                           />
-                          <Skeleton isLoaded={!loading}>{`p/${post?.subplebbitAddress}`}</Skeleton>
+                          <Skeleton isLoaded={!loading}>
+                            {`p/${getAddress(post?.subplebbitAddress)}`}
+                          </Skeleton>
                         </Flex>
 
-                        <Box>
+                        <Box mx="4px">
                           <Skeleton isLoaded={!loading}>
                             {dateToFromNowDaily(post?.timestamp * 1000)}
                           </Skeleton>

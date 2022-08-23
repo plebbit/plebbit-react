@@ -6,7 +6,7 @@ import { HiPencil } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import { PlebLogo } from '../../components/svgs';
 import { ProfileContext } from '../../store/profileContext';
-import truncateString from '../../utils/truncateString';
+import { getAddress } from '../../utils/getUserName';
 
 const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -82,7 +82,7 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
           marginBottom="16px"
           alignItems="center"
         >
-          <Box>Moderators of {subPlebbit?.title}</Box>
+          <Box>Moderators of {subPlebbit?.title || getAddress(subPlebbit?.address)}</Box>
           <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
         </Flex>
         <Flex
@@ -160,7 +160,7 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
                           </Box>
                         </Box>
                       </Box>
-                      <Box>{truncateString(user, 14)}</Box>
+                      <Box>{getAddress(user)}</Box>
                     </Flex>
                   </Link>
                 </Box>
@@ -229,7 +229,7 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
                           </Box>
                         </Box>
                       </Box>
-                      <Box>{truncateString(user, 14)}</Box>
+                      <Box>{getAddress(user)}</Box>
                     </Flex>
                   </Link>
                 </Box>
