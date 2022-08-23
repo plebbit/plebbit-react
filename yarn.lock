@@ -2864,29 +2864,6 @@
     tinycache "1.1.2"
     uuid "8.3.2"
 
-"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#66db8eb723bbad97f6adcf9ad4cb523b4f991b7c":
-  version "0.0.3"
-  resolved "https://github.com/plebbit/plebbit-js.git#66db8eb723bbad97f6adcf9ad4cb523b4f991b7c"
-  dependencies:
-    "@keyv/sqlite" "3.5.3"
-    "@types/node-fetch" "2.6.2"
-    "@types/uuid" "8.3.4"
-    assert "2.0.0"
-    buffer "6.0.3"
-    captcha-canvas "3.1.0"
-    ethers "5.6.9"
-    form-data "4.0.0"
-    ipfs-http-client "56.0.3"
-    jose "4.8.3"
-    js-sha256 "0.9.0"
-    keyv "4.3.3"
-    knex "2.2.0"
-    libp2p-crypto "0.21.2"
-    peer-id "0.16.0"
-    sqlite3 "5.0.10"
-    tinycache "1.1.2"
-    uuid "8.3.2"
-
 "@plebbit/plebbit-logger@https://github.com/plebbit/plebbit-logger.git":
   version "0.0.1"
   resolved "https://github.com/plebbit/plebbit-logger.git#9525ca9539479918931c3b334e8d490d1c87e507"
@@ -2903,20 +2880,6 @@
     assert "2.0.0"
     ethers "5.6.9"
     git "^0.1.5"
-    localforage "1.10.0"
-    uuid "8.3.2"
-    zustand "4.0.0"
-
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#e2d029a8ca368866780becdec06679a278093dfd":
-  version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#e2d029a8ca368866780becdec06679a278093dfd"
-  dependencies:
-    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#66db8eb723bbad97f6adcf9ad4cb523b4f991b7c"
-    "@types/debug" "4.1.7"
-    "@types/uuid" "8.3.4"
-    assert "2.0.0"
-    debug "4.3.3"
-    ethers "5.6.9"
     localforage "1.10.0"
     uuid "8.3.2"
     zustand "4.0.0"
@@ -3363,7 +3326,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/debug@4.1.7", "@types/debug@^4.0.0", "@types/debug@^4.1.6":
+"@types/debug@^4.0.0", "@types/debug@^4.1.6":
   version "4.1.7"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.7.tgz#7cc0ea761509124709b8b2d1090d8f6c17aadb82"
   integrity sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==
