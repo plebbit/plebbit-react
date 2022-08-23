@@ -33,6 +33,7 @@ import { HamburgerIcon } from '@chakra-ui/icons';
 import logger from '../../utils/logger';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
+import { getAddress } from '../../utils/getUserName';
 
 const CommunitySettings = ({ match }) => {
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
@@ -122,7 +123,12 @@ const CommunitySettings = ({ match }) => {
   console.log(resolvedAuthorAddress, data);
 
   return (
-    <Layout name={{ label: subplebbit?.title || subplebbit?.address, value: location?.pathname }}>
+    <Layout
+      name={{
+        label: subplebbit?.title || getAddress(subplebbit?.address),
+        value: location?.pathname,
+      }}
+    >
       <>
         {device !== 'mobile' ? (
           <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
@@ -143,7 +149,7 @@ const CommunitySettings = ({ match }) => {
               <Avatar width={20} height={20} mr="8px" />
               <Link to={`/p/${data?.address}`}>
                 <Flex alignItems="center" color={linkColor} mr="4px">
-                  {subplebbit?.title || subplebbit?.address} {'  '}
+                  {subplebbit?.title || getAddress(subplebbit?.address)} {'  '}
                   <Box color={mainColor} textTransform="uppercase">
                     / community settings
                   </Box>
@@ -676,7 +682,7 @@ const CommunitySettings = ({ match }) => {
               <Avatar width={20} height={20} mr="8px" />
               <Link to={`/p/${data?.address}`}>
                 <Flex alignItems="center" color={linkColor} mr="4px">
-                  {subplebbit?.title || subplebbit?.address} {'  '}
+                  {subplebbit?.title || getAddress(subplebbit?.address)} {'  '}
                   <Box color={mainColor} textTransform="uppercase">
                     / community settings
                   </Box>

@@ -10,12 +10,12 @@ import { useAccountsActions, useFeed, useSubplebbit } from '@plebbit/plebbit-rea
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import SideBar from './sideBar';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
-import truncateString from '../../utils/truncateString';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import Layout from '../../components/layout';
 import getIsOnline from '../../utils/getIsOnline';
 import Avatar from '../../components/Avatar';
 import { PlebLogo } from '../../components/svgs';
+import { getAddress } from '../../utils/getUserName';
 
 const SubPlebbit = ({ match }) => {
   const { postStyle, feedSort, profile, subscriptions, device, accountSubplebbits } =
@@ -224,7 +224,7 @@ const SubPlebbit = ({ match }) => {
                           padding="0 2px 4px 0"
                           width="100%"
                         >
-                          {subPlebbit?.title || subPlebbit?.address}
+                          {subPlebbit?.title || getAddress(subPlebbit?.address)}
                         </Box>
                         <Box
                           fontSize="14px"
@@ -233,7 +233,7 @@ const SubPlebbit = ({ match }) => {
                           color={subPlebbitSubTitle}
                           wordBreak="break-all"
                         >
-                          p/{subPlebbit?.address}
+                          p/{getAddress(subPlebbit?.address)}
                         </Box>
                       </Box>
                       <Flex alignItems="center" mt="10px">
@@ -390,9 +390,9 @@ const SubPlebbit = ({ match }) => {
               </Box>
               <Box fontSize="14px" textAlign="center" padding="0 12px">
                 <Box fontSize="20px" fontWeight="700" padding="0 20px" color={mobileMainColor}>
-                  {subPlebbit?.title || truncateString(subPlebbit?.address, 20)}
+                  {subPlebbit?.title || getAddress(subPlebbit?.address)}
                 </Box>
-                <Box color="#a5a4a4">p/{truncateString(subPlebbit?.address, 20)}</Box>
+                <Box color="#a5a4a4">p/{getAddress(subPlebbit?.address)}</Box>
                 <Box mt="10px" fontSize="14px" padding="0 12px">
                   <Box>1 member • 4 online</Box>
                   <Flex justifyContent="center" mt="8px" mb="10px">

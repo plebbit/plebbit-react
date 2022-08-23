@@ -7,7 +7,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Avatar from '../../../components/Avatar';
 import Layout from '../../../components/layout';
 import { PlebLogo } from '../../../components/svgs';
-import truncateString from '../../../utils/truncateString';
+import { getAddress } from '../../../utils/getUserName';
 
 const Moderators = ({ match }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -19,7 +19,12 @@ const Moderators = ({ match }) => {
 
   const subPlebbit = useSubplebbit(match?.params?.subplebbitAddress);
   return (
-    <Layout name={{ label: subPlebbit?.title || subPlebbit?.address, value: location?.pathname }}>
+    <Layout
+      name={{
+        label: subPlebbit?.title || getAddress(subPlebbit?.address),
+        value: location?.pathname,
+      }}
+    >
       <Box>
         <Flex
           fontSize="12px"
@@ -38,7 +43,7 @@ const Moderators = ({ match }) => {
           <Avatar width={20} height={20} mr="8px" />
           <Link to={`/p/${subPlebbit?.address}`}>
             <Flex alignItems="center" color={linkColor} mr="4px">
-              {subPlebbit?.title || subPlebbit?.address} {'  '}
+              {subPlebbit?.title || getAddress(subPlebbit?.address)} {'  '}
               <Box color={mainColor}>/ MODERATORS</Box>
             </Flex>
           </Link>
@@ -134,7 +139,7 @@ const Moderators = ({ match }) => {
                             </Box>
                           </Box>
                         </Box>
-                        <Box>{truncateString(user, 14)}</Box>
+                        <Box>{getAddress(user)}</Box>
                       </Flex>
                     </Link>
                   </Box>

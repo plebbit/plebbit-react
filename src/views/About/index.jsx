@@ -11,6 +11,7 @@ import { ProfileContext } from '../../store/profileContext';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
+import { getAddress } from '../../utils/getUserName';
 
 const About = ({ match }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -29,7 +30,12 @@ const About = ({ match }) => {
   const location = useLocation();
 
   return (
-    <Layout name={{ label: subPlebbit?.title || subPlebbit?.address, value: location?.pathname }}>
+    <Layout
+      name={{
+        label: subPlebbit?.title || getAddress(subPlebbit?.address),
+        value: location?.pathname,
+      }}
+    >
       <>
         {device !== 'mobile' ? (
           <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
@@ -51,7 +57,7 @@ const About = ({ match }) => {
 
               <Link to={`/p/${subPlebbit?.address}`}>
                 <Flex alignItems="center" color={linkColor} mr="4px">
-                  {subPlebbit?.title || subPlebbit?.address} {'  '}
+                  {subPlebbit?.title || getAddress(subPlebbit?.address)} {'  '}
                   <Box color={mainColor}>
                     /{' '}
                     {page === 'modqueue'
@@ -138,7 +144,7 @@ const About = ({ match }) => {
               <Avatar width={20} height={20} mr="8px" />
               <Link to={`/p/${subPlebbit?.address}`}>
                 <Flex alignItems="center" color={linkColor} mr="4px">
-                  {subPlebbit?.title || subPlebbit?.address} {'  '}
+                  {subPlebbit?.title || getAddress(subPlebbit?.address)} {'  '}
                   <Box color={mainColor}>
                     /{' '}
                     {page === 'modqueue'
