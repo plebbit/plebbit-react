@@ -8,7 +8,9 @@ const Marked = ({ content }) => {
     xhtmlOut: true,
     breaks: true,
     linkify: true,
+    typographer: true,
   });
+
   return parse(md.render(content));
 };
 

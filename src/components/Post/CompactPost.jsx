@@ -3,7 +3,6 @@ import {
   Box,
   Flex,
   Icon,
-  Image,
   Link,
   Skeleton,
   Tag,
@@ -18,10 +17,11 @@ import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { Link as ReactLink, useHistory } from 'react-router-dom';
-import { dateToNow } from '../../utils/formatDate';
+import fromNow from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import getUserName from '../../utils/getUserName';
 import Marked from '../Editor/marked';
+import Avatar from '../Avatar';
 
 const CompactPost = ({
   loading,
@@ -33,7 +33,6 @@ const CompactPost = ({
   post,
   type,
   handleVote,
-  avatar,
   isOnline,
   subPlebbit,
   // setCopied,
@@ -341,37 +340,14 @@ const CompactPost = ({
                     >
                       {type !== 'subPlebbit' ? (
                         <>
-                          <Box
-                            borderRadius="50%"
-                            width="24px"
-                            height="24px"
-                            position="relative"
+                          <Avatar
+                            avatar={subPlebbit?.avatar}
+                            width={24}
+                            height={24}
                             mr="8px"
-                            ny="5px"
-                          >
-                            <Box width="100%" position="absolute" bottom="0">
-                              <Image
-                                h="100%"
-                                verticalAlign="middle"
-                                src={subPlebbit?.avatar}
-                                alt="not-found"
-                                fallbackSrc={require('../../assets/images/fallback.png')}
-                                rounded="full"
-                              />
-                            </Box>
-                            <Box
-                              width="12px"
-                              height="12px"
-                              rounded="full"
-                              bg={isOnline ? '#46d160' : 'red'}
-                              position="absolute"
-                              borderWidth="2px"
-                              borderColor="#fff"
-                              borderStyle="solid"
-                              right="0.5"
-                              bottom="0"
-                            />
-                          </Box>
+                            badge
+                            isOnline={isOnline}
+                          />
                           <Link
                             color={subPledditTextColor}
                             fontSize="12px"
@@ -408,23 +384,7 @@ const CompactPost = ({
                       <Text color={misCol} flex="0 0 auto" mr="3px">
                         Posted by
                       </Text>
-                      {/* User Badge */}{' '}
-                      <Flex
-                        alignItems="center"
-                        display="inline-flex"
-                        justifyContent="center"
-                        verticalAlign="middle"
-                        mr="4px"
-                      >
-                        <Image
-                          fallbackSrc={require('../../assets/images/fallback.png')}
-                          h="14px"
-                          verticalAlign="middle"
-                          src={avatar}
-                          alt="not-found"
-                          rounded="full"
-                        />
-                      </Flex>
+
                       {/* User Name */}
                       <Box display="inline-block" flex="0 0 auto">
                         <Box>
@@ -457,7 +417,7 @@ const CompactPost = ({
                           display="inline-block"
                           flex="0 0 auto"
                         >
-                          {dateToNow(parseInt(post?.timestamp * 1000))}
+                          {fromNow(parseInt(post?.timestamp * 1000))}
                         </Text>
                       </Tooltip>
                     </Flex>

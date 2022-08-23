@@ -1,12 +1,4 @@
-import {
-  Box,
-  Flex,
-  Icon,
-  IconButton,
-  Image,
-  useColorModeValue,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Flex, Icon, IconButton, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BsFillShieldFill } from 'react-icons/bs';
@@ -18,6 +10,7 @@ import AboutsideBar from './sideBar';
 import { ProfileContext } from '../../store/profileContext';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Layout from '../../components/layout';
+import Avatar from '../../components/Avatar';
 
 const About = ({ match }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -54,14 +47,8 @@ const About = ({ match }) => {
               width="100%"
               zIndex="30"
             >
-              <Image
-                fallbackSrc={require('../../assets/images/fallback.png')}
-                src=""
-                width="20px"
-                height="20px"
-                mr="8px"
-                borderRadius="999px"
-              />
+              <Avatar width={20} height={20} mr="8px" />
+
               <Link to={`/p/${subPlebbit?.address}`}>
                 <Flex alignItems="center" color={linkColor} mr="4px">
                   {subPlebbit?.title || subPlebbit?.address} {'  '}
@@ -148,14 +135,7 @@ const About = ({ match }) => {
                 icon={<HamburgerIcon />}
                 mr="10px"
               />
-              <Image
-                fallbackSrc={require('../../assets/images/fallback.png')}
-                src=""
-                width="20px"
-                height="20px"
-                mr="8px"
-                borderRadius="999px"
-              />
+              <Avatar width={20} height={20} mr="8px" />
               <Link to={`/p/${subPlebbit?.address}`}>
                 <Flex alignItems="center" color={linkColor} mr="4px">
                   {subPlebbit?.title || subPlebbit?.address} {'  '}

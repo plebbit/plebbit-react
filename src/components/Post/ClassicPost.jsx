@@ -23,12 +23,13 @@ import { FiExternalLink, FiMoreHorizontal, FiShare } from 'react-icons/fi';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { Link as ReactLink, useHistory } from 'react-router-dom';
-import { dateToNow } from '../../utils/formatDate';
+import fromNow from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import getUserName from '../../utils/getUserName';
 import { ProfileContext } from '../../store/profileContext';
 import DropDown from '../DropDown';
 import Marked from '../Editor/marked';
+import Avatar from '../Avatar';
 
 const ClassicPost = ({
   loading,
@@ -43,7 +44,6 @@ const ClassicPost = ({
   setCopied,
   location,
   copied,
-  avatar,
   detail,
   isOnline,
   subPlebbit,
@@ -346,37 +346,7 @@ const ClassicPost = ({
                         alignItems="center"
                         flexFlow="row wrap"
                       >
-                        <Box
-                          borderRadius="50%"
-                          width="24px"
-                          height="24px"
-                          position="relative"
-                          mr="8px"
-                          my="5px"
-                        >
-                          <Box width="100%" position="absolute" bottom="0">
-                            <Image
-                              h="100%"
-                              verticalAlign="middle"
-                              src={subPlebbit?.avatar}
-                              alt="not-found"
-                              fallbackSrc={require('../../assets/images/fallback.png')}
-                              rounded="full"
-                            />
-                          </Box>
-                          <Box
-                            width="12px"
-                            height="12px"
-                            rounded="full"
-                            bg={isOnline ? '#46d160' : 'red'}
-                            position="absolute"
-                            borderWidth="2px"
-                            borderColor="#fff"
-                            borderStyle="solid"
-                            right="0.5"
-                            bottom="0"
-                          />
-                        </Box>
+                        <Avatar width={24} height={24} mr="8px" badge isOnline={isOnline} />
                         <Link
                           as={ReactLink}
                           to={`/p/${post?.subplebbitAddress}`}
@@ -393,23 +363,7 @@ const ClassicPost = ({
                         <Text color={misCol} flex="0 0 auto" mr="3px">
                           Posted by
                         </Text>
-                        {/* User Badge */}{' '}
-                        <Flex
-                          alignItems="center"
-                          display="inline-flex"
-                          justifyContent="center"
-                          verticalAlign="middle"
-                          mr="4px"
-                        >
-                          <Image
-                            fallbackSrc={require('../../assets/images/fallback.png')}
-                            h="24px"
-                            verticalAlign="middle"
-                            src={avatar}
-                            alt="not-found"
-                            rounded="full"
-                          />
-                        </Flex>
+
                         {/* User Name */}
                         <Box display="inline-block" flex="0 0 auto">
                           <Box>
@@ -468,18 +422,7 @@ const ClassicPost = ({
                                 color: '#cc3700',
                               }}
                             />
-                            <Text
-                              fontSize="12px"
-                              fontWeight="400"
-                              lineHeight="16px"
-                              color={subPlebbitSubTitle}
-                              ml="5px"
-                              _hover={{
-                                textDecoration: 'underline',
-                              }}
-                            >
-                              3.2k
-                            </Text>
+
                             <Box
                               verticalAlign="middle"
                               color={subPlebbitSubTitle}
@@ -505,7 +448,7 @@ const ClassicPost = ({
                             display="inline-block"
                             flex="0 0 auto"
                           >
-                            {dateToNow(parseInt(post?.timestamp * 1000))}
+                            {fromNow(parseInt(post?.timestamp * 1000))}
                           </Text>
                         </Tooltip>
                       </Flex>
@@ -844,40 +787,14 @@ const ClassicPost = ({
                           lineHeight="18px"
                           color={postHeadColor}
                         >
-                          <Flex
-                            bg={mainMobileBg}
-                            alignItems="center"
-                            borderRadius="50%"
-                            height="24px"
-                            justifyContent="center"
-                            marginRight="8px"
-                            overflow="hidden"
-                            verticalAlign="middle"
-                            width="24px"
-                            position="relative"
-                          >
-                            <Box width="100%" position="absolute" bottom="0">
-                              <Image
-                                fallbackSrc={require('../../assets/images/fallback.png')}
-                                alt="plebbit-post"
-                                overflow="hidden"
-                                whiteSpace="nowrap"
-                                src={subPlebbit?.avatar}
-                              />
-                            </Box>
-                            <Box
-                              width="12px"
-                              height="12px"
-                              rounded="full"
-                              bg={isOnline ? '#46d160' : 'red'}
-                              position="absolute"
-                              borderWidth="2px"
-                              borderColor="#fff"
-                              borderStyle="solid"
-                              right="0.5"
-                              bottom="0"
-                            />
-                          </Flex>
+                          <Avatar
+                            avatar={subPlebbit?.avatar}
+                            width={24}
+                            height={24}
+                            mr="8px"
+                            badge
+                            isOnline={isOnline}
+                          />
                           <Skeleton isLoaded={!loading}>{`p/${post?.subplebbitAddress}`}</Skeleton>
                         </Flex>
                         <Box
@@ -894,9 +811,7 @@ const ClassicPost = ({
                           color="#798389"
                         />
                         <Box>
-                          <Skeleton isLoaded={!loading}>
-                            {dateToNow(post?.timestamp * 1000)}
-                          </Skeleton>
+                          <Skeleton isLoaded={!loading}>{fromNow(post?.timestamp * 1000)}</Skeleton>
                         </Box>
                       </Flex>
                     </Box>

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { ProfileContext } from '../../store/profileContext';
 import { Box, Flex } from '@chakra-ui/layout';
-import { useColorModeValue, Image } from '@chakra-ui/react';
-import plebbitDarkLogo from '../../assets/svgs/plebbitDarkLogo.svg';
+import { useColorModeValue } from '@chakra-ui/react';
 import NavBar from './Nav';
+import { PlebLogo } from '../svgs';
 
 const Layout = ({ children, name }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -14,8 +14,7 @@ const Layout = ({ children, name }) => {
   if (showSplashcreen) {
     return (
       <Box width="100%" height="100vh" display="flex" justifyContent="center" alignItems="center">
-        <Image
-          fallbackSrc={require('../../assets/images/fallback.png')}
+        <Box
           width="200px"
           borderRadius="full"
           sx={{
@@ -37,8 +36,9 @@ const Layout = ({ children, name }) => {
             },
           }}
           height="200xp"
-          src={plebbitDarkLogo}
-        />
+        >
+          <PlebLogo />
+        </Box>
       </Box>
     );
   }

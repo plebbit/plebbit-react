@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { Box, Flex, useColorModeValue, Input, Image } from '@chakra-ui/react';
+import { Box, Flex, useColorModeValue, Input } from '@chakra-ui/react';
 import { useHistory } from 'react-router';
 import { LinkIcon } from '@chakra-ui/icons';
 import { ProfileContext } from '../../../store/profileContext';
+import Avatar from '../../Avatar';
 
 const CreatePostBar = () => {
   const history = useHistory();
@@ -26,32 +27,7 @@ const CreatePostBar = () => {
         height="38px"
       >
         <Box position="relative">
-          <Box borderRadius="50%" width="38px" height="38px" position="relative">
-            <Box width="100%" height="100%" borderRadius="50%" bg={border2} />
-            <Box width="100%" position="absolute" bottom="0">
-              <Image
-                fallbackSrc={require('../../../assets/images/fallback.png')}
-                src={authorAvatarImageUrl}
-                width="100%"
-                transformOrigin="bottom center"
-                display="block"
-                transform="scale(1.3)"
-                rounded="full"
-              />
-            </Box>
-            <Box
-              width="12px"
-              height="12px"
-              rounded="full"
-              bg="#46d160"
-              position="absolute"
-              borderWidth="2px"
-              borderColor="#fff"
-              borderStyle="solid"
-              right="0"
-              top="75%"
-            />
-          </Box>
+          <Avatar avatar={authorAvatarImageUrl} width={38} height={38} mr="8px" />
         </Box>
       </Box>
       <Input

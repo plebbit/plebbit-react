@@ -3,7 +3,6 @@ import {
   Button,
   Flex,
   Icon,
-  Image,
   Input,
   ListItem,
   Radio,
@@ -33,6 +32,7 @@ import { ProfileContext } from '../../store/profileContext';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import logger from '../../utils/logger';
 import Layout from '../../components/layout';
+import Avatar from '../../components/Avatar';
 
 const CommunitySettings = ({ match }) => {
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
@@ -140,14 +140,7 @@ const CommunitySettings = ({ match }) => {
               width="100%"
               zIndex="30"
             >
-              <Image
-                fallbackSrc={require('../../assets/images/fallback.png')}
-                src=""
-                width="20px"
-                height="20px"
-                mr="8px"
-                borderRadius="999px"
-              />
+              <Avatar width={20} height={20} mr="8px" />
               <Link to={`/p/${data?.address}`}>
                 <Flex alignItems="center" color={linkColor} mr="4px">
                   {subplebbit?.title || subplebbit?.address} {'  '}
@@ -680,14 +673,7 @@ const CommunitySettings = ({ match }) => {
                 icon={<HamburgerIcon />}
                 mr="10px"
               />
-              <Image
-                fallbackSrc={require('../../assets/images/fallback.png')}
-                src=""
-                width="20px"
-                height="20px"
-                mr="8px"
-                borderRadius="999px"
-              />
+              <Avatar width={20} height={20} mr="8px" />
               <Link to={`/p/${data?.address}`}>
                 <Flex alignItems="center" color={linkColor} mr="4px">
                   {subplebbit?.title || subplebbit?.address} {'  '}

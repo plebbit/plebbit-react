@@ -7,7 +7,6 @@ import {
   useColorMode,
   useColorModeValue,
   useToast,
-  Image,
 } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import { LinkIcon } from '@chakra-ui/icons';
@@ -25,6 +24,7 @@ import { ProfileContext } from '../../../store/profileContext';
 import logger from '../../../utils/logger';
 import Layout from '../../layout';
 import getIsOnline from '../../../utils/getIsOnline';
+import Avatar from '../../Avatar';
 
 const CreatePost = () => {
   const { accountSubplebbits, subscriptions, subPlebbitDefData } = useContext(ProfileContext);
@@ -195,37 +195,15 @@ const CreatePost = () => {
                       fontWeight="400"
                       fontSize="14px"
                     >
-                      <Box
-                        borderRadius="50%"
-                        width="20px"
-                        height="20px"
-                        position="relative"
+                      <Avatar
+                        width={20}
+                        height={20}
                         mr="8px"
-                      >
-                        <Box width="100%" position="absolute" bottom="0">
-                          <Image
-                            fallbackSrc={require('../../../assets/images/fallback.png')}
-                            src={data?.avatar}
-                            width="100%"
-                            transformOrigin="bottom center"
-                            display="block"
-                            transform="scale(1.3)"
-                            rounded="full"
-                          />
-                        </Box>
-                        <Box
-                          width="12.5px"
-                          height="12.5px"
-                          rounded="full"
-                          bg={getIsOnline(data?.updatedAt) ? '#46d160' : 'red'}
-                          position="absolute"
-                          borderWidth="2px"
-                          borderColor="#fff"
-                          borderStyle="solid"
-                          right="-0.5"
-                          bottom="0"
-                        />
-                      </Box>
+                        avatar={data?.avatar}
+                        badge
+                        isOnline={getIsOnline(data?.updatedAt)}
+                      />
+
                       <Box>{data?.label ? data?.label : truncateString(data?.address, 20)}</Box>
                     </Flex>
                   )}

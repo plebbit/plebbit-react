@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Flex, Icon, Image, useColorModeValue, useToast } from '@chakra-ui/react';
+import { Box, Flex, Icon, useColorModeValue, useToast } from '@chakra-ui/react';
 import Button from '../../components/Button';
 import { FaBell } from 'react-icons/fa';
 import { ProfileContext } from '../../store/profileContext';
@@ -14,6 +14,8 @@ import truncateString from '../../utils/truncateString';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import Layout from '../../components/layout';
 import getIsOnline from '../../utils/getIsOnline';
+import Avatar from '../../components/Avatar';
+import { PlebLogo } from '../../components/svgs';
 
 const SubPlebbit = ({ match }) => {
   const { postStyle, feedSort, profile, subscriptions, device, accountSubplebbits } =
@@ -195,35 +197,14 @@ const SubPlebbit = ({ match }) => {
                     alignItems={device !== 'mobile' ? 'flex-start' : 'center'}
                     flexDir={device !== 'mobile' ? 'row' : 'column'}
                   >
-                    <Box position="relative">
-                      <Box borderRadius="50%" width="76px" height="76px" position="relative">
-                        <Box width="100%" position="absolute" bottom="0">
-                          <Image
-                            fallbackSrc={require('../../assets/images/fallback.png')}
-                            src=""
-                            backgroundColor="#fff"
-                            backgroundSize="cover"
-                            borderRadius="100%"
-                            border="4px solid #fff"
-                            display="inline-block"
-                            height="76px"
-                            width="76px"
-                          />
-                        </Box>
-                        <Box
-                          width="15px"
-                          height="15px"
-                          rounded="full"
-                          bg={isOnline ? '#46d160' : 'red'}
-                          position="absolute"
-                          borderWidth="3px"
-                          borderColor="#fff"
-                          borderStyle="solid"
-                          right="1"
-                          top="67%"
-                        />
-                      </Box>
-                    </Box>
+                    <Avatar
+                      width={76}
+                      height={76}
+                      border="4px solid #fff"
+                      badge
+                      isOnline={isOnline}
+                      avatar={subPlebbit?.avatar}
+                    />
 
                     <Flex
                       boxSizing="border-box"
@@ -401,15 +382,9 @@ const SubPlebbit = ({ match }) => {
                     pos="relative"
                     width="100%"
                   >
-                    <Image
-                      fallbackSrc={require('../../assets/images/fallback.png')}
-                      src={require('../../assets/images/plebbit-logo.png')}
-                      height="80%"
-                      width="80%"
-                      left="10%"
-                      position="relative"
-                      top="10%"
-                    />
+                    <Box height="80%" width="80%" left="10%" position="relative" top="10%">
+                      <PlebLogo />
+                    </Box>
                   </Box>
                 </Box>
               </Box>
