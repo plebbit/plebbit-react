@@ -200,7 +200,7 @@ const SubPlebbit = ({ match }) => {
                     <Avatar
                       width={76}
                       height={76}
-                      border="4px solid #fff"
+                      border="1px solid #fff"
                       badge
                       isOnline={isOnline}
                       avatar={subPlebbit?.avatar}
