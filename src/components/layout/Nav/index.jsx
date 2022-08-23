@@ -826,7 +826,7 @@ const NavBar = ({ location }) => {
                 minH="40px"
                 height="unset"
               >
-                © {new Date().getFullYear()} plebbit ({version}), Inc. All rights reserved{' '}
+                Plebbit v{version} GPL-2.0
               </Box>
             </Box>
           ) : (

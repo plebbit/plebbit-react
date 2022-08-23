@@ -41,22 +41,22 @@ export const ProfileDataProvider = (props) => {
     ),
   ]);
   const subPlebbitData = useSubPlebbitDefaultData();
-  const subPlebbitDefData = useSubplebbits([
-    ...new Set(
-      [
-        subscriptions
-          ?.map((x) => {
-            if (!x?.address) {
-              return '';
-            }
-            return x?.address;
-          })
-          ?.filter((x) => x !== ''),
-        ...Object.keys(accountSubplebbits),
-        subPlebbitData ? subPlebbitData?.map((x) => x?.address) : [],
-      ].flat()
-    ),
-  ]);
+
+  const subPlebbitDefData = useSubplebbits(
+    [
+      subscriptions
+        ?.map((x) => {
+          if (!x?.address) {
+            return '';
+          }
+          return x?.address;
+        })
+        ?.filter((x) => x !== ''),
+      ...Object.keys(accountSubplebbits),
+      subPlebbitData ? subPlebbitData?.map((x) => x?.address).filter(Boolean) : [],
+    ].flat()
+  );
+
   const { version } = require('../../package.json');
   const [postView, setPostView] = useState(
     homeAdd ? homeAdd : [homeAdd, subPlebbitDefData?.map((x) => x?.address)].flat()
