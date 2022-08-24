@@ -19,7 +19,7 @@ import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { Link as ReactLink, useHistory } from 'react-router-dom';
 import fromNow from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
-import getUserName, { getAddress } from '../../utils/getUserName';
+import getUserName, { getSubName } from '../../utils/getUserName';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
 
@@ -356,7 +356,7 @@ const CompactPost = ({
                             lineHeight="20px"
                             textDecoration="none"
                           >
-                            {`p/${getAddress(post?.subplebbitAddress)}`}
+                            {`p/${getSubName(subPlebbit)}`}
                           </Link>
                           <Box
                             verticalAlign="middle"
@@ -378,7 +378,7 @@ const CompactPost = ({
                           textDecoration="none"
                           mr="3px"
                         >
-                          {`p/${getAddress(post?.subplebbitAddress)}`}{' '}
+                          {`p/${getSubName(subPlebbit)}`}{' '}
                         </Link>
                       )}
                       <Text color={misCol} flex="0 0 auto" mr="3px">

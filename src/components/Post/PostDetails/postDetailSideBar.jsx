@@ -7,6 +7,8 @@ import BacktoTopButton from '../../sidebar/backtoTopButton';
 import { useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import { dateFormater } from '../../../utils/formatDate';
 import getIsOnline from '../../../utils/getIsOnline';
+import Avatar from '../../Avatar';
+import { getSubName } from '../../../utils/getUserName';
 
 const PostDetailSideBar = ({
   mt,
@@ -78,44 +80,23 @@ const PostDetailSideBar = ({
             />
           </Box>
           <Flex width="100" padding="12px" alignItems="center" mb="8px">
-            <Box
-              height="54px"
-              marginBottom="8px"
-              width="54px"
-              backgroundColor="#24a0ed"
-              borderRadius="50%"
-              position="relative"
+            <Avatar
+              avatar={subPlebbit?.avatar}
+              width={54}
+              height={54}
+              badge
+              isOnline={getIsOnline(subPlebbit?.updatedAt)}
               mr="8px"
-            >
-              <Image
-                fallbackSrc={require('../../../assets/images/fallback.png')}
-                borderRadius="full"
-                boxSize="54px"
-                src={subPlebbit?.avatar}
-                alt="user Avatar"
-              />
-              <Box
-                width="20px"
-                height="20px"
-                rounded="full"
-                bg={getIsOnline(subPlebbit?.updatedAt) ? '#46d160' : 'red'}
-                position="absolute"
-                borderWidth="2px"
-                borderColor="#fff"
-                borderStyle="solid"
-                right="0"
-                bottom="0"
-              />
-            </Box>
+            />
 
             <Box fontSize="16px" fontWeight="500" lineHeight="20px" text-overflow="ellipsis">
-              p/{subPlebbit?.title || subPlebbit?.address}
+              p/{getSubName(subPlebbit)}
             </Box>
           </Flex>
           <Box marginBottom="8px" position="relative" padding="12px">
             {subPlebbit?.about}
           </Box>
-          <Flex marginBottom="8px" padding="12px">
+          {/* <Flex marginBottom="8px" padding="12px">
             <Flex flexDirection="column" paddingRight="4px" flex="auto">
               <Box fontSize="16px" fontWeight="500" lineHeight="20px">
                 __m
@@ -133,7 +114,7 @@ const PostDetailSideBar = ({
               </Box>
             </Flex>
             <Flex />
-          </Flex>
+          </Flex> */}
           <Box padding="12px">
             <hr />
           </Box>
@@ -154,7 +135,11 @@ const PostDetailSideBar = ({
           <Box padding="12px">
             <Button
               color={color}
-              content={subscriptions?.includes(detail?.subplebbitAddress) ? 'Joined' : 'Join'}
+              content={
+                subscriptions?.map((x) => x?.address)?.includes(detail?.subplebbitAddress)
+                  ? 'Joined'
+                  : 'Join'
+              }
               bg="#a4a4a4"
               height="34px"
               width="100%"

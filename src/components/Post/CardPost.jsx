@@ -25,7 +25,7 @@ import { Link as ReactLink, useHistory } from 'react-router-dom';
 import dateToFromNowDaily from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import { ProfileContext } from '../../store/profileContext';
-import getUserName, { getAddress } from '../../utils/getUserName';
+import getUserName, { getSubName } from '../../utils/getUserName';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
 
@@ -239,7 +239,7 @@ const CardPost = ({
                                 lineHeight="20px"
                                 textDecoration="none"
                               >
-                                {`p/${getAddress(post?.subplebbitAddress)}`}
+                                {`p/${getSubName(subPlebbit)}`}
                               </Link>
                               <Box
                                 verticalAlign="middle"
@@ -458,7 +458,7 @@ const CardPost = ({
                                   textDecoration="none"
                                   mx="4px"
                                 >
-                                  {`p/${getAddress(post?.subplebbitAddress)}`}
+                                  {`p/${getSubName(subPlebbit)}`}
                                 </Link>
                               </>
                             ) : (
@@ -897,9 +897,7 @@ const CardPost = ({
                             badge
                             isOnline={isOnline}
                           />
-                          <Skeleton isLoaded={!loading}>
-                            {`p/${getAddress(post?.subplebbitAddress)}`}
-                          </Skeleton>
+                          <Skeleton isLoaded={!loading}>{`p/${getSubName(subPlebbit)}`}</Skeleton>
                         </Flex>
 
                         <Box mx="4px">
