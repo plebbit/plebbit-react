@@ -25,7 +25,7 @@ import logger from '../../../utils/logger';
 import Layout from '../../layout';
 import getIsOnline from '../../../utils/getIsOnline';
 import Avatar from '../../Avatar';
-import { getAddress } from '../../../utils/getUserName';
+import { getSubName } from '../../../utils/getUserName';
 
 const CreatePost = () => {
   const { accountSubplebbits, subscriptions, subPlebbitDefData } = useContext(ProfileContext);
@@ -183,7 +183,7 @@ const CreatePost = () => {
                     ...subs,
                     subPlebbitDefData.map((x) => ({
                       ...x,
-                      label: x?.title || getAddress(x?.address),
+                      label: getSubName(x),
                       value: x?.address,
                     })),
                   ].flat()}

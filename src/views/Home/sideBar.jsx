@@ -20,6 +20,7 @@ import { useSubplebbits } from '@plebbit/plebbit-react-hooks';
 import Avatar from '../../components/Avatar';
 import { useHistory } from 'react-router-dom';
 import getIsOnline from '../../utils/getIsOnline';
+import { getSubName } from '../../utils/getUserName';
 
 const SideBar = ({
   mt,
@@ -108,7 +109,7 @@ const SideBar = ({
                 justifyContent="space-between"
                 borderBottom="thin solid #edeff1"
                 cursor="pointer"
-                onClick={() => history.push(`/p/${sub?.subplebbitAddress}`, [])}
+                onClick={() => history.push(`/p/${sub?.address}`, [])}
               >
                 <Flex alignItems="center">
                   <Box
@@ -130,7 +131,7 @@ const SideBar = ({
                     isOnline={getIsOnline(sub?.updatedAt)}
                   />
                   <Box alignSelf="center" fontSize="14px" fontWeight="500" lineHeight="18px">
-                    {sub?.title}
+                    {getSubName(sub)}
                   </Box>
                 </Flex>
                 {/* <Button content="Join" bg="#a4a4a4" height="24px" color={color} /> */}

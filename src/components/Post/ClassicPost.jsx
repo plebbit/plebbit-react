@@ -25,7 +25,7 @@ import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { Link as ReactLink, useHistory } from 'react-router-dom';
 import fromNow from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
-import getUserName, { getAddress } from '../../utils/getUserName';
+import getUserName, { getSubName } from '../../utils/getUserName';
 import { ProfileContext } from '../../store/profileContext';
 import DropDown from '../DropDown';
 import Marked from '../Editor/marked';
@@ -358,7 +358,7 @@ const ClassicPost = ({
                           textDecoration="none"
                           mr="5px"
                         >
-                          {`p/${getAddress(post?.subplebbitAddress)}`}
+                          {`p/${getSubName(subPlebbit)}`}
                         </Link>
                         <Text color={misCol} flex="0 0 auto" mr="3px">
                           Posted by
@@ -762,9 +762,7 @@ const ClassicPost = ({
                             badge
                             isOnline={isOnline}
                           />
-                          <Skeleton isLoaded={!loading}>
-                            {`p/${getAddress(post?.subplebbitAddress)}`}
-                          </Skeleton>
+                          <Skeleton isLoaded={!loading}>{`p/${getSubName(subPlebbit)}`}</Skeleton>
                         </Flex>
                         <Box
                           mx="4px"

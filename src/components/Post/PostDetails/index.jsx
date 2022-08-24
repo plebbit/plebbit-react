@@ -31,7 +31,7 @@ import Comment from '../comment';
 import Editor from '../../Editor';
 import { ProfileContext } from '../../../store/profileContext';
 import { useHistory, useLocation } from 'react-router-dom';
-import getUserName, { getAddress } from '../../../utils/getUserName';
+import getUserName, { getAddress, getSubName } from '../../../utils/getUserName';
 import numFormatter from '../../../utils/numberFormater';
 import Post from '..';
 import DropDown from '../../DropDown';
@@ -309,6 +309,7 @@ function PostDetail() {
       name={{
         label:
           subplebbit?.title ||
+          getSubName(subplebbit) ||
           getAddress(window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)),
         value: location?.pathname,
       }}
@@ -633,7 +634,7 @@ function PostDetail() {
                                       history.push(`/p/${detail?.subplebbitAddress}`, [])
                                     }
                                   >
-                                    p/{subplebbit?.title || getAddress(detail?.subplebbitAddress)}
+                                    p/{getSubName(subplebbit)}
                                   </Box>
                                 </Box>
                                 <Text
@@ -1365,7 +1366,7 @@ function PostDetail() {
                             margin="5px"
                             textAlign="center"
                           >
-                            {subplebbit?.title || getAddress(subplebbit?.address)}
+                            {getSubName(subplebbit)}
                           </Box>
                         </Flex>
                       </Box>

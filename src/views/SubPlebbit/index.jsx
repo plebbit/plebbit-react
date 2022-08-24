@@ -233,7 +233,7 @@ const SubPlebbit = ({ match }) => {
                           color={subPlebbitSubTitle}
                           wordBreak="break-all"
                         >
-                          p/{getAddress(subPlebbit?.address)}
+                          p/{subPlebbit?.address}
                         </Box>
                       </Box>
                       <Flex alignItems="center" mt="10px">
@@ -392,7 +392,7 @@ const SubPlebbit = ({ match }) => {
                 <Box fontSize="20px" fontWeight="700" padding="0 20px" color={mobileMainColor}>
                   {subPlebbit?.title || getAddress(subPlebbit?.address)}
                 </Box>
-                <Box color="#a5a4a4">p/{getAddress(subPlebbit?.address)}</Box>
+                <Box color="#a5a4a4">p/{subPlebbit?.address}</Box>
                 <Box mt="10px" fontSize="14px" padding="0 12px">
                   <Box>1 member • 4 online</Box>
                   <Flex justifyContent="center" mt="8px" mb="10px">

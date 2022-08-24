@@ -33,8 +33,8 @@ const CreatePostSideBar = () => {
               height="40px"
               marginRight="8px"
               paddingBottom="5px"
-              width="40px"
-              src="https://styles.redditmedia.com/t5_4oocjn/styles/profileIcon_snooe4ba26fa-42e3-40e3-9041-c16e6bb3bbe6-headshot.png?width=256&height=256&crop=256:256,smart&s=84d5bed290c0ec6ffcce4cbd5931736282f306bf"
+              // width="40px"
+              src="/favicon.ico"
             />
             Posting to Plebbit
           </Flex>
@@ -49,19 +49,19 @@ const CreatePostSideBar = () => {
             }}
           >
             <Flex borderBottom="1px solid #edeff1" padding="10px 5px">
-              1.Remember the human
+              1. Do what you want
             </Flex>
             <Flex borderBottom="1px solid #edeff1" padding="10px 5px">
-              2. Behave like you would in real life
+              2. Do what you want
             </Flex>
             <Flex borderBottom="1px solid #edeff1" padding="10px 5px">
-              3. Look for the original source of content
+              3. Do what you want
             </Flex>
             <Flex borderBottom="1px solid #edeff1" padding="10px 5px">
-              4. Search for duplicates before posting
+              4. Do what you want
             </Flex>
             <Flex borderBottom="1px solid #edeff1" padding="10px 5px">
-              5. Read the community’s rules
+              5. Do what you want
             </Flex>
           </Flex>
         </Box>
@@ -74,8 +74,7 @@ const CreatePostSideBar = () => {
           margin="10px auto 10px 0"
           maxWidth="250px"
         >
-          Please be mindful of Plebbit's <a href="#"> content policy</a> and practice good{' '}
-          <a href="#">plebbiquete</a>.
+          Please do what you want.
         </Box>
         <BottomSideBar />
       </Box>

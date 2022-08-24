@@ -1,6 +1,6 @@
-*Telegram group for this repo https://t.me/plebbitreact*
+_Telegram group for this repo https://t.me/plebbitreact_
 
-*Demo https://plebbit-dev.netlify.app/#/*
+_Demo https://plebbit-dev.netlify.app/#/_
 
 ### Style:
 
@@ -11,7 +11,7 @@
 
 ### Data:
 
-We don't have APIs yet for the backend, so please use hardcoded static mock data. It could be in a JSON file or something and passed down to props. Don't create a backend or do HTTP request to fetch the data yet. 
+We don't have APIs yet for the backend, so please use hardcoded static mock data. It could be in a JSON file or something and passed down to props. Don't create a backend or do HTTP request to fetch the data yet.
 
 Unlike Reddit, Plebbit will be text only, it will not have any videos or images, only links and embeds. Kind of like Reddit back in the day.
 

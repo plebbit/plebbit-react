@@ -1,4 +1,8 @@
 {
   "cSpell.words": ["Plebbits"],
-  "java.configuration.updateBuildConfiguration": "automatic"
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
+  "editor.formatOnSave": true,
+  "eslint.alwaysShowStatus": true,
+  "files.autoSave": "onFocusChange"
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { convertToRaw } from 'draft-js';
 import { Flex, useColorModeValue } from '@chakra-ui/react';

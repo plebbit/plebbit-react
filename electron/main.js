@@ -1,14 +1,23 @@
 require('./log');
-const { app, BrowserWindow, Menu, MenuItem, Tray, screen: electronScreen, shell, dialog } = require('electron');
+const {
+  app,
+  BrowserWindow,
+  Menu,
+  MenuItem,
+  Tray,
+  screen: electronScreen,
+  shell,
+  dialog,
+} = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
 const startIpfs = require('./startIpfs');
 const { URL } = require('node:url');
 
 let startIpfsError;
-startIpfs().catch(e => {
-  startIpfsError = e
-  console.error(e)
+startIpfs().catch((e) => {
+  startIpfsError = e;
+  console.error(e);
 });
 
 // add right click menu
@@ -20,19 +29,19 @@ contextMenu({
       label: 'Back',
       visible: parameters.mediaType === 'none',
       enabled: browserWindow?.webContents?.canGoBack(),
-      click: () => browserWindow?.webContents?.goBack()
+      click: () => browserWindow?.webContents?.goBack(),
     },
     {
       label: 'Forward',
       visible: parameters.mediaType === 'none',
       enabled: browserWindow?.webContents?.canGoForward(),
-      click: () => browserWindow?.webContents?.goForward()
+      click: () => browserWindow?.webContents?.goForward(),
     },
     {
       label: 'Reload',
       visible: parameters.mediaType === 'none',
-      click: () => browserWindow?.webContents?.reload()
-    }
+      click: () => browserWindow?.webContents?.reload(),
+    },
   ],
   showLookUpSelection: false,
   showCopyImage: true,
@@ -68,9 +77,9 @@ const createMainWindow = () => {
 
   mainWindow.once('ready-to-show', async () => {
     // make sure back button is disabled on launch
-    mainWindow.webContents.clearHistory()
+    mainWindow.webContents.clearHistory();
 
-    mainWindow.show()
+    mainWindow.show();
 
     if (isDev) {
       mainWindow.openDevTools();
@@ -125,7 +134,12 @@ const createMainWindow = () => {
   });
 
   // tray
-  const trayIconPath = path.join(__dirname, '..', isDev ? 'public' : 'build', 'electron-tray-icon.png');
+  const trayIconPath = path.join(
+    __dirname,
+    '..',
+    isDev ? 'public' : 'build',
+    'electron-tray-icon.png'
+  );
   const tray = new Tray(trayIconPath);
   tray.setToolTip('plebbit');
   const trayMenu = Menu.buildFromTemplate([
@@ -167,24 +181,26 @@ const createMainWindow = () => {
 
   // application menu
   // hide useless electron help menu
-  const originalAppMenuWithoutHelp = Menu.getApplicationMenu()?.items.filter((item) => item.role !== 'help')
+  const originalAppMenuWithoutHelp = Menu.getApplicationMenu()?.items.filter(
+    (item) => item.role !== 'help'
+  );
   const appMenuBack = new MenuItem({
     label: '←',
     enabled: mainWindow?.webContents?.canGoBack(),
-    click: () => mainWindow?.webContents?.goBack()
-  })
+    click: () => mainWindow?.webContents?.goBack(),
+  });
   const appMenuForward = new MenuItem({
     label: '→',
     enabled: mainWindow?.webContents?.canGoForward(),
-    click: () => mainWindow?.webContents?.goForward()
-  })
+    click: () => mainWindow?.webContents?.goForward(),
+  });
   const appMenuReload = new MenuItem({
     label: '⟳',
     role: 'reload',
-    click: () => mainWindow?.webContents?.reload()
-  })
-  const appMenu = [appMenuBack, appMenuForward, appMenuReload, ...originalAppMenuWithoutHelp]
-  Menu.setApplicationMenu(Menu.buildFromTemplate(appMenu))
+    click: () => mainWindow?.webContents?.reload(),
+  });
+  const appMenu = [appMenuBack, appMenuForward, appMenuReload, ...originalAppMenuWithoutHelp];
+  Menu.setApplicationMenu(Menu.buildFromTemplate(appMenu));
 };
 
 app.whenReady().then(() => {
