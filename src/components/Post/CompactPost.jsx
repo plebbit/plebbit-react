@@ -356,7 +356,7 @@ const CompactPost = ({
                             lineHeight="20px"
                             textDecoration="none"
                           >
-                            {`p/${getSubName(subPlebbit)}`}
+                            {getSubName(subPlebbit)}
                           </Link>
                           <Box
                             verticalAlign="middle"
@@ -378,7 +378,7 @@ const CompactPost = ({
                           textDecoration="none"
                           mr="3px"
                         >
-                          {`p/${getSubName(subPlebbit)}`}{' '}
+                          {getSubName(subPlebbit)}{' '}
                         </Link>
                       )}
                       <Text color={misCol} flex="0 0 auto" mr="3px">

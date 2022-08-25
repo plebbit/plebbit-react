@@ -239,7 +239,7 @@ const CardPost = ({
                                 lineHeight="20px"
                                 textDecoration="none"
                               >
-                                {`p/${getSubName(subPlebbit)}`}
+                                {getSubName(subPlebbit)}
                               </Link>
                               <Box
                                 verticalAlign="middle"
@@ -298,7 +298,7 @@ const CardPost = ({
                           {/* date/time */}
                           <Tooltip
                             fontSize="10px"
-                            label={post?.timestamp * 1000}
+                            label={dateToFromNowDaily(parseInt(post?.timestamp * 1000))}
                             aria-label="date tooltip"
                             placement="top"
                           >
@@ -458,7 +458,7 @@ const CardPost = ({
                                   textDecoration="none"
                                   mx="4px"
                                 >
-                                  {`p/${getSubName(subPlebbit)}`}
+                                  {getSubName(subPlebbit)}
                                 </Link>
                               </>
                             ) : (
@@ -897,7 +897,7 @@ const CardPost = ({
                             badge
                             isOnline={isOnline}
                           />
-                          <Skeleton isLoaded={!loading}>{`p/${getSubName(subPlebbit)}`}</Skeleton>
+                          <Skeleton isLoaded={!loading}>{getSubName(subPlebbit)}</Skeleton>
                         </Flex>
 
                         <Box mx="4px">

@@ -8,7 +8,6 @@ import {
   IconButton,
   Link,
   Image,
-  Heading,
   Tag,
   useToast,
   Button,
@@ -20,7 +19,7 @@ import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import { CloseIcon, LinkIcon } from '@chakra-ui/icons';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
-import { BsChat, BsBookmark, BsEyeSlash, BsPencil, BsFlag } from 'react-icons/bs';
+import { BsChat, BsBookmark, BsEyeSlash, BsPencil } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { FiMoreHorizontal, FiShare, FiBell } from 'react-icons/fi';
@@ -57,6 +56,7 @@ function PostDetail() {
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
+  const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const borderColor = useColorModeValue('#ccc', '#343536');
   const borderColor2 = useColorModeValue('#d3d6da', '#545452');
@@ -647,13 +647,25 @@ function PostDetail() {
                                 >
                                   •
                                 </Text>
-                                <Text as="span" marginRight="3px">
+                                <Text color={misCol} as="span" marginRight="3px">
                                   Posted By
                                 </Text>
 
-                                <Link marginRight="3px">{getUserName(detail?.author)}</Link>
+                                <Link
+                                  fontWeight="400"
+                                  mr="3px"
+                                  textDecor="none"
+                                  fontSize="12px"
+                                  lineHeight="16px"
+                                  color={misCol}
+                                  marginRight="3px"
+                                >
+                                  {getUserName(detail?.author)}
+                                </Link>
 
-                                <Link>{dateToNow(parseInt(detail?.timestamp * 1000))} ago</Link>
+                                <Link color={misCol}>
+                                  {dateToNow(parseInt(detail?.timestamp * 1000))} ago
+                                </Link>
                               </Box>
                               <Icon
                                 sx={{
@@ -671,7 +683,7 @@ function PostDetail() {
                           </Flex>
                           {/* post Title */}
                           <Flex margin="0 8px" display="flex" alignItems="center">
-                            <Heading
+                            <Text
                               color={titleColor}
                               fontSize="18px"
                               fontWeight="500"
@@ -691,7 +703,7 @@ function PostDetail() {
                                   {detail?.flair.text}
                                 </Tag>
                               )}
-                            </Heading>
+                            </Text>
                           </Flex>
                           {/* post Body */}
                           {edit ? (
@@ -836,6 +848,7 @@ function PostDetail() {
                             paddingRight="10px"
                             overflowY="visible"
                             mb="2px"
+                            color={iconColor}
                           >
                             <Flex
                               flexDirection="row"
@@ -1035,24 +1048,6 @@ function PostDetail() {
                                     <Icon as={BsEyeSlash} height={5} width={5} mr="5px" />
                                     <Box>Block Author</Box>
                                   </Link>
-                                  <Link
-                                    display="flex"
-                                    alignItems="center"
-                                    borderRadius="2px"
-                                    padding="8px"
-                                    marginRight="4px"
-                                    _hover={{
-                                      textDecor: 'none',
-                                      outline: 'none',
-                                      bg: bottomButtonHover,
-                                    }}
-                                    _focus={{
-                                      boxShadow: 'none',
-                                    }}
-                                  >
-                                    <Icon as={BsFlag} height={5} width={5} mr="5px" />
-                                    <Box>Report</Box>
-                                  </Link>
                                 </>
                               )}
                             </Flex>
@@ -1236,7 +1231,7 @@ function PostDetail() {
                       <Box maxW="100%" bg={bg} mt="10px" padding="10px">
                         <Box padding="24px 40px">
                           <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                            Comment As {getUserName(profile?.author)}
+                            Comment as {getUserName(profile?.author)}
                           </Box>
                           <Box
                             borderRadius="4px"

@@ -358,7 +358,7 @@ const ClassicPost = ({
                           textDecoration="none"
                           mr="5px"
                         >
-                          {`p/${getSubName(subPlebbit)}`}
+                          {getSubName(subPlebbit)}
                         </Link>
                         <Text color={misCol} flex="0 0 auto" mr="3px">
                           Posted by
@@ -762,7 +762,7 @@ const ClassicPost = ({
                             badge
                             isOnline={isOnline}
                           />
-                          <Skeleton isLoaded={!loading}>{`p/${getSubName(subPlebbit)}`}</Skeleton>
+                          <Skeleton isLoaded={!loading}>{getSubName(subPlebbit)}</Skeleton>
                         </Flex>
                         <Box
                           mx="4px"

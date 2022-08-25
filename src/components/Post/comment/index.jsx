@@ -16,7 +16,7 @@ import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { BsChat } from 'react-icons/bs';
 import Editor from '../../Editor';
 import Marked from '../../Editor/marked';
-import { dateToNow } from '../../../utils/formatDate';
+import dateToNow from '../../../utils/formatDate';
 import numFormatter from '../../../utils/numberFormater';
 import getUserName from '../../../utils/getUserName';
 import logger from '../../../utils/logger';
@@ -150,7 +150,9 @@ const Comment = ({ comment, parentCid }) => {
             >
               •
             </Box>
-            <Box>{dateToNow(comment?.timestamp * 1000)} ago</Box>
+            <Box color={iconColor}>
+              <i> {dateToNow(comment?.timestamp * 1000)}</i>
+            </Box>
           </Flex>
           {comment?.flair?.text && (
             <Box
@@ -170,7 +172,7 @@ const Comment = ({ comment, parentCid }) => {
         <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>
           <Marked content={comment?.content} />
         </Box>
-        <Flex>
+        <Flex color={iconColor}>
           <Flex
             alignItems="center"
             maxH=""
@@ -302,7 +304,7 @@ const Comment = ({ comment, parentCid }) => {
               Share
             </Text>
           </Link>
-          <Link
+          {/* <Link
             display="flex"
             alignItems="center"
             borderRadius="2px"
@@ -326,7 +328,7 @@ const Comment = ({ comment, parentCid }) => {
             <Text fontSize="12px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
               Report
             </Text>
-          </Link>
+          </Link> */}
           <Link
             display="flex"
             alignItems="center"
@@ -352,7 +354,7 @@ const Comment = ({ comment, parentCid }) => {
               Save
             </Text>
           </Link>
-          <Link
+          {/* <Link
             display="flex"
             alignItems="center"
             borderRadius="2px"
@@ -376,7 +378,7 @@ const Comment = ({ comment, parentCid }) => {
             <Text fontSize="12px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
               Follow
             </Text>
-          </Link>
+          </Link> */}
         </Flex>
         {reply ? (
           <Box
