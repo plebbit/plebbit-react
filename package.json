@@ -61,7 +61,8 @@
     "electron:build:mac": "electron-builder build --publish never -m",
     "electron:download-ipfs": "node electron/downloadIpfs",
     "android:build:icons": "cordova-res android --skip-config --copy --resources /tmp/plebbit-react-android-icons --icon-source ./android/icons/icon.png --splash-source ./android/icons/splash.png --icon-foreground-source ./android/icons/icon-foreground.png --icon-background-source '#ffffff'",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "eslintConfig": {
     "extends": [
