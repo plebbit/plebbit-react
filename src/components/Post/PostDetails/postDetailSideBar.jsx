@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, Flex, Image, useColorModeValue, Icon } from '@chakra-ui/react';
+import { Box, Text, Flex, useColorModeValue, Icon } from '@chakra-ui/react';
 import { BiCake } from 'react-icons/bi';
 import Button from '../../Button';
 import BottomSideBar from '../../sidebar/bottomSideBar';
