@@ -1236,7 +1236,7 @@ function PostDetail() {
                       <Box maxW="100%" bg={bg} mt="10px" padding="10px">
                         <Box padding="24px 40px">
                           <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                            Comment As {getUserName(profile?.author)}
+                            Comment as {getUserName(profile?.author)}
                           </Box>
                           <Box
                             borderRadius="4px"
