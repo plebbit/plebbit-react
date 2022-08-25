@@ -12,8 +12,8 @@ const getLargeAvatarBadgeProps = (avatarWidth) => {
   // badge width without border is 1/3 of avatar width
   const badgeWidthWithoutBorder = divide(avatarWidth, 3);
   const badgeBorderWidth = divide(badgeWidth - badgeWidthWithoutBorder, 2);
-  // very small bottom position otherwise badge is too far from avatar
-  const badgeBottom = divide(avatarWidth, 100);
+  // 2 is arbitrary number that seems to align with the border of the circle
+  const badgeBottom = 2;
   return { badgeBorderWidth, badgeWidth, badgeBottom };
 };
 
@@ -38,6 +38,7 @@ const getAvatarBadgeProps = (avatarWidth) => {
 const Avatar = (props) => {
   const { badge, avatar, width, height, isOnline, bg } = props;
   const { badgeBorderWidth, badgeWidth, badgeBottom } = getAvatarBadgeProps(width);
+  console.log({ avatarWidth: width, badgeBorderWidth, badgeWidth, badgeBottom });
 
   return (
     <>
