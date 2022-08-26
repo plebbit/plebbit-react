@@ -191,7 +191,6 @@ const NavBar = ({ location }) => {
                                   bg: '#DEEBFF',
                                 }}
                                 padding="8px 12px"
-                                textTransform="capitalize"
                                 fontWeight="400"
                                 fontSize="14px"
                                 borderBottom={`1px solid ${navBorder}`}
@@ -255,7 +254,6 @@ const NavBar = ({ location }) => {
                                 bg: '#DEEBFF',
                               }}
                               padding="8px 12px"
-                              textTransform="capitalize"
                               fontWeight="400"
                               fontSize="14px"
                               borderBottom={`1px solid ${navBorder}`}

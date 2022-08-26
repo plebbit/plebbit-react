@@ -372,7 +372,7 @@ const ClassicPost = ({
                                 textDecoration: 'underline',
                               }}
                               color={misCol}
-                              fontWeight="700"
+                              fontWeight="400"
                               mr="3px"
                               textDecor="none"
                               fontSize="12px"
