@@ -1,4 +1,4 @@
-import { Box, useToast } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 import React from 'react';
 import Infs from 'react-infinite-scroll-component';
 
@@ -34,13 +34,7 @@ const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
           <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
         }
       >
-        {feeds?.length ? (
-          feeds?.map((feed) => content(feed))
-        ) : (
-          <Box textAlign="center" padding="20px">
-            No feeds available
-          </Box>
-        )}
+        {feeds?.map((feed) => content(feed))}
       </Infs>
     </>
   );

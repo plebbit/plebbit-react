@@ -31,7 +31,7 @@ export const getSubName = (sub) => {
   }
   username += 'p/';
   if (sub?.address?.includes('.')) {
-    username += sub?.address;
+    username += sub?.address ? sub?.address : '';
   } else {
     username += sub?.address?.substring(0, 14);
   }

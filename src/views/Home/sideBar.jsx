@@ -41,7 +41,6 @@ const SideBar = ({
   const Bg = useColorModeValue('#F8F9FA', '');
   const subplebbits = useSubplebbits(subPlebbitData?.map((x) => x?.address));
   const history = useHistory();
-  console.log(subplebbits);
 
   return (
     <Box

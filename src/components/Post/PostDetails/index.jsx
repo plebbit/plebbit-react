@@ -634,7 +634,7 @@ function PostDetail() {
                                       history.push(`/p/${detail?.subplebbitAddress}`, [])
                                     }
                                   >
-                                    p/{getSubName(subplebbit)}
+                                    {getSubName(subplebbit)}
                                   </Box>
                                 </Box>
                                 <Text

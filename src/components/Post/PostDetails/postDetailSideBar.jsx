@@ -90,7 +90,7 @@ const PostDetailSideBar = ({
             />
 
             <Box fontSize="16px" fontWeight="500" lineHeight="20px" text-overflow="ellipsis">
-              p/{getSubName(subPlebbit)}
+              {getSubName(subPlebbit)}
             </Box>
           </Flex>
           <Box marginBottom="8px" position="relative" padding="12px">
