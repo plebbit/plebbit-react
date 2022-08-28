@@ -15,7 +15,6 @@ const CreatePostBar = (address) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const { authorAvatarImageUrl } = useContext(ProfileContext);
 
-  console.log('address', address);
   let route = '/submit';
   if (address?.address) {
     route = `/p/${address.address}/submit`;
