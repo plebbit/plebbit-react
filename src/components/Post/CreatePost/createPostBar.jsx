@@ -5,7 +5,7 @@ import { LinkIcon } from '@chakra-ui/icons';
 import { ProfileContext } from '../../../store/profileContext';
 import Avatar from '../../Avatar';
 
-const CreatePostBar = () => {
+const CreatePostBar = (address) => {
   const history = useHistory();
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -15,6 +15,11 @@ const CreatePostBar = () => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const { authorAvatarImageUrl } = useContext(ProfileContext);
 
+  console.log('address', address);
+  let route = '/submit';
+  if (address?.address) {
+    route = `/p/${address.address}/submit`;
+  }
   return (
     <Flex bg={mainBg} borderRadius="4px" border={`1px solid ${border1}`} mb="16px" padding="8px">
       <Box
@@ -31,7 +36,7 @@ const CreatePostBar = () => {
         </Box>
       </Box>
       <Input
-        onClick={() => history.push('/submit')}
+        onClick={() => history.push(route)}
         placeholder="Create Post"
         bg={inputBg}
         border={`1px solid ${border2}`}
@@ -64,7 +69,7 @@ const CreatePostBar = () => {
         justifyContent="center"
         alignItems="center"
         width="auto"
-        onClick={() => history.push('/submit')}
+        onClick={() => history.push(route)}
       >
         <LinkIcon height="20px" width="20px" />
       </Box>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   Flex,
   Box,
@@ -28,6 +28,8 @@ import Avatar from '../../Avatar';
 import { getSubName } from '../../../utils/getUserName';
 
 const CreatePost = () => {
+  console.log('route', window.location.href);
+
   const { accountSubplebbits, subscriptions, subPlebbitDefData } = useContext(ProfileContext);
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const borderColor = useColorModeValue('borderLight', 'borderDark');
@@ -36,7 +38,7 @@ const CreatePost = () => {
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
-  const [address, setAddress] = useState(null);
+
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [mode, setMode] = useState('post');
   const [spoiler, setSpoiler] = useState(false);
@@ -57,7 +59,22 @@ const CreatePost = () => {
 
   const { publishComment } = useAccountsActions();
   const location = useLocation();
-
+  console.log('pathname', location?.pathname);
+  console.log('addressz', location?.pathname.match(/p\/(.*)\/submit/)[1]);
+  const options = [
+    ...mySubplebbits,
+    ...subs,
+    subPlebbitDefData.map((x) => ({
+      ...x,
+      label: getSubName(x),
+      value: x?.address,
+    })),
+  ].flat();
+  console.log('options', options);
+  const potentialSubPlebbitAddress = location?.pathname.match(/p\/(.*)\/submit/)[1];
+  const [address, setAddress] = useState(
+    options.find((x) => x.address === potentialSubPlebbitAddress)
+  );
   const onChallengeVerification = (challengeVerification, comment) => {
     // if the challengeVerification fails, a new challenge request will be sent automatically
     // to break the loop, the user must decline to send a challenge answer
@@ -130,6 +147,10 @@ const CreatePost = () => {
     }
   };
 
+  useEffect(() => {
+    console.log('address useEffect', address);
+  }, [address]);
+
   return (
     <Layout name={{ label: 'Create Post', value: location?.pathname }}>
       <Flex maxWidth="100%" justifyContent="center" margin="0 auto !important" height="100vh">
@@ -178,15 +199,7 @@ const CreatePost = () => {
                 zIndex="2"
               >
                 <DropDown2
-                  options={[
-                    ...mySubplebbits,
-                    ...subs,
-                    subPlebbitDefData.map((x) => ({
-                      ...x,
-                      label: getSubName(x),
-                      value: x?.address,
-                    })),
-                  ].flat()}
+                  options={options}
                   onChange={(value) => setAddress(value)}
                   value={address}
                   render={(data) => (
