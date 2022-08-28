@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Flex,
   Box,
@@ -28,8 +28,6 @@ import Avatar from '../../Avatar';
 import { getSubName } from '../../../utils/getUserName';
 
 const CreatePost = () => {
-  console.log('route', window.location.href);
-
   const { accountSubplebbits, subscriptions, subPlebbitDefData } = useContext(ProfileContext);
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const borderColor = useColorModeValue('borderLight', 'borderDark');
@@ -59,8 +57,6 @@ const CreatePost = () => {
 
   const { publishComment } = useAccountsActions();
   const location = useLocation();
-  console.log('pathname', location?.pathname);
-  console.log('addressz', location?.pathname.match(/p\/(.*)\/submit/)[1]);
   const options = [
     ...mySubplebbits,
     ...subs,
@@ -70,8 +66,13 @@ const CreatePost = () => {
       value: x?.address,
     })),
   ].flat();
-  console.log('options', options);
-  const potentialSubPlebbitAddress = location?.pathname.match(/p\/(.*)\/submit/)[1];
+  let potentialSubPlebbitAddress = null;
+  if (location?.pathname) {
+    const matches = location?.pathname.match(/p\/(.*)\/submit/);
+    if (matches?.length > 1) {
+      potentialSubPlebbitAddress = matches[1];
+    }
+  }
   const [address, setAddress] = useState(
     options.find((x) => x.address === potentialSubPlebbitAddress)
   );
@@ -146,10 +147,6 @@ const CreatePost = () => {
       });
     }
   };
-
-  useEffect(() => {
-    console.log('address useEffect', address);
-  }, [address]);
 
   return (
     <Layout name={{ label: 'Create Post', value: location?.pathname }}>
