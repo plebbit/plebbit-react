@@ -313,7 +313,7 @@ const SubPlebbit = ({ match }) => {
               <Flex maxW="100%" padding="20px 24px" justifyContent="center" margin="0 auto">
                 <Box width={postStyle === 'card' ? '640px' : '100%'} minWidth="0">
                   {/* Create Post Bar */}
-                  <CreatePostBar />
+                  <CreatePostBar address={subPlebbit?.address} />
                   {/* feed sort bar */}
                   <FeedSort />
                   {/* feed list */}
