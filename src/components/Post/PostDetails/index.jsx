@@ -40,6 +40,7 @@ import Layout from '../../layout';
 import Marked from '../../Editor/marked';
 import getIsOnline from '../../../utils/getIsOnline';
 import Avatar from '../../Avatar';
+import onError from '../../../utils/onError';
 
 function PostDetail() {
   const detail = useComment(
@@ -101,22 +102,37 @@ function PostDetail() {
     }
   };
 
-  const onChallengeVerification = (challengeVerification, comment) => {
-    // if the challengeVerification fails, a new challenge request will be sent automatically
-    // to break the loop, the user must decline to send a challenge answer
-    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
-    toast({
-      title: 'Accepted.',
-      description: 'Action accepted',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
-    setContent('');
-    setEdit(false);
-    setEditorState(EditorState.createEmpty());
-    console.log('challenge verified', challengeVerification, comment);
+  const onChallengeVerification = (challengeVerification) => {
+    if (challengeVerification.challengeSuccess === true) {
+      toast({
+        title: 'Accepted.',
+        description: 'Action accepted',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      setContent('');
+      setEdit(false);
+      setEditorState(EditorState.createEmpty());
+      console.log('challenge success', { publishedCid: challengeVerification.publication.cid });
+    } else if (challengeVerification.challengeSuccess === false) {
+      console.error('challenge failed', {
+        reason: challengeVerification.reason,
+        errors: challengeVerification.errors,
+      });
+      toast({
+        title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
+        description: challengeVerification.errors
+          ? challengeVerification.errors.join(',')
+          : 'Challenge Verification Failed',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      setEdit(false);
+    }
   };
+
   const onChallenge = async (challenges, comment) => {
     let challengeAnswers = [];
 
@@ -149,6 +165,7 @@ function PostDetail() {
         subplebbitAddress: detail?.subplebbitAddress,
         onChallenge,
         onChallengeVerification,
+        onError,
       });
     } catch (error) {
       logger('post:detail:voting:', error);
@@ -172,6 +189,7 @@ function PostDetail() {
         subplebbitAddress: detail?.subplebbitAddress,
         onChallenge,
         onChallengeVerification,
+        onError,
       });
     } catch (error) {
       console.log(error);
@@ -195,6 +213,7 @@ function PostDetail() {
         subplebbitAddress: address,
         onChallenge,
         onChallengeVerification,
+        onError: onError,
       });
       setEditLoading(false);
     } catch (error) {
@@ -217,6 +236,7 @@ function PostDetail() {
         subplebbitAddress: address,
         onChallenge,
         onChallengeVerification,
+        onError: onError,
       });
       setEditLoading(false);
     } catch (error) {

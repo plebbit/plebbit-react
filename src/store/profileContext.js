@@ -122,7 +122,7 @@ export const ProfileDataProvider = (props) => {
         createAccount,
         accountSubplebbits,
         version,
-        subscriptions,
+        subscriptions: subscriptions?.filter((x) => x !== undefined),
         postView,
         setPostView,
         authorAvatarImageUrl,

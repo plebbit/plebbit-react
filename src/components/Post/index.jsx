@@ -13,6 +13,7 @@ import CompactPost from './CompactPost';
 import logger from '../../utils/logger';
 import { ProfileContext } from '../../store/profileContext';
 import getIsOnline from '../../utils/getIsOnline';
+import onError from '../../utils/onError';
 
 const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const vote = post?.upvoteCount - post?.downvoteCount;
@@ -42,6 +43,31 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
     // if the challengeVerification fails, a new challenge request will be sent automatically
     // to break the loop, the user must decline to send a challenge answer
     // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
+    if (challengeVerification.challengeSuccess === true) {
+      toast({
+        title: 'Accepted.',
+        description: 'Action accepted',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      console.log('challenge success', { publishedCid: challengeVerification.publication.cid });
+    } else if (challengeVerification.challengeSuccess === false) {
+      console.error('challenge failed', {
+        reason: challengeVerification.reason,
+        errors: challengeVerification.errors,
+      });
+      toast({
+        title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
+        description: challengeVerification.errors
+          ? challengeVerification.errors.join(',')
+          : 'Challenge Verification Failed',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+
     toast({
       title: 'Accepted.',
       description: 'Action accepted',
@@ -60,7 +86,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      logger('post:challeng', error);
+      logger('vote:challeng', error);
       toast({
         title: 'Challenge Declined.',
         description: error?.message,
@@ -92,6 +118,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
         subplebbitAddress: post?.subplebbitAddress,
         onChallenge,
         onChallengeVerification,
+        onError: onError,
       });
     } catch (error) {
       toast({

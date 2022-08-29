@@ -66,7 +66,6 @@ const CardPost = ({
   const history = useHistory();
 
   const { device, profile } = useContext(ProfileContext);
-  console.log(post);
   return (
     <>
       {device !== 'mobile' ? (

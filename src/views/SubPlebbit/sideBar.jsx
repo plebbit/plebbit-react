@@ -66,8 +66,6 @@ const SideBar = ({
   const [showComOptions, hideComOptions] = useState(false);
   const history = useHistory();
 
-  console.log(subPlebbit);
-
   return (
     <Box
       marginLeft={ml || '24px'}
