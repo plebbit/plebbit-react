@@ -80,6 +80,7 @@ const CardPost = ({
           bg={postTransBg}
           color={iconColor}
           position="relative"
+          _hover={{ border: '1px solid #898989' }}
         >
           {/* Vote Bar */}
           <Flex
