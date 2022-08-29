@@ -22,6 +22,7 @@ import getUserName from '../../../utils/getUserName';
 import logger from '../../../utils/logger';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 import Avatar from '../../Avatar';
+import onError from '../../../utils/onError';
 
 const Comment = ({ comment, parentCid }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -37,22 +38,37 @@ const Comment = ({ comment, parentCid }) => {
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(comment.author);
   const [loader, setLoader] = useState(false);
 
-  const onChallengeVerification = (challengeVerification, comment) => {
-    // if the challengeVerification fails, a new challenge request will be sent automatically
-    // to break the loop, the user must decline to send a challenge answer
-    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
-    toast({
-      title: 'Accepted.',
-      description: 'Action accepted',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
-    setContent('');
-    setEditorState(EditorState.createEmpty());
-    setLoader(false);
-    logger('challenge verified', challengeVerification, comment);
+  const onChallengeVerification = (challengeVerification) => {
+    if (challengeVerification.challengeSuccess === true) {
+      toast({
+        title: 'Accepted.',
+        description: 'Action accepted',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      setContent('');
+      setEditorState(EditorState.createEmpty());
+      setLoader(false);
+      console.log('challenge success', { publishedCid: challengeVerification.publication.cid });
+    } else if (challengeVerification.challengeSuccess === false) {
+      console.error('challenge failed', {
+        reason: challengeVerification.reason,
+        errors: challengeVerification.errors,
+      });
+      toast({
+        title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
+        description: challengeVerification.errors
+          ? challengeVerification.errors.join(',')
+          : 'Challenge Verification Failed',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      setLoader(false);
+    }
   };
+
   const onChallenge = async (challenges, comment) => {
     let challengeAnswers = [];
 
@@ -86,6 +102,7 @@ const Comment = ({ comment, parentCid }) => {
         subplebbitAddress: comment?.subplebbitAddress,
         onChallenge,
         onChallengeVerification,
+        onError: onError,
       });
     } catch (error) {
       console.log(error);
@@ -108,6 +125,7 @@ const Comment = ({ comment, parentCid }) => {
         subplebbitAddress: comment?.subplebbitAddress,
         onChallenge,
         onChallengeVerification,
+        onError: onError,
       });
     } catch (error) {
       logger('create:comment:response', error);

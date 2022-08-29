@@ -12,6 +12,8 @@ const getChallengeAnswersFromUser = async (challenges) => {
   if (value) {
     logger('getChallenge answer', value);
     return value;
+  } else {
+    return false;
   }
 };
 

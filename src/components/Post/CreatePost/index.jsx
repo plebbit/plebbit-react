@@ -26,6 +26,7 @@ import Layout from '../../layout';
 import getIsOnline from '../../../utils/getIsOnline';
 import Avatar from '../../Avatar';
 import { getSubName } from '../../../utils/getUserName';
+import onError from '../../../utils/onError';
 
 const CreatePost = () => {
   const { accountSubplebbits, subscriptions, subPlebbitDefData } = useContext(ProfileContext);
@@ -76,27 +77,9 @@ const CreatePost = () => {
   const [address, setAddress] = useState(
     options.find((x) => x.address === potentialSubPlebbitAddress)
   );
-  const onChallengeVerification = (challengeVerification, comment) => {
-    // if the challengeVerification fails, a new challenge request will be sent automatically
-    // to break the loop, the user must decline to send a challenge answer
-    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
-    toast({
-      title: 'Accepted.',
-      description: 'Action accepted',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
-    setLoading(false);
-    setAddress(null);
-    setTitle('');
-    setContent('');
-    setEditorState(EditorState.createEmpty());
-    logger('create post challenge verified', { challengeVerification, comment });
-  };
+
   const onChallenge = async (challenges, comment) => {
     let challengeAnswers = [];
-
     try {
       // ask the user to complete the challenges in a modal window
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
@@ -108,16 +91,49 @@ const CreatePost = () => {
         title: 'Declined.',
         description: error?.message,
         status: 'error',
-        duration: 5000,
+        duration: 10000,
         isClosable: true,
       });
+      setLoading(false);
     }
-
     logger('challengeAndcomment', { challengeAnswers, comment });
     if (challengeAnswers) {
       history.push(`/p/${address?.value}`);
       const res = await comment.publishChallengeAnswers(challengeAnswers);
       logger('publish_challenge_answer', res);
+    }
+  };
+
+  const onChallengeVerification = (challengeVerification) => {
+    if (challengeVerification.challengeSuccess === true) {
+      toast({
+        title: 'Accepted.',
+        description: 'Action accepted',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      setLoading(false);
+      setAddress(null);
+      setTitle('');
+      setContent('');
+      setEditorState(EditorState.createEmpty());
+      console.log('challenge success', { publishedCid: challengeVerification.publication.cid });
+    } else if (challengeVerification.challengeSuccess === false) {
+      console.error('challenge failed', {
+        reason: challengeVerification.reason,
+        errors: challengeVerification.errors,
+      });
+      toast({
+        title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
+        description: challengeVerification.errors
+          ? challengeVerification.errors.join(',')
+          : 'Challenge Verification Failed',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      setLoading(false);
     }
   };
 
@@ -132,6 +148,7 @@ const CreatePost = () => {
         subplebbitAddress: address?.value,
         onChallenge,
         onChallengeVerification,
+        onError: onError,
       });
       logger('create-post', res);
     } catch (error) {

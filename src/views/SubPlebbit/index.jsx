@@ -16,6 +16,7 @@ import getIsOnline from '../../utils/getIsOnline';
 import Avatar from '../../components/Avatar';
 import { PlebLogo } from '../../components/svgs';
 import { getAddress } from '../../utils/getUserName';
+import onError from '../../utils/onError';
 
 const SubPlebbit = ({ match }) => {
   const { postStyle, feedSort, profile, subscriptions, device, accountSubplebbits } =
@@ -45,19 +46,32 @@ const SubPlebbit = ({ match }) => {
     setData({ ...subPlebbit });
   }, [subPlebbit]);
 
-  const onChallengeVerification = (challengeVerification, subplebbitEdit) => {
-    // if the challengeVerification fails, a new challenge request will be sent automatically
-    // to break the loop, the user must decline to send a challenge answer
-    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
-    toast({
-      title: 'Accepted.',
-      description: 'Action accepted',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
-    setLoading(false);
-    console.log('challenge verified', challengeVerification, subplebbitEdit);
+  const onChallengeVerification = (challengeVerification) => {
+    if (challengeVerification.challengeSuccess === true) {
+      toast({
+        title: 'Accepted.',
+        description: 'Action accepted',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+
+      console.log('challenge success', { publishedCid: challengeVerification.publication.cid });
+    } else if (challengeVerification.challengeSuccess === false) {
+      console.error('challenge failed', {
+        reason: challengeVerification.reason,
+        errors: challengeVerification.errors,
+      });
+      toast({
+        title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
+        description: challengeVerification.errors
+          ? challengeVerification.errors.join(',')
+          : 'Challenge Verification Failed',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   const onChallenge = async (challenges, subplebbitEdit) => {
@@ -137,6 +151,7 @@ const SubPlebbit = ({ match }) => {
         ...data,
         onChallenge,
         onChallengeVerification,
+        onError: onError,
       });
       setLoading(false);
     } catch (error) {
