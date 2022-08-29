@@ -63,6 +63,7 @@ const CompactPost = ({
       bg={postTransBg}
       position="relative"
       border={`thin solid transparent`}
+      _hover={{ border: '1px solid #898989' }}
     >
       <Flex alignItems="normal">
         {/* vote Bar */}

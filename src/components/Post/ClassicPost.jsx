@@ -83,6 +83,7 @@ const ClassicPost = ({
           border={`thin solid ${border1}`}
           zIndex="0"
           bg={postTransBg}
+          _hover={{ border: '1px solid #898989' }}
         >
           {/* Vote Bar */}
           <Skeleton isLoaded={!loading}>
