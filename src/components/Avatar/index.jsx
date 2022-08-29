@@ -38,7 +38,6 @@ const getAvatarBadgeProps = (avatarWidth) => {
 const Avatar = (props) => {
   const { badge, avatar, width, height, isOnline, bg } = props;
   const { badgeBorderWidth, badgeWidth, badgeBottom } = getAvatarBadgeProps(width);
-  console.log({ avatarWidth: width, badgeBorderWidth, badgeWidth, badgeBottom });
 
   return (
     <>

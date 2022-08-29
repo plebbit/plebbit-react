@@ -61,7 +61,7 @@ const ClassicPost = ({
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   // const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const shadow = useColorModeValue('lightShadow', 'darkShadow2');
-  // const statusColor = useColorModeValue('lightVoteText', 'fff');
+  const statusColor = useColorModeValue('lightVoteText', 'fff');
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mobileMainColor = useColorModeValue('lightMobileText', 'darkMobileText');
   const mainMobileBg = useColorModeValue('white', 'black');
@@ -383,23 +383,25 @@ const ClassicPost = ({
                           </Box>
                         </Box>
                         {/* status */}
-                        {/* <Box display="inline" verticalAlign="text-top">
-                          <Text
-                            bg={statusBg}
-                            color={statusColor}
-                            fontSize="12px"
-                            fontWeight="500"
-                            lineHeight="16px"
-                            borderRadius="2px"
-                            display="inline-block"
-                            mr="5px"
-                            overflow="hidden"
-                            isTruncated
-                            padding="0 4px"
-                          >
-                            texting Text
-                          </Text>
-                        </Box> */}
+                        {post?.author?.flair && (
+                          <Box display="inline" verticalAlign="text-top">
+                            <Text
+                              bg={post?.author?.flair?.backgroundColor}
+                              color={statusColor}
+                              fontSize="12px"
+                              fontWeight="500"
+                              lineHeight="16px"
+                              borderRadius="2px"
+                              display="inline-block"
+                              mr="5px"
+                              overflow="hidden"
+                              isTruncated
+                              padding="0 4px"
+                            >
+                              {post?.author?.flair?.text}
+                            </Text>
+                          </Box>
+                        )}
                         {/* tips */}
                         {/* date/time */}
                         <Tooltip
