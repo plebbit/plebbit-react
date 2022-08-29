@@ -133,7 +133,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
 
   return (
     <Box>
-      <Box>
+      <Box className="card-post-wrapper">
         {/* card */}
         {mode === 'card' && (
           <CardPost

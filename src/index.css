@@ -196,3 +196,7 @@ body {
 .swal2-container {
   z-index: 2000 !important;
 }
+
+.card-post-wrapper:first-child > div:hover {
+  border: 1px solid #666161;
+}
