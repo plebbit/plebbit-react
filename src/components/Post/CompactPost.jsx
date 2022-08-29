@@ -49,6 +49,7 @@ const CompactPost = ({
   const voteColor = useColorModeValue('lightVoteText', 'darkVoteTest');
   const iconBg = useColorModeValue('lightIconBg', 'darkIconBg');
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
+  const statusColor = useColorModeValue('lightVoteText', 'fff');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const history = useHistory();
 
@@ -403,6 +404,25 @@ const CompactPost = ({
                           </Link>
                         </Box>
                       </Box>
+                      {post?.author?.flair && (
+                        <Box display="inline" verticalAlign="text-top">
+                          <Text
+                            bg={post?.author?.flair?.backgroundColor}
+                            color={statusColor}
+                            fontSize="12px"
+                            fontWeight="500"
+                            lineHeight="16px"
+                            borderRadius="2px"
+                            display="inline-block"
+                            mr="5px"
+                            overflow="hidden"
+                            isTruncated
+                            padding="0 4px"
+                          >
+                            {post?.author?.flair?.text}
+                          </Text>
+                        </Box>
+                      )}
                       {/* date/time */}
                       <Tooltip
                         fontSize="10px"

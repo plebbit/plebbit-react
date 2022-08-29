@@ -4,7 +4,7 @@ import { BsCamera } from 'react-icons/bs';
 import { AiOutlineSetting } from 'react-icons/ai';
 import { SiInformatica } from 'react-icons/si';
 import { RiTShirtFill } from 'react-icons/ri';
-import { GiMoebiusStar, GiCakeSlice } from 'react-icons/gi';
+import { GiMoebiusStar } from 'react-icons/gi';
 import Button from '../../components/Button';
 import numFormatter from '../../utils/numberFormater';
 import { useHistory } from 'react-router-dom';
@@ -94,13 +94,14 @@ const SideBar = ({
                 </Flex>
               </Box>
             </Box>
-            <Box height="160px" width="125px" textAlign="center" position="relative" margin="auto">
+            <Box height="160px" width="160px" textAlign="center" position="relative" margin="auto">
               <Image
                 fallbackSrc={require('../../assets/images/fallback.png')}
-                height="160px"
                 position="relative"
                 zIndex="1"
                 src={avatar}
+                width="100%"
+                height="100%"
               />
             </Box>
             <Box padding="4px" position="absolute" right="12px" mt="-76px">
@@ -132,7 +133,7 @@ const SideBar = ({
               color="#7c7c7c"
               my="4px"
             >
-              {`p/${profile?.author?.address}`} · 9m
+              {`u/${profile?.author?.address}`}
             </Box>
             <Button
               width="100%"
@@ -158,7 +159,7 @@ const SideBar = ({
               }
             />
             <Flex flexWrap="wrap">
-              <Flex cursor="default" flex="1 1 50%" mb="12px" flexDir="column">
+              <Flex cursor="default" flex="1 1 50%" mb="12px">
                 <Box fontSize="14px" fontWeight="500" lineHeight="18px">
                   Karma
                 </Box>
@@ -169,7 +170,7 @@ const SideBar = ({
                   </Box>
                 </Flex>
               </Flex>
-              <Flex cursor="default" flex="1 1 50%" mb="12px" flexDir="column">
+              {/* <Flex cursor="default" flex="1 1 50%" mb="12px" flexDir="column">
                 <Box fontSize="14px" fontWeight="500" lineHeight="18px">
                   Cake Day
                 </Box>
@@ -179,7 +180,7 @@ const SideBar = ({
                     June 29, 2021
                   </Box>
                 </Flex>
-              </Flex>
+              </Flex> */}
             </Flex>
             <Button
               content="New Post"

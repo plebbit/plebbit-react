@@ -48,7 +48,7 @@ const Home = () => {
             </Box>
           </Box>
 
-          <SideBar bg={bg} />
+          <SideBar bg={bg} width="312px" />
         </Flex>
       ) : (
         <Box bg={mainMobileBg}>
