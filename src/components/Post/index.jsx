@@ -110,9 +110,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
     }
   };
 
-  const handleVote = (vote) => {
+  const handleVote = async (vote) => {
     try {
-      publishVote({
+      await publishVote({
         vote,
         commentCid: post?.cid,
         subplebbitAddress: post?.subplebbitAddress,

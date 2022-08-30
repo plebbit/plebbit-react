@@ -159,9 +159,9 @@ function PostDetail() {
     }
   };
 
-  const handleVote = (vote) => {
+  const handleVote = async (vote) => {
     try {
-      publishVote({
+      await publishVote({
         vote,
         commentCid: detail?.cid,
         subplebbitAddress: detail?.subplebbitAddress,
