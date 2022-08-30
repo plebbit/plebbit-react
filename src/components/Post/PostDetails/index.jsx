@@ -57,6 +57,8 @@ function PostDetail() {
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
+  const statusColor = useColorModeValue('lightVoteText', 'fff');
+  const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const borderColor = useColorModeValue('#ccc', '#343536');
@@ -682,7 +684,25 @@ function PostDetail() {
                                 >
                                   {getUserName(detail?.author)}
                                 </Link>
-
+                                {detail?.author?.flair && (
+                                  <Box display="inline" verticalAlign="text-top">
+                                    <Text
+                                      bg={statusBg}
+                                      color={statusColor}
+                                      fontSize="12px"
+                                      fontWeight="500"
+                                      lineHeight="16px"
+                                      borderRadius="2px"
+                                      display="inline-block"
+                                      mr="5px"
+                                      overflow="hidden"
+                                      isTruncated
+                                      padding="0 4px"
+                                    >
+                                      {detail?.author?.flair?.text}
+                                    </Text>
+                                  </Box>
+                                )}
                                 <Link color={misCol}>
                                   {dateToNow(parseInt(detail?.timestamp * 1000))} ago
                                 </Link>

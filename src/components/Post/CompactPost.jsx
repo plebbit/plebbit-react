@@ -50,6 +50,7 @@ const CompactPost = ({
   const iconBg = useColorModeValue('lightIconBg', 'darkIconBg');
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const statusColor = useColorModeValue('lightVoteText', 'fff');
+  const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const history = useHistory();
 
@@ -408,7 +409,7 @@ const CompactPost = ({
                       {post?.author?.flair && (
                         <Box display="inline" verticalAlign="text-top">
                           <Text
-                            bg={post?.author?.flair?.backgroundColor}
+                            bg={statusBg}
                             color={statusColor}
                             fontSize="12px"
                             fontWeight="500"

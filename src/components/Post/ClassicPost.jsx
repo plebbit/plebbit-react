@@ -59,7 +59,7 @@ const ClassicPost = ({
   const voteColor = useColorModeValue('lightVoteText', 'darkVoteTest');
   const iconBg = useColorModeValue('lightIconBg', 'darkIconBg');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
-  // const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
+  const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const shadow = useColorModeValue('lightShadow', 'darkShadow2');
   const statusColor = useColorModeValue('lightVoteText', 'fff');
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -387,7 +387,7 @@ const ClassicPost = ({
                         {post?.author?.flair && (
                           <Box display="inline" verticalAlign="text-top">
                             <Text
-                              bg={post?.author?.flair?.backgroundColor}
+                              bg={statusBg}
                               color={statusColor}
                               fontSize="12px"
                               fontWeight="500"
