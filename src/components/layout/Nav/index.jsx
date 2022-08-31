@@ -180,7 +180,7 @@ const NavBar = ({ location }) => {
                   topMenu={
                     <Box>
                       <Box paddingX="12px" paddingTop="10px" fontSize="10px">
-                        Moderating
+                        {Object.keys(accountSubplebbits)?.length ? 'Moderating' : ''}
                       </Box>
                       {Object.keys(accountSubplebbits)?.length
                         ? Object.keys(accountSubplebbits)?.map((pages, index) => (
