@@ -915,7 +915,9 @@ function PostDetail() {
                                 }}
                               >
                                 <Icon as={BsChat} height={5} width={5} mr="5px" />
-                                <Box>{detail?.replyCount} Comments</Box>
+                                <Box>
+                                  {detail?.replyCount} Comment{detail?.replyCount === 1 ? '' : 's'}
+                                </Box>
                               </Link>
                               <Link
                                 display="flex"
@@ -1466,7 +1468,9 @@ function PostDetail() {
                 >
                   <Box w="100%" lineHeight="1.5" mr="0" maxW="100%" padding="4px 0">
                     <Flex alignItems="center" flexFlow="row nowrap">
-                      <Box>{detail?.replyCount} comments</Box>
+                      <Box>
+                        {detail?.replyCount} comment{detail?.replyCount === 1 ? '' : 's'}
+                      </Box>
                     </Flex>
                   </Box>
                   {!showMEditor && (
