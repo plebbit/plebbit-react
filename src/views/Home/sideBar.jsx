@@ -42,6 +42,8 @@ const SideBar = ({
   const subplebbits = useSubplebbits(subPlebbitData?.map((x) => x?.address));
   const history = useHistory();
 
+  console.log(subplebbits);
+
   return (
     <Box
       marginLeft={ml || '24px'}

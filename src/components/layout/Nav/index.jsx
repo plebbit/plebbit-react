@@ -1,12 +1,9 @@
 import {
   Box,
   Flex,
-  Image,
   useColorModeValue,
   useColorMode,
   Icon,
-  InputGroup,
-  InputLeftElement,
   Input,
   Switch,
   Button,
@@ -46,12 +43,12 @@ import NavItem from './navItem';
 import getIsOnline from '../../../utils/getIsOnline';
 import Avatar from '../../Avatar';
 import { PlebLogo, PlebbitTextLogo } from '../../svgs';
+import NavSearch from './navSearch';
 
 const NavBar = ({ location }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mainColor = useColorModeValue('lightText2', 'darkText1');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
-  const metaColor = useColorModeValue('metaTextLight', 'metaTextDark');
   const iconColor2 = useColorModeValue('lightIcon2', 'darkText1');
   const navBorder = useColorModeValue('#edeff1', '#343536');
   const { colorMode, toggleColorMode } = useColorMode();
@@ -155,7 +152,7 @@ const NavBar = ({ location }) => {
                     location || {},
                     {
                       label: location?.label !== 'Home' ? 'Home' : 'p/All',
-                      value: subPlebbitData?.map((x) => x?.address),
+                      value: subPlebbitData?.map((x) => x?.address)?.filter((x) => x !== undefined),
                     },
                   ]}
                   placeholder="Home"
@@ -172,7 +169,9 @@ const NavBar = ({ location }) => {
                           { label: 'Home', value: homeAdd },
                           {
                             label: location?.label !== 'Home' ? 'Home' : 'p/All',
-                            value: subPlebbitData?.map((x) => x?.address),
+                            value: subPlebbitData
+                              ?.map((x) => x?.address)
+                              ?.filter((x) => x !== undefined),
                           },
                         ].find((x) => x?.value === postView)
                   }
@@ -235,16 +234,20 @@ const NavBar = ({ location }) => {
                         <Box onClick={() => onOpenCreate()}>Create Community</Box>
                       </Flex>
                       {[
-                        subPlebbitData?.map((x) => ({
-                          ...x,
-                          label: x?.title ? x?.title : getSubName(x),
-                          value: x?.address,
-                        })),
-                        subscriptions?.map((x) => ({
-                          ...x,
-                          label: x?.title ? x?.title : getSubName(x),
-                          value: x?.address,
-                        })),
+                        subPlebbitData
+                          ?.map((x) => ({
+                            ...x,
+                            label: x?.title ? x?.title : getSubName(x),
+                            value: x?.address,
+                          }))
+                          ?.filter((x) => x !== undefined),
+                        subscriptions
+                          ?.map((x) => ({
+                            ...x,
+                            label: x?.title ? x?.title : getSubName(x),
+                            value: x?.address,
+                          }))
+                          ?.filter((x) => x !== undefined),
                       ]
                         .flat()
                         ?.map((pages, index) => (
@@ -276,64 +279,8 @@ const NavBar = ({ location }) => {
                   }
                 />
               </Box>
-              <Flex
-                flexGrow={1}
-                marginX="16px"
-                width="auto"
-                height="auto"
-                border="1px solid transparent"
-                borderRadius="4px"
-                alignItems="center"
-                flexDirection="column"
-                position="relative"
-              >
-                <InputGroup
-                  boxShadow="none"
-                  height="36px"
-                  bg={inputBg}
-                  borderWidth="1px"
-                  borderColor={navBorder}
-                  alignItems="center"
-                  boxSizing="border-box"
-                >
-                  <InputLeftElement>
-                    <Icon as={RiSearchLine} color={iconColor} w="20px" h="20px" />
-                  </InputLeftElement>
-                  <Input placeholder="Search plebbit " />
-                </InputGroup>
-                {1 === 2 && (
-                  <Flex
-                    padding="20px"
-                    borderWidth="1px"
-                    borderStyle="solid"
-                    borderRadius="5px"
-                    borderColor={navBorder}
-                    top="45px"
-                    width="100%"
-                    position="absolute"
-                    background={bg}
-                  >
-                    <Flex flexDirection="row" alignItems="center">
-                      <Image
-                        h="24px"
-                        verticalAlign="middle"
-                        alt="not-found"
-                        fallbackSrc={require('../../../assets/images/fallback.png')}
-                        rounded="full"
-                        mr="8px"
-                      />
-                      <Flex flexDir="column">
-                        <Box fontSize="14px" fontWeight="500" lineHeight="18px">
-                          Title
-                        </Box>
-                        <Box color={metaColor} fontSize="12px" fontWeight="400" lineHeight="16px">
-                          Subplebbit address
-                        </Box>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                )}
-              </Flex>
+              {/* Search bar */}
+              <NavSearch />
             </Flex>
             <Flex alignItems="center" flexGrow="0">
               <Flex
@@ -1081,7 +1028,12 @@ const NavBar = ({ location }) => {
                     >
                       {[
                         { label: 'Home', value: homeAdd },
-                        { label: 'p/All', value: subPlebbitData?.map((x) => x?.address) },
+                        {
+                          label: 'p/All',
+                          value: subPlebbitData
+                            ?.map((x) => x?.address)
+                            ?.filter((x) => x !== undefined),
+                        },
                       ]?.map((pages, index) => (
                         <Flex
                           key={index}
@@ -1111,11 +1063,13 @@ const NavBar = ({ location }) => {
                         </Flex>
                       ))}
                       {[
-                        subPlebbitData.map((x) => ({
-                          ...x,
-                          label: x?.title || getSubName(x),
-                          value: x?.address,
-                        })),
+                        subPlebbitData
+                          .map((x) => ({
+                            ...x,
+                            label: x?.title || getSubName(x),
+                            value: x?.address,
+                          }))
+                          ?.filter((x) => x !== undefined),
                       ]
                         .flat()
                         ?.map((pages, index) => (
@@ -1375,7 +1329,11 @@ const NavBar = ({ location }) => {
                     alignItems="center"
                     flexFlow="row nowrap"
                     cursor="pointer"
-                    onClick={() => setPostView(subPlebbitData?.map((x) => x?.address))}
+                    onClick={() =>
+                      setPostView(subPlebbitData?.map((x) => x?.address))?.filter(
+                        (x) => x !== undefined
+                      )
+                    }
                   >
                     <Flex
                       alignItems="center"

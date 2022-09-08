@@ -201,8 +201,8 @@ const AddAvatar = ({ isOpen, onClose }) => {
                 ? setTimeout(async () => {
                     if (signature) {
                       try {
-                        await setAccount(userProfile);
-                        logger('account:update', userProfile);
+                        const res = await setAccount(userProfile);
+                        logger('account:update', res);
                         toast({
                           title: `changes saved`,
                           variant: 'left-accent',
@@ -211,6 +211,7 @@ const AddAvatar = ({ isOpen, onClose }) => {
                         });
                         onClose();
                       } catch (error) {
+                        logger('account:update', error, 'error');
                         toast({
                           title: `Account update`,
                           variant: 'left-update',

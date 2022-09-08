@@ -51,10 +51,12 @@ export const ProfileDataProvider = (props) => {
           }
           return x?.address;
         })
-        ?.filter((x) => x !== ''),
+        ?.filter(Boolean),
       ...Object.keys(accountSubplebbits),
       subPlebbitData ? subPlebbitData?.map((x) => x?.address).filter(Boolean) : [],
-    ].flat()
+    ]
+      .flat()
+      ?.filter((x) => x !== undefined)
   );
 
   const { version } = require('../../package.json');
@@ -89,7 +91,7 @@ export const ProfileDataProvider = (props) => {
             }
             return x?.address;
           })
-          ?.filter((x) => x !== ''),
+          ?.filter(Boolean),
         ...Object.keys(accountSubplebbits),
       ].flat()
     );
@@ -100,7 +102,7 @@ export const ProfileDataProvider = (props) => {
       setShowSplashcreen(false);
     }, 5000);
   }, [reloadUser]);
-
+  console.log(homeAdd);
   return (
     <ProfileContext.Provider
       value={{

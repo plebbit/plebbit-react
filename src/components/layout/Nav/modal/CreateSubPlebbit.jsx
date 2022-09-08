@@ -39,8 +39,7 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
       onClose();
       history.push(`/p/${subplebbit?.address}`, []);
     } catch (error) {
-      console.log(error);
-      logger('create-sub', error);
+      logger('create-sub', error, 'error');
       setLoading(false);
       toast({
         title: 'Create Subplebbit.',

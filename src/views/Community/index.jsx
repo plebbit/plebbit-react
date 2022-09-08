@@ -67,7 +67,7 @@ const CommunitySettings = ({ match }) => {
       isClosable: true,
     });
     setLoading(false);
-    logger('challenge verified', challengeVerification, subplebbitEdit);
+    logger('challenge verified', { challengeVerification, subplebbitEdit }, 'error');
   };
 
   const onChallenge = async (challenges, subplebbitEdit) => {
@@ -77,7 +77,7 @@ const CommunitySettings = ({ match }) => {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      logger(error);
+      logger('decline challenge', error, 'trace');
       toast({
         title: 'Declined.',
         description: error?.message,
@@ -103,7 +103,7 @@ const CommunitySettings = ({ match }) => {
       });
       setLoading(false);
     } catch (error) {
-      console.log('editComm', error);
+      logger('editComment', error, 'error');
       toast({
         title: 'Declined.',
         description: error?.message,
