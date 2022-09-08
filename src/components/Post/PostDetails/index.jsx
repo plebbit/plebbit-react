@@ -318,14 +318,10 @@ function PostDetail() {
     }
   };
 
-  logger(
-    'feed:detail',
-    {
-      address: window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1),
-      detail,
-    },
-    'trace'
-  );
+  logger('feed:detail', {
+    address: window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1),
+    detail,
+  });
 
   return (
     <Layout
