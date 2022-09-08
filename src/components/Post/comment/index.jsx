@@ -37,7 +37,6 @@ const Comment = ({ comment, parentCid }) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(comment.author);
   const [loader, setLoader] = useState(false);
-
   const onChallengeVerification = (challengeVerification) => {
     if (challengeVerification.challengeSuccess === true) {
       toast({
@@ -431,7 +430,8 @@ const Comment = ({ comment, parentCid }) => {
             pl="4px"
             cursor="pointer"
           >
-            {comment?.replyCount} more repl{comment?.replyCount > 1 ? 'ies' : 'y'}
+            {comment?.replyCount}
+            {comment?.replyCount > 0 ? ' more' : ''} repl{comment?.replyCount === 1 ? 'y' : 'ies'}
           </Box>
         ) : (
           ''

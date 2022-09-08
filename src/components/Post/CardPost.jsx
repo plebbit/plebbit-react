@@ -702,7 +702,7 @@ const CardPost = ({
                       textTransform="capitalize"
                       verticalAlign="middle"
                     >
-                      {post?.replyCount} comments
+                      {post?.replyCount} comment{post?.replyCount === 1 ? '' : 's'}
                     </Text>
                   </Flex>
                 </Link>
