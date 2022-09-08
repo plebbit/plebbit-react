@@ -61,7 +61,7 @@ const Settings = () => {
   const resolvedAuthorAddress = useResolvedAuthorAddress(
     userProfile ? userProfile?.author?.address : ''
   );
-  logger('resolvedAddress', resolvedAuthorAddress);
+  logger('resolvedAddress', resolvedAuthorAddress, 'trace');
 
   useEffect(() => {
     setUserProfile({ ...profile });
@@ -350,8 +350,8 @@ const Settings = () => {
                       setTimeout(async () => {
                         if (userProfile?.name !== profile?.name) {
                           try {
-                            await setAccount(userProfile);
-                            logger('account:update', userProfile);
+                            const res = await setAccount(userProfile);
+                            logger('account:update', res);
                             toast({
                               title: `changes saved`,
                               variant: 'left-accent',
@@ -359,7 +359,7 @@ const Settings = () => {
                               isClosable: true,
                             });
                           } catch (error) {
-                            console.log(error);
+                            logger('update-account', error, 'error');
                             toast({
                               title: `Account update`,
                               description: error?.message,
@@ -485,8 +485,8 @@ const Settings = () => {
                       setTimeout(async () => {
                         if (userProfile?.author?.displayName !== profile?.author?.displayName) {
                           try {
-                            await setAccount(userProfile);
-                            logger('account:update', userProfile);
+                            const res = await setAccount(userProfile);
+                            logger('account:update', res);
                             toast({
                               title: `changes saved`,
                               variant: 'left-accent',
@@ -494,7 +494,7 @@ const Settings = () => {
                               isClosable: true,
                             });
                           } catch (error) {
-                            console.log(error);
+                            logger('update-account', error, 'error');
                             toast({
                               title: `Account update`,
                               description: error?.message,
@@ -569,8 +569,8 @@ const Settings = () => {
                         setTimeout(async () => {
                           if (userProfile?.author?.address !== profile?.author?.address) {
                             try {
-                              await setAccount(userProfile);
-                              logger('account:update', userProfile);
+                              const res = await setAccount(userProfile);
+                              logger('account:update', res);
 
                               toast({
                                 title: `changes saved`,
@@ -579,7 +579,7 @@ const Settings = () => {
                                 isClosable: true,
                               });
                             } catch (error) {
-                              console.log(error);
+                              logger('update-account', error, 'error');
                               toast({
                                 title: `Account update`,
                                 variant: 'left-update',
@@ -688,8 +688,8 @@ const Settings = () => {
                       setTimeout(async () => {
                         if (userProfile?.author?.about !== profile?.author?.about) {
                           try {
-                            await setAccount(userProfile);
-                            logger('account:update', userProfile);
+                            const res = await setAccount(userProfile);
+                            logger('account:update', res);
                             toast({
                               title: `changes saved`,
                               variant: 'left-accent',
@@ -697,7 +697,7 @@ const Settings = () => {
                               isClosable: true,
                             });
                           } catch (error) {
-                            console.log(error);
+                            logger('update-account', error, 'error');
                             toast({
                               title: `Account update`,
                               variant: 'left-update',
@@ -1162,8 +1162,8 @@ const Settings = () => {
                           profile?.plebbitOptions?.pubsubHttpClientOptions
                         ) {
                           try {
-                            await setAccount(userProfile);
-                            logger('account:update', userProfile);
+                            const res = await setAccount(userProfile);
+                            logger('account:update', res);
                             toast({
                               title: `changes saved`,
                               variant: 'left-accent',
@@ -1171,7 +1171,7 @@ const Settings = () => {
                               isClosable: true,
                             });
                           } catch (error) {
-                            console.log(error);
+                            logger('update-account', error, 'error');
                             toast({
                               title: `Account update`,
                               variant: 'left-update',
@@ -1370,8 +1370,8 @@ const Settings = () => {
                               profile?.plebbitOptions?.blockchainProviders[val]?.url
                             ) {
                               try {
-                                await setAccount(userProfile);
-                                logger('account:update', userProfile);
+                                const res = await setAccount(userProfile);
+                                logger('account:update', res);
                                 toast({
                                   title: `changes saved`,
                                   variant: 'left-accent',
@@ -1379,7 +1379,7 @@ const Settings = () => {
                                   isClosable: true,
                                 });
                               } catch (error) {
-                                console.log(error);
+                                logger('update-account', error, 'error');
                                 toast({
                                   title: `Account update`,
                                   variant: 'left-update',
@@ -1454,8 +1454,8 @@ const Settings = () => {
                               profile?.plebbitOptions?.blockchainProviders[val]?.chainId
                             ) {
                               try {
-                                await setAccount(userProfile);
-                                logger('account:update', userProfile);
+                                const res = await setAccount(userProfile);
+                                logger('account:update', res);
 
                                 toast({
                                   title: `changes saved`,
@@ -1464,7 +1464,7 @@ const Settings = () => {
                                   isClosable: true,
                                 });
                               } catch (error) {
-                                console.log(error);
+                                logger('update-account', error, 'error');
                                 toast({
                                   title: `Account update`,
                                   variant: 'left-update',

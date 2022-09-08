@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { Box } from '@chakra-ui/react';
-import Swal from 'sweetalert2';
 import { useToast } from '@chakra-ui/react';
 import {
   useAccountsActions,
@@ -14,6 +13,7 @@ import logger from '../../utils/logger';
 import { ProfileContext } from '../../store/profileContext';
 import getIsOnline from '../../utils/getIsOnline';
 import onError from '../../utils/onError';
+import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 
 const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const vote = post?.upvoteCount - post?.downvoteCount;
@@ -25,18 +25,6 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(post?.author);
   const { mode: location } = useContext(ProfileContext);
   const getSub = useSubplebbit(post?.subplebbitAddress);
-  const getChallengeAnswersFromUser = async (challenges) => {
-    const { value } = await Swal.fire({
-      background: '#eff4f7',
-      input: 'text',
-      text: 'Complete the challenge',
-      imageUrl: `data:image/png;base64,  ${challenges?.challenges[0]?.challenge}`,
-      imageWidth: '80%',
-    });
-    if (value) {
-      return value;
-    }
-  };
 
   const isOnline = getIsOnline(getSub?.updatedAt);
   const onChallengeVerification = (challengeVerification, comment) => {
@@ -51,16 +39,20 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
         duration: 5000,
         isClosable: true,
       });
-      console.log('challenge success', { publishedCid: challengeVerification.publication.cid });
+      logger('challenge-success', challengeVerification, 'trace');
     } else if (challengeVerification.challengeSuccess === false) {
-      console.error('challenge failed', {
-        reason: challengeVerification.reason,
-        errors: challengeVerification.errors,
-      });
+      logger(
+        'challenge-failed',
+        {
+          reason: challengeVerification.reason,
+          errors: challengeVerification.challengeErrors,
+        },
+        'error'
+      );
       toast({
         title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
-        description: challengeVerification.errors
-          ? challengeVerification.errors.join(',')
+        description: challengeVerification.challengeErrors
+          ? challengeVerification.challengeErrors.join(',')
           : 'Challenge Verification Failed',
         status: 'error',
         duration: 5000,
@@ -76,7 +68,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       isClosable: true,
     });
 
-    logger('challenge verified', challengeVerification, comment);
+    logger('challenge-verified', { challengeVerification, comment }, 'trace');
   };
   const onChallenge = async (challenges, comment) => {
     let challengeAnswers = [];
@@ -86,7 +78,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      logger('vote:challeng', error);
+      logger('vote:challeng', error, 'error');
       toast({
         title: 'Challenge Declined.',
         description: error?.message,
@@ -99,6 +91,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       try {
         await comment.publishChallengeAnswers(challengeAnswers);
       } catch (error) {
+        logger('challenge-failed', error?.message, 'error');
         toast({
           title: 'Publish Challenge Declined.',
           description: error?.message,
@@ -121,6 +114,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
         onError: onError,
       });
     } catch (error) {
+      logger('Voting-Declined', error, 'error');
       toast({
         title: 'Voting Declined.',
         description: error?.message,
@@ -148,9 +142,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleOption={handleOption}
             copied={copied}
             setCopied={setCopied}
-            location={`${location === 'http:' ? 'plebbitdemo.eth.limo/' : window.location.href}p/${
-              post?.subplebbitAddress
-            }/c/${post?.cid}`}
+            location={`${
+              location === 'http:' ? 'demo.plebbit.eth.limo/#/' : window.location.href
+            }p/${post?.subplebbitAddress}/c/${post?.cid}`}
             avatar={authorAvatarImageUrl}
             isOnline={isOnline}
             subPlebbit={getSub}
@@ -172,9 +166,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleOption={handleOption}
             copied={copied}
             setCopied={setCopied}
-            location={`${location === 'http:' ? 'plebbitdemo.eth.limo/' : window.location.href}p/${
-              post?.subplebbitAddress
-            }/c/${post?.cid}`}
+            location={`${
+              location === 'http:' ? 'demo.plebbit.eth.limo/#/' : window.location.href
+            }p/${post?.subplebbitAddress}/c/${post?.cid}`}
             avatar={authorAvatarImageUrl}
             isOnline={isOnline}
             subPlebbit={getSub}
@@ -196,9 +190,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleOption={handleOption}
             copied={copied}
             setCopied={setCopied}
-            location={`${location === 'http:' ? 'plebbitdemo.eth.limo/' : window.location.href}p/${
-              post?.subplebbitAddress
-            }/c/${post?.cid}`}
+            location={`${
+              location === 'http:' ? 'demo.plebbit.eth.limo/#/' : window.location.href
+            }p/${post?.subplebbitAddress}/c/${post?.cid}`}
             avatar={authorAvatarImageUrl}
             isOnline={isOnline}
             subPlebbit={getSub}

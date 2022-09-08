@@ -10,7 +10,7 @@ const getChallengeAnswersFromUser = async (challenges) => {
     imageWidth: '80%',
   });
   if (value) {
-    logger('getChallenge answer', value);
+    logger('getChallenge answer', value, 'trace');
     return value;
   } else {
     return false;

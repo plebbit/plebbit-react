@@ -53,12 +53,12 @@ const Comment = ({ comment, parentCid }) => {
     } else if (challengeVerification.challengeSuccess === false) {
       console.error('challenge failed', {
         reason: challengeVerification.reason,
-        errors: challengeVerification.errors,
+        errors: challengeVerification.challengeErrors,
       });
       toast({
         title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
-        description: challengeVerification.errors
-          ? challengeVerification.errors.join(',')
+        description: challengeVerification.challengeErrors
+          ? challengeVerification.challengeErrors.join(',')
           : 'Challenge Verification Failed',
         status: 'error',
         duration: 5000,
@@ -76,7 +76,7 @@ const Comment = ({ comment, parentCid }) => {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      logger(error);
+      logger('declined Challenge', error, 'trace');
       toast({
         title: 'Declined.',
         description: error?.message,
@@ -86,10 +86,10 @@ const Comment = ({ comment, parentCid }) => {
       });
     }
 
-    logger(challengeAnswers, comment);
+    logger('challenge-answer', { challengeAnswers, comment }, 'trace');
     if (challengeAnswers) {
       const res = await comment.publishChallengeAnswers(challengeAnswers);
-      logger('create:comment:response', res);
+      logger('create:comment:response', res, 'trace');
     }
   };
 
@@ -104,7 +104,7 @@ const Comment = ({ comment, parentCid }) => {
         onError: onError,
       });
     } catch (error) {
-      console.log(error);
+      logger('voting-declined', error, 'error');
       toast({
         title: 'Voting Declined.',
         description: error?.message,
@@ -127,8 +127,7 @@ const Comment = ({ comment, parentCid }) => {
         onError: onError,
       });
     } catch (error) {
-      logger('create:comment:response', error);
-      console.log(error);
+      logger('create:comment:response', error, 'error');
       toast({
         title: 'Comment Declined.',
         description: error?.message,

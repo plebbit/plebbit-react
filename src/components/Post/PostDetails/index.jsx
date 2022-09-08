@@ -41,6 +41,7 @@ import Marked from '../../Editor/marked';
 import getIsOnline from '../../../utils/getIsOnline';
 import Avatar from '../../Avatar';
 import onError from '../../../utils/onError';
+import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 
 function PostDetail() {
   const detail = useComment(
@@ -91,18 +92,6 @@ function PostDetail() {
   const history = useHistory();
   const [showMEditor, setShowMEditor] = useState(false);
   const location = useLocation();
-  const getChallengeAnswersFromUser = async (challenges) => {
-    const { value } = await Swal.fire({
-      background: '#eff4f7',
-      input: 'text',
-      text: 'Complete the challenge',
-      imageUrl: `data:image/png;base64,  ${challenges?.challenges[0].challenge}`,
-      imageWidth: '80%',
-    });
-    if (value) {
-      return value;
-    }
-  };
 
   const onChallengeVerification = (challengeVerification) => {
     if (challengeVerification.challengeSuccess === true) {
@@ -116,16 +105,20 @@ function PostDetail() {
       setContent('');
       setEdit(false);
       setEditorState(EditorState.createEmpty());
-      console.log('challenge success', { publishedCid: challengeVerification.publication.cid });
+      logger('challenge success', { publishedCid: challengeVerification.publication.cid }, 'trace');
     } else if (challengeVerification.challengeSuccess === false) {
-      console.error('challenge failed', {
-        reason: challengeVerification.reason,
-        errors: challengeVerification.errors,
-      });
+      logger(
+        'challenge failed',
+        {
+          reason: challengeVerification.reason,
+          errors: challengeVerification.challengeErrors,
+        },
+        'error'
+      );
       toast({
         title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
-        description: challengeVerification.errors
-          ? challengeVerification.errors.join(',')
+        description: challengeVerification.challengeErrors
+          ? challengeVerification.challengeErrors.join(',')
           : 'Challenge Verification Failed',
         status: 'error',
         duration: 5000,
@@ -143,7 +136,7 @@ function PostDetail() {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      logger(error);
+      logger('decline challenge', error, 'trace');
       toast({
         title: 'Declined.',
         description: error?.message || 'failed Challenge',
@@ -170,7 +163,7 @@ function PostDetail() {
         onError,
       });
     } catch (error) {
-      logger('post:detail:voting:', error);
+      logger('post:detail:voting:', error, 'error');
       console.log(error);
       toast({
         title: 'Voting Declined.',
@@ -194,7 +187,6 @@ function PostDetail() {
         onError,
       });
     } catch (error) {
-      console.log(error);
       toast({
         title: 'Comment Declined.',
         description: error?.message,
@@ -219,6 +211,7 @@ function PostDetail() {
       });
       setEditLoading(false);
     } catch (error) {
+      logger('edit:comment:response:', error, 'error');
       setEditLoading(false);
       toast({
         title: 'Comment Edit Declined.',
@@ -242,6 +235,7 @@ function PostDetail() {
       });
       setEditLoading(false);
     } catch (error) {
+      logger('delete:comment:response:', error, 'error');
       setSubLoading(false);
       toast({
         title: 'Deleting declined',
@@ -266,6 +260,7 @@ function PostDetail() {
       });
       setSubLoading(false);
     } catch (error) {
+      logger('subscribe:response:', error, 'error');
       setSubLoading(false);
       toast({
         title: 'Subscription declined',
@@ -289,6 +284,8 @@ function PostDetail() {
       });
       setSubLoading(false);
     } catch (error) {
+      logger('unsubscribe:response:', error, 'error');
+
       setSubLoading(false);
       toast({
         title: 'UnSubscribe declined',
@@ -321,10 +318,14 @@ function PostDetail() {
     }
   };
 
-  logger('feed:detail', {
-    address: window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1),
-    detail,
-  });
+  logger(
+    'feed:detail',
+    {
+      address: window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1),
+      detail,
+    },
+    'trace'
+  );
 
   return (
     <Layout
@@ -940,7 +941,7 @@ function PostDetail() {
                               <CopyToClipboard
                                 text={
                                   mode === 'http:'
-                                    ? `plebbitdemo.eth.limo/p/${detail?.subplebbitAddress}/c/${detail?.cid}`
+                                    ? `demo.plebbit.eth.limo/#/p/${detail?.subplebbitAddress}/c/${detail?.cid}`
                                     : window?.location?.href
                                 }
                                 onCopy={() => {
@@ -1230,7 +1231,7 @@ function PostDetail() {
                               <CopyToClipboard
                                 text={
                                   mode === 'http:'
-                                    ? `plebbitdemo.eth.limo/p/${detail?.subplebbitAddress}/c/${detail?.cid}`
+                                    ? `demo.plebbit.eth.limo/#/p/${detail?.subplebbitAddress}/c/${detail?.cid}`
                                     : window?.location?.href
                                 }
                                 onCopy={() => {

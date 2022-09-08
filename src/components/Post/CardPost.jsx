@@ -968,7 +968,9 @@ const CardPost = ({
                   wordBreak="break-word"
                   overflow="hidden"
                 >
-                  {<Marked content={post?.content} /> || (
+                  {post?.content ? (
+                    <Marked content={post?.content} />
+                  ) : (
                     <Box display="flex" justifyContent="center">
                       <Image fallbackSrc="https://via.placeholder.com/150" src={post?.link} />
                     </Box>

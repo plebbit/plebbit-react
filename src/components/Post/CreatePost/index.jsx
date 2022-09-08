@@ -85,8 +85,8 @@ const CreatePost = () => {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      logger('challengeAnswer-error', error);
-      console.log('this', error.message);
+      logger('challengeAnswer-error', error, 'error');
+
       toast({
         title: 'Declined.',
         description: error?.message,
@@ -96,11 +96,11 @@ const CreatePost = () => {
       });
       setLoading(false);
     }
-    logger('challengeAndcomment', { challengeAnswers, comment });
+    logger('challengeAndcomment', { challengeAnswers, comment }, 'trace');
     if (challengeAnswers) {
       history.push(`/p/${address?.value}`);
       const res = await comment.publishChallengeAnswers(challengeAnswers);
-      logger('publish_challenge_answer', res);
+      logger('publish_challenge_answer', res, 'trace');
     }
   };
 
@@ -118,16 +118,20 @@ const CreatePost = () => {
       setTitle('');
       setContent('');
       setEditorState(EditorState.createEmpty());
-      console.log('challenge success', { publishedCid: challengeVerification.publication.cid });
+      logger('challenge success', { publishedCid: challengeVerification.publication.cid }, 'trace');
     } else if (challengeVerification.challengeSuccess === false) {
-      console.error('challenge failed', {
-        reason: challengeVerification.reason,
-        errors: challengeVerification.errors,
-      });
+      logger(
+        'challenge failed',
+        {
+          reason: challengeVerification.reason,
+          errors: challengeVerification.challengeErrors,
+        },
+        'error'
+      );
       toast({
         title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
-        description: challengeVerification.errors
-          ? challengeVerification.errors.join(',')
+        description: challengeVerification.challengeErrors
+          ? challengeVerification.challengeErrors.join(',')
           : 'Challenge Verification Failed',
         status: 'error',
         duration: 5000,
@@ -150,10 +154,10 @@ const CreatePost = () => {
         onChallengeVerification,
         onError: onError,
       });
-      logger('create-post', res);
+      logger('create-post', res, 'error');
     } catch (error) {
       console.log(error);
-      logger('create-post', error);
+      logger('create-post', error, 'error');
       setLoading(false);
       toast({
         title: 'Declined.',

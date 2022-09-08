@@ -60,12 +60,12 @@ const SubPlebbit = ({ match }) => {
     } else if (challengeVerification.challengeSuccess === false) {
       console.error('challenge failed', {
         reason: challengeVerification.reason,
-        errors: challengeVerification.errors,
+        errors: challengeVerification.challengeErrors,
       });
       toast({
         title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
-        description: challengeVerification.errors
-          ? challengeVerification.errors.join(',')
+        description: challengeVerification.challengeErrors
+          ? challengeVerification.challengeErrors.join(',')
           : 'Challenge Verification Failed',
         status: 'error',
         duration: 5000,
