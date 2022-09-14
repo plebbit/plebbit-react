@@ -27,9 +27,12 @@ import getIsOnline from '../../../utils/getIsOnline';
 import Avatar from '../../Avatar';
 import { getSubName } from '../../../utils/getUserName';
 import onError from '../../../utils/onError';
+import convertArrToObj from '../../../utils/convertArrToObj';
+import Sort from '../../../utils/sort';
 
 const CreatePost = () => {
-  const { accountSubplebbits, subscriptions, subPlebbitDefData } = useContext(ProfileContext);
+  const { accountSubplebbits, subPlebbitData, subscriptions, subPlebbitDefData } =
+    useContext(ProfileContext);
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const borderColor = useColorModeValue('borderLight', 'borderDark');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -58,15 +61,35 @@ const CreatePost = () => {
 
   const { publishComment } = useAccountsActions();
   const location = useLocation();
-  const options = [
-    ...mySubplebbits,
-    ...subs,
-    subPlebbitDefData.map((x) => ({
-      ...x,
-      label: getSubName(x),
-      value: x?.address,
-    })),
-  ].flat();
+  const options = Sort(
+    convertArrToObj(
+      [
+        ...mySubplebbits,
+        ...subs,
+        [
+          subPlebbitData.map((x) => ({
+            ...x,
+            label: getSubName(x),
+            value: x?.address,
+          })),
+          subPlebbitDefData
+            ?.filter((x) => x !== undefined)
+            .map((x) => ({
+              ...x,
+              label: getSubName(x),
+              value: x?.address,
+            })),
+        ].flat(),
+      ]
+        ?.filter((x) => x !== undefined)
+        .flat(),
+      'value',
+      true
+    ),
+    (x) => getIsOnline(x?.updatedAt),
+    true
+  );
+
   let potentialSubPlebbitAddress = null;
   if (location?.pathname) {
     const matches = location?.pathname.match(/p\/(.*)\/submit/);
@@ -168,6 +191,8 @@ const CreatePost = () => {
       });
     }
   };
+
+  console.log(subPlebbitDefData);
 
   return (
     <Layout name={{ label: 'Create Post', value: location?.pathname }}>
