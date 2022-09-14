@@ -1,9 +1,9 @@
-import { useToast } from '@chakra-ui/react';
 import React from 'react';
 import Infs from 'react-infinite-scroll-component';
+import logger from '../../utils/logger';
 
 const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
-  const toast = useToast();
+  console.log('hasmore', hasMore);
   return (
     <>
       <Infs
@@ -12,13 +12,7 @@ const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
           try {
             loadMore();
           } catch (error) {
-            toast({
-              title: 'Load more Error.',
-              description: error?.message,
-              status: 'error',
-              duration: 5000,
-              isClosable: true,
-            });
+            logger('load-more', error, 'trace');
           }
         }}
         hasMore={hasMore}

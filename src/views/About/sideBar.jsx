@@ -203,7 +203,7 @@ const AboutsideBar = ({ page }) => {
           <Icon as={AiOutlineTag} mr="8px" width="20px" height="20px" />
           <Box>Flairs & emojis</Box>
         </Flex>
-        <Link>
+        <Link to="flair">
           <Flex
             fontSize="14px"
             fontWeight="400"
@@ -212,7 +212,6 @@ const AboutsideBar = ({ page }) => {
             padding="8px 24px"
             borderLeft={page === 'flair' && `4px solid #1a1a1b `}
             bg={page === 'flair' && border1}
-            cursor="not-allowed"
           >
             Grant User Flair
           </Flex>
@@ -232,7 +231,7 @@ const AboutsideBar = ({ page }) => {
             Emojis
           </Flex>
         </Link>
-        <Link>
+        <Link to="userflair">
           <Flex
             fontSize="14px"
             fontWeight="400"
@@ -241,12 +240,11 @@ const AboutsideBar = ({ page }) => {
             padding="8px 24px"
             borderLeft={page === 'userflair' && `4px solid #1a1a1b `}
             bg={page === 'userflair' && border1}
-            cursor="not-allowed"
           >
             User Flair
           </Flex>
         </Link>
-        <Link>
+        <Link to="postflair">
           <Flex
             fontSize="14px"
             fontWeight="400"
@@ -255,7 +253,6 @@ const AboutsideBar = ({ page }) => {
             padding="8px 24px"
             borderLeft={page === 'postflair' && `4px solid #1a1a1b `}
             bg={page === 'postflair' && border1}
-            cursor="not-allowed"
           >
             Post Flair
           </Flex>

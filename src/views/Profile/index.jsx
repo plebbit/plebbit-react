@@ -1,4 +1,4 @@
-import { Flex, Box, Icon, useColorModeValue, useColorMode, Image } from '@chakra-ui/react';
+import { Flex, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
@@ -12,6 +12,7 @@ import getUserName from '../../utils/getUserName';
 import numFormatter from '../../utils/numberFormater';
 import { MdEdit } from 'react-icons/md';
 import Layout from '../../components/layout';
+import Avatar from '../../components/Avatar';
 
 const Profile = () => {
   const { profile, device, authorAvatarImageUrl } = useContext(ProfileContext);
@@ -1350,18 +1351,15 @@ const Profile = () => {
               >
                 <Box>
                   <Box padding="8px" textAlign="center">
-                    <Image
-                      fallbackSrc={require('../../assets/images/fallback.png')}
-                      src="https://place-hold.it/100x100"
-                      height="64px"
-                      margin="auto"
-                      color="transparent"
-                      borderRadius="100%"
-                      whiteSpace="nowrap"
+                    <Avatar
+                      avatar={authorAvatarImageUrl}
+                      height={64}
+                      width={64}
                       sx={{
-                        textIndent: '100%',
+                        margin: 'auto',
                       }}
                     />
+
                     <Box
                       fontSize="24px"
                       paddingLeft="8px"

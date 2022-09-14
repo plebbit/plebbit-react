@@ -21,6 +21,8 @@ import Avatar from '../../components/Avatar';
 import { useHistory } from 'react-router-dom';
 import getIsOnline from '../../utils/getIsOnline';
 import { getSubName } from '../../utils/getUserName';
+import convertArrToObj from '../../utils/convertArrToObj';
+import Sort from '../../utils/sort';
 
 const SideBar = ({
   mt,
@@ -37,12 +39,20 @@ const SideBar = ({
   bg,
 }) => {
   const { subPlebbitData } = useContext(ProfileContext);
-  // const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '');
   const subplebbits = useSubplebbits(subPlebbitData?.map((x) => x?.address));
   const history = useHistory();
-
-  console.log(subplebbits);
+  const subs = Sort(
+    convertArrToObj(
+      subplebbits?.includes(undefined)
+        ? [...subPlebbitData, subplebbits?.filter((x) => x !== undefined)].flat()
+        : subplebbits,
+      'address',
+      true
+    ),
+    (x) => getIsOnline(x?.updatedAt),
+    true
+  );
 
   return (
     <Box
@@ -100,7 +110,7 @@ const SideBar = ({
             </Text>
           </Box>
           <List>
-            {subplebbits?.map((sub, index) => (
+            {subs?.map((sub, index) => (
               <ListItem
                 key={sub?.id}
                 display="flex"

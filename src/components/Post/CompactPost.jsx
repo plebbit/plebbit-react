@@ -238,14 +238,23 @@ const CompactPost = ({
               {/* post title */}
               <Box
                 margin="0 8px"
-                onClick={() => history.push(`/p/${post?.subplebbitAddress}/c/${post?.cid}`, [])}
+                onClick={() =>
+                  history.push(
+                    {
+                      pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                      state: { detail: post },
+                    },
+                    []
+                  )
+                }
               >
-                <Skeleton isLoaded={!loading}>
+                <Skeleton display="flex" alignItems="center" flexWrap="wrap" isLoaded={!loading}>
                   {' '}
                   {/* flair */}
                   {type === 'subPlebbit' && post?.flair?.text ? (
                     <Tag
                       bg={post?.flair?.color}
+                      mb="4px"
                       borderRadius="20px"
                       padding="2px 8px"
                       size="sm"
@@ -273,6 +282,7 @@ const CompactPost = ({
                     paddingRight="5px"
                     textDecor="none"
                     wordBreak="break-word"
+                    mb="4px"
                   >
                     {post?.title}
                     {!post?.content ? (
@@ -282,7 +292,7 @@ const CompactPost = ({
                         lineHeight="16px"
                         margin="4px 8px"
                         color="mainBlue"
-                        href="https://www.coindesk.com/business/2022/04/13/jack-dorseys-first-tweet-nft-went-on-sale-for-48m-it-ended-with-a-top-bid-of-just-280/"
+                        href={post?.link}
                       >
                         <span>{post?.link.substring(0, 20) + '...'}</span>
                         <Icon
@@ -314,11 +324,17 @@ const CompactPost = ({
                       overflow="hidden"
                       display="inline-block"
                       verticalAlign="text-bottom"
+                      mb="4px"
                     >
                       {post?.flair?.text}
                     </Tag>
                   ) : (
                     ''
+                  )}
+                  {!post?.cid && (
+                    <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
+                      Pending
+                    </Tag>
                   )}
                 </Skeleton>
               </Box>

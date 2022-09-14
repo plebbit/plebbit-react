@@ -4,9 +4,9 @@ import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import { HiPencil } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
-import { PlebLogo } from '../../components/svgs';
-import { ProfileContext } from '../../store/profileContext';
-import { getAddress } from '../../utils/getUserName';
+import { PlebLogo } from '../../../components/svgs';
+import { ProfileContext } from '../../../store/profileContext';
+import { getAddress } from '../../../utils/getUserName';
 
 const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');

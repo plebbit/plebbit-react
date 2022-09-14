@@ -46,7 +46,7 @@ const Editor = ({
         editorClassName={editorClassName || 'editorClassName'}
         onEditorStateChange={handleChange}
         editorState={editorState}
-        toolbarHidden={hideToolBar || true}
+        toolbarHidden={hideToolBar}
         toolbar={{
           options: [
             'inline',
