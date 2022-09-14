@@ -44,10 +44,13 @@ import onError from '../../../utils/onError';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 
 function PostDetail() {
-  const detail = useComment(
+  const location = useLocation();
+  const det = useComment(
     window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
   );
-  const subplebbit = useSubplebbit(detail?.subplebbitAddress);
+  const detail = det === undefined ? location?.state?.detail : det;
+  const sub = useSubplebbit(detail?.subplebbitAddress);
+  const subplebbit = sub === undefined ? { address: detail?.subplebbitAddress } : sub;
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
@@ -79,9 +82,6 @@ function PostDetail() {
   const [editMode, setEditMode] = useState(detail?.content ? 'post' : 'link');
   const [copied, setCopied] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  // const getSub = useSubplebbit(detail?.subplebbitAddress);
-  // const isOnline = new Date(getSub?.updatedAt).getHours() <= 1;
-
   const [postEditorState, setPostEditorState] = useState(
     EditorState.createWithContent(
       ContentState.createFromBlockArray(convertFromHTML(`<p>${editPost}</p>`))
@@ -91,7 +91,6 @@ function PostDetail() {
     useContext(ProfileContext);
   const history = useHistory();
   const [showMEditor, setShowMEditor] = useState(false);
-  const location = useLocation();
 
   const onChallengeVerification = (challengeVerification) => {
     if (challengeVerification.challengeSuccess === true) {
@@ -298,6 +297,7 @@ function PostDetail() {
   };
 
   const handleOption = (option) => {
+    console.log('here', option);
     if (option?.id === 'Edit') {
       setEdit(true);
     }
@@ -322,6 +322,8 @@ function PostDetail() {
     address: window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1),
     detail,
   });
+
+  console.log(detail);
 
   return (
     <Layout
@@ -986,7 +988,8 @@ function PostDetail() {
                                 <Box>save</Box>
                               </Link>
 
-                              {profile?.author?.address === detail?.author?.address ? (
+                              {profile?.author?.address === detail?.author?.address ||
+                              profile?.signer?.address === detail?.author?.address ? (
                                 <Link
                                   display="flex"
                                   alignItems="center"

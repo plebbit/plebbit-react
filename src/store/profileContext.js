@@ -24,24 +24,29 @@ export const ProfileDataProvider = (props) => {
   const accountLists = useAccounts();
   const profile = defaultAccount;
   const accountSubplebbits = useAccountSubplebbits();
-  const subscriptions = useSubplebbits(defaultAccount?.subscriptions);
-  const [homeAdd, setHomeAdd] = useState([
-    ...new Set(
-      [
-        subscriptions
-          ?.map((x) => {
-            if (!x?.address) {
-              return '';
-            }
-            return x?.address;
-          })
-          ?.filter((x) => x !== ''),
-        ...Object.keys(accountSubplebbits),
-      ]?.flat()
-    ),
-  ]);
-  const subPlebbitData = useSubPlebbitDefaultData();
 
+  //account Subscription === obj[]
+  const subscriptions = useSubplebbits(defaultAccount?.subscriptions);
+
+  // account subscriptions &&  created subs === address[]
+  const [homeAdd, setHomeAdd] = useState(
+    [
+      subscriptions
+        ?.map((x) => {
+          if (!x?.address) {
+            return '';
+          }
+          return x?.address;
+        })
+        ?.filter((x) => x !== ''),
+      ...Object.keys(accountSubplebbits),
+    ]
+      ?.filter((x) => x !== undefined)
+      ?.flat()
+  );
+  //git default subs === {...obj}
+  const subPlebbitData = useSubPlebbitDefaultData();
+  // account subscriptions &&  created subs && git default subs === obj[]
   const subPlebbitDefData = useSubplebbits(
     [
       subscriptions
@@ -102,7 +107,6 @@ export const ProfileDataProvider = (props) => {
       setShowSplashcreen(false);
     }, 5000);
   }, [reloadUser]);
-  console.log(homeAdd);
   return (
     <ProfileContext.Provider
       value={{

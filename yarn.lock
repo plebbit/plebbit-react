@@ -3237,6 +3237,32 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#0bfc8222a59566f08b28d7469540ecd55c4db7b9":
+  version "0.0.3"
+  resolved "https://github.com/plebbit/plebbit-js.git#0bfc8222a59566f08b28d7469540ecd55c4db7b9"
+  dependencies:
+    "@keyv/sqlite" "3.5.3"
+    "@plebbit/plebbit-logger" "github:plebbit/plebbit-logger"
+    "@types/node-fetch" "2.6.2"
+    "@types/uuid" "8.3.4"
+    assert "2.0.0"
+    buffer "6.0.3"
+    captcha-canvas "3.2.1"
+    err-code "3.0.1"
+    ethers "5.7.0"
+    form-data "4.0.0"
+    ipfs-http-client "56.0.3"
+    is-ipfs "6.0.2"
+    jose "4.9.0"
+    js-sha256 "0.9.0"
+    keyv "4.5.0"
+    knex "2.3.0"
+    libp2p-crypto "0.21.2"
+    peer-id "0.16.0"
+    sqlite3 "5.0.11"
+    tinycache "1.1.2"
+    uuid "8.3.2"
+
 "@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#8447cfe0a5f36d215eec158b74b686f45a5b93b4":
   version "0.0.3"
   resolved "https://github.com/plebbit/plebbit-js.git#8447cfe0a5f36d215eec158b74b686f45a5b93b4"
@@ -3275,6 +3301,19 @@
   resolved "https://github.com/plebbit/plebbit-logger.git#9525ca9539479918931c3b334e8d490d1c87e507"
   dependencies:
     debug "4.3.3"
+
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#a99173f8093fec6d1e71fdd0ce6a979a43d35948":
+  version "0.0.1"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#a99173f8093fec6d1e71fdd0ce6a979a43d35948"
+  dependencies:
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#0bfc8222a59566f08b28d7469540ecd55c4db7b9"
+    "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
+    "@types/uuid" "8.3.4"
+    assert "2.0.0"
+    ethers "5.6.9"
+    localforage "1.10.0"
+    uuid "8.3.2"
+    zustand "4.0.0"
 
 "@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#bc8b294e9501ac0bc15b50193d7a85cf1a7bd47c":
   version "0.0.1"
@@ -10777,6 +10816,13 @@ keyv@4.3.3:
     compress-brotli "^1.3.8"
     json-buffer "3.0.1"
 
+keyv@4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/keyv/-/keyv-4.5.0.tgz#dbce9ade79610b6e641a9a65f2f6499ba06b9bc6"
+  integrity sha512-2YvuMsA+jnFGtBareKqgANOEKe1mk3HKiXu2fRmAfyxG0MJAywNhi5ttWA3PMjl4NmpyjZNbFifR2vNjW1znfA==
+  dependencies:
+    json-buffer "3.0.1"
+
 keyv@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/keyv/-/keyv-3.1.0.tgz#ecc228486f69991e49e9476485a5be1e8fc5c4d9"
@@ -10808,6 +10854,26 @@ knex@2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/knex/-/knex-2.2.0.tgz#86a3176924d37303b3f9ff7f70087418c263ce7a"
   integrity sha512-yhm1Qe9Ok0TeXBq3nNHqZYJPrQ4Iw2tq9k/HxjrZ/EWec2ifOjJlkNHr26v8cQrWtk5iG3iwfUazTIWy+VKG5g==
+  dependencies:
+    colorette "2.0.19"
+    commander "^9.1.0"
+    debug "4.3.4"
+    escalade "^3.1.1"
+    esm "^3.2.25"
+    get-package-type "^0.1.0"
+    getopts "2.3.0"
+    interpret "^2.2.0"
+    lodash "^4.17.21"
+    pg-connection-string "2.5.0"
+    rechoir "^0.8.0"
+    resolve-from "^5.0.0"
+    tarn "^3.0.2"
+    tildify "2.0.0"
+
+knex@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/knex/-/knex-2.3.0.tgz#87fa2a9553d7cafb125d7a0645256fbe29ef5967"
+  integrity sha512-WMizPaq9wRMkfnwKXKXgBZeZFOSHGdtoSz5SaLAVNs3WRDfawt9O89T4XyH52PETxjV8/kRk0Yf+8WBEP/zbYw==
   dependencies:
     colorette "2.0.19"
     commander "^9.1.0"

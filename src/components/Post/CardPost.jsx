@@ -28,6 +28,7 @@ import { ProfileContext } from '../../store/profileContext';
 import getUserName, { getSubName } from '../../utils/getUserName';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
+import { MdOutlineDeleteOutline } from 'react-icons/md';
 
 const CardPost = ({
   post,
@@ -43,7 +44,7 @@ const CardPost = ({
   location,
   copied,
   isOnline,
-  subPlebbit,
+  subPlebbit: sub,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -64,8 +65,10 @@ const CardPost = ({
   const border2 = useColorModeValue('#edeff1', '#343536');
   const mobileIconColor = useColorModeValue('lightMobileIcon2', 'darkMobileIcon');
   const history = useHistory();
+  const subPlebbit = sub || { address: post?.subplebbitAddress };
 
   const { device, profile } = useContext(ProfileContext);
+  console.log(post);
   return (
     <>
       {device !== 'mobile' ? (
@@ -143,7 +146,9 @@ const CardPost = ({
                 pointerEvents="none"
                 wordBreak="normal"
               >
-                {!loading ? (vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)) : ''}
+                <Skeleton isLoaded={!loading}>
+                  {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode) || 0}
+                </Skeleton>
               </Box>
               <Box
                 width="24px"
@@ -189,12 +194,15 @@ const CardPost = ({
           </Flex>
 
           <Box bg={mainBg} position="relative" paddingTop="8px">
-            <Link
+            <ReactLink
               textDecoration="none"
               sx={{
                 textDecoration: 'none !important',
               }}
-              href={`#/p/${post?.subplebbitAddress}/c/${post?.cid}`}
+              to={{
+                pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                state: { detail: post },
+              }}
             >
               {post?.content ? (
                 <>
@@ -321,10 +329,17 @@ const CardPost = ({
                   {/* Post Title */}
                   <Box
                     margin="0 8px"
-                    onClick={() => history.push(`/p/${post?.subplebbitAddress}/c/${post?.cid}`, [])}
+                    onClick={() =>
+                      history.push(
+                        {
+                          pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                          state: { detail: post },
+                        },
+                        []
+                      )
+                    }
                   >
                     <Skeleton isLoaded={!loading}>
-                      {' '}
                       {/* flair */}
                       {type === 'subPlebbit' && post?.flair?.text.length ? (
                         <Tag
@@ -380,6 +395,11 @@ const CardPost = ({
                         </Tag>
                       ) : (
                         ''
+                      )}
+                      {!post?.cid && (
+                        <Tag size="sm" colorScheme="yellow" variant="outline">
+                          Pending
+                        </Tag>
                       )}
                     </Skeleton>
                   </Box>
@@ -536,7 +556,13 @@ const CardPost = ({
                     <Box
                       margin="0 8px"
                       onClick={() =>
-                        history.push(`/p/${post?.subplebbitAddress}/c/${post?.cid}`, [])
+                        history.push(
+                          {
+                            pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                            state: { detail: post },
+                          },
+                          []
+                        )
                       }
                     >
                       <Skeleton mb="30px" isLoaded={!loading}>
@@ -662,7 +688,7 @@ const CardPost = ({
                   </Flex>
                 </Flex>
               )}
-            </Link>
+            </ReactLink>
             {/* Post Footer */}
             <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
               <Flex
@@ -673,7 +699,12 @@ const CardPost = ({
                 padding="0 8px 0 4px"
                 flexGrow="1"
               >
-                <Link href={`#/p/${post?.subplebbitAddress}/c/${post?.cid}`}>
+                <ReactLink
+                  to={{
+                    pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                    state: { detail: post },
+                  }}
+                >
                   <Flex
                     padding="8px"
                     wordBreak="normal"
@@ -705,7 +736,7 @@ const CardPost = ({
                       {post?.replyCount} comment{post?.replyCount === 1 ? '' : 's'}
                     </Text>
                   </Flex>
-                </Link>
+                </ReactLink>
                 <Flex
                   padding="8px"
                   wordBreak="normal"
@@ -847,7 +878,11 @@ const CardPost = ({
           <Box position="relative" bg={mainMobileBg}>
             {/* Background link */}
             <Link
-              href={`#/p/${post?.subplebbitAddress}/c/${post?.cid}`}
+              as={ReactLink}
+              to={{
+                pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                state: { detail: post },
+              }}
               bottom="0"
               left="0"
               pointerEvents="all"
@@ -856,7 +891,7 @@ const CardPost = ({
               top="0"
             />
             {/*Header */}
-            <Box pointerEvents="none" position="relative">
+            <Box pointerEvents={detail ? 'all' : 'none'} position="relative">
               <Box paddingTop="0">
                 <Flex alignItems="center">
                   <Box
@@ -885,13 +920,14 @@ const CardPost = ({
                       paddingRight="3em"
                       padding="8px 16px"
                     >
-                      <Flex alignItems="center">
+                      <Flex alignItems="center" flexWrap="wrap">
                         <Flex
                           alignItems="center"
                           fontSize="14px"
                           fontWeight="500"
                           lineHeight="18px"
                           color={postHeadColor}
+                          mb="4px"
                         >
                           <Avatar
                             avatar={subPlebbit?.avatar}
@@ -901,14 +937,21 @@ const CardPost = ({
                             badge
                             isOnline={isOnline}
                           />
-                          <Skeleton isLoaded={!loading}>{getSubName(subPlebbit)}</Skeleton>
+                          <Skeleton isLoaded={!loading}>
+                            {getSubName(subPlebbit || { address: post?.subplebbitAddress })}
+                          </Skeleton>
                         </Flex>
 
-                        <Box mx="4px">
+                        <Box mx="4px" mb="4px">
                           <Skeleton isLoaded={!loading}>
                             {dateToFromNowDaily(post?.timestamp * 1000)}
                           </Skeleton>
                         </Box>
+                        {!post?.cid && (
+                          <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
+                            Pending
+                          </Tag>
+                        )}
                       </Flex>
                     </Box>
                   </Box>
@@ -934,13 +977,18 @@ const CardPost = ({
                         label: 'Edit',
                         icon: BsPencil,
                         id: 'Edit',
-                        disabled: !(profile?.author?.address === post?.author?.address && detail),
+                        disabled: !(
+                          (profile?.author?.address === post?.author?.address ||
+                            profile?.signer?.address === post?.author?.address) &&
+                          detail
+                        ),
                       },
                       {
                         label: 'Block Author',
                         icon: BsEyeSlash,
                         id: 'block',
                       },
+                      { label: 'Delete', icon: MdOutlineDeleteOutline, id: 'Delete' },
                     ]}
                   />
                 </Flex>
@@ -1053,8 +1101,8 @@ const CardPost = ({
                       {!loading
                         ? vote + voteMode === 0
                           ? 'vote'
-                          : numFormatter(vote + voteMode)
-                        : ''}
+                          : numFormatter(vote + voteMode) || 0
+                        : 0}
                     </Skeleton>
                   </Box>
                   <Flex
@@ -1114,7 +1162,13 @@ const CardPost = ({
                   </Flex>
                 </Flex>
                 {/* comment button */}
-                <Link to="#">
+                <Link
+                  as={ReactLink}
+                  to={{
+                    pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                    state: { detail: post },
+                  }}
+                >
                   <Flex
                     color={mobileIconColor}
                     fill={mobileIconColor}

@@ -44,6 +44,8 @@ import getIsOnline from '../../../utils/getIsOnline';
 import Avatar from '../../Avatar';
 import { PlebLogo, PlebbitTextLogo } from '../../svgs';
 import NavSearch from './navSearch';
+import convertArrToObj from '../../../utils/convertArrToObj';
+import Sort from '../../../utils/sort';
 
 const NavBar = ({ location }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -60,19 +62,28 @@ const NavBar = ({ location }) => {
     accountLists,
     createAccount,
     setActiveAccount,
-    subscriptions,
     version,
     accountSubplebbits,
     setPostView,
     postView,
     authorAvatarImageUrl,
     homeAdd,
-    subPlebbitDefData: subPlebbitData,
+    subPlebbitData: gitData,
+    subPlebbitDefData,
   } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
+  const subPlebbitData = Sort(
+    convertArrToObj(
+      [gitData, subPlebbitDefData?.filter((x) => x !== undefined)]?.flat(),
+      'address',
+      true
+    ),
+    (x) => getIsOnline(x?.updatedAt),
+    true
+  );
 
   const toast = useToast();
 
@@ -234,20 +245,11 @@ const NavBar = ({ location }) => {
                         <Box onClick={() => onOpenCreate()}>Create Community</Box>
                       </Flex>
                       {[
-                        subPlebbitData
-                          ?.map((x) => ({
-                            ...x,
-                            label: x?.title ? x?.title : getSubName(x),
-                            value: x?.address,
-                          }))
-                          ?.filter((x) => x !== undefined),
-                        subscriptions
-                          ?.map((x) => ({
-                            ...x,
-                            label: x?.title ? x?.title : getSubName(x),
-                            value: x?.address,
-                          }))
-                          ?.filter((x) => x !== undefined),
+                        subPlebbitData?.map((x) => ({
+                          ...x,
+                          label: x?.title ? x?.title : getSubName(x),
+                          value: x?.address,
+                        })),
                       ]
                         .flat()
                         ?.map((pages, index) => (

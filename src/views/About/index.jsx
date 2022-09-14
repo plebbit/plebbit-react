@@ -5,13 +5,16 @@ import { BsFillShieldFill } from 'react-icons/bs';
 import LeaveMod from './modal/leaveMod';
 import { useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import ModRole from './modal/modRole';
-import Moderators from './subPlebbitModerators';
+import Moderators from './Moderator/subPlebbitModerators';
 import AboutsideBar from './sideBar';
 import { ProfileContext } from '../../store/profileContext';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 import { getAddress } from '../../utils/getUserName';
+import Flair from './flair';
+import UserFlair from './flair/userFlair';
+import PostFlair from './flair/postFlair';
 
 const About = ({ match }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -98,6 +101,9 @@ const About = ({ match }) => {
                     role={role}
                   />
                 )}
+                {page === 'flair' && <Flair />}
+                {page === 'userflair' && <UserFlair />}
+                {page === 'postflair' && <PostFlair />}
               </Box>
             </Flex>
 

@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 // import { RiCopperCoinLine } from 'react-icons/ri';
-import { BsChat, BsBookmark, BsEyeSlash, BsFlag, BsFileText } from 'react-icons/bs';
+import { BsChat, BsBookmark, BsEyeSlash, BsFlag, BsFileText, BsPencil } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg';
@@ -30,6 +30,7 @@ import { ProfileContext } from '../../store/profileContext';
 import DropDown from '../DropDown';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
+import { MdOutlineDeleteOutline } from 'react-icons/md';
 
 const ClassicPost = ({
   loading,
@@ -46,7 +47,8 @@ const ClassicPost = ({
   copied,
   detail,
   isOnline,
-  subPlebbit,
+  handleOption,
+  subPlebbit: sub,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   // const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -67,7 +69,8 @@ const ClassicPost = ({
   const mainMobileBg = useColorModeValue('white', 'black');
   const postHeadColor = useColorModeValue('#1a1a1b', '#0079d3');
   const mobileIconColor = useColorModeValue('lightMobileIcon2', 'darkMobileIcon');
-  const { device } = useContext(ProfileContext);
+  const { device, profile } = useContext(ProfileContext);
+  const subPlebbit = sub || { address: post?.subplebbitAddress };
   const history = useHistory();
 
   return (
@@ -149,7 +152,7 @@ const ClassicPost = ({
                   wordBreak="normal"
                 >
                   <Skeleton isLoaded={!loading}>
-                    {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
+                    {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode) || 0}
                   </Skeleton>
                 </Box>
                 <Box
@@ -243,11 +246,21 @@ const ClassicPost = ({
               {/* Post content */}
               <Box ml="8px" flex="1 1 100%" position="relative" wordBreak="break-word">
                 {/* post title */}
-                <Box
+                <Flex
+                  alignItems="center"
+                  flexWrap="wrap"
                   margin="0 8px"
-                  onClick={() => history.push(`/p/${post?.subplebbitAddress}/c/${post?.cid}`, [])}
+                  onClick={() =>
+                    history.push(
+                      {
+                        pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                        state: { detail: post },
+                      },
+                      []
+                    )
+                  }
                 >
-                  <Skeleton isLoaded={!loading}>
+                  <Skeleton display="flex" flexWrap="wrap" isLoaded={!loading}>
                     {' '}
                     {/* flair */}
                     {type === 'subPlebbit' && post?.flair?.text ? (
@@ -265,6 +278,7 @@ const ClassicPost = ({
                         overflow="hidden"
                         display="inline-block"
                         verticalAlign="text-bottom"
+                        mb="4px"
                       >
                         {post?.flair?.text}
                       </Tag>
@@ -280,6 +294,7 @@ const ClassicPost = ({
                       paddingRight="5px"
                       textDecor="none"
                       wordBreak="break-word"
+                      mb="4px"
                     >
                       {post?.title}
                       {!post?.content ? (
@@ -320,14 +335,20 @@ const ClassicPost = ({
                         overflow="hidden"
                         display="inline-block"
                         verticalAlign="text-bottom"
+                        mb="4px"
                       >
                         {post?.flair?.text}
                       </Tag>
                     ) : (
                       ''
                     )}
+                    {!post?.cid && (
+                      <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
+                        Pending
+                      </Tag>
+                    )}
                   </Skeleton>
-                </Box>
+                </Flex>
                 {/* Post head */}
                 <Flex
                   fontSize="12px"
@@ -350,7 +371,10 @@ const ClassicPost = ({
                         <Avatar width={24} height={24} mr="8px" badge isOnline={isOnline} />
                         <Link
                           as={ReactLink}
-                          to={`/p/${post?.subplebbitAddress}`}
+                          to={{
+                            pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                            state: { detail: post },
+                          }}
                           color={subPledditTextColor}
                           fontSize="12px"
                           fontWeight="700"
@@ -711,7 +735,11 @@ const ClassicPost = ({
           <Box position="relative" bg={mainMobileBg}>
             {/* Background link */}
             <Link
-              href={`#/p/${post?.subplebbitAddress}/c/${post?.cid}`}
+              as={ReactLink}
+              to={{
+                pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                state: { detail: post },
+              }}
               bottom="0"
               left="0"
               pointerEvents="all"
@@ -800,17 +828,26 @@ const ClassicPost = ({
                         <Icon as={FiMoreHorizontal} verticalAlign="inherit" height={5} w={5} />
                       </Box>
                     }
+                    onChange={(x) => {
+                      handleOption(x);
+                    }}
                     options={[
                       {
-                        label: 'Hide',
-                        icon: BsEyeSlash,
-                        id: Math.random(),
+                        label: 'Edit',
+                        icon: BsPencil,
+                        id: 'Edit',
+                        disabled: !(
+                          (profile?.author?.address === post?.author?.address ||
+                            profile?.signer?.address === post?.author?.address) &&
+                          detail
+                        ),
                       },
                       {
-                        label: 'Report',
-                        icon: BsFlag,
-                        id: Math.random(),
+                        label: 'Block Author',
+                        icon: BsEyeSlash,
+                        id: 'block',
                       },
+                      { label: 'Delete', icon: MdOutlineDeleteOutline, id: 'Delete' },
                     ]}
                   />
                 </Flex>
@@ -1021,7 +1058,13 @@ const ClassicPost = ({
                   </Flex>
                 </Flex>
                 {/* comment button */}
-                <Link to="#">
+                <Link
+                  as={ReactLink}
+                  to={{
+                    pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                    state: { detail: post },
+                  }}
+                >
                   <Flex
                     color={mobileIconColor}
                     fill={mobileIconColor}
