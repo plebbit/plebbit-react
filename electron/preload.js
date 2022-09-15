@@ -1,38 +1,13 @@
-// force IpfsHttpClient to use node-fetch to fix max 6 connections
-// very hacky, might break at some point, wont be needed after
-// switch to contextIsolation
-const mock = require('mock-require');
-const fetch = require('node-fetch');
-mock('ipfs-utils/src/env.js', {
-  isTest: false,
-  isElectron: false,
-  isElectronMain: false,
-  isElectronRenderer: false,
-  isNode: true,
-  isBrowser: false,
-  isWebWorker: false,
-  isEnvWithDom: false,
-  isReactNative: false,
-});
-mock('native-fetch', {
-  default: fetch.default,
-  Headers: fetch.Headers,
-  Request: fetch.Request,
-  Response: fetch.Response,
-});
+const envPaths = require('env-paths').default('plebbit', { suffix: false });
+const {contextBridge} = require('electron')
+const path = require('path')
 
 // dev uses http://localhost, prod uses file://...index.html
 const isDev = window.location.protocol === 'http:';
 
-// add PlebbitJs to window.PlebbitJs so that the hooks
-// can call setPlebbitJs(PlebbitJs) and use Plebbit with
-// all node privileges
-const PlebbitJs = require('@plebbit/plebbit-js');
-const envPaths = require('env-paths').default('plebbit', { suffix: false });
-window.PlebbitJs = PlebbitJs;
-window.DefaultPlebbitOptions = {
+const defaultPlebbitOptions = {
   // find the user's OS data path
-  dataPath: !isDev ? envPaths.data : undefined,
+  dataPath: !isDev ? envPaths.data : path.resolve(__dirname, '.plebbit'),
   ipfsHttpClientOptions: 'http://localhost:5001/api/v0',
   // TODO: having to define pubsubHttpClientOptions and ipfsHttpClientOptions is a bug with plebbit-js
   pubsubHttpClientOptions: 'http://localhost:5001/api/v0',
@@ -42,10 +17,15 @@ window.DefaultPlebbitOptions = {
   // pubsubHttpClientOptions: 'https://pubsubprovider.xyz/api/v0',
 };
 
-// TODO: create context isolated plebbit-js functions to use
-// without contextIsolation: true for improved security
+// TODO: change to nativeFunctions.node when implemented in plebbit-js
+// const {nativeFunctions} = require('@plebbit/plebbit-js');
 
-// try/catch localStorage.debug because was causing unknown error sometimes
+// expose plebbit-js native functions into electron's renderer
+// contextBridge.exposeInMainWorld('plebbitJsNativeFunctions', nativeFunctions.node)
+contextBridge.exposeInMainWorld('plebbitJsNativeFunctions', require('@plebbit/plebbit-js/dist/node/runtime/node/native-functions').default)
+contextBridge.exposeInMainWorld('defaultPlebbitOptions', defaultPlebbitOptions)
+
+// try/catch localStorage.debug because causes unknown error sometimes
 try {
   localStorage.debug = 'plebbit-js:*,plebbit-react-hooks:*,plebbit-react:*';
 } catch (e) {

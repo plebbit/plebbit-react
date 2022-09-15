@@ -171,7 +171,7 @@ const Settings = () => {
     try {
       await setAccount({
         ...userProfile,
-        plebbitOptions: window.DefaultPlebbitOptions,
+        plebbitOptions: window.defaultPlebbitOptions,
       });
       toast({
         title: `Account updated`,

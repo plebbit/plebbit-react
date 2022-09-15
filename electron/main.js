@@ -62,9 +62,8 @@ const createMainWindow = () => {
     webPreferences: {
       // fix cors error for blockchain providers
       webSecurity: false,
-
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: false,
+      contextIsolation: true,
       devTools: true, // TODO: change to isDev when no bugs left
       preload: path.join(__dirname, 'preload.js'),
     },
