@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Box,
   Flex,
@@ -23,8 +23,10 @@ import logger from '../../../utils/logger';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 import Avatar from '../../Avatar';
 import onError from '../../../utils/onError';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { ProfileContext } from '../../../store/profileContext';
 
-const Comment = ({ comment, parentCid }) => {
+const Comment = ({ comment }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const [vote] = useState(+comment?.upvoteCount - +comment?.downvoteCount);
@@ -36,6 +38,8 @@ const Comment = ({ comment, parentCid }) => {
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(comment.author);
+  const { mode } = useContext(ProfileContext);
+  const [copied, setCopied] = useState(false);
   const [loader, setLoader] = useState(false);
   const onChallengeVerification = (challengeVerification) => {
     if (challengeVerification.challengeSuccess === true) {
@@ -120,7 +124,7 @@ const Comment = ({ comment, parentCid }) => {
       setLoader(true);
       publishComment({
         content,
-        parentCid: parentCid, // if top level reply to a post, same as postCid
+        parentCid: comment?.cid, // if top level reply to a post, same as postCid
         subplebbitAddress: comment?.subplebbitAddress,
         onChallenge,
         onChallengeVerification,
@@ -138,9 +142,10 @@ const Comment = ({ comment, parentCid }) => {
     }
   };
 
-  const nestedComments = (comment?.replies?.pages?.topAll?.comments || []).map((comment) => {
-    return <Comment key={comment?.cid} comment={comment} type="child" parentCid={comment?.cid} />;
+  const nestedComments = (comment?.replies?.pages?.topAll?.comments || []).map((data) => {
+    return <Comment key={data?.cid} comment={data} type="child" parentCid={data?.cid} />;
   });
+  console.log(comment);
   return (
     <Flex marginTop="15px">
       <Flex marginRight="8px" flexDir="column" alignItems="center">
@@ -295,56 +300,51 @@ const Comment = ({ comment, parentCid }) => {
               Give Award
             </Text>
           </Link>
-          <Link
-            display="flex"
-            alignItems="center"
-            borderRadius="2px"
-            padding="4px"
-            marginRight="4px"
-            _hover={{
-              textDecor: 'none',
-              outline: 'none',
-              bg: bottomButtonHover,
-            }}
-            _focus={{
-              boxShadow: 'none',
-            }}
-            sx={{
-              '@media (min-width: 1280px)': {},
-              '@media (max-width: 1120px)': {
-                display: 'none',
-              },
+          <CopyToClipboard
+            text={
+              mode === 'http:'
+                ? `demo.plebbit.eth.limo/#/p/${comment?.subplebbitAddress}/c/${comment?.cid}`
+                : window?.location?.href
+            }
+            onCopy={() => {
+              setCopied(true);
+              setTimeout(() => {
+                setCopied(false);
+              }, 3000);
             }}
           >
-            <Text fontSize="12px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
-              Share
-            </Text>
-          </Link>
-          {/* <Link
-            display="flex"
-            alignItems="center"
-            borderRadius="2px"
-            padding="4px"
-            marginRight="4px"
-            _hover={{
-              textDecor: 'none',
-              outline: 'none',
-              bg: bottomButtonHover,
-            }}
-            _focus={{
-              boxShadow: 'none',
-            }}
-            sx={{
-              '@media (min-width: 1280px)': {},
-              '@media (max-width: 1120px)': {
-                display: 'none',
-              },
-            }}
-          >
-            <Text fontSize="12px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
-              Report
-            </Text>
-          </Link> */}
+            <Link
+              display="flex"
+              alignItems="center"
+              borderRadius="2px"
+              padding="4px"
+              marginRight="4px"
+              _hover={{
+                textDecor: 'none',
+                outline: 'none',
+                bg: bottomButtonHover,
+              }}
+              _focus={{
+                boxShadow: 'none',
+              }}
+              sx={{
+                '@media (min-width: 1280px)': {},
+                '@media (max-width: 1120px)': {
+                  display: 'none',
+                },
+              }}
+            >
+              <Text
+                fontSize="12px"
+                fontWeight="700"
+                lineHeight="16px"
+                pointerEvents="none"
+                color=""
+              >
+                {copied ? 'Copied' : 'share'}
+              </Text>
+            </Link>
+          </CopyToClipboard>
           <Link
             display="flex"
             alignItems="center"
@@ -370,31 +370,6 @@ const Comment = ({ comment, parentCid }) => {
               Save
             </Text>
           </Link>
-          {/* <Link
-            display="flex"
-            alignItems="center"
-            borderRadius="2px"
-            padding="4px"
-            marginRight="4px"
-            _hover={{
-              textDecor: 'none',
-              outline: 'none',
-              bg: bottomButtonHover,
-            }}
-            _focus={{
-              boxShadow: 'none',
-            }}
-            sx={{
-              '@media (min-width: 1280px)': {},
-              '@media (max-width: 1120px)': {
-                display: 'none',
-              },
-            }}
-          >
-            <Text fontSize="12px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
-              Follow
-            </Text>
-          </Link> */}
         </Flex>
         {reply ? (
           <Box
@@ -418,7 +393,7 @@ const Comment = ({ comment, parentCid }) => {
         )}
         {showReplies ? (
           nestedComments
-        ) : comment?.replies?.pages?.topAll?.comments.length !== 0 ? (
+        ) : comment?.replies?.pages?.topAll?.comments.length > 0 ? (
           <Box
             onClick={() => setShowReplies(true)}
             fontSize="12px"

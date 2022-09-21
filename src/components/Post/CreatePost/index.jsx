@@ -192,8 +192,6 @@ const CreatePost = () => {
     }
   };
 
-  console.log(subPlebbitDefData);
-
   return (
     <Layout name={{ label: 'Create Post', value: location?.pathname }}>
       <Flex maxWidth="100%" justifyContent="center" margin="0 auto !important" height="100vh">
