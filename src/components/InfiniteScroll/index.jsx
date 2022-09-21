@@ -3,7 +3,6 @@ import Infs from 'react-infinite-scroll-component';
 import logger from '../../utils/logger';
 
 const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
-  console.log('hasmore', hasMore);
   return (
     <>
       <Infs

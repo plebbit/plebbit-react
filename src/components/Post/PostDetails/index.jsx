@@ -44,12 +44,17 @@ import onError from '../../../utils/onError';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 
 function PostDetail() {
+  const useGetParent = (add) => {
+    const sub = useComment(add);
+    return sub;
+  };
   const location = useLocation();
-  const det = useComment(
+  const det = useGetParent(
     window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
   );
   const detail = det === undefined ? location?.state?.detail : det;
   const sub = useSubplebbit(detail?.subplebbitAddress);
+  const isReply = detail?.depth !== 0;
   const subplebbit = sub === undefined ? { address: detail?.subplebbitAddress } : sub;
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -323,7 +328,7 @@ function PostDetail() {
     detail,
   });
 
-  console.log(detail);
+  console.log('det', isReply, det, location?.state?.detail);
 
   return (
     <Layout
@@ -1530,7 +1535,7 @@ function PostDetail() {
               </Box>
               <Box padding="16px" maxW="100%">
                 {detail?.replies?.pages?.topAll?.comments.map((comment) => (
-                  <Comment comment={comment} key={comment.cid} parentCid={detail?.cid} />
+                  <Comment comment={comment} key={comment.cid} />
                 ))}
               </Box>
             </Box>

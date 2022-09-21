@@ -120,7 +120,7 @@ const CommunitySettings = ({ match }) => {
     setData({ ...subplebbit });
   }, [subplebbit]);
 
-  console.log(resolvedAuthorAddress, data);
+  console.log(data);
 
   return (
     <Layout
