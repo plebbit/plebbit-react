@@ -26,8 +26,9 @@ import onError from '../../../utils/onError';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ProfileContext } from '../../../store/profileContext';
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
+  const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const [vote] = useState(+comment?.upvoteCount - +comment?.downvoteCount);
   const [voteMode, setVoteMode] = useState(0);
@@ -37,7 +38,7 @@ const Comment = ({ comment }) => {
   const { publishVote, publishComment } = useAccountsActions();
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const authorAvatarImageUrl = useAuthorAvatarImageUrl(comment.author);
+  const authorAvatarImageUrl = useAuthorAvatarImageUrl(comment?.author);
   const { mode } = useContext(ProfileContext);
   const [copied, setCopied] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -142,12 +143,27 @@ const Comment = ({ comment }) => {
     }
   };
 
+  const oneComment = (
+    <Comment
+      key={singleComment?.cid}
+      comment={singleComment}
+      type="singleComment"
+      parentCid={singleComment?.cid}
+    />
+  );
+
   const nestedComments = (comment?.replies?.pages?.topAll?.comments || []).map((data) => {
-    return <Comment key={data?.cid} comment={data} type="child" parentCid={data?.cid} />;
+    return (
+      <Comment
+        key={data?.cid}
+        comment={data}
+        type={data?.cid === singleComment?.cid ? 'singleComment' : 'child'}
+        parentCid={data?.cid}
+      />
+    );
   });
-  console.log(comment);
   return (
-    <Flex marginTop="15px">
+    <Flex marginTop="15px" bg={type === 'singleComment' && commentBg} padding="8px 0 0 8px">
       <Flex marginRight="8px" flexDir="column" alignItems="center">
         <Avatar width={28} height={28} avatar={authorAvatarImageUrl} mb="10px" />
 
@@ -191,7 +207,7 @@ const Comment = ({ comment }) => {
           )}
         </Flex>
         <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>
-          <Marked content={comment?.content} />
+          <Marked content={comment?.content || ''} />
         </Box>
         <Flex color={iconColor}>
           <Flex
@@ -228,7 +244,7 @@ const Comment = ({ comment }) => {
               icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w="20px" h="20px" />}
             />
             <Box fontSize="14px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
-              {numFormatter(vote + voteMode) === 0 ? 'vote' : numFormatter(vote + voteMode)}
+              {numFormatter(vote + voteMode) === 0 ? 'vote' : numFormatter(vote + voteMode) || 0}
             </Box>
             <IconButton
               aria-label="Downvote Post"
@@ -391,7 +407,8 @@ const Comment = ({ comment }) => {
         ) : (
           ''
         )}
-        {showReplies ? (
+        {singleComment && oneComment}
+        {!disableReplies && showReplies ? (
           nestedComments
         ) : comment?.replies?.pages?.topAll?.comments.length > 0 ? (
           <Box

@@ -42,19 +42,34 @@ import getIsOnline from '../../../utils/getIsOnline';
 import Avatar from '../../Avatar';
 import onError from '../../../utils/onError';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
+import Replies from '../comment/replies';
 
 function PostDetail() {
-  const useGetParent = (add) => {
-    const sub = useComment(add);
-    return sub;
-  };
   const location = useLocation();
-  const det = useGetParent(
+  const det = useComment(
     window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
   );
-  const detail = det === undefined ? location?.state?.detail : det;
+  const dat = det === undefined ? location?.state?.detail : det;
+  let detail;
+  let reply;
+  let replyParent;
+  let replyPost = useComment(dat?.postCid);
+  const isReply = dat?.depth !== 0;
+  if (isReply) {
+    detail = replyPost;
+    reply = dat;
+  } else {
+    detail = dat;
+  }
+  const replyParentaux = useComment(reply?.parentCid);
+  replyParent = replyParentaux;
+  if (dat?.depth === 1) {
+    replyParent = dat;
+    reply = undefined;
+  }
+
   const sub = useSubplebbit(detail?.subplebbitAddress);
-  const isReply = detail?.depth !== 0;
+
   const subplebbit = sub === undefined ? { address: detail?.subplebbitAddress } : sub;
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -327,8 +342,9 @@ function PostDetail() {
     address: window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1),
     detail,
   });
+  const ex = useComment(dat?.postCid);
 
-  console.log('det', isReply, det, location?.state?.detail);
+  console.log('det', replyParent?.postCid, ex);
 
   return (
     <Layout
@@ -1306,6 +1322,7 @@ function PostDetail() {
                           </Box>
                           <hr />
                         </Box>
+                        {isReply && <Replies parent={replyParent} reply={reply} />}
                         {detail?.replies?.pages?.topAll?.comments.map((comment) => (
                           <Comment comment={comment} key={comment.cid} parentCid={detail?.cid} />
                         ))}

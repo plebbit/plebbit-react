@@ -68,7 +68,6 @@ const CardPost = ({
   const subPlebbit = sub || { address: post?.subplebbitAddress };
 
   const { device, profile } = useContext(ProfileContext);
-  console.log(post);
   return (
     <>
       {device !== 'mobile' ? (
