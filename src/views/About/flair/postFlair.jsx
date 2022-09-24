@@ -1,8 +1,23 @@
-import { Box, Button, Flex, Icon, Input, useColorModeValue } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Icon,
+  Input,
+  useColorModeValue,
+  useDisclosure,
+  Table,
+  TableContainer,
+  Tbody,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { AiOutlineInfoCircle, AiOutlineTag } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import { ProfileContext } from '../../../store/profileContext';
+import FlairSettings from './modal/flairSettings';
 
 const PostFlair = ({ role }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -11,6 +26,11 @@ const PostFlair = ({ role }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const border1 = useColorModeValue('#edeff1', '#343536');
   const { device } = useContext(ProfileContext);
+  const {
+    isOpen: showSettings,
+    onOpen: OpenSettings,
+    onClose: closeSettings,
+  } = useDisclosure(false);
 
   return (
     <Box>
@@ -41,7 +61,7 @@ const PostFlair = ({ role }) => {
           borderRadius="999px"
           padding="4px 16px"
           height={device !== 'mobile' ? '32px' : '24px'}
-          onClick={() => {}}
+          onClick={OpenSettings}
           mt={device === 'mobile' && '6px'}
           disabled={role !== ('owner' || 'moderators')}
           color={mainColor}
@@ -144,38 +164,53 @@ const PostFlair = ({ role }) => {
           overflow="hidden"
           flexDir="column"
         >
-          <Flex
-            alignItems="center"
-            fontSize="12px"
-            fontWeight="400"
-            lineHeight="16px"
-            bg={inputBg}
-            borderBottom={`1px solid ${border1}`}
-            boxSizing="border-box"
-            color={iconColor}
-            height="48px"
-            padding="16px 42px 16px 24px"
-            width="100%"
-          >
-            <Flex flex="0 0 auto" alignItems="center">
-              <Box>POST FLAIR PREVIEW</Box>
-            </Flex>
-
-            <Flex ml="auto" alignItems="flex-start">
-              <Flex alignItems="center" w="144px" paddingRight="16px">
-                <Box padding="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                  SETTINGS
-                </Box>
-                <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
-              </Flex>
-              <Flex alignItems="center" ml="auto" w="144px">
-                <Box padding="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                  FLAIR ID
-                </Box>
-                <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
-              </Flex>
-            </Flex>
-          </Flex>
+          <TableContainer>
+            <Table>
+              <Thead>
+                <Tr
+                  fontSize="12px"
+                  fontWeight="400"
+                  lineHeight="16px"
+                  bg={inputBg}
+                  borderBottom={`1px solid ${border1}`}
+                  boxSizing="border-box"
+                  color={iconColor}
+                  height="48px"
+                  padding="16px 42px 16px 24px"
+                >
+                  <Th>USER FLAIR PREVIEW</Th>
+                  <Th>
+                    <Flex alignItems="center" paddingRight="16px">
+                      <Box
+                        padding="4px"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                      >
+                        SETTINGS
+                      </Box>
+                      <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
+                    </Flex>
+                  </Th>
+                  <Th>
+                    <Flex alignItems="center">
+                      <Box
+                        padding="4px"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                      >
+                        FLAIR ID
+                      </Box>
+                      <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
+                    </Flex>
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody></Tbody>
+            </Table>
+            <Flex borderRadius="0 0 4px 4px" bg={border1} />
+          </TableContainer>
           <Flex alignItems="center" bg={mainBg} flexDir="column" padding="90px 0">
             <Icon as={AiOutlineTag} width={8} height={8} color={iconColor} mb="16px" />
             <Box fontSize="18px" fontWeight="500" lineHeight="22px" mb="8px">
@@ -186,6 +221,9 @@ const PostFlair = ({ role }) => {
           <Flex padding="8px 16px" bg={border1} height="48px" />
         </Flex>
       </Box>
+      {showSettings && (
+        <FlairSettings isOpen={showSettings} onClose={closeSettings} title="Post flair settings" />
+      )}
     </Box>
   );
 };

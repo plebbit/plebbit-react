@@ -101,9 +101,9 @@ const About = ({ match }) => {
                     role={role}
                   />
                 )}
-                {page === 'flair' && <Flair />}
-                {page === 'userflair' && <UserFlair />}
-                {page === 'postflair' && <PostFlair />}
+                {page === 'flair' && <Flair role={role} />}
+                {page === 'userflair' && <UserFlair role={role} />}
+                {page === 'postflair' && <PostFlair role={role} />}
               </Box>
             </Flex>
 
@@ -195,6 +195,9 @@ const About = ({ match }) => {
                     role={role}
                   />
                 )}
+                {page === 'flair' && <Flair role={role} />}
+                {page === 'userflair' && <UserFlair role={role} />}
+                {page === 'postflair' && <PostFlair role={role} />}
               </Box>
             </Flex>
 
