@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -14,9 +14,19 @@ import {
   Switch,
 } from '@chakra-ui/react';
 
-const FlairSettings = ({ onClose, isOpen, title }) => {
+const FlairSettings = ({
+  onClose,
+  isOpen,
+  title,
+  subPlebbit,
+  type,
+  handleSubPlebbitedit,
+  loading,
+}) => {
   const border1 = useColorModeValue('#edeff1', '#343536');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
+  const bool = (val) => Boolean(val);
+  const [data, setData] = useState(subPlebbit);
 
   return (
     <Modal onClose={onClose} size="xl" isOpen={isOpen} isCentered>
@@ -32,12 +42,27 @@ const FlairSettings = ({ onClose, isOpen, title }) => {
           lineHeight="21px"
         >
           <Flex mb="12px" justifyContent="space-between" alignItems="center">
-            <FormLabel>Enable user flair in this community</FormLabel>
-            <Switch isChecked />
+            <FormLabel>Enable {title} flair in this community</FormLabel>
+            <Switch
+              isChecked={
+                type === 'user' ? data?.features?.authorFlairs : data?.features?.postFlairs
+              }
+              onChange={() => {
+                setData({
+                  ...data,
+                  features: {
+                    ...data?.features,
+                    [type === 'user' ? 'authorFlairs' : 'postFlairs']: !bool(
+                      type === 'user' ? data?.features?.authorFlairs : data?.features?.postFlairs
+                    ),
+                  },
+                });
+              }}
+            />
           </Flex>
           <Flex mb="6px" justifyContent="space-between" alignItems="center">
             <FormLabel>Allow users to assign their own</FormLabel>
-            <Switch isChecked />
+            <Switch disabled isChecked={false} />
           </Flex>
           This will let users select, edit, and clear user flair for their usernames in this
           community. This does not allow users to select or edit mod-only user flair.
@@ -53,7 +78,13 @@ const FlairSettings = ({ onClose, isOpen, title }) => {
           >
             Cancel
           </Button>
-          <Button h="32px" borderRadius="999px" colorScheme="blackAlpha">
+          <Button
+            onClick={() => handleSubPlebbitedit({ features: data?.features })}
+            h="32px"
+            borderRadius="999px"
+            colorScheme="blackAlpha"
+            _loading={loading}
+          >
             Save
           </Button>
         </ModalFooter>

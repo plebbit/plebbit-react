@@ -12,20 +12,24 @@ import {
   Th,
   Thead,
   Tr,
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/react';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AiOutlineInfoCircle, AiOutlineTag } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
+import FlairList from '../../../components/Flair';
 import { ProfileContext } from '../../../store/profileContext';
 import FlairSettings from './modal/flairSettings';
 
-const PostFlair = ({ role }) => {
+const PostFlair = ({ role, subPlebbit, handleSubPlebbitedit, loading }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const border1 = useColorModeValue('#edeff1', '#343536');
   const { device } = useContext(ProfileContext);
+  const [showAdd, setShowAdd] = useState(false);
   const {
     isOpen: showSettings,
     onOpen: OpenSettings,
@@ -105,9 +109,11 @@ const PostFlair = ({ role }) => {
           borderRadius="999px"
           padding="4px 16px"
           height={device !== 'mobile' ? '32px' : '24px'}
-          onClick={() => {}}
+          onClick={() => setShowAdd(true)}
           mt={device === 'mobile' && '6px'}
-          disabled={role !== ('owner' || 'moderators')}
+          disabled={
+            role !== ('owner' || 'moderators') || !subPlebbit?.features?.postFlairs || showAdd
+          }
           color={mainColor}
         >
           Add Flair
@@ -115,6 +121,12 @@ const PostFlair = ({ role }) => {
       </Flex>
 
       <Box ml="24px" mr="24px" paddingTop="64px" borderRadius="0 0 4px 4px" overflow="hidden">
+        {!subPlebbit?.features?.postFlairs && (
+          <Alert mb="8px" status="warning" variant="left-accent">
+            <AlertIcon />
+            Post flairs will not be visible until feature is enabled
+          </Alert>
+        )}
         <Flex
           fontSize="18px"
           fontWeight="500"
@@ -126,6 +138,7 @@ const PostFlair = ({ role }) => {
           <Box>Post flair management </Box>
           <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
         </Flex>
+
         <Flex
           bg={border1}
           alignItems="center"
@@ -207,22 +220,52 @@ const PostFlair = ({ role }) => {
                   </Th>
                 </Tr>
               </Thead>
-              <Tbody></Tbody>
+              <Tbody>
+                {subPlebbit?.flairs?.post?.map((flair, index) => (
+                  <FlairList
+                    key={flair?.id || index}
+                    mode="edit"
+                    handleSubPlebbitedit={handleSubPlebbitedit}
+                    type="post"
+                    flairs={subPlebbit?.flairs}
+                    data={flair}
+                  />
+                ))}
+                {showAdd && (
+                  <FlairList
+                    mode="create"
+                    setShowAdd={setShowAdd}
+                    handleSubPlebbitedit={handleSubPlebbitedit}
+                    type="post"
+                    flairs={subPlebbit?.flairs}
+                  />
+                )}
+              </Tbody>
             </Table>
             <Flex borderRadius="0 0 4px 4px" bg={border1} />
           </TableContainer>
-          <Flex alignItems="center" bg={mainBg} flexDir="column" padding="90px 0">
-            <Icon as={AiOutlineTag} width={8} height={8} color={iconColor} mb="16px" />
-            <Box fontSize="18px" fontWeight="500" lineHeight="22px" mb="8px">
-              You do not have any post flair
-            </Box>
-            <Box>Create post flair in your community today</Box>
-          </Flex>
+          {!subPlebbit?.flairs?.post && (
+            <Flex alignItems="center" bg={mainBg} flexDir="column" padding="90px 0">
+              <Icon as={AiOutlineTag} width={8} height={8} color={iconColor} mb="16px" />
+              <Box fontSize="18px" fontWeight="500" lineHeight="22px" mb="8px">
+                You do not have any post flair
+              </Box>
+              <Box>Create post flair in your community today</Box>
+            </Flex>
+          )}
           <Flex padding="8px 16px" bg={border1} height="48px" />
         </Flex>
       </Box>
       {showSettings && (
-        <FlairSettings isOpen={showSettings} onClose={closeSettings} title="Post flair settings" />
+        <FlairSettings
+          isOpen={showSettings}
+          onClose={closeSettings}
+          title="Post flair settings"
+          type="post"
+          subPlebbit={subPlebbit}
+          handleSubPlebbitedit={handleSubPlebbitedit}
+          loading={loading}
+        />
       )}
     </Box>
   );

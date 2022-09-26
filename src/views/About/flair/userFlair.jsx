@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Flex,
@@ -13,25 +15,27 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AiOutlineInfoCircle, AiOutlineTag } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import FlairList from '../../../components/Flair';
 import { ProfileContext } from '../../../store/profileContext';
 import FlairSettings from './modal/flairSettings';
 
-const UserFlair = ({ role }) => {
+const UserFlair = ({ role, subPlebbit, handleSubPlebbitedit, loading }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const border1 = useColorModeValue('#edeff1', '#343536');
+  const [showAdd, setShowAdd] = useState(false);
   const { device } = useContext(ProfileContext);
   const {
     isOpen: showSettings,
     onOpen: OpenSettings,
     onClose: closeSettings,
   } = useDisclosure(false);
+  console.log(subPlebbit);
   return (
     <Box>
       <Flex
@@ -105,9 +109,9 @@ const UserFlair = ({ role }) => {
           borderRadius="999px"
           padding="4px 16px"
           height={device !== 'mobile' ? '32px' : '24px'}
-          onClick={() => {}}
+          onClick={() => setShowAdd(true)}
           mt={device === 'mobile' && '6px'}
-          disabled={role !== ('owner' || 'moderators')}
+          disabled={role !== ('owner' || 'moderators') || !subPlebbit?.features?.authorFlairs}
           color={mainColor}
         >
           Add Flair
@@ -115,6 +119,12 @@ const UserFlair = ({ role }) => {
       </Flex>
 
       <Box ml="24px" mr="24px" paddingTop="64px" borderRadius="0 0 4px 4px" overflow="hidden">
+        {!subPlebbit?.features?.authorFlairs && (
+          <Alert mb="8px" status="warning" variant="left-accent">
+            <AlertIcon />
+            User flairs will not be visible until feature is enabled
+          </Alert>
+        )}
         <Flex
           fontSize="18px"
           fontWeight="500"
@@ -208,13 +218,31 @@ const UserFlair = ({ role }) => {
                 </Tr>
               </Thead>
               <Tbody>
-                <FlairList />
+                {subPlebbit?.flairs?.author?.map((flair, index) => (
+                  <FlairList
+                    key={flair?.id || index}
+                    mode="edit"
+                    handleSubPlebbitedit={handleSubPlebbitedit}
+                    type="author"
+                    flairs={subPlebbit?.flairs}
+                    data={flair}
+                  />
+                ))}
+                {showAdd && (
+                  <FlairList
+                    mode="create"
+                    setShowAdd={setShowAdd}
+                    handleSubPlebbitedit={handleSubPlebbitedit}
+                    type="author"
+                    flairs={subPlebbit?.flairs}
+                  />
+                )}
               </Tbody>
             </Table>
             <Flex borderRadius="0 0 4px 4px" bg={border1} />
           </TableContainer>
 
-          {1 === 2 && (
+          {!subPlebbit?.flairs?.author && (
             <Flex alignItems="center" bg={mainBg} flexDir="column" padding="90px 0">
               <Icon as={AiOutlineTag} width={8} height={8} color={iconColor} mb="16px" />
               <Box fontSize="18px" fontWeight="500" lineHeight="22px" mb="8px">
@@ -227,7 +255,15 @@ const UserFlair = ({ role }) => {
         </Flex>
       </Box>
       {showSettings && (
-        <FlairSettings isOpen={showSettings} onClose={closeSettings} title="User flair settings" />
+        <FlairSettings
+          subPlebbit={subPlebbit}
+          isOpen={showSettings}
+          onClose={closeSettings}
+          title="User flair settings"
+          type="user"
+          handleSubPlebbitedit={handleSubPlebbitedit}
+          loading={loading}
+        />
       )}
     </Box>
   );

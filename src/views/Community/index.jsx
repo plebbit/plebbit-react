@@ -92,15 +92,16 @@ const CommunitySettings = ({ match }) => {
   };
 
   const handleSaveChanges = async () => {
+    const postData = {
+      title: data?.title,
+      description: data?.description,
+      address: data?.address,
+      onChallenge,
+      onChallengeVerification,
+    };
     try {
       setLoading(true);
-      await publishSubplebbitEdit(subplebbit?.address, {
-        title: data?.title,
-        description: data?.description,
-        address: data?.address,
-        onChallenge,
-        onChallengeVerification,
-      });
+      await publishSubplebbitEdit(subplebbit?.address, postData);
       setLoading(false);
     } catch (error) {
       logger('editComment', error, 'error');
