@@ -272,7 +272,7 @@ const AboutsideBar = ({ page }) => {
           <Icon as={TiDocumentText} mr="8px" width="20px" height="20px" />
           <Box>Rules & Regulations</Box>
         </Flex>
-        <Link>
+        <Link to="rules">
           <Flex
             fontSize="14px"
             fontWeight="400"
@@ -281,7 +281,6 @@ const AboutsideBar = ({ page }) => {
             padding="8px 24px"
             borderLeft={page === 'rules' && `4px solid #1a1a1b `}
             bg={page === 'rules' && border1}
-            cursor="not-allowed"
           >
             Rules
           </Flex>

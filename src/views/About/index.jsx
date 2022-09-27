@@ -25,6 +25,7 @@ import UserFlair from './flair/userFlair';
 import PostFlair from './flair/postFlair';
 import logger from '../../utils/logger';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
+import Rules from './Rules';
 
 const About = ({ match }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -92,7 +93,7 @@ const About = ({ match }) => {
       await publishSubplebbitEdit(subPlebbit?.address, postData);
       setLoading(false);
     } catch (error) {
-      logger('editComment', error, 'error');
+      logger('editSubplebbit', error, 'error');
       toast({
         title: 'Declined.',
         description: error?.message,
@@ -163,6 +164,15 @@ const About = ({ match }) => {
                     <Icon as={BsFillShieldFill} color={iconColor} width="30px" height="30px" />
                     <Box>Welcome to the mod tools for {subPlebbit?.title}</Box>
                   </Flex>
+                )}
+                {page === 'rules' && (
+                  <Rules
+                    subPlebbit={subPlebbit}
+                    openLeaveMod={openLeaveMod}
+                    openRoleMod={openRoleMod}
+                    role={role}
+                    handleSubPlebbitedit={handleSubPlebbitedit}
+                  />
                 )}
                 {page === 'moderators' && (
                   <Moderators
@@ -282,6 +292,15 @@ const About = ({ match }) => {
                     <Icon as={BsFillShieldFill} color={iconColor} width="30px" height="30px" />
                     <Box>Welcome to the mod tools for {subPlebbit?.title}</Box>
                   </Flex>
+                )}
+                {page === 'rules' && (
+                  <Rules
+                    subPlebbit={subPlebbit}
+                    openLeaveMod={openLeaveMod}
+                    openRoleMod={openRoleMod}
+                    handleSubPlebbitedit={handleSubPlebbitedit}
+                    role={role}
+                  />
                 )}
                 {page === 'moderators' && (
                   <Moderators
