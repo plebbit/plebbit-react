@@ -1,18 +1,41 @@
-import { Box, Button, Flex, Icon, Input, Tag, useColorModeValue } from '@chakra-ui/react';
-import React, { useContext } from 'react';
+import {
+  Alert,
+  AlertIcon,
+  Box,
+  Button,
+  Flex,
+  Icon,
+  Input,
+  Table,
+  TableContainer,
+  Tbody,
+  Th,
+  Thead,
+  Tr,
+  useColorModeValue,
+  useDisclosure,
+} from '@chakra-ui/react';
+import React, { useContext, useState } from 'react';
 import { AiOutlineInfoCircle, AiOutlineTag } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
-import { RiDeleteBin6Line } from 'react-icons/ri';
+import FlairList from '../../../components/Flair';
 import { ProfileContext } from '../../../store/profileContext';
+import FlairSettings from './modal/flairSettings';
 
-const UserFlair = ({ role }) => {
+const UserFlair = ({ role, subPlebbit, handleSubPlebbitedit, loading }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const border1 = useColorModeValue('#edeff1', '#343536');
+  const [showAdd, setShowAdd] = useState(false);
   const { device } = useContext(ProfileContext);
-
+  const {
+    isOpen: showSettings,
+    onOpen: OpenSettings,
+    onClose: closeSettings,
+  } = useDisclosure(false);
+  console.log(subPlebbit);
   return (
     <Box>
       <Flex
@@ -42,7 +65,7 @@ const UserFlair = ({ role }) => {
           borderRadius="999px"
           padding="4px 16px"
           height={device !== 'mobile' ? '32px' : '24px'}
-          onClick={() => {}}
+          onClick={OpenSettings}
           mt={device === 'mobile' && '6px'}
           disabled={role !== ('owner' || 'moderators')}
           color={mainColor}
@@ -86,9 +109,9 @@ const UserFlair = ({ role }) => {
           borderRadius="999px"
           padding="4px 16px"
           height={device !== 'mobile' ? '32px' : '24px'}
-          onClick={() => {}}
+          onClick={() => setShowAdd(true)}
           mt={device === 'mobile' && '6px'}
-          disabled={role !== ('owner' || 'moderators')}
+          disabled={role !== ('owner' || 'moderators') || !subPlebbit?.features?.authorFlairs}
           color={mainColor}
         >
           Add Flair
@@ -96,6 +119,12 @@ const UserFlair = ({ role }) => {
       </Flex>
 
       <Box ml="24px" mr="24px" paddingTop="64px" borderRadius="0 0 4px 4px" overflow="hidden">
+        {!subPlebbit?.features?.authorFlairs && (
+          <Alert mb="8px" status="warning" variant="left-accent">
+            <AlertIcon />
+            User flairs will not be visible until feature is enabled
+          </Alert>
+        )}
         <Flex
           fontSize="18px"
           fontWeight="500"
@@ -145,72 +174,75 @@ const UserFlair = ({ role }) => {
           overflow="hidden"
           flexDir="column"
         >
-          <Flex
-            alignItems="center"
-            fontSize="12px"
-            fontWeight="400"
-            lineHeight="16px"
-            bg={inputBg}
-            borderBottom={`1px solid ${border1}`}
-            boxSizing="border-box"
-            color={iconColor}
-            height="48px"
-            padding="16px 42px 16px 24px"
-            width="100%"
-          >
-            <Flex width="50%" alignItems="center">
-              <Box>USER FLAIR PREVIEW</Box>
-            </Flex>
+          <TableContainer>
+            <Table>
+              <Thead>
+                <Tr
+                  fontSize="12px"
+                  fontWeight="400"
+                  lineHeight="16px"
+                  bg={inputBg}
+                  borderBottom={`1px solid ${border1}`}
+                  boxSizing="border-box"
+                  color={iconColor}
+                  height="48px"
+                  padding="16px 42px 16px 24px"
+                >
+                  <Th>USER FLAIR PREVIEW</Th>
+                  <Th>
+                    <Flex alignItems="center" paddingRight="16px">
+                      <Box
+                        padding="4px"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                      >
+                        SETTINGS
+                      </Box>
+                      <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
+                    </Flex>
+                  </Th>
+                  <Th>
+                    <Flex alignItems="center">
+                      <Box
+                        padding="4px"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                      >
+                        FLAIR ID
+                      </Box>
+                      <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
+                    </Flex>
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {subPlebbit?.flairs?.author?.map((flair, index) => (
+                  <FlairList
+                    key={flair?.id || index}
+                    mode="edit"
+                    handleSubPlebbitedit={handleSubPlebbitedit}
+                    type="author"
+                    flairs={subPlebbit?.flairs}
+                    data={flair}
+                  />
+                ))}
+                {showAdd && (
+                  <FlairList
+                    mode="create"
+                    setShowAdd={setShowAdd}
+                    handleSubPlebbitedit={handleSubPlebbitedit}
+                    type="author"
+                    flairs={subPlebbit?.flairs}
+                  />
+                )}
+              </Tbody>
+            </Table>
+            <Flex borderRadius="0 0 4px 4px" bg={border1} />
+          </TableContainer>
 
-            <Flex width="50%" alignItems="flex-start">
-              <Flex alignItems="center" paddingRight="16px">
-                <Box padding="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                  SETTINGS
-                </Box>
-                <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
-              </Flex>
-              <Flex alignItems="center" ml="auto" w="144px">
-                <Box padding="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                  FLAIR ID
-                </Box>
-                <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
-              </Flex>
-            </Flex>
-          </Flex>
-          <Flex
-            alignItems="center"
-            fontSize="12px"
-            fontWeight="400"
-            lineHeight="16px"
-            bg={mainBg}
-            borderBottom={`1px solid ${border1}`}
-            boxSizing="border-box"
-            color={iconColor}
-            height="48px"
-            padding="16px 42px 16px 24px"
-            width="100%"
-          >
-            <Flex width="50%" alignItems="center">
-              <Tag bg="red">Test</Tag>
-            </Flex>
-
-            <Flex width="50%" alignItems="flex-start">
-              <Flex alignItems="center" w="144px" paddingRight="16px">
-                <Box padding="4px" overflow="hidden" whiteSpace="nowrap">
-                  Editable, Allows text and up to 10 emojis
-                </Box>
-                <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
-              </Flex>
-              <Flex alignItems="center" ml="auto" w="144px">
-                <Box padding="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                  EDIT
-                </Box>
-                <Icon as={RiDeleteBin6Line} ml="auto" verticalAlign="text-top" />
-              </Flex>
-            </Flex>
-          </Flex>
-          <Flex borderRadius="0 0 4px 4px" bg={border1} />
-          {1 === 2 && (
+          {!subPlebbit?.flairs?.author && (
             <Flex alignItems="center" bg={mainBg} flexDir="column" padding="90px 0">
               <Icon as={AiOutlineTag} width={8} height={8} color={iconColor} mb="16px" />
               <Box fontSize="18px" fontWeight="500" lineHeight="22px" mb="8px">
@@ -222,6 +254,17 @@ const UserFlair = ({ role }) => {
           <Flex padding="8px 16px" bg={border1} height="48px" />
         </Flex>
       </Box>
+      {showSettings && (
+        <FlairSettings
+          subPlebbit={subPlebbit}
+          isOpen={showSettings}
+          onClose={closeSettings}
+          title="User flair settings"
+          type="user"
+          handleSubPlebbitedit={handleSubPlebbitedit}
+          loading={loading}
+        />
+      )}
     </Box>
   );
 };

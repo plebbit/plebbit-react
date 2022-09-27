@@ -112,7 +112,7 @@ const SideBar = ({
           <List>
             {subs?.map((sub, index) => (
               <ListItem
-                key={sub?.id}
+                key={`${index}${sub?.id}`}
                 display="flex"
                 alignItems="center"
                 padding="0 12px"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -11,31 +11,15 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-const LeaveMod = ({
-  onClose,
-  isOpen,
-  subPlebbit,
-  profile,
-  handleSubPlebbitedit,
-  loading: loading2,
-}) => {
+const DiscardFlair = ({ onClose, isOpen }) => {
   const border1 = useColorModeValue('#edeff1', '#343536');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
-  const [loading, setLoading] = useState(false);
-  const data = subPlebbit;
-
-  const handleDelete = async () => {
-    setLoading(true);
-    await delete data?.roles[profile?.author?.address];
-    await handleSubPlebbitedit({ roles: subPlebbit?.roles });
-    setLoading(false);
-  };
 
   return (
     <Modal onClose={onClose} size="xl" isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader borderBottom={`1px solid ${border1}`}>Leave as mod</ModalHeader>
+        <ModalHeader borderBottom={`1px solid ${border1}`}>Discard new flair?</ModalHeader>
         <ModalCloseButton />
         <ModalBody
           padding="16px"
@@ -44,8 +28,7 @@ const LeaveMod = ({
           color={mainColor}
           lineHeight="21px"
         >
-          Once you leave as a mod, you will lose mod permissions and will be unable to access any
-          mod tools for this community. Are you sure you wish to leave as a mod of this community?
+          You have a new flair that has not been saved, do you wish to discard this new flair?
         </ModalBody>
         <ModalFooter bg={border1}>
           <Button
@@ -58,14 +41,8 @@ const LeaveMod = ({
           >
             Cancel
           </Button>
-          <Button
-            isLoading={loading || loading2}
-            h="32px"
-            borderRadius="999px"
-            colorScheme="blackAlpha"
-            onClick={handleDelete}
-          >
-            Leave
+          <Button h="32px" borderRadius="999px" colorScheme="blackAlpha">
+            Discard
           </Button>
         </ModalFooter>
       </ModalContent>
@@ -73,4 +50,4 @@ const LeaveMod = ({
   );
 };
 
-export default LeaveMod;
+export default DiscardFlair;
