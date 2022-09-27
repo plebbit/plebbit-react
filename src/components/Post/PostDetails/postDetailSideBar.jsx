@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, Flex, useColorModeValue, Icon } from '@chakra-ui/react';
+import { Box, Text, Flex, useColorModeValue, Icon, Skeleton } from '@chakra-ui/react';
 import { BiCake } from 'react-icons/bi';
 import Button from '../../Button';
 import BottomSideBar from '../../sidebar/bottomSideBar';
@@ -28,6 +28,7 @@ const PostDetailSideBar = ({
   handleUnSubscribe,
   handleSubscribe,
   subLoading,
+  loading,
 }) => {
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '#1A1A1B');
@@ -80,41 +81,26 @@ const PostDetailSideBar = ({
             />
           </Box>
           <Flex width="100" padding="12px" alignItems="center" mb="8px">
-            <Avatar
-              avatar={subPlebbit?.avatar}
-              width={54}
-              height={54}
-              badge
-              isOnline={getIsOnline(subPlebbit?.updatedAt)}
-              mr="8px"
-            />
-
-            <Box fontSize="16px" fontWeight="500" lineHeight="20px" text-overflow="ellipsis">
-              {getSubName(subPlebbit)}
-            </Box>
+            <Skeleton borderRadius="50%" width="54px" height="54px" mr="8px" isLoaded={loading}>
+              <Avatar
+                avatar={subPlebbit?.avatar}
+                width={54}
+                height={54}
+                badge
+                isOnline={getIsOnline(subPlebbit?.updatedAt)}
+                mr="8px"
+              />
+            </Skeleton>
+            <Skeleton>
+              <Box fontSize="16px" fontWeight="500" lineHeight="20px" text-overflow="ellipsis">
+                {getSubName(subPlebbit)}
+              </Box>
+            </Skeleton>
           </Flex>
           <Box marginBottom="8px" position="relative" padding="12px">
             {subPlebbit?.about}
           </Box>
-          {/* <Flex marginBottom="8px" padding="12px">
-            <Flex flexDirection="column" paddingRight="4px" flex="auto">
-              <Box fontSize="16px" fontWeight="500" lineHeight="20px">
-                __m
-              </Box>
-              <Box fontSize="12px" fontWeight="500" lineHeight="16px" wordBreak="break-word">
-                Members
-              </Box>
-            </Flex>
-            <Flex flexDirection="column" paddingRight="4px" paddingLeft="16px" flex="auto">
-              <Box fontSize="16px" fontWeight="500" lineHeight="20px">
-                ___k
-              </Box>
-              <Box fontSize="12px" fontWeight="500" lineHeight="16px" wordBreak="break-word">
-                Online
-              </Box>
-            </Flex>
-            <Flex />
-          </Flex> */}
+
           <Box padding="12px">
             <hr />
           </Box>

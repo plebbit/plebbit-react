@@ -396,9 +396,11 @@ const CardPost = ({
                         ''
                       )}
                       {!post?.cid && (
-                        <Tag size="sm" colorScheme="yellow" variant="outline">
-                          Pending
-                        </Tag>
+                        <Skeleton isLoaded={!loading}>
+                          <Tag size="sm" colorScheme="yellow" variant="outline">
+                            Pending
+                          </Tag>
+                        </Skeleton>
                       )}
                     </Skeleton>
                   </Box>
@@ -947,9 +949,11 @@ const CardPost = ({
                           </Skeleton>
                         </Box>
                         {!post?.cid && (
-                          <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
-                            Pending
-                          </Tag>
+                          <Skeleton isLoaded={!loading}>
+                            <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
+                              Pending
+                            </Tag>
+                          </Skeleton>
                         )}
                       </Flex>
                     </Box>
@@ -1018,9 +1022,11 @@ const CardPost = ({
                   {post?.content ? (
                     <Marked content={post?.content} />
                   ) : (
-                    <Box display="flex" justifyContent="center">
-                      <Image fallbackSrc="https://via.placeholder.com/150" src={post?.link} />
-                    </Box>
+                    <Skeleton isLoaded={!loading}>
+                      <Box display="flex" justifyContent="center">
+                        <Image fallbackSrc="https://via.placeholder.com/150" src={post?.link} />
+                      </Box>
+                    </Skeleton>
                   )}
                 </Box>
               )}

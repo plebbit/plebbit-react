@@ -43,8 +43,6 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
     };
   }, []);
 
-  console.log(flair);
-
   return (
     <>
       <Tr
@@ -82,7 +80,18 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
           </Box>
           <Icon
             ml="auto"
-            onClick={() => (mode === 'create' ? setShowAdd(false) : {})}
+            onClick={() =>
+              mode === 'create'
+                ? setShowAdd(false)
+                : handleSubPlebbitedit({
+                    flairs: {
+                      post: flairs?.post ? flairs?.post : [],
+                      author: flairs?.author ? flairs?.author : [],
+                      // eslint-disable-next-line no-unsafe-optional-chaining
+                      [type]: [...flairs[type]?.filter((x) => x?.id !== flair?.id)],
+                    },
+                  })
+            }
             as={RiDeleteBin6Line}
             verticalAlign="text-top"
           />

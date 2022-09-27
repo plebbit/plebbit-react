@@ -9,7 +9,7 @@ const Replies = ({ parent, reply }) => {
         comment={parent}
         type={reply === undefined ? 'singleComment' : 'child'}
         key={parent?.cid}
-        parentCid={parent?.cid}
+        parentCid={parent?.parentCid}
         singleComment={reply}
       />
     </Flex>

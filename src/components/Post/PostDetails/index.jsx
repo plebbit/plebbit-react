@@ -11,6 +11,7 @@ import {
   Tag,
   useToast,
   Button,
+  Skeleton,
 } from '@chakra-ui/react';
 import { useAccountsActions, useComment, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -46,14 +47,17 @@ import Replies from '../comment/replies';
 
 function PostDetail() {
   const location = useLocation();
+
+  // post from link or link address
   const det = useComment(
     window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
   );
+  // applicable if coming from feeds, if posts takes time to load uses feeds post props
   const dat = det === undefined ? location?.state?.detail : det;
   let detail;
   let reply;
   let replyParent;
-  let replyPost = useComment(dat?.postCid);
+  let replyPost = useComment(dat?.postCid); // if comment is a reply, this is what you replied to
   const isReply = dat?.depth !== 0;
   if (isReply) {
     detail = replyPost;
@@ -69,7 +73,7 @@ function PostDetail() {
   }
 
   const sub = useSubplebbit(detail?.subplebbitAddress);
-
+  const loading = detail !== undefined;
   const subplebbit = sub === undefined ? { address: detail?.subplebbitAddress } : sub;
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -342,9 +346,8 @@ function PostDetail() {
     address: window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1),
     detail,
   });
-  const ex = useComment(dat?.postCid);
 
-  console.log('det', replyParent?.postCid, ex);
+  console.log(dat);
 
   return (
     <Layout
@@ -430,82 +433,90 @@ function PostDetail() {
                       padding="0 32px"
                     >
                       <Flex alignItems="center" flex="1" maxW="calc(100% - 324px)" width="100%">
-                        <Flex alignItems="center" margin="0" padding="0 2px">
-                          <Box
-                            borderRight="1px solid #a4a4a4"
-                            height="16px"
-                            mr="8px"
-                            content=""
-                            verticalAlign="text-bottom"
-                            width="0"
-                          />
-                          <IconButton
-                            aria-label="Upvote Post"
-                            color={voteMode === 1 ? 'upvoteOrange' : iconColor}
-                            w="24px"
-                            h="24px"
-                            bg="none"
-                            minW="24px"
-                            minH="24px"
-                            border="none"
-                            borderRadius="2px"
-                            _hover={{
-                              bg: iconBg,
-                              color: 'upvoteOrange',
-                            }}
-                            _focus={{
-                              outline: 'none',
-                            }}
-                            onClick={() => {
-                              setVoteMode(voteMode === 1 ? 0 : 1);
-                              handleVote(voteMode === 1 ? 0 : 1);
-                            }}
-                            icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
-                          />
-                          <Text
-                            fontSize="12px"
-                            fontWeight="700"
-                            lineHeight="16px"
-                            pointerEvents="none"
-                            color="#D7DADC"
-                          >
-                            {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
-                          </Text>
-                          <IconButton
-                            aria-label="Downvote Post"
-                            color={voteMode === -1 ? 'downvoteBlue' : iconColor}
-                            w="24px"
-                            h="24px"
-                            minW="24px"
-                            minH="24px"
-                            border="none"
-                            bg="none"
-                            borderRadius="2px"
-                            _hover={{
-                              bg: iconBg,
-                              color: 'downvoteBlue',
-                            }}
-                            _focus={{
-                              outline: 'none',
-                            }}
-                            onClick={() => {
-                              setVoteMode(voteMode === -1 ? 0 : -1);
-                              handleVote(voteMode === -1 ? 0 : -1);
-                            }}
-                            icon={
-                              <Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
-                            }
-                          />
-                          <Box
-                            borderRight="1px solid #a4a4a4"
-                            height="16px"
-                            margin="0 8px"
-                            verticalAlign="text-bottom"
-                            content=""
-                            width="0"
-                          />
-                        </Flex>
-                        <Icon as={CgNotes} mr="8px" color="#D7DADC" />
+                        <Skeleton mr="4px" isLoaded={loading}>
+                          <Flex mr="4px" alignItems="center" margin="0" padding="0 2px">
+                            <Box
+                              borderRight="1px solid #a4a4a4"
+                              height="16px"
+                              mr="8px"
+                              content=""
+                              verticalAlign="text-bottom"
+                              width="0"
+                            />
+                            <IconButton
+                              aria-label="Upvote Post"
+                              color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                              w="24px"
+                              h="24px"
+                              bg="none"
+                              minW="24px"
+                              minH="24px"
+                              border="none"
+                              borderRadius="2px"
+                              _hover={{
+                                bg: iconBg,
+                                color: 'upvoteOrange',
+                              }}
+                              _focus={{
+                                outline: 'none',
+                              }}
+                              onClick={() => {
+                                setVoteMode(voteMode === 1 ? 0 : 1);
+                                handleVote(voteMode === 1 ? 0 : 1);
+                              }}
+                              icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
+                            />
+                            <Text
+                              fontSize="12px"
+                              fontWeight="700"
+                              lineHeight="16px"
+                              pointerEvents="none"
+                              color="#D7DADC"
+                            >
+                              <Skeleton isLoaded={loading}>
+                                {vote + voteMode === 0
+                                  ? 'vote'
+                                  : numFormatter(vote + voteMode) || 0}
+                              </Skeleton>
+                            </Text>
+                            <IconButton
+                              aria-label="Downvote Post"
+                              color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                              w="24px"
+                              h="24px"
+                              minW="24px"
+                              minH="24px"
+                              border="none"
+                              bg="none"
+                              borderRadius="2px"
+                              _hover={{
+                                bg: iconBg,
+                                color: 'downvoteBlue',
+                              }}
+                              _focus={{
+                                outline: 'none',
+                              }}
+                              onClick={() => {
+                                setVoteMode(voteMode === -1 ? 0 : -1);
+                                handleVote(voteMode === -1 ? 0 : -1);
+                              }}
+                              icon={
+                                <Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
+                              }
+                            />
+                            <Box
+                              borderRight="1px solid #a4a4a4"
+                              height="16px"
+                              margin="0 8px"
+                              verticalAlign="text-bottom"
+                              content=""
+                              width="0"
+                            />
+                          </Flex>
+                        </Skeleton>
+                        <Skeleton isLoaded={loading}>
+                          <Icon as={CgNotes} mr="8px" color="#D7DADC" />
+                        </Skeleton>
 
                         <Text
                           color="#D7DADC"
@@ -580,68 +591,79 @@ function PostDetail() {
                               },
                             }}
                           >
-                            <IconButton
-                              aria-label="Upvote Post"
-                              color={voteMode === 1 ? 'upvoteOrange' : iconColor}
-                              w="24px"
-                              h="24px"
-                              bg="none"
-                              minW="24px"
-                              minH="24px"
-                              border="none"
-                              borderRadius="2px"
-                              _hover={{
-                                bg: iconBg,
-                                color: 'upvoteOrange',
-                              }}
-                              _focus={{
-                                outline: 'none',
-                              }}
-                              onClick={() => {
-                                setVoteMode(voteMode === 1 ? 0 : 1);
-                                handleVote(voteMode === 1 ? 0 : 1);
-                              }}
-                              icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
-                            />
-                            <Text
-                              fontSize="12px"
-                              fontWeight="700"
-                              lineHeight="16px"
-                              pointerEvents="none"
-                              color=""
-                            >
-                              {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
-                            </Text>
-                            <IconButton
-                              aria-label="Downvote Post"
-                              color={voteMode === -1 ? 'downvoteBlue' : iconColor}
-                              w="24px"
-                              h="24px"
-                              minW="24px"
-                              minH="24px"
-                              border="none"
-                              bg="none"
-                              borderRadius="2px"
-                              _hover={{
-                                bg: iconBg,
-                                color: 'downvoteBlue',
-                              }}
-                              _focus={{
-                                outline: 'none',
-                              }}
-                              onClick={() => {
-                                setVoteMode(voteMode === -1 ? 0 : -1);
-                                handleVote(voteMode === -1 ? 0 : -1);
-                              }}
-                              icon={
-                                <Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
-                              }
-                            />
+                            <Skeleton isLoaded={loading}>
+                              <>
+                                <IconButton
+                                  aria-label="Upvote Post"
+                                  color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                                  w="24px"
+                                  h="24px"
+                                  bg="none"
+                                  minW="24px"
+                                  minH="24px"
+                                  border="none"
+                                  borderRadius="2px"
+                                  _hover={{
+                                    bg: iconBg,
+                                    color: 'upvoteOrange',
+                                  }}
+                                  _focus={{
+                                    outline: 'none',
+                                  }}
+                                  onClick={() => {
+                                    setVoteMode(voteMode === 1 ? 0 : 1);
+                                    handleVote(voteMode === 1 ? 0 : 1);
+                                  }}
+                                  icon={
+                                    <Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />
+                                  }
+                                />
+                                <Text
+                                  fontSize="12px"
+                                  fontWeight="700"
+                                  lineHeight="16px"
+                                  pointerEvents="none"
+                                  color=""
+                                >
+                                  {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
+                                </Text>
+                                <IconButton
+                                  aria-label="Downvote Post"
+                                  color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                                  w="24px"
+                                  h="24px"
+                                  minW="24px"
+                                  minH="24px"
+                                  border="none"
+                                  bg="none"
+                                  borderRadius="2px"
+                                  _hover={{
+                                    bg: iconBg,
+                                    color: 'downvoteBlue',
+                                  }}
+                                  _focus={{
+                                    outline: 'none',
+                                  }}
+                                  onClick={() => {
+                                    setVoteMode(voteMode === -1 ? 0 : -1);
+                                    handleVote(voteMode === -1 ? 0 : -1);
+                                  }}
+                                  icon={
+                                    <Icon
+                                      as={voteMode === -1 ? ImArrowDown : BiDownvote}
+                                      w={4}
+                                      h={4}
+                                    />
+                                  }
+                                />
+                              </>
+                            </Skeleton>
                           </Flex>
                         </Flex>
                         {/* post Details */}
                         <Flex flexDir="column" paddingTop="8px" flex="1">
                           {/* post Head */}
+
                           <Flex
                             alignItems="start"
                             fontSize="12px"
@@ -649,97 +671,107 @@ function PostDetail() {
                             lineHeight="16px"
                             margin="0 8px 8px"
                           >
-                            <Avatar
-                              width={20}
-                              height={20}
+                            <Skeleton
+                              isLoaded={loading}
                               mr="8px"
-                              badge
-                              isOnline={getIsOnline(subplebbit?.updatedAt)}
-                            />
-                            <Flex
-                              alignItems="center"
-                              flexWrap="wrap"
-                              flex="1 1 auto"
-                              justifyContent="space-between"
-                              position="relative"
+                              width="20px"
+                              height="20px"
+                              borderRadius="50%"
                             >
-                              <Box display="inline">
-                                <Box display="inline-block" flex="0 0 auto">
-                                  <Box
-                                    color={subPledditTextColor}
-                                    fontSize="12px"
-                                    fontWeight="700"
-                                    display="inline"
-                                    lineHeight="20px"
-                                    textDecoration="none"
-                                    onClick={() =>
-                                      history.push(`/p/${detail?.subplebbitAddress}`, [])
-                                    }
-                                  >
-                                    {getSubName(subplebbit)}
-                                  </Box>
-                                </Box>
-                                <Text
-                                  color={separatorColor}
-                                  as="span"
-                                  verticalAlign="middle"
-                                  fontSize="6px"
-                                  lineHeight="20px"
-                                  margin="0 4px"
-                                >
-                                  •
-                                </Text>
-                                <Text color={misCol} as="span" marginRight="3px">
-                                  Posted By
-                                </Text>
-
-                                <Link
-                                  fontWeight="400"
-                                  mr="3px"
-                                  textDecor="none"
-                                  fontSize="12px"
-                                  lineHeight="16px"
-                                  color={misCol}
-                                  marginRight="3px"
-                                >
-                                  {getUserName(detail?.author)}
-                                </Link>
-                                {detail?.author?.flair && (
-                                  <Box display="inline" verticalAlign="text-top">
-                                    <Text
-                                      bg={statusBg}
-                                      color={statusColor}
-                                      fontSize="12px"
-                                      fontWeight="500"
-                                      lineHeight="16px"
-                                      borderRadius="2px"
-                                      display="inline-block"
-                                      mr="5px"
-                                      overflow="hidden"
-                                      isTruncated
-                                      padding="0 4px"
-                                    >
-                                      {detail?.author?.flair?.text}
-                                    </Text>
-                                  </Box>
-                                )}
-                                <Link color={misCol}>
-                                  {dateToNow(parseInt(detail?.timestamp * 1000))} ago
-                                </Link>
-                              </Box>
-                              <Icon
-                                sx={{
-                                  '@media (min-width: 1280px)': {},
-                                  '@media (max-width: 1120px)': {
-                                    display: 'none',
-                                  },
-                                }}
-                                as={FiBell}
-                                height="16px"
-                                width="16px"
+                              <Avatar
+                                width={20}
+                                height={20}
+                                mr="8px"
+                                badge
+                                isOnline={getIsOnline(subplebbit?.updatedAt)}
                               />
-                              {/* <PdMenu /> */}
-                            </Flex>
+                            </Skeleton>
+                            <Skeleton isLoaded={loading}>
+                              <Flex
+                                alignItems="center"
+                                flexWrap="wrap"
+                                flex="1 1 auto"
+                                justifyContent="space-between"
+                                position="relative"
+                              >
+                                <Box display="inline">
+                                  <Box display="inline-block" flex="0 0 auto">
+                                    <Box
+                                      color={subPledditTextColor}
+                                      fontSize="12px"
+                                      fontWeight="700"
+                                      display="inline"
+                                      lineHeight="20px"
+                                      textDecoration="none"
+                                      onClick={() =>
+                                        history.push(`/p/${detail?.subplebbitAddress}`, [])
+                                      }
+                                    >
+                                      {getSubName(subplebbit)}
+                                    </Box>
+                                  </Box>
+                                  <Text
+                                    color={separatorColor}
+                                    as="span"
+                                    verticalAlign="middle"
+                                    fontSize="6px"
+                                    lineHeight="20px"
+                                    margin="0 4px"
+                                  >
+                                    •
+                                  </Text>
+                                  <Text color={misCol} as="span" marginRight="3px">
+                                    Posted By
+                                  </Text>
+
+                                  <Link
+                                    fontWeight="400"
+                                    mr="3px"
+                                    textDecor="none"
+                                    fontSize="12px"
+                                    lineHeight="16px"
+                                    color={misCol}
+                                    marginRight="3px"
+                                  >
+                                    {getUserName(detail?.author)}
+                                  </Link>
+                                  {detail?.author?.flair && (
+                                    <Box display="inline" verticalAlign="text-top">
+                                      <Text
+                                        bg={statusBg}
+                                        color={statusColor}
+                                        fontSize="12px"
+                                        fontWeight="500"
+                                        lineHeight="16px"
+                                        borderRadius="2px"
+                                        display="inline-block"
+                                        mr="5px"
+                                        overflow="hidden"
+                                        isTruncated
+                                        padding="0 4px"
+                                      >
+                                        {detail?.author?.flair?.text}
+                                      </Text>
+                                    </Box>
+                                  )}
+                                  <Link color={misCol}>
+                                    {dateToNow(parseInt(detail?.timestamp * 1000))} ago
+                                  </Link>
+                                </Box>
+                                <Icon
+                                  sx={{
+                                    '@media (min-width: 1280px)': {},
+                                    '@media (max-width: 1120px)': {
+                                      display: 'none',
+                                    },
+                                  }}
+                                  as={FiBell}
+                                  height="16px"
+                                  width="16px"
+                                />
+                                {/* <PdMenu /> */}
+                              </Flex>
+                            </Skeleton>
                           </Flex>
                           {/* post Title */}
                           <Flex margin="0 8px" display="flex" alignItems="center">
@@ -884,14 +916,18 @@ function PostDetail() {
                                   wordBreak="break-word"
                                   overflow="hidden"
                                 >
-                                  <Marked content={detail?.content} />
+                                  <Skeleton isLoaded={loading}>
+                                    <Marked content={detail?.content} />
+                                  </Skeleton>
                                 </Box>
                               ) : (
                                 <Box display="flex" justifyContent="center">
-                                  <Image
-                                    fallbackSrc="https://via.placeholder.com/150"
-                                    src={detail?.link}
-                                  />
+                                  <Skeleton isLoaded={loading}>
+                                    <Image
+                                      fallbackSrc="https://via.placeholder.com/150"
+                                      src={detail?.link}
+                                    />
+                                  </Skeleton>
                                 </Box>
                               )}
                             </Box>
@@ -1346,6 +1382,7 @@ function PostDetail() {
                       setSubLoading={setSubLoading}
                       subscriptions={subscriptions}
                       detail={detail}
+                      loading={loading}
                     />
                   </Flex>
                 </Box>
@@ -1409,24 +1446,33 @@ function PostDetail() {
                           }}
                         />
                         <Flex alignItems="center" flexFlow="column nowrap">
-                          <Avatar
-                            width={72}
-                            height={72}
-                            avatar={subplebbit?.avatar}
-                            badge
-                            isOnline={getIsOnline(subplebbit?.updatedAt)}
+                          <Skeleton
+                            isLoaded={loading}
+                            width="72px"
+                            height="72px"
+                            borderRadius="50%"
                             mb="8px"
-                          />
-
-                          <Box
-                            onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}
-                            fontWeight="700"
-                            lineHeight="18px"
-                            margin="5px"
-                            textAlign="center"
                           >
-                            {getSubName(subplebbit)}
-                          </Box>
+                            <Avatar
+                              width={72}
+                              height={72}
+                              avatar={subplebbit?.avatar}
+                              badge
+                              isOnline={getIsOnline(subplebbit?.updatedAt)}
+                              mb="8px"
+                            />
+                          </Skeleton>
+                          <Skeleton margin="5px" isLoaded={loading}>
+                            <Box
+                              onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}
+                              fontWeight="700"
+                              lineHeight="18px"
+                              margin="5px"
+                              textAlign="center"
+                            >
+                              {getSubName(subplebbit)}
+                            </Box>
+                          </Skeleton>
                         </Flex>
                       </Box>
                     </Box>
@@ -1468,6 +1514,7 @@ function PostDetail() {
                           mode={postStyle}
                           key={detail?.cid}
                           handleOption={handleOption}
+                          loading={!loading}
                         />
                       </Flex>
                     )}
