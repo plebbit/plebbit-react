@@ -94,7 +94,6 @@ const Settings = () => {
         isClosable: true,
       });
     } catch (error) {
-      console.log(error);
       toast({
         title: `Account update`,
         variant: 'left-update',
@@ -129,7 +128,6 @@ const Settings = () => {
         isClosable: true,
       });
     } catch (error) {
-      console.log(error);
       setBpLoading(false);
       toast({
         title: `Account update`,
@@ -155,7 +153,6 @@ const Settings = () => {
         setLoader(false);
       }, 500);
     } catch (error) {
-      console.log(error);
       setLoader(false);
       toast({
         title: `Account not deleted`,
@@ -1009,7 +1006,6 @@ const Settings = () => {
                               isClosable: true,
                             });
                           } catch (error) {
-                            console.log(error);
                             toast({
                               title: `Account update`,
                               variant: 'left-update',
@@ -1093,7 +1089,6 @@ const Settings = () => {
                               isClosable: true,
                             });
                           } catch (error) {
-                            console.log(error);
                             toast({
                               title: `Account update`,
                               variant: 'left-update',

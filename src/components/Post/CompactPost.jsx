@@ -234,7 +234,7 @@ const CompactPost = ({
                 />
               </Box>
             )}
-            <Box flex="1 1 100%" mt="2px" minW="150px" overflow="hidden" wordWrap="brak-word">
+            <Box flex="1 1 100%" mt="2px" minW="150px" overflow="hidden" wordWrap="break-word">
               {/* post title */}
               <Box
                 margin="0 8px"
