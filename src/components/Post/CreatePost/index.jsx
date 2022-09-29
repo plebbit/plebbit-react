@@ -179,7 +179,6 @@ const CreatePost = () => {
       });
       logger('create-post', res, 'error');
     } catch (error) {
-      console.log(error);
       logger('create-post', error, 'error');
       setLoading(false);
       toast({

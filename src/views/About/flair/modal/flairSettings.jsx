@@ -62,7 +62,22 @@ const FlairSettings = ({
           </Flex>
           <Flex mb="6px" justifyContent="space-between" alignItems="center">
             <FormLabel>Allow users to assign their own</FormLabel>
-            <Switch disabled isChecked={false} />
+            <Switch
+              isChecked={
+                type === 'user' ? data?.features?.authorFlairs : data?.features?.postFlairs
+              }
+              onChange={() => {
+                setData({
+                  ...data,
+                  features: {
+                    ...data?.features,
+                    [type === 'user' ? 'authorFlairs' : 'postFlairs']: !bool(
+                      type === 'user' ? data?.features?.authorFlairs : data?.features?.postFlairs
+                    ),
+                  },
+                });
+              }}
+            />
           </Flex>
           This will let users select, edit, and clear user flair for their usernames in this
           community. This does not allow users to select or edit mod-only user flair.

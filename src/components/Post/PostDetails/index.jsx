@@ -169,7 +169,6 @@ function PostDetail() {
       });
     }
 
-    console.log(challengeAnswers, comment);
     if (challengeAnswers) {
       await comment.publishChallengeAnswers(challengeAnswers);
     }
@@ -187,7 +186,7 @@ function PostDetail() {
       });
     } catch (error) {
       logger('post:detail:voting:', error, 'error');
-      console.log(error);
+
       toast({
         title: 'Voting Declined.',
         description: error?.message,
@@ -321,7 +320,6 @@ function PostDetail() {
   };
 
   const handleOption = (option) => {
-    console.log('here', option);
     if (option?.id === 'Edit') {
       setEdit(true);
     }
@@ -346,8 +344,6 @@ function PostDetail() {
     address: window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1),
     detail,
   });
-
-  console.log(dat);
 
   return (
     <Layout

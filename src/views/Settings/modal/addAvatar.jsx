@@ -46,8 +46,6 @@ const AddAvatar = ({ isOpen, onClose }) => {
   const [copied, setCopied] = useState(false);
   const toast = useToast();
 
-  console.log(chainTicker);
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />

@@ -35,7 +35,6 @@ const UserFlair = ({ role, subPlebbit, handleSubPlebbitedit, loading }) => {
     onOpen: OpenSettings,
     onClose: closeSettings,
   } = useDisclosure(false);
-  console.log(subPlebbit);
   return (
     <Box>
       <Flex
@@ -111,7 +110,9 @@ const UserFlair = ({ role, subPlebbit, handleSubPlebbitedit, loading }) => {
           height={device !== 'mobile' ? '32px' : '24px'}
           onClick={() => setShowAdd(true)}
           mt={device === 'mobile' && '6px'}
-          disabled={role !== ('owner' || 'moderators') || !subPlebbit?.features?.authorFlairs}
+          disabled={
+            role !== ('owner' || 'moderators') || !subPlebbit?.features?.authorFlairs || showAdd
+          }
           color={mainColor}
         >
           Add Flair

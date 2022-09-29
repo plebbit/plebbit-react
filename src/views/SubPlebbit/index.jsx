@@ -17,6 +17,7 @@ import Avatar from '../../components/Avatar';
 import { PlebLogo } from '../../components/svgs';
 import { getAddress } from '../../utils/getUserName';
 import onError from '../../utils/onError';
+import logger from '../../utils/logger';
 
 const SubPlebbit = ({ match }) => {
   const { postStyle, feedSort, profile, subscriptions, device, accountSubplebbits } =
@@ -56,12 +57,16 @@ const SubPlebbit = ({ match }) => {
         isClosable: true,
       });
 
-      console.log('challenge success', { publishedCid: challengeVerification.publication.cid });
+      logger('challengeSuccess', { publishedCid: challengeVerification.publication.cid });
     } else if (challengeVerification.challengeSuccess === false) {
-      console.error('challenge failed', {
-        reason: challengeVerification.reason,
-        errors: challengeVerification.challengeErrors,
-      });
+      logger(
+        'challengefailed',
+        {
+          reason: challengeVerification.reason,
+          errors: challengeVerification.challengeErrors,
+        },
+        'error'
+      );
       toast({
         title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
         description: challengeVerification.challengeErrors
@@ -81,7 +86,7 @@ const SubPlebbit = ({ match }) => {
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
-      console.log(error);
+      logger('failChallenge', error, 'error');
       toast({
         title: 'Declined.',
         description: 'Action Declined',
