@@ -104,7 +104,7 @@ const Settings = () => {
     }
   };
 
-  const handleSave = async (data) => {
+  const handleSaveBlockchainProvider = async (data) => {
     try {
       setBpLoading(true);
       await setAccount({
@@ -191,6 +191,27 @@ const Settings = () => {
     }
   };
 
+  const handleSave = async () => {
+    try {
+      await setAccount(userProfile);
+      toast({
+        title: `changes saved`,
+        variant: 'left-accent',
+        status: 'success',
+        isClosable: true,
+      });
+    } catch (error) {
+      logger('setting:update', error, 'error');
+      toast({
+        title: `Account update`,
+        variant: 'left-update',
+        description: error?.message,
+        status: 'error',
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <Layout name={{ label: 'User Settings', value: location?.pathname }}>
       <Box
@@ -226,7 +247,7 @@ const Settings = () => {
           <AddBlockProvide
             isOpen={isBlockOpen}
             onClose={onBlockClose}
-            handleSave={handleSave}
+            handleSave={handleSaveBlockchainProvider}
             loading={bPLoading}
           />
         ) : (
@@ -416,9 +437,14 @@ const Settings = () => {
         {view === 'profile' && (
           <Flex maxW="1200px" margin="0 auto" padding="0 16px">
             <Box maxW="688px" flex="1 1 auto">
-              <Text fontSize="20px" fontWeight="500" lineHeight="24px" padding="40px 0">
-                Customize profile
-              </Text>
+              <Flex justifyContent="space-between" alignItems="center" my="40px">
+                <Text fontSize="20px" fontWeight="500" lineHeight="24px">
+                  Customize profile
+                </Text>
+                <Button onClick={handleSave} colorScheme="gray" mr="8px" variant="outline">
+                  save
+                </Button>
+              </Flex>
               <Box marginBottom="25px">
                 <Button onClick={onExportOpen}>Export Account</Button>
               </Box>
@@ -478,31 +504,6 @@ const Settings = () => {
                         },
                       })
                     }
-                    onBlur={() =>
-                      setTimeout(async () => {
-                        if (userProfile?.author?.displayName !== profile?.author?.displayName) {
-                          try {
-                            const res = await setAccount(userProfile);
-                            logger('account:update', res);
-                            toast({
-                              title: `changes saved`,
-                              variant: 'left-accent',
-                              status: 'success',
-                              isClosable: true,
-                            });
-                          } catch (error) {
-                            logger('update-account', error, 'error');
-                            toast({
-                              title: `Account update`,
-                              description: error?.message,
-                              variant: 'left-accent',
-                              status: 'error',
-                              isClosable: true,
-                            });
-                          }
-                        }
-                      }, 300)
-                    }
                     name="displayName"
                     ref={ref}
                   />
@@ -561,32 +562,6 @@ const Settings = () => {
                             address: e.target.value,
                           },
                         })
-                      }
-                      onBlur={() =>
-                        setTimeout(async () => {
-                          if (userProfile?.author?.address !== profile?.author?.address) {
-                            try {
-                              const res = await setAccount(userProfile);
-                              logger('account:update', res);
-
-                              toast({
-                                title: `changes saved`,
-                                variant: 'left-accent',
-                                status: 'success',
-                                isClosable: true,
-                              });
-                            } catch (error) {
-                              logger('update-account', error, 'error');
-                              toast({
-                                title: `Account update`,
-                                variant: 'left-update',
-                                description: error?.message,
-                                status: 'error',
-                                isClosable: true,
-                              });
-                            }
-                          }
-                        }, 300)
                       }
                       name="address"
                       ref={ref}
@@ -680,31 +655,6 @@ const Settings = () => {
                           about: e.target.value,
                         },
                       })
-                    }
-                    onBlur={() =>
-                      setTimeout(async () => {
-                        if (userProfile?.author?.about !== profile?.author?.about) {
-                          try {
-                            const res = await setAccount(userProfile);
-                            logger('account:update', res);
-                            toast({
-                              title: `changes saved`,
-                              variant: 'left-accent',
-                              status: 'success',
-                              isClosable: true,
-                            });
-                          } catch (error) {
-                            logger('update-account', error, 'error');
-                            toast({
-                              title: `Account update`,
-                              variant: 'left-update',
-                              description: error?.message,
-                              status: 'error',
-                              isClosable: true,
-                            });
-                          }
-                        }
-                      }, 300)
                     }
                     name="about"
                   />
@@ -922,18 +872,31 @@ const Settings = () => {
                 <Text fontSize="20px" fontWeight="500" lineHeight="24px" padding="40px 0">
                   Customize plebbit Options
                 </Text>
-                <Button
-                  onClick={() =>
-                    handleConfirm(
-                      'Do you want to reset Plebbit Options?',
-                      handleResetPlebbitOptions
-                    )
-                  }
-                  variant="outline"
-                  colorScheme="red"
-                >
-                  reset
-                </Button>
+                <Flex>
+                  <Button
+                    onClick={async () => {
+                      await handleSave();
+                      window.location.reload();
+                    }}
+                    colorScheme="gray"
+                    mr="8px"
+                    variant="outline"
+                  >
+                    save
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      handleConfirm(
+                        'Do you want to reset Plebbit Options?',
+                        handleResetPlebbitOptions
+                      )
+                    }
+                    variant="outline"
+                    colorScheme="red"
+                  >
+                    reset
+                  </Button>
+                </Flex>
               </Flex>
               <Text
                 fontSize="10px"
@@ -991,32 +954,6 @@ const Settings = () => {
                       })
                     }
                     ref={ref}
-                    onBlur={() =>
-                      setTimeout(async () => {
-                        if (
-                          userProfile?.plebbitOptions?.ipfsGatewayUrl !==
-                          profile?.plebbitOptions?.ipfsGatewayUrl
-                        ) {
-                          try {
-                            await setAccount(userProfile);
-                            toast({
-                              title: `changes saved`,
-                              variant: 'left-accent',
-                              status: 'success',
-                              isClosable: true,
-                            });
-                          } catch (error) {
-                            toast({
-                              title: `Account update`,
-                              variant: 'left-update',
-                              description: error?.message,
-                              status: 'error',
-                              isClosable: true,
-                            });
-                          }
-                        }
-                      }, 300)
-                    }
                     name="ipfsGatewayUrl"
                   />
                 </Flex>
@@ -1074,32 +1011,6 @@ const Settings = () => {
                       })
                     }
                     ref={ref}
-                    onBlur={() =>
-                      setTimeout(async () => {
-                        if (
-                          userProfile?.plebbitOptions?.ipfsHttpClientOptions !==
-                          profile?.plebbitOptions?.ipfsHttpClientOptions
-                        ) {
-                          try {
-                            await setAccount(userProfile);
-                            toast({
-                              title: `changes saved`,
-                              variant: 'left-accent',
-                              status: 'success',
-                              isClosable: true,
-                            });
-                          } catch (error) {
-                            toast({
-                              title: `Account update`,
-                              variant: 'left-update',
-                              description: error?.message,
-                              status: 'error',
-                              isClosable: true,
-                            });
-                          }
-                        }
-                      }, 300)
-                    }
                     name="ipfsHttpClientOptions"
                   />
                 </Flex>
@@ -1150,34 +1061,6 @@ const Settings = () => {
                       })
                     }
                     ref={ref}
-                    onBlur={() =>
-                      setTimeout(async () => {
-                        if (
-                          userProfile?.plebbitOptions?.pubsubHttpClientOptions !==
-                          profile?.plebbitOptions?.pubsubHttpClientOptions
-                        ) {
-                          try {
-                            const res = await setAccount(userProfile);
-                            logger('account:update', res);
-                            toast({
-                              title: `changes saved`,
-                              variant: 'left-accent',
-                              status: 'success',
-                              isClosable: true,
-                            });
-                          } catch (error) {
-                            logger('update-account', error, 'error');
-                            toast({
-                              title: `Account update`,
-                              variant: 'left-update',
-                              description: error?.message,
-                              status: 'error',
-                              isClosable: true,
-                            });
-                          }
-                        }
-                      }, 300)
-                    }
                     name="pubsubHttpClientOptions"
                   />
                 </Flex>
@@ -1218,9 +1101,6 @@ const Settings = () => {
                     padding="12px 24px 4px 12px"
                     width="100%"
                     value={userProfile?.plebbitOptions?.dataPath}
-                    onChange={() => {}}
-                    onBlur={() => {}}
-                    name="dataPath"
                     disabled
                   />
                 </Flex>
