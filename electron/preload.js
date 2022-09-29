@@ -1,3 +1,15 @@
+// force IpfsHttpClient to use node-fetch to fix max 6 connections
+// temporary, eventually we will fork ipfs-http-client and replace
+// 'native-fetch'
+const mock = require('mock-require');
+const fetch = require('node-fetch');
+mock('native-fetch', {
+  default: fetch.default,
+  Headers: fetch.Headers,
+  Request: fetch.Request,
+  Response: fetch.Response,
+});
+
 const envPaths = require('env-paths').default('plebbit', { suffix: false });
 const {contextBridge} = require('electron')
 const path = require('path')
