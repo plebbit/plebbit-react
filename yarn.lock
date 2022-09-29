@@ -3135,13 +3135,13 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@keyv/sqlite@3.5.3":
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/@keyv/sqlite/-/sqlite-3.5.3.tgz#107db164fc86728b8a2e6da7746ab9d87b06f3dd"
-  integrity sha512-lw6we8MVW9RvpET4cDvGT2MEmGRlqaeu+aiQz2zWonHbw4VdnayXOigbdqVlV+NWFCEQ64mNIj/3wAQye0LMLQ==
+"@keyv/sqlite@3.6.1":
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/@keyv/sqlite/-/sqlite-3.6.1.tgz#b09b97ab272a613fd62ee98be98e29ce517ace2a"
+  integrity sha512-coSSxm9QjRKYncgXrlGPisKP8GXQD6AHrtXHFM5uCV0SRYf2bOamVx/CW3ggnVhSU+NbnN8SJ2h5fDl6mkIu5w==
   dependencies:
     pify "^5.0.0"
-    sqlite3 "^5.0.9"
+    sqlite3 "^5.1.1"
 
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
@@ -3237,11 +3237,11 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#4e84080a299e3d9d85425079e024e74644e47d59":
+"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#85e2e08b356d455574100c7ddf37aa86e86cdfe3":
   version "0.0.3"
-  resolved "https://github.com/plebbit/plebbit-js.git#4e84080a299e3d9d85425079e024e74644e47d59"
+  resolved "https://github.com/plebbit/plebbit-js.git#85e2e08b356d455574100c7ddf37aa86e86cdfe3"
   dependencies:
-    "@keyv/sqlite" "3.5.3"
+    "@keyv/sqlite" "3.6.1"
     "@plebbit/plebbit-logger" "github:plebbit/plebbit-logger"
     "@types/node-fetch" "2.6.2"
     "@types/uuid" "8.3.4"
@@ -3259,7 +3259,7 @@
     knex "2.3.0"
     libp2p-crypto "0.21.2"
     peer-id "0.16.0"
-    sqlite3 "5.0.11"
+    sqlite3 "5.1.1"
     tinycache "1.1.2"
     uuid "8.3.2"
 
@@ -3276,11 +3276,24 @@
   dependencies:
     debug "4.3.3"
 
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#629d3216069e0886d0e8a20638ac77cad007410d":
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#7597e28577d4affaa9c626bd2fe15653ee31b0a9":
   version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#629d3216069e0886d0e8a20638ac77cad007410d"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#7597e28577d4affaa9c626bd2fe15653ee31b0a9"
   dependencies:
-    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#4e84080a299e3d9d85425079e024e74644e47d59"
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#85e2e08b356d455574100c7ddf37aa86e86cdfe3"
+    "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
+    "@types/uuid" "8.3.4"
+    assert "2.0.0"
+    ethers "5.6.9"
+    localforage "1.10.0"
+    uuid "8.3.2"
+    zustand "4.0.0"
+
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#bd343506a8b3b432ba6ad2a07f287e3bd5c73c64":
+  version "0.0.1"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#bd343506a8b3b432ba6ad2a07f287e3bd5c73c64"
+  dependencies:
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#85e2e08b356d455574100c7ddf37aa86e86cdfe3"
     "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
     "@types/uuid" "8.3.4"
     assert "2.0.0"
@@ -14951,10 +14964,10 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==
 
-sqlite3@5.0.11, sqlite3@^5.0.9:
-  version "5.0.11"
-  resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-5.0.11.tgz#102c835d70be66da9d95a383fd6ea084a082ef7f"
-  integrity sha512-4akFOr7u9lJEeAWLJxmwiV43DJcGV7w3ab7SjQFAFaTVyknY3rZjvXTKIVtWqUoY4xwhjwoHKYs2HDW2SoHVsA==
+sqlite3@5.1.1, sqlite3@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-5.1.1.tgz#c6561220fd875fd88eb2ef717631e0a11af1ec38"
+  integrity sha512-mMinkrQr/LKJqFiFF+AF7imPSzRCCpTCreusZO3D/ssJHVjZOrbu2Caz+zPH5KTmGGXBxXMGSRDssL+44CLxvg==
   dependencies:
     "@mapbox/node-pre-gyp" "^1.0.0"
     node-addon-api "^4.2.0"

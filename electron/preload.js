@@ -7,7 +7,7 @@ const isDev = window.location.protocol === 'http:';
 
 const defaultPlebbitOptions = {
   // find the user's OS data path
-  dataPath: !isDev ? envPaths.data : path.resolve(__dirname, '.plebbit'),
+  dataPath: !isDev ? envPaths.data : path.join(__dirname, '..', '.plebbit'),
   ipfsHttpClientOptions: 'http://localhost:5001/api/v0',
   // TODO: having to define pubsubHttpClientOptions and ipfsHttpClientOptions is a bug with plebbit-js
   pubsubHttpClientOptions: 'http://localhost:5001/api/v0',
@@ -17,12 +17,8 @@ const defaultPlebbitOptions = {
   // pubsubHttpClientOptions: 'https://pubsubprovider.xyz/api/v0',
 };
 
-// TODO: change to nativeFunctions.node when implemented in plebbit-js
-// const {nativeFunctions} = require('@plebbit/plebbit-js');
-
 // expose plebbit-js native functions into electron's renderer
-// contextBridge.exposeInMainWorld('plebbitJsNativeFunctions', nativeFunctions.node)
-contextBridge.exposeInMainWorld('plebbitJsNativeFunctions', require('@plebbit/plebbit-js/dist/node/runtime/node/native-functions').default)
+contextBridge.exposeInMainWorld('plebbitJsNativeFunctions', require('@plebbit/plebbit-js').nativeFunctions.node)
 contextBridge.exposeInMainWorld('defaultPlebbitOptions', defaultPlebbitOptions)
 
 // try/catch localStorage.debug because causes unknown error sometimes

@@ -1,8 +1,7 @@
-// TODO: change for @plebbit/plebbit-js when implemented in plebbit-js
-import PlebbitJs, { setNativeFunctions } from '@plebbit/plebbit-js/dist/browser/plebbit';
+import PlebbitJs from '@plebbit/plebbit-js';
 // inject native functions into renderer
 // https://github.com/plebbit/plebbit-js/blob/master/docs/cross-platform-native-functions.md
-setNativeFunctions(window.plebbitJsNativeFunctions);
+PlebbitJs.setNativeFunctions(window.plebbitJsNativeFunctions);
 // util for manual debugging
 window.PlebbitJs = PlebbitJs;
 
