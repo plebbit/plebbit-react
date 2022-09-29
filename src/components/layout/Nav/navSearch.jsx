@@ -81,7 +81,7 @@ const NavSearch = () => {
               sx={{
                 marginRight: '8px',
               }}
-              badge={data !== undefined}
+              badge={data !== undefined ? true : false}
               isOnline={getIsOnline(data?.updateAt)}
             />
             <Flex flexDir="column" overflow="hidden">
