@@ -19,7 +19,7 @@ import {
   Spinner,
 } from '@chakra-ui/react';
 import { useAccountsActions, useResolvedAuthorAddress } from '@plebbit/plebbit-react-hooks';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { ProfileContext } from '../../store/profileContext';
 import AddAvatar from './modal/addAvatar';
@@ -54,7 +54,6 @@ const Settings = () => {
     { label: 'Chat & Messaging', link: 'messaging' },
   ];
   const [userProfile, setUserProfile] = useState(profile);
-  const ref = useRef(null);
   const { setAccount, deleteAccount } = useAccountsActions();
   const toast = useToast();
 
@@ -307,9 +306,21 @@ const Settings = () => {
         {view === 'account' && (
           <Flex maxW="1200px" margin="0 auto" padding="0 16px">
             <Box maxW="688px" flex="1 1 auto">
-              <Text fontSize="20px" fontWeight="500" lineHeight="24px" padding="40px 0">
-                Account settings
-              </Text>
+              <Flex justifyContent="space-between" alignItems="center" my="20px">
+                <Text fontSize="20px" fontWeight="500" lineHeight="24px" padding="40px 0">
+                  Account settings
+                </Text>
+                <Button
+                  onClick={async () => {
+                    await handleSave();
+                  }}
+                  colorScheme="gray"
+                  mr="8px"
+                  variant="outline"
+                >
+                  save
+                </Button>
+              </Flex>
 
               <Text
                 fontSize="10px"
@@ -345,7 +356,7 @@ const Settings = () => {
                   justifyContent="flex-end"
                 >
                   <Input
-                    placeholder="Accouny name (optional)"
+                    placeholder="Account name (optional)"
                     backgroundColor={mainBg}
                     color={mainColor}
                     boxSizing="border-box"
@@ -364,33 +375,6 @@ const Settings = () => {
                         name: e.target.value,
                       })
                     }
-                    onBlur={() =>
-                      setTimeout(async () => {
-                        if (userProfile?.name !== profile?.name) {
-                          try {
-                            const res = await setAccount(userProfile);
-                            logger('account:update', res);
-                            toast({
-                              title: `changes saved`,
-                              variant: 'left-accent',
-                              status: 'success',
-                              isClosable: true,
-                            });
-                          } catch (error) {
-                            logger('update-account', error, 'error');
-                            toast({
-                              title: `Account update`,
-                              description: error?.message,
-                              variant: 'left-accent',
-                              status: 'error',
-                              isClosable: true,
-                            });
-                          }
-                        }
-                      }, 300)
-                    }
-                    name="accountName"
-                    ref={ref}
                   />
                   <Text
                     fontWeight="400"
@@ -504,8 +488,6 @@ const Settings = () => {
                         },
                       })
                     }
-                    name="displayName"
-                    ref={ref}
                   />
                   <Text
                     fontWeight="400"
@@ -563,8 +545,6 @@ const Settings = () => {
                           },
                         })
                       }
-                      name="address"
-                      ref={ref}
                     />
                   </InputGroup>
 
@@ -656,7 +636,6 @@ const Settings = () => {
                         },
                       })
                     }
-                    name="about"
                   />
                   <Flex width="100%">
                     <Text
@@ -953,8 +932,6 @@ const Settings = () => {
                         },
                       })
                     }
-                    ref={ref}
-                    name="ipfsGatewayUrl"
                   />
                 </Flex>
               </Flex>
@@ -1010,8 +987,6 @@ const Settings = () => {
                         },
                       })
                     }
-                    ref={ref}
-                    name="ipfsHttpClientOptions"
                   />
                 </Flex>
               </Flex>
@@ -1060,8 +1035,6 @@ const Settings = () => {
                         },
                       })
                     }
-                    ref={ref}
-                    name="pubsubHttpClientOptions"
                   />
                 </Flex>
               </Flex>
@@ -1183,7 +1156,6 @@ const Settings = () => {
                         width="100%"
                         value={val}
                         disabled
-                        name={val}
                       />
                     </Flex>
                   </Flex>
@@ -1237,36 +1209,6 @@ const Settings = () => {
                             },
                           })
                         }
-                        ref={ref}
-                        onBlur={() =>
-                          setTimeout(async () => {
-                            if (
-                              userProfile?.plebbitOptions?.blockchainProviders[val]?.url !==
-                              profile?.plebbitOptions?.blockchainProviders[val]?.url
-                            ) {
-                              try {
-                                const res = await setAccount(userProfile);
-                                logger('account:update', res);
-                                toast({
-                                  title: `changes saved`,
-                                  variant: 'left-accent',
-                                  status: 'success',
-                                  isClosable: true,
-                                });
-                              } catch (error) {
-                                logger('update-account', error, 'error');
-                                toast({
-                                  title: `Account update`,
-                                  variant: 'left-update',
-                                  description: error?.message,
-                                  status: 'error',
-                                  isClosable: true,
-                                });
-                              }
-                            }
-                          }, 300)
-                        }
-                        name="url"
                       />
                     </Flex>
                   </Flex>
@@ -1321,37 +1263,6 @@ const Settings = () => {
                             },
                           })
                         }
-                        ref={ref}
-                        onBlur={() =>
-                          setTimeout(async () => {
-                            if (
-                              userProfile?.plebbitOptions?.blockchainProviders[val]?.chainId !==
-                              profile?.plebbitOptions?.blockchainProviders[val]?.chainId
-                            ) {
-                              try {
-                                const res = await setAccount(userProfile);
-                                logger('account:update', res);
-
-                                toast({
-                                  title: `changes saved`,
-                                  variant: 'left-accent',
-                                  status: 'success',
-                                  isClosable: true,
-                                });
-                              } catch (error) {
-                                logger('update-account', error, 'error');
-                                toast({
-                                  title: `Account update`,
-                                  variant: 'left-update',
-                                  description: error?.message,
-                                  status: 'error',
-                                  isClosable: true,
-                                });
-                              }
-                            }
-                          }, 300)
-                        }
-                        name="chainId"
                       />
                     </Flex>
                   </Flex>
