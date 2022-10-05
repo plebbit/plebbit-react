@@ -7,6 +7,7 @@ import {
   useColorMode,
   useColorModeValue,
   useToast,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
 import { LinkIcon } from '@chakra-ui/icons';
@@ -29,6 +30,7 @@ import { getSubName } from '../../../utils/getUserName';
 import onError from '../../../utils/onError';
 import convertArrToObj from '../../../utils/convertArrToObj';
 import Sort from '../../../utils/sort';
+import AddFlair from './modal/addFlair';
 
 const CreatePost = () => {
   const { accountSubplebbits, subPlebbitData, subscriptions, subPlebbitDefData } =
@@ -40,6 +42,7 @@ const CreatePost = () => {
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [mode, setMode] = useState('post');
@@ -552,11 +555,12 @@ const CreatePost = () => {
                       borderRadius="30px"
                       justifyContent="center"
                       width="auto"
-                      disabled={true}
                       display="flex"
                       sx={{
                         padding: '4px 16px',
                       }}
+                      onClick={onOpen}
+                      disabled
                       content={
                         <>
                           <Icon
@@ -626,6 +630,7 @@ const CreatePost = () => {
 
         <SideBar />
       </Flex>
+      {isOpen && <AddFlair isOpen={isOpen} onClose={onClose} />}
     </Layout>
   );
 };
