@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom';
 import Avatar from '../../components/Avatar';
 import CreatableMulti from '../../components/DropDown/creatableMulti';
 import { getAddress } from '../../utils/getUserName';
-import SideBar from './SideBar';
+import SideBar from './sideBar';
 
 const MobileView = ({
   setShowSideBar,
