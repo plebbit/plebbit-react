@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaChevronLeft, FaEye, FaLock, FaUser } from 'react-icons/fa';
+import { FaEye, FaLock, FaUser } from 'react-icons/fa';
 import CreatableMulti from '../../components/DropDown/creatableMulti';
 import {
   useAccountsActions,
@@ -33,6 +33,7 @@ import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 import { getAddress } from '../../utils/getUserName';
 import MobileView from './mobileView';
+import SideBar from './sideBar';
 
 const CommunitySettings = ({ match }) => {
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
@@ -42,7 +43,6 @@ const CommunitySettings = ({ match }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const border1 = useColorModeValue('#edeff1', '#343536');
-  const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const location = useLocation();
   const subplebbit = useSubplebbit(match?.params?.subplebbitAddress);
   const page = new URLSearchParams(location.search).get('page') || 'community';
@@ -156,107 +156,7 @@ const CommunitySettings = ({ match }) => {
             </Flex>
             <Flex margin="40px 0">
               {/* sideBar */}
-              <Box
-                bg={inputBg}
-                bottom="0"
-                boxSizing="border-box"
-                color={mainColor}
-                overflow="auto"
-                paddingTop="16px"
-                paddingBottom="32px"
-                position="fixed"
-                top="88px"
-                width="280px"
-                zIndex="30"
-              >
-                <Box
-                  mb="10px"
-                  _after={{
-                    borderBottom: `1px solid ${border1}`,
-                    content: `" "`,
-                    margin: '0 24px',
-                  }}
-                >
-                  <Link to="modqueue">
-                    <Flex
-                      fontSize="16px"
-                      fontWeight="500"
-                      lineHeight="20px"
-                      alignItems="center"
-                      padding="0 24px 10px"
-                      color={mainColor}
-                    >
-                      <Icon as={FaChevronLeft} mr="4px" />
-                      <Box>Back to mod tools</Box>
-                    </Flex>
-                  </Link>
-                </Box>
-                <Link to="edit?page=community">
-                  <Flex
-                    fontSize="14px"
-                    fontWeight="400"
-                    lineHeight="18px"
-                    alignItems="center"
-                    padding="8px 24px"
-                    borderLeft={page === 'community' && `4px solid #1a1a1b `}
-                    bg={page === 'community' && border1}
-                  >
-                    Community
-                  </Flex>
-                </Link>
-                <Link to="edit?page=safety">
-                  <Flex
-                    fontSize="14px"
-                    fontWeight="400"
-                    lineHeight="18px"
-                    alignItems="center"
-                    padding="8px 24px"
-                    borderLeft={page === 'safety' && `4px solid #1a1a1b `}
-                    bg={page === 'safety' && border1}
-                  >
-                    Safety and Privacy
-                  </Flex>
-                </Link>
-                <Link to="edit?page=posts">
-                  <Flex
-                    fontSize="14px"
-                    fontWeight="400"
-                    lineHeight="18px"
-                    alignItems="center"
-                    padding="8px 24px"
-                    borderLeft={page === 'posts' && `4px solid #1a1a1b `}
-                    bg={page === 'posts' && border1}
-                  >
-                    Posts and Comments
-                  </Flex>
-                </Link>
-                <Link to="edit?page=wikis">
-                  <Flex
-                    fontSize="14px"
-                    fontWeight="400"
-                    lineHeight="18px"
-                    alignItems="center"
-                    padding="8px 24px"
-                    borderLeft={page === 'wikis' && `4px solid #1a1a1b `}
-                    bg={page === 'wikis' && border1}
-                  >
-                    Wikis
-                  </Flex>
-                </Link>
-                <Link to="edit?page=notifications">
-                  <Flex
-                    fontSize="14px"
-                    fontWeight="400"
-                    lineHeight="18px"
-                    alignItems="center"
-                    padding="8px 24px"
-                    borderLeft={page === 'notifications' && `4px solid #1a1a1b `}
-                    bg={page === 'notifications' && border1}
-                  >
-                    Notifications
-                  </Flex>
-                </Link>
-              </Box>
+              <SideBar device={device} page={page} />
               {/*Body */}
               <Box paddingLeft="280px" boxSizing="border-box" width="100%">
                 <Flex
@@ -667,6 +567,7 @@ const CommunitySettings = ({ match }) => {
             loading={loading}
             role={role}
             resolvedAuthorAddress={resolvedAuthorAddress}
+            device={device}
           />
         )}
       </>
