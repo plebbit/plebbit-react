@@ -31,6 +31,7 @@ import onError from '../../../utils/onError';
 import convertArrToObj from '../../../utils/convertArrToObj';
 import Sort from '../../../utils/sort';
 import AddFlair from './modal/addFlair';
+import { BsChevronDown } from 'react-icons/bs';
 
 const CreatePost = () => {
   const { accountSubplebbits, subPlebbitData, subscriptions, subPlebbitDefData } =
@@ -563,18 +564,17 @@ const CreatePost = () => {
                       disabled
                       content={
                         <>
+                          <Box padding="0 8px 0 0"> FLAIR</Box>
                           <Icon
-                            as={AiOutlinePlus}
+                            as={BsChevronDown}
                             display="inline-block"
-                            height={8}
-                            width={8}
+                            height={5}
+                            width={5}
                             fontSize="20px"
                             lineHeight="20px"
                             fontWeight="400"
                             verticalAlign="middle"
-                            padding="0 8px 0 0"
                           />
-                          <span> FLAIR</span>
                         </>
                       }
                     />
