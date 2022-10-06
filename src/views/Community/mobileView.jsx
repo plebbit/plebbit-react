@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom';
 import Avatar from '../../components/Avatar';
 import CreatableMulti from '../../components/DropDown/creatableMulti';
 import { getAddress } from '../../utils/getUserName';
-import MobileSideBar from './mobileSideBar';
+import SideBar from './SideBar';
 
 const MobileView = ({
   setShowSideBar,
@@ -37,6 +37,7 @@ const MobileView = ({
   loading,
   role,
   resolvedAuthorAddress,
+  device,
 }) => {
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -79,7 +80,7 @@ const MobileView = ({
       </Flex>
       <Flex margin="40px 0">
         {/* sideBar */}
-        {showSidebar && <MobileSideBar page={page} />}
+        {showSidebar && <SideBar page={page} device={device} />}
         {/*Body */}
         <Box boxSizing="border-box" width="100%">
           <Flex
