@@ -12,7 +12,7 @@ import { BsChatDots } from 'react-icons/bs';
 import { TiDocumentText } from 'react-icons/ti';
 import { Link } from 'react-router-dom';
 
-const AboutsideBar = ({ page }) => {
+const AboutsideBar = ({ page, subPlebbit }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -38,9 +38,8 @@ const AboutsideBar = ({ page }) => {
         { name: 'Banned', id: 'banned', disabled: true },
         { name: 'Muted', id: 'approved', disabled: true },
         { name: 'Approved', id: 'spam', disabled: true },
-        { name: 'Moderators', id: 'moderators', disabled: true },
+        { name: 'Moderators', id: 'moderators' },
       ],
-      disabled: true,
     },
     {
       name: 'Flairs & emojis',
@@ -77,12 +76,17 @@ const AboutsideBar = ({ page }) => {
       children: [
         { name: 'Awards', id: 'awards', disabled: true },
         { name: 'Wiki Pages', id: 'wiki/index/', disabled: true },
-        { name: 'Community Settings', id: 'edit?page=community', external: AiOutlineRight },
+        {
+          name: 'Community Settings',
+          id: 'edit',
+          query: '?page=community',
+          external: AiOutlineRight,
+        },
         {
           name: 'Community Appearance',
-          id: '?styling=true',
+          custom: `/p/${subPlebbit?.address}`,
+          query: '?styling=true',
           external: AiOutlineRight,
-          disabled: true,
         },
       ],
     },
@@ -143,7 +147,15 @@ const AboutsideBar = ({ page }) => {
             {item?.children
               ?.filter((child) => !child?.disabled)
               ?.map((child, index) => (
-                <Link key={index} to={child?.id}>
+                <Link
+                  key={index}
+                  to={{
+                    pathname: child?.custom
+                      ? child?.custom
+                      : `/p/${subPlebbit?.address}/about/${child?.id}`,
+                    search: child?.query,
+                  }}
+                >
                   <Flex
                     fontSize="14px"
                     fontWeight="400"

@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Icon, Input, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Flex, Icon, Input, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
@@ -7,13 +7,17 @@ import { Link } from 'react-router-dom';
 import { PlebLogo } from '../../../components/svgs';
 import { ProfileContext } from '../../../store/profileContext';
 import { getAddress } from '../../../utils/getUserName';
+import LeaveMod from '../modal/leaveMod';
+import ModRole from '../modal/modRole';
 
-const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
+const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const border1 = useColorModeValue('#edeff1', '#343536');
-  const { device } = useContext(ProfileContext);
+  const { device, profile } = useContext(ProfileContext);
+  const { isOpen: leaveModShow, onOpen: openLeaveMod, onClose: closeLeaveMod } = useDisclosure();
+  const { isOpen: roleModShow, onOpen: openRoleMod, onClose: closeRoleMod } = useDisclosure();
 
   return (
     <Box>
@@ -254,6 +258,25 @@ const Moderators = ({ subPlebbit, openLeaveMod, openRoleMod, role }) => {
             ))}
         </Box>
       </Box>
+      {leaveModShow && (
+        <LeaveMod
+          isOpen={leaveModShow}
+          onClose={closeLeaveMod}
+          subPlebbit={subPlebbit}
+          profile={profile}
+          handleSubPlebbitedit={handleSubPlebbitedit}
+          loading={loading}
+        />
+      )}
+      {roleModShow && (
+        <ModRole
+          isOpen={roleModShow}
+          onClose={closeRoleMod}
+          subPlebbit={subPlebbit}
+          handleSubPlebbitedit={handleSubPlebbitedit}
+          loading={loading}
+        />
+      )}
     </Box>
   );
 };

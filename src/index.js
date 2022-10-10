@@ -1,4 +1,6 @@
 import PlebbitJs from '@plebbit/plebbit-js';
+import { ProfileDataProvider } from './store/profileContext';
+
 // inject native functions into renderer
 // https://github.com/plebbit/plebbit-js/blob/master/docs/cross-platform-native-functions.md
 PlebbitJs.setNativeFunctions(window.plebbitJsNativeFunctions);
@@ -17,7 +19,9 @@ import theme from './assets/style/theme';
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <App />
+      <ProfileDataProvider>
+        <App />
+      </ProfileDataProvider>
     </ChakraProvider>
   </React.StrictMode>,
   document.getElementById('root')

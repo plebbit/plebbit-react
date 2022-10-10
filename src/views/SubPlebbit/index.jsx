@@ -480,7 +480,7 @@ const SubPlebbit = ({ match }) => {
                   hasMore={hasMore}
                   loadMore={loadMore}
                   content={(feed) => (
-                    <Post type="subPlebbit" post={feed} key={Math.random()} mode={postStyle} />
+                    <Post type="subPlebbit" post={feed} key={feed?.cid} mode={postStyle} />
                   )}
                   feeds={feeds}
                   loader={
