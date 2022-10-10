@@ -3,7 +3,9 @@ import { ProfileDataProvider } from './store/profileContext';
 
 // inject native functions into renderer
 // https://github.com/plebbit/plebbit-js/blob/master/docs/cross-platform-native-functions.md
-PlebbitJs.setNativeFunctions(window.plebbitJsNativeFunctions);
+if (window.plebbitJsNativeFunctions) {
+  PlebbitJs.setNativeFunctions(window.plebbitJsNativeFunctions);
+}
 // util for manual debugging
 window.PlebbitJs = PlebbitJs;
 
