@@ -1,47 +1,29 @@
-import {
-  Box,
-  Flex,
-  Icon,
-  IconButton,
-  useColorModeValue,
-  useDisclosure,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Flex, IconButton, useColorModeValue, useToast } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { BsFillShieldFill } from 'react-icons/bs';
-import LeaveMod from './modal/leaveMod';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useAccountsActions, useSubplebbit } from '@plebbit/plebbit-react-hooks';
-import ModRole from './modal/modRole';
-import Moderators from './Moderator/subPlebbitModerators';
 import AboutsideBar from './sideBar';
 import { ProfileContext } from '../../store/profileContext';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 import { getAddress } from '../../utils/getUserName';
-import Flair from './flair';
-import UserFlair from './flair/userFlair';
-import PostFlair from './flair/postFlair';
 import logger from '../../utils/logger';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
-import Rules from './Rules';
+import Content from './content';
 
-const About = ({ match }) => {
-  const { device, accountSubplebbits, profile } = useContext(ProfileContext);
+const About = () => {
+  const { device, accountSubplebbits } = useContext(ProfileContext);
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const linkColor = useColorModeValue('lightLink', 'darkLink');
-  const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
-  const iconColor = useColorModeValue('lightIcon', 'darkIcon');
-  const subPlebbit = useSubplebbit(match?.params?.subplebbitAddress);
-  const page = match?.path.split('/').at(-1);
-  const { isOpen: leaveModShow, onOpen: openLeaveMod, onClose: closeLeaveMod } = useDisclosure();
-  const { isOpen: roleModShow, onOpen: openRoleMod, onClose: closeRoleMod } = useDisclosure();
+  const location = useLocation();
+  const { subplebbitAddress } = useParams();
+  const subPlebbit = useSubplebbit(subplebbitAddress);
+  const page = location.pathname.split('/').at(-1);
   const [showSidebar, setShowSideBar] = useState(false);
   const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
-  const location = useLocation();
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const { publishSubplebbitEdit } = useAccountsActions();
@@ -148,88 +130,18 @@ const About = ({ match }) => {
             </Flex>
             <Flex margin="40px 0">
               {/* sideBar */}
-              <AboutsideBar page={page} role={role} />
+              <AboutsideBar page={page} role={role} subPlebbit={subPlebbit} />
               {/*Body */}
               <Box paddingLeft="280px" boxSizing="border-box" width="100%">
-                {page === '' && (
-                  <Flex
-                    alignItems="center"
-                    bg={inputBg}
-                    color={mainColor}
-                    flexDirection="column"
-                    justifyContent="center"
-                    margin="30px"
-                    padding="60px"
-                  >
-                    <Icon as={BsFillShieldFill} color={iconColor} width="30px" height="30px" />
-                    <Box>Welcome to the mod tools for {subPlebbit?.title}</Box>
-                  </Flex>
-                )}
-                {page === 'rules' && (
-                  <Rules
-                    subPlebbit={subPlebbit}
-                    openLeaveMod={openLeaveMod}
-                    openRoleMod={openRoleMod}
-                    role={role}
-                    handleSubPlebbitedit={handleSubPlebbitedit}
-                  />
-                )}
-                {page === 'moderators' && (
-                  <Moderators
-                    subPlebbit={subPlebbit}
-                    openLeaveMod={openLeaveMod}
-                    openRoleMod={openRoleMod}
-                    role={role}
-                  />
-                )}
-                {page === 'flair' && (
-                  <Flair
-                    role={role}
-                    subPlebbit={subPlebbit}
-                    handleSubPlebbitedit={handleSubPlebbitedit}
-                    loading={loading}
-                  />
-                )}
-                {page === 'userflair' && (
-                  <UserFlair
-                    role={role}
-                    subPlebbit={subPlebbit}
-                    handleSubPlebbitedit={handleSubPlebbitedit}
-                    loading={loading}
-                  />
-                )}
-                {page === 'postflair' && (
-                  <PostFlair
-                    role={role}
-                    subPlebbit={subPlebbit}
-                    handleSubPlebbitedit={handleSubPlebbitedit}
-                    loading={loading}
-                  />
-                )}
+                <Content
+                  page={page}
+                  subPlebbit={subPlebbit}
+                  role={role}
+                  handleSubPlebbitedit={handleSubPlebbitedit}
+                  loading={loading}
+                />
               </Box>
             </Flex>
-
-            {leaveModShow && (
-              <LeaveMod
-                isOpen={leaveModShow}
-                onClose={closeLeaveMod}
-                subPlebbit={subPlebbit}
-                profile={profile}
-                role={role}
-                handleSubPlebbitedit={handleSubPlebbitedit}
-                loading={loading}
-              />
-            )}
-            {roleModShow && (
-              <ModRole
-                role={role}
-                isOpen={roleModShow}
-                onClose={closeRoleMod}
-                subPlebbit={subPlebbit}
-                handleSubPlebbitedit={handleSubPlebbitedit}
-                loading={loading}
-              />
-            )}
           </Flex>
         ) : (
           <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
@@ -274,90 +186,20 @@ const About = ({ match }) => {
               {/* sideBar */}
               {showSidebar && (
                 <Box zIndex={28}>
-                  <AboutsideBar page={page} role={role} />
+                  <AboutsideBar page={page} role={role} subPlebbit={subPlebbit} />
                 </Box>
               )}
               {/*Body */}
               <Box boxSizing="border-box" width="100%">
-                {page === '' && (
-                  <Flex
-                    alignItems="center"
-                    bg={inputBg}
-                    color={mainColor}
-                    flexDirection="column"
-                    justifyContent="center"
-                    margin="30px"
-                    padding="60px"
-                  >
-                    <Icon as={BsFillShieldFill} color={iconColor} width="30px" height="30px" />
-                    <Box>Welcome to the mod tools for {subPlebbit?.title}</Box>
-                  </Flex>
-                )}
-                {page === 'rules' && (
-                  <Rules
-                    subPlebbit={subPlebbit}
-                    openLeaveMod={openLeaveMod}
-                    openRoleMod={openRoleMod}
-                    handleSubPlebbitedit={handleSubPlebbitedit}
-                    role={role}
-                  />
-                )}
-                {page === 'moderators' && (
-                  <Moderators
-                    subPlebbit={subPlebbit}
-                    openLeaveMod={openLeaveMod}
-                    openRoleMod={openRoleMod}
-                    role={role}
-                    handleSubPlebbitedit={handleSubPlebbitedit}
-                    loading={loading}
-                  />
-                )}
-                {page === 'flair' && (
-                  <Flair
-                    role={role}
-                    subPlebbit={subPlebbit}
-                    handleSubPlebbitedit={handleSubPlebbitedit}
-                    loading={loading}
-                  />
-                )}
-                {page === 'userflair' && (
-                  <UserFlair
-                    role={role}
-                    subPlebbit={subPlebbit}
-                    handleSubPlebbitedit={handleSubPlebbitedit}
-                    loading={loading}
-                  />
-                )}
-                {page === 'postflair' && (
-                  <PostFlair
-                    role={role}
-                    subPlebbit={subPlebbit}
-                    handleSubPlebbitedit={handleSubPlebbitedit}
-                    loading={loading}
-                  />
-                )}
+                <Content
+                  page={page}
+                  subPlebbit={subPlebbit}
+                  role={role}
+                  handleSubPlebbitedit={handleSubPlebbitedit}
+                  loading={loading}
+                />
               </Box>
             </Flex>
-
-            {leaveModShow && (
-              <LeaveMod
-                isOpen={leaveModShow}
-                onClose={closeLeaveMod}
-                subPlebbit={subPlebbit}
-                profile={profile}
-                handleSubPlebbitedit={handleSubPlebbitedit}
-                loading={loading}
-              />
-            )}
-            {roleModShow && (
-              <ModRole
-                isOpen={roleModShow}
-                onClose={closeRoleMod}
-                subPlebbit={subPlebbit}
-                handleSubPlebbitedit={handleSubPlebbitedit}
-                loading={loading}
-              />
-            )}
           </Flex>
         )}
       </>

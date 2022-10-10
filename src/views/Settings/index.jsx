@@ -29,6 +29,7 @@ import AddBlockProvide from './modal/addBlockProvider';
 import Swal from 'sweetalert2';
 import Layout from '../../components/layout';
 import { useLocation } from 'react-router-dom';
+import { debugUtils } from '@plebbit/plebbit-react-hooks';
 
 const Settings = () => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -211,6 +212,18 @@ const Settings = () => {
     }
   };
 
+  const handleClearDb = async () => {
+    await debugUtils.deleteNonAccountsDatabases();
+    await debugUtils.deleteCaches();
+    toast({
+      title: `db-cleared`,
+      variant: 'left-update',
+      description: 'deleted',
+      status: 'success',
+      isClosable: true,
+    });
+  };
+
   return (
     <Layout name={{ label: 'User Settings', value: location?.pathname }}>
       <Box
@@ -252,6 +265,7 @@ const Settings = () => {
         ) : (
           ''
         )}
+        <Button onClick={handleClearDb}>delete</Button>
         <Box boxSizing="border-box" background={mainBg} position="relative">
           <Text
             maxW="1200px"
