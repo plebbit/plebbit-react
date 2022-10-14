@@ -48,25 +48,9 @@ const Layout = ({ children, name }) => {
       <Box bg={bg} minH="calc(100vh - 48px)">
         <Box tabIndex="-1" />
         <Box outline="none" />
-
         <NavBar location={name} />
         {device !== 'mobile' ? (
-          <Box transition="margin-top .3s ease" paddingTop="48px" paddingLeft="270px">
-            <Flex
-              flexDir="column"
-              width="270px"
-              top="48px"
-              left="0"
-              position="fixed"
-              overflowX="hidden"
-              overflowY="scroll"
-              bottom="0"
-              bg="blue"
-              color="white"
-              zIndex="4"
-            >
-              a
-            </Flex>
+          <Box transition="margin-top .3s ease" paddingTop="48px">
             <Box>
               <Flex flexDir="column" minH="calc(100vh - 48px)">
                 <Box

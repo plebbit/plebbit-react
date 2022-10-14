@@ -1,5 +1,6 @@
 import PlebbitJs from '@plebbit/plebbit-js';
 import { ProfileDataProvider } from './store/profileContext';
+import { ToastContainer } from 'react-toastify';
 
 // inject native functions into renderer
 // https://github.com/plebbit/plebbit-js/blob/master/docs/cross-platform-native-functions.md
@@ -25,6 +26,7 @@ ReactDOM.render(
         <App />
       </ProfileDataProvider>
     </ChakraProvider>
+    <ToastContainer />
   </React.StrictMode>,
   document.getElementById('root')
 );

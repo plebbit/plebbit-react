@@ -10,6 +10,7 @@ import About from './views/About';
 import CommunitySettings from './views/Community';
 import Moderators from './views/About/Moderator';
 import NotFound from './views/NotFound';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
