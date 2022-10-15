@@ -1,13 +1,15 @@
-import { useToast } from '@chakra-ui/react';
+import { toast } from 'react-toastify';
 
 const onError = (error) => {
-  const toast = useToast();
-  return toast({
-    title: 'Declined.',
-    description: error?.message,
-    status: 'error',
-    duration: 5000,
-    isClosable: true,
+  return toast.error(error?.message.toString(), {
+    position: 'bottom-center',
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
   });
 };
 

@@ -13,7 +13,7 @@ import {
 import React, { useContext, useState } from 'react';
 import { MdHome } from 'react-icons/md';
 import DropDown2 from '../../DropDown/DropDown2';
-import { RiCreativeCommonsByLine, RiSearchLine } from 'react-icons/ri';
+import { RiCreativeCommonsByLine, RiSearchLine, RiSideBarFill } from 'react-icons/ri';
 import {
   BsArrowUpRightCircle,
   BsBarChartFill,
@@ -70,6 +70,8 @@ const NavBar = ({ location }) => {
     homeAdd,
     subPlebbitData: gitData,
     subPlebbitDefData,
+    showSide,
+    setShowSide,
   } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
@@ -159,6 +161,17 @@ const NavBar = ({ location }) => {
                     }
                   }}
                   prefix={() => <Icon as={MdHome} h={6} w={8} />}
+                  suffix={(val) => {
+                    console.log(val);
+                    return (
+                      !showSide &&
+                      location.label === 'Home' && (
+                        <Flex>
+                          <Icon as={RiSideBarFill} h={6} w={8} onClick={() => setShowSide(true)} />
+                        </Flex>
+                      )
+                    );
+                  }}
                   options={[
                     location || {},
                     {

@@ -36,7 +36,7 @@ const getAvatarBadgeProps = (avatarWidth) => {
 };
 
 const Avatar = (props) => {
-  const { badge, avatar, width, height, isOnline, bg, sx } = props;
+  const { badge, avatar, width, height, isOnline, bg, sx, ...rest } = props;
   const { badgeBorderWidth, badgeWidth, badgeBottom } = getAvatarBadgeProps(width);
 
   return (
@@ -55,6 +55,9 @@ const Avatar = (props) => {
           width={`${width}px`}
           height={`${height}px`}
           src={avatar}
+          sx={sx}
+          {...rest}
+          bg={bg}
         >
           <AvatarBadge
             borderWidth={badgeBorderWidth}
