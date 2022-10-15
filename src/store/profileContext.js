@@ -24,6 +24,7 @@ export const ProfileDataProvider = (props) => {
   const accountLists = useAccounts();
   const profile = defaultAccount;
   const accountSubplebbits = useAccountSubplebbits();
+  const [showSide, setShowSide] = useState(false);
 
   //account Subscription === obj[]
   const subscriptions = useSubplebbits(defaultAccount?.subscriptions);
@@ -136,6 +137,8 @@ export const ProfileDataProvider = (props) => {
         homeAdd,
         subPlebbitDefData,
         subPlebbitData,
+        showSide,
+        setShowSide,
       }}
     >
       {children}

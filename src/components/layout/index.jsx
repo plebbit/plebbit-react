@@ -1,12 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { ProfileContext } from '../../store/profileContext';
 import { Box, Flex } from '@chakra-ui/layout';
 import { Icon, useColorModeValue } from '@chakra-ui/react';
 import NavBar from './Nav';
 import { PlebLogo } from '../svgs';
 import { BiAddToQueue } from 'react-icons/bi';
-import { MdHome, MdOutlineMail } from 'react-icons/md';
-import { GrAdd } from 'react-icons/gr';
+import { MdAdd, MdHome, MdOutlineMail } from 'react-icons/md';
 import Avatar from '../Avatar';
 import { BsArrowUpRightCircle } from 'react-icons/bs';
 import { HiOutlineChartSquareBar, HiOutlineChat } from 'react-icons/hi';
@@ -15,9 +14,9 @@ import { AiFillSetting } from 'react-icons/ai';
 const Layout = ({ children, name }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
-  const [showSide, setShowSide] = useState(true);
-  const mainColor = useColorModeValue('lightText2', 'darkText1');
-  const { showSplashcreen, device } = useContext(ProfileContext);
+  const { showSplashcreen, device, showSide, setShowSide } = useContext(ProfileContext);
+
+  console.log(name);
 
   if (showSplashcreen) {
     return (
@@ -57,10 +56,14 @@ const Layout = ({ children, name }) => {
         <Box tabIndex="-1" />
         <Box outline="none" />
 
-        <NavBar location={name} />
+        <NavBar location={name} setShowSide={setShowSide} showSide={showSide} />
         {device !== 'mobile' ? (
-          <Box transition="margin-top .3s ease" paddingTop="48px" paddingLeft={showSide && '270px'}>
-            {showSide && (
+          <Box
+            transition="margin-top .3s ease"
+            paddingTop="48px"
+            paddingLeft={showSide && name.label === 'Home' && '270px'}
+          >
+            {showSide && name.label === 'Home' && (
               <Flex
                 flexDir="column"
                 width="270px"
@@ -164,7 +167,7 @@ const Layout = ({ children, name }) => {
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Icon color={mainColor} as={GrAdd} boxSize={5} />
+                    <Icon as={MdAdd} boxSize={5} />
 
                     <Box ml="8px">Create Community</Box>
                   </Flex>
@@ -298,7 +301,7 @@ const Layout = ({ children, name }) => {
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Icon as={GrAdd} boxSize={5} />
+                    <Icon as={MdAdd} boxSize={5} />
 
                     <Box ml="8px">Create Post</Box>
                   </Flex>

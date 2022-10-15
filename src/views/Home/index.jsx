@@ -23,8 +23,6 @@ const Home = () => {
   );
   const feeds = feed;
 
-  console.log('home');
-
   return (
     <Layout name={{ label: 'Home', value: homeAdd }}>
       {device !== 'mobile' ? (
