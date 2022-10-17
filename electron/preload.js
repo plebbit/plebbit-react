@@ -3,6 +3,17 @@
 // 'native-fetch'
 const mock = require('mock-require');
 const fetch = require('node-fetch');
+mock('ipfs-utils/src/env.js', {
+  isTest: false,
+  isElectron: false,
+  isElectronMain: false,
+  isElectronRenderer: false,
+  isNode: true,
+  isBrowser: false,
+  isWebWorker: false,
+  isEnvWithDom: false,
+  isReactNative: false,
+});
 mock('native-fetch', {
   default: fetch.default,
   Headers: fetch.Headers,
