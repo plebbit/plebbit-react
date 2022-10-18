@@ -161,8 +161,7 @@ const NavBar = ({ location }) => {
                     }
                   }}
                   prefix={() => <Icon as={MdHome} h={6} w={8} />}
-                  suffix={(val) => {
-                    console.log(val);
+                  suffix={() => {
                     return (
                       !showSide &&
                       location.label === 'Home' && (
