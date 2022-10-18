@@ -38,6 +38,8 @@ const DropDown2 = ({
   const Control = ({ children, ...props }) => {
     const style = { cursor: 'pointer' };
 
+    console.log(props?.selectProps);
+
     return (
       <components.Control {...props}>
         {(prefix && prefix(props?.selectProps?.value)) || (
