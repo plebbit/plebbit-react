@@ -34,14 +34,15 @@ rm $PLEBBIT_REACT_HTML_NAME.zip || exit
 CID=\`ipfs add --recursive --pin --quieter $PLEBBIT_REACT_HTML_NAME | tail -n 1\`
 ipfs pin add --recursive \"\$CID\"
 
+# start ipfs daemon if not started
+ipfs init
+nohup ipfs daemon &
+
 # the CID of plebbit html, add this CID to ENS
+sleep 3
 echo \"\"
 echo $PLEBBIT_REACT_HTML_NAME \"CID: \$CID\"
 echo \"\"
-
-# start ipfs daemon if not started
-ipfs daemon --init
-nohup ipfs daemon &
 "
 
 # execute script over ssh
