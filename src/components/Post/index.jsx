@@ -3,6 +3,7 @@ import { Box } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
 import {
   useAccountsActions,
+  useAccountVote,
   useAuthorAvatarImageUrl,
   useSubplebbit,
 } from '@plebbit/plebbit-react-hooks';
@@ -16,8 +17,9 @@ import onError from '../../utils/onError';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 
 const Post = ({ type, post, mode, loading, detail, handleOption }) => {
-  const vote = post?.upvoteCount - post?.downvoteCount;
-  const [voteMode, setVoteMode] = useState(0);
+  const postVote = useAccountVote(post?.cid);
+  const vote = postVote?.vote || 0;
+  const [postVotes, setPostVotes] = useState(post?.upvoteCount - post?.downvoteCount);
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
   const toast = useToast();
@@ -103,10 +105,15 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
     }
   };
 
-  const handleVote = async (vote) => {
+  const handleVoting = async (curr) => {
+    setPostVotes((prev) => prev + curr);
+    handleVote(curr);
+  };
+
+  const handleVote = async (curr) => {
     try {
       await publishVote({
-        vote,
+        vote: curr,
         commentCid: post?.cid,
         subplebbitAddress: post?.subplebbitAddress,
         onChallenge,
@@ -132,8 +139,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
         {mode === 'card' && (
           <CardPost
             vote={vote}
-            voteMode={voteMode}
-            setVoteMode={setVoteMode}
+            postVotes={postVotes}
+            handleVoting={handleVoting}
             type={type}
             post={post}
             loading={loading}
@@ -154,8 +161,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
         {mode === 'classic' && (
           <ClassicPost
             vote={vote}
-            voteMode={voteMode}
-            setVoteMode={setVoteMode}
+            postVotes={postVotes}
+            handleVoting={handleVoting}
             showContent={showContent}
             setShowContent={setShowContent}
             type={type}
@@ -178,8 +185,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
         {mode === 'compact' && (
           <CompactPost
             vote={vote}
-            voteMode={voteMode}
-            setVoteMode={setVoteMode}
+            postVotes={postVotes}
+            handleVoting={handleVoting}
             showContent={showContent}
             setShowContent={setShowContent}
             type={type}

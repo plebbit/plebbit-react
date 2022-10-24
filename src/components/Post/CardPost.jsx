@@ -32,10 +32,9 @@ import { MdOutlineDeleteOutline } from 'react-icons/md';
 
 const CardPost = ({
   post,
-  setVoteMode,
-  voteMode,
-  handleVote,
+  handleVoting,
   vote,
+  postVotes,
   loading,
   type,
   detail,
@@ -122,17 +121,16 @@ const CardPost = ({
                     outline: 'none',
                   }}
                   onClick={() => {
-                    setVoteMode(voteMode === 1 ? 0 : 1);
-                    handleVote(voteMode === 1 ? 0 : 1);
+                    handleVoting(vote === 1 ? 0 : 1);
                   }}
-                  color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                  color={vote === 1 ? 'upvoteOrange' : iconColor}
                 >
                   <Icon
                     width="20px"
                     height="20px"
                     fontSize="20px"
                     fontWeight="400"
-                    as={voteMode === 1 ? ImArrowUp : BiUpvote}
+                    as={vote === 1 ? ImArrowUp : BiUpvote}
                   />
                 </Box>
               </Box>
@@ -146,7 +144,7 @@ const CardPost = ({
                 wordBreak="normal"
               >
                 <Skeleton isLoaded={!loading}>
-                  {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode) || 0}
+                  {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
                 </Skeleton>
               </Box>
               <Box
@@ -161,7 +159,7 @@ const CardPost = ({
                 <Box
                   border="2px solid transparent"
                   cursor="pointer"
-                  color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                  color={vote === -1 ? 'downvoteBlue' : iconColor}
                   display="inline-block"
                   overflow="hidden"
                   h="24px"
@@ -176,8 +174,7 @@ const CardPost = ({
                     outline: 'none',
                   }}
                   onClick={() => {
-                    setVoteMode(voteMode === -1 ? 0 : -1);
-                    handleVote(voteMode === -1 ? 0 : -1);
+                    handleVoting(vote === -1 ? 0 : -1);
                   }}
                 >
                   <Icon
@@ -185,7 +182,7 @@ const CardPost = ({
                     height="20px"
                     fontSize="20px"
                     fontWeight="400"
-                    as={voteMode === -1 ? ImArrowDown : BiDownvote}
+                    as={vote === -1 ? ImArrowDown : BiDownvote}
                   />
                 </Box>
               </Box>
@@ -1075,18 +1072,17 @@ const CardPost = ({
                     width="32px"
                     minW="32px"
                     fontSize="12px"
-                    fill={voteMode === 1 ? 'upvoteOrange' : mobileIconColor}
-                    color={voteMode === 1 ? 'upvoteOrange' : mobileIconColor}
+                    fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                    color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
                     lineHeight="24px"
                     onClick={() => {
-                      setVoteMode(voteMode === 1 ? 0 : 1);
-                      handleVote(voteMode === 1 ? 0 : 1);
+                      handleVoting(vote === 1 ? 0 : 1);
                     }}
                   >
                     <Icon
-                      fill={voteMode === 1 ? 'upvoteOrange' : mobileIconColor}
-                      color={voteMode === 1 ? 'upvoteOrange' : mobileIconColor}
-                      as={voteMode === 1 ? ImArrowUp : BiUpvote}
+                      fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                      color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                      as={vote === 1 ? ImArrowUp : BiUpvote}
                       height="16px"
                       width="16px"
                       flex="0 0 16px"
@@ -1103,11 +1099,7 @@ const CardPost = ({
                     verticalAlign="middle"
                   >
                     <Skeleton isLoaded={!loading}>
-                      {!loading
-                        ? vote + voteMode === 0
-                          ? 'vote'
-                          : numFormatter(vote + voteMode) || 0
-                        : 0}
+                      {!loading ? (postVotes === 0 ? 'vote' : numFormatter(postVotes)) : 'vote'}
                     </Skeleton>
                   </Box>
                   <Flex
@@ -1120,18 +1112,17 @@ const CardPost = ({
                     width="32px"
                     minW="32px"
                     fontSize="12px"
-                    fill={voteMode === -1 ? 'downvoteBlue' : mobileIconColor}
-                    color={voteMode === -1 ? 'downvoteBlue' : mobileIconColor}
+                    fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                    color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
                     lineHeight="24px"
                     onClick={() => {
-                      setVoteMode(voteMode === -1 ? 0 : -1);
-                      handleVote(voteMode === -1 ? 0 : -1);
+                      handleVoting(vote === -1 ? 0 : -1);
                     }}
                   >
                     <Icon
-                      fill={voteMode === -1 ? 'downvoteBlue' : mobileIconColor}
-                      color={voteMode === -1 ? 'downvoteBlue' : mobileIconColor}
-                      as={voteMode === -1 ? ImArrowDown : BiDownvote}
+                      fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                      color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                      as={vote === -1 ? ImArrowDown : BiDownvote}
                       height="16px"
                       width="16px"
                       flex="0 0 16px"

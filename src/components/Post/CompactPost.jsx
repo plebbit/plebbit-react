@@ -27,14 +27,13 @@ const CompactPost = ({
   loading,
   setShowContent,
   showContent,
-  voteMode,
-  setVoteMode,
   vote,
   post,
   type,
-  handleVote,
+  handleVoting,
   isOnline,
   subPlebbit,
+  postVotes,
   // setCopied,
   // location,
   // copied,
@@ -104,17 +103,16 @@ const CompactPost = ({
                     outline: 'none',
                   }}
                   onClick={() => {
-                    setVoteMode(voteMode === 1 ? 0 : 1);
-                    handleVote(voteMode === 1 ? 0 : 1);
+                    handleVoting(vote === 1 ? 0 : 1);
                   }}
-                  color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                  color={vote === 1 ? 'upvoteOrange' : iconColor}
                 >
                   <Icon
                     width="20px"
                     height="20px"
                     fontSize="20px"
                     fontWeight="400"
-                    as={voteMode === 1 ? ImArrowUp : BiUpvote}
+                    as={vote === 1 ? ImArrowUp : BiUpvote}
                   />
                 </Box>
               </Box>
@@ -130,7 +128,7 @@ const CompactPost = ({
                 width="32px"
               >
                 <Skeleton isLoaded={!loading}>
-                  {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
+                  {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
                 </Skeleton>
               </Box>
               <Box
@@ -146,7 +144,7 @@ const CompactPost = ({
                 <Box
                   borderRadius="2px"
                   cursor="pointer"
-                  color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                  color={vote === -1 ? 'downvoteBlue' : iconColor}
                   display="inline-block"
                   overflow="hidden"
                   h="24px"
@@ -161,8 +159,7 @@ const CompactPost = ({
                     outline: 'none',
                   }}
                   onClick={() => {
-                    setVoteMode(voteMode === -1 ? 0 : -1);
-                    handleVote(voteMode === -1 ? 0 : -1);
+                    handleVoting(vote === -1 ? 0 : -1);
                   }}
                 >
                   <Icon
@@ -170,7 +167,7 @@ const CompactPost = ({
                     height="20px"
                     fontSize="20px"
                     fontWeight="400"
-                    as={voteMode === -1 ? ImArrowDown : BiDownvote}
+                    as={vote === -1 ? ImArrowDown : BiDownvote}
                   />
                 </Box>
               </Box>

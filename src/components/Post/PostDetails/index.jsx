@@ -13,7 +13,12 @@ import {
   Button,
   Skeleton,
 } from '@chakra-ui/react';
-import { useAccountsActions, useComment, useSubplebbit } from '@plebbit/plebbit-react-hooks';
+import {
+  useAccountsActions,
+  useAccountVote,
+  useComment,
+  useSubplebbit,
+} from '@plebbit/plebbit-react-hooks';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Swal from 'sweetalert2';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
@@ -35,7 +40,7 @@ import getUserName, { getAddress, getSubName } from '../../../utils/getUserName'
 import numFormatter from '../../../utils/numberFormater';
 import Post from '..';
 import DropDown from '../../DropDown';
-import { MdOutlineDeleteOutline, MdStickyNote2 } from 'react-icons/md';
+import { MdClose, MdOutlineDeleteOutline, MdStickyNote2 } from 'react-icons/md';
 import logger from '../../../utils/logger';
 import Layout from '../../layout';
 import Marked from '../../Editor/marked';
@@ -80,8 +85,10 @@ function PostDetail() {
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
-  const vote = detail?.upvoteCount - detail?.downvoteCount;
-  const [voteMode, setVoteMode] = useState(0);
+  const [postVotes, setPostVotes] = useState(detail?.upvoteCount - detail?.downvoteCount);
+  const { vote } = useAccountVote(
+    window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
+  );
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -174,10 +181,15 @@ function PostDetail() {
     }
   };
 
-  const handleVote = async (vote) => {
+  const handleVoting = async (curr) => {
+    setPostVotes((prev) => prev + curr);
+    handleVote(curr);
+  };
+
+  const handleVote = async (curr) => {
     try {
       await publishVote({
-        vote,
+        vote: curr,
         commentCid: detail?.cid,
         subplebbitAddress: detail?.subplebbitAddress,
         onChallenge,
@@ -441,7 +453,7 @@ function PostDetail() {
                             />
                             <IconButton
                               aria-label="Upvote Post"
-                              color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                              color={vote === 1 ? 'upvoteOrange' : iconColor}
                               w="24px"
                               h="24px"
                               bg="none"
@@ -457,10 +469,9 @@ function PostDetail() {
                                 outline: 'none',
                               }}
                               onClick={() => {
-                                setVoteMode(voteMode === 1 ? 0 : 1);
-                                handleVote(voteMode === 1 ? 0 : 1);
+                                handleVoting(vote === 1 ? 0 : 1);
                               }}
-                              icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
+                              icon={<Icon as={vote === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
                             />
                             <Text
                               fontSize="12px"
@@ -470,14 +481,12 @@ function PostDetail() {
                               color="#D7DADC"
                             >
                               <Skeleton isLoaded={loading}>
-                                {vote + voteMode === 0
-                                  ? 'vote'
-                                  : numFormatter(vote + voteMode) || 0}
+                                {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
                               </Skeleton>
                             </Text>
                             <IconButton
                               aria-label="Downvote Post"
-                              color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                              color={vote === -1 ? 'downvoteBlue' : iconColor}
                               w="24px"
                               h="24px"
                               minW="24px"
@@ -493,11 +502,10 @@ function PostDetail() {
                                 outline: 'none',
                               }}
                               onClick={() => {
-                                setVoteMode(voteMode === -1 ? 0 : -1);
-                                handleVote(voteMode === -1 ? 0 : -1);
+                                handleVoting(vote === -1 ? 0 : -1);
                               }}
                               icon={
-                                <Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
+                                <Icon as={vote === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
                               }
                             />
                             <Box
@@ -591,7 +599,7 @@ function PostDetail() {
                               <>
                                 <IconButton
                                   aria-label="Upvote Post"
-                                  color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                                  color={vote === 1 ? 'upvoteOrange' : iconColor}
                                   w="24px"
                                   h="24px"
                                   bg="none"
@@ -607,12 +615,9 @@ function PostDetail() {
                                     outline: 'none',
                                   }}
                                   onClick={() => {
-                                    setVoteMode(voteMode === 1 ? 0 : 1);
-                                    handleVote(voteMode === 1 ? 0 : 1);
+                                    handleVoting(vote === 1 ? 0 : 1);
                                   }}
-                                  icon={
-                                    <Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />
-                                  }
+                                  icon={<Icon as={vote === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
                                 />
                                 <Text
                                   fontSize="12px"
@@ -621,11 +626,11 @@ function PostDetail() {
                                   pointerEvents="none"
                                   color=""
                                 >
-                                  {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
+                                  {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
                                 </Text>
                                 <IconButton
                                   aria-label="Downvote Post"
-                                  color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                                  color={vote === -1 ? 'downvoteBlue' : iconColor}
                                   w="24px"
                                   h="24px"
                                   minW="24px"
@@ -641,15 +646,10 @@ function PostDetail() {
                                     outline: 'none',
                                   }}
                                   onClick={() => {
-                                    setVoteMode(voteMode === -1 ? 0 : -1);
-                                    handleVote(voteMode === -1 ? 0 : -1);
+                                    handleVoting(vote === -1 ? 0 : -1);
                                   }}
                                   icon={
-                                    <Icon
-                                      as={voteMode === -1 ? ImArrowDown : BiDownvote}
-                                      w={4}
-                                      h={4}
-                                    />
+                                    <Icon as={vote === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
                                   }
                                 />
                               </>
@@ -1185,7 +1185,7 @@ function PostDetail() {
                               >
                                 <IconButton
                                   aria-label="Upvote Post"
-                                  color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                                  color={vote === 1 ? 'upvoteOrange' : iconColor}
                                   w="24px"
                                   h="24px"
                                   bg="none"
@@ -1200,12 +1200,9 @@ function PostDetail() {
                                     outline: 'none',
                                   }}
                                   onClick={() => {
-                                    setVoteMode(voteMode === 1 ? 0 : 1);
-                                    handleVote(voteMode === 1 ? 0 : 1);
+                                    handleVoting(vote === 1 ? 0 : 1);
                                   }}
-                                  icon={
-                                    <Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />
-                                  }
+                                  icon={<Icon as={vote === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
                                 />
                                 <Text
                                   fontSize="12px"
@@ -1214,11 +1211,11 @@ function PostDetail() {
                                   pointerEvents="none"
                                   color=""
                                 >
-                                  {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
+                                  {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
                                 </Text>
                                 <IconButton
                                   aria-label="Downvote Post"
-                                  color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                                  color={vote === -1 ? 'downvoteBlue' : iconColor}
                                   w="24px"
                                   h="24px"
                                   minW="24px"
@@ -1233,15 +1230,10 @@ function PostDetail() {
                                     outline: 'none',
                                   }}
                                   onClick={() => {
-                                    setVoteMode(voteMode === -1 ? 0 : -1);
-                                    handleVote(voteMode === -1 ? 0 : -1);
+                                    handleVoting(vote === -1 ? 0 : -1);
                                   }}
                                   icon={
-                                    <Icon
-                                      as={voteMode === -1 ? ImArrowDown : BiDownvote}
-                                      w={4}
-                                      h={4}
-                                    />
+                                    <Icon as={vote === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
                                   }
                                 />
                               </Flex>
@@ -1583,7 +1575,7 @@ function PostDetail() {
                             submitBtnText="Add Comment"
                             otherBtn={
                               <Button mr="auto" onClick={() => setShowMEditor(false)}>
-                                X
+                                <MdClose />
                               </Button>
                             }
                           />
