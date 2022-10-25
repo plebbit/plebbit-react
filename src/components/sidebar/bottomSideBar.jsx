@@ -15,7 +15,7 @@ const BottomSideBar = ({ bg }) => {
     { label: 'Whitepaper', link: 'https://github.com/plebbit/whitepaper/discussions/2' },
     { label: 'Github', link: 'https://github.com/plebbit' },
     {
-      label: 'Open Source Code',
+      label: 'Open Source License',
       link: 'https://github.com/plebbit/plebbit-js/blob/master/LICENSE',
     },
   ];
