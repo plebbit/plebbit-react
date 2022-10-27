@@ -393,6 +393,7 @@ function PostDetail() {
                 width: 'calc(100% - 160px)',
                 top: '0',
               }}
+              onClick={() => history.goBack()}
             >
               <Box
                 top="48px"

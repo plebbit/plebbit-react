@@ -1228,7 +1228,7 @@ const Profile = () => {
                 {currentView === 'post' && (
                   <Flex width="100%" flexDir="column">
                     <InfiniteScroll
-                      feeds={myPost}
+                      feeds={myPost.reverse()}
                       loader={<Post loading={true} mode="classic" key={Math.random()} />}
                       content={(feed) => <Post post={feed} key={feed?.cid} mode="classic" />}
                     />

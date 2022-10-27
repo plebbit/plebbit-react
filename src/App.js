@@ -18,7 +18,21 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path={['/submit', '/p/:subplebbitAddress/submit']} component={PostCreate} />
-        <Route exact path="/settings" component={Settings} name="settings" />
+        <Route
+          exact
+          path={[
+            '/settings',
+            '/settings/account',
+            '/settings/profile',
+            '/settings/plebbitOptions',
+            '/settings/privacy',
+            '/settings/feed',
+            '/settings/notifications',
+            '/settings/messaging',
+          ]}
+          component={Settings}
+          name="settings"
+        />
         <Route exact path="/profile" component={Profile} name="Profile" />
         <Route exact path="/p/:subplebbitAddress" component={SubPlebbit} />
         <Route exact path="/p/:subplebbitAddress/c/:commentCid" component={PostDetails} />

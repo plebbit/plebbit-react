@@ -28,7 +28,7 @@ import logger from '../../utils/logger';
 import AddBlockProvide from './modal/addBlockProvider';
 import Swal from 'sweetalert2';
 import Layout from '../../components/layout';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { debugUtils } from '@plebbit/plebbit-react-hooks';
 
 const Settings = () => {
@@ -38,16 +38,17 @@ const Settings = () => {
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
   const [bPLoading, setBpLoading] = useState(false);
-  const [view, setView] = useState('profile');
+  const location = useLocation();
+  const view = location.pathname.split('/').at(-1);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
   const { isOpen: isBlockOpen, onOpen: onBlockOpen, onClose: onBlockClose } = useDisclosure();
   const { profile, device, authorAvatarImageUrl } = useContext(ProfileContext);
   const [loader, setLoader] = useState(false);
-  const location = useLocation();
   const tabs = [
     { label: 'Account', link: 'account' },
-    { label: 'Profile', link: 'profile' },
+    { label: 'Profile', link: 'profile', optional: 'settings' },
     { label: 'Plebbit Options', link: 'plebbitOptions' },
     { label: 'Safety & Privacy', link: 'privacy' },
     { label: 'Feed Settings', link: 'feed' },
@@ -57,6 +58,7 @@ const Settings = () => {
   const [userProfile, setUserProfile] = useState(profile);
   const { setAccount, deleteAccount } = useAccountsActions();
   const toast = useToast();
+  const history = useHistory();
 
   const resolvedAuthorAddress = useResolvedAuthorAddress(
     userProfile ? userProfile?.author?.address : ''
@@ -265,7 +267,6 @@ const Settings = () => {
         ) : (
           ''
         )}
-        <Button onClick={handleClearDb}>delete</Button>
         <Box boxSizing="border-box" background={mainBg} position="relative">
           <Text
             maxW="1200px"
@@ -302,14 +303,14 @@ const Settings = () => {
                     padding="15px 12px 12px"
                     cursor="pointer"
                     borderBottom={
-                      tab.link === view &&
+                      (tab?.optional === view || tab.link === view) &&
                       `3px solid ${colorMode === 'light' ? '#343456' : '#d7d7dc'}`
                     }
-                    color={view === tab?.link && mainColor}
+                    color={(tab?.optional === view || tab.link === view) && mainColor}
                     _hover={{
                       color: mainColor,
                     }}
-                    onClick={() => setView(tab?.link)}
+                    onClick={() => history.push(`/settings/${tab?.link}`)}
                   >
                     {tab?.label}
                   </Box>
@@ -432,7 +433,7 @@ const Settings = () => {
             </Box>
           </Flex>
         )}
-        {view === 'profile' && (
+        {(view === 'profile' || view === 'settings') && (
           <Flex maxW="1200px" margin="0 auto" padding="0 16px">
             <Box maxW="688px" flex="1 1 auto">
               <Flex justifyContent="space-between" alignItems="center" my="40px">
@@ -1090,6 +1091,31 @@ const Settings = () => {
                     value={userProfile?.plebbitOptions?.dataPath}
                     disabled
                   />
+                </Flex>
+              </Flex>
+              <Text
+                borderBottom={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                fontSize="10px"
+                fontWeight="700"
+                lineHeight="12px"
+                paddingBottom="6px"
+                marginBottom="32px"
+              >
+                CLEAR CACHE
+              </Text>
+              <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+                <Flex
+                  alignItems="center"
+                  justifyContent="flex-end"
+                  fontSize="14px"
+                  fontWeight="700"
+                  lineHeight="16.91px"
+                  color="red"
+                  cursor="pointer"
+                  onClick={() => handleConfirm('Do you want to Clear Cache?', handleClearDb)}
+                >
+                  <Icon as={RiDeleteBinLine} mr="5px" />
+                  <Box>CLEAR CACHE</Box>
                 </Flex>
               </Flex>
               <Flex

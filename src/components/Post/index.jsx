@@ -62,14 +62,6 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       });
     }
 
-    toast({
-      title: 'Accepted.',
-      description: 'Action accepted',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
-
     logger('challenge-verified', { challengeVerification, comment }, 'trace');
   };
   const onChallenge = async (challenges, comment) => {
@@ -122,6 +114,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       });
     } catch (error) {
       logger('Voting-Declined', error, 'error');
+      setPostVotes((prev) => prev - curr);
       toast({
         title: 'Voting Declined.',
         description: error?.message,
