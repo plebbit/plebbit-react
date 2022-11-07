@@ -37,8 +37,8 @@ const CompactPost = ({
   // setCopied,
   // location,
   // copied,
-  detailPath,
   pending,
+  detailRoute,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -235,18 +235,7 @@ const CompactPost = ({
             )}
             <Box flex="1 1 100%" mt="2px" minW="150px" overflow="hidden" wordWrap="break-word">
               {/* post title */}
-              <Box
-                margin="0 8px"
-                onClick={() =>
-                  history.push(
-                    {
-                      pathname: detailPath,
-                      state: { detail: post },
-                    },
-                    []
-                  )
-                }
-              >
+              <Box margin="0 8px" onClick={() => history.push(detailRoute, [])}>
                 <Skeleton display="flex" alignItems="center" flexWrap="wrap" isLoaded={!loading}>
                   {' '}
                   {/* flair */}

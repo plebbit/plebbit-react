@@ -45,8 +45,8 @@ const CardPost = ({
   isOnline,
   subPlebbit: sub,
   handleCopy,
-  detailPath,
   pending,
+  detailRoute,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -198,10 +198,7 @@ const CardPost = ({
               sx={{
                 textDecoration: 'none !important',
               }}
-              to={{
-                pathname: detailPath,
-                state: { detail: post },
-              }}
+              to={detailRoute}
             >
               {post?.content ? (
                 <>
@@ -326,18 +323,7 @@ const CardPost = ({
                     </Skeleton>
                   </Flex>{' '}
                   {/* Post Title */}
-                  <Box
-                    margin="0 8px"
-                    onClick={() =>
-                      history.push(
-                        {
-                          pathname: detailPath,
-                          state: { detail: post },
-                        },
-                        []
-                      )
-                    }
-                  >
+                  <Box margin="0 8px" onClick={() => history.push(detailRoute, [])}>
                     <Skeleton isLoaded={!loading}>
                       {/* flair */}
                       {type === 'subPlebbit' && post?.flair?.text.length ? (
@@ -554,18 +540,7 @@ const CardPost = ({
                       </Skeleton>
                     </Flex>{' '}
                     {/* Post Title */}
-                    <Box
-                      margin="0 8px"
-                      onClick={() =>
-                        history.push(
-                          {
-                            pathname: detailPath,
-                            state: { detail: post },
-                          },
-                          []
-                        )
-                      }
-                    >
+                    <Box margin="0 8px" onClick={() => history.push(detailRoute, [])}>
                       <Skeleton mb="30px" isLoaded={!loading}>
                         {' '}
                         {/* flair */}
@@ -809,12 +784,7 @@ const CardPost = ({
                   padding="0 8px 0 4px"
                   flexGrow="1"
                 >
-                  <ReactLink
-                    to={{
-                      pathname: detailPath,
-                      state: { detail: post },
-                    }}
-                  >
+                  <ReactLink to={detailRoute}>
                     <Flex
                       padding="8px"
                       wordBreak="normal"
@@ -982,10 +952,7 @@ const CardPost = ({
             {/* Background link */}
             <Link
               as={ReactLink}
-              to={{
-                pathname: detailPath,
-                state: { detail: post },
-              }}
+              to={detailRoute}
               bottom="0"
               left="0"
               pointerEvents="all"
@@ -1263,13 +1230,7 @@ const CardPost = ({
                   </Flex>
                 </Flex>
                 {/* comment button */}
-                <Link
-                  as={ReactLink}
-                  to={{
-                    pathname: detailPath,
-                    state: { detail: post },
-                  }}
-                >
+                <Link as={ReactLink} to={detailRoute}>
                   <Flex
                     color={mobileIconColor}
                     fill={mobileIconColor}

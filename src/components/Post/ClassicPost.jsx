@@ -47,8 +47,8 @@ const ClassicPost = ({
   subPlebbit: sub,
   postVotes,
   handleCopy,
-  detailPath,
   pending,
+  detailRoute,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -368,10 +368,7 @@ const ClassicPost = ({
                         <Avatar width={24} height={24} mr="8px" badge isOnline={isOnline} />
                         <Link
                           as={ReactLink}
-                          to={{
-                            pathname: detailPath,
-                            state: { detail: post },
-                          }}
+                          to={detailRoute}
                           color={subPledditTextColor}
                           fontSize="12px"
                           fontWeight="700"
@@ -725,10 +722,7 @@ const ClassicPost = ({
             {/* Background link */}
             <Link
               as={ReactLink}
-              to={{
-                pathname: detailPath,
-                state: { detail: post },
-              }}
+              to={detailRoute}
               bottom="0"
               left="0"
               pointerEvents="all"
@@ -1048,13 +1042,7 @@ const ClassicPost = ({
                   </Flex>
                 </Flex>
                 {/* comment button */}
-                <Link
-                  as={ReactLink}
-                  to={{
-                    pathname: detailPath,
-                    state: { detail: post },
-                  }}
-                >
+                <Link as={ReactLink} to={detailRoute}>
                   <Flex
                     color={mobileIconColor}
                     fill={mobileIconColor}

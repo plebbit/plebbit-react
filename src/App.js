@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import Home from './views/Home';
 import PostCreate from './components/Post/CreatePost';
 import Profile from './views/Profile';
@@ -11,12 +11,16 @@ import CommunitySettings from './views/Community';
 import Moderators from './views/About/Moderator';
 import NotFound from './views/NotFound';
 import 'react-toastify/dist/ReactToastify.css';
+import PostDetailModal from './components/Post/PostDetails/index2';
 
 const App = () => {
-  console.log = () => {};
+  // console.log = () => {};
+  const location = useLocation();
+  const modal = location?.state?.location;
+
   return (
-    <Router>
-      <Switch>
+    <div>
+      <Switch location={modal || location}>
         <Route exact path="/" component={Home} />
         <Route exact path={['/submit', '/p/:subplebbitAddress/submit']} component={PostCreate} />
         <Route
@@ -70,7 +74,14 @@ const App = () => {
         />
         <Route exact path="*" component={NotFound} />
       </Switch>
-    </Router>
+      {location?.state?.modal && location?.state?.detail && (
+        <Route
+          exact
+          path={['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index']}
+          component={PostDetailModal}
+        />
+      )}
+    </div>
   );
 };
 

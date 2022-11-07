@@ -15,6 +15,7 @@ import { ProfileContext } from '../../store/profileContext';
 import getIsOnline from '../../utils/getIsOnline';
 import onError from '../../utils/onError';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
+import { useLocation } from 'react-router-dom';
 
 const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const pending = !post?.cid;
@@ -130,6 +131,12 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
     : `/profile/c/${post?.index}`;
 
   const sharePath = `${baseUrl}p/${post?.subplebbitAddress}/c/${post?.cid}`;
+  const location = useLocation();
+
+  const detailRoute = {
+    pathname: detailPath,
+    state: { detail: post, modal: true, location },
+  };
 
   const handleCopy = () => {
     setCopied(true);
@@ -159,8 +166,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             isOnline={isOnline}
             subPlebbit={getSub}
             handleCopy={handleCopy}
-            detailPath={detailPath}
             pending={pending}
+            detailRoute={detailRoute}
           />
         )}
         {/* classic */}
@@ -183,8 +190,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             isOnline={isOnline}
             subPlebbit={getSub}
             handleCopy={handleCopy}
-            detailPath={detailPath}
             pending={pending}
+            detailRoute={detailRoute}
           />
         )}
         {/* compact */}
@@ -207,7 +214,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             isOnline={isOnline}
             subPlebbit={getSub}
             handleCopy={handleCopy}
-            detailPath={detailPath}
+            detailRoute={detailRoute}
             pending={pending}
           />
         )}

@@ -109,7 +109,7 @@ const NavBar = ({ location }) => {
           position="fixed"
           right="0"
           top="0"
-          zIndex="80"
+          zIndex="2001"
           marginTop="0"
           color={mainColor}
           height="48px"
@@ -352,7 +352,7 @@ const NavBar = ({ location }) => {
           </Flex>
         </Flex>
       ) : (
-        <Flex bg="#1d2535" height="48px" position="fixed" width="100%" zIndex="30" top="0">
+        <Flex bg="#1d2535" height="48px" position="fixed" width="100%" zIndex="2001" top="0">
           <Flex
             width="100%"
             alignItems="center"
@@ -427,7 +427,7 @@ const NavBar = ({ location }) => {
               maxHeight="80%"
               overflowY="auto"
               overflowX="hidden"
-              zIndex="80"
+              zIndex="2001"
               bg={bg}
             >
               <Flex alignItems="center" height="100%" padding="0 10px">
@@ -788,7 +788,7 @@ const NavBar = ({ location }) => {
               top="48px"
               bg="linear-gradient(180deg,#1d2535 0,#1d2535 50%,rgba(0,0,0,.3) 51%,rgba(0,0,0,.3))"
               paddingBottom="96px"
-              zIndex="30"
+              zIndex="2001"
               position="fixed"
               left="0"
               right="0"

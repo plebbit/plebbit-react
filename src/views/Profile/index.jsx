@@ -28,7 +28,6 @@ const Profile = () => {
   const history = useHistory();
   const location = useLocation();
 
-
   return (
     <Layout name={{ label: profile?.author?.title || 'Profile', value: location?.pathname }}>
       <>
