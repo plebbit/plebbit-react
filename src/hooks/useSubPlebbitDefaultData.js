@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const useSubPlebbitDefaultData = () => {
   const [value, setValue] = useState([]);
@@ -11,6 +12,16 @@ const useSubPlebbitDefaultData = () => {
         if (response.ok) {
           return response.json();
         } else {
+          toast.error('error fetching default subs', {
+            position: 'bottom-center',
+            autoClose: false,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
           return [];
         }
       })

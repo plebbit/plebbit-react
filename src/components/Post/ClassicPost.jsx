@@ -13,7 +13,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-// import { RiCopperCoinLine } from 'react-icons/ri';
 import { BsChat, BsBookmark, BsEyeSlash, BsFlag, BsFileText, BsPencil } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
@@ -34,24 +33,24 @@ import { MdOutlineDeleteOutline } from 'react-icons/md';
 
 const ClassicPost = ({
   loading,
-  setVoteMode,
-  voteMode,
-  handleVote,
+  handleVoting,
   vote,
   post,
   type,
   showContent,
   setShowContent,
-  setCopied,
   location,
   copied,
   detail,
   isOnline,
   handleOption,
   subPlebbit: sub,
+  postVotes,
+  handleCopy,
+  pending,
+  detailRoute,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
-  // const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
   const border1 = useColorModeValue('#ccc', '#343536');
   const border2 = useColorModeValue('#edeff1', '#343536');
@@ -128,17 +127,16 @@ const ClassicPost = ({
                       outline: 'none',
                     }}
                     onClick={() => {
-                      setVoteMode(voteMode === 1 ? 0 : 1);
-                      handleVote(voteMode === 1 ? 0 : 1);
+                      handleVoting(vote === 1 ? 0 : 1);
                     }}
-                    color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                    color={vote === 1 ? 'upvoteOrange' : iconColor}
                   >
                     <Icon
                       width="20px"
                       height="20px"
                       fontSize="20px"
                       fontWeight="400"
-                      as={voteMode === 1 ? ImArrowUp : BiUpvote}
+                      as={vote === 1 ? ImArrowUp : BiUpvote}
                     />
                   </Box>
                 </Box>
@@ -152,7 +150,7 @@ const ClassicPost = ({
                   wordBreak="normal"
                 >
                   <Skeleton isLoaded={!loading}>
-                    {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode) || 0}
+                    {postVotes === 0 ? 'vote' : numFormatter(postVotes)}{' '}
                   </Skeleton>
                 </Box>
                 <Box
@@ -167,7 +165,7 @@ const ClassicPost = ({
                   <Box
                     border="2px solid transparent"
                     cursor="pointer"
-                    color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                    color={vote === -1 ? 'downvoteBlue' : iconColor}
                     display="inline-block"
                     overflow="hidden"
                     h="24px"
@@ -182,8 +180,7 @@ const ClassicPost = ({
                       outline: 'none',
                     }}
                     onClick={() => {
-                      setVoteMode(voteMode === -1 ? 0 : -1);
-                      handleVote(voteMode === -1 ? 0 : -1);
+                      handleVoting(vote === -1 ? 0 : -1);
                     }}
                   >
                     <Icon
@@ -191,7 +188,7 @@ const ClassicPost = ({
                       height="20px"
                       fontSize="20px"
                       fontWeight="400"
-                      as={voteMode === -1 ? ImArrowDown : BiDownvote}
+                      as={vote === -1 ? ImArrowDown : BiDownvote}
                     />
                   </Box>
                 </Box>
@@ -342,7 +339,7 @@ const ClassicPost = ({
                     ) : (
                       ''
                     )}
-                    {!post?.cid && (
+                    {pending && (
                       <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
                         Pending
                       </Tag>
@@ -371,10 +368,7 @@ const ClassicPost = ({
                         <Avatar width={24} height={24} mr="8px" badge isOnline={isOnline} />
                         <Link
                           as={ReactLink}
-                          to={{
-                            pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
-                            state: { detail: post },
-                          }}
+                          to={detailRoute}
                           color={subPledditTextColor}
                           fontSize="12px"
                           fontWeight="700"
@@ -572,15 +566,7 @@ const ClassicPost = ({
                         Award
                       </Text>
                     </Flex>
-                    <CopyToClipboard
-                      text={location}
-                      onCopy={() => {
-                        setCopied(true);
-                        setTimeout(() => {
-                          setCopied(false);
-                        }, 3000);
-                      }}
-                    >
+                    <CopyToClipboard text={location} onCopy={handleCopy}>
                       <Flex
                         padding="8px"
                         wordBreak="normal"
@@ -736,10 +722,7 @@ const ClassicPost = ({
             {/* Background link */}
             <Link
               as={ReactLink}
-              to={{
-                pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
-                state: { detail: post },
-              }}
+              to={detailRoute}
               bottom="0"
               left="0"
               pointerEvents="all"
@@ -812,6 +795,13 @@ const ClassicPost = ({
                         <Box>
                           <Skeleton isLoaded={!loading}>{fromNow(post?.timestamp * 1000)}</Skeleton>
                         </Box>
+                        {pending && (
+                          <Skeleton isLoaded={!loading}>
+                            <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
+                              Pending
+                            </Tag>
+                          </Skeleton>
+                        )}
                       </Flex>
                     </Box>
                   </Box>
@@ -966,18 +956,17 @@ const ClassicPost = ({
                     width="32px"
                     minW="32px"
                     fontSize="12px"
-                    fill={voteMode === 1 ? 'upvoteOrange' : mobileIconColor}
-                    color={voteMode === 1 ? 'upvoteOrange' : mobileIconColor}
+                    fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                    color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
                     lineHeight="24px"
                     onClick={() => {
-                      setVoteMode(voteMode === 1 ? 0 : 1);
-                      handleVote(voteMode === 1 ? 0 : 1);
+                      handleVoting(vote === 1 ? 0 : 1);
                     }}
                   >
                     <Icon
-                      fill={voteMode === 1 ? 'upvoteOrange' : mobileIconColor}
-                      color={voteMode === 1 ? 'upvoteOrange' : mobileIconColor}
-                      as={voteMode === 1 ? ImArrowUp : BiUpvote}
+                      fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                      color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                      as={vote === 1 ? ImArrowUp : BiUpvote}
                       height="16px"
                       width="16px"
                       flex="0 0 16px"
@@ -994,11 +983,7 @@ const ClassicPost = ({
                     verticalAlign="middle"
                   >
                     <Skeleton isLoaded={!loading}>
-                      {!loading
-                        ? vote + voteMode === 0
-                          ? 'vote'
-                          : numFormatter(vote + voteMode)
-                        : ''}
+                      {!loading ? (postVotes === 0 ? 'vote' : numFormatter(postVotes)) : 'vote'}
                     </Skeleton>
                   </Box>
                   <Flex
@@ -1011,18 +996,17 @@ const ClassicPost = ({
                     width="32px"
                     minW="32px"
                     fontSize="12px"
-                    fill={voteMode === -1 ? 'downvoteBlue' : mobileIconColor}
-                    color={voteMode === -1 ? 'downvoteBlue' : mobileIconColor}
+                    fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                    color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
                     lineHeight="24px"
                     onClick={() => {
-                      setVoteMode(voteMode === -1 ? 0 : -1);
-                      handleVote(voteMode === -1 ? 0 : -1);
+                      handleVoting(vote === -1 ? 0 : -1);
                     }}
                   >
                     <Icon
-                      fill={voteMode === -1 ? 'downvoteBlue' : mobileIconColor}
-                      color={voteMode === -1 ? 'downvoteBlue' : mobileIconColor}
-                      as={voteMode === -1 ? ImArrowDown : BiDownvote}
+                      fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                      color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                      as={vote === -1 ? ImArrowDown : BiDownvote}
                       height="16px"
                       width="16px"
                       flex="0 0 16px"
@@ -1058,13 +1042,7 @@ const ClassicPost = ({
                   </Flex>
                 </Flex>
                 {/* comment button */}
-                <Link
-                  as={ReactLink}
-                  to={{
-                    pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
-                    state: { detail: post },
-                  }}
-                >
+                <Link as={ReactLink} to={detailRoute}>
                   <Flex
                     color={mobileIconColor}
                     fill={mobileIconColor}
@@ -1093,34 +1071,36 @@ const ClassicPost = ({
                   </Flex>
                 </Link>
                 {/* share button */}
-                <Flex
-                  color={mobileIconColor}
-                  fill={mobileIconColor}
-                  border={`1px solid ${border2}`}
-                  alignItems="center"
-                  borderRadius="16px"
-                  flexShrink="0"
-                  fontWeight="500"
-                  height="32px"
-                  justifyContent="center"
-                  minW="32px"
-                  width="auto"
-                  marginRight="10px"
-                  marginLeft="auto"
-                  padding="1px 8px 0"
-                  maxW="85px"
-                >
-                  <Icon
-                    as={FiShare}
+                <CopyToClipboard text={location} onCopy={handleCopy}>
+                  <Flex
                     color={mobileIconColor}
-                    height="16px"
-                    width="16px"
-                    flex="0 0 16px"
-                    overflow="hidden"
-                    mr="4px"
-                  />
-                  share
-                </Flex>
+                    fill={mobileIconColor}
+                    border={`1px solid ${border2}`}
+                    alignItems="center"
+                    borderRadius="16px"
+                    flexShrink="0"
+                    fontWeight="500"
+                    height="32px"
+                    justifyContent="center"
+                    minW="32px"
+                    width="auto"
+                    marginRight="10px"
+                    marginLeft="auto"
+                    padding="1px 8px 0"
+                    maxW="85px"
+                  >
+                    <Icon
+                      as={FiShare}
+                      color={mobileIconColor}
+                      height="16px"
+                      width="16px"
+                      flex="0 0 16px"
+                      overflow="hidden"
+                      mr="4px"
+                    />
+                    {copied ? 'share' : 'copied'}
+                  </Flex>
+                </CopyToClipboard>
               </Flex>
             </Box>
           </Box>

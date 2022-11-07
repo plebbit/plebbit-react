@@ -22,6 +22,7 @@ const Editor = ({
   submitBtnText,
   otherBtn,
   loading,
+  placeholder,
 }) => {
   const toolbarBg = useColorModeValue('#F6F7F8', '#272729');
   const toolbarColor = useColorModeValue('#818384', '#818384');
@@ -47,6 +48,7 @@ const Editor = ({
         onEditorStateChange={handleChange}
         editorState={editorState}
         toolbarHidden={hideToolBar}
+        placeholder={placeholder}
         toolbar={{
           options: [
             'inline',

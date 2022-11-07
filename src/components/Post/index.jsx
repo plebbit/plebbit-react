@@ -3,6 +3,7 @@ import { Box } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
 import {
   useAccountsActions,
+  useAccountVote,
   useAuthorAvatarImageUrl,
   useSubplebbit,
 } from '@plebbit/plebbit-react-hooks';
@@ -14,16 +15,19 @@ import { ProfileContext } from '../../store/profileContext';
 import getIsOnline from '../../utils/getIsOnline';
 import onError from '../../utils/onError';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
+import { useLocation } from 'react-router-dom';
 
 const Post = ({ type, post, mode, loading, detail, handleOption }) => {
-  const vote = post?.upvoteCount - post?.downvoteCount;
-  const [voteMode, setVoteMode] = useState(0);
+  const pending = !post?.cid;
+  const postVote = useAccountVote(post?.cid);
+  const vote = postVote?.vote || 0;
+  const [postVotes, setPostVotes] = useState(pending ? 0 : post?.upvoteCount - post?.downvoteCount);
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
   const toast = useToast();
   const { publishVote } = useAccountsActions();
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(post?.author);
-  const { mode: location } = useContext(ProfileContext);
+  const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit(post?.subplebbitAddress);
 
   const isOnline = getIsOnline(getSub?.updatedAt);
@@ -60,14 +64,6 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       });
     }
 
-    toast({
-      title: 'Accepted.',
-      description: 'Action accepted',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
-
     logger('challenge-verified', { challengeVerification, comment }, 'trace');
   };
   const onChallenge = async (challenges, comment) => {
@@ -103,10 +99,15 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
     }
   };
 
-  const handleVote = async (vote) => {
+  const handleVoting = async (curr) => {
+    setPostVotes((prev) => prev + curr);
+    handleVote(curr);
+  };
+
+  const handleVote = async (curr) => {
     try {
       await publishVote({
-        vote,
+        vote: curr,
         commentCid: post?.cid,
         subplebbitAddress: post?.subplebbitAddress,
         onChallenge,
@@ -115,6 +116,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       });
     } catch (error) {
       logger('Voting-Declined', error, 'error');
+      setPostVotes((prev) => prev - curr);
       toast({
         title: 'Voting Declined.',
         description: error?.message,
@@ -124,6 +126,24 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       });
     }
   };
+  const detailPath = !pending
+    ? `/p/${post?.subplebbitAddress}/c/${post?.cid}`
+    : `/profile/c/${post?.index}`;
+
+  const sharePath = `${baseUrl}p/${post?.subplebbitAddress}/c/${post?.cid}`;
+  const location = useLocation();
+
+  const detailRoute = {
+    pathname: detailPath,
+    state: { detail: post, modal: true, location },
+  };
+
+  const handleCopy = () => {
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 3000);
+  };
 
   return (
     <Box>
@@ -132,70 +152,70 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
         {mode === 'card' && (
           <CardPost
             vote={vote}
-            voteMode={voteMode}
-            setVoteMode={setVoteMode}
+            postVotes={postVotes}
+            handleVoting={!pending ? handleVoting : ''}
             type={type}
             post={post}
             loading={loading}
-            handleVote={handleVote}
             detail={detail}
             handleOption={handleOption}
             copied={copied}
             setCopied={setCopied}
-            location={`${
-              location === 'http:' ? 'demo.plebbit.eth.limo/#/' : window.location.href
-            }p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            location={sharePath}
             avatar={authorAvatarImageUrl}
             isOnline={isOnline}
             subPlebbit={getSub}
+            handleCopy={handleCopy}
+            pending={pending}
+            detailRoute={detailRoute}
           />
         )}
         {/* classic */}
         {mode === 'classic' && (
           <ClassicPost
             vote={vote}
-            voteMode={voteMode}
-            setVoteMode={setVoteMode}
+            postVotes={postVotes}
+            handleVoting={!pending ? handleVoting : ''}
             showContent={showContent}
             setShowContent={setShowContent}
             type={type}
             post={post}
             loading={loading}
-            handleVote={handleVote}
             detail={detail}
             handleOption={handleOption}
             copied={copied}
             setCopied={setCopied}
-            location={`${
-              location === 'http:' ? 'demo.plebbit.eth.limo/#/' : window.location.href
-            }p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            location={sharePath}
             avatar={authorAvatarImageUrl}
             isOnline={isOnline}
             subPlebbit={getSub}
+            handleCopy={handleCopy}
+            pending={pending}
+            detailRoute={detailRoute}
           />
         )}
         {/* compact */}
         {mode === 'compact' && (
           <CompactPost
             vote={vote}
-            voteMode={voteMode}
-            setVoteMode={setVoteMode}
+            postVotes={postVotes}
+            handleVoting={!pending ? handleVoting : ''}
             showContent={showContent}
             setShowContent={setShowContent}
             type={type}
             post={post}
             loading={loading}
-            handleVote={handleVote}
             detail={detail}
             handleOption={handleOption}
             copied={copied}
             setCopied={setCopied}
-            location={`${
-              location === 'http:' ? 'demo.plebbit.eth.limo/#/' : window.location.href
-            }p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            location={sharePath}
             avatar={authorAvatarImageUrl}
             isOnline={isOnline}
             subPlebbit={getSub}
+            handleCopy={handleCopy}
+            detailRoute={detailRoute}
+            pending={pending}
           />
         )}
       </Box>

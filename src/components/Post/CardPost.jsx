@@ -29,22 +29,24 @@ import getUserName, { getSubName } from '../../utils/getUserName';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
+import { FcCancel } from 'react-icons/fc';
 
 const CardPost = ({
   post,
-  setVoteMode,
-  voteMode,
-  handleVote,
+  handleVoting,
   vote,
+  postVotes,
   loading,
   type,
   detail,
   handleOption,
-  setCopied,
   location,
   copied,
   isOnline,
   subPlebbit: sub,
+  handleCopy,
+  pending,
+  detailRoute,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -122,17 +124,16 @@ const CardPost = ({
                     outline: 'none',
                   }}
                   onClick={() => {
-                    setVoteMode(voteMode === 1 ? 0 : 1);
-                    handleVote(voteMode === 1 ? 0 : 1);
+                    handleVoting(vote === 1 ? 0 : 1);
                   }}
-                  color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                  color={vote === 1 ? 'upvoteOrange' : iconColor}
                 >
                   <Icon
                     width="20px"
                     height="20px"
                     fontSize="20px"
                     fontWeight="400"
-                    as={voteMode === 1 ? ImArrowUp : BiUpvote}
+                    as={vote === 1 ? ImArrowUp : BiUpvote}
                   />
                 </Box>
               </Box>
@@ -146,7 +147,7 @@ const CardPost = ({
                 wordBreak="normal"
               >
                 <Skeleton isLoaded={!loading}>
-                  {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode) || 0}
+                  {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
                 </Skeleton>
               </Box>
               <Box
@@ -161,7 +162,7 @@ const CardPost = ({
                 <Box
                   border="2px solid transparent"
                   cursor="pointer"
-                  color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                  color={vote === -1 ? 'downvoteBlue' : iconColor}
                   display="inline-block"
                   overflow="hidden"
                   h="24px"
@@ -176,8 +177,7 @@ const CardPost = ({
                     outline: 'none',
                   }}
                   onClick={() => {
-                    setVoteMode(voteMode === -1 ? 0 : -1);
-                    handleVote(voteMode === -1 ? 0 : -1);
+                    handleVoting(vote === -1 ? 0 : -1);
                   }}
                 >
                   <Icon
@@ -185,7 +185,7 @@ const CardPost = ({
                     height="20px"
                     fontSize="20px"
                     fontWeight="400"
-                    as={voteMode === -1 ? ImArrowDown : BiDownvote}
+                    as={vote === -1 ? ImArrowDown : BiDownvote}
                   />
                 </Box>
               </Box>
@@ -198,10 +198,7 @@ const CardPost = ({
               sx={{
                 textDecoration: 'none !important',
               }}
-              to={{
-                pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
-                state: { detail: post },
-              }}
+              to={detailRoute}
             >
               {post?.content ? (
                 <>
@@ -326,18 +323,7 @@ const CardPost = ({
                     </Skeleton>
                   </Flex>{' '}
                   {/* Post Title */}
-                  <Box
-                    margin="0 8px"
-                    onClick={() =>
-                      history.push(
-                        {
-                          pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
-                          state: { detail: post },
-                        },
-                        []
-                      )
-                    }
-                  >
+                  <Box margin="0 8px" onClick={() => history.push(detailRoute, [])}>
                     <Skeleton isLoaded={!loading}>
                       {/* flair */}
                       {type === 'subPlebbit' && post?.flair?.text.length ? (
@@ -395,7 +381,7 @@ const CardPost = ({
                       ) : (
                         ''
                       )}
-                      {!post?.cid && (
+                      {pending && (
                         <Skeleton isLoaded={!loading}>
                           <Tag size="sm" colorScheme="yellow" variant="outline">
                             Pending
@@ -554,18 +540,7 @@ const CardPost = ({
                       </Skeleton>
                     </Flex>{' '}
                     {/* Post Title */}
-                    <Box
-                      margin="0 8px"
-                      onClick={() =>
-                        history.push(
-                          {
-                            pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
-                            state: { detail: post },
-                          },
-                          []
-                        )
-                      }
-                    >
+                    <Box margin="0 8px" onClick={() => history.push(detailRoute, [])}>
                       <Skeleton mb="30px" isLoaded={!loading}>
                         {' '}
                         {/* flair */}
@@ -691,92 +666,15 @@ const CardPost = ({
               )}
             </ReactLink>
             {/* Post Footer */}
-            <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
-              <Flex
-                fontSize="12px"
-                fontWeight="700"
-                lineHeight="16px"
-                alignItems="stretch"
-                padding="0 8px 0 4px"
-                flexGrow="1"
-              >
-                <ReactLink
-                  to={{
-                    pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
-                    state: { detail: post },
-                  }}
-                >
-                  <Flex
-                    padding="8px"
-                    wordBreak="normal"
-                    mr="4px"
-                    alignItems="center"
-                    borderRadius="2px"
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    boxSizing="border-box"
-                    _hover={{
-                      backgroundColor: inputBg,
-                    }}
-                  >
-                    <Icon
-                      as={BsChat}
-                      width="20px"
-                      height="20px"
-                      verticalAlign="middle"
-                      fontWeight="400"
-                      mr="6px"
-                    />
-                    <Text
-                      display="inline-block"
-                      lineHeight={1}
-                      textTransform="capitalize"
-                      verticalAlign="middle"
-                    >
-                      {post?.replyCount} comment{post?.replyCount === 1 ? '' : 's'}
-                    </Text>
-                  </Flex>
-                </ReactLink>
+            {pending ? (
+              <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
                 <Flex
-                  padding="8px"
-                  wordBreak="normal"
-                  mr="4px"
-                  alignItems="center"
-                  borderRadius="2px"
                   fontSize="12px"
                   fontWeight="700"
                   lineHeight="16px"
-                  boxSizing="border-box"
-                  _hover={{
-                    backgroundColor: inputBg,
-                  }}
-                >
-                  <Icon
-                    as={GoGift}
-                    width="20px"
-                    height="20px"
-                    verticalAlign="middle"
-                    fontWeight="400"
-                    mr="6px"
-                  />
-                  <Text
-                    display="inline-block"
-                    lineHeight={1}
-                    textTransform="capitalize"
-                    verticalAlign="middle"
-                  >
-                    Award
-                  </Text>
-                </Flex>
-                <CopyToClipboard
-                  text={location}
-                  onCopy={() => {
-                    setCopied(true);
-                    setTimeout(() => {
-                      setCopied(false);
-                    }, 3000);
-                  }}
+                  alignItems="stretch"
+                  padding="0 8px 0 4px"
+                  flexGrow="1"
                 >
                   <Flex
                     padding="8px"
@@ -791,9 +689,10 @@ const CardPost = ({
                     _hover={{
                       backgroundColor: inputBg,
                     }}
+                    onClick={() => handleOption('Edit')}
                   >
                     <Icon
-                      as={FaShare}
+                      as={BsPencil}
                       width="20px"
                       height="20px"
                       verticalAlign="middle"
@@ -806,72 +705,245 @@ const CardPost = ({
                       textTransform="capitalize"
                       verticalAlign="middle"
                     >
-                      {copied ? 'copied' : 'Share'}
+                      Edit
                     </Text>
                   </Flex>
-                </CopyToClipboard>
+                  <Flex
+                    padding="8px"
+                    wordBreak="normal"
+                    mr="4px"
+                    alignItems="center"
+                    borderRadius="2px"
+                    fontSize="12px"
+                    fontWeight="700"
+                    lineHeight="16px"
+                    boxSizing="border-box"
+                    _hover={{
+                      backgroundColor: inputBg,
+                    }}
+                    onClick={() => handleOption('Delete')}
+                  >
+                    <Icon
+                      as={FcCancel}
+                      width="20px"
+                      height="20px"
+                      verticalAlign="middle"
+                      fontWeight="400"
+                      mr="6px"
+                    />
+                    <Text
+                      display="inline-block"
+                      lineHeight={1}
+                      textTransform="capitalize"
+                      verticalAlign="middle"
+                    >
+                      Delete
+                    </Text>
+                  </Flex>
 
-                <Flex
-                  padding="8px"
-                  wordBreak="normal"
-                  mr="4px"
-                  alignItems="center"
-                  borderRadius="2px"
-                  fontSize="12px"
-                  fontWeight="700"
-                  lineHeight="16px"
-                  boxSizing="border-box"
-                  _hover={{
-                    backgroundColor: inputBg,
-                  }}
-                >
-                  <Icon
-                    as={BsBookmark}
-                    width="20px"
-                    height="20px"
-                    verticalAlign="middle"
-                    fontWeight="400"
-                    mr="6px"
-                  />
-                  <Text
-                    display="inline-block"
-                    lineHeight={1}
-                    textTransform="capitalize"
-                    verticalAlign="middle"
+                  <Flex
+                    padding="8px"
+                    wordBreak="normal"
+                    mr="4px"
+                    alignItems="center"
+                    borderRadius="2px"
+                    fontSize="12px"
+                    fontWeight="700"
+                    lineHeight="16px"
+                    boxSizing="border-box"
+                    _hover={{
+                      backgroundColor: inputBg,
+                    }}
                   >
-                    Save
-                  </Text>
-                </Flex>
-                <Flex justifyContent="center">
-                  <DropDown
-                    dropDownTitle={
-                      <Flex
-                        borderRadius="2px"
-                        height="24px"
-                        verticalAlign="middle"
-                        padding="0 4px"
-                        width="100%"
-                        bg="transparent"
-                        border="none"
-                        alignItems="center"
-                        _hover={{
-                          backgroundColor: inputBg,
-                        }}
-                      >
-                        <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
-                      </Flex>
-                    }
-                    options={[
-                      {
-                        label: 'Block author',
-                        icon: BsEyeSlash,
-                        id: 'block',
-                      },
-                    ]}
-                  />
+                    <Icon
+                      as={BsBookmark}
+                      width="20px"
+                      height="20px"
+                      verticalAlign="middle"
+                      fontWeight="400"
+                      mr="6px"
+                    />
+                    <Text
+                      display="inline-block"
+                      lineHeight={1}
+                      textTransform="capitalize"
+                      verticalAlign="middle"
+                    >
+                      Save
+                    </Text>
+                  </Flex>
                 </Flex>
               </Flex>
-            </Flex>
+            ) : (
+              <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
+                <Flex
+                  fontSize="12px"
+                  fontWeight="700"
+                  lineHeight="16px"
+                  alignItems="stretch"
+                  padding="0 8px 0 4px"
+                  flexGrow="1"
+                >
+                  <ReactLink to={detailRoute}>
+                    <Flex
+                      padding="8px"
+                      wordBreak="normal"
+                      mr="4px"
+                      alignItems="center"
+                      borderRadius="2px"
+                      fontSize="12px"
+                      fontWeight="700"
+                      lineHeight="16px"
+                      boxSizing="border-box"
+                      _hover={{
+                        backgroundColor: inputBg,
+                      }}
+                    >
+                      <Icon
+                        as={BsChat}
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                        fontWeight="400"
+                        mr="6px"
+                      />
+                      <Text
+                        display="inline-block"
+                        lineHeight={1}
+                        textTransform="capitalize"
+                        verticalAlign="middle"
+                      >
+                        {post?.replyCount} comment{post?.replyCount === 1 ? '' : 's'}
+                      </Text>
+                    </Flex>
+                  </ReactLink>
+                  <Flex
+                    padding="8px"
+                    wordBreak="normal"
+                    mr="4px"
+                    alignItems="center"
+                    borderRadius="2px"
+                    fontSize="12px"
+                    fontWeight="700"
+                    lineHeight="16px"
+                    boxSizing="border-box"
+                    _hover={{
+                      backgroundColor: inputBg,
+                    }}
+                  >
+                    <Icon
+                      as={GoGift}
+                      width="20px"
+                      height="20px"
+                      verticalAlign="middle"
+                      fontWeight="400"
+                      mr="6px"
+                    />
+                    <Text
+                      display="inline-block"
+                      lineHeight={1}
+                      textTransform="capitalize"
+                      verticalAlign="middle"
+                    >
+                      Award
+                    </Text>
+                  </Flex>
+                  <CopyToClipboard text={location} onCopy={handleCopy}>
+                    <Flex
+                      padding="8px"
+                      wordBreak="normal"
+                      mr="4px"
+                      alignItems="center"
+                      borderRadius="2px"
+                      fontSize="12px"
+                      fontWeight="700"
+                      lineHeight="16px"
+                      boxSizing="border-box"
+                      _hover={{
+                        backgroundColor: inputBg,
+                      }}
+                    >
+                      <Icon
+                        as={FaShare}
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                        fontWeight="400"
+                        mr="6px"
+                      />
+                      <Text
+                        display="inline-block"
+                        lineHeight={1}
+                        textTransform="capitalize"
+                        verticalAlign="middle"
+                      >
+                        {copied ? 'copied' : 'Share'}
+                      </Text>
+                    </Flex>
+                  </CopyToClipboard>
+
+                  <Flex
+                    padding="8px"
+                    wordBreak="normal"
+                    mr="4px"
+                    alignItems="center"
+                    borderRadius="2px"
+                    fontSize="12px"
+                    fontWeight="700"
+                    lineHeight="16px"
+                    boxSizing="border-box"
+                    _hover={{
+                      backgroundColor: inputBg,
+                    }}
+                  >
+                    <Icon
+                      as={BsBookmark}
+                      width="20px"
+                      height="20px"
+                      verticalAlign="middle"
+                      fontWeight="400"
+                      mr="6px"
+                    />
+                    <Text
+                      display="inline-block"
+                      lineHeight={1}
+                      textTransform="capitalize"
+                      verticalAlign="middle"
+                    >
+                      Save
+                    </Text>
+                  </Flex>
+                  <Flex justifyContent="center">
+                    <DropDown
+                      dropDownTitle={
+                        <Flex
+                          borderRadius="2px"
+                          height="24px"
+                          verticalAlign="middle"
+                          padding="0 4px"
+                          width="100%"
+                          bg="transparent"
+                          border="none"
+                          alignItems="center"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                        >
+                          <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
+                        </Flex>
+                      }
+                      options={[
+                        {
+                          label: 'Block author',
+                          icon: BsEyeSlash,
+                          id: 'block',
+                        },
+                      ]}
+                    />
+                  </Flex>
+                </Flex>
+              </Flex>
+            )}
           </Box>
         </Box>
       ) : (
@@ -880,10 +952,7 @@ const CardPost = ({
             {/* Background link */}
             <Link
               as={ReactLink}
-              to={{
-                pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
-                state: { detail: post },
-              }}
+              to={detailRoute}
               bottom="0"
               left="0"
               pointerEvents="all"
@@ -948,7 +1017,7 @@ const CardPost = ({
                             {dateToFromNowDaily(post?.timestamp * 1000)}
                           </Skeleton>
                         </Box>
-                        {!post?.cid && (
+                        {pending && (
                           <Skeleton isLoaded={!loading}>
                             <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
                               Pending
@@ -1075,18 +1144,17 @@ const CardPost = ({
                     width="32px"
                     minW="32px"
                     fontSize="12px"
-                    fill={voteMode === 1 ? 'upvoteOrange' : mobileIconColor}
-                    color={voteMode === 1 ? 'upvoteOrange' : mobileIconColor}
+                    fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                    color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
                     lineHeight="24px"
                     onClick={() => {
-                      setVoteMode(voteMode === 1 ? 0 : 1);
-                      handleVote(voteMode === 1 ? 0 : 1);
+                      handleVoting(vote === 1 ? 0 : 1);
                     }}
                   >
                     <Icon
-                      fill={voteMode === 1 ? 'upvoteOrange' : mobileIconColor}
-                      color={voteMode === 1 ? 'upvoteOrange' : mobileIconColor}
-                      as={voteMode === 1 ? ImArrowUp : BiUpvote}
+                      fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                      color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                      as={vote === 1 ? ImArrowUp : BiUpvote}
                       height="16px"
                       width="16px"
                       flex="0 0 16px"
@@ -1103,11 +1171,7 @@ const CardPost = ({
                     verticalAlign="middle"
                   >
                     <Skeleton isLoaded={!loading}>
-                      {!loading
-                        ? vote + voteMode === 0
-                          ? 'vote'
-                          : numFormatter(vote + voteMode) || 0
-                        : 0}
+                      {!loading ? (postVotes === 0 ? 'vote' : numFormatter(postVotes)) : 'vote'}
                     </Skeleton>
                   </Box>
                   <Flex
@@ -1120,18 +1184,17 @@ const CardPost = ({
                     width="32px"
                     minW="32px"
                     fontSize="12px"
-                    fill={voteMode === -1 ? 'downvoteBlue' : mobileIconColor}
-                    color={voteMode === -1 ? 'downvoteBlue' : mobileIconColor}
+                    fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                    color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
                     lineHeight="24px"
                     onClick={() => {
-                      setVoteMode(voteMode === -1 ? 0 : -1);
-                      handleVote(voteMode === -1 ? 0 : -1);
+                      handleVoting(vote === -1 ? 0 : -1);
                     }}
                   >
                     <Icon
-                      fill={voteMode === -1 ? 'downvoteBlue' : mobileIconColor}
-                      color={voteMode === -1 ? 'downvoteBlue' : mobileIconColor}
-                      as={voteMode === -1 ? ImArrowDown : BiDownvote}
+                      fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                      color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                      as={vote === -1 ? ImArrowDown : BiDownvote}
                       height="16px"
                       width="16px"
                       flex="0 0 16px"
@@ -1167,13 +1230,7 @@ const CardPost = ({
                   </Flex>
                 </Flex>
                 {/* comment button */}
-                <Link
-                  as={ReactLink}
-                  to={{
-                    pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
-                    state: { detail: post },
-                  }}
-                >
+                <Link as={ReactLink} to={detailRoute}>
                   <Flex
                     color={mobileIconColor}
                     fill={mobileIconColor}
@@ -1202,34 +1259,36 @@ const CardPost = ({
                   </Flex>
                 </Link>
                 {/* share button */}
-                <Flex
-                  color={mobileIconColor}
-                  fill={mobileIconColor}
-                  border={`1px solid ${border2}`}
-                  alignItems="center"
-                  borderRadius="16px"
-                  flexShrink="0"
-                  fontWeight="500"
-                  height="32px"
-                  justifyContent="center"
-                  minW="32px"
-                  width="auto"
-                  marginRight="10px"
-                  marginLeft="auto"
-                  padding="1px 8px 0"
-                  maxW="85px"
-                >
-                  <Icon
-                    as={FiShare}
+                <CopyToClipboard text={location} onCopy={handleCopy}>
+                  <Flex
                     color={mobileIconColor}
-                    height="16px"
-                    width="16px"
-                    flex="0 0 16px"
-                    overflow="hidden"
-                    mr="4px"
-                  />
-                  share
-                </Flex>
+                    fill={mobileIconColor}
+                    border={`1px solid ${border2}`}
+                    alignItems="center"
+                    borderRadius="16px"
+                    flexShrink="0"
+                    fontWeight="500"
+                    height="32px"
+                    justifyContent="center"
+                    minW="32px"
+                    width="auto"
+                    marginRight="10px"
+                    marginLeft="auto"
+                    padding="1px 8px 0"
+                    maxW="85px"
+                  >
+                    <Icon
+                      as={FiShare}
+                      color={mobileIconColor}
+                      height="16px"
+                      width="16px"
+                      flex="0 0 16px"
+                      overflow="hidden"
+                      mr="4px"
+                    />
+                    {copied ? 'copied' : 'Share'}
+                  </Flex>
+                </CopyToClipboard>
               </Flex>
             </Box>
           </Box>

@@ -5,7 +5,7 @@ import { Icon, useColorModeValue } from '@chakra-ui/react';
 import NavBar from './Nav';
 import { PlebLogo } from '../svgs';
 import { BiAddToQueue } from 'react-icons/bi';
-import { MdAdd, MdHome, MdOutlineMail } from 'react-icons/md';
+import { MdAdd, MdClose, MdHome, MdOutlineMail } from 'react-icons/md';
 import Avatar from '../Avatar';
 import { BsArrowUpRightCircle } from 'react-icons/bs';
 import { HiOutlineChartSquareBar, HiOutlineChat } from 'react-icons/hi';
@@ -15,8 +15,6 @@ const Layout = ({ children, name }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const { showSplashcreen, device, showSide, setShowSide } = useContext(ProfileContext);
-
-  console.log(name);
 
   if (showSplashcreen) {
     return (
@@ -83,7 +81,7 @@ const Layout = ({ children, name }) => {
                   overflowY="scroll"
                 >
                   <Box cursor="pointer" px="10px" pas onClick={() => setShowSide(false)}>
-                    X
+                    <MdClose />
                   </Box>
                 </Flex>
                 <Flex flexDir="column">

@@ -13,7 +13,12 @@ import {
   Button,
   Skeleton,
 } from '@chakra-ui/react';
-import { useAccountsActions, useComment, useSubplebbit } from '@plebbit/plebbit-react-hooks';
+import {
+  useAccountsActions,
+  useAccountVote,
+  useComment,
+  useSubplebbit,
+} from '@plebbit/plebbit-react-hooks';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Swal from 'sweetalert2';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
@@ -35,7 +40,7 @@ import getUserName, { getAddress, getSubName } from '../../../utils/getUserName'
 import numFormatter from '../../../utils/numberFormater';
 import Post from '..';
 import DropDown from '../../DropDown';
-import { MdOutlineDeleteOutline, MdStickyNote2 } from 'react-icons/md';
+import { MdClose, MdOutlineDeleteOutline, MdStickyNote2 } from 'react-icons/md';
 import logger from '../../../utils/logger';
 import Layout from '../../layout';
 import Marked from '../../Editor/marked';
@@ -58,30 +63,38 @@ function PostDetail() {
   let reply;
   let replyParent;
   let replyPost = useComment(dat?.postCid); // if comment is a reply, this is what you replied to
-  const isReply = dat?.depth !== 0;
+  const isReply = dat?.parentCid && dat?.depth !== 0;
   if (isReply) {
     detail = replyPost;
     reply = dat;
   } else {
     detail = dat;
   }
-  const replyParentaux = useComment(reply?.parentCid);
+  const replyParentaux = useComment(reply?.parentCid); // incase what the reply parent is a comment also this is the parent
+  replyPost = useComment(replyParentaux?.postCid);
+  if (replyPost) {
+    detail = replyPost;
+  }
   replyParent = replyParentaux;
-  if (dat?.depth === 1) {
+  if (replyPost?.cid === replyParentaux?.cid) {
     replyParent = dat;
     reply = undefined;
   }
 
   const sub = useSubplebbit(detail?.subplebbitAddress);
-  const loading = detail !== undefined;
+  const loading = detail === undefined;
+  const detailPending = !detail?.cid;
   const subplebbit = sub === undefined ? { address: detail?.subplebbitAddress } : sub;
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
-  const vote = detail?.upvoteCount - detail?.downvoteCount;
-  const [voteMode, setVoteMode] = useState(0);
+  const [postVotes, setPostVotes] = useState(detail?.upvoteCount - detail?.downvoteCount);
+  const pVote = useAccountVote(
+    window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
+  );
+  const vote = pVote?.vote | 0;
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -111,10 +124,11 @@ function PostDetail() {
       ContentState.createFromBlockArray(convertFromHTML(`<p>${editPost}</p>`))
     )
   );
-  const { device, postStyle, profile, mode, subscriptions, authorAvatarImageUrl } =
+  const { device, postStyle, profile, baseUrl, subscriptions, authorAvatarImageUrl } =
     useContext(ProfileContext);
   const history = useHistory();
   const [showMEditor, setShowMEditor] = useState(false);
+  const [showFullComments, setShowFullComments] = useState(!isReply);
 
   const onChallengeVerification = (challengeVerification) => {
     if (challengeVerification.challengeSuccess === true) {
@@ -174,10 +188,15 @@ function PostDetail() {
     }
   };
 
-  const handleVote = async (vote) => {
+  const handleVoting = async (curr) => {
+    setPostVotes((prev) => prev + curr);
+    handleVote(curr);
+  };
+
+  const handleVote = async (curr) => {
     try {
       await publishVote({
-        vote,
+        vote: curr,
         commentCid: detail?.cid,
         subplebbitAddress: detail?.subplebbitAddress,
         onChallenge,
@@ -345,6 +364,15 @@ function PostDetail() {
     detail,
   });
 
+  const sharePath = `${baseUrl}p/${detail?.subplebbitAddress}/c/${detail?.cid}`;
+  const handleCopy = () => {
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 3000);
+  };
+  console.log('details', detail, dat, replyParentaux, reply);
+
   return (
     <Layout
       name={{
@@ -381,6 +409,7 @@ function PostDetail() {
                 width: 'calc(100% - 160px)',
                 top: '0',
               }}
+              // onClick={() => history.goBack()}
             >
               <Box
                 top="48px"
@@ -429,7 +458,7 @@ function PostDetail() {
                       padding="0 32px"
                     >
                       <Flex alignItems="center" flex="1" maxW="calc(100% - 324px)" width="100%">
-                        <Skeleton mr="4px" isLoaded={loading}>
+                        <Skeleton mr="4px" isLoaded={!loading}>
                           <Flex mr="4px" alignItems="center" margin="0" padding="0 2px">
                             <Box
                               borderRight="1px solid #a4a4a4"
@@ -441,7 +470,7 @@ function PostDetail() {
                             />
                             <IconButton
                               aria-label="Upvote Post"
-                              color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                              color={vote === 1 ? 'upvoteOrange' : iconColor}
                               w="24px"
                               h="24px"
                               bg="none"
@@ -457,10 +486,9 @@ function PostDetail() {
                                 outline: 'none',
                               }}
                               onClick={() => {
-                                setVoteMode(voteMode === 1 ? 0 : 1);
-                                handleVote(voteMode === 1 ? 0 : 1);
+                                handleVoting(vote === 1 ? 0 : 1);
                               }}
-                              icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
+                              icon={<Icon as={vote === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
                             />
                             <Text
                               fontSize="12px"
@@ -469,15 +497,13 @@ function PostDetail() {
                               pointerEvents="none"
                               color="#D7DADC"
                             >
-                              <Skeleton isLoaded={loading}>
-                                {vote + voteMode === 0
-                                  ? 'vote'
-                                  : numFormatter(vote + voteMode) || 0}
+                              <Skeleton isLoaded={!loading}>
+                                {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
                               </Skeleton>
                             </Text>
                             <IconButton
                               aria-label="Downvote Post"
-                              color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                              color={vote === -1 ? 'downvoteBlue' : iconColor}
                               w="24px"
                               h="24px"
                               minW="24px"
@@ -493,11 +519,10 @@ function PostDetail() {
                                 outline: 'none',
                               }}
                               onClick={() => {
-                                setVoteMode(voteMode === -1 ? 0 : -1);
-                                handleVote(voteMode === -1 ? 0 : -1);
+                                handleVoting(vote === -1 ? 0 : -1);
                               }}
                               icon={
-                                <Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
+                                <Icon as={vote === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
                               }
                             />
                             <Box
@@ -510,7 +535,7 @@ function PostDetail() {
                             />
                           </Flex>
                         </Skeleton>
-                        <Skeleton isLoaded={loading}>
+                        <Skeleton isLoaded={!loading}>
                           <Icon as={CgNotes} mr="8px" color="#D7DADC" />
                         </Skeleton>
 
@@ -587,11 +612,11 @@ function PostDetail() {
                               },
                             }}
                           >
-                            <Skeleton isLoaded={loading}>
+                            <Skeleton isLoaded={!loading}>
                               <>
                                 <IconButton
                                   aria-label="Upvote Post"
-                                  color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                                  color={vote === 1 ? 'upvoteOrange' : iconColor}
                                   w="24px"
                                   h="24px"
                                   bg="none"
@@ -607,12 +632,9 @@ function PostDetail() {
                                     outline: 'none',
                                   }}
                                   onClick={() => {
-                                    setVoteMode(voteMode === 1 ? 0 : 1);
-                                    handleVote(voteMode === 1 ? 0 : 1);
+                                    handleVoting(vote === 1 ? 0 : 1);
                                   }}
-                                  icon={
-                                    <Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />
-                                  }
+                                  icon={<Icon as={vote === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
                                 />
                                 <Text
                                   fontSize="12px"
@@ -621,11 +643,11 @@ function PostDetail() {
                                   pointerEvents="none"
                                   color=""
                                 >
-                                  {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
+                                  {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
                                 </Text>
                                 <IconButton
                                   aria-label="Downvote Post"
-                                  color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                                  color={vote === -1 ? 'downvoteBlue' : iconColor}
                                   w="24px"
                                   h="24px"
                                   minW="24px"
@@ -641,15 +663,10 @@ function PostDetail() {
                                     outline: 'none',
                                   }}
                                   onClick={() => {
-                                    setVoteMode(voteMode === -1 ? 0 : -1);
-                                    handleVote(voteMode === -1 ? 0 : -1);
+                                    handleVoting(vote === -1 ? 0 : -1);
                                   }}
                                   icon={
-                                    <Icon
-                                      as={voteMode === -1 ? ImArrowDown : BiDownvote}
-                                      w={4}
-                                      h={4}
-                                    />
+                                    <Icon as={vote === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
                                   }
                                 />
                               </>
@@ -668,7 +685,7 @@ function PostDetail() {
                             margin="0 8px 8px"
                           >
                             <Skeleton
-                              isLoaded={loading}
+                              isLoaded={!loading}
                               mr="8px"
                               width="20px"
                               height="20px"
@@ -682,7 +699,7 @@ function PostDetail() {
                                 isOnline={getIsOnline(subplebbit?.updatedAt)}
                               />
                             </Skeleton>
-                            <Skeleton isLoaded={loading}>
+                            <Skeleton isLoaded={!loading}>
                               <Flex
                                 alignItems="center"
                                 flexWrap="wrap"
@@ -780,7 +797,7 @@ function PostDetail() {
                               wordBreak="break-word"
                             >
                               {detail?.title}{' '}
-                              {detail?.flair?.text && (
+                              {detail?.flair?.text ? (
                                 <Tag
                                   borderRadius="20px"
                                   p="2px 8px"
@@ -790,6 +807,13 @@ function PostDetail() {
                                 >
                                   {detail?.flair.text}
                                 </Tag>
+                              ) : null}
+                              {detailPending && (
+                                <Skeleton isLoaded={!loading} my="4px">
+                                  <Tag size="sm" colorScheme="yellow" variant="outline">
+                                    Pending
+                                  </Tag>
+                                </Skeleton>
                               )}
                             </Text>
                           </Flex>
@@ -912,13 +936,13 @@ function PostDetail() {
                                   wordBreak="break-word"
                                   overflow="hidden"
                                 >
-                                  <Skeleton isLoaded={loading}>
+                                  <Skeleton isLoaded={!loading}>
                                     <Marked content={detail?.content} />
                                   </Skeleton>
                                 </Box>
                               ) : (
                                 <Box display="flex" justifyContent="center">
-                                  <Skeleton isLoaded={loading}>
+                                  <Skeleton isLoaded={!loading}>
                                     <Image
                                       fallbackSrc="https://via.placeholder.com/150"
                                       src={detail?.link}
@@ -989,19 +1013,7 @@ function PostDetail() {
                                 <Icon as={GoGift} height={5} width={5} mr="5px" />
                                 <Box>Award</Box>
                               </Link>
-                              <CopyToClipboard
-                                text={
-                                  mode === 'http:'
-                                    ? `demo.plebbit.eth.limo/#/p/${detail?.subplebbitAddress}/c/${detail?.cid}`
-                                    : window?.location?.href
-                                }
-                                onCopy={() => {
-                                  setCopied(true);
-                                  setTimeout(() => {
-                                    setCopied(false);
-                                  }, 3000);
-                                }}
-                              >
+                              <CopyToClipboard text={sharePath} onCopy={handleCopy}>
                                 <Link
                                   display="flex"
                                   alignItems="center"
@@ -1185,7 +1197,7 @@ function PostDetail() {
                               >
                                 <IconButton
                                   aria-label="Upvote Post"
-                                  color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                                  color={vote === 1 ? 'upvoteOrange' : iconColor}
                                   w="24px"
                                   h="24px"
                                   bg="none"
@@ -1200,12 +1212,9 @@ function PostDetail() {
                                     outline: 'none',
                                   }}
                                   onClick={() => {
-                                    setVoteMode(voteMode === 1 ? 0 : 1);
-                                    handleVote(voteMode === 1 ? 0 : 1);
+                                    handleVoting(vote === 1 ? 0 : 1);
                                   }}
-                                  icon={
-                                    <Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />
-                                  }
+                                  icon={<Icon as={vote === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
                                 />
                                 <Text
                                   fontSize="12px"
@@ -1214,11 +1223,11 @@ function PostDetail() {
                                   pointerEvents="none"
                                   color=""
                                 >
-                                  {vote + voteMode === 0 ? 'vote' : numFormatter(vote + voteMode)}
+                                  {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
                                 </Text>
                                 <IconButton
                                   aria-label="Downvote Post"
-                                  color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                                  color={vote === -1 ? 'downvoteBlue' : iconColor}
                                   w="24px"
                                   h="24px"
                                   minW="24px"
@@ -1233,15 +1242,10 @@ function PostDetail() {
                                     outline: 'none',
                                   }}
                                   onClick={() => {
-                                    setVoteMode(voteMode === -1 ? 0 : -1);
-                                    handleVote(voteMode === -1 ? 0 : -1);
+                                    handleVoting(vote === -1 ? 0 : -1);
                                   }}
                                   icon={
-                                    <Icon
-                                      as={voteMode === -1 ? ImArrowDown : BiDownvote}
-                                      w={4}
-                                      h={4}
-                                    />
+                                    <Icon as={vote === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
                                   }
                                 />
                               </Flex>
@@ -1280,19 +1284,7 @@ function PostDetail() {
                                 <Icon as={BsChat} height={5} width={5} mr="5px" />
                                 <Box>{detail?.replyCount}</Box>
                               </Link>
-                              <CopyToClipboard
-                                text={
-                                  mode === 'http:'
-                                    ? `demo.plebbit.eth.limo/#/p/${detail?.subplebbitAddress}/c/${detail?.cid}`
-                                    : window?.location?.href
-                                }
-                                onCopy={() => {
-                                  setCopied(true);
-                                  setTimeout(() => {
-                                    setCopied(false);
-                                  }, 3000);
-                                }}
-                              >
+                              <CopyToClipboard text={sharePath} onCopy={handleCopy}>
                                 <Link
                                   display="flex"
                                   alignItems="center"
@@ -1353,11 +1345,25 @@ function PostDetail() {
                             Sort By: Best
                           </Box>
                           <hr />
+                          {isReply ? (
+                            <Box
+                              fontSize="12px"
+                              fontWeight="700"
+                              my="8px"
+                              _hover={{
+                                textDecoration: 'underline',
+                              }}
+                              onClick={() => setShowFullComments(!showFullComments)}
+                            >
+                              View all comments
+                            </Box>
+                          ) : null}
                         </Box>
-                        {isReply && <Replies parent={replyParent} reply={reply} />}
-                        {detail?.replies?.pages?.topAll?.comments.map((comment) => (
-                          <Comment comment={comment} key={comment.cid} parentCid={detail?.cid} />
-                        ))}
+                        {isReply ? <Replies parent={replyParent} reply={reply} /> : null}
+                        {showFullComments &&
+                          detail?.replies?.pages?.topAll?.comments.map((comment) => (
+                            <Comment comment={comment} key={comment.cid} parentCid={detail?.cid} />
+                          ))}
                       </Box>
                     </Box>
                     <SideBar
@@ -1378,7 +1384,8 @@ function PostDetail() {
                       setSubLoading={setSubLoading}
                       subscriptions={subscriptions}
                       detail={detail}
-                      loading={loading}
+                      loading={!loading}
+                      subplebbit={subplebbit}
                     />
                   </Flex>
                 </Box>
@@ -1583,7 +1590,7 @@ function PostDetail() {
                             submitBtnText="Add Comment"
                             otherBtn={
                               <Button mr="auto" onClick={() => setShowMEditor(false)}>
-                                X
+                                <MdClose />
                               </Button>
                             }
                           />
@@ -1594,9 +1601,24 @@ function PostDetail() {
                 </Box>
               </Box>
               <Box padding="16px" maxW="100%">
-                {detail?.replies?.pages?.topAll?.comments.map((comment) => (
-                  <Comment comment={comment} key={comment.cid} />
-                ))}
+                {isReply ? (
+                  <Box
+                    fontSize="12px"
+                    fontWeight="700"
+                    my="8px"
+                    _hover={{
+                      textDecoration: 'underline',
+                    }}
+                    onClick={() => setShowFullComments(!showFullComments)}
+                  >
+                    View all comments
+                  </Box>
+                ) : null}
+                {isReply ? <Replies parent={replyParent} reply={reply} /> : null}
+                {showFullComments &&
+                  detail?.replies?.pages?.topAll?.comments.map((comment) => (
+                    <Comment comment={comment} key={comment.cid} />
+                  ))}
               </Box>
             </Box>
           </Box>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import Home from './views/Home';
 import PostCreate from './components/Post/CreatePost';
 import Profile from './views/Profile';
@@ -11,17 +11,40 @@ import CommunitySettings from './views/Community';
 import Moderators from './views/About/Moderator';
 import NotFound from './views/NotFound';
 import 'react-toastify/dist/ReactToastify.css';
+import PostDetailModal from './components/Post/PostDetails/index2';
 
 const App = () => {
+  // console.log = () => {};
+  const location = useLocation();
+  const modal = location?.state?.location;
+
   return (
-    <Router>
-      <Switch>
+    <div>
+      <Switch location={modal || location}>
         <Route exact path="/" component={Home} />
         <Route exact path={['/submit', '/p/:subplebbitAddress/submit']} component={PostCreate} />
-        <Route exact path="/settings" component={Settings} name="settings" />
+        <Route
+          exact
+          path={[
+            '/settings',
+            '/settings/account',
+            '/settings/profile',
+            '/settings/plebbitOptions',
+            '/settings/privacy',
+            '/settings/feed',
+            '/settings/notifications',
+            '/settings/messaging',
+          ]}
+          component={Settings}
+          name="settings"
+        />
         <Route exact path="/profile" component={Profile} name="Profile" />
         <Route exact path="/p/:subplebbitAddress" component={SubPlebbit} />
-        <Route exact path="/p/:subplebbitAddress/c/:commentCid" component={PostDetails} />
+        <Route
+          exact
+          path={['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index']}
+          component={PostDetails}
+        />
         <Route exact path="/p/:subplebbitAddress/about/edit" component={CommunitySettings} />
         <Route exact path="/p/:subplebbitAddress/moderators" component={Moderators} />
         <Route
@@ -51,7 +74,14 @@ const App = () => {
         />
         <Route exact path="*" component={NotFound} />
       </Switch>
-    </Router>
+      {location?.state?.modal && location?.state?.detail && (
+        <Route
+          exact
+          path={['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index']}
+          component={PostDetailModal}
+        />
+      )}
+    </div>
   );
 };
 

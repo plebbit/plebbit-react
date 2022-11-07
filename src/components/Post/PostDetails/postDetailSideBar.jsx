@@ -28,11 +28,13 @@ const PostDetailSideBar = ({
   handleUnSubscribe,
   handleSubscribe,
   subLoading,
-  loading,
+  subplebbit: subs,
 }) => {
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '#1A1A1B');
-  const subPlebbit = useSubplebbit(detail?.subplebbitAddress);
+  const sub = useSubplebbit(detail?.subplebbitAddress);
+  const subPlebbit = sub || subs;
+  const loading = subPlebbit === undefined;
 
   return (
     <Box
@@ -81,7 +83,7 @@ const PostDetailSideBar = ({
             />
           </Box>
           <Flex width="100" padding="12px" alignItems="center" mb="8px">
-            <Skeleton borderRadius="50%" width="54px" height="54px" mr="8px" isLoaded={loading}>
+            <Skeleton borderRadius="50%" width="54px" height="54px" mr="8px" isLoaded={!loading}>
               <Avatar
                 avatar={subPlebbit?.avatar}
                 width={54}
@@ -91,7 +93,7 @@ const PostDetailSideBar = ({
                 mr="8px"
               />
             </Skeleton>
-            <Skeleton>
+            <Skeleton isLoaded={!loading}>
               <Box fontSize="16px" fontWeight="500" lineHeight="20px" text-overflow="ellipsis">
                 {getSubName(subPlebbit)}
               </Box>
