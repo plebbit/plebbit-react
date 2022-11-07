@@ -17,15 +17,16 @@ import onError from '../../utils/onError';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 
 const Post = ({ type, post, mode, loading, detail, handleOption }) => {
+  const pending = !post?.cid;
   const postVote = useAccountVote(post?.cid);
   const vote = postVote?.vote || 0;
-  const [postVotes, setPostVotes] = useState(post?.upvoteCount - post?.downvoteCount);
+  const [postVotes, setPostVotes] = useState(pending ? 0 : post?.upvoteCount - post?.downvoteCount);
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
   const toast = useToast();
   const { publishVote } = useAccountsActions();
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(post?.author);
-  const { mode: location } = useContext(ProfileContext);
+  const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit(post?.subplebbitAddress);
 
   const isOnline = getIsOnline(getSub?.updatedAt);
@@ -124,6 +125,18 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
       });
     }
   };
+  const detailPath = !pending
+    ? `/p/${post?.subplebbitAddress}/c/${post?.cid}`
+    : `/profile/c/${post?.index}`;
+
+  const sharePath = `${baseUrl}p/${post?.subplebbitAddress}/c/${post?.cid}`;
+
+  const handleCopy = () => {
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 3000);
+  };
 
   return (
     <Box>
@@ -133,21 +146,21 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
           <CardPost
             vote={vote}
             postVotes={postVotes}
-            handleVoting={handleVoting}
+            handleVoting={!pending ? handleVoting : ''}
             type={type}
             post={post}
             loading={loading}
-            handleVote={handleVote}
             detail={detail}
             handleOption={handleOption}
             copied={copied}
             setCopied={setCopied}
-            location={`${
-              location === 'http:' ? 'demo.plebbit.eth.limo/#/' : window.location.href
-            }p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            location={sharePath}
             avatar={authorAvatarImageUrl}
             isOnline={isOnline}
             subPlebbit={getSub}
+            handleCopy={handleCopy}
+            detailPath={detailPath}
+            pending={pending}
           />
         )}
         {/* classic */}
@@ -155,23 +168,23 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
           <ClassicPost
             vote={vote}
             postVotes={postVotes}
-            handleVoting={handleVoting}
+            handleVoting={!pending ? handleVoting : ''}
             showContent={showContent}
             setShowContent={setShowContent}
             type={type}
             post={post}
             loading={loading}
-            handleVote={handleVote}
             detail={detail}
             handleOption={handleOption}
             copied={copied}
             setCopied={setCopied}
-            location={`${
-              location === 'http:' ? 'demo.plebbit.eth.limo/#/' : window.location.href
-            }p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            location={sharePath}
             avatar={authorAvatarImageUrl}
             isOnline={isOnline}
             subPlebbit={getSub}
+            handleCopy={handleCopy}
+            detailPath={detailPath}
+            pending={pending}
           />
         )}
         {/* compact */}
@@ -179,23 +192,23 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
           <CompactPost
             vote={vote}
             postVotes={postVotes}
-            handleVoting={handleVoting}
+            handleVoting={!pending ? handleVoting : ''}
             showContent={showContent}
             setShowContent={setShowContent}
             type={type}
             post={post}
             loading={loading}
-            handleVote={handleVote}
             detail={detail}
             handleOption={handleOption}
             copied={copied}
             setCopied={setCopied}
-            location={`${
-              location === 'http:' ? 'demo.plebbit.eth.limo/#/' : window.location.href
-            }p/${post?.subplebbitAddress}/c/${post?.cid}`}
+            location={sharePath}
             avatar={authorAvatarImageUrl}
             isOnline={isOnline}
             subPlebbit={getSub}
+            handleCopy={handleCopy}
+            detailPath={detailPath}
+            pending={pending}
           />
         )}
       </Box>

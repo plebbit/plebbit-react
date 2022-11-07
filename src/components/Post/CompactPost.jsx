@@ -37,6 +37,8 @@ const CompactPost = ({
   // setCopied,
   // location,
   // copied,
+  detailPath,
+  pending,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -238,7 +240,7 @@ const CompactPost = ({
                 onClick={() =>
                   history.push(
                     {
-                      pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                      pathname: detailPath,
                       state: { detail: post },
                     },
                     []
@@ -328,7 +330,7 @@ const CompactPost = ({
                   ) : (
                     ''
                   )}
-                  {!post?.cid && (
+                  {pending && (
                     <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
                       Pending
                     </Tag>

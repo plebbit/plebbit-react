@@ -13,7 +13,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-// import { RiCopperCoinLine } from 'react-icons/ri';
 import { BsChat, BsBookmark, BsEyeSlash, BsFlag, BsFileText, BsPencil } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
@@ -40,7 +39,6 @@ const ClassicPost = ({
   type,
   showContent,
   setShowContent,
-  setCopied,
   location,
   copied,
   detail,
@@ -48,9 +46,11 @@ const ClassicPost = ({
   handleOption,
   subPlebbit: sub,
   postVotes,
+  handleCopy,
+  detailPath,
+  pending,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
-  // const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
   const border1 = useColorModeValue('#ccc', '#343536');
   const border2 = useColorModeValue('#edeff1', '#343536');
@@ -339,7 +339,7 @@ const ClassicPost = ({
                     ) : (
                       ''
                     )}
-                    {!post?.cid && (
+                    {pending && (
                       <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
                         Pending
                       </Tag>
@@ -369,7 +369,7 @@ const ClassicPost = ({
                         <Link
                           as={ReactLink}
                           to={{
-                            pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                            pathname: detailPath,
                             state: { detail: post },
                           }}
                           color={subPledditTextColor}
@@ -569,15 +569,7 @@ const ClassicPost = ({
                         Award
                       </Text>
                     </Flex>
-                    <CopyToClipboard
-                      text={location}
-                      onCopy={() => {
-                        setCopied(true);
-                        setTimeout(() => {
-                          setCopied(false);
-                        }, 3000);
-                      }}
-                    >
+                    <CopyToClipboard text={location} onCopy={handleCopy}>
                       <Flex
                         padding="8px"
                         wordBreak="normal"
@@ -734,7 +726,7 @@ const ClassicPost = ({
             <Link
               as={ReactLink}
               to={{
-                pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                pathname: detailPath,
                 state: { detail: post },
               }}
               bottom="0"
@@ -809,6 +801,13 @@ const ClassicPost = ({
                         <Box>
                           <Skeleton isLoaded={!loading}>{fromNow(post?.timestamp * 1000)}</Skeleton>
                         </Box>
+                        {pending && (
+                          <Skeleton isLoaded={!loading}>
+                            <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
+                              Pending
+                            </Tag>
+                          </Skeleton>
+                        )}
                       </Flex>
                     </Box>
                   </Box>
@@ -1052,7 +1051,7 @@ const ClassicPost = ({
                 <Link
                   as={ReactLink}
                   to={{
-                    pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
+                    pathname: detailPath,
                     state: { detail: post },
                   }}
                 >
@@ -1084,34 +1083,36 @@ const ClassicPost = ({
                   </Flex>
                 </Link>
                 {/* share button */}
-                <Flex
-                  color={mobileIconColor}
-                  fill={mobileIconColor}
-                  border={`1px solid ${border2}`}
-                  alignItems="center"
-                  borderRadius="16px"
-                  flexShrink="0"
-                  fontWeight="500"
-                  height="32px"
-                  justifyContent="center"
-                  minW="32px"
-                  width="auto"
-                  marginRight="10px"
-                  marginLeft="auto"
-                  padding="1px 8px 0"
-                  maxW="85px"
-                >
-                  <Icon
-                    as={FiShare}
+                <CopyToClipboard text={location} onCopy={handleCopy}>
+                  <Flex
                     color={mobileIconColor}
-                    height="16px"
-                    width="16px"
-                    flex="0 0 16px"
-                    overflow="hidden"
-                    mr="4px"
-                  />
-                  share
-                </Flex>
+                    fill={mobileIconColor}
+                    border={`1px solid ${border2}`}
+                    alignItems="center"
+                    borderRadius="16px"
+                    flexShrink="0"
+                    fontWeight="500"
+                    height="32px"
+                    justifyContent="center"
+                    minW="32px"
+                    width="auto"
+                    marginRight="10px"
+                    marginLeft="auto"
+                    padding="1px 8px 0"
+                    maxW="85px"
+                  >
+                    <Icon
+                      as={FiShare}
+                      color={mobileIconColor}
+                      height="16px"
+                      width="16px"
+                      flex="0 0 16px"
+                      overflow="hidden"
+                      mr="4px"
+                    />
+                    {copied ? 'share' : 'copied'}
+                  </Flex>
+                </CopyToClipboard>
               </Flex>
             </Box>
           </Box>

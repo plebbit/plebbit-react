@@ -195,6 +195,7 @@ const CreatePost = () => {
     }
   };
 
+  console.log(mode);
   return (
     <Layout name={{ label: 'Create Post', value: location?.pathname }}>
       <Flex maxWidth="100%" justifyContent="center" margin="0 auto !important" height="100vh">
@@ -389,27 +390,34 @@ const CreatePost = () => {
                   </Box>
                 </Box>
                 <Box>
-                  <Box
-                    borderRadius="4px"
-                    border={
-                      colorMode === 'light'
-                        ? '1px solid #edeff1'
-                        : '1px solid rgba(255, 255, 255, 0.16)'
-                    }
-                    position="relative"
-                  >
+                  <Box borderRadius="4px" position="relative">
                     <Box
                       borderRadius="4px"
-                      minH="300px"
+                      minH={mode === 'post' && '300px'}
                       overflow="hidden auto"
-                      padding="8px 16px"
                       resize="vertical"
                     >
-                      <Editor
-                        setValue={mode === 'post' ? setContent : setLink}
-                        editorState={editorState}
-                        setEditorState={setEditorState}
-                      />
+                      {mode === 'post' ? (
+                        <Editor
+                          setValue={setContent}
+                          editorState={editorState}
+                          setEditorState={setEditorState}
+                          placeholder="Text (Optional)"
+                        />
+                      ) : (
+                        <Textarea
+                          placeholder="Url"
+                          onChange={(e) => setLink(e.target.value)}
+                          value={link}
+                          color={color}
+                        />
+                      )}
+                      {/* <Editor
+                          setValue={setLink}
+                          editorState={editorState}
+                          setEditorState={setEditorState}
+                          placeholder="Url"
+                        /> */}
                     </Box>
                   </Box>
                 </Box>

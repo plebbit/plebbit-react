@@ -8,6 +8,7 @@ import {
   IconButton,
   Icon,
   useToast,
+  Tag,
 } from '@chakra-ui/react';
 import { useAccountsActions, useAuthorAvatarImageUrl } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
@@ -39,9 +40,10 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(comment?.author);
-  const { mode } = useContext(ProfileContext);
+  const { baseUrl } = useContext(ProfileContext);
   const [copied, setCopied] = useState(false);
   const [loader, setLoader] = useState(false);
+  const commentPending = !comment?.cid;
   const onChallengeVerification = (challengeVerification) => {
     if (challengeVerification.challengeSuccess === true) {
       toast({
@@ -208,6 +210,11 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
         </Flex>
         <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>
           <Marked content={comment?.content || ''} />
+          {commentPending && (
+            <Tag size="sm" colorScheme="yellow" variant="outline">
+              Pending
+            </Tag>
+          )}
         </Box>
         <Flex color={iconColor}>
           <Flex
@@ -317,11 +324,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
             </Text>
           </Link>
           <CopyToClipboard
-            text={
-              mode === 'http:'
-                ? `demo.plebbit.eth.limo/#/p/${comment?.subplebbitAddress}/c/${comment?.cid}`
-                : window?.location?.href
-            }
+            text={`${baseUrl}p/${comment?.subplebbitAddress}/c/${comment?.cid}`}
             onCopy={() => {
               setCopied(true);
               setTimeout(() => {

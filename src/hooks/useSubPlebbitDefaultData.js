@@ -14,7 +14,7 @@ const useSubPlebbitDefaultData = () => {
         } else {
           toast.error('error fetching default subs', {
             position: 'bottom-center',
-            autoClose: 5000,
+            autoClose: false,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,

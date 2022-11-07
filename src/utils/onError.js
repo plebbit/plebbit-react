@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 const onError = (error) => {
   return toast.error(error?.message.toString(), {
     position: 'bottom-center',
-    autoClose: 5000,
+    autoClose: false,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
