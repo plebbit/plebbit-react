@@ -54,21 +54,27 @@ function PostDetail() {
   const location = useLocation();
 
   // post from link or link address
-  const det = useComment(
+  const commentFromCid = useComment(
     window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
   );
+  const commentFromFeed = location?.state?.detail;
   // applicable if coming from feeds, if posts takes time to load uses feeds post props
-  const dat = det === undefined ? location?.state?.detail : det;
+  const comment =
+    commentFromCid === undefined
+      ? commentFromFeed
+      : commentFromFeed?.updatedAt > commentFromCid?.updatedAt
+      ? commentFromFeed
+      : commentFromCid;
   let detail;
   let reply;
   let replyParent;
-  let replyPost = useComment(dat?.postCid); // if comment is a reply, this is what you replied to
-  const isReply = dat?.parentCid && dat?.depth !== 0;
+  let replyPost = useComment(comment?.postCid); // if comment is a reply, this is what you replied to
+  const isReply = comment?.parentCid && comment?.depth !== 0;
   if (isReply) {
     detail = replyPost;
-    reply = dat;
+    reply = comment;
   } else {
-    detail = dat;
+    detail = comment;
   }
   const replyParentaux = useComment(reply?.parentCid); // incase what the reply parent is a comment also this is the parent
   replyPost = useComment(replyParentaux?.postCid);
@@ -77,7 +83,7 @@ function PostDetail() {
   }
   replyParent = replyParentaux;
   if (replyPost?.cid === replyParentaux?.cid) {
-    replyParent = dat;
+    replyParent = comment;
     reply = undefined;
   }
 
@@ -371,7 +377,6 @@ function PostDetail() {
       setCopied(false);
     }, 3000);
   };
-  console.log('details', detail, dat, replyParentaux, reply);
 
   return (
     <Layout
