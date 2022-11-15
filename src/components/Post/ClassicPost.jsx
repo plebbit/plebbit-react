@@ -199,7 +199,12 @@ const ClassicPost = ({
           <Box bg={mainBg} position="relative">
             <Flex position="relative" padding="8px 8px 0">
               {/* Post image */}
-              <Flex flex="0 0 96px" height="72px" borderRadius="4px">
+              <Flex
+                flex="0 0 96px"
+                height="72px"
+                borderRadius="4px"
+                onClick={() => history.push(detailRoute, [])}
+              >
                 <Flex flex="0 0 96px" height="72px" borderRadius="4px" backgroundColor={shadow}>
                   <Box
                     borderRadius="4px"
@@ -247,15 +252,7 @@ const ClassicPost = ({
                   alignItems="center"
                   flexWrap="wrap"
                   margin="0 8px"
-                  onClick={() =>
-                    history.push(
-                      {
-                        pathname: `/p/${post?.subplebbitAddress}/c/${post?.cid}`,
-                        state: { detail: post },
-                      },
-                      []
-                    )
-                  }
+                  onClick={() => history.push(detailRoute, [])}
                 >
                   <Skeleton display="flex" flexWrap="wrap" isLoaded={!loading}>
                     {' '}
@@ -517,6 +514,7 @@ const ClassicPost = ({
                       _hover={{
                         backgroundColor: inputBg,
                       }}
+                      onClick={() => history.push(detailRoute, [])}
                     >
                       <Icon
                         as={BsChat}

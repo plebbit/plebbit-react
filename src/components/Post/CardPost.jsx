@@ -667,113 +667,115 @@ const CardPost = ({
             </ReactLink>
             {/* Post Footer */}
             {pending ? (
-              <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
-                <Flex
-                  fontSize="12px"
-                  fontWeight="700"
-                  lineHeight="16px"
-                  alignItems="stretch"
-                  padding="0 8px 0 4px"
-                  flexGrow="1"
-                >
+              !loading && (
+                <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
                   <Flex
-                    padding="8px"
-                    wordBreak="normal"
-                    mr="4px"
-                    alignItems="center"
-                    borderRadius="2px"
                     fontSize="12px"
                     fontWeight="700"
                     lineHeight="16px"
-                    boxSizing="border-box"
-                    _hover={{
-                      backgroundColor: inputBg,
-                    }}
-                    onClick={() => handleOption('Edit')}
+                    alignItems="stretch"
+                    padding="0 8px 0 4px"
+                    flexGrow="1"
                   >
-                    <Icon
-                      as={BsPencil}
-                      width="20px"
-                      height="20px"
-                      verticalAlign="middle"
-                      fontWeight="400"
-                      mr="6px"
-                    />
-                    <Text
-                      display="inline-block"
-                      lineHeight={1}
-                      textTransform="capitalize"
-                      verticalAlign="middle"
+                    <Flex
+                      padding="8px"
+                      wordBreak="normal"
+                      mr="4px"
+                      alignItems="center"
+                      borderRadius="2px"
+                      fontSize="12px"
+                      fontWeight="700"
+                      lineHeight="16px"
+                      boxSizing="border-box"
+                      _hover={{
+                        backgroundColor: inputBg,
+                      }}
+                      onClick={() => handleOption('Edit')}
                     >
-                      Edit
-                    </Text>
-                  </Flex>
-                  <Flex
-                    padding="8px"
-                    wordBreak="normal"
-                    mr="4px"
-                    alignItems="center"
-                    borderRadius="2px"
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    boxSizing="border-box"
-                    _hover={{
-                      backgroundColor: inputBg,
-                    }}
-                    onClick={() => handleOption('Delete')}
-                  >
-                    <Icon
-                      as={FcCancel}
-                      width="20px"
-                      height="20px"
-                      verticalAlign="middle"
-                      fontWeight="400"
-                      mr="6px"
-                    />
-                    <Text
-                      display="inline-block"
-                      lineHeight={1}
-                      textTransform="capitalize"
-                      verticalAlign="middle"
+                      <Icon
+                        as={BsPencil}
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                        fontWeight="400"
+                        mr="6px"
+                      />
+                      <Text
+                        display="inline-block"
+                        lineHeight={1}
+                        textTransform="capitalize"
+                        verticalAlign="middle"
+                      >
+                        Edit
+                      </Text>
+                    </Flex>
+                    <Flex
+                      padding="8px"
+                      wordBreak="normal"
+                      mr="4px"
+                      alignItems="center"
+                      borderRadius="2px"
+                      fontSize="12px"
+                      fontWeight="700"
+                      lineHeight="16px"
+                      boxSizing="border-box"
+                      _hover={{
+                        backgroundColor: inputBg,
+                      }}
+                      onClick={() => handleOption('Delete')}
                     >
-                      Delete
-                    </Text>
-                  </Flex>
+                      <Icon
+                        as={FcCancel}
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                        fontWeight="400"
+                        mr="6px"
+                      />
+                      <Text
+                        display="inline-block"
+                        lineHeight={1}
+                        textTransform="capitalize"
+                        verticalAlign="middle"
+                      >
+                        Delete
+                      </Text>
+                    </Flex>
 
-                  <Flex
-                    padding="8px"
-                    wordBreak="normal"
-                    mr="4px"
-                    alignItems="center"
-                    borderRadius="2px"
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    boxSizing="border-box"
-                    _hover={{
-                      backgroundColor: inputBg,
-                    }}
-                  >
-                    <Icon
-                      as={BsBookmark}
-                      width="20px"
-                      height="20px"
-                      verticalAlign="middle"
-                      fontWeight="400"
-                      mr="6px"
-                    />
-                    <Text
-                      display="inline-block"
-                      lineHeight={1}
-                      textTransform="capitalize"
-                      verticalAlign="middle"
+                    <Flex
+                      padding="8px"
+                      wordBreak="normal"
+                      mr="4px"
+                      alignItems="center"
+                      borderRadius="2px"
+                      fontSize="12px"
+                      fontWeight="700"
+                      lineHeight="16px"
+                      boxSizing="border-box"
+                      _hover={{
+                        backgroundColor: inputBg,
+                      }}
                     >
-                      Save
-                    </Text>
+                      <Icon
+                        as={BsBookmark}
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                        fontWeight="400"
+                        mr="6px"
+                      />
+                      <Text
+                        display="inline-block"
+                        lineHeight={1}
+                        textTransform="capitalize"
+                        verticalAlign="middle"
+                      >
+                        Save
+                      </Text>
+                    </Flex>
                   </Flex>
                 </Flex>
-              </Flex>
+              )
             ) : (
               <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
                 <Flex
@@ -915,6 +917,7 @@ const CardPost = ({
                   </Flex>
                   <Flex justifyContent="center">
                     <DropDown
+                      handleOption
                       dropDownTitle={
                         <Flex
                           borderRadius="2px"

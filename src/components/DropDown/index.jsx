@@ -59,9 +59,11 @@ const DropDown = ({
           zIndex="10"
           color={iconColor}
           fill={iconColor}
-          top={topOffset || '24px'}
-          left={leftOffset || '10px'}
-          right={rightOffset}
+          sx={{
+            top: topOffset || '24px',
+            left: leftOffset || '10px',
+            right: rightOffset,
+          }}
           width={width}
         >
           {options
