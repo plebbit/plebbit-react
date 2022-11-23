@@ -5,6 +5,7 @@ import Flair from './flair';
 import PostFlair from './flair/postFlair';
 import UserFlair from './flair/userFlair';
 import Moderators from './Moderator/subPlebbitModerators';
+import ModQueue from './Modqueue';
 import Rules from './Rules';
 
 const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading }) => {
@@ -43,6 +44,7 @@ const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading }) => {
           loading={loading}
         />
       )}
+      {page === 'modqueue' && <ModQueue />}
       {page === 'flair' && (
         <Flair
           role={role}

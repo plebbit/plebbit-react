@@ -1,9 +1,8 @@
-import { Flex, useColorModeValue } from '@chakra-ui/react';
+import { Button, Flex, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
-import Button from '../Button';
 
 const BacktoTopButton = () => {
-  const color = useColorModeValue('lightText', 'darkText');
+  const color = useColorModeValue('darkText1', 'darkText1');
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -23,7 +22,6 @@ const BacktoTopButton = () => {
     >
       <Button
         border="none"
-        content="Back to Top"
         width="128px"
         position="relative"
         bg="#a4a4a4"
@@ -31,7 +29,10 @@ const BacktoTopButton = () => {
         fontSize="14px"
         fontWeight="700"
         onClick={scrollToTop}
-      />
+        borderRadius="999px"
+      >
+        Back to Top
+      </Button>
     </Flex>
   );
 };

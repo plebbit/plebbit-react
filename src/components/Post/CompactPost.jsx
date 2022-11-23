@@ -11,7 +11,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 // import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { BsChat, BsFileText } from 'react-icons/bs';
+import { BsChat, BsEyeSlash, BsFileText } from 'react-icons/bs';
 import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg';
 import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
@@ -22,6 +22,7 @@ import numFormatter from '../../utils/numberFormater';
 import getUserName, { getSubName } from '../../utils/getUserName';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
+import DropDown from '../DropDown';
 
 const CompactPost = ({
   loading,
@@ -34,6 +35,7 @@ const CompactPost = ({
   isOnline,
   subPlebbit,
   postVotes,
+  handleOption,
   // setCopied,
   // location,
   // copied,
@@ -61,7 +63,6 @@ const CompactPost = ({
       fill={iconColor}
       cursor="pointer"
       maxW="100%"
-      overflow="hidden"
       bg={postTransBg}
       position="relative"
       border={`thin solid transparent`}
@@ -470,6 +471,7 @@ const CompactPost = ({
                 _hover={{
                   bg: inputBg,
                 }}
+                onClick={() => history.push(detailRoute, [])}
               >
                 <Icon
                   as={BsChat}
@@ -481,26 +483,39 @@ const CompactPost = ({
                 />
                 <span>{post?.replyCount}</span>
               </Link>
-              <Box>
-                <Box
-                  borderRadius="2px"
-                  height="24px"
-                  display="inline-block"
-                  verticalAlign="middle"
-                  cursor="pointer"
-                  lineHeight="0"
-                  padding="0 4px"
-                  width="100%"
-                  bg="transparent"
-                  border="none"
-                  color="inherit"
-                  _hover={{
-                    bg: inputBg,
+              <Flex justifyContent="center">
+                <DropDown
+                  onChange={(x) => {
+                    handleOption(x);
                   }}
-                >
-                  <Icon alignSelf="middle" as={FiMoreHorizontal} width="20px" height="20px" />
-                </Box>
-              </Box>
+                  rightOffset={0}
+                  leftOffset="unset"
+                  dropDownTitle={
+                    <Flex
+                      borderRadius="2px"
+                      height="24px"
+                      verticalAlign="middle"
+                      padding="0 4px"
+                      width="100%"
+                      bg="transparent"
+                      border="none"
+                      alignItems="center"
+                      _hover={{
+                        backgroundColor: inputBg,
+                      }}
+                    >
+                      <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
+                    </Flex>
+                  }
+                  options={[
+                    {
+                      label: 'Block author',
+                      icon: BsEyeSlash,
+                      id: 'block',
+                    },
+                  ]}
+                />
+              </Flex>
             </Flex>
           </Flex>
         </Box>

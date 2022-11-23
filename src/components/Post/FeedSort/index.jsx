@@ -17,7 +17,7 @@ import { ProfileContext } from '../../../store/profileContext';
 import DropDown from '../../DropDown';
 import useVisible from '../../../hooks/useVisible';
 
-const FeedSort = () => {
+const FeedSort = ({ hideControl }) => {
   const { postStyle, setPostStyle, feedSort, setFeedSort, device } = useContext(ProfileContext);
   // const history = useHistory();
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
@@ -156,113 +156,115 @@ const FeedSort = () => {
               </Box>
             </Flex>
           </Flex>
-          <DropDown
-            caret
-            inputBg={inputBg}
-            dropDownTitle={
-              <>
-                {' '}
-                <Flex color={iconColor} alignItems="center">
-                  <Icon
-                    as={
-                      postStyle === 'card'
-                        ? MdOutlineViewStream
-                        : postStyle === 'classic'
-                        ? MdOutlineTableRows
-                        : MdOutlineViewHeadline
-                    }
-                    height={6}
-                    width={6}
-                  />
-                </Flex>
-              </>
-            }
-            content={
-              <>
-                {' '}
-                <Flex
-                  color={postStyle === 'card' && activeFilterText}
-                  fill={postStyle === 'card' && activeFilterText}
-                  alignItems="center"
-                  position="relative"
-                  outline="none"
-                  fontSize="14px"
-                  fontWeight="500"
-                  lineHeight="18px"
-                  padding="8px"
-                  textTransform="capitalize"
-                  whiteSpace="nowrap"
-                  _hover={{
-                    background: inputBg,
-                  }}
-                  onClick={() => setPostStyle('card')}
-                  cursor="pointer"
-                >
-                  <Icon
-                    mr="4px"
-                    as={postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream}
-                    width={6}
-                    height={6}
-                  />
-                  <Box>Card</Box>
-                </Flex>
-                <Flex
-                  color={postStyle === 'classic' && activeFilterText}
-                  fill={postStyle === 'classic' && activeFilterText}
-                  alignItems="center"
-                  position="relative"
-                  outline="none"
-                  fontSize="14px"
-                  fontWeight="500"
-                  lineHeight="18px"
-                  padding="8px"
-                  textTransform="capitalize"
-                  whiteSpace="nowrap"
-                  _hover={{
-                    background: inputBg,
-                  }}
-                  borderTop={`1px solid ${border2}`}
-                  onClick={() => setPostStyle('classic')}
-                  cursor="pointer"
-                >
-                  <Icon
-                    mr="4px"
-                    as={postStyle === 'classic' ? MdTableRows : MdOutlineTableRows}
-                    width={6}
-                    height={6}
-                  />
-                  <Box>Classic</Box>
-                </Flex>
-                <Flex
-                  color={postStyle === 'compact' && activeFilterText}
-                  fill={postStyle === 'compact' && activeFilterText}
-                  alignItems="center"
-                  position="relative"
-                  outline="none"
-                  fontSize="14px"
-                  fontWeight="500"
-                  lineHeight="18px"
-                  padding="8px"
-                  textTransform="capitalize"
-                  whiteSpace="nowrap"
-                  _hover={{
-                    background: inputBg,
-                  }}
-                  borderTop={`1px solid ${border2}`}
-                  onClick={() => setPostStyle('compact')}
-                  cursor="pointer"
-                >
-                  <Icon
-                    mr="4px"
-                    as={postStyle === 'compact' ? MdViewHeadline : MdOutlineViewHeadline}
-                    width={6}
-                    height={6}
-                  />
-                  <Box>Compact</Box>
-                </Flex>
-              </>
-            }
-          />
+          {!hideControl && (
+            <DropDown
+              caret
+              inputBg={inputBg}
+              dropDownTitle={
+                <>
+                  {' '}
+                  <Flex color={iconColor} alignItems="center">
+                    <Icon
+                      as={
+                        postStyle === 'card'
+                          ? MdOutlineViewStream
+                          : postStyle === 'classic'
+                          ? MdOutlineTableRows
+                          : MdOutlineViewHeadline
+                      }
+                      height={6}
+                      width={6}
+                    />
+                  </Flex>
+                </>
+              }
+              content={
+                <>
+                  {' '}
+                  <Flex
+                    color={postStyle === 'card' && activeFilterText}
+                    fill={postStyle === 'card' && activeFilterText}
+                    alignItems="center"
+                    position="relative"
+                    outline="none"
+                    fontSize="14px"
+                    fontWeight="500"
+                    lineHeight="18px"
+                    padding="8px"
+                    textTransform="capitalize"
+                    whiteSpace="nowrap"
+                    _hover={{
+                      background: inputBg,
+                    }}
+                    onClick={() => setPostStyle('card')}
+                    cursor="pointer"
+                  >
+                    <Icon
+                      mr="4px"
+                      as={postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream}
+                      width={6}
+                      height={6}
+                    />
+                    <Box>Card</Box>
+                  </Flex>
+                  <Flex
+                    color={postStyle === 'classic' && activeFilterText}
+                    fill={postStyle === 'classic' && activeFilterText}
+                    alignItems="center"
+                    position="relative"
+                    outline="none"
+                    fontSize="14px"
+                    fontWeight="500"
+                    lineHeight="18px"
+                    padding="8px"
+                    textTransform="capitalize"
+                    whiteSpace="nowrap"
+                    _hover={{
+                      background: inputBg,
+                    }}
+                    borderTop={`1px solid ${border2}`}
+                    onClick={() => setPostStyle('classic')}
+                    cursor="pointer"
+                  >
+                    <Icon
+                      mr="4px"
+                      as={postStyle === 'classic' ? MdTableRows : MdOutlineTableRows}
+                      width={6}
+                      height={6}
+                    />
+                    <Box>Classic</Box>
+                  </Flex>
+                  <Flex
+                    color={postStyle === 'compact' && activeFilterText}
+                    fill={postStyle === 'compact' && activeFilterText}
+                    alignItems="center"
+                    position="relative"
+                    outline="none"
+                    fontSize="14px"
+                    fontWeight="500"
+                    lineHeight="18px"
+                    padding="8px"
+                    textTransform="capitalize"
+                    whiteSpace="nowrap"
+                    _hover={{
+                      background: inputBg,
+                    }}
+                    borderTop={`1px solid ${border2}`}
+                    onClick={() => setPostStyle('compact')}
+                    cursor="pointer"
+                  >
+                    <Icon
+                      mr="4px"
+                      as={postStyle === 'compact' ? MdViewHeadline : MdOutlineViewHeadline}
+                      width={6}
+                      height={6}
+                    />
+                    <Box>Compact</Box>
+                  </Flex>
+                </>
+              }
+            />
+          )}
         </Flex>
       ) : (
         <Flex
@@ -448,163 +450,165 @@ const FeedSort = () => {
                 )}
               </Box>
             </Box>
-            <Box>
-              <Flex
-                alignItems="center"
-                color="#a5a4a4"
-                fill="#a5a4a4"
-                height="32px"
-                onClick={() => {
-                  setViewSelect(!viewSelect);
-                  setShowComponent2(!viewSelect);
-                }}
-              >
-                <Icon
-                  as={postStyle === 'card' ? MdViewAgenda : MdTableRows}
-                  width="24px"
-                  height="24px"
-                  verticalAlign="middle"
-                  color={iconMobileColor}
-                  fill={iconMobileColor}
-                />
-                <Icon
-                  as={BsChevronDown}
-                  width="24px"
-                  height="24px"
-                  verticalAlign="middle"
-                  color={iconMobileColor}
-                  fill={iconMobileColor}
-                  marginLeft="8px"
-                />
-              </Flex>
-              {viewSelect && showComponent2 ? (
-                <Box position="fixed" zIndex="20" ref={ref2}>
-                  <Box
-                    position="fixed"
-                    borderWidth="1px"
-                    borderStyle="solid"
-                    bg="white"
-                    zIndex="1000"
-                    top="149px"
-                    left="214px"
-                    right="8px"
-                    width="auto"
-                    borderColor={border2}
-                  >
+            {!hideControl && (
+              <Box>
+                <Flex
+                  alignItems="center"
+                  color="#a5a4a4"
+                  fill="#a5a4a4"
+                  height="32px"
+                  onClick={() => {
+                    setViewSelect(!viewSelect);
+                    setShowComponent2(!viewSelect);
+                  }}
+                >
+                  <Icon
+                    as={postStyle === 'card' ? MdViewAgenda : MdTableRows}
+                    width="24px"
+                    height="24px"
+                    verticalAlign="middle"
+                    color={iconMobileColor}
+                    fill={iconMobileColor}
+                  />
+                  <Icon
+                    as={BsChevronDown}
+                    width="24px"
+                    height="24px"
+                    verticalAlign="middle"
+                    color={iconMobileColor}
+                    fill={iconMobileColor}
+                    marginLeft="8px"
+                  />
+                </Flex>
+                {viewSelect && showComponent2 ? (
+                  <Box position="fixed" zIndex="20" ref={ref2}>
                     <Box
                       position="fixed"
-                      width="0"
-                      height="0"
-                      zIndex="1001"
-                      left="506px"
-                      borderLeft="8px solid transparent"
-                      borderRight="8px solid transparent"
-                      top="142px"
-                      borderBottomWidth="8px"
-                      borderBottomStyle="solid"
-                      borderBottomColor="inherit"
-                    />
-                    <Box
-                      position="fixed"
-                      width="0"
-                      height="0"
-                      zIndex="1001"
-                      left="507px"
-                      borderLeft="7px solid transparent"
-                      borderRight="7px solid transparent"
-                      top="143px"
-                      borderBottom="7px solid #fff"
-                      borderTopColor="7px solid #fff !important"
-                    />
-                    <Box width="100%" height="100%" overflow="auto">
+                      borderWidth="1px"
+                      borderStyle="solid"
+                      bg="white"
+                      zIndex="1000"
+                      top="149px"
+                      left="214px"
+                      right="8px"
+                      width="auto"
+                      borderColor={border2}
+                    >
                       <Box
-                        bg={mainMobileBg}
-                        color="#a5a4a4"
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                        whiteSpace="nowrap"
-                        padding="8px 8px 0"
-                        fontSize="10px"
-                        lineHeight="24px"
-                        letterSpacing="1.5"
-                        fontWeight="700"
-                        textTransform="uppercase"
-                      >
-                        View post in:
+                        position="fixed"
+                        width="0"
+                        height="0"
+                        zIndex="1001"
+                        left="506px"
+                        borderLeft="8px solid transparent"
+                        borderRight="8px solid transparent"
+                        top="142px"
+                        borderBottomWidth="8px"
+                        borderBottomStyle="solid"
+                        borderBottomColor="inherit"
+                      />
+                      <Box
+                        position="fixed"
+                        width="0"
+                        height="0"
+                        zIndex="1001"
+                        left="507px"
+                        borderLeft="7px solid transparent"
+                        borderRight="7px solid transparent"
+                        top="143px"
+                        borderBottom="7px solid #fff"
+                        borderTopColor="7px solid #fff !important"
+                      />
+                      <Box width="100%" height="100%" overflow="auto">
                         <Box
-                          borderTopColor={iconMobileColor}
-                          borderTopStyle="solid"
-                          borderTopWidth="1px"
-                          marginTop="8px"
-                        />
+                          bg={mainMobileBg}
+                          color="#a5a4a4"
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                          padding="8px 8px 0"
+                          fontSize="10px"
+                          lineHeight="24px"
+                          letterSpacing="1.5"
+                          fontWeight="700"
+                          textTransform="uppercase"
+                        >
+                          View post in:
+                          <Box
+                            borderTopColor={iconMobileColor}
+                            borderTopStyle="solid"
+                            borderTopWidth="1px"
+                            marginTop="8px"
+                          />
+                        </Box>
+                        <Flex
+                          bg={mainMobileBg}
+                          alignItems="flex-start"
+                          minH="50px"
+                          padding="14px 0"
+                          onClick={() => {
+                            setViewSelect(false);
+                            setShowComponent2(false);
+                            setPostStyle('classic');
+                          }}
+                        >
+                          <Icon
+                            as={postStyle === 'classic' ? MdTableRows : MdOutlineTableRows}
+                            w="50px"
+                            flex="0 0 5opx"
+                            color={postStyle === 'classic' ? activeFilterText : iconMobileColor}
+                            textAlign="center"
+                            lineHeight="22px"
+                          />
+                          <Box
+                            overflow="hidden"
+                            textOverflow="ellipsis"
+                            lineHeight="22px"
+                            maxHeight="44px"
+                            whiteSpace="normal"
+                            fontSize="16px"
+                          >
+                            Classic View
+                          </Box>
+                        </Flex>
+                        <Flex
+                          bg={mainMobileBg}
+                          alignItems="flex-start"
+                          minH="50px"
+                          padding="14px 0"
+                          onClick={() => {
+                            setViewSelect(false);
+                            setShowComponent2(false);
+                            setPostStyle('card');
+                          }}
+                        >
+                          <Icon
+                            as={postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream}
+                            w="50px"
+                            flex="0 0 5opx"
+                            color={postStyle === 'card' ? activeFilterText : iconMobileColor}
+                            textAlign="center"
+                            lineHeight="22px"
+                          />
+                          <Box
+                            overflow="hidden"
+                            textOverflow="ellipsis"
+                            lineHeight="22px"
+                            maxHeight="44px"
+                            whiteSpace="normal"
+                            fontSize="16px"
+                          >
+                            Card View
+                          </Box>
+                        </Flex>
                       </Box>
-                      <Flex
-                        bg={mainMobileBg}
-                        alignItems="flex-start"
-                        minH="50px"
-                        padding="14px 0"
-                        onClick={() => {
-                          setViewSelect(false);
-                          setShowComponent2(false);
-                          setPostStyle('classic');
-                        }}
-                      >
-                        <Icon
-                          as={postStyle === 'classic' ? MdTableRows : MdOutlineTableRows}
-                          w="50px"
-                          flex="0 0 5opx"
-                          color={postStyle === 'classic' ? activeFilterText : iconMobileColor}
-                          textAlign="center"
-                          lineHeight="22px"
-                        />
-                        <Box
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          lineHeight="22px"
-                          maxHeight="44px"
-                          whiteSpace="normal"
-                          fontSize="16px"
-                        >
-                          Classic View
-                        </Box>
-                      </Flex>
-                      <Flex
-                        bg={mainMobileBg}
-                        alignItems="flex-start"
-                        minH="50px"
-                        padding="14px 0"
-                        onClick={() => {
-                          setViewSelect(false);
-                          setShowComponent2(false);
-                          setPostStyle('card');
-                        }}
-                      >
-                        <Icon
-                          as={postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream}
-                          w="50px"
-                          flex="0 0 5opx"
-                          color={postStyle === 'card' ? activeFilterText : iconMobileColor}
-                          textAlign="center"
-                          lineHeight="22px"
-                        />
-                        <Box
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          lineHeight="22px"
-                          maxHeight="44px"
-                          whiteSpace="normal"
-                          fontSize="16px"
-                        >
-                          Card View
-                        </Box>
-                      </Flex>
                     </Box>
                   </Box>
-                </Box>
-              ) : (
-                ''
-              )}
-            </Box>
+                ) : (
+                  ''
+                )}
+              </Box>
+            )}
           </Flex>
           {(mobileSort && showComponent) || (viewSelect && showComponent2) ? (
             <Box

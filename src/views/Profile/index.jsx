@@ -203,7 +203,7 @@ const Profile = () => {
               padding="15px"
             >
               <Flex width="calc(100% - 312px)" flexDir="column">
-                <FeedSort />
+                <FeedSort hideControl />
 
                 {currentView === 'overview' && (
                   <Flex width="100%" flexDir="column">

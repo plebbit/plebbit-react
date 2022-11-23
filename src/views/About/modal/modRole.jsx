@@ -19,7 +19,8 @@ const ModRole = ({ onClose, isOpen, subPlebbit, handleSubPlebbitedit, loading })
   const border1 = useColorModeValue('#edeff1', '#343536');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const metaColor = useColorModeValue('metaTextLight', 'metaTextDark');
-  const [data, setData] = useState({ ...subPlebbit });
+  const data = useState({ ...subPlebbit });
+  const [input, setInput] = useState('');
 
   return (
     <Modal onClose={onClose} size="xl" isOpen={isOpen} isCentered>
@@ -42,12 +43,7 @@ const ModRole = ({ onClose, isOpen, subPlebbit, handleSubPlebbitedit, loading })
               border={`1px solid ${border1}`}
               borderColor={border1}
               fontSize="14px"
-              onChange={(e) =>
-                setData({
-                  ...data,
-                  roles: { ...data?.roles, [e.target.value]: { role: 'moderator' } },
-                })
-              }
+              onChange={(e) => setInput(e.targe.value)}
             />
           </Box>
           <Box fontSize="16px" fontWeight="500" lineHeight="20px" color={mainColor}>
@@ -190,7 +186,11 @@ const ModRole = ({ onClose, isOpen, subPlebbit, handleSubPlebbitedit, loading })
             h="32px"
             borderRadius="999px"
             colorScheme="blackAlpha"
-            onClick={() => handleSubPlebbitedit({ roles: data?.roles })}
+            onClick={() => {
+              handleSubPlebbitedit({ roles: { ...data?.roles, [input]: { role: 'moderator' } } });
+
+              onClose();
+            }}
             isLoading={loading}
           >
             Invite

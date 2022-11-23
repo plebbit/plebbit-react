@@ -181,6 +181,7 @@ const CreatePost = () => {
         onChallengeVerification,
         onError: onError,
       });
+      history.push(`/profile/c/${res?.index}`);
       logger('create-post', res, 'error');
     } catch (error) {
       logger('create-post', error, 'error');

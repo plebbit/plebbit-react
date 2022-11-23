@@ -72,7 +72,7 @@ const NavSearch = () => {
             alignItems="center"
             width="100%"
             cursor="pointer"
-            onClick={() => history.push(`p/${searchVal}`)}
+            onClick={() => history.push(`/p/${searchVal}`, [])}
           >
             <Avatar
               avatar={data?.avatar}
