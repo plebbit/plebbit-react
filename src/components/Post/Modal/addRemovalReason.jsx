@@ -10,7 +10,7 @@ import {
   Button,
   useColorModeValue,
   Box,
-  Input,
+  Textarea,
 } from '@chakra-ui/react';
 
 const AddRemovalReason = ({ onClose, isOpen, handleRemove }) => {
@@ -33,8 +33,8 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove }) => {
           lineHeight="21px"
         >
           <Box mb="16px">
-            <Input
-              placeholder="Enter Username"
+            <Textarea
+              placeholder="Enter Reason"
               h="36px"
               padding="0 8px"
               border={`1px solid ${border1}`}
