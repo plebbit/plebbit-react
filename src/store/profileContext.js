@@ -1,3 +1,4 @@
+import { useColorMode } from '@chakra-ui/react';
 import {
   useAccount,
   useAccounts,
@@ -12,19 +13,38 @@ import useSubPlebbitDefaultData from '../hooks/useSubPlebbitDefaultData';
 export const ProfileContext = createContext();
 
 export const ProfileDataProvider = (props) => {
+  const { setColorMode, toggleColorMode } = useColorMode();
   const { children } = props;
   const [reloadUser, setReloadUser] = useState(false);
   const [postStyle, setPostStyle] = useState('card');
   const [feedSort, setFeedSort] = useState('hot');
   const [showSplashcreen, setShowSplashcreen] = useState(true);
   const [device, setDevice] = useState('pc');
-  const { exportAccount, createAccount, importAccount, setActiveAccount, setAccountsOrder } =
-    useAccountsActions();
+  const {
+    exportAccount,
+    createAccount,
+    importAccount,
+    setActiveAccount,
+    setAccountsOrder,
+    setAccount,
+    deleteAccount,
+  } = useAccountsActions();
   const defaultAccount = useAccount();
   const accountLists = useAccounts();
   const profile = defaultAccount;
   const accountSubplebbits = useAccountSubplebbits();
   const [showSide, setShowSide] = useState(false);
+  const userTheme = profile?.plebbitReactOptions?.darkMode;
+
+  const toggleTheme = async () => {
+    toggleColorMode();
+    await setAccount({
+      ...profile,
+      plebbitReactOptions: {
+        darkMode: userTheme ? false : true,
+      },
+    });
+  };
 
   //account Subscription === obj[]
   const subscriptions = useSubplebbits(defaultAccount?.subscriptions);
@@ -82,6 +102,9 @@ export const ProfileDataProvider = (props) => {
       setDevice('mobile');
     }
   };
+  useEffect(() => {
+    setColorMode(userTheme ? 'dark' : 'light');
+  }, [userTheme]);
 
   useEffect(() => {
     handleResize();
@@ -109,6 +132,8 @@ export const ProfileDataProvider = (props) => {
       setShowSplashcreen(false);
     }, 5000);
   }, [reloadUser]);
+
+  console.log(userTheme);
   return (
     <ProfileContext.Provider
       value={{
@@ -141,6 +166,9 @@ export const ProfileDataProvider = (props) => {
         showSide,
         setShowSide,
         baseUrl,
+        setAccount,
+        deleteAccount,
+        toggleTheme,
       }}
     >
       {children}
