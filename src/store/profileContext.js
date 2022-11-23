@@ -133,7 +133,6 @@ export const ProfileDataProvider = (props) => {
     }, 5000);
   }, [reloadUser]);
 
-  console.log(userTheme);
   return (
     <ProfileContext.Provider
       value={{

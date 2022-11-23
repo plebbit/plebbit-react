@@ -170,7 +170,6 @@ const SubPlebbit = ({ match }) => {
       });
     }
   };
-  console.log('role', accountSubplebbits, subPlebbit, role);
 
   return (
     <Layout name={{ label: subPlebbit?.title || 'Subplebbit', value: location?.pathname }}>

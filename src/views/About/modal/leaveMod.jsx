@@ -97,8 +97,6 @@ export const RemoveMod = ({
     setLoading(false);
   };
 
-  console.log(address);
-
   return (
     <Modal onClose={onClose} size="xl" isOpen={isOpen} isCentered>
       <ModalOverlay />
