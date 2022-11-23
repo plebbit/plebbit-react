@@ -59,6 +59,7 @@ const CardPost = ({
   detailRoute,
   allowedSpecial,
   handleEditPost,
+  openRemovalModal,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -372,7 +373,12 @@ const CardPost = ({
                           </Tooltip>
                           {post?.locked && <Icon as={HiLockClosed} color={lockColor} />}
                           {post?.removed && (
-                            <Flex cursor="pointer" color={removeColor} alignItems="center">
+                            <Flex
+                              cursor="pointer"
+                              color={removeColor}
+                              alignItems="center"
+                              onClick={() => (post?.moderatorReason ? openRemovalModal() : {})}
+                            >
                               <Icon as={TiDeleteOutline} />
                               {!post?.moderatorReason ? (
                                 <Box>Add A removal reason</Box>
