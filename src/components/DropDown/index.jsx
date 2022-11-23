@@ -17,12 +17,22 @@ const DropDown = ({
   render,
   width,
   onChange,
+  selected,
+  getSelected,
+  customCaret,
+  labelStyle,
+  caretStyle,
+  menuSx,
+  titleHover,
+  disableTitleClick,
 }) => {
   const shadow = useColorModeValue('rgba(28,28,28,0.2)', 'rgba(215,218,220,0.2)');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const border2 = useColorModeValue('#edeff1', '#343536');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const [show, hide] = useState(false);
+  const linkColor = useColorModeValue('lightLink', 'darkLink');
+
   return (
     <Flex ml="auto" sx={wrapSx} alignItems="center" flexFlow="row nowrap" position="relative">
       <Flex
@@ -32,19 +42,22 @@ const DropDown = ({
         display="flex"
         height="32px"
         padding="0 8px"
-        _hover={{
-          bg: inputBg,
-        }}
-        onClick={() => hide(!show)}
+        _hover={
+          titleHover || {
+            bg: inputBg,
+          }
+        }
+        onClick={() => !disableTitleClick && hide(!show)}
+        sx={menuSx}
       >
-        <Box>{dropDownTitle}</Box>
-        {caret ? (
-          <Flex color={iconColor} alignItems="center">
-            <Icon as={MdOutlineKeyboardArrowDown} />
-          </Flex>
-        ) : (
-          ''
-        )}
+        <Box sx={labelStyle}>{dropDownTitle}</Box>
+        {caret
+          ? customCaret || (
+              <Flex onClick={() => hide(!show)} color={iconColor} alignItems="center">
+                <Icon sx={caretStyle} as={MdOutlineKeyboardArrowDown} />
+              </Flex>
+            )
+          : ''}
       </Flex>
       {show ? (
         <Box
@@ -84,12 +97,13 @@ const DropDown = ({
                     whiteSpace="nowrap"
                     _hover={{
                       background: inputBg,
-                      color: 'blue',
+                      color: linkColor,
                     }}
+                    color={selected && getSelected && selected === getSelected(option) && linkColor}
                     onClick={() => onChange(option)}
                     borderTop={`1px solid ${border2}`}
                   >
-                    <Icon mr="4px" as={option?.icon} width={6} height={6} />
+                    {option?.icon && <Icon mr="4px" as={option?.icon} width={6} height={6} />}
                     <Box>{option?.label}</Box>
                   </Flex>
                 ) : (

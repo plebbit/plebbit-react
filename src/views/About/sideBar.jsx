@@ -23,13 +23,12 @@ const AboutsideBar = ({ page, subPlebbit }) => {
       name: 'QUEUES',
       icon: BiAddToQueue,
       children: [
-        { name: 'Mod Queue', id: 'modqueue', disabled: true },
+        { name: 'Mod Queue', id: 'modqueue' },
         { name: 'Reports', id: 'reports', disabled: true },
         { name: 'Spam', id: 'spam', disabled: true },
         { name: 'Edited', id: 'edited', disabled: true },
         { name: 'Unmoderated', id: 'ummoderated', disabled: true },
       ],
-      disabled: true,
     },
     {
       name: 'User Management',

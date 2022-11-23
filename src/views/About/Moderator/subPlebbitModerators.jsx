@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Icon, Input, useColorModeValue, useDisclosure } from '@chakra-ui/react';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import { HiPencil } from 'react-icons/hi';
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { PlebLogo } from '../../../components/svgs';
 import { ProfileContext } from '../../../store/profileContext';
 import { getAddress } from '../../../utils/getUserName';
-import LeaveMod from '../modal/leaveMod';
+import LeaveMod, { RemoveMod } from '../modal/leaveMod';
 import ModRole from '../modal/modRole';
 
 const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
@@ -15,8 +15,10 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const border1 = useColorModeValue('#edeff1', '#343536');
+  const [selected, setSelected] = useState('');
   const { device, profile } = useContext(ProfileContext);
   const { isOpen: leaveModShow, onOpen: openLeaveMod, onClose: closeLeaveMod } = useDisclosure();
+  const { isOpen: removeModShow, onOpen: openRemoveMod, onClose: closeRemoveMod } = useDisclosure();
   const { isOpen: roleModShow, onOpen: openRoleMod, onClose: closeRoleMod } = useDisclosure();
 
   return (
@@ -168,7 +170,7 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
                     </Flex>
                   </Link>
                 </Box>
-                <Box
+                {/* <Box
                   overflow="hidden"
                   textOverflow="ellipsis"
                   whiteSpace="nowrap"
@@ -176,7 +178,7 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
                   lineHeight="normal"
                 >
                   4 days ago
-                </Box>
+                </Box> */}
                 <Flex alignItems="center" ml="auto" minW="0">
                   <Box padding="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
                     Everything
@@ -250,7 +252,13 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
                   <Box padding="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
                     {subPlebbit?.roles[user]?.role}
                   </Box>
-                  <Box cursor="pointer">
+                  <Box
+                    cursor="pointer"
+                    onClick={() => {
+                      setSelected(user?.address);
+                      openRemoveMod();
+                    }}
+                  >
                     <Icon as={HiPencil} width="16px" height="16px" />
                   </Box>
                 </Flex>
@@ -258,6 +266,17 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
             ))}
         </Box>
       </Box>
+      {removeModShow && (
+        <RemoveMod
+          isOpen={removeModShow}
+          onClose={closeRemoveMod}
+          subPlebbit={subPlebbit}
+          address={selected}
+          handleSubPlebbitedit={handleSubPlebbitedit}
+          loading={loading}
+          setSelected={setSelected}
+        />
+      )}
       {leaveModShow && (
         <LeaveMod
           isOpen={leaveModShow}
