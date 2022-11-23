@@ -17,7 +17,7 @@ import onError from '../../utils/onError';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 import { useLocation } from 'react-router-dom';
 
-const Post = ({ type, post, mode, loading, detail, handleOption }) => {
+const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial }) => {
   const pending = !post?.cid;
   const postVote = useAccountVote(post?.cid);
   const vote = postVote?.vote || 0;
@@ -29,7 +29,6 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(post?.author);
   const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit(post?.subplebbitAddress);
-
   const isOnline = getIsOnline(getSub?.updatedAt);
   const onChallengeVerification = (challengeVerification, comment) => {
     // if the challengeVerification fails, a new challenge request will be sent automatically
@@ -168,6 +167,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleCopy={handleCopy}
             pending={pending}
             detailRoute={detailRoute}
+            allowedSpecial={allowedSpecial}
           />
         )}
         {/* classic */}
@@ -192,6 +192,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleCopy={handleCopy}
             pending={pending}
             detailRoute={detailRoute}
+            allowedSpecial={allowedSpecial}
           />
         )}
         {/* compact */}
@@ -216,6 +217,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleCopy={handleCopy}
             detailRoute={detailRoute}
             pending={pending}
+            allowedSpecial={allowedSpecial}
           />
         )}
       </Box>

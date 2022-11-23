@@ -6,6 +6,7 @@ const options = [{ value: 'crypto', label: 'Crypto' }];
 
 const CreatableMulti = ({ disabled, placeholder }) => {
   const handleChange = (newValue, actionMeta) => {
+    return newValue, actionMeta;
     // console.log(newValue);
     // console.log(`action: ${actionMeta.action}`);
   };

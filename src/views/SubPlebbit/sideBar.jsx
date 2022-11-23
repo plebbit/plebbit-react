@@ -49,7 +49,7 @@ const SideBar = ({
   profile,
   loading,
   handleSaveChanges,
-  role,
+  allowedSpecial,
 }) => {
   const color = useColorModeValue('lightText3', 'darkText1');
   const Bg = useColorModeValue('#F8F9FA', '');
@@ -119,7 +119,7 @@ const SideBar = ({
               </Box>
             </Box>
 
-            {role === ('owner' || 'moderator') && (
+            {allowedSpecial && (
               <Box
                 margin="auto 0 auto auto"
                 paddingTop="10px"
@@ -202,7 +202,7 @@ const SideBar = ({
                 </Flex>
               )}
             </Box>
-            {!showAddDescription && (
+            {(!showAddDescription || allowedSpecial) && (
               <Button
                 tabIndex={0}
                 transition="all .1s linear 0s"
