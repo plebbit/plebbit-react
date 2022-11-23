@@ -13,7 +13,15 @@ import {
 } from '@chakra-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 // import { RiCopperCoinLine } from 'react-icons/ri';
-import { BsChat, BsBookmark, BsEyeSlash, BsPencil, BsChatSquare, BsShield } from 'react-icons/bs';
+import {
+  BsChat,
+  BsBookmark,
+  BsEyeSlash,
+  BsPencil,
+  BsChatSquare,
+  BsShield,
+  BsPinAngleFill,
+} from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
@@ -28,11 +36,10 @@ import { ProfileContext } from '../../store/profileContext';
 import getUserName, { getSubName } from '../../utils/getUserName';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
-import { MdCheckBoxOutlineBlank, MdOutlineDeleteOutline } from 'react-icons/md';
+import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineDeleteOutline } from 'react-icons/md';
 import { FcCancel } from 'react-icons/fc';
-import { HiOutlineCheckCircle } from 'react-icons/hi';
+import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
-import { RiSpamLine } from 'react-icons/ri';
 
 const CardPost = ({
   post,
@@ -51,6 +58,7 @@ const CardPost = ({
   pending,
   detailRoute,
   allowedSpecial,
+  handleEditPost,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -62,6 +70,9 @@ const CardPost = ({
   const postTransBg = useColorModeValue('lightPostTransBg', 'darkPostTransBg');
   const voteColor = useColorModeValue('lightVoteText', 'darkVoteTest');
   const iconBg = useColorModeValue('lightIconBg', 'darkIconBg');
+  const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
+  const removeColor = useColorModeValue('persimmon', 'persimmon');
+  const lockColor = useColorModeValue('brightSun', 'brightSun');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const statusColor = useColorModeValue('lightVoteText', 'fff');
@@ -206,6 +217,43 @@ const CardPost = ({
             >
               {post?.content ? (
                 <>
+                  {/* Pin Head */}
+                  {post?.pinned && (
+                    <Flex
+                      fontSize="12px"
+                      fontWeight="400"
+                      lineHeight="16px"
+                      flexFlow="row nowrap"
+                      alignItems="start"
+                      margin="0 8px 8px"
+                      position="relative"
+                    >
+                      <Skeleton mb="8px" isLoaded={!loading}>
+                        <Flex alignItems="center" flexWrap="wrap" flex="1 1 auto" overflow="hidden">
+                          <Flex
+                            fontSize="12px"
+                            fontWeight="400"
+                            lineHeight="16px"
+                            alignItems="center"
+                            flexFlow="row wrap"
+                          >
+                            <Icon width="20px" height="20px" as={BsPinAngleFill} mr="4px" />
+                            <Text
+                              fontWeight="700"
+                              fontSize="10px"
+                              lineHeight="12px"
+                              letterSpacing=".5px"
+                              color={misCol}
+                              flex="0 0 auto"
+                              mr="3px"
+                            >
+                              PINNED BY MODERATORS
+                            </Text>{' '}
+                          </Flex>
+                        </Flex>
+                      </Skeleton>
+                    </Flex>
+                  )}{' '}
                   {/* Post Head */}
                   <Flex
                     fontSize="12px"
@@ -322,6 +370,32 @@ const CardPost = ({
                               {dateToFromNowDaily(parseInt(post?.timestamp * 1000))}
                             </Text>
                           </Tooltip>
+                          {post?.locked && <Icon as={HiLockClosed} color={lockColor} />}
+                          {post?.removed && (
+                            <Flex cursor="pointer" color={removeColor} alignItems="center">
+                              <Icon as={TiDeleteOutline} />
+                              {!post?.moderatorReason ? (
+                                <Box>Add A removal reason</Box>
+                              ) : (
+                                <Tooltip
+                                  fontSize="10px"
+                                  label="removal reason"
+                                  aria-label="removal reason"
+                                  placement="top"
+                                >
+                                  <Text
+                                    color={misCol}
+                                    mr="3px"
+                                    textDecor="none"
+                                    display="inline-block"
+                                    flex="0 0 auto"
+                                  >
+                                    {post?.moderatorReason}
+                                  </Text>
+                                </Tooltip>
+                              )}
+                            </Flex>
+                          )}
                         </Flex>
                       </Flex>
                     </Skeleton>
@@ -385,6 +459,7 @@ const CardPost = ({
                       ) : (
                         ''
                       )}
+
                       {pending && (
                         <Skeleton isLoaded={!loading}>
                           <Tag size="sm" colorScheme="yellow" variant="outline">
@@ -898,6 +973,8 @@ const CardPost = ({
                     padding="4px"
                     borderRadius="2px"
                     cursor="pointer"
+                    color={!post?.removed && approveColor}
+                    onClick={() => handleEditPost({ removed: false })}
                   >
                     <Icon height="20px" width="20px" as={HiOutlineCheckCircle} />
                     <Box ml="4px">Approve</Box>
@@ -912,27 +989,16 @@ const CardPost = ({
                     padding="4px"
                     borderRadius="2px"
                     cursor="pointer"
+                    color={post?.removed && removeColor}
+                    onClick={() => handleEditPost({ removed: post?.removed ? false : true })}
                   >
-                    <Icon color={iconColor} height="20px" width="20px" as={TiDeleteOutline} />
+                    <Icon height="20px" width="20px" as={TiDeleteOutline} />
                     <Box ml="4px">Remove</Box>
                   </Flex>
-                  <Flex
-                    _hover={{
-                      bg: inputBg,
-                    }}
-                    alignItems="center"
-                    mr="4px"
-                    margin="4px 8px 4px 0"
-                    padding="4px"
-                    borderRadius="2px"
-                    cursor="pointer"
-                  >
-                    <Icon color={iconColor} height="20px" width="20px" as={RiSpamLine} />
-                    <Box ml="4px">Spam</Box>
-                  </Flex>
+
                   <Flex justifyContent="center">
                     <DropDown
-                      handleOption
+                      onClick={(val) => handleEditPost({ [val?.id]: post[val?.id] ? false : true })}
                       dropDownTitle={
                         <Flex
                           borderRadius="2px"
@@ -953,17 +1019,17 @@ const CardPost = ({
                       options={[
                         {
                           label: 'Sticky Post',
-                          icon: MdCheckBoxOutlineBlank,
+                          icon: post?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
                           id: 'pinned',
                         },
                         {
                           label: 'Lock Comments',
-                          icon: MdCheckBoxOutlineBlank,
+                          icon: post?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
                           id: 'locked',
                         },
                         {
                           label: 'Mark As Spoiler',
-                          icon: MdCheckBoxOutlineBlank,
+                          icon: post?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
                           id: 'spoiler',
                         },
                       ]}
@@ -974,7 +1040,7 @@ const CardPost = ({
                   </Flex>
                   <Flex justifyContent="center">
                     <DropDown
-                      handleOption
+                      onChange={handleOption}
                       dropDownTitle={
                         <Flex
                           borderRadius="2px"
@@ -1147,7 +1213,7 @@ const CardPost = ({
                   </Flex>
                   <Flex justifyContent="center">
                     <DropDown
-                      handleOption
+                      onChange={handleOption}
                       dropDownTitle={
                         <Flex
                           borderRadius="2px"

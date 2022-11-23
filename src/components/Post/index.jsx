@@ -25,7 +25,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
   const toast = useToast();
-  const { publishVote } = useAccountsActions();
+  const { publishVote, publishCommentEdit } = useAccountsActions();
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(post?.author);
   const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit(post?.subplebbitAddress);
@@ -137,6 +137,28 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     state: { detail: post, modal: true, location },
   };
 
+  const handleEditPost = async (update) => {
+    try {
+      await publishCommentEdit({
+        commentCid: post?.cid,
+        subplebbitAddress: post?.subplebbitAddress,
+        onChallenge,
+        onChallengeVerification,
+        onError: onError,
+        ...update,
+      });
+    } catch (error) {
+      logger('edit:comment:response:', error, 'error');
+      toast({
+        title: 'Comment Edit Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
   const handleCopy = () => {
     setCopied(true);
     setTimeout(() => {
@@ -168,6 +190,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             pending={pending}
             detailRoute={detailRoute}
             allowedSpecial={allowedSpecial}
+            handleEditPost={handleEditPost}
           />
         )}
         {/* classic */}
@@ -193,6 +216,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             pending={pending}
             detailRoute={detailRoute}
             allowedSpecial={allowedSpecial}
+            handleEditPost={handleEditPost}
           />
         )}
         {/* compact */}
@@ -218,6 +242,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             detailRoute={detailRoute}
             pending={pending}
             allowedSpecial={allowedSpecial}
+            handleEditPost={handleEditPost}
           />
         )}
       </Box>

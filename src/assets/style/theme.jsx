@@ -26,6 +26,9 @@ const theme = extendTheme({
     upvoteOrange: '#cc3700',
     downvoteBlue: '#5a75cc',
     textMuted: '#a8aaab',
+    pastelGreen: '#75d377',
+    persimmon: '#ff585b',
+    brightSun: '#ffd635',
 
     // light
     lightButtonBg: '#a4a4a4',
