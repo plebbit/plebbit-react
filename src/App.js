@@ -14,7 +14,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import PostDetailModal from './components/Post/PostDetails/index2';
 
 const App = () => {
-  // console.log = () => {};
   const location = useLocation();
   const modal = location?.state?.location;
 

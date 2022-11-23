@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, useDisclosure } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
 import {
   useAccountsActions,
@@ -16,8 +16,9 @@ import getIsOnline from '../../utils/getIsOnline';
 import onError from '../../utils/onError';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 import { useLocation } from 'react-router-dom';
+import AddRemovalReason from './Modal/addRemovalReason';
 
-const Post = ({ type, post, mode, loading, detail, handleOption }) => {
+const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial }) => {
   const pending = !post?.cid;
   const postVote = useAccountVote(post?.cid);
   const vote = postVote?.vote || 0;
@@ -25,12 +26,16 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
   const toast = useToast();
-  const { publishVote } = useAccountsActions();
+  const { publishVote, publishCommentEdit } = useAccountsActions();
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(post?.author);
   const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit(post?.subplebbitAddress);
-
   const isOnline = getIsOnline(getSub?.updatedAt);
+  const {
+    onOpen: openRemovalModal,
+    onClose: closeRemovalModal,
+    isOpen: isRemovalModalOpen,
+  } = useDisclosure();
   const onChallengeVerification = (challengeVerification, comment) => {
     // if the challengeVerification fails, a new challenge request will be sent automatically
     // to break the loop, the user must decline to send a challenge answer
@@ -138,6 +143,29 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
     state: { detail: post, modal: true, location },
   };
 
+  const handleEditPost = async (update, callBack) => {
+    try {
+      await publishCommentEdit({
+        commentCid: post?.cid,
+        subplebbitAddress: post?.subplebbitAddress,
+        onChallenge,
+        onChallengeVerification,
+        onError: onError,
+        ...update,
+      });
+      callBack ? callBack() : '';
+    } catch (error) {
+      logger('edit:comment:response:', error, 'error');
+      toast({
+        title: 'Comment Edit Declined.',
+        description: error?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
   const handleCopy = () => {
     setCopied(true);
     setTimeout(() => {
@@ -168,6 +196,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleCopy={handleCopy}
             pending={pending}
             detailRoute={detailRoute}
+            allowedSpecial={allowedSpecial}
+            handleEditPost={handleEditPost}
+            openRemovalModal={openRemovalModal}
           />
         )}
         {/* classic */}
@@ -192,6 +223,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleCopy={handleCopy}
             pending={pending}
             detailRoute={detailRoute}
+            allowedSpecial={allowedSpecial}
+            handleEditPost={handleEditPost}
+            openRemovalModal={openRemovalModal}
           />
         )}
         {/* compact */}
@@ -216,9 +250,19 @@ const Post = ({ type, post, mode, loading, detail, handleOption }) => {
             handleCopy={handleCopy}
             detailRoute={detailRoute}
             pending={pending}
+            allowedSpecial={allowedSpecial}
+            handleEditPost={handleEditPost}
+            openRemovalModal={openRemovalModal}
           />
         )}
       </Box>
+      {isRemovalModalOpen && (
+        <AddRemovalReason
+          handleRemove={handleEditPost}
+          isOpen={isRemovalModalOpen}
+          onClose={closeRemovalModal}
+        />
+      )}
     </Box>
   );
 };

@@ -53,7 +53,7 @@ const NavBar = ({ location }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconColor2 = useColorModeValue('lightIcon2', 'darkText1');
   const navBorder = useColorModeValue('#edeff1', '#343536');
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode } = useColorMode();
   const history = useHistory();
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const {
@@ -72,6 +72,7 @@ const NavBar = ({ location }) => {
     subPlebbitDefData,
     showSide,
     setShowSide,
+    toggleTheme,
   } = useContext(ProfileContext);
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
@@ -650,7 +651,7 @@ const NavBar = ({ location }) => {
                   <Box>Dark Mode</Box>
                   <Switch
                     size="md"
-                    onChange={toggleColorMode}
+                    onChange={toggleTheme}
                     isChecked={colorMode === 'dark'}
                     ml="auto"
                   />

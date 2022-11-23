@@ -384,7 +384,6 @@ function PostDetailModal() {
       setCopied(false);
     }, 3000);
   };
-  console.log('details', detail, dat, replyParentaux, reply);
 
   return (
     <>

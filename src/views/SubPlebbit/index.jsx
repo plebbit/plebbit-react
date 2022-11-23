@@ -42,6 +42,7 @@ const SubPlebbit = ({ match }) => {
   const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
   const location = useLocation();
   const isOnline = getIsOnline(subPlebbit?.updatedAt);
+  const allowedSpecial = role === 'owner' || role === 'moderator';
 
   useEffect(() => {
     setData({ ...subPlebbit });
@@ -170,7 +171,6 @@ const SubPlebbit = ({ match }) => {
       });
     }
   };
-  console.log('role', accountSubplebbits, subPlebbit, role);
 
   return (
     <Layout name={{ label: subPlebbit?.title || 'Subplebbit', value: location?.pathname }}>
@@ -343,7 +343,13 @@ const SubPlebbit = ({ match }) => {
                       hasMore={hasMore}
                       loadMore={loadMore}
                       content={(feed) => (
-                        <Post type="subPlebbit" post={feed} key={Math.random()} mode={postStyle} />
+                        <Post
+                          allowedSpecial={allowedSpecial}
+                          type="subPlebbit"
+                          post={feed}
+                          key={Math.random()}
+                          mode={postStyle}
+                        />
                       )}
                       feeds={feeds}
                       loader={
@@ -365,7 +371,7 @@ const SubPlebbit = ({ match }) => {
                   data={data}
                   setData={setData}
                   subPlebbit={subPlebbit}
-                  role={role}
+                  allowedSpecial={allowedSpecial}
                 />
               </Flex>
             </Box>
@@ -481,7 +487,13 @@ const SubPlebbit = ({ match }) => {
                   hasMore={hasMore}
                   loadMore={loadMore}
                   content={(feed) => (
-                    <Post type="subPlebbit" post={feed} key={feed?.cid} mode={postStyle} />
+                    <Post
+                      type="subPlebbit"
+                      post={feed}
+                      key={feed?.cid}
+                      mode={postStyle}
+                      allowedSpecial={allowedSpecial}
+                    />
                   )}
                   feeds={feeds}
                   loader={

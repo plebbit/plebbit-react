@@ -13,7 +13,15 @@ import {
 } from '@chakra-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 // import { RiCopperCoinLine } from 'react-icons/ri';
-import { BsChat, BsBookmark, BsEyeSlash, BsPencil } from 'react-icons/bs';
+import {
+  BsChat,
+  BsBookmark,
+  BsEyeSlash,
+  BsPencil,
+  BsChatSquare,
+  BsShield,
+  BsPinAngleFill,
+} from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
@@ -28,8 +36,10 @@ import { ProfileContext } from '../../store/profileContext';
 import getUserName, { getSubName } from '../../utils/getUserName';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
-import { MdOutlineDeleteOutline } from 'react-icons/md';
+import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineDeleteOutline } from 'react-icons/md';
 import { FcCancel } from 'react-icons/fc';
+import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
+import { TiDeleteOutline } from 'react-icons/ti';
 
 const CardPost = ({
   post,
@@ -47,6 +57,9 @@ const CardPost = ({
   handleCopy,
   pending,
   detailRoute,
+  allowedSpecial,
+  handleEditPost,
+  openRemovalModal,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -58,6 +71,9 @@ const CardPost = ({
   const postTransBg = useColorModeValue('lightPostTransBg', 'darkPostTransBg');
   const voteColor = useColorModeValue('lightVoteText', 'darkVoteTest');
   const iconBg = useColorModeValue('lightIconBg', 'darkIconBg');
+  const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
+  const removeColor = useColorModeValue('persimmon', 'persimmon');
+  const lockColor = useColorModeValue('brightSun', 'brightSun');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const statusColor = useColorModeValue('lightVoteText', 'fff');
@@ -202,6 +218,43 @@ const CardPost = ({
             >
               {post?.content ? (
                 <>
+                  {/* Pin Head */}
+                  {post?.pinned && (
+                    <Flex
+                      fontSize="12px"
+                      fontWeight="400"
+                      lineHeight="16px"
+                      flexFlow="row nowrap"
+                      alignItems="start"
+                      margin="0 8px 8px"
+                      position="relative"
+                    >
+                      <Skeleton mb="8px" isLoaded={!loading}>
+                        <Flex alignItems="center" flexWrap="wrap" flex="1 1 auto" overflow="hidden">
+                          <Flex
+                            fontSize="12px"
+                            fontWeight="400"
+                            lineHeight="16px"
+                            alignItems="center"
+                            flexFlow="row wrap"
+                          >
+                            <Icon width="20px" height="20px" as={BsPinAngleFill} mr="4px" />
+                            <Text
+                              fontWeight="700"
+                              fontSize="10px"
+                              lineHeight="12px"
+                              letterSpacing=".5px"
+                              color={misCol}
+                              flex="0 0 auto"
+                              mr="3px"
+                            >
+                              PINNED BY MODERATORS
+                            </Text>{' '}
+                          </Flex>
+                        </Flex>
+                      </Skeleton>
+                    </Flex>
+                  )}{' '}
                   {/* Post Head */}
                   <Flex
                     fontSize="12px"
@@ -318,6 +371,37 @@ const CardPost = ({
                               {dateToFromNowDaily(parseInt(post?.timestamp * 1000))}
                             </Text>
                           </Tooltip>
+                          {post?.locked && <Icon as={HiLockClosed} color={lockColor} />}
+                          {post?.removed && (
+                            <Flex
+                              cursor="pointer"
+                              color={removeColor}
+                              alignItems="center"
+                              onClick={() => (post?.moderatorReason ? openRemovalModal() : {})}
+                            >
+                              <Icon as={TiDeleteOutline} />
+                              {!post?.moderatorReason ? (
+                                <Box>Add A removal reason</Box>
+                              ) : (
+                                <Tooltip
+                                  fontSize="10px"
+                                  label="removal reason"
+                                  aria-label="removal reason"
+                                  placement="top"
+                                >
+                                  <Text
+                                    color={misCol}
+                                    mr="3px"
+                                    textDecor="none"
+                                    display="inline-block"
+                                    flex="0 0 auto"
+                                  >
+                                    {post?.moderatorReason}
+                                  </Text>
+                                </Tooltip>
+                              )}
+                            </Flex>
+                          )}
                         </Flex>
                       </Flex>
                     </Skeleton>
@@ -381,6 +465,7 @@ const CardPost = ({
                       ) : (
                         ''
                       )}
+
                       {pending && (
                         <Skeleton isLoaded={!loading}>
                           <Tag size="sm" colorScheme="yellow" variant="outline">
@@ -776,6 +861,223 @@ const CardPost = ({
                   </Flex>
                 </Flex>
               )
+            ) : allowedSpecial && type === 'subPlebbit' ? (
+              <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
+                <Flex
+                  fontSize="12px"
+                  fontWeight="700"
+                  lineHeight="16px"
+                  alignItems="stretch"
+                  padding="0 8px 0 4px"
+                  flexGrow="1"
+                >
+                  <ReactLink to={detailRoute}>
+                    <Flex
+                      padding="8px"
+                      wordBreak="normal"
+                      mr="4px"
+                      alignItems="center"
+                      borderRadius="2px"
+                      fontSize="12px"
+                      fontWeight="700"
+                      lineHeight="16px"
+                      boxSizing="border-box"
+                      _hover={{
+                        backgroundColor: inputBg,
+                      }}
+                    >
+                      <Icon
+                        as={BsChatSquare}
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                        fontWeight="400"
+                        mr="6px"
+                      />
+                      <Text
+                        display="inline-block"
+                        lineHeight={1}
+                        textTransform="capitalize"
+                        verticalAlign="middle"
+                      >
+                        {post?.replyCount}
+                      </Text>
+                    </Flex>
+                  </ReactLink>
+                  <Flex
+                    padding="8px"
+                    wordBreak="normal"
+                    mr="4px"
+                    alignItems="center"
+                    borderRadius="2px"
+                    fontSize="12px"
+                    fontWeight="700"
+                    lineHeight="16px"
+                    boxSizing="border-box"
+                    _hover={{
+                      backgroundColor: inputBg,
+                    }}
+                  >
+                    <Icon
+                      as={GoGift}
+                      width="20px"
+                      height="20px"
+                      verticalAlign="middle"
+                      fontWeight="400"
+                      mr="6px"
+                    />
+                    <Text
+                      display="inline-block"
+                      lineHeight={1}
+                      textTransform="capitalize"
+                      verticalAlign="middle"
+                    >
+                      Award
+                    </Text>
+                  </Flex>
+                  <CopyToClipboard text={location} onCopy={handleCopy}>
+                    <Flex
+                      padding="8px"
+                      wordBreak="normal"
+                      mr="4px"
+                      alignItems="center"
+                      borderRadius="2px"
+                      fontSize="12px"
+                      fontWeight="700"
+                      lineHeight="16px"
+                      boxSizing="border-box"
+                      _hover={{
+                        backgroundColor: inputBg,
+                      }}
+                    >
+                      <Icon
+                        as={FaShare}
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                        fontWeight="400"
+                        mr="6px"
+                      />
+                      <Text
+                        display="inline-block"
+                        lineHeight={1}
+                        textTransform="capitalize"
+                        verticalAlign="middle"
+                      >
+                        {copied ? 'copied' : 'Share'}
+                      </Text>
+                    </Flex>
+                  </CopyToClipboard>
+
+                  <Flex
+                    _hover={{
+                      bg: inputBg,
+                    }}
+                    alignItems="center"
+                    mr="4px"
+                    margin="4px 8px 4px 0"
+                    padding="4px"
+                    borderRadius="2px"
+                    cursor="pointer"
+                    color={!post?.removed && approveColor}
+                    onClick={() => handleEditPost({ removed: false })}
+                  >
+                    <Icon height="20px" width="20px" as={HiOutlineCheckCircle} />
+                    <Box ml="4px">Approve</Box>
+                  </Flex>
+                  <Flex
+                    _hover={{
+                      bg: inputBg,
+                    }}
+                    alignItems="center"
+                    mr="4px"
+                    margin="4px 8px 4px 0"
+                    padding="4px"
+                    borderRadius="2px"
+                    cursor="pointer"
+                    color={post?.removed && removeColor}
+                    onClick={() => handleEditPost({ removed: post?.removed ? false : true })}
+                  >
+                    <Icon height="20px" width="20px" as={TiDeleteOutline} />
+                    <Box ml="4px">Remove</Box>
+                  </Flex>
+
+                  <Flex justifyContent="center">
+                    <DropDown
+                      onClick={(val) => handleEditPost({ [val?.id]: post[val?.id] ? false : true })}
+                      dropDownTitle={
+                        <Flex
+                          borderRadius="2px"
+                          height="24px"
+                          verticalAlign="middle"
+                          padding="0 4px"
+                          width="100%"
+                          bg="transparent"
+                          border="none"
+                          alignItems="center"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                        >
+                          <Icon as={BsShield} color={iconColor} h="20px" w="20px" />
+                        </Flex>
+                      }
+                      options={[
+                        {
+                          label: 'Sticky Post',
+                          icon: post?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
+                          id: 'pinned',
+                        },
+                        {
+                          label: 'Lock Comments',
+                          icon: post?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
+                          id: 'locked',
+                        },
+                        {
+                          label: 'Mark As Spoiler',
+                          icon: post?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
+                          id: 'spoiler',
+                        },
+                      ]}
+                      rightOffset={0}
+                      leftOffset="none"
+                      topOffset="34px"
+                    />
+                  </Flex>
+                  <Flex justifyContent="center">
+                    <DropDown
+                      onChange={handleOption}
+                      dropDownTitle={
+                        <Flex
+                          borderRadius="2px"
+                          height="24px"
+                          verticalAlign="middle"
+                          padding="0 4px"
+                          width="100%"
+                          bg="transparent"
+                          border="none"
+                          alignItems="center"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                        >
+                          <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
+                        </Flex>
+                      }
+                      options={[
+                        {
+                          label: 'Block author',
+                          icon: BsEyeSlash,
+                          id: 'block',
+                        },
+                      ]}
+                      rightOffset={0}
+                      leftOffset="none"
+                      topOffset="34px"
+                    />
+                  </Flex>
+                </Flex>
+              </Flex>
             ) : (
               <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
                 <Flex
@@ -917,7 +1219,7 @@ const CardPost = ({
                   </Flex>
                   <Flex justifyContent="center">
                     <DropDown
-                      handleOption
+                      onChange={handleOption}
                       dropDownTitle={
                         <Flex
                           borderRadius="2px"

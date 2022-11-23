@@ -44,6 +44,7 @@ const ModRole = ({ onClose, isOpen, subPlebbit, handleSubPlebbitedit, loading })
               borderColor={border1}
               fontSize="14px"
               onChange={(e) => setInput(e.targe.value)}
+              value={input}
             />
           </Box>
           <Box fontSize="16px" fontWeight="500" lineHeight="20px" color={mainColor}>

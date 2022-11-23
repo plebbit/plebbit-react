@@ -56,12 +56,16 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
       setContent('');
       setEditorState(EditorState.createEmpty());
       setLoader(false);
-      console.log('challenge success', { publishedCid: challengeVerification.publication.cid });
+      logger('challenge-success', { publishedCid: challengeVerification.publication.cid }, 'trace');
     } else if (challengeVerification.challengeSuccess === false) {
-      console.error('challenge failed', {
-        reason: challengeVerification.reason,
-        errors: challengeVerification.challengeErrors,
-      });
+      logger(
+        'challenge-failed',
+        {
+          reason: challengeVerification.reason,
+          errors: challengeVerification.challengeErrors,
+        },
+        'trace'
+      );
       toast({
         title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
         description: challengeVerification.challengeErrors
