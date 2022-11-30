@@ -1,10 +1,11 @@
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 import Infs from 'react-infinite-scroll-component';
 import logger from '../../utils/logger';
 
 const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
   return (
-    <>
+    <Box>
       <Infs
         dataLength={feeds ? feeds.length : 0}
         next={() => {
@@ -29,7 +30,7 @@ const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
       >
         {feeds?.map((feed) => content(feed))}
       </Infs>
-    </>
+    </Box>
   );
 };
 

@@ -98,10 +98,8 @@ const ClassicPost = ({
           fill={iconColor}
           cursor="pointer"
           paddingLeft="40px"
-          overflow="hidden"
           position="relative"
           border={`thin solid ${border1}`}
-          zIndex="0"
           bg={postTransBg}
           _hover={{ border: '1px solid #898989' }}
         >
@@ -655,7 +653,6 @@ const ClassicPost = ({
                       fontWeight="700"
                       lineHeight="16px"
                       alignItems="stretch"
-                      overflow="hidden"
                       padding="0 8px 0 4px"
                       flexGrow="1"
                     >
@@ -925,7 +922,7 @@ const ClassicPost = ({
                           ]}
                           rightOffset={0}
                           leftOffset="none"
-                          // topOffset="34px"
+                          topOffset="34px"
                         />
                       </Flex>
                     </Flex>
