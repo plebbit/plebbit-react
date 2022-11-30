@@ -13,7 +13,16 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { BsChat, BsBookmark, BsEyeSlash, BsFlag, BsFileText, BsPencil } from 'react-icons/bs';
+import {
+  BsChat,
+  BsBookmark,
+  BsEyeSlash,
+  BsFlag,
+  BsFileText,
+  BsPencil,
+  BsChatSquare,
+  BsShield,
+} from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg';
@@ -29,7 +38,10 @@ import { ProfileContext } from '../../store/profileContext';
 import DropDown from '../DropDown';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
-import { MdOutlineDeleteOutline } from 'react-icons/md';
+import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineDeleteOutline } from 'react-icons/md';
+import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
+import { TiDeleteOutline } from 'react-icons/ti';
+import { FcCancel } from 'react-icons/fc';
 
 const ClassicPost = ({
   loading,
@@ -49,6 +61,9 @@ const ClassicPost = ({
   handleCopy,
   pending,
   detailRoute,
+  openRemovalModal,
+  allowedSpecial,
+  handleEditPost,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -68,6 +83,9 @@ const ClassicPost = ({
   const mainMobileBg = useColorModeValue('white', 'black');
   const postHeadColor = useColorModeValue('#1a1a1b', '#0079d3');
   const mobileIconColor = useColorModeValue('lightMobileIcon2', 'darkMobileIcon');
+  const removeColor = useColorModeValue('persimmon', 'persimmon');
+  const lockColor = useColorModeValue('brightSun', 'brightSun');
+  const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
   const { device, profile } = useContext(ProfileContext);
   const subPlebbit = sub || { address: post?.subplebbitAddress };
   const history = useHistory();
@@ -436,135 +454,261 @@ const ClassicPost = ({
                             {fromNow(parseInt(post?.timestamp * 1000))}
                           </Text>
                         </Tooltip>
+                        {post?.locked && <Icon as={HiLockClosed} color={lockColor} />}
+                        {post?.removed && (
+                          <Flex
+                            cursor="pointer"
+                            color={removeColor}
+                            alignItems="center"
+                            onClick={() => (post?.moderatorReason ? openRemovalModal() : {})}
+                          >
+                            <Icon as={TiDeleteOutline} />
+                            {!post?.moderatorReason ? (
+                              <Box>Add A removal reason</Box>
+                            ) : (
+                              <Tooltip
+                                fontSize="10px"
+                                label="removal reason"
+                                aria-label="removal reason"
+                                placement="top"
+                              >
+                                <Text
+                                  color={misCol}
+                                  mr="3px"
+                                  textDecor="none"
+                                  display="inline-block"
+                                  flex="0 0 auto"
+                                >
+                                  {post?.moderatorReason}
+                                </Text>
+                              </Tooltip>
+                            )}
+                          </Flex>
+                        )}
                       </Flex>
                     </Flex>
                   </Skeleton>
                 </Flex>
                 {/* Post footer */}
                 <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
-                  <Flex
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    alignItems="stretch"
-                    overflow="hidden"
-                    padding="0 8px 0 4px"
-                    flexGrow="1"
-                  >
-                    {post?.content ? (
+                  {pending ? (
+                    !loading && (
                       <Flex
-                        padding="8px"
-                        wordBreak="normal"
-                        mr="4px"
-                        alignItems="center"
-                        borderRadius="2px"
                         fontSize="12px"
                         fontWeight="700"
                         lineHeight="16px"
-                        boxSizing="border-box"
-                        _hover={{
-                          backgroundColor: inputBg,
-                        }}
-                        onClick={() => setShowContent(!showContent)}
+                        alignItems="stretch"
+                        overflow="hidden"
+                        padding="0 8px 0 4px"
+                        flexGrow="1"
                       >
-                        <Icon
-                          as={showContent ? CgCompressLeft : CgArrowsExpandLeft}
-                          width="20px"
-                          height="20px"
-                          verticalAlign="middle"
-                          fontWeight="400"
-                          mr="6px"
-                        />
+                        {post?.content ? (
+                          <Flex
+                            padding="8px"
+                            wordBreak="normal"
+                            mr="4px"
+                            alignItems="center"
+                            borderRadius="2px"
+                            fontSize="12px"
+                            fontWeight="700"
+                            lineHeight="16px"
+                            boxSizing="border-box"
+                            _hover={{
+                              backgroundColor: inputBg,
+                            }}
+                            onClick={() => setShowContent(!showContent)}
+                          >
+                            <Icon
+                              as={showContent ? CgCompressLeft : CgArrowsExpandLeft}
+                              width="20px"
+                              height="20px"
+                              verticalAlign="middle"
+                              fontWeight="400"
+                              mr="6px"
+                            />
+                          </Flex>
+                        ) : (
+                          <Flex
+                            padding="8px"
+                            wordBreak="normal"
+                            mr="4px"
+                            alignItems="center"
+                            borderRadius="2px"
+                            fontSize="12px"
+                            fontWeight="700"
+                            lineHeight="16px"
+                            boxSizing="border-box"
+                            _hover={{
+                              backgroundColor: inputBg,
+                            }}
+                          >
+                            <Icon
+                              as={VscLinkExternal}
+                              width="20px"
+                              height="20px"
+                              verticalAlign="middle"
+                              fontWeight="400"
+                              mr="6px"
+                            />
+                          </Flex>
+                        )}
+                        <Flex
+                          padding="8px"
+                          wordBreak="normal"
+                          mr="4px"
+                          alignItems="center"
+                          borderRadius="2px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                          boxSizing="border-box"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                          onClick={() => handleOption('Edit')}
+                        >
+                          <Icon
+                            as={BsPencil}
+                            width="20px"
+                            height="20px"
+                            verticalAlign="middle"
+                            fontWeight="400"
+                            mr="6px"
+                          />
+                          <Text
+                            display="inline-block"
+                            lineHeight={1}
+                            textTransform="capitalize"
+                            verticalAlign="middle"
+                          >
+                            Edit
+                          </Text>
+                        </Flex>
+                        <Flex
+                          padding="8px"
+                          wordBreak="normal"
+                          mr="4px"
+                          alignItems="center"
+                          borderRadius="2px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                          boxSizing="border-box"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                          onClick={() => handleOption('Delete')}
+                        >
+                          <Icon
+                            as={FcCancel}
+                            width="20px"
+                            height="20px"
+                            verticalAlign="middle"
+                            fontWeight="400"
+                            mr="6px"
+                          />
+                          <Text
+                            display="inline-block"
+                            lineHeight={1}
+                            textTransform="capitalize"
+                            verticalAlign="middle"
+                          >
+                            Delete
+                          </Text>
+                        </Flex>
+                        <Flex
+                          padding="8px"
+                          wordBreak="normal"
+                          mr="4px"
+                          alignItems="center"
+                          borderRadius="2px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                          boxSizing="border-box"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                        >
+                          <Icon
+                            as={BsBookmark}
+                            width="20px"
+                            height="20px"
+                            verticalAlign="middle"
+                            fontWeight="400"
+                            mr="6px"
+                          />
+                          <Text
+                            display="inline-block"
+                            lineHeight={1}
+                            textTransform="capitalize"
+                            verticalAlign="middle"
+                          >
+                            Save
+                          </Text>
+                        </Flex>
                       </Flex>
-                    ) : (
-                      <Flex
-                        padding="8px"
-                        wordBreak="normal"
-                        mr="4px"
-                        alignItems="center"
-                        borderRadius="2px"
-                        fontSize="12px"
-                        fontWeight="700"
-                        lineHeight="16px"
-                        boxSizing="border-box"
-                        _hover={{
-                          backgroundColor: inputBg,
-                        }}
-                      >
-                        <Icon
-                          as={VscLinkExternal}
-                          width="20px"
-                          height="20px"
-                          verticalAlign="middle"
-                          fontWeight="400"
-                          mr="6px"
-                        />
-                      </Flex>
-                    )}
+                    )
+                  ) : allowedSpecial && type === 'subPlebbit' ? (
                     <Flex
-                      padding="8px"
-                      wordBreak="normal"
-                      mr="4px"
-                      alignItems="center"
-                      borderRadius="2px"
                       fontSize="12px"
                       fontWeight="700"
                       lineHeight="16px"
-                      boxSizing="border-box"
-                      _hover={{
-                        backgroundColor: inputBg,
-                      }}
-                      onClick={() => history.push(detailRoute, [])}
+                      alignItems="stretch"
+                      overflow="hidden"
+                      padding="0 8px 0 4px"
+                      flexGrow="1"
                     >
-                      <Icon
-                        as={BsChat}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                      <Text
-                        display="inline-block"
-                        lineHeight={1}
-                        textTransform="capitalize"
-                        verticalAlign="middle"
-                      >
-                        {post?.replyCount} comment{post?.replyCount === 1 ? '' : 's'}
-                      </Text>
-                    </Flex>
-                    <Flex
-                      padding="8px"
-                      wordBreak="normal"
-                      mr="4px"
-                      alignItems="center"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      boxSizing="border-box"
-                      _hover={{
-                        backgroundColor: inputBg,
-                      }}
-                    >
-                      <Icon
-                        as={GoGift}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                      <Text
-                        display="inline-block"
-                        lineHeight={1}
-                        textTransform="capitalize"
-                        verticalAlign="middle"
-                      >
-                        Award
-                      </Text>
-                    </Flex>
-                    <CopyToClipboard text={location} onCopy={handleCopy}>
+                      {post?.content ? (
+                        <Flex
+                          padding="8px"
+                          wordBreak="normal"
+                          mr="4px"
+                          alignItems="center"
+                          borderRadius="2px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                          boxSizing="border-box"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                          onClick={() => setShowContent(!showContent)}
+                        >
+                          <Icon
+                            as={showContent ? CgCompressLeft : CgArrowsExpandLeft}
+                            width="20px"
+                            height="20px"
+                            verticalAlign="middle"
+                            fontWeight="400"
+                            mr="6px"
+                          />
+                        </Flex>
+                      ) : (
+                        <Flex
+                          padding="8px"
+                          wordBreak="normal"
+                          mr="4px"
+                          alignItems="center"
+                          borderRadius="2px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                          boxSizing="border-box"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                        >
+                          <Icon
+                            as={VscLinkExternal}
+                            width="20px"
+                            height="20px"
+                            verticalAlign="middle"
+                            fontWeight="400"
+                            mr="6px"
+                          />
+                        </Flex>
+                      )}
                       <Flex
                         padding="8px"
                         wordBreak="normal"
@@ -578,9 +722,10 @@ const ClassicPost = ({
                         _hover={{
                           backgroundColor: inputBg,
                         }}
+                        onClick={() => history.push(detailRoute, [])}
                       >
                         <Icon
-                          as={FaShare}
+                          as={BsChatSquare}
                           width="20px"
                           height="20px"
                           verticalAlign="middle"
@@ -593,104 +738,448 @@ const ClassicPost = ({
                           textTransform="capitalize"
                           verticalAlign="middle"
                         >
-                          {copied ? 'copied' : 'Share'}
+                          {post?.replyCount}
                         </Text>
                       </Flex>
-                    </CopyToClipboard>
+                      <Flex
+                        padding="8px"
+                        wordBreak="normal"
+                        mr="4px"
+                        alignItems="center"
+                        borderRadius="2px"
+                        fontSize="12px"
+                        fontWeight="700"
+                        lineHeight="16px"
+                        boxSizing="border-box"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
+                      >
+                        <Icon
+                          as={GoGift}
+                          width="20px"
+                          height="20px"
+                          verticalAlign="middle"
+                          fontWeight="400"
+                          mr="6px"
+                        />
+                        <Text
+                          display="inline-block"
+                          lineHeight={1}
+                          textTransform="capitalize"
+                          verticalAlign="middle"
+                        >
+                          Award
+                        </Text>
+                      </Flex>
+                      <CopyToClipboard text={location} onCopy={handleCopy}>
+                        <Flex
+                          padding="8px"
+                          wordBreak="normal"
+                          mr="4px"
+                          alignItems="center"
+                          borderRadius="2px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                          boxSizing="border-box"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                        >
+                          <Icon
+                            as={FaShare}
+                            width="20px"
+                            height="20px"
+                            verticalAlign="middle"
+                            fontWeight="400"
+                            mr="6px"
+                          />
+                          <Text
+                            display="inline-block"
+                            lineHeight={1}
+                            textTransform="capitalize"
+                            verticalAlign="middle"
+                          >
+                            {copied ? 'copied' : 'Share'}
+                          </Text>
+                        </Flex>
+                      </CopyToClipboard>
+                      <Flex
+                        padding="8px"
+                        wordBreak="normal"
+                        mr="4px"
+                        alignItems="center"
+                        borderRadius="2px"
+                        fontSize="12px"
+                        fontWeight="700"
+                        lineHeight="16px"
+                        boxSizing="border-box"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
+                        color={!post?.removed && approveColor}
+                        onClick={() => handleEditPost({ removed: false })}
+                      >
+                        <Icon
+                          as={HiOutlineCheckCircle}
+                          width="20px"
+                          height="20px"
+                          verticalAlign="middle"
+                          fontWeight="400"
+                          mr="4px"
+                        />
+                        <Text
+                          display="inline-block"
+                          lineHeight={1}
+                          textTransform="capitalize"
+                          verticalAlign="middle"
+                        >
+                          Approve
+                        </Text>
+                      </Flex>
+                      <Flex
+                        padding="8px"
+                        wordBreak="normal"
+                        mr="4px"
+                        alignItems="center"
+                        borderRadius="2px"
+                        fontSize="12px"
+                        fontWeight="700"
+                        lineHeight="16px"
+                        boxSizing="border-box"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
+                        color={post?.removed && removeColor}
+                        onClick={() => handleEditPost({ removed: post?.removed ? false : true })}
+                      >
+                        <Icon
+                          as={TiDeleteOutline}
+                          width="20px"
+                          height="20px"
+                          verticalAlign="middle"
+                          fontWeight="400"
+                          mr="4px"
+                        />
+                        <Text
+                          display="inline-block"
+                          lineHeight={1}
+                          textTransform="capitalize"
+                          verticalAlign="middle"
+                        >
+                          Remove
+                        </Text>
+                      </Flex>
+                      <Flex
+                        padding="8px"
+                        wordBreak="normal"
+                        mr="4px"
+                        alignItems="center"
+                        borderRadius="2px"
+                        fontSize="12px"
+                        fontWeight="700"
+                        lineHeight="16px"
+                        boxSizing="border-box"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
+                      >
+                        <DropDown
+                          onClick={(val) =>
+                            handleEditPost({ [val?.id]: post[val?.id] ? false : true })
+                          }
+                          dropDownTitle={
+                            <Flex
+                              borderRadius="2px"
+                              height="24px"
+                              verticalAlign="middle"
+                              padding="0 4px"
+                              width="100%"
+                              bg="transparent"
+                              border="none"
+                              alignItems="center"
+                              _hover={{
+                                backgroundColor: inputBg,
+                              }}
+                            >
+                              <Icon as={BsShield} color={iconColor} h="20px" w="20px" />
+                            </Flex>
+                          }
+                          options={[
+                            {
+                              label: 'Sticky Post',
+                              icon: post?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
+                              id: 'pinned',
+                            },
+                            {
+                              label: 'Lock Comments',
+                              icon: post?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
+                              id: 'locked',
+                            },
+                            {
+                              label: 'Mark As Spoiler',
+                              icon: post?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
+                              id: 'spoiler',
+                            },
+                          ]}
+                          rightOffset={0}
+                          leftOffset="none"
+                          // topOffset="34px"
+                        />
+                      </Flex>
+                    </Flex>
+                  ) : (
                     <Flex
-                      padding="8px"
-                      wordBreak="normal"
-                      mr="4px"
-                      alignItems="center"
-                      borderRadius="2px"
                       fontSize="12px"
                       fontWeight="700"
                       lineHeight="16px"
-                      boxSizing="border-box"
-                      _hover={{
-                        backgroundColor: inputBg,
-                      }}
+                      alignItems="stretch"
+                      overflow="hidden"
+                      padding="0 8px 0 4px"
+                      flexGrow="1"
                     >
-                      <Icon
-                        as={BsBookmark}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                      <Text
-                        display="inline-block"
-                        lineHeight={1}
-                        textTransform="capitalize"
-                        verticalAlign="middle"
+                      {post?.content ? (
+                        <Flex
+                          padding="8px"
+                          wordBreak="normal"
+                          mr="4px"
+                          alignItems="center"
+                          borderRadius="2px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                          boxSizing="border-box"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                          onClick={() => setShowContent(!showContent)}
+                        >
+                          <Icon
+                            as={showContent ? CgCompressLeft : CgArrowsExpandLeft}
+                            width="20px"
+                            height="20px"
+                            verticalAlign="middle"
+                            fontWeight="400"
+                            mr="6px"
+                          />
+                        </Flex>
+                      ) : (
+                        <Flex
+                          padding="8px"
+                          wordBreak="normal"
+                          mr="4px"
+                          alignItems="center"
+                          borderRadius="2px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                          boxSizing="border-box"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                        >
+                          <Icon
+                            as={VscLinkExternal}
+                            width="20px"
+                            height="20px"
+                            verticalAlign="middle"
+                            fontWeight="400"
+                            mr="6px"
+                          />
+                        </Flex>
+                      )}
+                      <Flex
+                        padding="8px"
+                        wordBreak="normal"
+                        mr="4px"
+                        alignItems="center"
+                        borderRadius="2px"
+                        fontSize="12px"
+                        fontWeight="700"
+                        lineHeight="16px"
+                        boxSizing="border-box"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
+                        onClick={() => history.push(detailRoute, [])}
                       >
-                        Save
-                      </Text>
-                    </Flex>
-                    <Flex
-                      padding="8px"
-                      wordBreak="normal"
-                      mr="4px"
-                      alignItems="center"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      boxSizing="border-box"
-                      _hover={{
-                        backgroundColor: inputBg,
-                      }}
-                    >
-                      <Icon
-                        as={BsEyeSlash}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                      <Text
-                        display="inline-block"
-                        lineHeight={1}
-                        textTransform="capitalize"
-                        verticalAlign="middle"
+                        <Icon
+                          as={BsChat}
+                          width="20px"
+                          height="20px"
+                          verticalAlign="middle"
+                          fontWeight="400"
+                          mr="6px"
+                        />
+                        <Text
+                          display="inline-block"
+                          lineHeight={1}
+                          textTransform="capitalize"
+                          verticalAlign="middle"
+                        >
+                          {post?.replyCount} comment{post?.replyCount === 1 ? '' : 's'}
+                        </Text>
+                      </Flex>
+                      <Flex
+                        padding="8px"
+                        wordBreak="normal"
+                        mr="4px"
+                        alignItems="center"
+                        borderRadius="2px"
+                        fontSize="12px"
+                        fontWeight="700"
+                        lineHeight="16px"
+                        boxSizing="border-box"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
                       >
-                        Hide
-                      </Text>
-                    </Flex>
-                    <Flex
-                      padding="8px"
-                      wordBreak="normal"
-                      mr="4px"
-                      alignItems="center"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      boxSizing="border-box"
-                      _hover={{
-                        backgroundColor: inputBg,
-                      }}
-                    >
-                      <Icon
-                        as={BsFlag}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                      <Text
-                        display="inline-block"
-                        lineHeight={1}
-                        textTransform="capitalize"
-                        verticalAlign="middle"
+                        <Icon
+                          as={GoGift}
+                          width="20px"
+                          height="20px"
+                          verticalAlign="middle"
+                          fontWeight="400"
+                          mr="6px"
+                        />
+                        <Text
+                          display="inline-block"
+                          lineHeight={1}
+                          textTransform="capitalize"
+                          verticalAlign="middle"
+                        >
+                          Award
+                        </Text>
+                      </Flex>
+                      <CopyToClipboard text={location} onCopy={handleCopy}>
+                        <Flex
+                          padding="8px"
+                          wordBreak="normal"
+                          mr="4px"
+                          alignItems="center"
+                          borderRadius="2px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                          boxSizing="border-box"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                        >
+                          <Icon
+                            as={FaShare}
+                            width="20px"
+                            height="20px"
+                            verticalAlign="middle"
+                            fontWeight="400"
+                            mr="6px"
+                          />
+                          <Text
+                            display="inline-block"
+                            lineHeight={1}
+                            textTransform="capitalize"
+                            verticalAlign="middle"
+                          >
+                            {copied ? 'copied' : 'Share'}
+                          </Text>
+                        </Flex>
+                      </CopyToClipboard>
+                      <Flex
+                        padding="8px"
+                        wordBreak="normal"
+                        mr="4px"
+                        alignItems="center"
+                        borderRadius="2px"
+                        fontSize="12px"
+                        fontWeight="700"
+                        lineHeight="16px"
+                        boxSizing="border-box"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
                       >
-                        Report
-                      </Text>
+                        <Icon
+                          as={BsBookmark}
+                          width="20px"
+                          height="20px"
+                          verticalAlign="middle"
+                          fontWeight="400"
+                          mr="6px"
+                        />
+                        <Text
+                          display="inline-block"
+                          lineHeight={1}
+                          textTransform="capitalize"
+                          verticalAlign="middle"
+                        >
+                          Save
+                        </Text>
+                      </Flex>
+                      <Flex
+                        padding="8px"
+                        wordBreak="normal"
+                        mr="4px"
+                        alignItems="center"
+                        borderRadius="2px"
+                        fontSize="12px"
+                        fontWeight="700"
+                        lineHeight="16px"
+                        boxSizing="border-box"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
+                      >
+                        <Icon
+                          as={BsEyeSlash}
+                          width="20px"
+                          height="20px"
+                          verticalAlign="middle"
+                          fontWeight="400"
+                          mr="6px"
+                        />
+                        <Text
+                          display="inline-block"
+                          lineHeight={1}
+                          textTransform="capitalize"
+                          verticalAlign="middle"
+                        >
+                          Hide
+                        </Text>
+                      </Flex>
+                      <Flex
+                        padding="8px"
+                        wordBreak="normal"
+                        mr="4px"
+                        alignItems="center"
+                        borderRadius="2px"
+                        fontSize="12px"
+                        fontWeight="700"
+                        lineHeight="16px"
+                        boxSizing="border-box"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
+                      >
+                        <Icon
+                          as={BsFlag}
+                          width="20px"
+                          height="20px"
+                          verticalAlign="middle"
+                          fontWeight="400"
+                          mr="6px"
+                        />
+                        <Text
+                          display="inline-block"
+                          lineHeight={1}
+                          textTransform="capitalize"
+                          verticalAlign="middle"
+                        >
+                          Report
+                        </Text>
+                      </Flex>
                     </Flex>
-                  </Flex>
+                  )}
                 </Flex>
               </Box>
             </Flex>

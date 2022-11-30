@@ -1004,7 +1004,9 @@ const CardPost = ({
 
                   <Flex justifyContent="center">
                     <DropDown
-                      onClick={(val) => handleEditPost({ [val?.id]: post[val?.id] ? false : true })}
+                      onChange={(val) =>
+                        handleEditPost({ [val?.id]: post[val?.id] ? false : true })
+                      }
                       dropDownTitle={
                         <Flex
                           borderRadius="2px"
