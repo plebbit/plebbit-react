@@ -174,7 +174,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   };
 
   return (
-    <Box>
+    <>
       <Box>
         {/* card */}
         {mode === 'card' && (
@@ -263,7 +263,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
           onClose={closeRemovalModal}
         />
       )}
-    </Box>
+    </>
   );
 };
 export default Post;
