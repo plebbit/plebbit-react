@@ -49,7 +49,7 @@ const Settings = () => {
   const tabs = [
     { label: 'Account', link: 'account' },
     { label: 'Profile', link: 'profile', optional: 'settings' },
-    { label: 'Plebbit Options', link: 'plebbitOptions' },
+    { label: 'Plebbit Options', link: 'plebbit-options' },
     { label: 'Safety & Privacy', link: 'privacy' },
     { label: 'Feed Settings', link: 'feed' },
     { label: 'Notifications', link: 'notifications' },
@@ -859,7 +859,7 @@ const Settings = () => {
             </Box>
           </Flex>
         )}
-        {view === 'plebbitOptions' && (
+        {view === 'plebbit-options' && (
           <Flex maxW="1200px" margin="0 auto" padding="0 16px">
             <Box maxW="688px" flex="1 1 auto">
               <Flex alignItems="center" justifyContent="space-between">
