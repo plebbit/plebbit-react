@@ -28,7 +28,7 @@ const App = () => {
             '/settings',
             '/settings/account',
             '/settings/profile',
-            '/settings/plebbitOptions',
+            '/settings/plebbit-options',
             '/settings/privacy',
             '/settings/feed',
             '/settings/notifications',
