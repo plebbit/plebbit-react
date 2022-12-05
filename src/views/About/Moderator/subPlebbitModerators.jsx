@@ -21,8 +21,6 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
   const { isOpen: removeModShow, onOpen: openRemoveMod, onClose: closeRemoveMod } = useDisclosure();
   const { isOpen: roleModShow, onOpen: openRoleMod, onClose: closeRoleMod } = useDisclosure();
 
-  console.log('role', role !== 'owner' || role !== 'moderator');
-
   return (
     <Box>
       <Flex
@@ -54,7 +52,7 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
           height={device !== 'mobile' ? '32px' : '24px'}
           onClick={openLeaveMod}
           mt={device === 'mobile' && '6px'}
-          disabled={role !== ('owner' || 'moderators')}
+          disabled={!(role === 'owner' || role === 'moderator')}
           color={mainColor}
         >
           Leave as mod

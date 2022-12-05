@@ -96,7 +96,6 @@ export const RemoveMod = ({
     setSelected('');
     setLoading(false);
   };
-  console.log('here', address);
 
   return (
     <Modal onClose={onClose} size="xl" isOpen={isOpen} isCentered>

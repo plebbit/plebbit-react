@@ -11,7 +11,16 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 // import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { BsChat, BsEyeSlash, BsFileText, BsPinAngleFill } from 'react-icons/bs';
+import {
+  BsBookmark,
+  BsChat,
+  BsChatSquare,
+  BsEyeSlash,
+  BsFileText,
+  BsPencil,
+  BsPinAngleFill,
+  BsShield,
+} from 'react-icons/bs';
 import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg';
 import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
@@ -23,8 +32,10 @@ import getUserName, { getSubName } from '../../utils/getUserName';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
 import DropDown from '../DropDown';
-import { HiLockClosed } from 'react-icons/hi';
+import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
+import { FcCancel } from 'react-icons/fc';
+import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md';
 
 const CompactPost = ({
   loading,
@@ -44,6 +55,8 @@ const CompactPost = ({
   pending,
   detailRoute,
   openRemovalModal,
+  allowedSpecial,
+  handleEditPost,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -492,71 +505,301 @@ const CompactPost = ({
               </Flex>
             </Box>
             {/* Post Footer */}
-            <Flex
-              alignItems="center"
-              flex="0 0 72px"
-              justifyContent="flex-end"
-              height="100%"
-              ml="4px"
-              paddingRight="4px"
-            >
-              <Link
-                width="max-content"
-                borderRadius="2px"
-                fontSize="12px"
-                fontWeight="700"
-                lineHeight="16px"
-                padding="4px"
-                boxSizing="border-box"
-                _hover={{
-                  bg: inputBg,
-                }}
-                onClick={() => history.push(detailRoute, [])}
-              >
-                <Icon
-                  as={BsChat}
-                  width="20px"
-                  height="20px"
-                  verticalAlign="middle"
-                  fontWeight="400"
-                  mr="6px"
-                />
-                <span>{post?.replyCount}</span>
-              </Link>
-              <Flex justifyContent="center">
-                <DropDown
-                  onChange={(x) => {
-                    handleOption(x);
-                  }}
-                  rightOffset={0}
-                  leftOffset="unset"
-                  dropDownTitle={
-                    <Flex
-                      borderRadius="2px"
-                      height="24px"
+            {pending ? (
+              !loading && (
+                <Flex
+                  alignItems="center"
+                  flex="0 0 72px"
+                  justifyContent="flex-end"
+                  height="100%"
+                  ml="4px"
+                  paddingRight="4px"
+                >
+                  <Flex
+                    width="max-content"
+                    borderRadius="2px"
+                    fontSize="12px"
+                    fontWeight="700"
+                    lineHeight="16px"
+                    padding="4px"
+                    boxSizing="border-box"
+                    _hover={{
+                      bg: inputBg,
+                    }}
+                    onClick={() => handleOption('Edit')}
+                    mr="4px"
+                  >
+                    <Icon
+                      as={BsPencil}
+                      width="20px"
+                      height="20px"
                       verticalAlign="middle"
-                      padding="0 4px"
-                      width="100%"
-                      bg="transparent"
-                      border="none"
-                      alignItems="center"
-                      _hover={{
-                        backgroundColor: inputBg,
-                      }}
+                      fontWeight="400"
+                      mr="6px"
+                    />
+                  </Flex>
+                  <Flex
+                    width="max-content"
+                    borderRadius="2px"
+                    fontSize="12px"
+                    fontWeight="700"
+                    lineHeight="16px"
+                    padding="4px"
+                    boxSizing="border-box"
+                    _hover={{
+                      bg: inputBg,
+                    }}
+                    onClick={() => handleOption('Delete')}
+                    mr="4px"
+                  >
+                    <Icon
+                      as={FcCancel}
+                      width="20px"
+                      height="20px"
+                      verticalAlign="middle"
+                      fontWeight="400"
+                      mr="6px"
+                    />
+                  </Flex>
+                  <Flex
+                    width="max-content"
+                    borderRadius="2px"
+                    fontSize="12px"
+                    fontWeight="700"
+                    lineHeight="16px"
+                    padding="4px"
+                    boxSizing="border-box"
+                    _hover={{
+                      bg: inputBg,
+                    }}
+                    mr="4px"
+                  >
+                    <Icon
+                      as={BsBookmark}
+                      width="20px"
+                      height="20px"
+                      verticalAlign="middle"
+                      fontWeight="400"
+                      mr="6px"
+                    />
+                  </Flex>
+                </Flex>
+              )
+            ) : allowedSpecial && type === 'subPlebbit' ? (
+              <Flex
+                alignItems="center"
+                flex="0 0 72px"
+                justifyContent="flex-end"
+                height="100%"
+                ml="4px"
+                paddingRight="4px"
+              >
+                <ReactLink to={detailRoute}>
+                  <Flex
+                    padding="8px"
+                    wordBreak="normal"
+                    mr="4px"
+                    alignItems="center"
+                    borderRadius="2px"
+                    fontSize="12px"
+                    fontWeight="700"
+                    lineHeight="16px"
+                    boxSizing="border-box"
+                    _hover={{
+                      backgroundColor: inputBg,
+                    }}
+                  >
+                    <Icon
+                      as={BsChatSquare}
+                      width="20px"
+                      height="20px"
+                      verticalAlign="middle"
+                      fontWeight="400"
+                      mr="6px"
+                    />
+                    <Text
+                      display="inline-block"
+                      lineHeight={1}
+                      textTransform="capitalize"
+                      verticalAlign="middle"
                     >
-                      <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
-                    </Flex>
-                  }
-                  options={[
-                    {
-                      label: 'Block author',
-                      icon: BsEyeSlash,
-                      id: 'block',
-                    },
-                  ]}
-                />
+                      {post?.replyCount}
+                    </Text>
+                  </Flex>
+                </ReactLink>
+                <Flex
+                  _hover={{
+                    bg: inputBg,
+                  }}
+                  alignItems="center"
+                  mr="4px"
+                  margin="4px 8px 4px 0"
+                  padding="4px"
+                  borderRadius="2px"
+                  cursor="pointer"
+                  color={!post?.removed && approveColor}
+                  onClick={() => handleEditPost({ removed: false })}
+                >
+                  <Icon height="20px" width="20px" as={HiOutlineCheckCircle} />
+                </Flex>
+                <Flex
+                  _hover={{
+                    bg: inputBg,
+                  }}
+                  alignItems="center"
+                  mr="4px"
+                  margin="4px 8px 4px 0"
+                  padding="4px"
+                  borderRadius="2px"
+                  cursor="pointer"
+                  color={post?.removed && removeColor}
+                  onClick={() => handleEditPost({ removed: post?.removed ? false : true })}
+                >
+                  <Icon height="20px" width="20px" as={TiDeleteOutline} />
+                </Flex>
+
+                <Flex justifyContent="center">
+                  <DropDown
+                    onChange={(val) => handleEditPost({ [val?.id]: post[val?.id] ? false : true })}
+                    dropDownTitle={
+                      <Flex
+                        borderRadius="2px"
+                        height="24px"
+                        verticalAlign="middle"
+                        padding="0 4px"
+                        width="100%"
+                        bg="transparent"
+                        border="none"
+                        alignItems="center"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
+                      >
+                        <Icon as={BsShield} color={iconColor} h="20px" w="20px" />
+                      </Flex>
+                    }
+                    options={[
+                      {
+                        label: 'Sticky Post',
+                        icon: post?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
+                        id: 'pinned',
+                      },
+                      {
+                        label: 'Lock Comments',
+                        icon: post?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
+                        id: 'locked',
+                      },
+                      {
+                        label: 'Mark As Spoiler',
+                        icon: post?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
+                        id: 'spoiler',
+                      },
+                    ]}
+                    rightOffset={0}
+                    leftOffset="none"
+                    topOffset="34px"
+                  />
+                </Flex>
+                <Flex justifyContent="center">
+                  <DropDown
+                    onChange={handleOption}
+                    dropDownTitle={
+                      <Flex
+                        borderRadius="2px"
+                        height="24px"
+                        verticalAlign="middle"
+                        padding="0 4px"
+                        width="100%"
+                        bg="transparent"
+                        border="none"
+                        alignItems="center"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
+                      >
+                        <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
+                      </Flex>
+                    }
+                    options={[
+                      {
+                        label: 'Block author',
+                        icon: BsEyeSlash,
+                        id: 'block',
+                      },
+                    ]}
+                    rightOffset={0}
+                    leftOffset="none"
+                    topOffset="34px"
+                  />
+                </Flex>
               </Flex>
-            </Flex>
+            ) : (
+              <Flex
+                alignItems="center"
+                flex="0 0 72px"
+                justifyContent="flex-end"
+                height="100%"
+                ml="4px"
+                paddingRight="4px"
+              >
+                <Link
+                  width="max-content"
+                  borderRadius="2px"
+                  fontSize="12px"
+                  fontWeight="700"
+                  lineHeight="16px"
+                  padding="4px"
+                  boxSizing="border-box"
+                  _hover={{
+                    bg: inputBg,
+                  }}
+                  onClick={() => history.push(detailRoute, [])}
+                >
+                  <Icon
+                    as={BsChat}
+                    width="20px"
+                    height="20px"
+                    verticalAlign="middle"
+                    fontWeight="400"
+                    mr="6px"
+                  />
+                  <span>{post?.replyCount}</span>
+                </Link>
+                <Flex justifyContent="center">
+                  <DropDown
+                    onChange={(x) => {
+                      handleOption(x);
+                    }}
+                    rightOffset={0}
+                    leftOffset="unset"
+                    dropDownTitle={
+                      <Flex
+                        borderRadius="2px"
+                        height="24px"
+                        verticalAlign="middle"
+                        padding="0 4px"
+                        width="100%"
+                        bg="transparent"
+                        border="none"
+                        alignItems="center"
+                        _hover={{
+                          backgroundColor: inputBg,
+                        }}
+                      >
+                        <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
+                      </Flex>
+                    }
+                    options={[
+                      {
+                        label: 'Block author',
+                        icon: BsEyeSlash,
+                        id: 'block',
+                      },
+                    ]}
+                  />
+                </Flex>
+              </Flex>
+            )}
           </Flex>
         </Box>
       </Flex>
