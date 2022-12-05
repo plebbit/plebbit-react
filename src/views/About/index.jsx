@@ -83,6 +83,7 @@ const About = () => {
         duration: 5000,
         isClosable: true,
       });
+      setLoading(false);
     }
   };
 

@@ -96,12 +96,13 @@ export const RemoveMod = ({
     setSelected('');
     setLoading(false);
   };
+  console.log('here', address);
 
   return (
     <Modal onClose={onClose} size="xl" isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader borderBottom={`1px solid ${border1}`}>Leave as mod</ModalHeader>
+        <ModalHeader borderBottom={`1px solid ${border1}`}>Remove as a mod</ModalHeader>
         <ModalCloseButton />
         <ModalBody
           padding="16px"
