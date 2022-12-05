@@ -11,7 +11,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 // import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { BsChat, BsEyeSlash, BsFileText } from 'react-icons/bs';
+import { BsChat, BsEyeSlash, BsFileText, BsPinAngleFill } from 'react-icons/bs';
 import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg';
 import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
@@ -23,6 +23,8 @@ import getUserName, { getSubName } from '../../utils/getUserName';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
 import DropDown from '../DropDown';
+import { HiLockClosed } from 'react-icons/hi';
+import { TiDeleteOutline } from 'react-icons/ti';
 
 const CompactPost = ({
   loading,
@@ -41,6 +43,7 @@ const CompactPost = ({
   // copied,
   pending,
   detailRoute,
+  openRemovalModal,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -53,6 +56,9 @@ const CompactPost = ({
   const iconBg = useColorModeValue('lightIconBg', 'darkIconBg');
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const statusColor = useColorModeValue('lightVoteText', 'fff');
+  const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
+  const removeColor = useColorModeValue('persimmon', 'persimmon');
+  const lockColor = useColorModeValue('brightSun', 'brightSun');
   const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const history = useHistory();
@@ -321,9 +327,11 @@ const CompactPost = ({
                     ''
                   )}
                   {pending && (
-                    <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
-                      Pending
-                    </Tag>
+                    <Skeleton isLoaded={!loading}>
+                      <Tag size="sm" colorScheme="yellow" variant="outline">
+                        Pending
+                      </Tag>
+                    </Skeleton>
                   )}
                 </Skeleton>
               </Box>
@@ -392,7 +400,6 @@ const CompactPost = ({
                       <Text color={misCol} flex="0 0 auto" mr="3px">
                         Posted by
                       </Text>
-
                       {/* User Name */}
                       <Box display="inline-block" flex="0 0 auto">
                         <Box>
@@ -447,11 +454,44 @@ const CompactPost = ({
                           {fromNow(parseInt(post?.timestamp * 1000))}
                         </Text>
                       </Tooltip>
+                      {post?.pinned && <Icon as={BsPinAngleFill} color={approveColor} />}
+                      {post?.locked && <Icon as={HiLockClosed} color={lockColor} />}
+                      {post?.removed && (
+                        <Flex
+                          cursor="pointer"
+                          color={removeColor}
+                          alignItems="center"
+                          onClick={() => (post?.moderatorReason ? openRemovalModal() : {})}
+                        >
+                          <Icon as={TiDeleteOutline} />
+                          {!post?.moderatorReason ? (
+                            <Box>Add A removal reason</Box>
+                          ) : (
+                            <Tooltip
+                              fontSize="10px"
+                              label="removal reason"
+                              aria-label="removal reason"
+                              placement="top"
+                            >
+                              <Text
+                                color={misCol}
+                                mr="3px"
+                                textDecor="none"
+                                display="inline-block"
+                                flex="0 0 auto"
+                              >
+                                {post?.moderatorReason}
+                              </Text>
+                            </Tooltip>
+                          )}
+                        </Flex>
+                      )}
                     </Flex>
                   </Flex>
                 </Skeleton>
               </Flex>
             </Box>
+            {/* Post Footer */}
             <Flex
               alignItems="center"
               flex="0 0 72px"
