@@ -43,7 +43,7 @@ const ModRole = ({ onClose, isOpen, subPlebbit, handleSubPlebbitedit, loading })
               border={`1px solid ${border1}`}
               borderColor={border1}
               fontSize="14px"
-              onChange={(e) => setInput(e.targe.value)}
+              onChange={(e) => setInput(e.target.value)}
               value={input}
             />
           </Box>

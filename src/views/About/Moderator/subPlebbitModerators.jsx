@@ -52,7 +52,7 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
           height={device !== 'mobile' ? '32px' : '24px'}
           onClick={openLeaveMod}
           mt={device === 'mobile' && '6px'}
-          disabled={role !== ('owner' || 'moderators')}
+          disabled={!(role === 'owner' || role === 'moderator')}
           color={mainColor}
         >
           Leave as mod
@@ -73,7 +73,7 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
           height={device !== 'mobile' ? '32px' : '24px'}
           onClick={openRoleMod}
           mt={device === 'mobile' && '6px'}
-          disabled={role !== ('owner' || 'moderators')}
+          disabled={!(role === 'owner' || role === 'moderator')}
           color={mainColor}
         >
           Add user as a mod
@@ -255,7 +255,7 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
                   <Box
                     cursor="pointer"
                     onClick={() => {
-                      setSelected(user?.address);
+                      setSelected(user);
                       openRemoveMod();
                     }}
                   >
