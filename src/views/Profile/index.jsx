@@ -1419,7 +1419,7 @@ const Profile = () => {
                 </Box>
               </Box>
             </Box>
-            <FeedSort />
+            <FeedSort hideControl />
             <Flex flexDir="column">
               <InfiniteScroll
                 feeds={myPost?.reverse()}

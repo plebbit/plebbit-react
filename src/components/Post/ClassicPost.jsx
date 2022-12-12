@@ -22,6 +22,7 @@ import {
   BsPencil,
   BsChatSquare,
   BsShield,
+  BsPinAngleFill,
 } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
@@ -42,6 +43,7 @@ import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineDeleteOutline } from 'reac
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { FcCancel } from 'react-icons/fc';
+import { AiTwotoneDelete } from 'react-icons/ai';
 
 const ClassicPost = ({
   loading,
@@ -1290,40 +1292,54 @@ const ClassicPost = ({
                     </Box>
                   </Box>
                   <Box padding="0" flex="0 0 auto" whiteSpace="nowrap" />
-                  <DropDown
-                    leftOffset="-40px"
-                    dropDownTitle={
-                      <Box
-                        pointerEvents="all"
-                        color="#565758"
-                        padding="8px 16px 8px 12px"
-                        verticalAlign="middle"
-                      >
-                        <Icon as={FiMoreHorizontal} verticalAlign="inherit" height={5} w={5} />
-                      </Box>
-                    }
-                    onChange={(x) => {
-                      handleOption(x);
-                    }}
-                    options={[
-                      {
-                        label: 'Edit',
-                        icon: BsPencil,
-                        id: 'Edit',
-                        disabled: !(
-                          (profile?.author?.address === post?.author?.address ||
-                            profile?.signer?.address === post?.author?.address) &&
-                          detail
-                        ),
-                      },
-                      {
-                        label: 'Block Author',
-                        icon: BsEyeSlash,
-                        id: 'block',
-                      },
-                      { label: 'Delete', icon: MdOutlineDeleteOutline, id: 'Delete' },
-                    ]}
-                  />
+                  <Flex alignItems="center" alignSelf="flex-start">
+                    <Flex
+                      padding="10px 2px"
+                      flex="0 0 auto"
+                      alignSelf="flex-start"
+                      whiteSpace="nowrap"
+                      ml="auto"
+                    >
+                      {post?.pinned && <Icon as={BsPinAngleFill} color={approveColor} />}
+                      {post?.locked && <Icon as={HiLockClosed} color={lockColor} />}
+                      {post?.removed && <Icon as={AiTwotoneDelete} color={removeColor} />}
+                    </Flex>
+                    <DropDown
+                      onChange={(x) => {
+                        handleOption(x);
+                      }}
+                      rightOffset="10px"
+                      leftOffset="none"
+                      dropDownTitle={
+                        <Box
+                          pointerEvents="all"
+                          color="#565758"
+                          padding="8px 16px 8px 2px"
+                          verticalAlign="middle"
+                        >
+                          <Icon as={FiMoreHorizontal} verticalAlign="inherit" height={5} w={5} />
+                        </Box>
+                      }
+                      options={[
+                        {
+                          label: 'Edit',
+                          icon: BsPencil,
+                          id: 'Edit',
+                          disabled: !(
+                            (profile?.author?.address === post?.author?.address ||
+                              profile?.signer?.address === post?.author?.address) &&
+                            detail
+                          ),
+                        },
+                        {
+                          label: 'Block Author',
+                          icon: BsEyeSlash,
+                          id: 'block',
+                        },
+                        { label: 'Delete', icon: MdOutlineDeleteOutline, id: 'Delete' },
+                      ]}
+                    />
+                  </Flex>
                 </Flex>
                 {post?.link ? (
                   <Flex
@@ -1397,196 +1413,488 @@ const ClassicPost = ({
               )}
             </Box>
             {/* Footer */}
-            <Box
-              paddingBottom="12px"
-              paddingTop="8px"
-              padding="8px 16px"
-              borderBottom={`8px solid ${border2}`}
-              pointerEvents="none"
-              _before={{
-                content: `" "`,
-                display: 'table',
-              }}
-              _after={{
-                clear: 'both',
-                content: `" "`,
-                display: 'table',
-              }}
-            >
-              <Flex flex="1" float="none" top="0" position="relative" pointerEvents="none">
-                {/* vote button */}
-                <Flex
-                  border={`1px solid ${border2}`}
-                  alignItems="center"
-                  borderRadius="16px"
-                  flexShrink="0"
-                  fontWeight="0"
-                  height="32px"
-                  justifyContent="center"
-                  minWidth="32px"
-                  fontSize="12px"
-                  marginRight="10px"
-                  maxWidth="110px"
-                  width="auto"
-                  pointerEvents="all"
+            {pending ? (
+              !loading && (
+                <Box
+                  paddingBottom="12px"
+                  paddingTop="8px"
+                  padding="8px 16px"
+                  borderBottom={`8px solid ${border2}`}
+                  pointerEvents="none"
+                  _before={{
+                    content: `" "`,
+                    display: 'table',
+                  }}
+                  _after={{
+                    clear: 'both',
+                    content: `" "`,
+                    display: 'table',
+                  }}
                 >
+                  <Flex flex="1" float="none" top="0" position="relative" pointerEvents="none">
+                    <Flex
+                      width="max-content"
+                      borderRadius="2px"
+                      fontSize="12px"
+                      fontWeight="700"
+                      lineHeight="16px"
+                      padding="4px"
+                      boxSizing="border-box"
+                      _hover={{
+                        bg: inputBg,
+                      }}
+                      onClick={() => handleOption('Edit')}
+                      mr="4px"
+                    >
+                      <Icon
+                        as={BsPencil}
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                        fontWeight="400"
+                        mr="6px"
+                      />
+                    </Flex>
+                    <Flex
+                      width="max-content"
+                      borderRadius="2px"
+                      fontSize="12px"
+                      fontWeight="700"
+                      lineHeight="16px"
+                      padding="4px"
+                      boxSizing="border-box"
+                      _hover={{
+                        bg: inputBg,
+                      }}
+                      onClick={() => handleOption('Delete')}
+                      mr="4px"
+                    >
+                      <Icon
+                        as={FcCancel}
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                        fontWeight="400"
+                        mr="6px"
+                      />
+                    </Flex>
+                    <Flex
+                      width="max-content"
+                      borderRadius="2px"
+                      fontSize="12px"
+                      fontWeight="700"
+                      lineHeight="16px"
+                      padding="4px"
+                      boxSizing="border-box"
+                      _hover={{
+                        bg: inputBg,
+                      }}
+                      mr="4px"
+                    >
+                      <Icon
+                        as={BsBookmark}
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                        fontWeight="400"
+                        mr="6px"
+                      />
+                    </Flex>
+                  </Flex>
+                </Box>
+              )
+            ) : allowedSpecial && type === 'subPlebbit' ? (
+              <Box
+                paddingBottom="12px"
+                paddingTop="8px"
+                padding="8px 16px"
+                borderBottom={`8px solid ${border2}`}
+                pointerEvents="none"
+                _before={{
+                  content: `" "`,
+                  display: 'table',
+                }}
+                _after={{
+                  clear: 'both',
+                  content: `" "`,
+                  display: 'table',
+                }}
+              >
+                <Flex flex="1" float="none" top="0" position="relative" pointerEvents="none">
+                  {/* vote button */}
                   <Flex
+                    border={`1px solid ${border2}`}
                     alignItems="center"
                     borderRadius="16px"
                     flexShrink="0"
-                    fontWeight="500"
+                    fontWeight="0"
                     height="32px"
                     justifyContent="center"
-                    width="32px"
-                    minW="32px"
+                    minWidth="32px"
                     fontSize="12px"
-                    fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
-                    color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
-                    lineHeight="24px"
-                    onClick={() => {
-                      handleVoting(vote === 1 ? 0 : 1);
-                    }}
+                    marginRight="10px"
+                    maxWidth="110px"
+                    width="auto"
+                    pointerEvents="all"
                   >
-                    <Icon
+                    <Flex
+                      alignItems="center"
+                      borderRadius="16px"
+                      flexShrink="0"
+                      fontWeight="500"
+                      height="32px"
+                      justifyContent="center"
+                      width="32px"
+                      minW="32px"
+                      fontSize="12px"
                       fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
                       color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
-                      as={vote === 1 ? ImArrowUp : BiUpvote}
-                      height="16px"
-                      width="16px"
-                      flex="0 0 16px"
-                    />
-                  </Flex>
-                  <Box
-                    color={mobileIconColor}
-                    fill={mobileIconColor}
-                    fontSize="12px"
-                    paddingTop="2px"
-                    minW="16px"
-                    lineHeight="14px"
-                    textAlign="center"
-                    verticalAlign="middle"
-                  >
-                    <Skeleton isLoaded={!loading}>
-                      {!loading ? (postVotes === 0 ? 'vote' : numFormatter(postVotes)) : 'vote'}
-                    </Skeleton>
-                  </Box>
-                  <Flex
-                    alignItems="center"
-                    borderRadius="16px"
-                    flexShrink="0"
-                    fontWeight="500"
-                    height="32px"
-                    justifyContent="center"
-                    width="32px"
-                    minW="32px"
-                    fontSize="12px"
-                    fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
-                    color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
-                    lineHeight="24px"
-                    onClick={() => {
-                      handleVoting(vote === -1 ? 0 : -1);
-                    }}
-                  >
-                    <Icon
-                      fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
-                      color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
-                      as={vote === -1 ? ImArrowDown : BiDownvote}
-                      height="16px"
-                      width="16px"
-                      flex="0 0 16px"
-                    />
-                  </Flex>
-                </Flex>
-                {/* award button */}
-                <Flex
-                  color={mobileIconColor}
-                  border={`1px solid ${border2}`}
-                  alignItems="center"
-                  fontWeight="500"
-                  height="32px"
-                  justifyContent="center"
-                  minW="32px"
-                  width="auto"
-                  fontSize="12px"
-                  flexShrink="1"
-                  marginRight="10px"
-                  overflowX="scroll"
-                  padding="0"
-                  borderRadius="16px"
-                >
-                  <Flex
-                    overflow="hidden"
-                    textOverflow="ellipsis"
-                    whiteSpace="nowrap"
-                    alignItems="center"
-                    justifyContent="center"
-                    padding="1px 7px"
-                  >
-                    <Icon as={GoGift} height="16px" width="16px" />
-                  </Flex>
-                </Flex>
-                {/* comment button */}
-                <Link as={ReactLink} to={detailRoute}>
-                  <Flex
-                    color={mobileIconColor}
-                    fill={mobileIconColor}
-                    border={`1px solid ${border2}`}
-                    alignItems="center"
-                    borderRadius="16px"
-                    flexShrink="0"
-                    fontWeight="500"
-                    height="32px"
-                    justifyContent="center"
-                    minW="32px"
-                    marginRight="10px"
-                    padding="2px 8px 0"
-                    maxW="100px"
-                  >
-                    <Icon
-                      as={BsChat}
+                      lineHeight="24px"
+                      onClick={() => {
+                        handleVoting(vote === 1 ? 0 : 1);
+                      }}
+                    >
+                      <Icon
+                        fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                        color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                        as={vote === 1 ? ImArrowUp : BiUpvote}
+                        height="16px"
+                        width="16px"
+                        flex="0 0 16px"
+                      />
+                    </Flex>
+                    <Box
                       color={mobileIconColor}
                       fill={mobileIconColor}
-                      height="16px"
-                      width="16px"
-                      mr="4px"
-                      flex="0 0 16px"
-                    />
-                    <Skeleton isLoaded={!loading}>{post?.replyCount}</Skeleton>
+                      fontSize="12px"
+                      paddingTop="2px"
+                      minW="16px"
+                      lineHeight="14px"
+                      textAlign="center"
+                      verticalAlign="middle"
+                    >
+                      <Skeleton isLoaded={!loading}>
+                        {!loading ? (postVotes === 0 ? 'vote' : numFormatter(postVotes)) : 'vote'}
+                      </Skeleton>
+                    </Box>
+                    <Flex
+                      alignItems="center"
+                      borderRadius="16px"
+                      flexShrink="0"
+                      fontWeight="500"
+                      height="32px"
+                      justifyContent="center"
+                      width="32px"
+                      minW="32px"
+                      fontSize="12px"
+                      fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                      color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                      lineHeight="24px"
+                      onClick={() => {
+                        handleVoting(vote === -1 ? 0 : -1);
+                      }}
+                    >
+                      <Icon
+                        fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                        color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                        as={vote === -1 ? ImArrowDown : BiDownvote}
+                        height="16px"
+                        width="16px"
+                        flex="0 0 16px"
+                      />
+                    </Flex>
                   </Flex>
-                </Link>
-                {/* share button */}
-                <CopyToClipboard text={location} onCopy={handleCopy}>
+                  {/* award button */}
                   <Flex
                     color={mobileIconColor}
-                    fill={mobileIconColor}
                     border={`1px solid ${border2}`}
                     alignItems="center"
-                    borderRadius="16px"
-                    flexShrink="0"
                     fontWeight="500"
                     height="32px"
                     justifyContent="center"
                     minW="32px"
                     width="auto"
+                    fontSize="12px"
+                    flexShrink="1"
                     marginRight="10px"
-                    marginLeft="auto"
-                    padding="1px 8px 0"
-                    maxW="85px"
+                    overflowX="scroll"
+                    padding="0"
+                    borderRadius="16px"
                   >
-                    <Icon
-                      as={FiShare}
-                      color={mobileIconColor}
-                      height="16px"
-                      width="16px"
-                      flex="0 0 16px"
+                    <Flex
                       overflow="hidden"
-                      mr="4px"
-                    />
-                    {copied ? 'share' : 'copied'}
+                      textOverflow="ellipsis"
+                      whiteSpace="nowrap"
+                      alignItems="center"
+                      justifyContent="center"
+                      padding="1px 7px"
+                    >
+                      <Icon as={GoGift} height="16px" width="16px" />
+                    </Flex>
                   </Flex>
-                </CopyToClipboard>
-              </Flex>
-            </Box>
+                  {/* comment button */}
+                  <Link as={ReactLink} to={detailRoute}>
+                    <Flex
+                      color={mobileIconColor}
+                      fill={mobileIconColor}
+                      border={`1px solid ${border2}`}
+                      alignItems="center"
+                      borderRadius="16px"
+                      flexShrink="0"
+                      fontWeight="500"
+                      height="32px"
+                      justifyContent="center"
+                      minW="32px"
+                      marginRight="10px"
+                      padding="2px 8px 0"
+                      maxW="100px"
+                    >
+                      <Icon
+                        as={BsChat}
+                        color={mobileIconColor}
+                        fill={mobileIconColor}
+                        height="16px"
+                        width="16px"
+                        mr="4px"
+                        flex="0 0 16px"
+                      />
+                      <Skeleton isLoaded={!loading}>{post?.replyCount}</Skeleton>
+                    </Flex>
+                  </Link>
+                  {/* mod button */}
+
+                  <DropDown
+                    menuSx={{
+                      pointerEvents: 'all',
+                    }}
+                    onChange={(val) => handleEditPost({ [val?.id]: post[val?.id] ? false : true })}
+                    dropDownTitle={
+                      <Flex
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                        alignItems="center"
+                        justifyContent="center"
+                        padding="1px 7px"
+                      >
+                        <Icon as={BsShield} height="16px" width="16px" />
+                      </Flex>
+                    }
+                    options={[
+                      {
+                        label: 'Sticky Post',
+                        icon: post?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
+                        id: 'pinned',
+                      },
+                      {
+                        label: 'Lock Comments',
+                        icon: post?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
+                        id: 'locked',
+                      },
+                      {
+                        label: 'Mark As Spoiler',
+                        icon: post?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
+                        id: 'spoiler',
+                      },
+                    ]}
+                    rightOffset={0}
+                    leftOffset="none"
+                    topOffset="34px"
+                  />
+                </Flex>
+              </Box>
+            ) : (
+              <Box
+                paddingBottom="12px"
+                paddingTop="8px"
+                padding="8px 16px"
+                borderBottom={`8px solid ${border2}`}
+                pointerEvents="none"
+                _before={{
+                  content: `" "`,
+                  display: 'table',
+                }}
+                _after={{
+                  clear: 'both',
+                  content: `" "`,
+                  display: 'table',
+                }}
+              >
+                <Flex flex="1" float="none" top="0" position="relative" pointerEvents="none">
+                  {/* vote button */}
+                  <Flex
+                    border={`1px solid ${border2}`}
+                    alignItems="center"
+                    borderRadius="16px"
+                    flexShrink="0"
+                    fontWeight="0"
+                    height="32px"
+                    justifyContent="center"
+                    minWidth="32px"
+                    fontSize="12px"
+                    marginRight="10px"
+                    maxWidth="110px"
+                    width="auto"
+                    pointerEvents="all"
+                  >
+                    <Flex
+                      alignItems="center"
+                      borderRadius="16px"
+                      flexShrink="0"
+                      fontWeight="500"
+                      height="32px"
+                      justifyContent="center"
+                      width="32px"
+                      minW="32px"
+                      fontSize="12px"
+                      fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                      color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                      lineHeight="24px"
+                      onClick={() => {
+                        handleVoting(vote === 1 ? 0 : 1);
+                      }}
+                    >
+                      <Icon
+                        fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                        color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                        as={vote === 1 ? ImArrowUp : BiUpvote}
+                        height="16px"
+                        width="16px"
+                        flex="0 0 16px"
+                      />
+                    </Flex>
+                    <Box
+                      color={mobileIconColor}
+                      fill={mobileIconColor}
+                      fontSize="12px"
+                      paddingTop="2px"
+                      minW="16px"
+                      lineHeight="14px"
+                      textAlign="center"
+                      verticalAlign="middle"
+                    >
+                      <Skeleton isLoaded={!loading}>
+                        {!loading ? (postVotes === 0 ? 'vote' : numFormatter(postVotes)) : 'vote'}
+                      </Skeleton>
+                    </Box>
+                    <Flex
+                      alignItems="center"
+                      borderRadius="16px"
+                      flexShrink="0"
+                      fontWeight="500"
+                      height="32px"
+                      justifyContent="center"
+                      width="32px"
+                      minW="32px"
+                      fontSize="12px"
+                      fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                      color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                      lineHeight="24px"
+                      onClick={() => {
+                        handleVoting(vote === -1 ? 0 : -1);
+                      }}
+                    >
+                      <Icon
+                        fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                        color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                        as={vote === -1 ? ImArrowDown : BiDownvote}
+                        height="16px"
+                        width="16px"
+                        flex="0 0 16px"
+                      />
+                    </Flex>
+                  </Flex>
+                  {/* award button */}
+                  <Flex
+                    color={mobileIconColor}
+                    border={`1px solid ${border2}`}
+                    alignItems="center"
+                    fontWeight="500"
+                    height="32px"
+                    justifyContent="center"
+                    minW="32px"
+                    width="auto"
+                    fontSize="12px"
+                    flexShrink="1"
+                    marginRight="10px"
+                    overflowX="scroll"
+                    padding="0"
+                    borderRadius="16px"
+                  >
+                    <Flex
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      whiteSpace="nowrap"
+                      alignItems="center"
+                      justifyContent="center"
+                      padding="1px 7px"
+                    >
+                      <Icon as={GoGift} height="16px" width="16px" />
+                    </Flex>
+                  </Flex>
+                  {/* comment button */}
+                  <Link as={ReactLink} to={detailRoute}>
+                    <Flex
+                      color={mobileIconColor}
+                      fill={mobileIconColor}
+                      border={`1px solid ${border2}`}
+                      alignItems="center"
+                      borderRadius="16px"
+                      flexShrink="0"
+                      fontWeight="500"
+                      height="32px"
+                      justifyContent="center"
+                      minW="32px"
+                      marginRight="10px"
+                      padding="2px 8px 0"
+                      maxW="100px"
+                    >
+                      <Icon
+                        as={BsChat}
+                        color={mobileIconColor}
+                        fill={mobileIconColor}
+                        height="16px"
+                        width="16px"
+                        mr="4px"
+                        flex="0 0 16px"
+                      />
+                      <Skeleton isLoaded={!loading}>{post?.replyCount}</Skeleton>
+                    </Flex>
+                  </Link>
+                  {/* share button */}
+                  <CopyToClipboard text={location} onCopy={handleCopy}>
+                    <Flex
+                      color={mobileIconColor}
+                      fill={mobileIconColor}
+                      border={`1px solid ${border2}`}
+                      alignItems="center"
+                      borderRadius="16px"
+                      flexShrink="0"
+                      fontWeight="500"
+                      height="32px"
+                      justifyContent="center"
+                      minW="32px"
+                      width="auto"
+                      marginRight="10px"
+                      marginLeft="auto"
+                      padding="1px 8px 0"
+                      maxW="85px"
+                    >
+                      <Icon
+                        as={FiShare}
+                        color={mobileIconColor}
+                        height="16px"
+                        width="16px"
+                        flex="0 0 16px"
+                        overflow="hidden"
+                        mr="4px"
+                      />
+                      {copied ? 'copied' : 'Share'}
+                    </Flex>
+                  </CopyToClipboard>
+                </Flex>
+              </Box>
+            )}
           </Box>
         </Box>
       )}

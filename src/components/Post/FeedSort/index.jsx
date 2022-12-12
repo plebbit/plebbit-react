@@ -489,7 +489,7 @@ const FeedSort = ({ hideControl }) => {
                       bg="white"
                       zIndex="1000"
                       top="149px"
-                      left="214px"
+                      left="0"
                       right="8px"
                       width="auto"
                       borderColor={border2}
