@@ -47,7 +47,7 @@ const AddAvatar = ({ isOpen, onClose }) => {
   const toast = useToast();
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal trapFocus={false} isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Add Nft Avatar</ModalHeader>

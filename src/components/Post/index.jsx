@@ -19,6 +19,7 @@ import { useLocation } from 'react-router-dom';
 import AddRemovalReason from './Modal/addRemovalReason';
 
 const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial }) => {
+  const { device } = useContext(ProfileContext);
   const pending = !post?.cid;
   const postVote = useAccountVote(post?.cid);
   const vote = postVote?.vote || 0;
@@ -229,7 +230,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
           />
         )}
         {/* compact */}
-        {mode === 'compact' && (
+        {mode === 'compact' && device === 'pc' ? (
           <CompactPost
             vote={vote}
             postVotes={postVotes}
@@ -250,6 +251,31 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             handleCopy={handleCopy}
             detailRoute={detailRoute}
             pending={pending}
+            allowedSpecial={allowedSpecial}
+            handleEditPost={handleEditPost}
+            openRemovalModal={openRemovalModal}
+          />
+        ) : (
+          <ClassicPost
+            vote={vote}
+            postVotes={postVotes}
+            handleVoting={!pending ? handleVoting : ''}
+            showContent={showContent}
+            setShowContent={setShowContent}
+            type={type}
+            post={post}
+            loading={loading}
+            detail={detail}
+            handleOption={handleOption}
+            copied={copied}
+            setCopied={setCopied}
+            location={sharePath}
+            avatar={authorAvatarImageUrl}
+            isOnline={isOnline}
+            subPlebbit={getSub}
+            handleCopy={handleCopy}
+            pending={pending}
+            detailRoute={detailRoute}
             allowedSpecial={allowedSpecial}
             handleEditPost={handleEditPost}
             openRemovalModal={openRemovalModal}

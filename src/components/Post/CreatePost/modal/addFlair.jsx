@@ -30,7 +30,7 @@ const AddFlair = ({ onClose, isOpen }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
 
   return (
-    <Modal onClose={onClose} size="sm" isOpen={isOpen} isCentered>
+    <Modal trapFocus={false} onClose={onClose} size="sm" isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader borderBottom={`1px solid ${border1}`}>Select flair</ModalHeader>

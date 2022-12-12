@@ -19,7 +19,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove }) => {
   const [input, setInput] = useState('');
 
   return (
-    <Modal onClose={onClose} size="xl" isOpen={isOpen} isCentered>
+    <Modal trapFocus={false} onClose={onClose} size="xl" isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader borderBottom={`1px solid ${border1}`}>Leave as mod</ModalHeader>
