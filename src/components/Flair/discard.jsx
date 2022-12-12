@@ -16,7 +16,7 @@ const DiscardFlair = ({ onClose, isOpen }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
 
   return (
-    <Modal onClose={onClose} size="xl" isOpen={isOpen} isCentered>
+    <Modal trapFocus={false} onClose={onClose} size="xl" isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader borderBottom={`1px solid ${border1}`}>Discard new flair?</ModalHeader>

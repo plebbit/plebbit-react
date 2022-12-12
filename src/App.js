@@ -19,6 +19,13 @@ const App = () => {
 
   return (
     <div>
+      {location?.state?.modal && location?.state?.detail && (
+        <Route
+          exact
+          path={['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index']}
+          component={PostDetailModal}
+        />
+      )}
       <Switch location={modal || location}>
         <Route exact path="/" component={Home} />
         <Route exact path={['/submit', '/p/:subplebbitAddress/submit']} component={PostCreate} />
@@ -73,13 +80,6 @@ const App = () => {
         />
         <Route exact path="*" component={NotFound} />
       </Switch>
-      {location?.state?.modal && location?.state?.detail && (
-        <Route
-          exact
-          path={['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index']}
-          component={PostDetailModal}
-        />
-      )}
     </div>
   );
 };
