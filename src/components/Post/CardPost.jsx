@@ -751,6 +751,7 @@ const CardPost = ({
                 </Flex>
               )}
             </ReactLink>
+
             {/* Post Footer */}
             {pending ? (
               !loading && (

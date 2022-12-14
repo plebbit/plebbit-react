@@ -385,6 +385,8 @@ function PostDetailModal() {
     }, 3000);
   };
 
+  console.log('here==>>>', dat);
+
   return (
     <>
       <Modal trapFocus={false} scrollBehavior="outside" isOpen={isOpen} onClose={onClose}>
