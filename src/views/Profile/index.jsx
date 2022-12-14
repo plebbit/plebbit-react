@@ -27,6 +27,7 @@ const Profile = () => {
   const navOptions = ['Overview', 'Posts', 'Comments', 'Moderation', 'Saved', 'Hidden'];
   const history = useHistory();
   const location = useLocation();
+  const feeds = [...myPost].reverse();
 
   return (
     <Layout name={{ label: profile?.author?.title || 'Profile', value: location?.pathname }}>
@@ -208,7 +209,7 @@ const Profile = () => {
                 {currentView === 'overview' && (
                   <Flex width="100%" flexDir="column">
                     <InfiniteScroll
-                      feeds={myPost?.reverse()}
+                      feeds={feeds}
                       loader={<Post loading={true} mode="card" key={Math.random()} />}
                       content={(feed) => <Post post={feed} key={feed?.cid} mode="card" />}
                     />
@@ -1228,7 +1229,7 @@ const Profile = () => {
                 {currentView === 'post' && (
                   <Flex width="100%" flexDir="column">
                     <InfiniteScroll
-                      feeds={myPost?.reverse()}
+                      feeds={feeds}
                       loader={<Post loading={true} mode="classic" key={Math.random()} />}
                       content={(feed) => <Post post={feed} key={feed?.cid} mode="classic" />}
                     />
@@ -1422,7 +1423,7 @@ const Profile = () => {
             <FeedSort hideControl />
             <Flex flexDir="column">
               <InfiniteScroll
-                feeds={myPost?.reverse()}
+                feeds={feeds}
                 loader={<Post loading={true} mode="card" key={Math.random()} />}
                 content={(feed) => <Post post={feed} key={feed?.cid} mode="card" />}
               />

@@ -230,57 +230,58 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
           />
         )}
         {/* compact */}
-        {mode === 'compact' && device === 'pc' ? (
-          <CompactPost
-            vote={vote}
-            postVotes={postVotes}
-            handleVoting={!pending ? handleVoting : ''}
-            showContent={showContent}
-            setShowContent={setShowContent}
-            type={type}
-            post={post}
-            loading={loading}
-            detail={detail}
-            handleOption={handleOption}
-            copied={copied}
-            setCopied={setCopied}
-            location={sharePath}
-            avatar={authorAvatarImageUrl}
-            isOnline={isOnline}
-            subPlebbit={getSub}
-            handleCopy={handleCopy}
-            detailRoute={detailRoute}
-            pending={pending}
-            allowedSpecial={allowedSpecial}
-            handleEditPost={handleEditPost}
-            openRemovalModal={openRemovalModal}
-          />
-        ) : (
-          <ClassicPost
-            vote={vote}
-            postVotes={postVotes}
-            handleVoting={!pending ? handleVoting : ''}
-            showContent={showContent}
-            setShowContent={setShowContent}
-            type={type}
-            post={post}
-            loading={loading}
-            detail={detail}
-            handleOption={handleOption}
-            copied={copied}
-            setCopied={setCopied}
-            location={sharePath}
-            avatar={authorAvatarImageUrl}
-            isOnline={isOnline}
-            subPlebbit={getSub}
-            handleCopy={handleCopy}
-            pending={pending}
-            detailRoute={detailRoute}
-            allowedSpecial={allowedSpecial}
-            handleEditPost={handleEditPost}
-            openRemovalModal={openRemovalModal}
-          />
-        )}
+        {mode === 'compact' &&
+          (device === 'pc' ? (
+            <CompactPost
+              vote={vote}
+              postVotes={postVotes}
+              handleVoting={!pending ? handleVoting : ''}
+              showContent={showContent}
+              setShowContent={setShowContent}
+              type={type}
+              post={post}
+              loading={loading}
+              detail={detail}
+              handleOption={handleOption}
+              copied={copied}
+              setCopied={setCopied}
+              location={sharePath}
+              avatar={authorAvatarImageUrl}
+              isOnline={isOnline}
+              subPlebbit={getSub}
+              handleCopy={handleCopy}
+              detailRoute={detailRoute}
+              pending={pending}
+              allowedSpecial={allowedSpecial}
+              handleEditPost={handleEditPost}
+              openRemovalModal={openRemovalModal}
+            />
+          ) : (
+            <ClassicPost
+              vote={vote}
+              postVotes={postVotes}
+              handleVoting={!pending ? handleVoting : ''}
+              showContent={showContent}
+              setShowContent={setShowContent}
+              type={type}
+              post={post}
+              loading={loading}
+              detail={detail}
+              handleOption={handleOption}
+              copied={copied}
+              setCopied={setCopied}
+              location={sharePath}
+              avatar={authorAvatarImageUrl}
+              isOnline={isOnline}
+              subPlebbit={getSub}
+              handleCopy={handleCopy}
+              pending={pending}
+              detailRoute={detailRoute}
+              allowedSpecial={allowedSpecial}
+              handleEditPost={handleEditPost}
+              openRemovalModal={openRemovalModal}
+            />
+          ))}
       </Box>
       {isRemovalModalOpen && (
         <AddRemovalReason
