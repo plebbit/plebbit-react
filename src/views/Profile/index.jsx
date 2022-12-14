@@ -80,12 +80,12 @@ const Profile = () => {
                     fontSize="14px"
                     fontWeight="500"
                     lineHeight="18px"
-                    cursor="default"
+                    cursor="not-allowed"
                     margin="0 5px"
                     padding="8px"
                     height="100%"
                     color={currentView === 'comments' && '#0079d3'}
-                    onClick={() => setCurrentView('comments')}
+                    // onClick={() => setCurrentView('comments')}
                     borderBottom={currentView === 'comments' && '2px solid #0079d3'}
                     mb="-3px"
                   >
@@ -97,12 +97,12 @@ const Profile = () => {
                     fontSize="14px"
                     fontWeight="500"
                     lineHeight="18px"
-                    cursor="default"
+                    cursor="not-allowed"
                     margin="0 5px"
                     padding="8px"
                     height="100%"
                     color={currentView === 'saved' && '#0079d3'}
-                    onClick={() => setCurrentView('saved')}
+                    // onClick={() => setCurrentView('saved')}
                     borderBottom={currentView === 'saved' && '2px solid #0079d3'}
                     mb="-3px"
                   >
@@ -114,12 +114,12 @@ const Profile = () => {
                     fontSize="14px"
                     fontWeight="500"
                     lineHeight="18px"
-                    cursor="default"
+                    cursor="not-allowed"
                     margin="0 5px"
                     padding="8px"
                     height="100%"
                     color={currentView === 'hidden' && '#0079d3'}
-                    onClick={() => setCurrentView('hidden')}
+                    // onClick={() => setCurrentView('hidden')}
                     borderBottom={currentView === 'hidden' && '2px solid #0079d3'}
                     mb="-3px"
                   >
@@ -131,12 +131,12 @@ const Profile = () => {
                     fontSize="14px"
                     fontWeight="500"
                     lineHeight="18px"
-                    cursor="default"
+                    cursor="not-allowed"
                     margin="0 5px"
                     padding="8px"
                     height="100%"
                     color={currentView === 'upvoted' && '#0079d3'}
-                    onClick={() => setCurrentView('upvoted')}
+                    // onClick={() => setCurrentView('upvoted')}
                     borderBottom={currentView === 'upvoted' && '2px solid #0079d3'}
                     mb="-3px"
                   >
@@ -148,12 +148,12 @@ const Profile = () => {
                     fontSize="14px"
                     fontWeight="500"
                     lineHeight="18px"
-                    cursor="default"
+                    cursor="not-allowed"
                     margin="0 5px"
                     padding="8px"
                     height="100%"
                     color={currentView === 'downvoted' && '#0079d3'}
-                    onClick={() => setCurrentView('downvoted')}
+                    // onClick={() => setCurrentView('downvoted')}
                     borderBottom={currentView === 'downvoted' && '2px solid #0079d3'}
                     mb="-3px"
                   >
@@ -165,12 +165,12 @@ const Profile = () => {
                     fontSize="14px"
                     fontWeight="500"
                     lineHeight="18px"
-                    cursor="default"
+                    cursor="not-allowed"
                     margin="0 5px"
                     padding="8px"
                     height="100%"
                     color={currentView === 'awardRecieved' && '#0079d3'}
-                    onClick={() => setCurrentView('awardRecieved')}
+                    // onClick={() => setCurrentView('awardRecieved')}
                     borderBottom={currentView === 'awardRecieved' && '2px solid #0079d3'}
                     mb="-3px"
                   >
@@ -182,12 +182,12 @@ const Profile = () => {
                     fontSize="14px"
                     fontWeight="500"
                     lineHeight="18px"
-                    cursor="default"
                     margin="0 5px"
                     padding="8px"
                     height="100%"
                     color={currentView === 'awardGiven' && '#0079d3'}
-                    onClick={() => setCurrentView('awardGiven')}
+                    // onClick={() => setCurrentView('awardGiven')}
+                    cursor="not-allowed"
                     borderBottom={currentView === 'awardGiven' && '2px solid #0079d3'}
                     mb="-3px"
                   >
