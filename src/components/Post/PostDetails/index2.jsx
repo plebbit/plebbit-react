@@ -397,6 +397,7 @@ function PostDetailModal() {
       setCopied(false);
     }, 3000);
   };
+  console.log(feedFromProfile, comment, replyPost);
 
   return (
     <>

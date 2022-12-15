@@ -27,9 +27,7 @@ const Profile = () => {
   const navOptions = ['Overview', 'Posts', 'Comments', 'Moderation', 'Saved', 'Hidden'];
   const history = useHistory();
   const location = useLocation();
-  const feeds = [...myPost].reverse();
-
-  console.log('here', profile);
+  const feeds = myPost ? [...myPost].reverse() : [];
 
   return (
     <Layout name={{ label: profile?.author?.title || 'Profile', value: location?.pathname }}>
