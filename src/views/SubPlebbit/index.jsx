@@ -116,7 +116,7 @@ const SubPlebbit = ({ match }) => {
     } catch (error) {
       toast({
         title: 'Subscribed.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -140,7 +140,7 @@ const SubPlebbit = ({ match }) => {
       setSubLoading(false);
       toast({
         title: 'Unsubscribed.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -164,7 +164,7 @@ const SubPlebbit = ({ match }) => {
       setLoading(false);
       toast({
         title: 'Supplebbit Edit declined.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 3000,
         isClosable: true,

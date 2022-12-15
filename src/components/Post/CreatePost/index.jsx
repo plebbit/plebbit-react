@@ -116,7 +116,7 @@ const CreatePost = () => {
 
       toast({
         title: 'Declined.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 10000,
         isClosable: true,
@@ -188,7 +188,7 @@ const CreatePost = () => {
       setLoading(false);
       toast({
         title: 'Declined.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,

@@ -90,7 +90,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
       logger('declined Challenge', error, 'trace');
       toast({
         title: 'Declined.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -118,7 +118,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
       logger('voting-declined', error, 'error');
       toast({
         title: 'Voting Declined.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -141,7 +141,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
       logger('create:comment:response', error, 'error');
       toast({
         title: 'Comment Declined.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,
