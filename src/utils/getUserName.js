@@ -5,15 +5,15 @@ const getUserName = (author) => {
   if (author?.displayName) {
     username += author?.displayName;
     if (username.length > 20) {
-      username = username?.substring(0, 20);
+      username = username ? username?.substring(0, 20) : '';
     }
     username += ' ';
   }
   username += 'u/';
   if (author?.address?.includes('.')) {
-    username += author?.address;
+    username += author?.address ? author?.address : '';
   } else {
-    username += author?.address?.substring(0, 14);
+    username += author?.address ? author?.address?.substring(0, 14) : '';
   }
   return username;
 };
@@ -33,7 +33,7 @@ export const getSubName = (sub) => {
   if (sub?.address?.includes('.')) {
     username += sub?.address ? sub?.address : '';
   } else {
-    username += sub?.address?.substring(0, 14);
+    username += sub?.address ? sub?.address?.substring(0, 14) : '';
   }
   return username;
 };
