@@ -19,6 +19,7 @@ import {
 import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
+  useAccountComments,
   useAccountsActions,
   useAccountVote,
   useComment,
@@ -66,23 +67,35 @@ function PostDetailModal() {
   });
 
   const location = useLocation();
-
-  // post from link or link address
-  const det = useComment(
+  const feedFromProfile = location?.pathname.includes('/profile/c');
+  const myPostLocation = location.pathname?.substring(location.pathname.lastIndexOf('/') + 1);
+  const myPost = useAccountComments();
+  const profilePost = myPost && myPost[Number(myPostLocation)]; // post from link or link address
+  const commentFromCid = useComment(
     window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
   );
+  const commentFromFeed = location?.state?.detail;
   // applicable if coming from feeds, if posts takes time to load uses feeds post props
-  const dat = det === undefined ? location?.state?.detail : det;
+  const comment = feedFromProfile
+    ? profilePost
+    : commentFromCid === undefined
+    ? commentFromFeed
+    : commentFromFeed?.updatedAt > commentFromCid?.updatedAt
+    ? commentFromFeed
+    : commentFromCid;
   let detail;
   let reply;
   let replyParent;
-  let replyPost = useComment(dat?.postCid); // if comment is a reply, this is what you replied to
-  const isReply = dat?.parentCid && dat?.depth !== 0;
+  let replyPost = useComment(
+    feedFromProfile ? comment?.postCid || comment?.parentCid : comment?.postCid
+  ); // if comment is a reply, this is what you replied to
+  const isReply =
+    (feedFromProfile && profilePost?.parentCid) || (comment?.parentCid && comment?.depth !== 0);
   if (isReply) {
     detail = replyPost;
-    reply = dat;
+    reply = comment;
   } else {
-    detail = dat;
+    detail = comment;
   }
   const replyParentaux = useComment(reply?.parentCid); // incase what the reply parent is a comment also this is the parent
   replyPost = useComment(replyParentaux?.postCid);
@@ -91,7 +104,7 @@ function PostDetailModal() {
   }
   replyParent = replyParentaux;
   if (replyPost?.cid === replyParentaux?.cid) {
-    replyParent = dat;
+    replyParent = comment;
     reply = undefined;
   }
 
@@ -384,8 +397,7 @@ function PostDetailModal() {
       setCopied(false);
     }, 3000);
   };
-
-  console.log('here==>>>', dat);
+  console.log(feedFromProfile, comment, replyPost);
 
   return (
     <>
