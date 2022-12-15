@@ -213,7 +213,7 @@ const AddAvatar = ({ isOpen, onClose }) => {
                         toast({
                           title: `Account update`,
                           variant: 'left-update',
-                          description: error?.message,
+                          description: error?.stack.toString(),
                           status: 'error',
                           isClosable: true,
                         });

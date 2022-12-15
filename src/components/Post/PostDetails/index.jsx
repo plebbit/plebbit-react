@@ -191,7 +191,7 @@ function PostDetail() {
       logger('decline challenge', error, 'trace');
       toast({
         title: 'Declined.',
-        description: error?.message || 'failed Challenge',
+        description: error?.stack.toString() || 'failed Challenge',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -223,7 +223,7 @@ function PostDetail() {
 
       toast({
         title: 'Voting Declined.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -245,7 +245,7 @@ function PostDetail() {
     } catch (error) {
       toast({
         title: 'Comment Declined.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -271,7 +271,7 @@ function PostDetail() {
       setEditLoading(false);
       toast({
         title: 'Comment Edit Declined.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -295,7 +295,7 @@ function PostDetail() {
       setSubLoading(false);
       toast({
         title: 'Deleting declined',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -320,7 +320,7 @@ function PostDetail() {
       setSubLoading(false);
       toast({
         title: 'Subscription declined',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -345,7 +345,7 @@ function PostDetail() {
       setSubLoading(false);
       toast({
         title: 'UnSubscribe declined',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 3000,
         isClosable: true,

@@ -99,7 +99,7 @@ const Settings = () => {
       toast({
         title: `Account update`,
         variant: 'left-update',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         isClosable: true,
       });
@@ -134,7 +134,7 @@ const Settings = () => {
       toast({
         title: `Account update`,
         variant: 'left-update',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         isClosable: true,
       });
@@ -159,7 +159,7 @@ const Settings = () => {
       toast({
         title: `Account not deleted`,
         variant: 'left-update',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         isClosable: true,
       });
@@ -186,7 +186,7 @@ const Settings = () => {
       toast({
         title: `Account not updated`,
         variant: 'left-update',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         isClosable: true,
       });
@@ -207,7 +207,7 @@ const Settings = () => {
       toast({
         title: `Account update`,
         variant: 'left-update',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         isClosable: true,
       });

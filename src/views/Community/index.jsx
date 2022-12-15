@@ -79,7 +79,7 @@ const CommunitySettings = ({ match }) => {
       logger('decline challenge', error, 'trace');
       toast({
         title: 'Declined.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -106,7 +106,7 @@ const CommunitySettings = ({ match }) => {
       logger('editComment', error, 'error');
       toast({
         title: 'Declined.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,

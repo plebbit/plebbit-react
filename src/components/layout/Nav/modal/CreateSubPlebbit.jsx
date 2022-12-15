@@ -43,7 +43,7 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
       setLoading(false);
       toast({
         title: 'Create Subplebbit.',
-        description: error?.message,
+        description: error?.stack.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,
