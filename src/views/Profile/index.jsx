@@ -29,6 +29,8 @@ const Profile = () => {
   const location = useLocation();
   const feeds = [...myPost].reverse();
 
+  console.log('here', profile);
+
   return (
     <Layout name={{ label: profile?.author?.title || 'Profile', value: location?.pathname }}>
       <>

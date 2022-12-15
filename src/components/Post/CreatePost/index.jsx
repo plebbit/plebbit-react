@@ -125,7 +125,7 @@ const CreatePost = () => {
     }
     logger('challengeAndcomment', { challengeAnswers, comment }, 'trace');
     if (challengeAnswers) {
-      history.push(`/p/${address?.value}`);
+      // history.push(`/p/${address?.value}`);
       const res = await comment.publishChallengeAnswers(challengeAnswers);
       logger('publish_challenge_answer', res, 'trace');
     }
