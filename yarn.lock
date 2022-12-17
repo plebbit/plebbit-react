@@ -3252,9 +3252,9 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#0f07a98750adbb479625b068696bfda4cb003017":
+"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#8c050b36a021a373793cbb0b74479487004c2b6e":
   version "0.0.3"
-  resolved "https://github.com/plebbit/plebbit-js.git#0f07a98750adbb479625b068696bfda4cb003017"
+  resolved "https://github.com/plebbit/plebbit-js.git#8c050b36a021a373793cbb0b74479487004c2b6e"
   dependencies:
     "@keyv/sqlite" "3.6.2"
     "@plebbit/plebbit-logger" "github:plebbit/plebbit-logger"
@@ -3277,6 +3277,7 @@
     lodash-es "4.17.21"
     peer-id "0.16.0"
     safe-stable-stringify "2.4.1"
+    skia-canvas "1.0.0"
     sqlite3 "5.1.2"
     tinycache "1.1.2"
     uuid "9.0.0"
@@ -3294,11 +3295,11 @@
   dependencies:
     debug "4.3.3"
 
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#f45ab087646ecd416286dfc497dd6f58ba0e09af":
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#790cf2a49ab08fd7f2afbb9aa18d80e9091c6d85":
   version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#f45ab087646ecd416286dfc497dd6f58ba0e09af"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#790cf2a49ab08fd7f2afbb9aa18d80e9091c6d85"
   dependencies:
-    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#0f07a98750adbb479625b068696bfda4cb003017"
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#8c050b36a021a373793cbb0b74479487004c2b6e"
     "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
     "@types/uuid" "8.3.4"
     assert "2.0.0"
@@ -15158,7 +15159,7 @@ sisteransi@^1.0.5:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
   integrity sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
 
-skia-canvas@^1.0.0:
+skia-canvas@1.0.0, skia-canvas@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/skia-canvas/-/skia-canvas-1.0.0.tgz#9c4cfabb65f722bb3dc27d5411eccbb153004f78"
   integrity sha512-Ec7R7hNdJb1nES/oVryIuQ9rgcpjA1Zjjr7JG718BC7AQBJWaKHRiypOJb7g1V0Msk4YKoPIdvGYY0cnkOoDow==
