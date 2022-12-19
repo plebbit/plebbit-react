@@ -42,7 +42,6 @@ import Avatar from '../Avatar';
 import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineDeleteOutline } from 'react-icons/md';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
-import { FcCancel } from 'react-icons/fc';
 import { AiTwotoneDelete } from 'react-icons/ai';
 
 const ClassicPost = ({
@@ -85,7 +84,7 @@ const ClassicPost = ({
   const mainMobileBg = useColorModeValue('white', 'black');
   const postHeadColor = useColorModeValue('#1a1a1b', '#0079d3');
   const mobileIconColor = useColorModeValue('lightMobileIcon2', 'darkMobileIcon');
-  const removeColor = useColorModeValue('persimmon', 'persimmon');
+  const removeColor = useColorModeValue('lightIcon', 'darkIcon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
   const { device, profile } = useContext(ProfileContext);
@@ -600,7 +599,7 @@ const ClassicPost = ({
                           onClick={() => handleOption('Delete')}
                         >
                           <Icon
-                            as={FcCancel}
+                            as={TiDeleteOutline}
                             width="20px"
                             height="20px"
                             verticalAlign="middle"
@@ -1470,7 +1469,7 @@ const ClassicPost = ({
                       mr="4px"
                     >
                       <Icon
-                        as={FcCancel}
+                        as={TiDeleteOutline}
                         width="20px"
                         height="20px"
                         verticalAlign="middle"

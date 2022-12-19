@@ -34,7 +34,7 @@ import Avatar from '../Avatar';
 import DropDown from '../DropDown';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
-import { FcCancel } from 'react-icons/fc';
+
 import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md';
 
 const CompactPost = ({
@@ -70,7 +70,7 @@ const CompactPost = ({
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const statusColor = useColorModeValue('lightVoteText', 'fff');
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
-  const removeColor = useColorModeValue('persimmon', 'persimmon');
+  const removeColor = useColorModeValue('lightIcon', 'darkIcon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
@@ -553,7 +553,7 @@ const CompactPost = ({
                     mr="4px"
                   >
                     <Icon
-                      as={FcCancel}
+                      as={TiDeleteOutline}
                       width="20px"
                       height="20px"
                       verticalAlign="middle"
