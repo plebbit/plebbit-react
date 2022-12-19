@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Box,
   Flex,
@@ -386,6 +386,12 @@ function PostDetail() {
       setCopied(false);
     }, 3000);
   };
+
+  useEffect(() => {
+    if (feedFromProfile) {
+      history.push(`p/${comment?.subplebbitAddress}/c/${comment?.cid}`);
+    }
+  }, [comment?.cid]);
 
   return (
     <Layout
