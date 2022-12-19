@@ -399,8 +399,8 @@ function PostDetailModal() {
   };
 
   useEffect(() => {
-    if (feedFromProfile) {
-      history.push(`p/${comment?.subplebbitAddress}/c/${comment?.cid}`);
+    if (feedFromProfile && comment?.cid) {
+      history.push(`/p/${comment?.subplebbitAddress}/c/${comment?.cid}`);
     }
   }, [comment?.cid]);
 
