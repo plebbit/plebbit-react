@@ -53,14 +53,13 @@ import Replies from '../comment/replies';
 
 function PostDetail() {
   const location = useLocation();
-
   const feedFromProfile = location?.pathname.includes('/profile/c');
   const myPostLocation = location.pathname?.substring(location.pathname.lastIndexOf('/') + 1);
   const myPost = useAccountComments();
-  const profilePost = myPost[Number(myPostLocation)];
+  const profilePost = myPost && myPostLocation && myPost[Number(myPostLocation)];
   // post from link or link address
   const commentFromCid = useComment(
-    window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
+    window?.location?.hash?.substring(window?.location?.hash?.lastIndexOf('/') + 1)
   );
   const commentFromFeed = location?.state?.detail;
   // applicable if coming from feeds, if posts takes time to load uses feeds post props
