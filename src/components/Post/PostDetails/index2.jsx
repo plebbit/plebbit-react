@@ -16,7 +16,7 @@ import {
   useToast,
   Button,
 } from '@chakra-ui/react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   useAccountComments,
@@ -397,7 +397,12 @@ function PostDetailModal() {
       setCopied(false);
     }, 3000);
   };
-  console.log(feedFromProfile, comment, replyPost);
+
+  useEffect(() => {
+    if (feedFromProfile) {
+      history.push(`p/${comment?.subplebbitAddress}/c/${comment?.cid}`);
+    }
+  }, [comment?.cid]);
 
   return (
     <>
