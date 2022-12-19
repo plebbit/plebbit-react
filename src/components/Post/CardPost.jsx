@@ -38,9 +38,8 @@ import getUserName, { getSubName } from '../../utils/getUserName';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
 import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineDeleteOutline } from 'react-icons/md';
-import { FcCancel } from 'react-icons/fc';
-import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
+import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 
 const CardPost = ({
   post,
@@ -73,7 +72,7 @@ const CardPost = ({
   const voteColor = useColorModeValue('lightVoteText', 'darkVoteTest');
   const iconBg = useColorModeValue('lightIconBg', 'darkIconBg');
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
-  const removeColor = useColorModeValue('persimmon', 'persimmon');
+  const removeColor = useColorModeValue('lightIcon', 'darkIcon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
@@ -812,7 +811,7 @@ const CardPost = ({
                       onClick={() => handleOption('Delete')}
                     >
                       <Icon
-                        as={FcCancel}
+                        as={TiDeleteOutline}
                         width="20px"
                         height="20px"
                         verticalAlign="middle"
@@ -1480,7 +1479,7 @@ const CardPost = ({
                       mr="4px"
                     >
                       <Icon
-                        as={FcCancel}
+                        as={TiDeleteOutline}
                         width="20px"
                         height="20px"
                         verticalAlign="middle"
