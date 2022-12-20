@@ -8,7 +8,7 @@ import Moderators from './Moderator/subPlebbitModerators';
 import ModQueue from './Modqueue';
 import Rules from './Rules';
 
-const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading }) => {
+const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading, allowedSpecial }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -34,6 +34,7 @@ const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading }) => {
           role={role}
           handleSubPlebbitedit={handleSubPlebbitedit}
           loading={loading}
+          allowedSpecial={allowedSpecial}
         />
       )}
       {page === 'moderators' && (
@@ -42,6 +43,7 @@ const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading }) => {
           role={role}
           handleSubPlebbitedit={handleSubPlebbitedit}
           loading={loading}
+          allowedSpecial={allowedSpecial}
         />
       )}
       {page === 'modqueue' && <ModQueue />}
@@ -51,6 +53,7 @@ const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading }) => {
           subPlebbit={subPlebbit}
           handleSubPlebbitedit={handleSubPlebbitedit}
           loading={loading}
+          allowedSpecial={allowedSpecial}
         />
       )}
       {page === 'userflair' && (
@@ -59,6 +62,7 @@ const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading }) => {
           subPlebbit={subPlebbit}
           handleSubPlebbitedit={handleSubPlebbitedit}
           loading={loading}
+          allowedSpecial={allowedSpecial}
         />
       )}
       {page === 'postflair' && (
@@ -67,6 +71,7 @@ const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading }) => {
           subPlebbit={subPlebbit}
           handleSubPlebbitedit={handleSubPlebbitedit}
           loading={loading}
+          allowedSpecial={allowedSpecial}
         />
       )}
     </>

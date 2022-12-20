@@ -22,7 +22,7 @@ import FlairList from '../../../components/Flair';
 import { ProfileContext } from '../../../store/profileContext';
 import FlairSettings from './modal/flairSettings';
 
-const PostFlair = ({ role, subPlebbit, handleSubPlebbitedit, loading }) => {
+const PostFlair = ({ allowedSpecial, subPlebbit, handleSubPlebbitedit, loading }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
@@ -67,7 +67,7 @@ const PostFlair = ({ role, subPlebbit, handleSubPlebbitedit, loading }) => {
           height={device !== 'mobile' ? '32px' : '24px'}
           onClick={OpenSettings}
           mt={device === 'mobile' && '6px'}
-          disabled={role !== ('owner' || 'moderators')}
+          disabled={!allowedSpecial}
           color={mainColor}
         >
           Post flair settings
@@ -88,7 +88,7 @@ const PostFlair = ({ role, subPlebbit, handleSubPlebbitedit, loading }) => {
           height={device !== 'mobile' ? '32px' : '24px'}
           onClick={() => {}}
           mt={device === 'mobile' && '6px'}
-          disabled={role !== ('owner' || 'moderators')}
+          disabled={!allowedSpecial}
           color={mainColor}
         >
           Reorder
@@ -111,9 +111,7 @@ const PostFlair = ({ role, subPlebbit, handleSubPlebbitedit, loading }) => {
           height={device !== 'mobile' ? '32px' : '24px'}
           onClick={() => setShowAdd(true)}
           mt={device === 'mobile' && '6px'}
-          disabled={
-            role !== ('owner' || 'moderators') || !subPlebbit?.features?.postFlairs || showAdd
-          }
+          disabled={!allowedSpecial || !subPlebbit?.features?.postFlairs || showAdd}
           color={mainColor}
         >
           Add Flair

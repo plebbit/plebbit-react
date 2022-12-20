@@ -28,6 +28,8 @@ const About = () => {
   const [loading, setLoading] = useState(false);
   const { publishSubplebbitEdit } = useAccountsActions();
 
+  const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';
+
   const onChallengeVerification = (challengeVerification, subplebbitEdit) => {
     // if the challengeVerification fails, a new challenge request will be sent automatically
     // to break the loop, the user must decline to send a challenge answer
@@ -131,13 +133,19 @@ const About = () => {
             </Flex>
             <Flex margin="40px 0">
               {/* sideBar */}
-              <AboutsideBar page={page} role={role} subPlebbit={subPlebbit} />
+              <AboutsideBar
+                page={page}
+                allowedSpecial={allowedSpecial}
+                role={role}
+                subPlebbit={subPlebbit}
+              />
               {/*Body */}
               <Box paddingLeft="280px" boxSizing="border-box" width="100%">
                 <Content
                   page={page}
                   subPlebbit={subPlebbit}
                   role={role}
+                  allowedSpecial={allowedSpecial}
                   handleSubPlebbitedit={handleSubPlebbitedit}
                   loading={loading}
                 />
@@ -187,7 +195,12 @@ const About = () => {
               {/* sideBar */}
               {showSidebar && (
                 <Box zIndex={28}>
-                  <AboutsideBar page={page} role={role} subPlebbit={subPlebbit} />
+                  <AboutsideBar
+                    allowedSpecial={allowedSpecial}
+                    page={page}
+                    role={role}
+                    subPlebbit={subPlebbit}
+                  />
                 </Box>
               )}
               {/*Body */}
@@ -196,6 +209,7 @@ const About = () => {
                   page={page}
                   subPlebbit={subPlebbit}
                   role={role}
+                  allowedSpecial={allowedSpecial}
                   handleSubPlebbitedit={handleSubPlebbitedit}
                   loading={loading}
                 />
