@@ -102,6 +102,7 @@ export const RemoveMod = ({
     await handleSubPlebbitedit({ roles: subPlebbit?.roles });
     setSelected('');
     setLoading(false);
+    onClose();
   };
 
   return (

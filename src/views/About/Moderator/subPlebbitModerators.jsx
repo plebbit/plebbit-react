@@ -10,7 +10,7 @@ import { getAddress } from '../../../utils/getUserName';
 import LeaveMod, { RemoveMod } from '../modal/leaveMod';
 import ModRole from '../modal/modRole';
 
-const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
+const Moderators = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit, loading }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -52,7 +52,7 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
           height={device !== 'mobile' ? '32px' : '24px'}
           onClick={openLeaveMod}
           mt={device === 'mobile' && '6px'}
-          disabled={!(role === 'owner' || role === 'moderator')}
+          disabled={!(role === 'moderator')}
           color={mainColor}
         >
           Leave as mod
@@ -73,7 +73,7 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
           height={device !== 'mobile' ? '32px' : '24px'}
           onClick={openRoleMod}
           mt={device === 'mobile' && '6px'}
-          disabled={!(role === 'owner' || role === 'moderator')}
+          disabled={!allowedSpecial}
           color={mainColor}
         >
           Add user as a mod
@@ -246,7 +246,7 @@ const Moderators = ({ subPlebbit, role, handleSubPlebbitedit, loading }) => {
                   flex="1 0 100px"
                   lineHeight="normal"
                 >
-                  4 days ago
+                  {/* 4 days ago */}
                 </Box>
                 <Flex alignItems="center" ml="auto" minW="0">
                   <Box padding="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">

@@ -42,7 +42,7 @@ const SubPlebbit = ({ match }) => {
   const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
   const location = useLocation();
   const isOnline = getIsOnline(subPlebbit?.updatedAt);
-  const allowedSpecial = role === 'owner' || role === 'moderator';
+  const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';
 
   useEffect(() => {
     setData({ ...subPlebbit });

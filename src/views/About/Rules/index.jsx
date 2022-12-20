@@ -6,7 +6,7 @@ import { CgNotes } from 'react-icons/cg';
 import { ProfileContext } from '../../../store/profileContext';
 import AddRules from './modal/addRules';
 
-const Rules = ({ role, subPlebbit, handleSubPlebbitedit, loading }) => {
+const Rules = ({ subPlebbit, handleSubPlebbitedit, allowedSpecial, loading }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   //   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
@@ -46,7 +46,7 @@ const Rules = ({ role, subPlebbit, handleSubPlebbitedit, loading }) => {
           height={device !== 'mobile' ? '32px' : '24px'}
           onClick={() => {}}
           mt={device === 'mobile' && '6px'}
-          disabled={role !== ('owner' || 'moderators')}
+          disabled={!allowedSpecial}
           color={mainColor}
         >
           Reorder Rules
@@ -72,7 +72,7 @@ const Rules = ({ role, subPlebbit, handleSubPlebbitedit, loading }) => {
             OpenShowAdd();
           }}
           mt={device === 'mobile' && '6px'}
-          disabled={role !== ('owner' || 'moderators') || showAdd}
+          disabled={!allowedSpecial || showAdd}
           color={mainColor}
         >
           Add Rules

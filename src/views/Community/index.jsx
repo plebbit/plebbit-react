@@ -115,6 +115,7 @@ const CommunitySettings = ({ match }) => {
   };
 
   const role = accountSubplebbits[subplebbit?.address]?.role?.role;
+  const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';
 
   useEffect(() => {
     setData({ ...subplebbit });
@@ -185,7 +186,7 @@ const CommunitySettings = ({ match }) => {
                     height="32px"
                     onClick={handleSaveChanges}
                     isLoading={loading}
-                    disabled={role !== ('owner' || 'admin' || 'moderator')}
+                    disabled={!allowedSpecial}
                   >
                     Save changes
                   </Button>
@@ -293,7 +294,7 @@ const CommunitySettings = ({ match }) => {
                               mb="8px"
                               borderRadius="4px"
                               padding="12px 24px 4px 12px"
-                              disabled={loading || role !== ('owner' || 'admin' || 'moderator')}
+                              disabled={loading || !allowedSpecial}
                               onChange={(e) => setData({ ...data, address: e.target.value })}
                             />
                           </InputGroup>
@@ -415,7 +416,7 @@ const CommunitySettings = ({ match }) => {
                             borderRadius="4px"
                             padding="8px"
                             resize="both"
-                            disabled={loading || role !== ('owner' || 'moderator')}
+                            disabled={loading || !allowedSpecial}
                             onChange={(e) => setData({ ...data, description: e.target.value })}
                           />
                           <Box
@@ -566,6 +567,7 @@ const CommunitySettings = ({ match }) => {
             setData={setData}
             loading={loading}
             role={role}
+            allowedSpecial={allowedSpecial}
             resolvedAuthorAddress={resolvedAuthorAddress}
             device={device}
           />

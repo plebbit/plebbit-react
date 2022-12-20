@@ -35,9 +35,9 @@ const MobileView = ({
   handleSaveChanges,
   setData,
   loading,
-  role,
   resolvedAuthorAddress,
   device,
+  allowedSpecial,
 }) => {
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -110,7 +110,7 @@ const MobileView = ({
               height="24px"
               onClick={handleSaveChanges}
               isLoading={loading}
-              disabled={loading || role !== ('owner' || 'moderator')}
+              disabled={loading || !allowedSpecial}
               mt="6px"
             >
               Save changes
@@ -163,7 +163,7 @@ const MobileView = ({
                       mb="8px"
                       borderRadius="4px"
                       padding="12px 24px 4px 12px"
-                      disabled={loading || role !== ('owner' || 'admin' || 'moderator')}
+                      disabled={loading || !allowedSpecial}
                       onChange={(e) => setData({ ...data, title: e.target.value })}
                     />
                     <Box
@@ -208,7 +208,7 @@ const MobileView = ({
                         mb="8px"
                         borderRadius="4px"
                         padding="12px 24px 4px 12px"
-                        disabled={loading || role !== ('owner' || 'admin' || 'moderator')}
+                        disabled={loading || !allowedSpecial}
                         onChange={(e) => setData({ ...data, address: e.target.value })}
                       />
                     </InputGroup>
@@ -330,7 +330,7 @@ const MobileView = ({
                       borderRadius="4px"
                       padding="8px"
                       resize="both"
-                      disabled={loading || role !== ('owner' || 'moderator')}
+                      disabled={loading || !allowedSpecial}
                       onChange={(e) => setData({ ...data, description: e.target.value })}
                     />
                     <Box
