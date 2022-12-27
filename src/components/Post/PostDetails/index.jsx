@@ -36,7 +36,7 @@ import { dateToNow } from '../../../utils/formatDate';
 import Comment from '../comment';
 import Editor from '../../Editor';
 import { ProfileContext } from '../../../store/profileContext';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import getUserName, { getAddress, getSubName } from '../../../utils/getUserName';
 import numFormatter from '../../../utils/numberFormater';
 import Post from '..';
@@ -53,14 +53,13 @@ import Replies from '../comment/replies';
 
 function PostDetail() {
   const location = useLocation();
+  const params = useParams();
   const feedFromProfile = location?.pathname.includes('/profile/c');
-  const myPostLocation = location.pathname?.substring(location.pathname.lastIndexOf('/') + 1);
+  const myPostLocation = params?.index;
   const myPost = useAccountComments();
   const profilePost = myPost && myPostLocation && myPost[Number(myPostLocation)];
   // post from link or link address
-  const commentFromCid = useComment(
-    window?.location?.hash?.substring(window?.location?.hash?.lastIndexOf('/') + 1)
-  );
+  const commentFromCid = useComment(!feedFromProfile ? params?.commentCid : undefined);
   const commentFromFeed = location?.state?.detail;
   // applicable if coming from feeds, if posts takes time to load uses feeds post props
   const comment = feedFromProfile
@@ -105,9 +104,7 @@ function PostDetail() {
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
   const [postVotes, setPostVotes] = useState(detail?.upvoteCount - detail?.downvoteCount);
-  const pVote = useAccountVote(
-    window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)
-  );
+  const pVote = useAccountVote(params?.commentCid);
   const vote = pVote?.vote | 0;
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
@@ -374,7 +371,7 @@ function PostDetail() {
   };
 
   logger('feed:detail', {
-    address: window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1),
+    address: params?.commentCid,
     detail,
   });
 
@@ -395,10 +392,7 @@ function PostDetail() {
   return (
     <Layout
       name={{
-        label:
-          subplebbit?.title ||
-          getSubName(subplebbit) ||
-          getAddress(window.location.hash?.substring(window.location.hash.lastIndexOf('/') + 1)),
+        label: subplebbit?.title || getSubName(subplebbit) || getAddress(params?.commentCid),
         value: location?.pathname,
       }}
     >

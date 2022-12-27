@@ -19,7 +19,7 @@ import { useLocation } from 'react-router-dom';
 import AddRemovalReason from './Modal/addRemovalReason';
 
 const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial }) => {
-  const { device } = useContext(ProfileContext);
+  const { device, accountSubplebbits } = useContext(ProfileContext);
   const pending = !post?.cid;
   const postVote = useAccountVote(post?.cid);
   const vote = postVote?.vote || 0;
@@ -32,6 +32,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit(post?.subplebbitAddress);
   const isOnline = getIsOnline(getSub?.updatedAt);
+  const isSpecial = Object.keys(accountSubplebbits || {})?.includes(post?.subplebbitAddress);
   const {
     onOpen: openRemovalModal,
     onClose: closeRemovalModal,
@@ -144,7 +145,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     state: { detail: post, modal: true, location },
   };
 
-  const handleEditPost = async (update, callBack) => {
+  const handleEditPost = async (update, callBack, failedCallBack) => {
     try {
       await publishCommentEdit({
         commentCid: post?.cid,
@@ -164,6 +165,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
         duration: 5000,
         isClosable: true,
       });
+      failedCallBack ? failedCallBack() : '';
     }
   };
 
@@ -197,7 +199,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             handleCopy={handleCopy}
             pending={pending}
             detailRoute={detailRoute}
-            allowedSpecial={allowedSpecial}
+            allowedSpecial={isSpecial || allowedSpecial}
             handleEditPost={handleEditPost}
             openRemovalModal={openRemovalModal}
           />

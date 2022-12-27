@@ -585,7 +585,7 @@ const CompactPost = ({
                   </Flex>
                 </Flex>
               )
-            ) : allowedSpecial && type === 'subPlebbit' ? (
+            ) : allowedSpecial ? (
               <Flex
                 alignItems="center"
                 flex="0 0 72px"
