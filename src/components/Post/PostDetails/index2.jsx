@@ -15,6 +15,7 @@ import {
   Tag,
   useToast,
   Button,
+  Textarea,
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
@@ -31,7 +32,7 @@ import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import { CloseIcon, LinkIcon } from '@chakra-ui/icons';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
-import { BsChat, BsBookmark, BsEyeSlash, BsPencil } from 'react-icons/bs';
+import { BsChat, BsBookmark, BsEyeSlash, BsPencil, BsChatSquare, BsShield } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { FiMoreHorizontal, FiBell } from 'react-icons/fi';
@@ -46,7 +47,13 @@ import getUserName, { getSubName } from '../../../utils/getUserName';
 import numFormatter from '../../../utils/numberFormater';
 import Post from '..';
 import DropDown from '../../DropDown';
-import { MdClose, MdOutlineDeleteOutline, MdStickyNote2 } from 'react-icons/md';
+import {
+  MdCheckBox,
+  MdCheckBoxOutlineBlank,
+  MdClose,
+  MdOutlineDeleteOutline,
+  MdStickyNote2,
+} from 'react-icons/md';
 import logger from '../../../utils/logger';
 import Marked from '../../Editor/marked';
 import getIsOnline from '../../../utils/getIsOnline';
@@ -54,6 +61,8 @@ import Avatar from '../../Avatar';
 import onError from '../../../utils/onError';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 import Replies from '../comment/replies';
+import { HiOutlineCheckCircle } from 'react-icons/hi';
+import { TiDeleteOutline } from 'react-icons/ti';
 
 function PostDetailModal() {
   const [showModal, setShowModal] = useState(true);
@@ -131,16 +140,16 @@ function PostDetailModal() {
   const border2 = useColorModeValue('#edeff1', '#343536');
   const mainMobileBg = useColorModeValue('white', 'black');
   const mobileColor = useColorModeValue('lightMobileText2', 'darkMobileText');
+  const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const toast = useToast();
   const { publishVote, publishComment, publishCommentEdit, subscribe, unsubscribe } =
     useAccountsActions();
   const [subLoading, setSubLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [editPost, setEditPost] = useState(detail?.content);
-  const [content, setContent] = useState(detail?.content);
-  const [link, setLink] = useState(detail?.link);
+  const [content, setContent] = useState('');
   const [editMode, setEditMode] = useState(detail?.content ? 'post' : 'link');
+  const [editPost, setEditPost] = useState(editMode === 'post' ? detail?.content : detail?.link);
   const [copied, setCopied] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [postEditorState, setPostEditorState] = useState(
@@ -268,21 +277,22 @@ function PostDetailModal() {
       logger('post:comment:response:', error);
     }
   };
-  const handleEditPost = async (cid, content, address) => {
+  const handleEditPost = async (update, callBack, failedCallBack) => {
     try {
       setEditLoading(true);
       await publishCommentEdit({
-        commentCid: cid,
-        content,
-        link,
-        subplebbitAddress: address,
+        commentCid: detail?.cid,
+        subplebbitAddress: detail?.subplebbitAddress,
         onChallenge,
         onChallengeVerification,
         onError: onError,
+        ...update,
       });
+      callBack ? callBack() : '';
       setEditLoading(false);
     } catch (error) {
       logger('edit:comment:response:', error, 'error');
+      failedCallBack ? failedCallBack() : '';
       setEditLoading(false);
       toast({
         title: 'Comment Edit Declined.',
@@ -831,7 +841,6 @@ function PostDetailModal() {
                             borderBottom={editMode === 'post' && '3px solid #a4a4a4'}
                             onClick={() => {
                               setEditMode('post');
-                              setLink('');
                             }}
                           >
                             <Icon
@@ -868,7 +877,6 @@ function PostDetailModal() {
                             padding="15px 17px"
                             onClick={() => {
                               setEditMode('link');
-                              setContent('');
                             }}
                           >
                             <LinkIcon
@@ -883,11 +891,20 @@ function PostDetailModal() {
                             Link
                           </Flex>
                         </Flex>
-                        <Editor
-                          editorState={postEditorState}
-                          setEditorState={setPostEditorState}
-                          setValue={setEditPost}
-                        />
+                        {editMode === 'post' ? (
+                          <Editor
+                            editorState={postEditorState}
+                            setEditorState={setPostEditorState}
+                            setValue={setEditPost}
+                          />
+                        ) : (
+                          <Textarea
+                            placeholder="Url"
+                            onChange={(e) => setEditPost(e.target.value)}
+                            value={editPost}
+                            color={color}
+                          />
+                        )}
                         <Flex alignItems="center" mt="8px" justifyContent="flex-end">
                           <Button
                             borderRadius="999px"
@@ -903,7 +920,10 @@ function PostDetailModal() {
                             minW="90px"
                             minH="27px"
                             onClick={() =>
-                              handleEditPost(detail?.cid, editPost, detail?.subplebbitAddress)
+                              handleEditPost({
+                                link: editMode === 'link' ? editPost : undefined,
+                                content: editMode === 'post' ? editPost : undefined,
+                              })
                             }
                             isLoading={editLoading}
                           >
@@ -941,7 +961,269 @@ function PostDetailModal() {
                       </Box>
                     )}
                     {/* Post Bottom Bar */}
-                    {!isSpecial && (
+                    {isSpecial ? (
+                      <Flex
+                        flexDirection="row"
+                        alignItems="center"
+                        paddingRight="10px"
+                        overflowY="visible"
+                        mb="2px"
+                        color={iconColor}
+                      >
+                        <Flex
+                          flexDirection="row"
+                          alignItems="stretch"
+                          flexGrow={1}
+                          padding="0 8px 0 4px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                        >
+                          <Link
+                            display="flex"
+                            alignItems="center"
+                            borderRadius="2px"
+                            padding="8px"
+                            marginRight="4px"
+                            _hover={{
+                              textDecor: 'none',
+                              outline: 'none',
+                              bg: bottomButtonHover,
+                            }}
+                            _focus={{
+                              boxShadow: 'none',
+                            }}
+                          >
+                            <Icon as={BsChatSquare} height={5} width={5} mr="5px" />
+                            <Box>{detail?.replyCount}</Box>
+                          </Link>
+                          <Flex
+                            alignItems="center"
+                            borderRadius="2px"
+                            padding="8px"
+                            marginRight="4px"
+                            _hover={{
+                              textDecor: 'none',
+                              outline: 'none',
+                              bg: bottomButtonHover,
+                            }}
+                            _focus={{
+                              boxShadow: 'none',
+                            }}
+                          >
+                            <Icon as={GoGift} height={5} width={5} mr="5px" />
+                            <Box>Award</Box>
+                          </Flex>
+                          <CopyToClipboard text={sharePath} onCopy={handleCopy}>
+                            <Link
+                              display="flex"
+                              alignItems="center"
+                              borderRadius="2px"
+                              padding="8px"
+                              marginRight="4px"
+                              _hover={{
+                                textDecor: 'none',
+                                outline: 'none',
+                                bg: bottomButtonHover,
+                              }}
+                              _focus={{
+                                boxShadow: 'none',
+                              }}
+                            >
+                              <Icon as={FaShare} height={5} width={5} mr="5px" />
+                              <Box>{copied ? 'Copied' : 'share'}</Box>
+                            </Link>
+                          </CopyToClipboard>
+
+                          <Flex
+                            alignItems="center"
+                            borderRadius="2px"
+                            padding="8px"
+                            marginRight="4px"
+                            _hover={{
+                              textDecor: 'none',
+                              outline: 'none',
+                              bg: bottomButtonHover,
+                            }}
+                            _focus={{
+                              boxShadow: 'none',
+                            }}
+                            onClick={() => handleEditPost({ removed: false })}
+                          >
+                            <Icon as={HiOutlineCheckCircle} height={5} width={5} mr="5px" />
+                            <Box>Approve</Box>
+                          </Flex>
+                          <Flex
+                            alignItems="center"
+                            borderRadius="2px"
+                            padding="8px"
+                            marginRight="4px"
+                            _hover={{
+                              textDecor: 'none',
+                              outline: 'none',
+                              bg: bottomButtonHover,
+                            }}
+                            _focus={{
+                              boxShadow: 'none',
+                            }}
+                            onClick={() =>
+                              handleEditPost({ removed: detail?.removed ? false : true })
+                            }
+                          >
+                            <Icon as={TiDeleteOutline} height={5} width={5} mr="5px" />
+                            <Box>Remove</Box>
+                          </Flex>
+                          <Flex justifyContent="center">
+                            <DropDown
+                              onChange={(val) =>
+                                handleEditPost({ [val?.id]: detail[val?.id] ? false : true })
+                              }
+                              dropDownTitle={
+                                <Flex
+                                  borderRadius="2px"
+                                  height="24px"
+                                  verticalAlign="middle"
+                                  padding="0 4px"
+                                  width="100%"
+                                  bg="transparent"
+                                  border="none"
+                                  alignItems="center"
+                                  _hover={{
+                                    backgroundColor: inputBg,
+                                  }}
+                                >
+                                  <Icon as={BsShield} color={iconColor} h="20px" w="20px" />
+                                </Flex>
+                              }
+                              options={[
+                                {
+                                  label: 'Sticky Post',
+                                  icon: detail?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
+                                  id: 'pinned',
+                                },
+                                {
+                                  label: 'Lock Comments',
+                                  icon: detail?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
+                                  id: 'locked',
+                                },
+                                {
+                                  label: 'Mark As Spoiler',
+                                  icon: detail?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
+                                  id: 'spoiler',
+                                },
+                              ]}
+                              rightOffset={0}
+                              leftOffset="none"
+                              topOffset="34px"
+                            />
+                          </Flex>
+
+                          {owner ? (
+                            <Link
+                              display="flex"
+                              alignItems="center"
+                              borderRadius="2px"
+                              padding="8px"
+                              marginRight="4px"
+                              _hover={{
+                                textDecor: 'none',
+                                outline: 'none',
+                                bg: bottomButtonHover,
+                              }}
+                              _focus={{
+                                boxShadow: 'none',
+                              }}
+                            >
+                              <DropDown
+                                topOffset="30px"
+                                width="215px"
+                                dropDownTitle={
+                                  <Flex
+                                    borderRadius="2px"
+                                    height="24px"
+                                    verticalAlign="middle"
+                                    padding="0 4px"
+                                    width="100%"
+                                    bg="transparent"
+                                    border="none"
+                                    alignItems="center"
+                                  >
+                                    <Icon
+                                      as={FiMoreHorizontal}
+                                      color={iconColor}
+                                      h="20px"
+                                      w="20px"
+                                    />
+                                  </Flex>
+                                }
+                                options={[
+                                  {
+                                    label: 'Edit Post',
+                                    icon: BsPencil,
+                                    id: 'Edit',
+                                  },
+                                  {
+                                    label: 'Save',
+                                    icon: BsBookmark,
+                                    id: 'Save',
+                                  },
+                                  {
+                                    label: 'Block Author',
+                                    icon: BsEyeSlash,
+                                    id: 'block',
+                                  },
+                                  {
+                                    label: 'Delete',
+                                    icon: MdOutlineDeleteOutline,
+                                    id: 'Delete',
+                                  },
+                                ]}
+                                render={(item) => (
+                                  <Flex
+                                    alignItems="center"
+                                    padding="8px"
+                                    fontSize="14px"
+                                    lineHeight="18px"
+                                    fontWeight="500"
+                                    color={iconColor}
+                                    borderTop={`1px solid ${border2}`}
+                                    textTransform="capitalize"
+                                    _hover={{
+                                      bg: bottomButtonHover,
+                                    }}
+                                    onClick={() => handleOption(item)}
+                                  >
+                                    <Icon as={item?.icon} w="20px" h="20px" mr="6px" />
+                                    <Box>{item?.label}</Box>
+                                  </Flex>
+                                )}
+                              />
+                            </Link>
+                          ) : (
+                            <>
+                              <Link
+                                display="flex"
+                                alignItems="center"
+                                borderRadius="2px"
+                                padding="8px"
+                                marginRight="4px"
+                                _hover={{
+                                  textDecor: 'none',
+                                  outline: 'none',
+                                  bg: bottomButtonHover,
+                                }}
+                                _focus={{
+                                  boxShadow: 'none',
+                                }}
+                              >
+                                <Icon as={BsEyeSlash} height={5} width={5} mr="5px" />
+                                <Box>Block Author</Box>
+                              </Link>
+                            </>
+                          )}
+                        </Flex>
+                      </Flex>
+                    ) : (
                       <Flex
                         flexDirection="row"
                         alignItems="center"
@@ -1316,11 +1598,20 @@ function PostDetailModal() {
                       </Box>
                       {edit ? (
                         <Box marginTop="8px" padding="10px">
-                          <Editor
-                            editorState={postEditorState}
-                            setEditorState={setPostEditorState}
-                            setValue={setEditPost}
-                          />
+                          {editMode === 'post' ? (
+                            <Editor
+                              editorState={postEditorState}
+                              setEditorState={setPostEditorState}
+                              setValue={setEditPost}
+                            />
+                          ) : (
+                            <Textarea
+                              placeholder="Url"
+                              onChange={(e) => setEditPost(e.target.value)}
+                              value={editPost}
+                              color={color}
+                            />
+                          )}
                           <Flex alignItems="center" mt="8px" justifyContent="flex-end">
                             <Button
                               borderRadius="999px"
@@ -1336,7 +1627,10 @@ function PostDetailModal() {
                               minW="90px"
                               minH="27px"
                               onClick={() =>
-                                handleEditPost(detail?.cid, editPost, detail?.subplebbitAddress)
+                                handleEditPost({
+                                  link: editMode === 'link' ? editPost : undefined,
+                                  content: editMode === 'post' ? editPost : undefined,
+                                })
                               }
                               isLoading={editLoading}
                             >
