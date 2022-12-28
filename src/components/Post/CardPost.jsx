@@ -862,7 +862,7 @@ const CardPost = ({
                   </Flex>
                 </Flex>
               )
-            ) : allowedSpecial && type === 'subPlebbit' ? (
+            ) : allowedSpecial ? (
               <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
                 <Flex
                   fontSize="12px"
@@ -1512,7 +1512,7 @@ const CardPost = ({
                   </Flex>
                 </Box>
               )
-            ) : allowedSpecial && type === 'subPlebbit' ? (
+            ) : allowedSpecial ? (
               <Box
                 paddingBottom="12px"
                 paddingTop="8px"

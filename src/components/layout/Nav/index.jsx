@@ -9,6 +9,15 @@ import {
   Button,
   useToast,
   useDisclosure,
+  Popover,
+  PopoverTrigger,
+  Portal,
+  PopoverContent,
+  PopoverArrow,
+  PopoverHeader,
+  PopoverCloseButton,
+  PopoverBody,
+  PopoverFooter,
 } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
 import { MdHome } from 'react-icons/md';
@@ -161,7 +170,7 @@ const NavBar = ({ location }) => {
                       }
                     }
                   }}
-                  prefix={() => <Icon as={MdHome} h={6} w={8} />}
+                  prefix={(val) => (val?.icon ? val?.icon : <Icon as={MdHome} h={6} w={8} />)}
                   suffix={() => {
                     return (
                       !showSide &&
@@ -330,7 +339,22 @@ const NavBar = ({ location }) => {
                       height={6}
                       as={HiOutlineChat}
                     />
-                    <Icon ml="8px" color={iconColor2} width={6} height={6} as={BiBell} />
+                    <Popover>
+                      <PopoverTrigger>
+                        <Icon ml="8px" color={iconColor2} width={6} height={6} as={BiBell} />
+                      </PopoverTrigger>
+                      <Portal>
+                        <PopoverContent>
+                          <PopoverArrow />
+                          <PopoverHeader>Header</PopoverHeader>
+                          <PopoverCloseButton />
+                          <PopoverBody>
+                            <Button colorScheme="blue">Button</Button>
+                          </PopoverBody>
+                          <PopoverFooter>This is the footer</PopoverFooter>
+                        </PopoverContent>
+                      </Portal>
+                    </Popover>
                     <Icon
                       ml="8px"
                       color={iconColor2}

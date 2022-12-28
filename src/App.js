@@ -12,6 +12,7 @@ import Moderators from './views/About/Moderator';
 import NotFound from './views/NotFound';
 import 'react-toastify/dist/ReactToastify.css';
 import PostDetailModal from './components/Post/PostDetails/index2';
+import Notifications from './views/Notifications';
 
 const App = () => {
   const location = useLocation();
@@ -53,6 +54,7 @@ const App = () => {
         />
         <Route exact path="/p/:subplebbitAddress/about/edit" component={CommunitySettings} />
         <Route exact path="/p/:subplebbitAddress/moderators" component={Moderators} />
+        <Route exact path="/notifications" component={Notifications} />
         <Route
           exact
           path={[

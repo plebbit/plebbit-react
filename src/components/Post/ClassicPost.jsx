@@ -648,7 +648,7 @@ const ClassicPost = ({
                         </Flex>
                       </Flex>
                     )
-                  ) : allowedSpecial && type === 'subPlebbit' ? (
+                  ) : allowedSpecial ? (
                     <Flex
                       fontSize="12px"
                       fontWeight="700"
@@ -1502,7 +1502,7 @@ const ClassicPost = ({
                   </Flex>
                 </Box>
               )
-            ) : allowedSpecial && type === 'subPlebbit' ? (
+            ) : allowedSpecial ? (
               <Box
                 paddingBottom="12px"
                 paddingTop="8px"

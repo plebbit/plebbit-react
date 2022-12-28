@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 
 const onError = (error) => {
-  return toast.error(error?.message.toString(), {
+  return toast.error(error?.stack.toString(), {
     position: 'bottom-center',
     autoClose: false,
     hideProgressBar: false,
