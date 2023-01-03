@@ -492,7 +492,7 @@ const ClassicPost = ({
                 <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
                   {pending ? (
                     !loading && (
-                      <Flex
+                      /* <Flex
                         fontSize="12px"
                         fontWeight="700"
                         lineHeight="16px"
@@ -646,7 +646,8 @@ const ClassicPost = ({
                             Save
                           </Text>
                         </Flex>
-                      </Flex>
+                      </Flex> */
+                      <Box />
                     )
                   ) : allowedSpecial ? (
                     <Flex
@@ -1414,7 +1415,7 @@ const ClassicPost = ({
             {/* Footer */}
             {pending ? (
               !loading && (
-                <Box
+                /* <Box
                   paddingBottom="12px"
                   paddingTop="8px"
                   padding="8px 16px"
@@ -1500,7 +1501,8 @@ const ClassicPost = ({
                       />
                     </Flex>
                   </Flex>
-                </Box>
+                </Box> */
+                <Box />
               )
             ) : allowedSpecial ? (
               <Box
