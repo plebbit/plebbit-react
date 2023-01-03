@@ -1,6 +1,7 @@
 import { useColorMode } from '@chakra-ui/react';
 import {
   useAccount,
+  useAccountNotifications,
   useAccounts,
   useAccountsActions,
   useAccountSubplebbits,
@@ -35,6 +36,7 @@ export const ProfileDataProvider = (props) => {
   const accountSubplebbits = useAccountSubplebbits();
   const [showSide, setShowSide] = useState(false);
   const userTheme = profile?.plebbitReactOptions?.darkMode;
+  const notifications = useAccountNotifications(profile?.name);
 
   const toggleTheme = async () => {
     toggleColorMode();
@@ -168,6 +170,7 @@ export const ProfileDataProvider = (props) => {
         setAccount,
         deleteAccount,
         toggleTheme,
+        notifications,
       }}
     >
       {children}

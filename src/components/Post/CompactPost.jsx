@@ -12,12 +12,12 @@ import {
 } from '@chakra-ui/react';
 // import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
-  BsBookmark,
+  // BsBookmark,
   BsChat,
   BsChatSquare,
   BsEyeSlash,
   BsFileText,
-  BsPencil,
+  // BsPencil,
   BsPinAngleFill,
   BsShield,
 } from 'react-icons/bs';
@@ -507,7 +507,7 @@ const CompactPost = ({
             {/* Post Footer */}
             {pending ? (
               !loading && (
-                <Flex
+                /* <Flex
                   alignItems="center"
                   flex="0 0 72px"
                   justifyContent="flex-end"
@@ -583,7 +583,8 @@ const CompactPost = ({
                       mr="6px"
                     />
                   </Flex>
-                </Flex>
+                </Flex> */
+                <Box />
               )
             ) : allowedSpecial ? (
               <Flex

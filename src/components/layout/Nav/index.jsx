@@ -9,15 +9,6 @@ import {
   Button,
   useToast,
   useDisclosure,
-  Popover,
-  PopoverTrigger,
-  Portal,
-  PopoverContent,
-  PopoverArrow,
-  PopoverHeader,
-  PopoverCloseButton,
-  PopoverBody,
-  PopoverFooter,
 } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
 import { MdHome } from 'react-icons/md';
@@ -31,7 +22,7 @@ import {
   BsPlusLg,
 } from 'react-icons/bs';
 import { HiOutlineChartSquareBar, HiOutlineChat, HiOutlineUserGroup } from 'react-icons/hi';
-import { BiBell, BiBookmarks, BiHelpCircle, BiPencil, BiTrendingUp } from 'react-icons/bi';
+import { BiBookmarks, BiHelpCircle, BiPencil, BiTrendingUp } from 'react-icons/bi';
 import {
   AiFillSetting,
   AiOutlineInfoCircle,
@@ -55,6 +46,7 @@ import { PlebLogo, PlebbitTextLogo } from '../../svgs';
 import NavSearch from './navSearch';
 import convertArrToObj from '../../../utils/convertArrToObj';
 import Sort from '../../../utils/sort';
+import NavNotification from './NavNotification';
 
 const NavBar = ({ location }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -339,22 +331,8 @@ const NavBar = ({ location }) => {
                       height={6}
                       as={HiOutlineChat}
                     />
-                    <Popover>
-                      <PopoverTrigger>
-                        <Icon ml="8px" color={iconColor2} width={6} height={6} as={BiBell} />
-                      </PopoverTrigger>
-                      <Portal>
-                        <PopoverContent>
-                          <PopoverArrow />
-                          <PopoverHeader>Header</PopoverHeader>
-                          <PopoverCloseButton />
-                          <PopoverBody>
-                            <Button colorScheme="blue">Button</Button>
-                          </PopoverBody>
-                          <PopoverFooter>This is the footer</PopoverFooter>
-                        </PopoverContent>
-                      </Portal>
-                    </Popover>
+                    <NavNotification />
+
                     <Icon
                       ml="8px"
                       color={iconColor2}
@@ -1082,7 +1060,7 @@ const NavBar = ({ location }) => {
                           onClick={() => {
                             setShowDropDown(!showDropDown);
                             setShowComponent(!showDropDown);
-                            setPostView(pages.value);
+                            setPostView(pages?.value);
                           }}
                         >
                           <Flex
@@ -1112,30 +1090,31 @@ const NavBar = ({ location }) => {
                       ]
                         .flat()
                         ?.map((pages, index) => (
-                          <Flex
-                            key={index}
-                            alignItems="center"
-                            flexFlow="row nowrap"
-                            cursor="pointer"
-                            onClick={() => {
-                              setShowDropDown(!showDropDown);
-                              setShowComponent(!showDropDown);
-                              setPostView(pages.value);
-                            }}
-                          >
-                            <Avatar
-                              badge
-                              avatar={pages?.avatar}
-                              width={24}
-                              height={24}
-                              mr="8px"
-                              isOnline={getIsOnline(pages?.updatedAt)}
-                            />
+                          <Link key={index} to={`/p/${pages?.value}/`}>
+                            <Flex
+                              key={index}
+                              alignItems="center"
+                              flexFlow="row nowrap"
+                              cursor="pointer"
+                              onClick={() => {
+                                setShowDropDown(!showDropDown);
+                                setShowComponent(!showDropDown);
+                              }}
+                            >
+                              <Avatar
+                                badge
+                                avatar={pages?.avatar}
+                                width={24}
+                                height={24}
+                                mr="8px"
+                                isOnline={getIsOnline(pages?.updatedAt)}
+                              />
 
-                            <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                              {getSubName(pages)}
-                            </Box>
-                          </Flex>
+                              <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
+                                {getSubName(pages)}
+                              </Box>
+                            </Flex>
+                          </Link>
                         ))}
                     </Flex>
                   }

@@ -88,7 +88,7 @@ const theme = extendTheme({
     darkPostTransBg: 'rgba(26,26,27,0.8)',
     darkVoteTest: 'rgb(215, 218, 220)',
     darkIconBg: '#030303',
-    darkLink: '##4FBCFF',
+    darkLink: '#4FBCFF',
     darkMobileText: '#cfd0ca',
     darkMobileIcon: '#545452',
     darkTransparent20: 'rgba(26,26,27,0.8)',

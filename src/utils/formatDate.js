@@ -24,3 +24,8 @@ export function dateToNow(myDate) {
 export function dateFormater(date) {
   return moment(date).format('LL');
 }
+
+export const getTimeVal = (date) =>
+  moment(date).isBetween(moment().subtract(1, 'day'), undefined)
+    ? dateToFromNowDaily(date)
+    : dateFormater(date);

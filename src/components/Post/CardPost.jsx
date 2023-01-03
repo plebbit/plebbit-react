@@ -753,8 +753,8 @@ const CardPost = ({
 
             {/* Post Footer */}
             {pending ? (
-              !loading && (
-                <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
+              !loading && <Flex />
+            ) : /* <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
                   <Flex
                     fontSize="12px"
                     fontWeight="700"
@@ -860,9 +860,9 @@ const CardPost = ({
                       </Text>
                     </Flex>
                   </Flex>
-                </Flex>
-              )
-            ) : allowedSpecial ? (
+                </Flex> */
+
+            allowedSpecial ? (
               <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
                 <Flex
                   fontSize="12px"
@@ -1424,7 +1424,7 @@ const CardPost = ({
             {/* Footer */}
             {pending ? (
               !loading && (
-                <Box
+                /* <Box
                   paddingBottom="12px"
                   paddingTop="8px"
                   padding="8px 16px"
@@ -1510,7 +1510,8 @@ const CardPost = ({
                       />
                     </Flex>
                   </Flex>
-                </Box>
+                </Box> */
+                <Box />
               )
             ) : allowedSpecial ? (
               <Box

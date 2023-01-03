@@ -170,10 +170,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-body ::-moz-selection {
-  background-color: #7dbcff99;
-}
-
 input,
 textarea,
 [contenteditable] {
