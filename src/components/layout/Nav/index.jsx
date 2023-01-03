@@ -1060,7 +1060,7 @@ const NavBar = ({ location }) => {
                           onClick={() => {
                             setShowDropDown(!showDropDown);
                             setShowComponent(!showDropDown);
-                            setPostView(pages.value);
+                            setPostView(pages?.value);
                           }}
                         >
                           <Flex
@@ -1090,30 +1090,31 @@ const NavBar = ({ location }) => {
                       ]
                         .flat()
                         ?.map((pages, index) => (
-                          <Flex
-                            key={index}
-                            alignItems="center"
-                            flexFlow="row nowrap"
-                            cursor="pointer"
-                            onClick={() => {
-                              setShowDropDown(!showDropDown);
-                              setShowComponent(!showDropDown);
-                              setPostView(pages.value);
-                            }}
-                          >
-                            <Avatar
-                              badge
-                              avatar={pages?.avatar}
-                              width={24}
-                              height={24}
-                              mr="8px"
-                              isOnline={getIsOnline(pages?.updatedAt)}
-                            />
+                          <Link key={index} to={`/p/${pages?.value}/`}>
+                            <Flex
+                              key={index}
+                              alignItems="center"
+                              flexFlow="row nowrap"
+                              cursor="pointer"
+                              onClick={() => {
+                                setShowDropDown(!showDropDown);
+                                setShowComponent(!showDropDown);
+                              }}
+                            >
+                              <Avatar
+                                badge
+                                avatar={pages?.avatar}
+                                width={24}
+                                height={24}
+                                mr="8px"
+                                isOnline={getIsOnline(pages?.updatedAt)}
+                              />
 
-                            <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                              {getSubName(pages)}
-                            </Box>
-                          </Flex>
+                              <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
+                                {getSubName(pages)}
+                              </Box>
+                            </Flex>
+                          </Link>
                         ))}
                     </Flex>
                   }
