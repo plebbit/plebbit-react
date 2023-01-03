@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Icon, Text, useColorModeValue } from '@chakra-ui/react';
-import React from 'react';
+import React, { useContext } from 'react';
 import { BiBell } from 'react-icons/bi';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { BsCheckAll } from 'react-icons/bs';
@@ -9,12 +9,27 @@ import DropDown from '../../../DropDown';
 import PopOver from '../../../PopOver';
 import { getTimeVal } from '../../../../utils/formatDate';
 import { useHistory } from 'react-router-dom';
+import getUserName from '../../../../utils/getUserName';
+import { ProfileContext } from '../../../../store/profileContext';
+import { toast } from 'react-toastify';
 
 const NavNotification = () => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconColor2 = useColorModeValue('lightIcon2', 'darkText1');
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const history = useHistory();
+  const { notifications } = useContext(ProfileContext);
+
+  const handleReadAll = async () => {
+    await notifications?.markAsRead();
+    toast({
+      title: 'Accepted.',
+      description: 'All Notification read',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+  };
 
   return (
     <PopOver
@@ -25,7 +40,14 @@ const NavNotification = () => {
             Notifications
           </Box>
           <Flex alignItems="center">
-            <Icon mr="8px" color={iconColor} width={6} height={6} as={BsCheckAll} />
+            <Icon
+              mr="8px"
+              color={iconColor}
+              width={6}
+              height={6}
+              as={BsCheckAll}
+              onClick={handleReadAll}
+            />
 
             <Icon color={iconColor} width={6} height={6} as={MdSettings} />
           </Flex>
@@ -44,14 +66,9 @@ const NavNotification = () => {
       }
       content={
         <Flex flexDirection="column">
-          {/* unread actvity notification item */}
-          <NotificationType status="unread" type="activity" />
-          {/* read actvity notification item */}
-          <NotificationType status="read" type="activity" />
-          {/* unread reply notification item */}
-          <NotificationType status="unread" type="reply" />
-          {/* read reply notification item */}
-          <NotificationType status="read" type="reply" />
+          {notifications?.notifications?.map((notifications, index) => (
+            <NotificationType key={index} notification={notifications} />
+          ))}
         </Flex>
       }
     />
@@ -60,13 +77,14 @@ const NavNotification = () => {
 
 export default NavNotification;
 
-export const NotificationType = ({ status, type }) => {
+export const NotificationType = ({ notification }) => {
   const cardBg = useColorModeValue('rgba(36,160,237,0.1)', 'rgba(36,160,237,0.5)');
   const metaText = useColorModeValue('#7c7c7c', '#818384');
 
   return (
     <>
-      {status === 'unread' && type === 'activity' ? (
+      {
+        /* status === 'unread' && type === 'activity' ? (
         <Flex bg={cardBg} padding="16px">
           <Box mr="8px">
             <Avatar height={32} width={32} avatar="" />
@@ -156,99 +174,93 @@ export const NotificationType = ({ status, type }) => {
             </Box>
           </Flex>
         </Flex>
-      ) : status === 'unread' && type === 'reply' ? (
-        <Flex bg={cardBg} padding="16px">
-          <Box mr="8px">
-            <Avatar height={32} width={32} avatar="" />
-          </Box>
-          <Flex flexDirection="column" width="100%">
-            <Flex w="100%" mb="4px">
-              <Text wordBreak="break-all" fontSize="14px" lineHeight="21px" fontWeight="400">
-                u/AutoModerator replied to your post in p/CryptoCurrency ·{' '}
-                <span
-                  style={{
-                    lineHeight: '19px',
-                    color: metaText,
-                  }}
-                >
-                  {getTimeVal(1672669367335)}
-                </span>
-              </Text>
-              <Box ml="auto">
-                <DropDown
-                  dropDownTitle={
-                    <Box>
-                      <Icon as={FiMoreHorizontal} />
-                    </Box>
-                  }
-                />
+      ) :  */
+        !notification?.markedAsRead ? (
+          <Flex bg={cardBg} padding="16px">
+            <Box mr="8px">
+              <Avatar height={32} width={32} avatar="" />
+            </Box>
+            <Flex flexDirection="column" width="100%">
+              <Flex w="100%" mb="4px">
+                <Text wordBreak="break-all" fontSize="14px" lineHeight="21px" fontWeight="400">
+                  {getUserName(notification?.author)} replied to your post in{' '}
+                  {`p/${notification?.subplebbitAddress}`} ·{' '}
+                  <span
+                    style={{
+                      lineHeight: '19px',
+                      color: metaText,
+                    }}
+                  >
+                    {getTimeVal(notification?.timestamp * 1000)}
+                  </span>
+                </Text>
+                <Box ml="auto">
+                  <DropDown
+                    dropDownTitle={
+                      <Box>
+                        <Icon as={FiMoreHorizontal} />
+                      </Box>
+                    }
+                  />
+                </Box>
+              </Flex>
+              <Box
+                fontSize="14px"
+                lineHeight="18px"
+                color={metaText}
+                wordBreak="break-all"
+                noOfLines={3}
+                overflow="hidden"
+              >
+                {notification?.content}
               </Box>
             </Flex>
-            <Box
-              fontSize="14px"
-              lineHeight="18px"
-              color={metaText}
-              wordBreak="break-all"
-              noOfLines={3}
-              overflow="hidden"
-            >
-              Your [text post](https://www.reddit.com/r/CryptoCurrency/comments/zvjcot/hello/) was
-              removed for not having a high enough character count and therefore violating rules 2 &
-              5. Please resubmit as a comment in the daily thread or submit a new post with at least
-              500 characters. --- *I am a bot, and this action was performed automatically. Please
-              [contact the moderators of this subreddit](/message/compose/?to=/r/CryptoCurrency) if
-              you have any questions or concerns.*
-            </Box>
           </Flex>
-        </Flex>
-      ) : status === 'read' && type === 'reply' ? (
-        <Flex padding="16px">
-          <Box mr="8px">
-            <Avatar height={32} width={32} avatar="" />
-          </Box>
-          <Flex flexDirection="column" width="100%">
-            <Flex w="100%" mb="4px">
-              <Text wordBreak="break-all" fontSize="14px" lineHeight="21px" fontWeight="400">
-                u/AutoModerator replied to your post in p/CryptoCurrency ·{' '}
-                <span
-                  style={{
-                    lineHeight: '19px',
-                    color: metaText,
-                  }}
-                >
-                  {getTimeVal(1672669367335)}
-                </span>
-              </Text>
-              <Box ml="auto">
-                <DropDown
-                  dropDownTitle={
-                    <Box>
-                      <Icon as={FiMoreHorizontal} />
-                    </Box>
-                  }
-                />
+        ) : notification?.markedAsRead ? (
+          <Flex padding="16px">
+            <Box mr="8px">
+              <Avatar height={32} width={32} avatar="" />
+            </Box>
+            <Flex flexDirection="column" width="100%">
+              <Flex w="100%" mb="4px">
+                <Text wordBreak="break-all" fontSize="14px" lineHeight="21px" fontWeight="400">
+                  {getUserName(notification?.author)} replied to your post in{' '}
+                  {`p/${notification?.subplebbitAddress || ''}`} ·{' '}
+                  <span
+                    style={{
+                      lineHeight: '19px',
+                      color: metaText,
+                    }}
+                  >
+                    {getTimeVal(notification?.timestamp * 1000)}
+                  </span>
+                </Text>
+                <Box ml="auto">
+                  <DropDown
+                    dropDownTitle={
+                      <Box>
+                        <Icon as={FiMoreHorizontal} />
+                      </Box>
+                    }
+                  />
+                </Box>
+              </Flex>
+              <Box
+                fontSize="14px"
+                lineHeight="18px"
+                color={metaText}
+                wordBreak="break-all"
+                noOfLines={3}
+                overflow="hidden"
+              >
+                {notification?.content}
               </Box>
             </Flex>
-            <Box
-              fontSize="14px"
-              lineHeight="18px"
-              color={metaText}
-              wordBreak="break-all"
-              noOfLines={3}
-              overflow="hidden"
-            >
-              Your [text post](https://www.reddit.com/r/CryptoCurrency/comments/zvjcot/hello/) was
-              removed for not having a high enough character count and therefore violating rules 2 &
-              5. Please resubmit as a comment in the daily thread or submit a new post with at least
-              500 characters. --- *I am a bot, and this action was performed automatically. Please
-              [contact the moderators of this subreddit](/message/compose/?to=/r/CryptoCurrency) if
-              you have any questions or concerns.*
-            </Box>
           </Flex>
-        </Flex>
-      ) : (
-        ''
-      )}
+        ) : (
+          ''
+        )
+      }
     </>
   );
 };

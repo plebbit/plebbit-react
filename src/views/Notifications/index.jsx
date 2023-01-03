@@ -1,9 +1,11 @@
 import { Box, Flex, Icon, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import moment from 'moment';
 import React, { useContext } from 'react';
 import { BsCheckAll } from 'react-icons/bs';
 import { FaBell } from 'react-icons/fa';
 import { MdSettings } from 'react-icons/md';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Layout from '../../components/layout';
 import { NotificationType } from '../../components/layout/Nav/NavNotification';
 import { ProfileContext } from '../../store/profileContext';
@@ -16,8 +18,22 @@ const Notifications = () => {
   const { colorMode } = useColorMode();
   const history = useHistory();
   const { notifications } = useContext(ProfileContext);
-
-  console.log('notif===>', notifications?.notifications);
+  const todayNotifications = notifications?.notifications?.filter((x) =>
+    moment(x?.timestamp * 1000).isSame(new Date())
+  );
+  const earlierNotifications = notifications?.notifications?.filter(
+    (x) => !moment(x?.timestamp * 1000).isSame(new Date())
+  );
+  const handleReadAll = async () => {
+    await notifications?.markAsRead();
+    toast({
+      title: 'Accepted.',
+      description: 'All Notification read',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+  };
 
   return (
     <Layout name={{ label: 'Notifications', value: 'notification', icon: <FaBell /> }}>
@@ -59,6 +75,7 @@ const Notifications = () => {
               }}
               alignItems="center"
               ml="auto"
+              onClick={handleReadAll}
             >
               <Icon mr="6px" color={metaText} width={6} height={6} as={BsCheckAll} />
               Mark as Read
@@ -87,52 +104,44 @@ const Notifications = () => {
         <Flex maxW="1248px" padding="20px 24px" margin="0 auto" justifyContent="center">
           <Box maxW="740px" width="640px" flex="1 1 100%">
             <Box borderRadius="4px" margin="0 auto" maxW="648px" bg={bg}>
-              <>
-                <Text fontSize="18px" fontWeight="500" lineHeight="22px" padding="8px 16px">
-                  Today
-                </Text>
-                <Flex flexDirection="column">
-                  {/* unread actvity notification item */}
-                  <Box borderBottom={`1px solid  ${navBorder}`} color={mainColor}>
-                    <NotificationType status="unread" type="activity" />
-                  </Box>
-                  {/* read actvity notification item */}
-                  <Box borderBottom={`1px solid  ${navBorder}`} color={mainColor}>
-                    <NotificationType status="read" type="activity" />
-                  </Box>
-                  {/* unread reply notification item */}
-                  <Box borderBottom={`1px solid  ${navBorder}`} color={mainColor}>
-                    <NotificationType status="unread" type="reply" />
-                  </Box>
-                  {/* read reply notification item */}
-                  <Box borderBottom={`1px solid  ${navBorder}`} color={mainColor}>
-                    <NotificationType status="read" type="reply" />
-                  </Box>
-                </Flex>
-              </>
-              <>
-                <Text fontSize="18px" fontWeight="500" lineHeight="22px" padding="8px 16px">
-                  Earlier
-                </Text>
-                <Flex flexDirection="column">
-                  {/* unread actvity notification item */}
-                  <Box borderBottom={`1px solid  ${navBorder}`} color={mainColor}>
-                    <NotificationType status="unread" type="activity" />
-                  </Box>
-                  {/* read actvity notification item */}
-                  <Box borderBottom={`1px solid  ${navBorder}`} color={mainColor}>
-                    <NotificationType status="read" type="activity" />
-                  </Box>
-                  {/* unread reply notification item */}
-                  <Box borderBottom={`1px solid  ${navBorder}`} color={mainColor}>
-                    <NotificationType status="unread" type="reply" />
-                  </Box>
-                  {/* read reply notification item */}
-                  <Box borderBottom={`1px solid  ${navBorder}`} color={mainColor}>
-                    <NotificationType status="read" type="reply" />
-                  </Box>
-                </Flex>
-              </>
+              {todayNotifications?.length ? (
+                <>
+                  <Text fontSize="18px" fontWeight="500" lineHeight="22px" padding="8px 16px">
+                    Today
+                  </Text>
+                  {todayNotifications?.map((notification) => (
+                    <>
+                      <Flex flexDirection="column">
+                        {/* unread reply notification item */}
+                        <Box borderBottom={`1px solid  ${navBorder}`} color={mainColor}>
+                          <NotificationType notification={notification} />
+                        </Box>
+                      </Flex>
+                    </>
+                  ))}
+                </>
+              ) : (
+                ''
+              )}
+              {earlierNotifications?.length ? (
+                <>
+                  <Text fontSize="18px" fontWeight="500" lineHeight="22px" padding="8px 16px">
+                    Today
+                  </Text>
+                  {earlierNotifications?.map((notification) => (
+                    <>
+                      <Flex flexDirection="column">
+                        {/* unread reply notification item */}
+                        <Box borderBottom={`1px solid  ${navBorder}`} color={mainColor}>
+                          <NotificationType notification={notification} />
+                        </Box>
+                      </Flex>
+                    </>
+                  ))}
+                </>
+              ) : (
+                ''
+              )}
             </Box>
           </Box>
         </Flex>
