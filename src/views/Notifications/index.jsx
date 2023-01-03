@@ -1,11 +1,12 @@
 import { Box, Flex, Icon, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
-import React from 'react';
+import React, { useContext } from 'react';
 import { BsCheckAll } from 'react-icons/bs';
 import { FaBell } from 'react-icons/fa';
 import { MdSettings } from 'react-icons/md';
 import { useHistory } from 'react-router-dom';
 import Layout from '../../components/layout';
 import { NotificationType } from '../../components/layout/Nav/NavNotification';
+import { ProfileContext } from '../../store/profileContext';
 
 const Notifications = () => {
   const mainColor = useColorModeValue('lightText2', 'darkText1');
@@ -13,8 +14,10 @@ const Notifications = () => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const navBorder = useColorModeValue('#edeff1', '#343536');
   const { colorMode } = useColorMode();
-
   const history = useHistory();
+  const { notifications } = useContext(ProfileContext);
+
+  console.log('notif===>', notifications?.notifications);
 
   return (
     <Layout name={{ label: 'Notifications', value: 'notification', icon: <FaBell /> }}>
