@@ -4,6 +4,7 @@ import { BiBell } from 'react-icons/bi';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { BsCheckAll } from 'react-icons/bs';
 import { MdSettings } from 'react-icons/md';
+import { VscBellDot } from 'react-icons/vsc';
 import Avatar from '../../../Avatar';
 import DropDown from '../../../DropDown';
 import PopOver from '../../../PopOver';
@@ -33,7 +34,13 @@ const NavNotification = () => {
 
   return (
     <PopOver
-      title={<Icon color={iconColor2} width={6} height={6} as={BiBell} />}
+      title={
+        notifications?.notifications?.filter((x) => !x?.markedAsRead).length ? (
+          <Icon color={iconColor2} width={6} height={6} as={VscBellDot} />
+        ) : (
+          <Icon color={iconColor2} width={6} height={6} as={BiBell} />
+        )
+      }
       header={
         <Flex width="100%" alignItems="center" justifyContent="space-between">
           <Box fontSize="14px" fontWeight="500">

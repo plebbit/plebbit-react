@@ -28,6 +28,7 @@ const AddRules = ({ onClose, isOpen, rules, mode, data, handleSubPlebbitedit, lo
 
   const handleSave = async () => {
     const oldVal = rules?.filter((x) => x !== data);
+
     const newVal = [...oldVal, rule];
     mode === 'create'
       ? await handleSubPlebbitedit({ rules: rules ? [rule, ...rules] : [rule] })

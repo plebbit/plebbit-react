@@ -147,7 +147,7 @@ const Rules = ({ subPlebbit, handleSubPlebbitedit, allowedSpecial, loading }) =>
           onClose={closeShowAdd}
           handleSubPlebbitedit={handleSubPlebbitedit}
           loading={loading}
-          rules={subPlebbit?.rules}
+          rules={subPlebbit?.rules || []}
           mode={mode}
           data={selected}
         />

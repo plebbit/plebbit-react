@@ -126,7 +126,7 @@ const Notifications = () => {
               {earlierNotifications?.length ? (
                 <>
                   <Text fontSize="18px" fontWeight="500" lineHeight="22px" padding="8px 16px">
-                    Today
+                    Earlier
                   </Text>
                   {earlierNotifications?.map((notification) => (
                     <>
