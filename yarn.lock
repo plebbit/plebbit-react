@@ -3252,6 +3252,40 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#604ddec37da74168498b2f68ba268f62b6b3c63a":
+  version "0.0.3"
+  resolved "https://github.com/plebbit/plebbit-js.git#604ddec37da74168498b2f68ba268f62b6b3c63a"
+  dependencies:
+    "@keyv/sqlite" "3.6.2"
+    "@plebbit/plebbit-logger" "github:plebbit/plebbit-logger"
+    "@types/node-fetch" "2.6.2"
+    "@types/proper-lockfile" "^4.1.2"
+    "@types/uuid" "8.3.4"
+    assert "2.0.0"
+    async-wait-until "2.0.12"
+    buffer "6.0.3"
+    captcha-canvas "3.2.1"
+    err-code "3.0.1"
+    ethers "5.7.2"
+    file-type "16.5.4"
+    form-data "4.0.0"
+    ipfs-http-client "56.0.3"
+    ipfs-only-hash "4.0.0"
+    is-ipfs "6.0.2"
+    jose "4.11.0"
+    js-sha256 "0.9.0"
+    keyv "4.5.2"
+    knex "2.3.0"
+    libp2p-crypto "0.21.2"
+    lodash-es "4.17.21"
+    peer-id "0.16.0"
+    proper-lockfile "^4.1.2"
+    safe-stable-stringify "2.4.1"
+    skia-canvas "1.0.0"
+    sqlite3 "5.1.2"
+    tinycache "1.1.2"
+    uuid "9.0.0"
+
 "@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#8c050b36a021a373793cbb0b74479487004c2b6e":
   version "0.0.3"
   resolved "https://github.com/plebbit/plebbit-js.git#8c050b36a021a373793cbb0b74479487004c2b6e"
@@ -3294,6 +3328,19 @@
   resolved "https://github.com/plebbit/plebbit-logger.git#9525ca9539479918931c3b334e8d490d1c87e507"
   dependencies:
     debug "4.3.3"
+
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#1c088298305d577e3e1323a391a87f5128af7258":
+  version "0.0.1"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#1c088298305d577e3e1323a391a87f5128af7258"
+  dependencies:
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#604ddec37da74168498b2f68ba268f62b6b3c63a"
+    "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
+    "@types/uuid" "8.3.4"
+    assert "2.0.0"
+    ethers "5.6.9"
+    localforage "1.10.0"
+    uuid "8.3.2"
+    zustand "4.0.0"
 
 "@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#790cf2a49ab08fd7f2afbb9aa18d80e9091c6d85":
   version "0.0.1"
@@ -3667,6 +3714,11 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
+"@tokenizer/token@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@tokenizer/token/-/token-0.3.0.tgz#fe98a93fe789247e998c75e74e9c7c63217aa276"
+  integrity sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -4002,6 +4054,13 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
+"@types/proper-lockfile@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@types/proper-lockfile/-/proper-lockfile-4.1.2.tgz#49537cee7134055ee13a1833b76a1c298f39bb26"
+  integrity sha512-kd4LMvcnpYkspDcp7rmXKedn8iJSCoa331zRRamUp5oanKt/CefbEGPQP7G89enz7sKD4bvsr8mHSsC8j5WOvA==
+  dependencies:
+    "@types/retry" "*"
+
 "@types/q@^1.5.1":
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.5.tgz#75a2a8e7d8ab4b230414505d92335d1dcb53a6df"
@@ -4048,6 +4107,11 @@
   integrity sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
   dependencies:
     "@types/node" "*"
+
+"@types/retry@*":
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/@types/retry/-/retry-0.12.2.tgz#ed279a64fa438bb69f2480eda44937912bb7480a"
+  integrity sha512-XISRgDJ2Tc5q4TRqvgJtzsRkFYNJzZrhTdtMoGVBttwzzQJkPnS3WWTFc7kuDRoPtPakl+T+OfdEUjYJj7Jbow==
 
 "@types/retry@0.12.0":
   version "0.12.0"
@@ -4838,6 +4902,11 @@ async-exit-hook@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/async-exit-hook/-/async-exit-hook-2.0.1.tgz#8bd8b024b0ec9b1c01cccb9af9db29bd717dfaf3"
   integrity sha512-NW2cX8m1Q7KPA7a5M2ULQeZ2wR5qI5PAbw5L0UOMxdioVk9PMZ0h1TmyZEkPYrCvYjDlFICusOu1dlEKAAeXBw==
+
+async-wait-until@2.0.12:
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/async-wait-until/-/async-wait-until-2.0.12.tgz#8a94683bf29e74642a8bcbb9385f6ea330d4383f"
+  integrity sha512-SXy/vDs6UPJMG6YeEYOQ4ilA/JnGxk187KPGqFx9O+qVxsjkSl+jH+3P50qSNyMpEmDgr8qOFGOKCJckWb1i7A==
 
 async@^3.2.3:
   version "3.2.4"
@@ -8189,6 +8258,15 @@ file-loader@^6.2.0:
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
+
+file-type@16.5.4:
+  version "16.5.4"
+  resolved "https://registry.yarnpkg.com/file-type/-/file-type-16.5.4.tgz#474fb4f704bee427681f98dd390058a172a6c2fd"
+  integrity sha512-/yFHK0aGjFEgDJjEKP0pWCplsPFPhwyfwevf/pVxiN0tmE4L9LmwWxWukdJSHdoCli4VgQLehjJtwQBnqmsKcw==
+  dependencies:
+    readable-web-to-node-stream "^3.0.0"
+    strtok3 "^6.2.4"
+    token-types "^4.1.1"
 
 file-type@^3.8.0:
   version "3.9.0"
@@ -12960,6 +13038,11 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+peek-readable@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/peek-readable/-/peek-readable-4.1.0.tgz#4ece1111bf5c2ad8867c314c81356847e8a62e72"
+  integrity sha512-ZI3LnwUv5nOGbQzD9c2iDG6toheuXSZP5esSHBjopsXH4dg19soufvpUGA3uohi5anFtGb2lhAVdHzH6R/Evvg==
+
 peer-id@0.16.0:
   version "0.16.0"
   resolved "https://registry.yarnpkg.com/peer-id/-/peer-id-0.16.0.tgz#0913062cfa4378707fe69c949b5720b3efadbf32"
@@ -13770,6 +13853,15 @@ prop-types@^15.0.0, prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.2,
     object-assign "^4.1.1"
     react-is "^16.13.1"
 
+proper-lockfile@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/proper-lockfile/-/proper-lockfile-4.1.2.tgz#c8b9de2af6b2f1601067f98e01ac66baa223141f"
+  integrity sha512-TjNPblN4BwAWMXU8s9AEz4JmQxnD1NNL7bNOY/AKUzyamc379FWASUhc/K1pL2noVb+XmZKLL68cjzLsiOAMaA==
+  dependencies:
+    graceful-fs "^4.2.4"
+    retry "^0.12.0"
+    signal-exit "^3.0.2"
+
 property-information@^5.0.0:
   version "5.6.0"
   resolved "https://registry.yarnpkg.com/property-information/-/property-information-5.6.0.tgz#61675545fb23002f245c6540ec46077d4da3ed69"
@@ -14335,6 +14427,13 @@ readable-stream@^2.0.1, readable-stream@^2.2.2, readable-stream@^2.3.0, readable
     safe-buffer "~5.1.1"
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
+
+readable-web-to-node-stream@^3.0.0:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/readable-web-to-node-stream/-/readable-web-to-node-stream-3.0.2.tgz#5d52bb5df7b54861fd48d015e93a2cb87b3ee0bb"
+  integrity sha512-ePeK6cc1EcKLEhJFt/AebMCLL+GgSKhuygrZ/GLaKZYEecIgIECf4UaUuaByiGtzckwR4ain9VzUh95T1exYGw==
+  dependencies:
+    readable-stream "^3.6.0"
 
 readdirp@~3.6.0:
   version "3.6.0"
@@ -15690,6 +15789,14 @@ strip-json-comments@~2.0.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==
 
+strtok3@^6.2.4:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/strtok3/-/strtok3-6.3.0.tgz#358b80ffe6d5d5620e19a073aa78ce947a90f9a0"
+  integrity sha512-fZtbhtvI9I48xDSywd/somNqgUHl2L2cstmXCCif0itOf96jeW18MBSyrLuNicYQVkvpOxkZtkzujiTJ9LW5Jw==
+  dependencies:
+    "@tokenizer/token" "^0.3.0"
+    peek-readable "^4.1.0"
+
 style-loader@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-3.3.1.tgz#057dfa6b3d4d7c7064462830f9113ed417d38575"
@@ -16139,6 +16246,14 @@ toidentifier@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
+
+token-types@^4.1.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/token-types/-/token-types-4.2.1.tgz#0f897f03665846982806e138977dbe72d44df753"
+  integrity sha512-6udB24Q737UD/SDsKAHI9FCRP7Bqc9D/MQUV02ORQg5iskjtLJlZJNdN4kKtcdtwCeWIwIHDGaUsTsCCAa8sFQ==
+  dependencies:
+    "@tokenizer/token" "^0.3.0"
+    ieee754 "^1.2.1"
 
 tough-cookie@^4.0.0:
   version "4.1.1"
