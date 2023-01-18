@@ -60,7 +60,7 @@
     "eject": "react-scripts eject",
     "electron": "yarn electron:download-ipfs && rimraf .plebbit && electron .",
     "electron:start": "yarn electron:download-ipfs && rimraf .plebbit && concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "electron:start:nd": "yarn electron:download-ipfs && concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:start:persist": "yarn electron:download-ipfs && concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron:build:linux": "electron-builder build --publish never -l",
     "electron:build:windows": "electron-builder build --publish never -w",
     "electron:build:mac": "electron-builder build --publish never -m",

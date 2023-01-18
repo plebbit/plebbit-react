@@ -106,6 +106,7 @@ const NavBar = ({ location }) => {
     <Box>
       {device !== 'mobile' ? (
         <Flex
+          paddingLeft="284px"
           flex="0"
           left="0"
           position="fixed"
