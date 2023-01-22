@@ -783,7 +783,7 @@ const NavBar = ({ location }) => {
                 minH="40px"
                 height="unset"
               >
-                Plebbit v{version} GPL-2.0
+                Plebbit v{version} • GPL-2.0
               </Box>
             </Box>
           ) : (
