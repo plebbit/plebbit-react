@@ -79,7 +79,7 @@ const BottomSideBar = ({ bg }) => {
             marginBottom="3px"
             display="inline-block"
           >
-            Plebbit v{plebbitReactPackageJson.version} • GPL-2.0
+            Plebbit v{plebbitReactPackageJson.version}. GPL-2.0
           </Flex>
         </Box>
       </Box>
