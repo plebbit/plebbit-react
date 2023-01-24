@@ -3252,14 +3252,14 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#604ddec37da74168498b2f68ba268f62b6b3c63a":
+"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#695d574ed87aa153ce1202e294e2539e94451303":
   version "0.0.3"
-  resolved "https://github.com/plebbit/plebbit-js.git#604ddec37da74168498b2f68ba268f62b6b3c63a"
+  resolved "https://github.com/plebbit/plebbit-js.git#695d574ed87aa153ce1202e294e2539e94451303"
   dependencies:
     "@keyv/sqlite" "3.6.2"
     "@plebbit/plebbit-logger" "github:plebbit/plebbit-logger"
     "@types/node-fetch" "2.6.2"
-    "@types/proper-lockfile" "^4.1.2"
+    "@types/proper-lockfile" "4.1.2"
     "@types/uuid" "8.3.4"
     assert "2.0.0"
     async-wait-until "2.0.12"
@@ -3279,37 +3279,7 @@
     libp2p-crypto "0.21.2"
     lodash-es "4.17.21"
     peer-id "0.16.0"
-    proper-lockfile "^4.1.2"
-    safe-stable-stringify "2.4.1"
-    skia-canvas "1.0.0"
-    sqlite3 "5.1.2"
-    tinycache "1.1.2"
-    uuid "9.0.0"
-
-"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#8c050b36a021a373793cbb0b74479487004c2b6e":
-  version "0.0.3"
-  resolved "https://github.com/plebbit/plebbit-js.git#8c050b36a021a373793cbb0b74479487004c2b6e"
-  dependencies:
-    "@keyv/sqlite" "3.6.2"
-    "@plebbit/plebbit-logger" "github:plebbit/plebbit-logger"
-    "@types/node-fetch" "2.6.2"
-    "@types/uuid" "8.3.4"
-    assert "2.0.0"
-    buffer "6.0.3"
-    captcha-canvas "3.2.1"
-    err-code "3.0.1"
-    ethers "5.7.2"
-    form-data "4.0.0"
-    ipfs-http-client "56.0.3"
-    ipfs-only-hash "4.0.0"
-    is-ipfs "6.0.2"
-    jose "4.11.0"
-    js-sha256 "0.9.0"
-    keyv "4.5.2"
-    knex "2.3.0"
-    libp2p-crypto "0.21.2"
-    lodash-es "4.17.21"
-    peer-id "0.16.0"
+    proper-lockfile "github:Rinse12/node-proper-lockfile"
     safe-stable-stringify "2.4.1"
     skia-canvas "1.0.0"
     sqlite3 "5.1.2"
@@ -3329,24 +3299,11 @@
   dependencies:
     debug "4.3.3"
 
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#1c088298305d577e3e1323a391a87f5128af7258":
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#320d42b939d321f16ca0b470c88a893e74c9d92b":
   version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#1c088298305d577e3e1323a391a87f5128af7258"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#320d42b939d321f16ca0b470c88a893e74c9d92b"
   dependencies:
-    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#604ddec37da74168498b2f68ba268f62b6b3c63a"
-    "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
-    "@types/uuid" "8.3.4"
-    assert "2.0.0"
-    ethers "5.6.9"
-    localforage "1.10.0"
-    uuid "8.3.2"
-    zustand "4.0.0"
-
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#790cf2a49ab08fd7f2afbb9aa18d80e9091c6d85":
-  version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#790cf2a49ab08fd7f2afbb9aa18d80e9091c6d85"
-  dependencies:
-    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#8c050b36a021a373793cbb0b74479487004c2b6e"
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#695d574ed87aa153ce1202e294e2539e94451303"
     "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
     "@types/uuid" "8.3.4"
     assert "2.0.0"
@@ -4054,7 +4011,7 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
-"@types/proper-lockfile@^4.1.2":
+"@types/proper-lockfile@4.1.2":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@types/proper-lockfile/-/proper-lockfile-4.1.2.tgz#49537cee7134055ee13a1833b76a1c298f39bb26"
   integrity sha512-kd4LMvcnpYkspDcp7rmXKedn8iJSCoa331zRRamUp5oanKt/CefbEGPQP7G89enz7sKD4bvsr8mHSsC8j5WOvA==
@@ -7014,7 +6971,7 @@ domhandler@^4.0.0, domhandler@^4.2.0, domhandler@^4.3.1:
   dependencies:
     domelementtype "^2.2.0"
 
-dompurify@^2.4.0:
+dompurify@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.4.0.tgz#c9c88390f024c2823332615c9e20a453cf3825dd"
   integrity sha512-Be9tbQMZds4a3C6xTmz68NlMfeONA//4dOavl/1rNw50E+/QO0KVpbcU0PcaW0nsQxurXls9ZocqFxk8R2mWEA==
@@ -13853,10 +13810,9 @@ prop-types@^15.0.0, prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.2,
     object-assign "^4.1.1"
     react-is "^16.13.1"
 
-proper-lockfile@^4.1.2:
+"proper-lockfile@github:Rinse12/node-proper-lockfile":
   version "4.1.2"
-  resolved "https://registry.yarnpkg.com/proper-lockfile/-/proper-lockfile-4.1.2.tgz#c8b9de2af6b2f1601067f98e01ac66baa223141f"
-  integrity sha512-TjNPblN4BwAWMXU8s9AEz4JmQxnD1NNL7bNOY/AKUzyamc379FWASUhc/K1pL2noVb+XmZKLL68cjzLsiOAMaA==
+  resolved "https://codeload.github.com/Rinse12/node-proper-lockfile/tar.gz/072ee9e37d52858cf8410ce55c281599cef1fb92"
   dependencies:
     graceful-fs "^4.2.4"
     retry "^0.12.0"
@@ -14038,7 +13994,7 @@ react-clientside-effect@^1.2.5:
   dependencies:
     "@babel/runtime" "^7.12.13"
 
-react-color@^2.19.3:
+react-color@2.19.3:
   version "2.19.3"
   resolved "https://registry.yarnpkg.com/react-color/-/react-color-2.19.3.tgz#ec6c6b4568312a3c6a18420ab0472e146aa5683d"
   integrity sha512-LEeGE/ZzNLIsFWa1TMe8y5VYqr7bibneWmvJwm1pCn/eNmrabWDh659JSPn9BuaMpEfU83WTOJfnCcjDZwNQTA==
@@ -14330,7 +14286,7 @@ react-style-singleton@^2.1.0, react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
-react-toastify@^9.0.8:
+react-toastify@9.0.8:
   version "9.0.8"
   resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-9.0.8.tgz#3876c89fc6211a29027b3075010b5ec39ebe4f7e"
   integrity sha512-EwM+teWt49HSHx+67qI08yLAW1zAsBxCXLCsUfxHYv1W7/R3ZLhrqKalh7j+kjgPna1h5LQMSMwns4tB4ww2yQ==
@@ -16862,7 +16818,7 @@ uuid@8.3.2, uuid@^8.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
-uuid@9.0.0, uuid@^9.0.0:
+uuid@9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.0.tgz#592f550650024a38ceb0c562f2f6aa435761efb5"
   integrity sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==
