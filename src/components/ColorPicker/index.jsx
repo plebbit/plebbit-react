@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import reactCSS from 'reactcss';
 import { SketchPicker } from 'react-color';
 
-const ColorPicker = ({ custom, color, onChange }) => {
+const ColorPicker = ({ custom, color, onChange, popoverStyles }) => {
   const [display, setDisplay] = useState(false);
   const handleClick = () => {
     setDisplay(!display);
@@ -31,6 +31,7 @@ const ColorPicker = ({ custom, color, onChange }) => {
       popover: {
         position: 'absolute',
         zIndex: '2',
+        ...popoverStyles,
       },
       cover: {
         position: 'fixed',
