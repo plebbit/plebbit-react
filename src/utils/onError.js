@@ -5,9 +5,9 @@ const onError = (error) => {
     position: 'bottom-center',
     autoClose: false,
     hideProgressBar: false,
-    closeOnClick: true,
+    closeOnClick: false,
     pauseOnHover: true,
-    draggable: true,
+    draggable: false,
     progress: undefined,
     theme: 'colored',
   });

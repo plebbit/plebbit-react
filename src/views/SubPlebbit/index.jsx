@@ -18,6 +18,7 @@ import { PlebLogo } from '../../components/svgs';
 import { getAddress } from '../../utils/getUserName';
 import onError from '../../utils/onError';
 import logger from '../../utils/logger';
+import SubStyleSide from './subStyleSide';
 
 const SubPlebbit = ({ match }) => {
   const { postStyle, feedSort, profile, subscriptions, device, accountSubplebbits } =
@@ -43,6 +44,7 @@ const SubPlebbit = ({ match }) => {
   const location = useLocation();
   const isOnline = getIsOnline(subPlebbit?.updatedAt);
   const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';
+  const showStyleBar = location?.search === '?styling=true';
 
   useEffect(() => {
     setData({ ...subPlebbit });
@@ -174,6 +176,7 @@ const SubPlebbit = ({ match }) => {
 
   return (
     <Layout name={{ label: subPlebbit?.title || 'Subplebbit', value: location?.pathname }}>
+      {showStyleBar && <SubStyleSide />}
       <>
         {device !== 'mobile' ? (
           <Flex flexDirection="column" minH="calc(100vh - 48px)">

@@ -10,11 +10,14 @@ import Avatar from '../Avatar';
 import { BsArrowUpRightCircle } from 'react-icons/bs';
 import { HiOutlineChartSquareBar, HiOutlineChat } from 'react-icons/hi';
 import { AiFillSetting } from 'react-icons/ai';
+import { useLocation } from 'react-router-dom';
 
 const Layout = ({ children, name }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const { showSplashcreen, device, showSide, setShowSide } = useContext(ProfileContext);
+  const location = useLocation();
+  const showStyleBar = location?.search === '?styling=true';
 
   if (showSplashcreen) {
     return (
@@ -53,8 +56,7 @@ const Layout = ({ children, name }) => {
       <Box bg={bg} minH="calc(100vh - 48px)">
         <Box tabIndex="-1" />
         <Box outline="none" />
-
-        <NavBar location={name} setShowSide={setShowSide} showSide={showSide} />
+        <NavBar showStyleBar={showStyleBar} location={name} />
         {device !== 'mobile' ? (
           <Box
             transition="margin-top .3s ease"
@@ -306,7 +308,8 @@ const Layout = ({ children, name }) => {
                 </Flex>
               </Flex>
             )}
-            <Box>
+            {/* content */}
+            <Box position="relative" marginLeft={showStyleBar && '284px'}>
               <Flex flexDir="column" minH="calc(100vh - 48px)">
                 <Box
                   minH="100%"

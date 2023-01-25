@@ -48,7 +48,7 @@ import convertArrToObj from '../../../utils/convertArrToObj';
 import Sort from '../../../utils/sort';
 import NavNotification from './NavNotification';
 
-const NavBar = ({ location }) => {
+const NavBar = ({ location, showStyleBar }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mainColor = useColorModeValue('lightText2', 'darkText1');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -106,6 +106,8 @@ const NavBar = ({ location }) => {
     <Box>
       {device !== 'mobile' ? (
         <Flex
+          // for the side bar
+          marginLeft={showStyleBar && '284px'}
           flex="0"
           left="0"
           position="fixed"
