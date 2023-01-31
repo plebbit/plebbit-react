@@ -16,6 +16,7 @@ import {
   useToast,
   Button,
   Textarea,
+  Tooltip,
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
@@ -61,11 +62,17 @@ import Avatar from '../../Avatar';
 import onError from '../../../utils/onError';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 import Replies from '../comment/replies';
-import { HiOutlineCheckCircle } from 'react-icons/hi';
+import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
+import AddRemovalReason from '../Modal/addRemovalReason';
 
 function PostDetailModal() {
   const [showModal, setShowModal] = useState(true);
+  const {
+    onOpen: openRemovalModal,
+    onClose: closeRemovalModal,
+    isOpen: isRemovalModalOpen,
+  } = useDisclosure();
   const history = useHistory();
   const { isOpen, onClose } = useDisclosure({
     isOpen: showModal,
@@ -136,6 +143,9 @@ function PostDetailModal() {
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   // const borderColor = useColorModeValue('#ccc', '#343536');
+  const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
+  const removeColor = useColorModeValue('lightIcon', 'darkIcon');
+  const lockColor = useColorModeValue('brightSun', 'brightSun');
   const borderColor2 = useColorModeValue('#d3d6da', '#545452');
   const border2 = useColorModeValue('#edeff1', '#343536');
   const mainMobileBg = useColorModeValue('white', 'black');
@@ -769,6 +779,42 @@ function PostDetailModal() {
                               {dateToNow(parseInt(detail?.timestamp * 1000))} ago
                             </Link>
                           </Box>
+                          {detail?.locked && <Icon as={HiLockClosed} color={lockColor} />}
+                          {detail?.removed && (
+                            <Flex
+                              cursor="pointer"
+                              color={removeColor}
+                              alignItems="center"
+                              onClick={() => (detail?.moderatorReason ? openRemovalModal() : {})}
+                            >
+                              <Icon as={TiDeleteOutline} />
+                              {!detail?.moderatorReason ? (
+                                <Box>Add A removal reason</Box>
+                              ) : (
+                                <Tooltip
+                                  fontSize="10px"
+                                  label="removal reason"
+                                  aria-label="removal reason"
+                                  placement="top"
+                                >
+                                  <Text
+                                    color={misCol}
+                                    mr="3px"
+                                    textDecor="none"
+                                    display="inline-block"
+                                    flex="0 0 auto"
+                                  >
+                                    {detail?.moderatorReason}
+                                  </Text>
+                                </Tooltip>
+                              )}
+                            </Flex>
+                          )}
+                          {/* <PdMenu /> */}
+                        </Flex>
+                      </Skeleton>
+                      <Flex ml="auto">
+                        <Skeleton isLoaded={!loading}>
                           <Icon
                             sx={{
                               '@media (min-width: 1280px)': {},
@@ -780,9 +826,8 @@ function PostDetailModal() {
                             height="16px"
                             width="16px"
                           />
-                          {/* <PdMenu /> */}
-                        </Flex>
-                      </Skeleton>
+                        </Skeleton>
+                      </Flex>
                     </Flex>
                     {/* post Title */}
                     <Flex margin="0 8px" display="flex" alignItems="center">
@@ -1049,9 +1094,10 @@ function PostDetailModal() {
                               boxShadow: 'none',
                             }}
                             onClick={() => handleEditPost({ removed: false })}
+                            color={!detail?.removed && approveColor}
                           >
                             <Icon as={HiOutlineCheckCircle} height={5} width={5} mr="5px" />
-                            <Box>Approve</Box>
+                            <Box>{!detail?.removed ? 'Approved' : 'Approve'}</Box>
                           </Flex>
                           <Flex
                             alignItems="center"
@@ -1066,12 +1112,13 @@ function PostDetailModal() {
                             _focus={{
                               boxShadow: 'none',
                             }}
+                            color={detail?.removed && removeColor}
                             onClick={() =>
                               handleEditPost({ removed: detail?.removed ? false : true })
                             }
                           >
                             <Icon as={TiDeleteOutline} height={5} width={5} mr="5px" />
-                            <Box>Remove</Box>
+                            <Box>{detail?.removed ? 'Removed' : 'Remove'}</Box>
                           </Flex>
                           <Flex justifyContent="center">
                             <DropDown
@@ -1752,6 +1799,13 @@ function PostDetailModal() {
               </Box>
             </Box>
           </ModalContent>
+        )}
+        {isRemovalModalOpen && (
+          <AddRemovalReason
+            handleRemove={handleEditPost}
+            isOpen={isRemovalModalOpen}
+            onClose={closeRemovalModal}
+          />
         )}
       </Modal>
     </>

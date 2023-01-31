@@ -13,6 +13,8 @@ import {
   Button,
   Skeleton,
   Textarea,
+  useDisclosure,
+  Tooltip,
 } from '@chakra-ui/react';
 import {
   useAccountComments,
@@ -57,10 +59,16 @@ import Avatar from '../../Avatar';
 import onError from '../../../utils/onError';
 import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 import Replies from '../comment/replies';
-import { HiOutlineCheckCircle } from 'react-icons/hi';
+import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
+import AddRemovalReason from '../Modal/addRemovalReason';
 
 function PostDetail() {
+  const {
+    onOpen: openRemovalModal,
+    onClose: closeRemovalModal,
+    isOpen: isRemovalModalOpen,
+  } = useDisclosure();
   const location = useLocation();
   const params = useParams();
   const feedFromProfile = location?.pathname.includes('/profile/c');
@@ -122,6 +130,9 @@ function PostDetail() {
   const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
+  const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
+  const removeColor = useColorModeValue('lightIcon', 'darkIcon');
+  const lockColor = useColorModeValue('brightSun', 'brightSun');
   // const borderColor = useColorModeValue('#ccc', '#343536');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const borderColor2 = useColorModeValue('#d3d6da', '#545452');
@@ -806,6 +817,45 @@ function PostDetail() {
                                     {dateToNow(parseInt(detail?.timestamp * 1000))} ago
                                   </Link>
                                 </Box>
+                                {detail?.locked && <Icon as={HiLockClosed} color={lockColor} />}
+                                {detail?.removed && (
+                                  <Flex
+                                    cursor="pointer"
+                                    color={removeColor}
+                                    alignItems="center"
+                                    onClick={() =>
+                                      detail?.moderatorReason ? openRemovalModal() : {}
+                                    }
+                                  >
+                                    <Icon as={TiDeleteOutline} />
+                                    {!detail?.moderatorReason ? (
+                                      <Box>Add A removal reason</Box>
+                                    ) : (
+                                      <Tooltip
+                                        fontSize="10px"
+                                        label="removal reason"
+                                        aria-label="removal reason"
+                                        placement="top"
+                                      >
+                                        <Text
+                                          color={misCol}
+                                          mr="3px"
+                                          textDecor="none"
+                                          display="inline-block"
+                                          flex="0 0 auto"
+                                        >
+                                          {detail?.moderatorReason}
+                                        </Text>
+                                      </Tooltip>
+                                    )}
+                                  </Flex>
+                                )}
+
+                                {/* <PdMenu /> */}
+                              </Flex>
+                            </Skeleton>
+                            <Flex ml="auto">
+                              <Skeleton isLoaded={!loading}>
                                 <Icon
                                   sx={{
                                     '@media (min-width: 1280px)': {},
@@ -817,9 +867,8 @@ function PostDetail() {
                                   height="16px"
                                   width="16px"
                                 />
-                                {/* <PdMenu /> */}
-                              </Flex>
-                            </Skeleton>
+                              </Skeleton>
+                            </Flex>
                           </Flex>
                           {/* post Title */}
                           <Flex margin="0 8px" display="flex" alignItems="center">
@@ -1086,9 +1135,10 @@ function PostDetail() {
                                     boxShadow: 'none',
                                   }}
                                   onClick={() => handleEditPost({ removed: false })}
+                                  color={!detail?.removed && approveColor}
                                 >
                                   <Icon as={HiOutlineCheckCircle} height={5} width={5} mr="5px" />
-                                  <Box>Approve</Box>
+                                  <Box>{!detail?.removed ? 'Approved' : 'Approve'}</Box>
                                 </Flex>
                                 <Flex
                                   alignItems="center"
@@ -1103,12 +1153,13 @@ function PostDetail() {
                                   _focus={{
                                     boxShadow: 'none',
                                   }}
+                                  color={detail?.removed && removeColor}
                                   onClick={() =>
                                     handleEditPost({ removed: detail?.removed ? false : true })
                                   }
                                 >
                                   <Icon as={TiDeleteOutline} height={5} width={5} mr="5px" />
-                                  <Box>Remove</Box>
+                                  <Box>{detail?.removed ? 'Removed' : 'Remove'}</Box>
                                 </Flex>
                                 <Flex justifyContent="center">
                                   <DropDown
@@ -1786,6 +1837,13 @@ function PostDetail() {
           </Box>
         )}
       </Box>
+      {isRemovalModalOpen && (
+        <AddRemovalReason
+          handleRemove={handleEditPost}
+          isOpen={isRemovalModalOpen}
+          onClose={closeRemovalModal}
+        />
+      )}
     </Layout>
   );
 }
