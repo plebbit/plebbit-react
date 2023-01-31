@@ -463,7 +463,7 @@ const ClassicPost = ({
                           >
                             <Icon as={TiDeleteOutline} />
                             {!post?.moderatorReason ? (
-                              <Box>Add A removal reason</Box>
+                              allowedSpecial && <Box>Add A removal reason</Box>
                             ) : (
                               <Tooltip
                                 fontSize="10px"
@@ -834,7 +834,7 @@ const ClassicPost = ({
                           textTransform="capitalize"
                           verticalAlign="middle"
                         >
-                          Approve
+                          {!post?.removed ? 'Approved' : 'Approve'}
                         </Text>
                       </Flex>
                       <Flex
@@ -867,7 +867,7 @@ const ClassicPost = ({
                           textTransform="capitalize"
                           verticalAlign="middle"
                         >
-                          Remove
+                          {post?.removed ? 'Removed' : 'Remove'}
                         </Text>
                       </Flex>
                       <Flex

@@ -478,7 +478,7 @@ const CompactPost = ({
                         >
                           <Icon as={TiDeleteOutline} />
                           {!post?.moderatorReason ? (
-                            <Box>Add A removal reason</Box>
+                            allowedSpecial && <Box>Add A removal reason</Box>
                           ) : (
                             <Tooltip
                               fontSize="10px"

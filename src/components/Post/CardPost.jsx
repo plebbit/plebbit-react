@@ -381,7 +381,7 @@ const CardPost = ({
                             >
                               <Icon as={TiDeleteOutline} />
                               {!post?.moderatorReason ? (
-                                <Box>Add A removal reason</Box>
+                                allowedSpecial && <Box>Add A removal reason</Box>
                               ) : (
                                 <Tooltip
                                   fontSize="10px"
@@ -984,7 +984,7 @@ const CardPost = ({
                     onClick={() => handleEditPost({ removed: false })}
                   >
                     <Icon height="20px" width="20px" as={HiOutlineCheckCircle} />
-                    <Box ml="4px">Approve</Box>
+                    <Box ml="4px">{!post?.removed ? 'Approved' : 'Approve'}</Box>
                   </Flex>
                   <Flex
                     _hover={{
@@ -1000,7 +1000,7 @@ const CardPost = ({
                     onClick={() => handleEditPost({ removed: post?.removed ? false : true })}
                   >
                     <Icon height="20px" width="20px" as={TiDeleteOutline} />
-                    <Box ml="4px">Remove</Box>
+                    <Box ml="4px">{post?.removed ? 'Removed' : 'Remove'}</Box>
                   </Flex>
 
                   <Flex justifyContent="center">
