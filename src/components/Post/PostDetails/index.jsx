@@ -829,7 +829,7 @@ function PostDetail() {
                                   >
                                     <Icon as={TiDeleteOutline} />
                                     {!detail?.moderatorReason ? (
-                                      <Box>Add A removal reason</Box>
+                                      isSpecial && <Box>Add A removal reason</Box>
                                     ) : (
                                       <Tooltip
                                         fontSize="10px"
