@@ -173,6 +173,8 @@ const SubPlebbit = ({ match }) => {
       });
     }
   };
+  const pinnedPosts = feeds?.filter((feed) => feed?.pinned);
+  console.log(pinnedPosts);
 
   return (
     <Layout name={{ label: subPlebbit?.title || 'Subplebbit', value: location?.pathname }}>
@@ -342,6 +344,15 @@ const SubPlebbit = ({ match }) => {
                   {/* feed list */}
 
                   <Box minHeight="1000px" width="100%">
+                    {pinnedPosts?.map((feed) => (
+                      <Post
+                        allowedSpecial={allowedSpecial}
+                        type="subPlebbit"
+                        post={feed}
+                        key={Math.random()}
+                        mode={postStyle}
+                      />
+                    ))}
                     <InfiniteScroll
                       hasMore={hasMore}
                       loadMore={loadMore}
@@ -354,7 +365,7 @@ const SubPlebbit = ({ match }) => {
                           mode={postStyle}
                         />
                       )}
-                      feeds={feeds}
+                      feeds={feeds?.filter((x) => !x?.pinned)}
                       loader={
                         <Post
                           type="subPlebbit"
@@ -486,6 +497,15 @@ const SubPlebbit = ({ match }) => {
                 {/* feed sort bar */}
                 <FeedSort />
                 {/* feed list */}
+                {pinnedPosts?.map((feed) => (
+                  <Post
+                    allowedSpecial={allowedSpecial}
+                    type="subPlebbit"
+                    post={feed}
+                    key={Math.random()}
+                    mode={postStyle}
+                  />
+                ))}
                 <InfiniteScroll
                   hasMore={hasMore}
                   loadMore={loadMore}
@@ -498,7 +518,7 @@ const SubPlebbit = ({ match }) => {
                       allowedSpecial={allowedSpecial}
                     />
                   )}
-                  feeds={feeds}
+                  feeds={feeds?.filter((x) => !x?.pinned)}
                   loader={
                     <Post type="subPlebbit" loading={true} mode={postStyle} key={Math.random()} />
                   }
