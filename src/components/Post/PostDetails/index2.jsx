@@ -1006,7 +1006,9 @@ function PostDetailModal() {
                       </Box>
                     )}
                     {/* Post Bottom Bar */}
-                    {isSpecial ? (
+                    {detailPending ? (
+                      !loading && <Flex />
+                    ) : isSpecial ? (
                       <Flex
                         flexDirection="row"
                         alignItems="center"
