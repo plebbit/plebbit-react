@@ -1073,6 +1073,13 @@ const CardPost = ({
                           label: 'Block author',
                           icon: BsEyeSlash,
                           id: 'block',
+                          disabled: owner,
+                        },
+                        {
+                          label: 'Delete',
+                          icon: MdOutlineDeleteOutline,
+                          id: 'delete',
+                          disabled: !owner,
                         },
                       ]}
                       rightOffset={0}

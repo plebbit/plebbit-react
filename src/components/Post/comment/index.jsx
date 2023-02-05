@@ -14,7 +14,7 @@ import { useAccountsActions, useAuthorAvatarImageUrl } from '@plebbit/plebbit-re
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
-import { BsChat } from 'react-icons/bs';
+import { BsBookmark, BsChat, BsFlag, BsShield } from 'react-icons/bs';
 import Editor from '../../Editor';
 import Marked from '../../Editor/marked';
 import dateToNow from '../../../utils/formatDate';
@@ -26,6 +26,11 @@ import Avatar from '../../Avatar';
 import onError from '../../../utils/onError';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ProfileContext } from '../../../store/profileContext';
+import DropDown from '../../DropDown';
+import { FiMoreHorizontal } from 'react-icons/fi';
+import { GoGift } from 'react-icons/go';
+import { MdOutlineDeleteOutline } from 'react-icons/md';
+import Swal from 'sweetalert2';
 
 const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -36,14 +41,19 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const [reply, setShowReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const toast = useToast();
-  const { publishVote, publishComment } = useAccountsActions();
+  const { publishVote, publishComment, publishCommentEdit } = useAccountsActions();
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(comment?.author);
-  const { baseUrl } = useContext(ProfileContext);
+  const { baseUrl, profile, accountSubplebbits } = useContext(ProfileContext);
   const [copied, setCopied] = useState(false);
   const [loader, setLoader] = useState(false);
   const commentPending = !comment?.cid;
+  const isSpecial = Object.keys(accountSubplebbits || {})?.includes(comment?.subplebbitAddress);
+
+  const owner =
+    profile?.author?.address === comment?.author?.address ||
+    profile?.signer?.address === comment?.author?.address;
   const onChallengeVerification = (challengeVerification) => {
     if (challengeVerification.challengeSuccess === true) {
       toast({
@@ -149,6 +159,49 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     }
   };
 
+  const handleEditPost = async (update, callBack, failedCallBack) => {
+    try {
+      await publishCommentEdit({
+        commentCid: comment?.cid,
+        subplebbitAddress: comment?.subplebbitAddress,
+        onChallenge,
+        onChallengeVerification,
+        onError: onError,
+        ...update,
+      });
+      callBack ? callBack() : '';
+    } catch (error) {
+      logger('edit:comment:response:', error, 'error');
+      toast({
+        title: 'Comment Edit Declined.',
+        description: error?.stack.toString(),
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      failedCallBack ? failedCallBack() : '';
+    }
+  };
+  const handleOption = (val) => {
+    if (val?.id === 'delete') {
+      Swal.fire({
+        title: 'Do you want to delete this post?',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        cancelButtonColor: '#d33',
+        confirmButtonColor: 'grey',
+        icon: 'warning',
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          handleEditPost({ deleted: true });
+        }
+      });
+    }
+  };
+
+  console.log(comment);
+
   const oneComment = (
     <Comment
       key={singleComment?.cid}
@@ -220,127 +273,76 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
             </Tag>
           )}
         </Box>
-        <Flex color={iconColor}>
-          <Flex
-            alignItems="center"
-            maxH=""
-            p="4px"
-            width="auto"
-            maxWidth="110px"
-            minWidth="32px"
-            mr="10px"
-            flexShrink="0"
-          >
-            <IconButton
-              aria-label="Upvote Post"
-              color={voteMode === 1 ? 'upvoteOrange' : iconColor}
-              w="24px"
-              h="24px"
-              bg="none"
-              minW="24px"
-              minH="24px"
-              border="none"
-              borderRadius="2px"
-              _hover={{
-                color: 'upvoteOrange',
-                bg: bottomButtonHover,
-              }}
-              _focus={{
-                outline: 'none',
-              }}
-              onClick={() => {
-                setVoteMode(voteMode === 1 ? 0 : 1);
-                handleVote(voteMode === 1 ? 0 : 1);
-              }}
-              icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w="20px" h="20px" />}
-            />
-            <Box fontSize="14px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
-              {numFormatter(vote + voteMode) === 0 ? 'vote' : numFormatter(vote + voteMode) || 0}
-            </Box>
-            <IconButton
-              aria-label="Downvote Post"
-              color={voteMode === -1 ? 'downvoteBlue' : iconColor}
-              w="24px"
-              h="24px"
-              minW="24px"
-              minH="24px"
-              border="none"
-              bg="none"
-              borderRadius="2px"
-              _hover={{
-                color: 'downvoteBlue',
-                bg: bottomButtonHover,
-              }}
-              _focus={{
-                outline: 'none',
-              }}
-              onClick={() => {
-                setVoteMode(voteMode === -1 ? 0 : -1);
-                handleVote(voteMode === -1 ? 0 : -1);
-              }}
-              icon={<Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w="20px" h="20px" />}
-            />
-          </Flex>
-          <Link
-            display="flex"
-            alignItems="center"
-            borderRadius="2px"
-            padding="2px"
-            marginRight="4px"
-            _hover={{
-              textDecor: 'none',
-              outline: 'none',
-              bg: bottomButtonHover,
-            }}
-            _focus={{
-              boxShadow: 'none',
-            }}
-            onClick={() => setShowReply(!reply)}
-          >
-            <Icon as={BsChat} height="20px" width="20px" mr="5px" />
-            <Text fontSize="12px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
-              Reply
-            </Text>
-          </Link>
-          <Link
-            display="flex"
-            alignItems="center"
-            borderRadius="2px"
-            padding="4px"
-            marginRight="4px"
-            _hover={{
-              textDecor: 'none',
-              outline: 'none',
-              bg: bottomButtonHover,
-            }}
-            _focus={{
-              boxShadow: 'none',
-            }}
-            sx={{
-              '@media (min-width: 1280px)': {},
-              '@media (max-width: 1120px)': {
-                display: 'none',
-              },
-            }}
-          >
-            <Text fontSize="12px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
-              Give Award
-            </Text>
-          </Link>
-          <CopyToClipboard
-            text={`${baseUrl}p/${comment?.subplebbitAddress}/c/${comment?.cid}`}
-            onCopy={() => {
-              setCopied(true);
-              setTimeout(() => {
-                setCopied(false);
-              }, 3000);
-            }}
-          >
+        {/* footer */}
+        {commentPending ? (
+          <Flex />
+        ) : (
+          <Flex color={iconColor}>
+            <Flex
+              alignItems="center"
+              maxH=""
+              p="4px"
+              width="auto"
+              maxWidth="110px"
+              minWidth="32px"
+              mr="10px"
+              flexShrink="0"
+            >
+              <IconButton
+                aria-label="Upvote Post"
+                color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                w="24px"
+                h="24px"
+                bg="none"
+                minW="24px"
+                minH="24px"
+                border="none"
+                borderRadius="2px"
+                _hover={{
+                  color: 'upvoteOrange',
+                  bg: bottomButtonHover,
+                }}
+                _focus={{
+                  outline: 'none',
+                }}
+                onClick={() => {
+                  setVoteMode(voteMode === 1 ? 0 : 1);
+                  handleVote(voteMode === 1 ? 0 : 1);
+                }}
+                icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w="20px" h="20px" />}
+              />
+              <Box fontSize="14px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
+                {numFormatter(vote + voteMode) === 0 ? 'vote' : numFormatter(vote + voteMode) || 0}
+              </Box>
+              <IconButton
+                aria-label="Downvote Post"
+                color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                w="24px"
+                h="24px"
+                minW="24px"
+                minH="24px"
+                border="none"
+                bg="none"
+                borderRadius="2px"
+                _hover={{
+                  color: 'downvoteBlue',
+                  bg: bottomButtonHover,
+                }}
+                _focus={{
+                  outline: 'none',
+                }}
+                onClick={() => {
+                  setVoteMode(voteMode === -1 ? 0 : -1);
+                  handleVote(voteMode === -1 ? 0 : -1);
+                }}
+                icon={<Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w="20px" h="20px" />}
+              />
+            </Flex>
             <Link
               display="flex"
               alignItems="center"
               borderRadius="2px"
-              padding="4px"
+              padding="2px"
               marginRight="4px"
               _hover={{
                 textDecor: 'none',
@@ -350,13 +352,9 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
               _focus={{
                 boxShadow: 'none',
               }}
-              sx={{
-                '@media (min-width: 1280px)': {},
-                '@media (max-width: 1120px)': {
-                  display: 'none',
-                },
-              }}
+              onClick={() => setShowReply(!reply)}
             >
+              <Icon as={BsChat} height="20px" width="20px" mr="5px" />
               <Text
                 fontSize="12px"
                 fontWeight="700"
@@ -364,36 +362,147 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                 pointerEvents="none"
                 color=""
               >
-                {copied ? 'Copied' : 'share'}
+                Reply
               </Text>
             </Link>
-          </CopyToClipboard>
-          <Link
-            display="flex"
-            alignItems="center"
-            borderRadius="2px"
-            padding="4px"
-            marginRight="4px"
-            _hover={{
-              textDecor: 'none',
-              outline: 'none',
-              bg: bottomButtonHover,
-            }}
-            _focus={{
-              boxShadow: 'none',
-            }}
-            sx={{
-              '@media (min-width: 1280px)': {},
-              '@media (max-width: 1120px)': {
-                display: 'none',
-              },
-            }}
-          >
-            <Text fontSize="12px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
-              Save
-            </Text>
-          </Link>
-        </Flex>
+
+            <CopyToClipboard
+              text={`${baseUrl}p/${comment?.subplebbitAddress}/c/${comment?.cid}`}
+              onCopy={() => {
+                setCopied(true);
+                setTimeout(() => {
+                  setCopied(false);
+                }, 3000);
+              }}
+            >
+              <Link
+                display="flex"
+                alignItems="center"
+                borderRadius="2px"
+                padding="4px"
+                marginRight="4px"
+                _hover={{
+                  textDecor: 'none',
+                  outline: 'none',
+                  bg: bottomButtonHover,
+                }}
+                _focus={{
+                  boxShadow: 'none',
+                }}
+                sx={{
+                  '@media (min-width: 1280px)': {},
+                  '@media (max-width: 1120px)': {
+                    display: 'none',
+                  },
+                }}
+              >
+                <Text
+                  fontSize="12px"
+                  fontWeight="700"
+                  lineHeight="16px"
+                  pointerEvents="none"
+                  color=""
+                >
+                  {copied ? 'Copied' : 'share'}
+                </Text>
+              </Link>
+            </CopyToClipboard>
+            <Flex justifyContent="center">
+              <DropDown
+                onChange={handleOption}
+                dropDownTitle={
+                  <Flex
+                    borderRadius="2px"
+                    height="24px"
+                    verticalAlign="middle"
+                    padding="0 4px"
+                    width="100%"
+                    bg="transparent"
+                    border="none"
+                    alignItems="center"
+                    _hover={{
+                      textDecor: 'none',
+                      outline: 'none',
+                      bg: bottomButtonHover,
+                    }}
+                  >
+                    <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
+                  </Flex>
+                }
+                options={[
+                  {
+                    label: 'Give Award',
+                    icon: GoGift,
+                    id: 'award',
+                  },
+                  {
+                    label: 'Report',
+                    icon: BsFlag,
+                    id: 'award',
+                    disabled: owner,
+                  },
+                  {
+                    label: 'Save',
+                    icon: BsBookmark,
+                    id: 'save',
+                  },
+                  {
+                    label: 'Delete',
+                    icon: MdOutlineDeleteOutline,
+                    id: 'delete',
+                    disabled: !owner,
+                  },
+                ]}
+                rightOffset={0}
+                leftOffset="none"
+                topOffset="34px"
+              />
+            </Flex>
+            {isSpecial && (
+              <Flex justifyContent="center">
+                <DropDown
+                  onChange={(val) => handleEditPost({ [val?.id]: comment[val?.id] ? false : true })}
+                  dropDownTitle={
+                    <Flex
+                      borderRadius="2px"
+                      height="24px"
+                      verticalAlign="middle"
+                      padding="0 4px"
+                      width="100%"
+                      bg="transparent"
+                      border="none"
+                      alignItems="center"
+                      _hover={{
+                        color: 'downvoteBlue',
+                        bg: bottomButtonHover,
+                      }}
+                      _focus={{
+                        outline: 'none',
+                      }}
+                    >
+                      <Icon as={BsShield} color={iconColor} h="20px" w="20px" />
+                    </Flex>
+                  }
+                  options={[
+                    {
+                      label: !comment?.removed ? 'Approved' : 'Approve',
+                      id: 'removed',
+                      color: !comment?.removed ? ' green' : 'red',
+                    },
+                    {
+                      label: 'Lock Comments',
+                      id: 'locked',
+                      color: comment?.locked && 'red',
+                    },
+                  ]}
+                  rightOffset={0}
+                  leftOffset="none"
+                  topOffset="34px"
+                />
+              </Flex>
+            )}
+          </Flex>
+        )}
         {reply ? (
           <Box
             minH="150px"
