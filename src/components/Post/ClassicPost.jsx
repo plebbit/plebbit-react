@@ -65,6 +65,7 @@ const ClassicPost = ({
   openRemovalModal,
   allowedSpecial,
   handleEditPost,
+  owner,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -87,7 +88,7 @@ const ClassicPost = ({
   const removeColor = useColorModeValue('lightIcon', 'darkIcon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
-  const { device, profile } = useContext(ProfileContext);
+  const { device } = useContext(ProfileContext);
   const subPlebbit = sub || { address: post?.subplebbitAddress };
   const history = useHistory();
 
@@ -1115,68 +1116,105 @@ const ClassicPost = ({
                           Save
                         </Text>
                       </Flex>
-                      <Flex
-                        padding="8px"
-                        wordBreak="normal"
-                        mr="4px"
-                        alignItems="center"
-                        borderRadius="2px"
-                        fontSize="12px"
-                        fontWeight="700"
-                        lineHeight="16px"
-                        boxSizing="border-box"
-                        _hover={{
-                          backgroundColor: inputBg,
-                        }}
-                      >
-                        <Icon
-                          as={BsEyeSlash}
-                          width="20px"
-                          height="20px"
-                          verticalAlign="middle"
-                          fontWeight="400"
-                          mr="6px"
-                        />
-                        <Text
-                          display="inline-block"
-                          lineHeight={1}
-                          textTransform="capitalize"
-                          verticalAlign="middle"
+                      {!owner ? (
+                        <>
+                          <Flex
+                            padding="8px"
+                            wordBreak="normal"
+                            mr="4px"
+                            alignItems="center"
+                            borderRadius="2px"
+                            fontSize="12px"
+                            fontWeight="700"
+                            lineHeight="16px"
+                            boxSizing="border-box"
+                            _hover={{
+                              backgroundColor: inputBg,
+                            }}
+                          >
+                            <Icon
+                              as={BsEyeSlash}
+                              width="20px"
+                              height="20px"
+                              verticalAlign="middle"
+                              fontWeight="400"
+                              mr="6px"
+                            />
+                            <Text
+                              display="inline-block"
+                              lineHeight={1}
+                              textTransform="capitalize"
+                              verticalAlign="middle"
+                            >
+                              Hide
+                            </Text>
+                          </Flex>
+                          <Flex
+                            padding="8px"
+                            wordBreak="normal"
+                            mr="4px"
+                            alignItems="center"
+                            borderRadius="2px"
+                            fontSize="12px"
+                            fontWeight="700"
+                            lineHeight="16px"
+                            boxSizing="border-box"
+                            _hover={{
+                              backgroundColor: inputBg,
+                            }}
+                          >
+                            <Icon
+                              as={BsFlag}
+                              width="20px"
+                              height="20px"
+                              verticalAlign="middle"
+                              fontWeight="400"
+                              mr="6px"
+                            />
+                            <Text
+                              display="inline-block"
+                              lineHeight={1}
+                              textTransform="capitalize"
+                              verticalAlign="middle"
+                            >
+                              Report
+                            </Text>
+                          </Flex>
+                        </>
+                      ) : (
+                        <Flex
+                          padding="8px"
+                          wordBreak="normal"
+                          mr="4px"
+                          alignItems="center"
+                          borderRadius="2px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                          boxSizing="border-box"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                          onClick={() => handleOption({ label: 'Delete', id: 'delete' })}
                         >
-                          Hide
-                        </Text>
-                      </Flex>
-                      <Flex
-                        padding="8px"
-                        wordBreak="normal"
-                        mr="4px"
-                        alignItems="center"
-                        borderRadius="2px"
-                        fontSize="12px"
-                        fontWeight="700"
-                        lineHeight="16px"
-                        boxSizing="border-box"
-                        _hover={{
-                          backgroundColor: inputBg,
-                        }}
-                      >
-                        <Icon
-                          as={BsFlag}
-                          width="20px"
-                          height="20px"
-                          verticalAlign="middle"
-                          fontWeight="400"
-                          mr="6px"
-                        />
-                        <Text
-                          display="inline-block"
-                          lineHeight={1}
-                          textTransform="capitalize"
-                          verticalAlign="middle"
-                        >
-                          Report
-                        </Text>
-                      </Flex>
+                          <Icon
+                            as={MdOutlineDeleteOutline}
+                            width="20px"
+                            height="20px"
+                            verticalAlign="middle"
+                            fontWeight="400"
+                            mr="6px"
+                          />
+                          <Text
+                            display="inline-block"
+                            lineHeight={1}
+                            textTransform="capitalize"
+                            verticalAlign="middle"
+                          >
+                            Delete
+                          </Text>
+                        </Flex>
+                      )}
                     </Flex>
                   )}
                 </Flex>
@@ -1305,9 +1343,7 @@ const ClassicPost = ({
                       {post?.removed && <Icon as={AiTwotoneDelete} color={removeColor} />}
                     </Flex>
                     <DropDown
-                      onChange={(x) => {
-                        handleOption(x);
-                      }}
+                      onChange={handleOption}
                       rightOffset="10px"
                       leftOffset="none"
                       dropDownTitle={
@@ -1325,18 +1361,20 @@ const ClassicPost = ({
                           label: 'Edit',
                           icon: BsPencil,
                           id: 'Edit',
-                          disabled: !(
-                            (profile?.author?.address === post?.author?.address ||
-                              profile?.signer?.address === post?.author?.address) &&
-                            detail
-                          ),
+                          disabled: !(owner && detail),
                         },
                         {
-                          label: 'Block Author',
+                          label: 'Block author',
                           icon: BsEyeSlash,
                           id: 'block',
+                          disabled: owner,
                         },
-                        { label: 'Delete', icon: MdOutlineDeleteOutline, id: 'Delete' },
+                        {
+                          label: 'Delete',
+                          icon: MdOutlineDeleteOutline,
+                          id: 'delete',
+                          disabled: !owner,
+                        },
                       ]}
                     />
                   </Flex>

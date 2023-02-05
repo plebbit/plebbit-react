@@ -60,6 +60,7 @@ const CardPost = ({
   allowedSpecial,
   handleEditPost,
   openRemovalModal,
+  owner,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -85,7 +86,7 @@ const CardPost = ({
   const history = useHistory();
   const subPlebbit = sub || { address: post?.subplebbitAddress };
 
-  const { device, profile } = useContext(ProfileContext);
+  const { device } = useContext(ProfileContext);
   return (
     <>
       {device !== 'mobile' ? (
@@ -1245,6 +1246,13 @@ const CardPost = ({
                           label: 'Block author',
                           icon: BsEyeSlash,
                           id: 'block',
+                          disabled: owner,
+                        },
+                        {
+                          label: 'Delete',
+                          icon: MdOutlineDeleteOutline,
+                          id: 'delete',
+                          disabled: !owner,
                         },
                       ]}
                     />
@@ -1348,41 +1356,43 @@ const CardPost = ({
                       {post?.locked && <Icon as={HiLockClosed} color={lockColor} />}
                       {post?.removed && <Icon as={AiTwotoneDelete} color={removeColor} />}
                     </Flex>
-                    <DropDown
-                      onChange={(x) => {
-                        handleOption(x);
-                      }}
-                      rightOffset="10px"
-                      leftOffset="none"
-                      dropDownTitle={
-                        <Box
-                          pointerEvents="all"
-                          color="#565758"
-                          padding="8px 16px 8px 2px"
-                          verticalAlign="middle"
-                        >
-                          <Icon as={FiMoreHorizontal} verticalAlign="inherit" height={5} w={5} />
-                        </Box>
-                      }
-                      options={[
-                        {
-                          label: 'Edit',
-                          icon: BsPencil,
-                          id: 'Edit',
-                          disabled: !(
-                            (profile?.author?.address === post?.author?.address ||
-                              profile?.signer?.address === post?.author?.address) &&
-                            detail
-                          ),
-                        },
-                        {
-                          label: 'Block Author',
-                          icon: BsEyeSlash,
-                          id: 'block',
-                        },
-                        { label: 'Delete', icon: MdOutlineDeleteOutline, id: 'Delete' },
-                      ]}
-                    />
+                    {!pending && (
+                      <DropDown
+                        onChange={handleOption}
+                        rightOffset="10px"
+                        leftOffset="none"
+                        dropDownTitle={
+                          <Box
+                            pointerEvents="all"
+                            color="#565758"
+                            padding="8px 16px 8px 2px"
+                            verticalAlign="middle"
+                          >
+                            <Icon as={FiMoreHorizontal} verticalAlign="inherit" height={5} w={5} />
+                          </Box>
+                        }
+                        options={[
+                          {
+                            label: 'Edit',
+                            icon: BsPencil,
+                            id: 'Edit',
+                            disabled: !(owner && detail),
+                          },
+                          {
+                            label: 'Block Author',
+                            icon: BsEyeSlash,
+                            id: 'block',
+                            disabled: owner,
+                          },
+                          {
+                            label: 'Delete',
+                            icon: MdOutlineDeleteOutline,
+                            id: 'delete',
+                            disabled: !owner,
+                          },
+                        ]}
+                      />
+                    )}
                   </Flex>
                 </Flex>
                 <Box
@@ -1424,7 +1434,7 @@ const CardPost = ({
             {/* Footer */}
             {pending ? (
               !loading && (
-                /* <Box
+                <Box
                   paddingBottom="12px"
                   paddingTop="8px"
                   padding="8px 16px"
@@ -1439,79 +1449,7 @@ const CardPost = ({
                     content: `" "`,
                     display: 'table',
                   }}
-                >
-                  <Flex flex="1" float="none" top="0" position="relative" pointerEvents="none">
-                    <Flex
-                      width="max-content"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      padding="4px"
-                      boxSizing="border-box"
-                      _hover={{
-                        bg: inputBg,
-                      }}
-                      onClick={() => handleOption('Edit')}
-                      mr="4px"
-                    >
-                      <Icon
-                        as={BsPencil}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                    </Flex>
-                    <Flex
-                      width="max-content"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      padding="4px"
-                      boxSizing="border-box"
-                      _hover={{
-                        bg: inputBg,
-                      }}
-                      onClick={() => handleOption('Delete')}
-                      mr="4px"
-                    >
-                      <Icon
-                        as={TiDeleteOutline}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                    </Flex>
-                    <Flex
-                      width="max-content"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      padding="4px"
-                      boxSizing="border-box"
-                      _hover={{
-                        bg: inputBg,
-                      }}
-                      mr="4px"
-                    >
-                      <Icon
-                        as={BsBookmark}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                    </Flex>
-                  </Flex>
-                </Box> */
-                <Box />
+                />
               )
             ) : allowedSpecial ? (
               <Box
