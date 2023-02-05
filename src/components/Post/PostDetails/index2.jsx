@@ -1006,7 +1006,9 @@ function PostDetailModal() {
                       </Box>
                     )}
                     {/* Post Bottom Bar */}
-                    {isSpecial ? (
+                    {detailPending ? (
+                      !loading && <Flex />
+                    ) : isSpecial ? (
                       <Flex
                         flexDirection="row"
                         alignItems="center"
@@ -1214,11 +1216,7 @@ function PostDetailModal() {
                                     icon: BsBookmark,
                                     id: 'Save',
                                   },
-                                  {
-                                    label: 'Block Author',
-                                    icon: BsEyeSlash,
-                                    id: 'block',
-                                  },
+
                                   {
                                     label: 'Delete',
                                     icon: MdOutlineDeleteOutline,
@@ -1414,11 +1412,6 @@ function PostDetailModal() {
                                     label: 'Save',
                                     icon: BsBookmark,
                                     id: 'Save',
-                                  },
-                                  {
-                                    label: 'Block Author',
-                                    icon: BsEyeSlash,
-                                    id: 'block',
                                   },
                                   {
                                     label: 'Delete',

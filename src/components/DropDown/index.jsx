@@ -104,7 +104,7 @@ const DropDown = ({
                     borderTop={`1px solid ${border2}`}
                   >
                     {option?.icon && <Icon mr="4px" as={option?.icon} width={6} height={6} />}
-                    <Box>{option?.label}</Box>
+                    <Box color={option?.color}>{option?.label}</Box>
                   </Flex>
                 ) : (
                   ''

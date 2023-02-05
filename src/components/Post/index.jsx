@@ -17,9 +17,10 @@ import onError from '../../utils/onError';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 import { useLocation } from 'react-router-dom';
 import AddRemovalReason from './Modal/addRemovalReason';
+import Swal from 'sweetalert2';
 
 const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial }) => {
-  const { device, accountSubplebbits } = useContext(ProfileContext);
+  const { device, accountSubplebbits, profile } = useContext(ProfileContext);
   const pending = !post?.cid;
   const postVote = useAccountVote(post?.cid);
   const vote = postVote?.vote || 0;
@@ -32,6 +33,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit(post?.subplebbitAddress);
   const isOnline = getIsOnline(getSub?.updatedAt);
+  const owner =
+    profile?.author?.address === post?.author?.address ||
+    profile?.signer?.address === post?.author?.address;
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(post?.subplebbitAddress);
   const {
     onOpen: openRemovalModal,
@@ -176,6 +180,24 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     }, 3000);
   };
 
+  const handleModOption = (val) => {
+    if (val?.id === 'delete') {
+      Swal.fire({
+        title: 'Do you want to delete this post?',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        cancelButtonColor: '#d33',
+        confirmButtonColor: 'grey',
+        icon: 'warning',
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          handleEditPost({ deleted: true });
+        }
+      });
+    }
+  };
+
   return (
     <>
       <Box>
@@ -189,7 +211,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             post={post}
             loading={loading}
             detail={detail}
-            handleOption={handleOption}
+            handleOption={handleOption === undefined ? handleModOption : handleOption}
             copied={copied}
             setCopied={setCopied}
             location={sharePath}
@@ -202,6 +224,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             allowedSpecial={isSpecial || allowedSpecial}
             handleEditPost={handleEditPost}
             openRemovalModal={openRemovalModal}
+            owner={owner}
           />
         )}
         {/* classic */}
@@ -216,7 +239,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             post={post}
             loading={loading}
             detail={detail}
-            handleOption={handleOption}
+            handleOption={handleOption === undefined ? handleModOption : handleOption}
             copied={copied}
             setCopied={setCopied}
             location={sharePath}
@@ -226,9 +249,10 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             handleCopy={handleCopy}
             pending={pending}
             detailRoute={detailRoute}
-            allowedSpecial={allowedSpecial}
+            allowedSpecial={isSpecial || allowedSpecial}
             handleEditPost={handleEditPost}
             openRemovalModal={openRemovalModal}
+            owner={owner}
           />
         )}
         {/* compact */}
@@ -244,7 +268,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               post={post}
               loading={loading}
               detail={detail}
-              handleOption={handleOption}
+              handleOption={handleOption === undefined ? handleModOption : handleOption}
               copied={copied}
               setCopied={setCopied}
               location={sharePath}
@@ -254,9 +278,10 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               handleCopy={handleCopy}
               detailRoute={detailRoute}
               pending={pending}
-              allowedSpecial={allowedSpecial}
+              allowedSpecial={isSpecial || allowedSpecial}
               handleEditPost={handleEditPost}
               openRemovalModal={openRemovalModal}
+              owner={owner}
             />
           ) : (
             <ClassicPost
@@ -269,7 +294,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               post={post}
               loading={loading}
               detail={detail}
-              handleOption={handleOption}
+              handleOption={handleOption === undefined ? handleModOption : handleOption}
               copied={copied}
               setCopied={setCopied}
               location={sharePath}
@@ -279,9 +304,10 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               handleCopy={handleCopy}
               pending={pending}
               detailRoute={detailRoute}
-              allowedSpecial={allowedSpecial}
+              allowedSpecial={isSpecial || allowedSpecial}
               handleEditPost={handleEditPost}
               openRemovalModal={openRemovalModal}
+              owner={owner}
             />
           ))}
       </Box>

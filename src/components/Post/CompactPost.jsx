@@ -35,7 +35,7 @@ import DropDown from '../DropDown';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
 
-import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md';
+import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineDeleteOutline } from 'react-icons/md';
 
 const CompactPost = ({
   loading,
@@ -57,6 +57,7 @@ const CompactPost = ({
   openRemovalModal,
   allowedSpecial,
   handleEditPost,
+  owner,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -723,9 +724,16 @@ const CompactPost = ({
                     }
                     options={[
                       {
-                        label: 'Block author',
+                        label: 'Block Author',
                         icon: BsEyeSlash,
                         id: 'block',
+                        disabled: owner,
+                      },
+                      {
+                        label: 'Delete',
+                        icon: MdOutlineDeleteOutline,
+                        id: 'delete',
+                        disabled: !owner,
                       },
                     ]}
                     rightOffset={0}
@@ -768,9 +776,7 @@ const CompactPost = ({
                 </Link>
                 <Flex justifyContent="center">
                   <DropDown
-                    onChange={(x) => {
-                      handleOption(x);
-                    }}
+                    onChange={handleOption}
                     rightOffset={0}
                     leftOffset="unset"
                     dropDownTitle={
@@ -792,9 +798,16 @@ const CompactPost = ({
                     }
                     options={[
                       {
-                        label: 'Block author',
+                        label: 'Block Author',
                         icon: BsEyeSlash,
                         id: 'block',
+                        disabled: owner,
+                      },
+                      {
+                        label: 'Delete',
+                        icon: MdOutlineDeleteOutline,
+                        id: 'delete',
+                        disabled: !owner,
                       },
                     ]}
                   />
