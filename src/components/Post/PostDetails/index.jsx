@@ -83,7 +83,7 @@ function PostDetail() {
     ? profilePost
     : commentFromCid === undefined
     ? commentFromFeed
-    : commentFromFeed?.updatedAt > commentFromCid?.updatedAt
+    : (commentFromFeed?.updatedAt || 0) > (commentFromCid?.updatedAt || 0)
     ? commentFromFeed
     : commentFromCid;
   let detail;
