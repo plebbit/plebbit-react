@@ -95,7 +95,7 @@ function PostDetailModal() {
     ? profilePost
     : commentFromCid === undefined
     ? commentFromFeed
-    : commentFromFeed?.updatedAt > commentFromCid?.updatedAt
+    : (commentFromFeed?.updatedAt || 0) > (commentFromCid?.updatedAt || 0)
     ? commentFromFeed
     : commentFromCid;
   let detail;
@@ -434,6 +434,7 @@ function PostDetailModal() {
     profile?.author?.address === detail?.author?.address ||
     profile?.signer?.address === detail?.author?.address;
 
+  console.log({ commentFromFeed, commentFromCid });
   return (
     <>
       <Modal trapFocus={false} scrollBehavior="outside" isOpen={isOpen} onClose={onClose}>

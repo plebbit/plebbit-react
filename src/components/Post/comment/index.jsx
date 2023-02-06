@@ -200,8 +200,6 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     }
   };
 
-  console.log(comment);
-
   const oneComment = (
     <Comment
       key={singleComment?.cid}
