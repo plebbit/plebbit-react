@@ -357,6 +357,17 @@ const ClassicPost = ({
                     ) : (
                       ''
                     )}
+                    {post?.spoiler && (
+                      <Tag
+                        borderRadius="2px"
+                        p="1px 8px"
+                        mr="5px"
+                        variant="outline"
+                        colorScheme="blackAlpha"
+                      >
+                        SPOILER
+                      </Tag>
+                    )}
                     {pending && (
                       <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
                         Pending

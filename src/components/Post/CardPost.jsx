@@ -358,6 +358,7 @@ const CardPost = ({
                               </Text>
                             </Box>
                           )}
+
                           {/* tips */}
 
                           {/* date/time */}
@@ -470,6 +471,17 @@ const CardPost = ({
                         </Tag>
                       ) : (
                         ''
+                      )}
+                      {post?.spoiler && (
+                        <Tag
+                          borderRadius="2px"
+                          p="1px 8px"
+                          mr="5px"
+                          variant="outline"
+                          colorScheme="blackAlpha"
+                        >
+                          SPOILER
+                        </Tag>
                       )}
 
                       {pending && (
