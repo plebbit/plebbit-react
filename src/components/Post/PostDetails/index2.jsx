@@ -144,7 +144,7 @@ function PostDetailModal() {
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   // const borderColor = useColorModeValue('#ccc', '#343536');
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
-  const removeColor = useColorModeValue('lightIcon', 'darkIcon');
+  const removeColor = useColorModeValue('persimmon', 'persimmon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   const borderColor2 = useColorModeValue('#d3d6da', '#545452');
   const border2 = useColorModeValue('#edeff1', '#343536');

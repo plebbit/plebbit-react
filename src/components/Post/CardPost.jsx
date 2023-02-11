@@ -73,7 +73,7 @@ const CardPost = ({
   const voteColor = useColorModeValue('lightVoteText', 'darkVoteTest');
   const iconBg = useColorModeValue('lightIconBg', 'darkIconBg');
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
-  const removeColor = useColorModeValue('lightIcon', 'darkIcon');
+  const removeColor = useColorModeValue('persimmon', 'persimmon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
@@ -217,7 +217,9 @@ const CardPost = ({
               }}
               to={detailRoute}
             >
-              {post?.content ? (
+              {post?.removed ? (
+                '[Removed]'
+              ) : post?.content ? (
                 <>
                   {/* Pin Head */}
                   {post?.pinned && (

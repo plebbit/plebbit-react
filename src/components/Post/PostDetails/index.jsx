@@ -62,6 +62,7 @@ import Replies from '../comment/replies';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
 import AddRemovalReason from '../Modal/addRemovalReason';
+import { DeletedMessage, LockedMessage, RemovedMessage } from '../../Card/ModMessage';
 
 function PostDetail() {
   const {
@@ -131,7 +132,7 @@ function PostDetail() {
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
-  const removeColor = useColorModeValue('lightIcon', 'darkIcon');
+  const removeColor = useColorModeValue('persimmon', 'persimmon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   // const borderColor = useColorModeValue('#ccc', '#343536');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
@@ -421,6 +422,7 @@ function PostDetail() {
   const owner =
     profile?.author?.address === detail?.author?.address ||
     profile?.signer?.address === detail?.author?.address;
+  console.log({ detail });
 
   return (
     <Layout
@@ -824,12 +826,12 @@ function PostDetail() {
                                     color={removeColor}
                                     alignItems="center"
                                     onClick={() =>
-                                      detail?.moderatorReason ? openRemovalModal() : {}
+                                      !detail?.moderatorReason ? openRemovalModal() : {}
                                     }
                                   >
-                                    <Icon as={TiDeleteOutline} />
+                                    <Icon as={TiDeleteOutline} color={removeColor} />
                                     {!detail?.moderatorReason ? (
-                                      isSpecial && <Box>Add A removal reason</Box>
+                                      isSpecial && <Box mx="3px">Add A removal reason</Box>
                                     ) : (
                                       <Tooltip
                                         fontSize="10px"
@@ -1017,6 +1019,10 @@ function PostDetail() {
                                 </Button>
                               </Flex>
                             </Box>
+                          ) : detail?.removed ? (
+                            <RemovedMessage subplebbit={subplebbit} />
+                          ) : detail?.deleted ? (
+                            <DeletedMessage />
                           ) : (
                             <Box marginTop="8px">
                               {detail?.content ? (
@@ -1511,24 +1517,31 @@ function PostDetail() {
                       </Flex>
                       <Box maxW="100%" bg={bg} mt="10px" padding="10px">
                         <Box padding="24px 40px">
-                          <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                            Comment as {getUserName(profile?.author)}
-                          </Box>
-                          <Box
-                            borderRadius="4px"
-                            overflow="hidden auto"
-                            padding="8px 16px"
-                            resize="vertical"
-                            minH="200px"
-                          >
-                            <Editor
-                              setValue={setContent}
-                              editorState={editorState}
-                              setEditorState={setEditorState}
-                              showSubmit
-                              handleSubmit={handlePublishPost}
-                            />
-                          </Box>
+                          {detail?.locked ? (
+                            <LockedMessage subplebbit={subplebbit} />
+                          ) : (
+                            <>
+                              <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
+                                Comment as {getUserName(profile?.author)}
+                              </Box>
+                              <Box
+                                borderRadius="4px"
+                                overflow="hidden auto"
+                                padding="8px 16px"
+                                resize="vertical"
+                                minH="200px"
+                              >
+                                <Editor
+                                  setValue={setContent}
+                                  editorState={editorState}
+                                  setEditorState={setEditorState}
+                                  showSubmit
+                                  handleSubmit={handlePublishPost}
+                                />
+                              </Box>
+                            </>
+                          )}
+
                           <Box
                             fontSize="12px"
                             fontWeight="700"

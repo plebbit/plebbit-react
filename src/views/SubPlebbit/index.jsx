@@ -354,7 +354,7 @@ const SubPlebbit = ({ match }) => {
                           mode={postStyle}
                         />
                       )}
-                      feeds={feeds?.filter((x) => !x?.pinned)}
+                      feeds={feeds}
                       loader={
                         <Post
                           type="subPlebbit"
@@ -498,7 +498,7 @@ const SubPlebbit = ({ match }) => {
                       allowedSpecial={allowedSpecial}
                     />
                   )}
-                  feeds={feeds?.filter((x) => !x?.pinned)}
+                  feeds={feeds}
                   loader={
                     <Post type="subPlebbit" loading={true} mode={postStyle} key={Math.random()} />
                   }
