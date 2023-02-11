@@ -33,6 +33,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit(post?.subplebbitAddress);
   const isOnline = getIsOnline(getSub?.updatedAt);
+  const [showSpoiler, setShowSpoiler] = useState(post?.spoiler);
   const owner =
     profile?.author?.address === post?.author?.address ||
     profile?.signer?.address === post?.author?.address;
@@ -225,6 +226,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             handleEditPost={handleEditPost}
             openRemovalModal={openRemovalModal}
             owner={owner}
+            showSpoiler={showSpoiler}
+            setShowSpoiler={setShowSpoiler}
           />
         )}
         {/* classic */}
@@ -253,6 +256,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             handleEditPost={handleEditPost}
             openRemovalModal={openRemovalModal}
             owner={owner}
+            showSpoiler={showSpoiler}
+            setShowSpoiler={setShowSpoiler}
           />
         )}
         {/* compact */}
@@ -282,6 +287,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               handleEditPost={handleEditPost}
               openRemovalModal={openRemovalModal}
               owner={owner}
+              showSpoiler={showSpoiler}
+              setShowSpoiler={setShowSpoiler}
             />
           ) : (
             <ClassicPost
@@ -308,6 +315,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               handleEditPost={handleEditPost}
               openRemovalModal={openRemovalModal}
               owner={owner}
+              showSpoiler={showSpoiler}
+              setShowSpoiler={setShowSpoiler}
             />
           ))}
       </Box>

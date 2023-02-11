@@ -62,6 +62,7 @@ import Replies from '../comment/replies';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
 import AddRemovalReason from '../Modal/addRemovalReason';
+import { DeletedMessage, LockedMessage, RemovedMessage } from '../../Card/ModMessage';
 
 function PostDetail() {
   const {
@@ -114,7 +115,8 @@ function PostDetail() {
   const sub = useSubplebbit(detail?.subplebbitAddress);
   const loading = detail === undefined;
   const detailPending = !detail?.cid;
-  const subplebbit = sub === undefined ? { address: detail?.subplebbitAddress } : sub;
+  const subplebbit =
+    sub === undefined ? { ...detail?.subplebbit, address: detail?.subplebbitAddress } : sub;
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
@@ -131,7 +133,7 @@ function PostDetail() {
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
-  const removeColor = useColorModeValue('lightIcon', 'darkIcon');
+  const removeColor = useColorModeValue('persimmon', 'persimmon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   // const borderColor = useColorModeValue('#ccc', '#343536');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
@@ -155,6 +157,7 @@ function PostDetail() {
       ContentState.createFromBlockArray(convertFromHTML(`<p>${editPost}</p>`))
     )
   );
+  const [showSpoiler, setShowSpoiler] = useState(detail?.spoiler);
   const {
     device,
     postStyle,
@@ -421,6 +424,7 @@ function PostDetail() {
   const owner =
     profile?.author?.address === detail?.author?.address ||
     profile?.signer?.address === detail?.author?.address;
+  console.log({ detail });
 
   return (
     <Layout
@@ -824,12 +828,12 @@ function PostDetail() {
                                     color={removeColor}
                                     alignItems="center"
                                     onClick={() =>
-                                      detail?.moderatorReason ? openRemovalModal() : {}
+                                      !detail?.moderatorReason ? openRemovalModal() : {}
                                     }
                                   >
-                                    <Icon as={TiDeleteOutline} />
+                                    <Icon as={TiDeleteOutline} color={removeColor} />
                                     {!detail?.moderatorReason ? (
-                                      isSpecial && <Box>Add A removal reason</Box>
+                                      isSpecial && <Box mx="3px">Add A removal reason</Box>
                                     ) : (
                                       <Tooltip
                                         fontSize="10px"
@@ -892,6 +896,17 @@ function PostDetail() {
                                   {detail?.flair.text}
                                 </Tag>
                               ) : null}
+                              {detail?.spoiler && (
+                                <Tag
+                                  borderRadius="none"
+                                  p="2px 8px"
+                                  mr="5px"
+                                  variant="outline"
+                                  colorScheme="gray"
+                                >
+                                  SPOILER
+                                </Tag>
+                              )}
                               {detailPending && (
                                 <Skeleton isLoaded={!loading} my="4px">
                                   <Tag size="sm" colorScheme="yellow" variant="outline">
@@ -1017,6 +1032,24 @@ function PostDetail() {
                                 </Button>
                               </Flex>
                             </Box>
+                          ) : detail?.removed ? (
+                            <RemovedMessage subplebbit={subplebbit} />
+                          ) : detail?.deleted ? (
+                            <DeletedMessage />
+                          ) : showSpoiler ? (
+                            <Flex alignItems="center" justifyContent="center">
+                              <Button
+                                variant="outline"
+                                colorScheme="blackAlpha"
+                                padding="10px 20px"
+                                onClick={() => setShowSpoiler(false)}
+                                borderRadius="none"
+                                fontWeight="400"
+                                my="10px"
+                              >
+                                CLICK TO SEE SPOILER
+                              </Button>
+                            </Flex>
                           ) : (
                             <Box marginTop="8px">
                               {detail?.content ? (
@@ -1511,24 +1544,31 @@ function PostDetail() {
                       </Flex>
                       <Box maxW="100%" bg={bg} mt="10px" padding="10px">
                         <Box padding="24px 40px">
-                          <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                            Comment as {getUserName(profile?.author)}
-                          </Box>
-                          <Box
-                            borderRadius="4px"
-                            overflow="hidden auto"
-                            padding="8px 16px"
-                            resize="vertical"
-                            minH="200px"
-                          >
-                            <Editor
-                              setValue={setContent}
-                              editorState={editorState}
-                              setEditorState={setEditorState}
-                              showSubmit
-                              handleSubmit={handlePublishPost}
-                            />
-                          </Box>
+                          {detail?.locked ? (
+                            <LockedMessage subplebbit={subplebbit} />
+                          ) : (
+                            <>
+                              <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
+                                Comment as {getUserName(profile?.author)}
+                              </Box>
+                              <Box
+                                borderRadius="4px"
+                                overflow="hidden auto"
+                                padding="8px 16px"
+                                resize="vertical"
+                                minH="200px"
+                              >
+                                <Editor
+                                  setValue={setContent}
+                                  editorState={editorState}
+                                  setEditorState={setEditorState}
+                                  showSubmit
+                                  handleSubmit={handlePublishPost}
+                                />
+                              </Box>
+                            </>
+                          )}
+
                           <Box
                             fontSize="12px"
                             fontWeight="700"
@@ -1644,7 +1684,7 @@ function PostDetail() {
                         />
                         <Flex alignItems="center" flexFlow="column nowrap">
                           <Skeleton
-                            isLoaded={loading}
+                            isLoaded={!loading}
                             width="72px"
                             height="72px"
                             borderRadius="50%"
@@ -1659,7 +1699,7 @@ function PostDetail() {
                               mb="8px"
                             />
                           </Skeleton>
-                          <Skeleton margin="5px" isLoaded={loading}>
+                          <Skeleton margin="5px" isLoaded={!loading}>
                             <Box
                               onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}
                               fontWeight="700"
@@ -1723,7 +1763,7 @@ function PostDetail() {
                           mode={postStyle}
                           key={detail?.cid}
                           handleOption={handleOption}
-                          loading={!loading}
+                          loading={loading}
                         />
                       </Flex>
                     )}
@@ -1751,58 +1791,74 @@ function PostDetail() {
                       </Box>
                     </Flex>
                   </Box>
-                  {!showMEditor && (
-                    <Flex alignItems="center" flexFlow="row nowrap" paddingTop="8px" width="100%">
-                      <Image
-                        h="24px"
-                        verticalAlign="middle"
-                        src={authorAvatarImageUrl}
-                        alt="user-icon"
-                        fallbackSrc={require('../../../assets/images/fallback.png')}
-                        color="transparent"
-                        borderRadius="50%"
-                        w="24px"
-                        mr="8px"
-                      />
-                      <Button
-                        border={`1px solid ${borderColor2}`}
-                        color="#818384"
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                        borderRadius="15px"
-                        flex="1"
-                        fontSize="14px"
-                        height="30px"
-                        lineHeight="17px"
-                        textAlign="left"
-                        padding="0 8px"
-                        justifyContent="flex-start"
-                        onClick={() => setShowMEditor(true)}
-                      >
-                        Leave a comment
-                      </Button>
-                    </Flex>
-                  )}
-                  {showMEditor && (
-                    <Box margin="0 12px">
-                      <Flex backgroundColor="inherit" color="inherit" margin="0" borderWidth="0">
-                        <Box width="100%">
-                          <Editor
-                            setValue={setContent}
-                            editorState={editorState}
-                            setEditorState={setEditorState}
-                            showSubmit
-                            handleSubmit={handlePublishPost}
-                            submitBtnText="Add Comment"
-                            otherBtn={
-                              <Button mr="auto" onClick={() => setShowMEditor(false)}>
-                                <MdClose />
-                              </Button>
-                            }
-                          />
+
+                  {detail?.locked ? (
+                    <LockedMessage />
+                  ) : (
+                    <>
+                      {showMEditor ? (
+                        <Box margin="0 12px">
+                          <Flex
+                            backgroundColor="inherit"
+                            color="inherit"
+                            margin="0"
+                            borderWidth="0"
+                          >
+                            <Box width="100%">
+                              <Editor
+                                setValue={setContent}
+                                editorState={editorState}
+                                setEditorState={setEditorState}
+                                showSubmit
+                                handleSubmit={handlePublishPost}
+                                submitBtnText="Add Comment"
+                                otherBtn={
+                                  <Button mr="auto" onClick={() => setShowMEditor(false)}>
+                                    <MdClose />
+                                  </Button>
+                                }
+                              />
+                            </Box>
+                          </Flex>
                         </Box>
-                      </Flex>
-                    </Box>
+                      ) : (
+                        <Flex
+                          alignItems="center"
+                          flexFlow="row nowrap"
+                          paddingTop="8px"
+                          width="100%"
+                        >
+                          <Image
+                            h="24px"
+                            verticalAlign="middle"
+                            src={authorAvatarImageUrl}
+                            alt="user-icon"
+                            fallbackSrc={require('../../../assets/images/fallback.png')}
+                            color="transparent"
+                            borderRadius="50%"
+                            w="24px"
+                            mr="8px"
+                          />
+                          <Button
+                            border={`1px solid ${borderColor2}`}
+                            color="#818384"
+                            overflow="hidden"
+                            textOverflow="ellipsis"
+                            borderRadius="15px"
+                            flex="1"
+                            fontSize="14px"
+                            height="30px"
+                            lineHeight="17px"
+                            textAlign="left"
+                            padding="0 8px"
+                            justifyContent="flex-start"
+                            onClick={() => setShowMEditor(true)}
+                          >
+                            Leave a comment
+                          </Button>
+                        </Flex>
+                      )}
+                    </>
                   )}
                 </Box>
               </Box>

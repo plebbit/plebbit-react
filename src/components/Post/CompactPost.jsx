@@ -71,7 +71,7 @@ const CompactPost = ({
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const statusColor = useColorModeValue('lightVoteText', 'fff');
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
-  const removeColor = useColorModeValue('lightIcon', 'darkIcon');
+  const removeColor = useColorModeValue('persimmon', 'persimmon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
@@ -339,6 +339,17 @@ const CompactPost = ({
                     </Tag>
                   ) : (
                     ''
+                  )}
+                  {post?.spoiler && (
+                    <Tag
+                      borderRadius="2px"
+                      p="1px 8px"
+                      mr="5px"
+                      variant="outline"
+                      colorScheme="blackAlpha"
+                    >
+                      SPOILER
+                    </Tag>
                   )}
                   {pending && (
                     <Skeleton isLoaded={!loading}>
