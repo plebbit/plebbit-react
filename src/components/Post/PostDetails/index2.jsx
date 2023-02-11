@@ -65,6 +65,7 @@ import Replies from '../comment/replies';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
 import AddRemovalReason from '../Modal/addRemovalReason';
+import { DeletedMessage, RemovedMessage } from '../../Card/ModMessage';
 
 function PostDetailModal() {
   const [showModal, setShowModal] = useState(true);
@@ -167,6 +168,7 @@ function PostDetailModal() {
       ContentState.createFromBlockArray(convertFromHTML(`<p>${editPost}</p>`))
     )
   );
+  const [showSpoiler, setShowSpoiler] = useState(detail?.spoiler);
   const {
     device,
     postStyle,
@@ -851,6 +853,17 @@ function PostDetailModal() {
                             {detail?.flair.text}
                           </Tag>
                         ) : null}
+                        {detail?.spoiler && (
+                          <Tag
+                            borderRadius="20px"
+                            p="2px 8px"
+                            mr="5px"
+                            variant="outline"
+                            colorScheme="gray"
+                          >
+                            SPOILER
+                          </Tag>
+                        )}
                         {detailPending && (
                           <Skeleton isLoaded={!loading} my="4px">
                             <Tag size="sm" colorScheme="yellow" variant="outline">
@@ -976,6 +989,24 @@ function PostDetailModal() {
                           </Button>
                         </Flex>
                       </Box>
+                    ) : detail?.removed ? (
+                      <RemovedMessage subplebbit={subplebbit} />
+                    ) : detail?.deleted ? (
+                      <DeletedMessage />
+                    ) : showSpoiler ? (
+                      <Flex alignItems="center" justifyContent="center">
+                        <Button
+                          variant="outline"
+                          colorScheme="blackAlpha"
+                          padding="10px 20px"
+                          onClick={() => setShowSpoiler(false)}
+                          borderRadius="none"
+                          fontWeight="400"
+                          my="10px"
+                        >
+                          CLICK TO SEE SPOILER
+                        </Button>
+                      </Flex>
                     ) : (
                       <Box marginTop="8px">
                         {detail?.content ? (
