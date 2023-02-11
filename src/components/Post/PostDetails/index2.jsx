@@ -65,7 +65,7 @@ import Replies from '../comment/replies';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
 import AddRemovalReason from '../Modal/addRemovalReason';
-import { DeletedMessage, RemovedMessage } from '../../Card/ModMessage';
+import { DeletedMessage, LockedMessage, RemovedMessage } from '../../Card/ModMessage';
 
 function PostDetailModal() {
   const [showModal, setShowModal] = useState(true);
@@ -1502,24 +1502,31 @@ function PostDetailModal() {
                 {/* comment */}
                 <Box maxW="100%" bg={bg} mt="10px" padding="10px">
                   <Box padding="24px 40px">
-                    <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                      Comment as {getUserName(profile?.author)}
-                    </Box>
-                    <Box
-                      borderRadius="4px"
-                      overflow="hidden auto"
-                      padding="8px 16px"
-                      resize="vertical"
-                      minH="200px"
-                    >
-                      <Editor
-                        setValue={setContent}
-                        editorState={editorState}
-                        setEditorState={setEditorState}
-                        showSubmit
-                        handleSubmit={handlePublishPost}
-                      />
-                    </Box>
+                    {detail?.locked ? (
+                      <LockedMessage subplebbit={subplebbit} />
+                    ) : (
+                      <>
+                        <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
+                          Comment as {getUserName(profile?.author)}
+                        </Box>
+                        <Box
+                          borderRadius="4px"
+                          overflow="hidden auto"
+                          padding="8px 16px"
+                          resize="vertical"
+                          minH="200px"
+                        >
+                          <Editor
+                            setValue={setContent}
+                            editorState={editorState}
+                            setEditorState={setEditorState}
+                            showSubmit
+                            handleSubmit={handlePublishPost}
+                          />
+                        </Box>
+                      </>
+                    )}
+
                     <Box
                       fontSize="12px"
                       fontWeight="700"
