@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import {
   Box,
+  Button,
   Flex,
   Icon,
   Image,
@@ -61,6 +62,8 @@ const CardPost = ({
   handleEditPost,
   openRemovalModal,
   owner,
+  showSpoiler,
+  setShowSpoiler,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -1404,6 +1407,19 @@ const CardPost = ({
                     )}
                   </Flex>
                 </Flex>
+                <Box padding="0 16px 8px">
+                  {post?.spoiler && (
+                    <Tag
+                      borderRadius="2px"
+                      p="1px 8px"
+                      mr="5px"
+                      variant="solid"
+                      colorScheme="blackAlpha"
+                    >
+                      SPOILER
+                    </Tag>
+                  )}
+                </Box>
                 <Box
                   color={mobileMainColor}
                   fontSize="18px"
@@ -1414,31 +1430,61 @@ const CardPost = ({
                 >
                   <Skeleton isLoaded={!loading}>{post?.title}</Skeleton>
                 </Box>
+                <Box padding="0 16px 8px">
+                  {post?.flair?.text ? (
+                    <Tag
+                      borderRadius="20px"
+                      p="2px 8px"
+                      mr="5px"
+                      background={post?.flair?.backgroundColor}
+                      color={post?.flair?.textColor}
+                    >
+                      {post?.flair.text}
+                    </Tag>
+                  ) : null}
+                </Box>
               </Box>
             </Box>
-            <Box marginTop="8px">
-              {detail && (
-                <Box
-                  color={subPledditTextColor}
-                  padding="5px 8px 10px"
-                  fontFamily="Noto sans, Arial, sans-serif"
-                  fontSize="14px"
-                  fontWeight="400"
-                  lineHeight="21px"
-                  wordBreak="break-word"
-                  overflow="hidden"
-                >
-                  {post?.content ? (
-                    <Marked content={post?.content} />
+            <Box marginTop="8px" padding="0 8px">
+              <>
+                {detail &&
+                  (showSpoiler ? (
+                    <Flex alignItems="center" justifyContent="center">
+                      <Button
+                        variant="outline"
+                        colorScheme="blackAlpha"
+                        padding="10px 20px"
+                        onClick={() => setShowSpoiler(false)}
+                        borderRadius="none"
+                        fontWeight="400"
+                        my="10px"
+                      >
+                        CLICK TO SEE SPOILER
+                      </Button>
+                    </Flex>
                   ) : (
-                    <Skeleton isLoaded={!loading}>
-                      <Box display="flex" justifyContent="center">
-                        <Image fallbackSrc="https://via.placeholder.com/150" src={post?.link} />
-                      </Box>
-                    </Skeleton>
-                  )}
-                </Box>
-              )}
+                    <Box
+                      color={subPledditTextColor}
+                      padding="5px 8px 10px"
+                      fontFamily="Noto sans, Arial, sans-serif"
+                      fontSize="14px"
+                      fontWeight="400"
+                      lineHeight="21px"
+                      wordBreak="break-word"
+                      overflow="hidden"
+                    >
+                      {post?.content ? (
+                        <Marked content={post?.content} />
+                      ) : (
+                        <Skeleton isLoaded={!loading}>
+                          <Box display="flex" justifyContent="center">
+                            <Image fallbackSrc="https://via.placeholder.com/150" src={post?.link} />
+                          </Box>
+                        </Skeleton>
+                      )}
+                    </Box>
+                  ))}
+              </>
             </Box>
             {/* Footer */}
             {pending ? (

@@ -855,7 +855,7 @@ function PostDetailModal() {
                         ) : null}
                         {detail?.spoiler && (
                           <Tag
-                            borderRadius="20px"
+                            borderRadius="none"
                             p="2px 8px"
                             mr="5px"
                             variant="outline"

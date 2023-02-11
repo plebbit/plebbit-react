@@ -115,7 +115,8 @@ function PostDetail() {
   const sub = useSubplebbit(detail?.subplebbitAddress);
   const loading = detail === undefined;
   const detailPending = !detail?.cid;
-  const subplebbit = sub === undefined ? { address: detail?.subplebbitAddress } : sub;
+  const subplebbit =
+    sub === undefined ? { ...detail?.subplebbit, address: detail?.subplebbitAddress } : sub;
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
@@ -895,6 +896,17 @@ function PostDetail() {
                                   {detail?.flair.text}
                                 </Tag>
                               ) : null}
+                              {detail?.spoiler && (
+                                <Tag
+                                  borderRadius="none"
+                                  p="2px 8px"
+                                  mr="5px"
+                                  variant="outline"
+                                  colorScheme="gray"
+                                >
+                                  SPOILER
+                                </Tag>
+                              )}
                               {detailPending && (
                                 <Skeleton isLoaded={!loading} my="4px">
                                   <Tag size="sm" colorScheme="yellow" variant="outline">
@@ -1672,7 +1684,7 @@ function PostDetail() {
                         />
                         <Flex alignItems="center" flexFlow="column nowrap">
                           <Skeleton
-                            isLoaded={loading}
+                            isLoaded={!loading}
                             width="72px"
                             height="72px"
                             borderRadius="50%"
@@ -1687,7 +1699,7 @@ function PostDetail() {
                               mb="8px"
                             />
                           </Skeleton>
-                          <Skeleton margin="5px" isLoaded={loading}>
+                          <Skeleton margin="5px" isLoaded={!loading}>
                             <Box
                               onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}
                               fontWeight="700"
@@ -1751,7 +1763,7 @@ function PostDetail() {
                           mode={postStyle}
                           key={detail?.cid}
                           handleOption={handleOption}
-                          loading={!loading}
+                          loading={loading}
                         />
                       </Flex>
                     )}
