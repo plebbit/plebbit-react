@@ -340,6 +340,17 @@ const CompactPost = ({
                   ) : (
                     ''
                   )}
+                  {post?.spoiler && (
+                    <Tag
+                      borderRadius="2px"
+                      p="1px 8px"
+                      mr="5px"
+                      variant="outline"
+                      colorScheme="blackAlpha"
+                    >
+                      SPOILER
+                    </Tag>
+                  )}
                   {pending && (
                     <Skeleton isLoaded={!loading}>
                       <Tag size="sm" colorScheme="yellow" variant="outline">
