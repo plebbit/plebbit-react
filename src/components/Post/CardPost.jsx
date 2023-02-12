@@ -220,9 +220,7 @@ const CardPost = ({
               }}
               to={detailRoute}
             >
-              {post?.removed ? (
-                '[Removed]'
-              ) : post?.content ? (
+              {post?.content ? (
                 <>
                   {/* Pin Head */}
                   {post?.pinned && (
@@ -514,7 +512,13 @@ const CardPost = ({
                           paddingBottom="1px"
                           marginBottom="-1px"
                         >
-                          {<Marked content={post?.content} />}
+                          {post?.spoiler ? (
+                            ''
+                          ) : post?.removed ? (
+                            '[removed]'
+                          ) : (
+                            <Marked content={post?.content} />
+                          )}
                         </Box>
                       </Skeleton>
                     </Box>
