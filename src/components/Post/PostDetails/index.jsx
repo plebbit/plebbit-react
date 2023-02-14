@@ -381,10 +381,9 @@ function PostDetail() {
   };
 
   const handleOption = (option) => {
-    if (option?.id === 'Edit') {
+    if (option?.id === 'edit') {
       setEdit(true);
-    }
-    if (option?.id === 'Delete') {
+    } else if (option?.id === 'delete') {
       Swal.fire({
         title: 'Do you want to delete this post?',
         showCancelButton: true,
@@ -398,7 +397,16 @@ function PostDetail() {
           handleDeletePost(detail?.cid, detail?.subplebbitAddress);
         }
       });
-    }
+    } else if (option?.id === 'approved') {
+      handleEditPost({ removed: false });
+    } else if (option?.id === 'removed') {
+      handleEditPost({ removed: true });
+    } else if (option?.id === 'saveEdit') {
+      handleEditPost({
+        link: editMode === 'link' ? editPost : undefined,
+        content: editMode === 'post' ? editPost : undefined,
+      });
+    } else handleEditPost({ [option?.id]: detail[option?.id] ? false : true });
   };
 
   logger('feed:detail', {
@@ -1020,12 +1028,7 @@ function PostDetail() {
                                   padding="5px 10px"
                                   minW="90px"
                                   minH="27px"
-                                  onClick={() =>
-                                    handleEditPost({
-                                      link: editMode === 'link' ? editPost : undefined,
-                                      content: editMode === 'post' ? editPost : undefined,
-                                    })
-                                  }
+                                  onClick={() => handleOption({ id: 'saveEdit' })}
                                   isLoading={editLoading}
                                 >
                                   Save
@@ -1156,51 +1159,51 @@ function PostDetail() {
                                   </Link>
                                 </CopyToClipboard>
 
-                                <Flex
-                                  alignItems="center"
-                                  borderRadius="2px"
-                                  padding="8px"
-                                  marginRight="4px"
-                                  _hover={{
-                                    textDecor: 'none',
-                                    outline: 'none',
-                                    bg: bottomButtonHover,
-                                  }}
-                                  _focus={{
-                                    boxShadow: 'none',
-                                  }}
-                                  onClick={() => handleEditPost({ removed: false })}
-                                  color={!detail?.removed && approveColor}
-                                >
-                                  <Icon as={HiOutlineCheckCircle} height={5} width={5} mr="5px" />
-                                  <Box>{!detail?.removed ? 'Approved' : 'Approve'}</Box>
-                                </Flex>
-                                <Flex
-                                  alignItems="center"
-                                  borderRadius="2px"
-                                  padding="8px"
-                                  marginRight="4px"
-                                  _hover={{
-                                    textDecor: 'none',
-                                    outline: 'none',
-                                    bg: bottomButtonHover,
-                                  }}
-                                  _focus={{
-                                    boxShadow: 'none',
-                                  }}
-                                  color={detail?.removed && removeColor}
-                                  onClick={() =>
-                                    handleEditPost({ removed: detail?.removed ? false : true })
-                                  }
-                                >
-                                  <Icon as={TiDeleteOutline} height={5} width={5} mr="5px" />
-                                  <Box>{detail?.removed ? 'Removed' : 'Remove'}</Box>
-                                </Flex>
+                                {detail?.removed ? (
+                                  <Flex
+                                    alignItems="center"
+                                    borderRadius="2px"
+                                    padding="8px"
+                                    marginRight="4px"
+                                    _hover={{
+                                      textDecor: 'none',
+                                      outline: 'none',
+                                      bg: bottomButtonHover,
+                                    }}
+                                    _focus={{
+                                      boxShadow: 'none',
+                                    }}
+                                    onClick={() => handleOption({ id: 'approved' })}
+                                    color={approveColor}
+                                  >
+                                    <Icon as={HiOutlineCheckCircle} height={5} width={5} mr="5px" />
+                                    <Box>Approve</Box>
+                                  </Flex>
+                                ) : (
+                                  <Flex
+                                    alignItems="center"
+                                    borderRadius="2px"
+                                    padding="8px"
+                                    marginRight="4px"
+                                    _hover={{
+                                      textDecor: 'none',
+                                      outline: 'none',
+                                      bg: bottomButtonHover,
+                                    }}
+                                    _focus={{
+                                      boxShadow: 'none',
+                                    }}
+                                    color={removeColor}
+                                    onClick={() => handleOption({ id: 'removed' })}
+                                  >
+                                    <Icon as={TiDeleteOutline} height={5} width={5} mr="5px" />
+                                    <Box>Remove</Box>
+                                  </Flex>
+                                )}
+
                                 <Flex justifyContent="center">
                                   <DropDown
-                                    onChange={(val) =>
-                                      handleEditPost({ [val?.id]: detail[val?.id] ? false : true })
-                                    }
+                                    onChange={(val) => handleOption(val)}
                                     dropDownTitle={
                                       <Flex
                                         borderRadius="2px"
@@ -1283,18 +1286,18 @@ function PostDetail() {
                                         {
                                           label: 'Edit Post',
                                           icon: BsPencil,
-                                          id: 'Edit',
+                                          id: 'edit',
                                         },
                                         {
                                           label: 'Save',
                                           icon: BsBookmark,
-                                          id: 'Save',
+                                          id: 'save',
                                         },
 
                                         {
                                           label: 'Delete',
                                           icon: MdOutlineDeleteOutline,
-                                          id: 'Delete',
+                                          id: 'delete',
                                         },
                                       ]}
                                       render={(item) => (
@@ -1481,17 +1484,17 @@ function PostDetail() {
                                         {
                                           label: 'Edit Post',
                                           icon: BsPencil,
-                                          id: 'Edit',
+                                          id: 'edit',
                                         },
                                         {
                                           label: 'Save',
                                           icon: BsBookmark,
-                                          id: 'Save',
+                                          id: 'save',
                                         },
                                         {
                                           label: 'Delete',
                                           icon: MdOutlineDeleteOutline,
-                                          id: 'Delete',
+                                          id: 'delete',
                                         },
                                       ]}
                                       render={(item) => (
@@ -1743,12 +1746,7 @@ function PostDetail() {
                             padding="5px 10px"
                             minW="90px"
                             minH="27px"
-                            onClick={() =>
-                              handleEditPost({
-                                link: editMode === 'link' ? editPost : undefined,
-                                content: editMode === 'post' ? editPost : undefined,
-                              })
-                            }
+                            onClick={() => handleOption({ id: 'saveEdit' })}
                             isLoading={editLoading}
                           >
                             Save

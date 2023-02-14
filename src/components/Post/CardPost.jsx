@@ -1403,7 +1403,7 @@ const CardPost = ({
                           {
                             label: 'Edit',
                             icon: BsPencil,
-                            id: 'Edit',
+                            id: 'edit',
                             disabled: !(owner && detail),
                           },
                           {
