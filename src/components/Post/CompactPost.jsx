@@ -56,7 +56,7 @@ const CompactPost = ({
   detailRoute,
   openRemovalModal,
   allowedSpecial,
-  handleEditPost,
+
   owner,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -640,40 +640,43 @@ const CompactPost = ({
                     </Text>
                   </Flex>
                 </ReactLink>
-                <Flex
-                  _hover={{
-                    bg: inputBg,
-                  }}
-                  alignItems="center"
-                  mr="4px"
-                  margin="4px 8px 4px 0"
-                  padding="4px"
-                  borderRadius="2px"
-                  cursor="pointer"
-                  color={!post?.removed && approveColor}
-                  onClick={() => handleEditPost({ removed: false })}
-                >
-                  <Icon height="20px" width="20px" as={HiOutlineCheckCircle} />
-                </Flex>
-                <Flex
-                  _hover={{
-                    bg: inputBg,
-                  }}
-                  alignItems="center"
-                  mr="4px"
-                  margin="4px 8px 4px 0"
-                  padding="4px"
-                  borderRadius="2px"
-                  cursor="pointer"
-                  color={post?.removed && removeColor}
-                  onClick={() => handleEditPost({ removed: post?.removed ? false : true })}
-                >
-                  <Icon height="20px" width="20px" as={TiDeleteOutline} />
-                </Flex>
+                {post?.removed ? (
+                  <Flex
+                    _hover={{
+                      bg: inputBg,
+                    }}
+                    alignItems="center"
+                    mr="4px"
+                    margin="4px 8px 4px 0"
+                    padding="4px"
+                    borderRadius="2px"
+                    cursor="pointer"
+                    color={approveColor}
+                    onClick={() => handleOption({ id: 'approved' })}
+                  >
+                    <Icon height="20px" width="20px" as={HiOutlineCheckCircle} />
+                  </Flex>
+                ) : (
+                  <Flex
+                    _hover={{
+                      bg: inputBg,
+                    }}
+                    alignItems="center"
+                    mr="4px"
+                    margin="4px 8px 4px 0"
+                    padding="4px"
+                    borderRadius="2px"
+                    cursor="pointer"
+                    color={removeColor}
+                    onClick={() => handleOption({ id: 'removed' })}
+                  >
+                    <Icon height="20px" width="20px" as={TiDeleteOutline} />
+                  </Flex>
+                )}
 
                 <Flex justifyContent="center">
                   <DropDown
-                    onChange={(val) => handleEditPost({ [val?.id]: post[val?.id] ? false : true })}
+                    onChange={handleOption}
                     dropDownTitle={
                       <Flex
                         borderRadius="2px"
