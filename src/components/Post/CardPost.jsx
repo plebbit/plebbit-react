@@ -59,7 +59,6 @@ const CardPost = ({
   pending,
   detailRoute,
   allowedSpecial,
-  handleEditPost,
   openRemovalModal,
   owner,
   showSpoiler,
@@ -992,44 +991,45 @@ const CardPost = ({
                     </Flex>
                   </CopyToClipboard>
 
-                  <Flex
-                    _hover={{
-                      bg: inputBg,
-                    }}
-                    alignItems="center"
-                    mr="4px"
-                    margin="4px 8px 4px 0"
-                    padding="4px"
-                    borderRadius="2px"
-                    cursor="pointer"
-                    color={!post?.removed && approveColor}
-                    onClick={() => handleEditPost({ removed: false })}
-                  >
-                    <Icon height="20px" width="20px" as={HiOutlineCheckCircle} />
-                    <Box ml="4px">{!post?.removed ? 'Approved' : 'Approve'}</Box>
-                  </Flex>
-                  <Flex
-                    _hover={{
-                      bg: inputBg,
-                    }}
-                    alignItems="center"
-                    mr="4px"
-                    margin="4px 8px 4px 0"
-                    padding="4px"
-                    borderRadius="2px"
-                    cursor="pointer"
-                    color={post?.removed && removeColor}
-                    onClick={() => handleEditPost({ removed: post?.removed ? false : true })}
-                  >
-                    <Icon height="20px" width="20px" as={TiDeleteOutline} />
-                    <Box ml="4px">{post?.removed ? 'Removed' : 'Remove'}</Box>
-                  </Flex>
+                  {post?.removed ? (
+                    <Flex
+                      _hover={{
+                        bg: inputBg,
+                      }}
+                      alignItems="center"
+                      mr="4px"
+                      margin="4px 8px 4px 0"
+                      padding="4px"
+                      borderRadius="2px"
+                      cursor="pointer"
+                      color={approveColor}
+                      onClick={() => handleOption({ id: 'approved' })}
+                    >
+                      <Icon height="20px" width="20px" as={HiOutlineCheckCircle} />
+                      <Box ml="4px">Approve</Box>
+                    </Flex>
+                  ) : (
+                    <Flex
+                      _hover={{
+                        bg: inputBg,
+                      }}
+                      alignItems="center"
+                      mr="4px"
+                      margin="4px 8px 4px 0"
+                      padding="4px"
+                      borderRadius="2px"
+                      cursor="pointer"
+                      color={removeColor}
+                      onClick={() => handleOption({ id: 'removed' })}
+                    >
+                      <Icon height="20px" width="20px" as={TiDeleteOutline} />
+                      <Box ml="4px">Remove</Box>
+                    </Flex>
+                  )}
 
                   <Flex justifyContent="center">
                     <DropDown
-                      onChange={(val) =>
-                        handleEditPost({ [val?.id]: post[val?.id] ? false : true })
-                      }
+                      onChange={handleOption}
                       dropDownTitle={
                         <Flex
                           borderRadius="2px"
@@ -1407,6 +1407,20 @@ const CardPost = ({
                             disabled: !(owner && detail),
                           },
                           {
+                            label: 'Approve',
+                            icon: HiOutlineCheckCircle,
+                            id: 'approved',
+                            disabled: !(allowedSpecial && post?.removed),
+                            color: approveColor,
+                          },
+                          {
+                            label: 'Remove',
+                            icon: TiDeleteOutline,
+                            id: 'removed',
+                            disabled: !(allowedSpecial && !post?.removed),
+                            color: removeColor,
+                          },
+                          {
                             label: 'Block Author',
                             icon: BsEyeSlash,
                             id: 'block',
@@ -1686,7 +1700,7 @@ const CardPost = ({
                     menuSx={{
                       pointerEvents: 'all',
                     }}
-                    onChange={(val) => handleEditPost({ [val?.id]: post[val?.id] ? false : true })}
+                    onChange={handleOption}
                     dropDownTitle={
                       <Flex
                         overflow="hidden"

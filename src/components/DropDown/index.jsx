@@ -103,7 +103,15 @@ const DropDown = ({
                     onClick={() => onChange(option)}
                     borderTop={`1px solid ${border2}`}
                   >
-                    {option?.icon && <Icon mr="4px" as={option?.icon} width={6} height={6} />}
+                    {option?.icon && (
+                      <Icon
+                        mr="4px"
+                        color={option?.IconColor || option?.color}
+                        as={option?.icon}
+                        width={6}
+                        height={6}
+                      />
+                    )}
                     <Box color={option?.color}>{option?.label}</Box>
                   </Flex>
                 ) : (

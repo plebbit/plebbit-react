@@ -65,7 +65,7 @@ const ClassicPost = ({
   detailRoute,
   openRemovalModal,
   allowedSpecial,
-  handleEditPost,
+
   owner,
   showSpoiler,
   setShowSpoiler,
@@ -819,72 +819,76 @@ const ClassicPost = ({
                           </Text>
                         </Flex>
                       </CopyToClipboard>
-                      <Flex
-                        padding="8px"
-                        wordBreak="normal"
-                        mr="4px"
-                        alignItems="center"
-                        borderRadius="2px"
-                        fontSize="12px"
-                        fontWeight="700"
-                        lineHeight="16px"
-                        boxSizing="border-box"
-                        _hover={{
-                          backgroundColor: inputBg,
-                        }}
-                        color={!post?.removed && approveColor}
-                        onClick={() => handleEditPost({ removed: false })}
-                      >
-                        <Icon
-                          as={HiOutlineCheckCircle}
-                          width="20px"
-                          height="20px"
-                          verticalAlign="middle"
-                          fontWeight="400"
+                      {post?.removed ? (
+                        <Flex
+                          padding="8px"
+                          wordBreak="normal"
                           mr="4px"
-                        />
-                        <Text
-                          display="inline-block"
-                          lineHeight={1}
-                          textTransform="capitalize"
-                          verticalAlign="middle"
+                          alignItems="center"
+                          borderRadius="2px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                          boxSizing="border-box"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                          color={approveColor}
+                          onClick={() => handleOption({ id: 'approved' })}
                         >
-                          {!post?.removed ? 'Approved' : 'Approve'}
-                        </Text>
-                      </Flex>
-                      <Flex
-                        padding="8px"
-                        wordBreak="normal"
-                        mr="4px"
-                        alignItems="center"
-                        borderRadius="2px"
-                        fontSize="12px"
-                        fontWeight="700"
-                        lineHeight="16px"
-                        boxSizing="border-box"
-                        _hover={{
-                          backgroundColor: inputBg,
-                        }}
-                        color={post?.removed && removeColor}
-                        onClick={() => handleEditPost({ removed: post?.removed ? false : true })}
-                      >
-                        <Icon
-                          as={TiDeleteOutline}
-                          width="20px"
-                          height="20px"
-                          verticalAlign="middle"
-                          fontWeight="400"
+                          <Icon
+                            as={HiOutlineCheckCircle}
+                            width="20px"
+                            height="20px"
+                            verticalAlign="middle"
+                            fontWeight="400"
+                            mr="4px"
+                          />
+                          <Text
+                            display="inline-block"
+                            lineHeight={1}
+                            textTransform="capitalize"
+                            verticalAlign="middle"
+                          >
+                            Approve
+                          </Text>
+                        </Flex>
+                      ) : (
+                        <Flex
+                          padding="8px"
+                          wordBreak="normal"
                           mr="4px"
-                        />
-                        <Text
-                          display="inline-block"
-                          lineHeight={1}
-                          textTransform="capitalize"
-                          verticalAlign="middle"
+                          alignItems="center"
+                          borderRadius="2px"
+                          fontSize="12px"
+                          fontWeight="700"
+                          lineHeight="16px"
+                          boxSizing="border-box"
+                          _hover={{
+                            backgroundColor: inputBg,
+                          }}
+                          color={removeColor}
+                          onClick={() => handleOption({ id: 'removed' })}
                         >
-                          {post?.removed ? 'Removed' : 'Remove'}
-                        </Text>
-                      </Flex>
+                          <Icon
+                            as={TiDeleteOutline}
+                            width="20px"
+                            height="20px"
+                            verticalAlign="middle"
+                            fontWeight="400"
+                            mr="4px"
+                          />
+                          <Text
+                            display="inline-block"
+                            lineHeight={1}
+                            textTransform="capitalize"
+                            verticalAlign="middle"
+                          >
+                            Remove
+                          </Text>
+                        </Flex>
+                      )}
+
                       <Flex
                         padding="8px"
                         wordBreak="normal"
@@ -900,9 +904,7 @@ const ClassicPost = ({
                         }}
                       >
                         <DropDown
-                          onClick={(val) =>
-                            handleEditPost({ [val?.id]: post[val?.id] ? false : true })
-                          }
+                          onClick={handleOption}
                           dropDownTitle={
                             <Flex
                               borderRadius="2px"
@@ -1356,41 +1358,57 @@ const ClassicPost = ({
                       {post?.locked && <Icon as={HiLockClosed} color={lockColor} />}
                       {post?.removed && <Icon as={AiTwotoneDelete} color={removeColor} />}
                     </Flex>
-                    <DropDown
-                      onChange={handleOption}
-                      rightOffset="10px"
-                      leftOffset="none"
-                      dropDownTitle={
-                        <Box
-                          pointerEvents="all"
-                          color="#565758"
-                          padding="8px 16px 8px 2px"
-                          verticalAlign="middle"
-                        >
-                          <Icon as={FiMoreHorizontal} verticalAlign="inherit" height={5} w={5} />
-                        </Box>
-                      }
-                      options={[
-                        {
-                          label: 'Edit',
-                          icon: BsPencil,
-                          id: 'edit',
-                          disabled: !(owner && detail),
-                        },
-                        {
-                          label: 'Block author',
-                          icon: BsEyeSlash,
-                          id: 'block',
-                          disabled: owner,
-                        },
-                        {
-                          label: 'Delete',
-                          icon: MdOutlineDeleteOutline,
-                          id: 'delete',
-                          disabled: !owner,
-                        },
-                      ]}
-                    />
+                    {!pending && (
+                      <DropDown
+                        onChange={handleOption}
+                        rightOffset="10px"
+                        leftOffset="none"
+                        dropDownTitle={
+                          <Box
+                            pointerEvents="all"
+                            color="#565758"
+                            padding="8px 16px 8px 2px"
+                            verticalAlign="middle"
+                          >
+                            <Icon as={FiMoreHorizontal} verticalAlign="inherit" height={5} w={5} />
+                          </Box>
+                        }
+                        options={[
+                          {
+                            label: 'Edit',
+                            icon: BsPencil,
+                            id: 'edit',
+                            disabled: !(owner && detail),
+                          },
+                          {
+                            label: 'Approve',
+                            icon: HiOutlineCheckCircle,
+                            id: 'approved',
+                            disabled: !(allowedSpecial && post?.removed),
+                            color: approveColor,
+                          },
+                          {
+                            label: 'Remove',
+                            icon: TiDeleteOutline,
+                            id: 'removed',
+                            disabled: !(allowedSpecial && !post?.removed),
+                            color: removeColor,
+                          },
+                          {
+                            label: 'Block Author',
+                            icon: BsEyeSlash,
+                            id: 'block',
+                            disabled: owner,
+                          },
+                          {
+                            label: 'Delete',
+                            icon: MdOutlineDeleteOutline,
+                            id: 'delete',
+                            disabled: !owner,
+                          },
+                        ]}
+                      />
+                    )}
                   </Flex>
                 </Flex>
                 <Box padding="0 16px 8px">
@@ -1768,7 +1786,7 @@ const ClassicPost = ({
                     menuSx={{
                       pointerEvents: 'all',
                     }}
-                    onChange={(val) => handleEditPost({ [val?.id]: post[val?.id] ? false : true })}
+                    onChange={handleOption}
                     dropDownTitle={
                       <Flex
                         overflow="hidden"
