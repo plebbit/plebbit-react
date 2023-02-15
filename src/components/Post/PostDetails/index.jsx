@@ -432,7 +432,6 @@ function PostDetail() {
   const owner =
     profile?.author?.address === detail?.author?.address ||
     profile?.signer?.address === detail?.author?.address;
-  console.log({ detail });
 
   return (
     <Layout
