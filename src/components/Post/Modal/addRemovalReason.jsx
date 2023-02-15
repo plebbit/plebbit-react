@@ -22,9 +22,8 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove }) => {
     <Modal trapFocus={false} onClose={onClose} size="xl" isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader borderBottom={`1px solid ${border1}`}>Leave as mod</ModalHeader>
-        <ModalCloseButton />
         <ModalHeader> Add removal reasons</ModalHeader>
+        <ModalCloseButton />
         <ModalBody
           padding="16px"
           fontSize="14px"
@@ -60,7 +59,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove }) => {
             h="32px"
             borderRadius="999px"
             colorScheme="blackAlpha"
-            onClick={() => handleRemove({ moderatorReason: input }, onClose())}
+            onClick={() => handleRemove({ reason: input }, onClose())}
           >
             Add reason
           </Button>
