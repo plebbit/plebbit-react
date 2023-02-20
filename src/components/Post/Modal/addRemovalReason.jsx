@@ -61,7 +61,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove }) => {
             colorScheme="blackAlpha"
             onClick={() => handleRemove({ reason: input }, onClose())}
           >
-            Add reason
+            Remove
           </Button>
         </ModalFooter>
       </ModalContent>
