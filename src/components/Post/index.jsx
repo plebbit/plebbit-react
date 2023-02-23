@@ -196,11 +196,12 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
           handleEditPost({ deleted: true });
         }
       });
-    } else if (val?.id === 'approved') {
-      handleEditPost({ removed: false });
-    } else if (val?.id === 'removed') {
-      handleEditPost({ removed: true });
-    } else handleEditPost({ [val?.id]: post[val?.id] ? false : true });
+    } else openRemovalModal();
+    //  else if (val?.id === 'approved') {
+    //   handleEditPost({ removed: false });
+    // } else if (val?.id === 'removed') {
+    //   handleEditPost({ removed: true });
+    // } else handleEditPost({ [val?.id]: post[val?.id] ? false : true });
   };
 
   return (
@@ -329,6 +330,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
           handleRemove={handleEditPost}
           isOpen={isRemovalModalOpen}
           onClose={closeRemovalModal}
+          post={post}
         />
       )}
     </>
