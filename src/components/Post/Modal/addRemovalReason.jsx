@@ -72,8 +72,8 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
               </Flex>
               <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
                 <Switch
-                  checked={data?.pinned}
                   id="pinned"
+                  checked={data?.pinned}
                   onChange={() => setData({ ...data, pinned: !data?.pinned })}
                 />
               </Flex>
@@ -105,7 +105,11 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                 </Box>
               </Flex>
               <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-                <Switch id="removed" />
+                <Switch
+                  id="removed"
+                  checked={data?.removed}
+                  onChange={() => setData({ ...data, removed: !data?.removed })}
+                />
               </Flex>
             </Flex>
             <Flex flexFlow="row wrap" marginBottom="32px">
@@ -135,7 +139,11 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                 </Box>
               </Flex>
               <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-                <Switch id="locked" />
+                <Switch
+                  id="locked"
+                  checked={data?.locked}
+                  onChange={() => setData({ ...data, locked: !data?.locked })}
+                />
               </Flex>
             </Flex>
             <Flex flexFlow="row wrap" marginBottom="32px">
@@ -167,7 +175,11 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                 </Box>
               </Flex>
               <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-                <Switch id="spoiler" />
+                <Switch
+                  id="spoiler"
+                  checked={data?.spoiler}
+                  onChange={() => setData({ ...data, spoiler: !data?.spoiler })}
+                />
               </Flex>
             </Flex>
             <Box mb="16px">
