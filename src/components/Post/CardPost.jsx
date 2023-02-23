@@ -1385,55 +1385,62 @@ const CardPost = ({
                       {post?.removed && <Icon as={AiTwotoneDelete} color={removeColor} />}
                     </Flex>
                     {!pending && (
-                      <DropDown
-                        onChange={handleOption}
-                        rightOffset="10px"
-                        leftOffset="none"
-                        dropDownTitle={
-                          <Box
-                            pointerEvents="all"
-                            color="#565758"
-                            padding="8px 16px 8px 2px"
-                            verticalAlign="middle"
-                          >
-                            <Icon as={FiMoreHorizontal} verticalAlign="inherit" height={5} w={5} />
-                          </Box>
-                        }
-                        options={[
-                          {
-                            label: 'Edit',
-                            icon: BsPencil,
-                            id: 'edit',
-                            disabled: !(owner && detail),
-                          },
-                          {
-                            label: 'Approve',
-                            icon: HiOutlineCheckCircle,
-                            id: 'approved',
-                            disabled: !(allowedSpecial && post?.removed),
-                            color: approveColor,
-                          },
-                          {
-                            label: 'Remove',
-                            icon: TiDeleteOutline,
-                            id: 'removed',
-                            disabled: !(allowedSpecial && !post?.removed),
-                            color: removeColor,
-                          },
-                          {
-                            label: 'Block Author',
-                            icon: BsEyeSlash,
-                            id: 'block',
-                            disabled: owner,
-                          },
-                          {
-                            label: 'Delete',
-                            icon: MdOutlineDeleteOutline,
-                            id: 'delete',
-                            disabled: !owner,
-                          },
-                        ]}
-                      />
+                      <Box pointerEvents="all">
+                        <DropDown
+                          onChange={handleOption}
+                          rightOffset="10px"
+                          leftOffset="none"
+                          dropDownTitle={
+                            <Box
+                              pointerEvents="all"
+                              color="#565758"
+                              padding="8px 16px 8px 2px"
+                              verticalAlign="middle"
+                            >
+                              <Icon
+                                as={FiMoreHorizontal}
+                                verticalAlign="inherit"
+                                height={5}
+                                w={5}
+                              />
+                            </Box>
+                          }
+                          options={[
+                            {
+                              label: 'Edit',
+                              icon: BsPencil,
+                              id: 'edit',
+                              disabled: !(owner && detail),
+                            },
+                            {
+                              label: 'Approve',
+                              icon: HiOutlineCheckCircle,
+                              id: 'approved',
+                              disabled: !(allowedSpecial && post?.removed),
+                              color: approveColor,
+                            },
+                            {
+                              label: 'Remove',
+                              icon: TiDeleteOutline,
+                              id: 'removed',
+                              disabled: !(allowedSpecial && !post?.removed),
+                              color: removeColor,
+                            },
+                            {
+                              label: 'Block Author',
+                              icon: BsEyeSlash,
+                              id: 'block',
+                              disabled: owner,
+                            },
+                            {
+                              label: 'Delete',
+                              icon: MdOutlineDeleteOutline,
+                              id: 'delete',
+                              disabled: !owner,
+                            },
+                          ]}
+                        />
+                      </Box>
                     )}
                   </Flex>
                 </Flex>
@@ -1653,6 +1660,7 @@ const CardPost = ({
                     overflowX="scroll"
                     padding="0"
                     borderRadius="16px"
+                    pointerEvents="all"
                   >
                     <Flex
                       overflow="hidden"
@@ -1681,6 +1689,7 @@ const CardPost = ({
                       marginRight="10px"
                       padding="2px 8px 0"
                       maxW="100px"
+                      pointerEvents="all"
                     >
                       <Icon
                         as={BsChat}
@@ -1695,45 +1704,43 @@ const CardPost = ({
                     </Flex>
                   </Link>
                   {/* mod button */}
-
-                  <DropDown
-                    menuSx={{
-                      pointerEvents: 'all',
-                    }}
-                    onChange={handleOption}
-                    dropDownTitle={
-                      <Flex
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                        whiteSpace="nowrap"
-                        alignItems="center"
-                        justifyContent="center"
-                        padding="1px 7px"
-                      >
-                        <Icon as={BsShield} height="16px" width="16px" />
-                      </Flex>
-                    }
-                    options={[
-                      {
-                        label: 'Sticky Post',
-                        icon: post?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
-                        id: 'pinned',
-                      },
-                      {
-                        label: 'Lock Comments',
-                        icon: post?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
-                        id: 'locked',
-                      },
-                      {
-                        label: 'Mark As Spoiler',
-                        icon: post?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
-                        id: 'spoiler',
-                      },
-                    ]}
-                    rightOffset={0}
-                    leftOffset="none"
-                    topOffset="34px"
-                  />
+                  <Box pointerEvents="all" ml="auto">
+                    <DropDown
+                      onChange={handleOption}
+                      dropDownTitle={
+                        <Flex
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                          alignItems="center"
+                          justifyContent="center"
+                          padding="1px 7px"
+                        >
+                          <Icon as={BsShield} height="16px" width="16px" />
+                        </Flex>
+                      }
+                      options={[
+                        {
+                          label: 'Sticky Post',
+                          icon: post?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
+                          id: 'pinned',
+                        },
+                        {
+                          label: 'Lock Comments',
+                          icon: post?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
+                          id: 'locked',
+                        },
+                        {
+                          label: 'Mark As Spoiler',
+                          icon: post?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
+                          id: 'spoiler',
+                        },
+                      ]}
+                      rightOffset={0}
+                      leftOffset="none"
+                      topOffset="34px"
+                    />
+                  </Box>
                 </Flex>
               </Box>
             ) : (
