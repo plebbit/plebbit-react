@@ -407,16 +407,12 @@ function PostDetailModal() {
           handleDeletePost(detail?.cid, detail?.subplebbitAddress);
         }
       });
-    } else if (option?.id === 'approved') {
-      handleEditPost({ removed: false });
-    } else if (option?.id === 'removed') {
-      handleEditPost({ removed: true });
     } else if (option?.id === 'saveEdit') {
       handleEditPost({
         link: editMode === 'link' ? editPost : undefined,
         content: editMode === 'post' ? editPost : undefined,
       });
-    } else handleEditPost({ [option?.id]: detail[option?.id] ? false : true });
+    } else openRemovalModal();
   };
 
   logger('feed:detail', {
@@ -1848,6 +1844,7 @@ function PostDetailModal() {
             handleRemove={handleEditPost}
             isOpen={isRemovalModalOpen}
             onClose={closeRemovalModal}
+            post={detail}
           />
         )}
       </Modal>
