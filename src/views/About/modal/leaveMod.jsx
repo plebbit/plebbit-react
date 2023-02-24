@@ -106,7 +106,14 @@ export const RemoveMod = ({
   };
 
   return (
-    <Modal trapFocus={false} onClose={onClose} size="xl" isOpen={isOpen} isCentered>
+    <Modal
+      trapFocus={false}
+      scrollBehavior="inside"
+      onClose={onClose}
+      size="xl"
+      isOpen={isOpen}
+      isCentered
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader borderBottom={`1px solid ${border1}`}>Remove as a mod</ModalHeader>

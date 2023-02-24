@@ -38,7 +38,7 @@ const ImportAccount = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal trapFocus={false} isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal trapFocus={false} scrollBehavior="inside" isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Export Account</ModalHeader>

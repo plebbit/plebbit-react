@@ -24,7 +24,7 @@ const AddBlockProvide = ({ isOpen, onClose, handleSave, loading }) => {
   const [data, setData] = useState({});
 
   return (
-    <Modal trapFocus={false} isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal trapFocus={false} scrollBehavior="inside" isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Add Block Provider</ModalHeader>

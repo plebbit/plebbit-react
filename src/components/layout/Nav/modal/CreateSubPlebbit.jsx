@@ -52,7 +52,14 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal trapFocus={false} isOpen={isOpen} onClose={onClose} isCentered size="xl">
+    <Modal
+      trapFocus={false}
+      scrollBehavior="inside"
+      isOpen={isOpen}
+      onClose={onClose}
+      isCentered
+      size="xl"
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
