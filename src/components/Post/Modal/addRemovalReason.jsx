@@ -27,11 +27,18 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
     removed: post?.removed || false,
     locked: post?.locked || false,
     spoiler: post?.spoiler || false,
-    reason: post?.reason || '',
+    reason: post?.reason,
   });
 
   return (
-    <Modal trapFocus={false} onClose={onClose} size="xl" isOpen={isOpen} isCentered>
+    <Modal
+      scrollBehavior="inside"
+      trapFocus={false}
+      onClose={onClose}
+      size="xl"
+      isOpen={isOpen}
+      isCentered
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader> Add Moderation options</ModalHeader>
@@ -168,9 +175,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                     lineHeight="16px"
                   >
                     this will mark this with a "spoiler" tag or warning to alert others of the
-                    potential spoilers contained within. This gives people who haven't seen or read
-                    the material a chance to avoid the post and enjoy the content for themselves
-                    without any surprises being spoiled.
+                    potential spoilers contained within.
                   </FormHelperText>
                 </Box>
               </Flex>
