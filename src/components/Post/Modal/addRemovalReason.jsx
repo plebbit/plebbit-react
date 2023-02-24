@@ -27,11 +27,18 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
     removed: post?.removed || false,
     locked: post?.locked || false,
     spoiler: post?.spoiler || false,
-    reason: post?.reason || '',
+    reason: post?.reason,
   });
 
   return (
-    <Modal trapFocus={false} onClose={onClose} size="xl" isOpen={isOpen} isCentered>
+    <Modal
+      scrollBehavior="inside"
+      trapFocus={false}
+      onClose={onClose}
+      size="xl"
+      isOpen={isOpen}
+      isCentered
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader> Add Moderation options</ModalHeader>
