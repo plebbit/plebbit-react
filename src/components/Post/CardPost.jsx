@@ -529,36 +529,34 @@ const CardPost = ({
                       </Box>
                     )}
                     {/* Post url */}
-                    {post?.thumbnailUrl && (
-                      <Flex mt="0">
-                        {post?.link ? (
-                          <Link
-                            fontSize="12px"
+
+                    <Flex mt="0">
+                      {post?.link && (
+                        <Link
+                          fontSize="12px"
+                          fontWeight="400"
+                          lineHeight="16px"
+                          margin="4px 8px"
+                          whiteSpace="nowrap"
+                          color="mainBlue"
+                          display="flex"
+                          href={post?.link}
+                          alignItems="flex-end"
+                        >
+                          <Box>{post?.link?.substring(0, 20) + '...'}</Box>
+                          <Icon
+                            as={FiExternalLink}
+                            verticalAlign="middle"
                             fontWeight="400"
-                            lineHeight="16px"
-                            margin="4px 8px"
-                            whiteSpace="nowrap"
-                            color="mainBlue"
-                            display="flex"
-                            href={post?.link}
-                            alignItems="flex-end"
-                          >
-                            <Box>{post?.link?.substring(0, 20) + '...'}</Box>
-                            <Icon
-                              as={FiExternalLink}
-                              verticalAlign="middle"
-                              fontWeight="400"
-                              width="20px"
-                              height="20px"
-                              fontSize="12px"
-                              paddingLeft="4px"
-                            />
-                          </Link>
-                        ) : (
-                          ''
-                        )}
-                      </Flex>
-                    )}
+                            width="20px"
+                            height="20px"
+                            fontSize="12px"
+                            paddingLeft="4px"
+                          />
+                        </Link>
+                      )}
+                    </Flex>
+
                     {mediaInfo?.type === 'image' && (
                       <Image
                         maxH="512px"

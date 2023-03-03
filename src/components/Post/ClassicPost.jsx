@@ -44,6 +44,7 @@ import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineDeleteOutline } from 'reac
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { AiTwotoneDelete } from 'react-icons/ai';
+import truncateString from '../../utils/truncateString';
 
 const ClassicPost = ({
   loading,
@@ -65,10 +66,10 @@ const ClassicPost = ({
   detailRoute,
   openRemovalModal,
   allowedSpecial,
-
   owner,
   showSpoiler,
   setShowSpoiler,
+  mediaInfo,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -93,6 +94,7 @@ const ClassicPost = ({
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
   const { device } = useContext(ProfileContext);
   const subPlebbit = sub || { address: post?.subplebbitAddress };
+  const postBg = useColorModeValue('lightCommunityThemePost', 'darkCommunityThemePost');
   const history = useHistory();
 
   return (
@@ -235,7 +237,7 @@ const ClassicPost = ({
                     position="relative"
                     verticalAlign="bottom"
                   >
-                    {post?.content ? (
+                    {post?.content && (
                       <Box
                         display="flex"
                         alignItems="center"
@@ -245,10 +247,12 @@ const ClassicPost = ({
                       >
                         <Icon as={BsFileText} h="20px" w="20px" alignSelf="center" />
                       </Box>
-                    ) : (
-                      <Box
+                    )}
+                    {post?.link && (
+                      <Image
                         borderColor={border2}
-                        backgroundImage={`url(${post?.link})`}
+                        src={post?.thumbnailUrl || post?.link}
+                        fallbackSrc={require('../../assets/images/fallback.png')}
                         transition="filter .5s"
                         height="72px"
                         width="96px"
@@ -258,9 +262,7 @@ const ClassicPost = ({
                         backgroundSize="cover"
                         backgroundRepeat="no-repeat"
                         flex="1"
-                      >
-                        {/* <Image fallbackSrc='https://via.placeholder.com/150' alt="xxx" /> */}
-                      </Box>
+                      />
                     )}
                   </Box>
                 </Flex>
@@ -278,7 +280,7 @@ const ClassicPost = ({
                   <Skeleton display="flex" flexWrap="wrap" isLoaded={!loading}>
                     {' '}
                     {/* flair */}
-                    {type === 'subPlebbit' && post?.flair?.text ? (
+                    {type === 'subPlebbit' && post?.flair?.text && (
                       <Tag
                         bg={post?.flair?.color}
                         borderRadius="20px"
@@ -297,8 +299,6 @@ const ClassicPost = ({
                       >
                         {post?.flair?.text}
                       </Tag>
-                    ) : (
-                      ''
                     )}
                     <Text
                       display="inline"
@@ -312,7 +312,7 @@ const ClassicPost = ({
                       mb="4px"
                     >
                       {post?.title}
-                      {!post?.content ? (
+                      {post?.link && (
                         <Link
                           fontSize="12px"
                           fontWeight="400"
@@ -321,7 +321,7 @@ const ClassicPost = ({
                           color="mainBlue"
                           href={post?.link}
                         >
-                          <span>{post?.link.substring(0, 20) + '...'}</span>
+                          <span>{truncateString(post?.link, 20, '...')}</span>
                           <Icon
                             as={FiExternalLink}
                             verticalAlign="middle"
@@ -332,8 +332,6 @@ const ClassicPost = ({
                             paddingLeft="4px"
                           />
                         </Link>
-                      ) : (
-                        ''
                       )}
                     </Text>
                     {type !== 'subPlebbit' && post?.flair?.text ? (
@@ -394,7 +392,7 @@ const ClassicPost = ({
                         alignItems="center"
                         flexFlow="row wrap"
                       >
-                        <Avatar width={24} height={24} mr="8px" badge isOnline={isOnline} />
+                        {/* <Avatar width={24} height={24} mr="8px" badge isOnline={isOnline} /> */}
                         <Link
                           as={ReactLink}
                           to={detailRoute}
@@ -699,29 +697,31 @@ const ClassicPost = ({
                           />
                         </Flex>
                       ) : (
-                        <Flex
-                          padding="8px"
-                          wordBreak="normal"
-                          mr="4px"
-                          alignItems="center"
-                          borderRadius="2px"
-                          fontSize="12px"
-                          fontWeight="700"
-                          lineHeight="16px"
-                          boxSizing="border-box"
-                          _hover={{
-                            backgroundColor: inputBg,
-                          }}
-                        >
-                          <Icon
-                            as={VscLinkExternal}
-                            width="20px"
-                            height="20px"
-                            verticalAlign="middle"
-                            fontWeight="400"
-                            mr="6px"
-                          />
-                        </Flex>
+                        <Link href={post?.link} isExternal>
+                          <Flex
+                            padding="8px"
+                            wordBreak="normal"
+                            mr="4px"
+                            alignItems="center"
+                            borderRadius="2px"
+                            fontSize="12px"
+                            fontWeight="700"
+                            lineHeight="16px"
+                            boxSizing="border-box"
+                            _hover={{
+                              backgroundColor: inputBg,
+                            }}
+                          >
+                            <Icon
+                              as={VscLinkExternal}
+                              width="20px"
+                              height="20px"
+                              verticalAlign="middle"
+                              fontWeight="400"
+                              mr="6px"
+                            />
+                          </Flex>
+                        </Link>
                       )}
                       <Flex
                         padding="8px"
@@ -955,7 +955,7 @@ const ClassicPost = ({
                       padding="0 8px 0 4px"
                       flexGrow="1"
                     >
-                      {post?.content ? (
+                      {!post?.thumbnailUrl && (
                         <Flex
                           padding="8px"
                           wordBreak="normal"
@@ -980,31 +980,36 @@ const ClassicPost = ({
                             mr="6px"
                           />
                         </Flex>
-                      ) : (
-                        <Flex
-                          padding="8px"
-                          wordBreak="normal"
-                          mr="4px"
-                          alignItems="center"
-                          borderRadius="2px"
-                          fontSize="12px"
-                          fontWeight="700"
-                          lineHeight="16px"
-                          boxSizing="border-box"
-                          _hover={{
-                            backgroundColor: inputBg,
-                          }}
-                        >
-                          <Icon
-                            as={VscLinkExternal}
-                            width="20px"
-                            height="20px"
-                            verticalAlign="middle"
-                            fontWeight="400"
-                            mr="6px"
-                          />
-                        </Flex>
                       )}
+
+                      {post?.thumbnailUrl && (
+                        <Link href={post?.link} isExternal>
+                          <Flex
+                            padding="8px"
+                            wordBreak="normal"
+                            mr="4px"
+                            alignItems="center"
+                            borderRadius="2px"
+                            fontSize="12px"
+                            fontWeight="700"
+                            lineHeight="16px"
+                            boxSizing="border-box"
+                            _hover={{
+                              backgroundColor: inputBg,
+                            }}
+                          >
+                            <Icon
+                              as={VscLinkExternal}
+                              width="20px"
+                              height="20px"
+                              verticalAlign="middle"
+                              fontWeight="400"
+                              mr="6px"
+                            />
+                          </Flex>
+                        </Link>
+                      )}
+
                       <Flex
                         padding="8px"
                         wordBreak="normal"
@@ -1236,23 +1241,72 @@ const ClassicPost = ({
                 </Flex>
               </Box>
             </Flex>
-            {showContent ? (
-              <Box padding="5px 16px 5px 8px" maxWidth="800px">
-                <Box
-                  color={voteColor}
-                  fontSize="14px"
-                  fontWeight="400"
-                  lineHeight="21px"
-                  wordBreak="break-word"
-                  overflow="auto"
-                  paddingBottom="1px"
-                  marginBottom="-1px"
-                >
-                  <Marked content={post?.content} />
-                </Box>
-              </Box>
-            ) : (
-              ''
+            {showContent && (
+              <>
+                {post?.content && (
+                  <Box padding="5px 16px 5px 8px" maxWidth="100%">
+                    <Box
+                      color={voteColor}
+                      fontSize="14px"
+                      fontWeight="400"
+                      lineHeight="21px"
+                      wordBreak="break-word"
+                      overflow="auto"
+                      paddingBottom="1px"
+                      marginBottom="-1px"
+                    >
+                      <Marked content={post?.content} />
+                    </Box>
+                  </Box>
+                )}
+                {mediaInfo?.type === 'image' && (
+                  <Image
+                    maxH="512px"
+                    margin="0 auto"
+                    maxW="100%"
+                    bg={postBg}
+                    src={post?.link}
+                    onError={(event) => (event.target.style.display = 'none')}
+                  />
+                )}
+
+                {mediaInfo?.type === 'video' && (
+                  <Box bg="black" maxHeight="512px" width="100%" maxW="100%" color="#fff">
+                    <video
+                      autoPlay
+                      playsInline
+                      preload="auto"
+                      controls
+                      style={{
+                        objectFit: 'contain',
+                        width: '100% !important',
+                        overflowClipMargin: 'content-box',
+                        overflow: 'clip',
+                      }}
+                      onError={(event) => (event.target.style.display = 'none')}
+                      muted
+                    >
+                      <source src={post?.link} />
+                    </video>
+                  </Box>
+                )}
+
+                {mediaInfo?.type === 'audio' && (
+                  <Box maxW="100%" color="#fff" margin="4px 8px">
+                    <audio
+                      preload="auto"
+                      src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                      onError={(event) => (event.target.style.display = 'none')}
+                      controls
+                      style={{
+                        width: '100%',
+                      }}
+                    >
+                      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
+                    </audio>
+                  </Box>
+                )}
+              </>
             )}
           </Box>
         </Box>
