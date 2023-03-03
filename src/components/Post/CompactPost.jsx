@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Flex,
   Icon,
+  Image,
   Link,
   Skeleton,
   Tag,
@@ -21,7 +22,7 @@ import {
   BsPinAngleFill,
   BsShield,
 } from 'react-icons/bs';
-import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg';
+import { CgArrowsExpandLeft, CgCompressLeft, CgImage } from 'react-icons/cg';
 import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
@@ -35,7 +36,14 @@ import DropDown from '../DropDown';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
 
-import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineDeleteOutline } from 'react-icons/md';
+import {
+  MdCheckBox,
+  MdCheckBoxOutlineBlank,
+  MdOutlineAudiotrack,
+  MdOutlineDeleteOutline,
+} from 'react-icons/md';
+import { VscLinkExternal } from 'react-icons/vsc';
+import { AiOutlineYoutube } from 'react-icons/ai';
 
 const CompactPost = ({
   loading,
@@ -56,7 +64,7 @@ const CompactPost = ({
   detailRoute,
   openRemovalModal,
   allowedSpecial,
-
+  mediaInfo,
   owner,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -75,7 +83,9 @@ const CompactPost = ({
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
+  const postBg = useColorModeValue('lightCommunityThemePost', 'darkCommunityThemePost');
   const history = useHistory();
+  const [showExpand, setShowExpand] = useState(false);
 
   return (
     <Box
@@ -206,7 +216,7 @@ const CompactPost = ({
           position="relative"
         >
           <Flex alignItems="center">
-            {post?.content ? (
+            {!post?.thumbnailUrl && (
               <Link
                 display="flex"
                 flex="0 0 36px"
@@ -221,16 +231,69 @@ const CompactPost = ({
                   bg: iconBg,
                 }}
                 onClick={() => setShowContent(!showContent)}
+                onMouseEnter={() => setShowExpand(true)}
+                onMouseLeave={() => setShowExpand(false)}
               >
-                <Icon
-                  as={showContent ? CgCompressLeft : CgArrowsExpandLeft}
-                  position="absolute"
-                  width="20px"
-                  height="20px"
-                  verticalAlign="middle"
-                />
+                {showExpand ? (
+                  <Icon
+                    as={showContent ? CgCompressLeft : CgArrowsExpandLeft}
+                    position="absolute"
+                    width="20px"
+                    height="20px"
+                    verticalAlign="middle"
+                  />
+                ) : showContent ? (
+                  <Icon
+                    as={CgCompressLeft}
+                    position="absolute"
+                    width="20px"
+                    height="20px"
+                    verticalAlign="middle"
+                  />
+                ) : (
+                  <>
+                    {post?.content && (
+                      <Icon
+                        as={BsFileText}
+                        position="absolute"
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                      />
+                    )}
+
+                    {mediaInfo?.type === 'image' && (
+                      <Icon
+                        as={CgImage}
+                        position="absolute"
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                      />
+                    )}
+                    {mediaInfo?.type === 'video' && (
+                      <Icon
+                        as={AiOutlineYoutube}
+                        position="absolute"
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                      />
+                    )}
+                    {mediaInfo?.type === 'audio' && (
+                      <Icon
+                        as={MdOutlineAudiotrack}
+                        position="absolute"
+                        width="20px"
+                        height="20px"
+                        verticalAlign="middle"
+                      />
+                    )}
+                  </>
+                )}
               </Link>
-            ) : (
+            )}
+            {post?.thumbnailUrl && (
               <Box
                 display="flex"
                 flex="0 0 36px"
@@ -246,7 +309,7 @@ const CompactPost = ({
                 }}
               >
                 <Icon
-                  as={BsFileText}
+                  as={VscLinkExternal}
                   position="absolute"
                   width="20px"
                   height="20px"
@@ -254,6 +317,7 @@ const CompactPost = ({
                 />
               </Box>
             )}
+
             <Box flex="1 1 100%" mt="2px" minW="150px" overflow="hidden" wordWrap="break-word">
               {/* post title */}
               <Box margin="0 8px" onClick={() => history.push(detailRoute, [])}>
@@ -831,25 +895,72 @@ const CompactPost = ({
           </Flex>
         </Box>
       </Flex>
-      {showContent ? (
-        <Box bg={mainBg} height="100%">
-          <Box padding="5px 16px 5px 8px" maxWidth="800px">
-            <Box
-              color={voteColor}
-              fontSize="14px"
-              fontWeight="400"
-              lineHeight="21px"
-              wordBreak="break-word"
-              overflow="auto"
-              paddingBottom="1px"
-              marginBottom="-1px"
-            >
-              <Marked content={post?.content} />
+      {showContent && (
+        <Box bg={postBg}>
+          {post?.content && (
+            <Box padding="5px 16px 5px 8px" maxWidth="100%">
+              <Box
+                color={voteColor}
+                fontSize="14px"
+                fontWeight="400"
+                lineHeight="21px"
+                wordBreak="break-word"
+                overflow="auto"
+                paddingBottom="1px"
+                marginBottom="-1px"
+              >
+                <Marked content={post?.content} />
+              </Box>
             </Box>
-          </Box>
+          )}
+          {mediaInfo?.type === 'image' && (
+            <Image
+              maxH="512px"
+              margin="0 auto"
+              maxW="100%"
+              bg={postBg}
+              src={post?.link}
+              onError={(event) => (event.target.style.display = 'none')}
+            />
+          )}
+
+          {mediaInfo?.type === 'video' && (
+            <Box bg="black" maxHeight="512px" width="100%" maxW="100%" color="#fff">
+              <video
+                autoPlay
+                playsInline
+                preload="auto"
+                controls
+                style={{
+                  objectFit: 'contain',
+                  width: '100% !important',
+                  overflowClipMargin: 'content-box',
+                  overflow: 'clip',
+                }}
+                onError={(event) => (event.target.style.display = 'none')}
+                muted
+              >
+                <source src={post?.link} />
+              </video>
+            </Box>
+          )}
+
+          {mediaInfo?.type === 'audio' && (
+            <Box maxW="100%" color="#fff" margin="4px 8px">
+              <audio
+                preload="auto"
+                src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                onError={(event) => (event.target.style.display = 'none')}
+                controls
+                style={{
+                  width: '100%',
+                }}
+              >
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
+              </audio>
+            </Box>
+          )}
         </Box>
-      ) : (
-        ''
       )}
     </Box>
   );

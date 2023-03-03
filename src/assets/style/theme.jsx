@@ -73,6 +73,7 @@ const theme = extendTheme({
     lightMobileIcon: '#ccccca',
     lightMobileIcon2: '#787c7e',
     lightTransparent20: 'rgba(255,255,255,0.8)',
+    lightCommunityThemePost: '#ffffff',
 
     //dark
     darkBody: '#1A1A1B',
@@ -92,6 +93,7 @@ const theme = extendTheme({
     darkMobileText: '#cfd0ca',
     darkMobileIcon: '#545452',
     darkTransparent20: 'rgba(26,26,27,0.8)',
+    darkCommunityThemePost: '#1a1a1b',
   },
   fonts: {
     body: 'IBM Plex Sans, sans-serif',

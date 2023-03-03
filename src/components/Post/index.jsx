@@ -18,6 +18,7 @@ import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser
 import { useLocation } from 'react-router-dom';
 import AddRemovalReason from './Modal/addRemovalReason';
 import Swal from 'sweetalert2';
+import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 
 const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -43,6 +44,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     onClose: closeRemovalModal,
     isOpen: isRemovalModalOpen,
   } = useDisclosure();
+
+  const mediaInfo = getCommentMediaInfo(post);
+
   const onChallengeVerification = (challengeVerification, comment) => {
     // if the challengeVerification fails, a new challenge request will be sent automatically
     // to break the loop, the user must decline to send a challenge answer
@@ -233,6 +237,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             owner={owner}
             showSpoiler={showSpoiler}
             setShowSpoiler={setShowSpoiler}
+            mediaInfo={mediaInfo}
           />
         )}
         {/* classic */}
@@ -263,6 +268,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             owner={owner}
             showSpoiler={showSpoiler}
             setShowSpoiler={setShowSpoiler}
+            mediaInfo={mediaInfo}
           />
         )}
         {/* compact */}
@@ -294,6 +300,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               owner={owner}
               showSpoiler={showSpoiler}
               setShowSpoiler={setShowSpoiler}
+              mediaInfo={mediaInfo}
             />
           ) : (
             <ClassicPost
@@ -322,6 +329,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               owner={owner}
               showSpoiler={showSpoiler}
               setShowSpoiler={setShowSpoiler}
+              mediaInfo={mediaInfo}
             />
           ))}
       </Box>
