@@ -63,6 +63,7 @@ const CardPost = ({
   owner,
   showSpoiler,
   setShowSpoiler,
+  mediaInfo,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -85,6 +86,7 @@ const CardPost = ({
   const postHeadColor = useColorModeValue('#1a1a1b', '#0079d3');
   const border2 = useColorModeValue('#edeff1', '#343536');
   const mobileIconColor = useColorModeValue('lightMobileIcon2', 'darkMobileIcon');
+  const postBg = useColorModeValue('lightCommunityThemePost', 'darkCommunityThemePost');
   const history = useHistory();
   const subPlebbit = sub || { address: post?.subplebbitAddress };
 
@@ -323,24 +325,21 @@ const CardPost = ({
                           </Text>
 
                           {/* User Name */}
-                          <Box display="inline-block" flex="0 0 auto">
-                            <Box>
-                              <Link
-                                as={ReactLink}
-                                _hover={{
-                                  textDecoration: 'underline',
-                                }}
-                                color={misCol}
-                                fontWeight="400"
-                                mr="3px"
-                                textDecor="none"
-                                fontSize="12px"
-                                lineHeight="16px"
-                              >
-                                {getUserName(post?.author)}
-                              </Link>
-                            </Box>
-                          </Box>
+                          <Text
+                            as={ReactLink}
+                            _hover={{
+                              textDecoration: 'underline',
+                            }}
+                            color={misCol}
+                            fontWeight="400"
+                            mr="3px"
+                            textDecoration="none"
+                            fontSize="12px"
+                            lineHeight="16px"
+                            overflow="hidden"
+                          >
+                            {getUserName(post?.author)}
+                          </Text>
                           {/* status */}
                           {post?.author?.flair && (
                             <Box display="inline" verticalAlign="text-top">
@@ -498,37 +497,6 @@ const CardPost = ({
                   </Box>
                   {/* Post Body */}
                   <Box mt="8px">
-                    {/* Post url */}
-                    {post?.link && (
-                      <Flex mt="0">
-                        {post?.link ? (
-                          <Link
-                            fontSize="12px"
-                            fontWeight="400"
-                            lineHeight="16px"
-                            margin="4px 8px"
-                            whiteSpace="nowrap"
-                            color="mainBlue"
-                            display="flex"
-                            href={post?.link}
-                            alignItems="flex-end"
-                          >
-                            <Box>{post?.link?.substring(0, 20) + '...'}</Box>
-                            <Icon
-                              as={FiExternalLink}
-                              verticalAlign="middle"
-                              fontWeight="400"
-                              width="20px"
-                              height="20px"
-                              fontSize="12px"
-                              paddingLeft="4px"
-                            />
-                          </Link>
-                        ) : (
-                          ''
-                        )}
-                      </Flex>
-                    )}
                     {post?.content && (
                       <Box
                         maxH="250px"
@@ -560,6 +528,84 @@ const CardPost = ({
                         </Skeleton>
                       </Box>
                     )}
+                    {/* Post url */}
+                    {post?.thumbnailUrl && (
+                      <Flex mt="0">
+                        {post?.link ? (
+                          <Link
+                            fontSize="12px"
+                            fontWeight="400"
+                            lineHeight="16px"
+                            margin="4px 8px"
+                            whiteSpace="nowrap"
+                            color="mainBlue"
+                            display="flex"
+                            href={post?.link}
+                            alignItems="flex-end"
+                          >
+                            <Box>{post?.link?.substring(0, 20) + '...'}</Box>
+                            <Icon
+                              as={FiExternalLink}
+                              verticalAlign="middle"
+                              fontWeight="400"
+                              width="20px"
+                              height="20px"
+                              fontSize="12px"
+                              paddingLeft="4px"
+                            />
+                          </Link>
+                        ) : (
+                          ''
+                        )}
+                      </Flex>
+                    )}
+                    {mediaInfo?.type === 'image' && (
+                      <Image
+                        maxH="512px"
+                        margin="0 auto"
+                        maxW="100%"
+                        bg={postBg}
+                        src={post?.link}
+                        onError={(event) => (event.target.style.display = 'none')}
+                      />
+                    )}
+
+                    {mediaInfo?.type === 'video' && (
+                      <Box bg="black" maxHeight="512px" width="100%" maxW="100%" color="#fff">
+                        <video
+                          autoPlay
+                          playsInline
+                          preload="auto"
+                          controls
+                          style={{
+                            objectFit: 'contain',
+                            width: '100% !important',
+                            overflowClipMargin: 'content-box',
+                            overflow: 'clip',
+                          }}
+                          onError={(event) => (event.target.style.display = 'none')}
+                          muted
+                        >
+                          <source src={post?.link} />
+                        </video>
+                      </Box>
+                    )}
+
+                    {mediaInfo?.type === 'audio' && (
+                      <Box maxW="100%" color="#fff" margin="4px 8px">
+                        <audio
+                          preload="auto"
+                          src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                          onError={(event) => (event.target.style.display = 'none')}
+                          controls
+                          style={{
+                            width: '100%',
+                          }}
+                        >
+                          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
+                        </audio>
+                      </Box>
+                    )}
                   </Box>
                 </Flex>
                 {/* Post thumbnail */}
@@ -588,7 +634,7 @@ const CardPost = ({
                             fallbackSrc={require('../../assets/images/fallback.png')}
                             borderColor="mainBlue"
                             border="1px solid #0079d3;"
-                            src={post?.link}
+                            src={post?.thumbnailUrl}
                             width="100%"
                             height="100%"
                           />
