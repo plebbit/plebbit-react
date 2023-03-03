@@ -219,8 +219,14 @@ const CardPost = ({
               }}
               to={detailRoute}
             >
-              {post?.content ? (
-                <>
+              <Flex paddingBottom="8px">
+                <Flex
+                  flexDir="column"
+                  flex="1 1 100%"
+                  paddingBottom="22px"
+                  position="relative"
+                  wordBreak="break-word"
+                >
                   {/* Pin Head */}
                   {post?.pinned && (
                     <Flex
@@ -492,250 +498,72 @@ const CardPost = ({
                   </Box>
                   {/* Post Body */}
                   <Box mt="8px">
-                    <Box
-                      maxH="250px"
-                      overflow="hidden"
-                      padding="5px 8px 10px"
-                      sx={{
-                        maskImage: 'linear-gradient(180deg, #000 60%, transparent)',
-                      }}
-                    >
-                      <Skeleton mt="20px" isLoaded={!loading}>
-                        <Box
-                          color={voteColor}
-                          fontFamily="Noto sans, Arial, sans-serif"
-                          fontSize="14px"
-                          fontWeight="400"
-                          lineHeight="21px"
-                          wordBreak="break-word"
-                          paddingBottom="1px"
-                          marginBottom="-1px"
-                        >
-                          {post?.spoiler ? (
-                            ''
-                          ) : post?.removed ? (
-                            '[removed]'
-                          ) : (
-                            <Marked content={post?.content} />
-                          )}
-                        </Box>
-                      </Skeleton>
-                    </Box>
-                  </Box>
-                </>
-              ) : (
-                <Flex paddingBottom="8px">
-                  <Flex
-                    flexDir="column"
-                    flex="1 1 100%"
-                    paddingBottom="22px"
-                    position="relative"
-                    wordBreak="break-word"
-                  >
-                    {/* Post Head */}
-                    <Flex
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      flexFlow="row nowrap"
-                      alignItems="start"
-                      margin="0 8px 8px"
-                      position="relative"
-                    >
-                      <Skeleton mb="8px" isLoaded={!loading}>
-                        <Flex alignItems="center" flexWrap="wrap" flex="1 1 auto" overflow="hidden">
-                          <Flex
-                            fontSize="12px"
-                            fontWeight="400"
-                            lineHeight="16px"
-                            alignItems="center"
-                            flexFlow="row wrap"
-                          >
-                            {type !== 'subPlebbit' ? (
-                              <>
-                                <Avatar
-                                  avatar={subPlebbit?.avatar}
-                                  width={24}
-                                  height={24}
-                                  mr="8px"
-                                  badge
-                                  isOnline={isOnline}
-                                  mb="5px"
-                                />
-                                <Link
-                                  as={ReactLink}
-                                  to={`/p/${post?.subplebbitAddress}`}
-                                  color={subPledditTextColor}
-                                  fontSize="12px"
-                                  fontWeight="700"
-                                  display="inline"
-                                  lineHeight="20px"
-                                  textDecoration="none"
-                                  mx="4px"
-                                >
-                                  {getSubName(subPlebbit)}
-                                </Link>
-                              </>
-                            ) : (
-                              ''
-                            )}
-                            <Text color={misCol} flex="0 0 auto" mr="3px">
-                              Posted by
-                            </Text>
-
-                            {/* User Name */}
-                            <Box display="inline-block" flex="0 0 auto">
-                              <Box>
-                                <Link
-                                  _hover={{
-                                    textDecoration: 'underline',
-                                  }}
-                                  as={ReactLink}
-                                  color={misCol}
-                                  fontWeight="400"
-                                  mr="3px"
-                                  textDecor="none"
-                                  fontSize="12px"
-                                  lineHeight="16px"
-                                >
-                                  {getUserName(post?.author)}
-                                </Link>
-                              </Box>
-                            </Box>
-                            {/* status */}
-                            {post?.author?.flair && (
-                              <Box display="inline" verticalAlign="text-top">
-                                <Text
-                                  bg={statusBg}
-                                  color={statusColor}
-                                  fontSize="12px"
-                                  fontWeight="500"
-                                  lineHeight="16px"
-                                  borderRadius="2px"
-                                  display="inline-block"
-                                  mr="5px"
-                                  overflow="hidden"
-                                  isTruncated
-                                  padding="0 4px"
-                                >
-                                  {post?.author?.flair?.text}
-                                </Text>
-                              </Box>
-                            )}
-                            {/* tips */}
-
-                            {/* date/time */}
-                            <Tooltip
-                              fontSize="10px"
-                              label={post?.timestamp * 1000}
-                              aria-label="date tooltip"
-                              placement="top"
-                            >
-                              <Text
-                                color={misCol}
-                                mr="3px"
-                                textDecor="none"
-                                display="inline-block"
-                                flex="0 0 auto"
-                              >
-                                {dateToFromNowDaily(parseInt(post?.timestamp * 1000))}
-                              </Text>
-                            </Tooltip>
-                          </Flex>
-                        </Flex>
-                      </Skeleton>
-                    </Flex>{' '}
-                    {/* Post Title */}
-                    <Box margin="0 8px" onClick={() => history.push(detailRoute, [])}>
-                      <Skeleton mb="30px" isLoaded={!loading}>
-                        {' '}
-                        {/* flair */}
-                        {type === 'subPlebbit' && post?.flair?.text ? (
-                          <Tag
-                            bg={post?.flair?.color}
-                            borderRadius="20px"
-                            padding="2px 8px"
-                            size="sm"
-                            fontSize="12px"
-                            fontWeight="500"
-                            lineHeight="16px"
-                            mr="5px"
-                            ml="0"
-                            textOverflow="ellipsis"
-                            overflow="hidden"
-                            display="inline-block"
-                            verticalAlign="text-bottom"
-                          >
-                            {post?.flair?.text}
-                          </Tag>
-                        ) : (
-                          ''
-                        )}
-                        <Text
-                          display="inline"
-                          color={inactiveSubTitle}
-                          fontSize="18px"
-                          fontWeight="500"
-                          lineHeight="22px"
-                          paddingRight="5px"
-                          textDecor="none"
-                          wordBreak="break-word"
-                        >
-                          {post?.title}
-                        </Text>
-                        {type !== 'subPlebbit' ? (
-                          <Tag
-                            bg={post?.flair?.backgroundColor}
-                            color={post?.flair?.textColor}
-                            borderRadius="20px"
-                            padding="2px 8px"
-                            size="sm"
-                            fontSize="12px"
-                            fontWeight="500"
-                            lineHeight="16px"
-                            ml="5px"
-                            textOverflow="ellipsis"
-                            overflow="hidden"
-                            display="inline-block"
-                            verticalAlign="text-bottom"
-                          >
-                            {post?.flair?.text}
-                          </Tag>
-                        ) : (
-                          ''
-                        )}
-                      </Skeleton>
-                    </Box>
                     {/* Post url */}
-                    <Flex mt="0">
-                      {post?.link ? (
-                        <Link
-                          fontSize="12px"
-                          fontWeight="400"
-                          lineHeight="16px"
-                          margin="4px 8px"
-                          whiteSpace="nowrap"
-                          color="mainBlue"
-                          display="flex"
-                          href={post?.link}
-                          alignItems="flex-end"
-                        >
-                          <Box>{post?.link?.substring(0, 20) + '...'}</Box>
-                          <Icon
-                            as={FiExternalLink}
-                            verticalAlign="middle"
-                            fontWeight="400"
-                            width="20px"
-                            height="20px"
+                    {post?.link && (
+                      <Flex mt="0">
+                        {post?.link ? (
+                          <Link
                             fontSize="12px"
-                            paddingLeft="4px"
-                          />
-                        </Link>
-                      ) : (
-                        ''
-                      )}
-                    </Flex>
-                  </Flex>
+                            fontWeight="400"
+                            lineHeight="16px"
+                            margin="4px 8px"
+                            whiteSpace="nowrap"
+                            color="mainBlue"
+                            display="flex"
+                            href={post?.link}
+                            alignItems="flex-end"
+                          >
+                            <Box>{post?.link?.substring(0, 20) + '...'}</Box>
+                            <Icon
+                              as={FiExternalLink}
+                              verticalAlign="middle"
+                              fontWeight="400"
+                              width="20px"
+                              height="20px"
+                              fontSize="12px"
+                              paddingLeft="4px"
+                            />
+                          </Link>
+                        ) : (
+                          ''
+                        )}
+                      </Flex>
+                    )}
+                    {post?.content && (
+                      <Box
+                        maxH="250px"
+                        overflow="hidden"
+                        padding="5px 8px 10px"
+                        sx={{
+                          maskImage: 'linear-gradient(180deg, #000 60%, transparent)',
+                        }}
+                      >
+                        <Skeleton mt="20px" isLoaded={!loading}>
+                          <Box
+                            color={voteColor}
+                            fontFamily="Noto sans, Arial, sans-serif"
+                            fontSize="14px"
+                            fontWeight="400"
+                            lineHeight="21px"
+                            wordBreak="break-word"
+                            paddingBottom="1px"
+                            marginBottom="-1px"
+                          >
+                            {post?.spoiler ? (
+                              ''
+                            ) : post?.removed ? (
+                              '[removed]'
+                            ) : (
+                              <Marked content={post?.content} />
+                            )}
+                          </Box>
+                        </Skeleton>
+                      </Box>
+                    )}
+                  </Box>
+                </Flex>
+                {/* Post thumbnail */}
+                {post?.thumbnailUrl && (
                   <Flex
                     flex="0 0 144px"
                     height="108px"
@@ -768,8 +596,8 @@ const CardPost = ({
                       </Skeleton>
                     </Box>
                   </Flex>
-                </Flex>
-              )}
+                )}
+              </Flex>
             </ReactLink>
 
             {/* Post Footer */}
