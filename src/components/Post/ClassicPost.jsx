@@ -1242,7 +1242,7 @@ const ClassicPost = ({
               </Box>
             </Flex>
             {showContent && (
-              <>
+              <Box bg={postBg}>
                 {post?.content && (
                   <Box padding="5px 16px 5px 8px" maxWidth="100%">
                     <Box
@@ -1306,7 +1306,7 @@ const ClassicPost = ({
                     </audio>
                   </Box>
                 )}
-              </>
+              </Box>
             )}
           </Box>
         </Box>
