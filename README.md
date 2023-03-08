@@ -6,7 +6,7 @@ _Demo https://plebbit-dev.netlify.app/#/_
 
 - Use https://chakra-ui.com/ for all components
 - Only use hooks and functional components
-- Don't use Redux for state management, use zustand https://www.npmjs.com/package/zustand or React context https://reactjs.org/docs/context.html
+- Don't use Redux or React context for state management, use zustand https://www.npmjs.com/package/zustand
 - Only use styled components or chakra-ui, don't write CSS files
 
 ### Data:
