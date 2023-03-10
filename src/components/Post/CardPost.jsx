@@ -1496,11 +1496,96 @@ const CardPost = ({
                             <Marked content={ post?.content } />
                           ) : (
                             <Skeleton isLoaded={ !loading }>
-                              <Box display="flex" justifyContent="center">
-                                <Image
-                                  fallbackSrc="https://via.placeholder.com/150"
-                                  src={ post?.link }
-                                />
+                              <Box pt="10%" >
+                                {
+                                  post?.thumbnailUrl && post?.link &&
+                                  <Box
+                                    maxH="318px"
+                                    margin="0 auto"
+                                    maxW="100%"
+                                    pos="relative"
+                                  >
+                                    <Box height="100%" width="100%">
+                                      <Image
+                                        maxH="318px"
+                                        objectFit="cover"
+                                        width="100%"
+                                        bg={ postBg }
+                                        src={ post?.thumbnailUrl }
+                                        onError={ (event) =>
+                                          (event.target.style.display = "none")
+                                        }
+                                        fallbackSrc={ require("../../assets/images/fallback.png") }
+
+
+                                      />
+
+                                    </Box>
+
+                                    <Link href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ post?.link?.substring(0, 20) + "..." }</Link>
+
+                                  </Box>
+                                }
+                                { mediaInfo?.type === "image" && (
+                                  <Image
+                                    maxH="320px"
+                                    margin="0 auto"
+                                    maxW="100%"
+                                    width="100%"
+                                    bg={ postBg }
+                                    src={ post?.link }
+                                    onError={ (event) =>
+                                      (event.target.style.display = "none")
+                                    }
+                                  />
+                                ) }
+
+                                { mediaInfo?.type === "video" && (
+                                  <Box
+                                    bg="black"
+                                    maxHeight="320px"
+                                    width="100%"
+                                    maxW="100%"
+                                    color="#fff"
+                                  >
+                                    <video
+                                      autoPlay
+                                      playsInline
+                                      preload="auto"
+                                      controls
+                                      style={ {
+                                        objectFit: "contain",
+                                        width: "100% !important",
+                                        overflowClipMargin: "content-box",
+                                        overflow: "clip",
+                                      } }
+                                      onError={ (event) =>
+                                        (event.target.style.display = "none")
+                                      }
+                                      muted
+                                    >
+                                      <source src={ post?.link } />
+                                    </video>
+                                  </Box>
+                                ) }
+
+                                { mediaInfo?.type === "audio" && (
+                                  <Box maxW="100%" color="#fff" margin="4px 8px">
+                                    <audio
+                                      preload="auto"
+                                      src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                                      onError={ (event) =>
+                                        (event.target.style.display = "none")
+                                      }
+                                      controls
+                                      style={ {
+                                        width: "100%",
+                                      } }
+                                    >
+                                      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
+                                    </audio>
+                                  </Box>
+                                ) }
                               </Box>
                             </Skeleton>
                           ) }
