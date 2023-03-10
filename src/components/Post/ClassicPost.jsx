@@ -40,10 +40,10 @@ import { ProfileContext } from '../../store/profileContext';
 import DropDown from '../DropDown';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
-import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineDeleteOutline } from 'react-icons/md';
+import { MdCheckBox, MdCheckBoxOutlineBlank, MdOutlineAudiotrack, MdOutlineDeleteOutline } from 'react-icons/md';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
-import { AiTwotoneDelete } from 'react-icons/ai';
+import { AiOutlineYoutube, AiTwotoneDelete } from 'react-icons/ai';
 import truncateString from '../../utils/truncateString';
 
 const ClassicPost = ({
@@ -99,19 +99,19 @@ const ClassicPost = ({
 
   return (
     <>
-      {device !== 'mobile' ? (
+      { device !== 'mobile' ? (
         <Box
-          color={iconColor}
-          fill={iconColor}
+          color={ iconColor }
+          fill={ iconColor }
           cursor="pointer"
           paddingLeft="40px"
           position="relative"
-          border={`thin solid ${border1}`}
-          bg={postTransBg}
-          _hover={{ border: '1px solid #898989' }}
+          border={ `thin solid ${border1}` }
+          bg={ postTransBg }
+          _hover={ { border: '1px solid #898989' } }
         >
-          {/* Vote Bar */}
-          <Skeleton isLoaded={!loading}>
+          {/* Vote Bar */ }
+          <Skeleton isLoaded={ !loading }>
             <Flex
               width="40px"
               borderLeft="4px solid transparent"
@@ -142,29 +142,29 @@ const ClassicPost = ({
                     w="24px"
                     fontSize="16px"
                     lineHeight="24px"
-                    _hover={{
+                    _hover={ {
                       bg: iconBg,
                       color: 'upvoteOrange',
-                    }}
-                    _focus={{
+                    } }
+                    _focus={ {
                       outline: 'none',
-                    }}
-                    onClick={() => {
+                    } }
+                    onClick={ () => {
                       handleVoting(vote === 1 ? 0 : 1);
-                    }}
-                    color={vote === 1 ? 'upvoteOrange' : iconColor}
+                    } }
+                    color={ vote === 1 ? 'upvoteOrange' : iconColor }
                   >
                     <Icon
                       width="20px"
                       height="20px"
                       fontSize="20px"
                       fontWeight="400"
-                      as={vote === 1 ? ImArrowUp : BiUpvote}
+                      as={ vote === 1 ? ImArrowUp : BiUpvote }
                     />
                   </Box>
                 </Box>
                 <Box
-                  color={voteColor}
+                  color={ voteColor }
                   margin="4px 0"
                   fontSize="12px"
                   fontWeight="700"
@@ -172,8 +172,8 @@ const ClassicPost = ({
                   pointerEvents="none"
                   wordBreak="normal"
                 >
-                  <Skeleton isLoaded={!loading}>
-                    {postVotes === 0 ? 'vote' : numFormatter(postVotes)}{' '}
+                  <Skeleton isLoaded={ !loading }>
+                    { postVotes === 0 ? 'vote' : numFormatter(postVotes) }{ ' ' }
                   </Skeleton>
                 </Box>
                 <Box
@@ -188,30 +188,30 @@ const ClassicPost = ({
                   <Box
                     border="2px solid transparent"
                     cursor="pointer"
-                    color={vote === -1 ? 'downvoteBlue' : iconColor}
+                    color={ vote === -1 ? 'downvoteBlue' : iconColor }
                     display="inline-block"
                     overflow="hidden"
                     h="24px"
                     w="24px"
                     fontSize="16px"
                     lineHeight="24px"
-                    _hover={{
+                    _hover={ {
                       bg: iconBg,
                       color: 'downvoteBlue',
-                    }}
-                    _focus={{
+                    } }
+                    _focus={ {
                       outline: 'none',
-                    }}
-                    onClick={() => {
+                    } }
+                    onClick={ () => {
                       handleVoting(vote === -1 ? 0 : -1);
-                    }}
+                    } }
                   >
                     <Icon
                       width="20px"
                       height="20px"
                       fontSize="20px"
                       fontWeight="400"
-                      as={vote === -1 ? ImArrowDown : BiDownvote}
+                      as={ vote === -1 ? ImArrowDown : BiDownvote }
                     />
                   </Box>
                 </Box>
@@ -219,16 +219,16 @@ const ClassicPost = ({
             </Flex>
           </Skeleton>
 
-          <Box bg={mainBg} position="relative">
+          <Box bg={ mainBg } position="relative">
             <Flex position="relative" padding="8px 8px 0">
-              {/* Post image */}
+              {/* Post image */ }
               <Flex
                 flex="0 0 96px"
                 height="72px"
                 borderRadius="4px"
-                onClick={() => history.push(detailRoute, [])}
+                onClick={ () => history.push(detailRoute, []) }
               >
-                <Flex flex="0 0 96px" height="72px" borderRadius="4px" backgroundColor={shadow}>
+                <Flex flex="0 0 96px" height="72px" borderRadius="4px" backgroundColor={ shadow }>
                   <Box
                     borderRadius="4px"
                     flex="1"
@@ -237,7 +237,7 @@ const ClassicPost = ({
                     position="relative"
                     verticalAlign="bottom"
                   >
-                    {post?.content && (
+                    { post?.content && (
                       <Box
                         display="flex"
                         alignItems="center"
@@ -245,14 +245,14 @@ const ClassicPost = ({
                         width="100%"
                         height="100%"
                       >
-                        <Icon as={BsFileText} h="20px" w="20px" alignSelf="center" />
+                        <Icon as={ BsFileText } h="20px" w="20px" alignSelf="center" />
                       </Box>
-                    )}
-                    {post?.link && (
+                    ) }
+                    { post?.link && (
                       <Image
-                        borderColor={border2}
-                        src={post?.thumbnailUrl || post?.link}
-                        fallbackSrc={require('../../assets/images/fallback.png')}
+                        borderColor={ border2 }
+                        src={ post?.thumbnailUrl || post?.link }
+                        fallbackSrc={ require('../../assets/images/fallback.png') }
                         transition="filter .5s"
                         height="72px"
                         width="96px"
@@ -263,26 +263,26 @@ const ClassicPost = ({
                         backgroundRepeat="no-repeat"
                         flex="1"
                       />
-                    )}
+                    ) }
                   </Box>
                 </Flex>
               </Flex>
 
-              {/* Post content */}
+              {/* Post content */ }
               <Box ml="8px" flex="1 1 100%" position="relative" wordBreak="break-word">
-                {/* post title */}
+                {/* post title */ }
                 <Flex
                   alignItems="center"
                   flexWrap="wrap"
                   margin="0 8px"
-                  onClick={() => history.push(detailRoute, [])}
+                  onClick={ () => history.push(detailRoute, []) }
                 >
-                  <Skeleton display="flex" flexWrap="wrap" isLoaded={!loading}>
-                    {' '}
-                    {/* flair */}
-                    {type === 'subPlebbit' && post?.flair?.text && (
+                  <Skeleton display="flex" flexWrap="wrap" isLoaded={ !loading }>
+                    { ' ' }
+                    {/* flair */ }
+                    { type === 'subPlebbit' && post?.flair?.text && (
                       <Tag
-                        bg={post?.flair?.color}
+                        bg={ post?.flair?.color }
                         borderRadius="20px"
                         padding="2px 8px"
                         size="sm"
@@ -297,12 +297,12 @@ const ClassicPost = ({
                         verticalAlign="text-bottom"
                         mb="4px"
                       >
-                        {post?.flair?.text}
+                        { post?.flair?.text }
                       </Tag>
-                    )}
+                    ) }
                     <Text
                       display="inline"
-                      color={inactiveSubTitle}
+                      color={ inactiveSubTitle }
                       fontSize="14px"
                       fontWeight="500"
                       lineHeight="18px"
@@ -311,19 +311,19 @@ const ClassicPost = ({
                       wordBreak="break-word"
                       mb="4px"
                     >
-                      {post?.title}
-                      {post?.link && (
+                      { post?.title }
+                      { post?.link && (
                         <Link
                           fontSize="12px"
                           fontWeight="400"
                           lineHeight="16px"
                           margin="4px 8px"
                           color="mainBlue"
-                          href={post?.link}
+                          href={ post?.link }
                         >
-                          <span>{truncateString(post?.link, 20, '...')}</span>
+                          <span>{ truncateString(post?.link, 20, '...') }</span>
                           <Icon
-                            as={FiExternalLink}
+                            as={ FiExternalLink }
                             verticalAlign="middle"
                             fontWeight="400"
                             width="20px"
@@ -332,11 +332,11 @@ const ClassicPost = ({
                             paddingLeft="4px"
                           />
                         </Link>
-                      )}
+                      ) }
                     </Text>
-                    {type !== 'subPlebbit' && post?.flair?.text ? (
+                    { type !== 'subPlebbit' && post?.flair?.text ? (
                       <Tag
-                        bg={post?.flair?.color}
+                        bg={ post?.flair?.color }
                         borderRadius="20px"
                         padding="2px 8px"
                         size="sm"
@@ -350,12 +350,12 @@ const ClassicPost = ({
                         verticalAlign="text-bottom"
                         mb="4px"
                       >
-                        {post?.flair?.text}
+                        { post?.flair?.text }
                       </Tag>
                     ) : (
                       ''
-                    )}
-                    {post?.spoiler && (
+                    ) }
+                    { post?.spoiler && (
                       <Tag
                         borderRadius="2px"
                         p="1px 8px"
@@ -365,15 +365,15 @@ const ClassicPost = ({
                       >
                         SPOILER
                       </Tag>
-                    )}
-                    {pending && (
+                    ) }
+                    { pending && (
                       <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
                         Pending
                       </Tag>
-                    )}
+                    ) }
                   </Skeleton>
                 </Flex>
-                {/* Post head */}
+                {/* Post head */ }
                 <Flex
                   fontSize="12px"
                   fontWeight="400"
@@ -383,7 +383,7 @@ const ClassicPost = ({
                   margin="0 8px 8px"
                   position="relative"
                 >
-                  <Skeleton mb="8px" isLoaded={!loading}>
+                  <Skeleton mb="8px" isLoaded={ !loading }>
                     <Flex alignItems="center" flexWrap="wrap" flex="1 1 auto" overflow="hidden">
                       <Flex
                         fontSize="12px"
@@ -392,11 +392,11 @@ const ClassicPost = ({
                         alignItems="center"
                         flexFlow="row wrap"
                       >
-                        {/* <Avatar width={24} height={24} mr="8px" badge isOnline={isOnline} /> */}
+                        {/* <Avatar width={24} height={24} mr="8px" badge isOnline={isOnline} /> */ }
                         <Link
-                          as={ReactLink}
-                          to={detailRoute}
-                          color={subPledditTextColor}
+                          as={ ReactLink }
+                          to={ detailRoute }
+                          color={ subPledditTextColor }
                           fontSize="12px"
                           fontWeight="700"
                           display="inline"
@@ -404,36 +404,36 @@ const ClassicPost = ({
                           textDecoration="none"
                           mr="5px"
                         >
-                          {getSubName(subPlebbit)}
+                          { getSubName(subPlebbit) }
                         </Link>
-                        <Text color={misCol} flex="0 0 auto" mr="3px">
+                        <Text color={ misCol } flex="0 0 auto" mr="3px">
                           Posted by
                         </Text>
 
-                        {/* User Name */}
+                        {/* User Name */ }
                         <Box display="inline-block" flex="0 0 auto">
                           <Box>
                             <Text
-                              _hover={{
+                              _hover={ {
                                 textDecoration: 'underline',
-                              }}
-                              color={misCol}
+                              } }
+                              color={ misCol }
                               fontWeight="400"
                               mr="3px"
                               textDecor="none"
                               fontSize="12px"
                               lineHeight="16px"
                             >
-                              {getUserName(post?.author)}
+                              { getUserName(post?.author) }
                             </Text>
                           </Box>
                         </Box>
-                        {/* status */}
-                        {post?.author?.flair && (
+                        {/* status */ }
+                        { post?.author?.flair && (
                           <Box display="inline" verticalAlign="text-top">
                             <Text
-                              bg={statusBg}
-                              color={statusColor}
+                              bg={ statusBg }
+                              color={ statusColor }
                               fontSize="12px"
                               fontWeight="500"
                               lineHeight="16px"
@@ -444,38 +444,38 @@ const ClassicPost = ({
                               isTruncated
                               padding="0 4px"
                             >
-                              {post?.author?.flair?.text}
+                              { post?.author?.flair?.text }
                             </Text>
                           </Box>
-                        )}
-                        {/* tips */}
-                        {/* date/time */}
+                        ) }
+                        {/* tips */ }
+                        {/* date/time */ }
                         <Tooltip
                           fontSize="10px"
-                          label={post?.timestamp * 1000}
+                          label={ post?.timestamp * 1000 }
                           aria-label="date tooltip"
                           placement="top"
                         >
                           <Text
-                            color={misCol}
+                            color={ misCol }
                             mr="3px"
                             textDecor="none"
                             display="inline-block"
                             flex="0 0 auto"
                           >
-                            {fromNow(parseInt(post?.timestamp * 1000))}
+                            { fromNow(parseInt(post?.timestamp * 1000)) }
                           </Text>
                         </Tooltip>
-                        {post?.locked && <Icon as={HiLockClosed} color={lockColor} />}
-                        {post?.removed && (
+                        { post?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
+                        { post?.removed && (
                           <Flex
                             cursor="pointer"
-                            color={removeColor}
+                            color={ removeColor }
                             alignItems="center"
-                            onClick={() => (post?.moderatorReason ? openRemovalModal() : {})}
+                            onClick={ () => (post?.moderatorReason ? openRemovalModal() : {}) }
                           >
-                            <Icon as={TiDeleteOutline} />
-                            {!post?.moderatorReason ? (
+                            <Icon as={ TiDeleteOutline } />
+                            { !post?.moderatorReason ? (
                               allowedSpecial && <Box>Add A removal reason</Box>
                             ) : (
                               <Tooltip
@@ -485,25 +485,25 @@ const ClassicPost = ({
                                 placement="top"
                               >
                                 <Text
-                                  color={misCol}
+                                  color={ misCol }
                                   mr="3px"
                                   textDecor="none"
                                   display="inline-block"
                                   flex="0 0 auto"
                                 >
-                                  {post?.moderatorReason}
+                                  { post?.moderatorReason }
                                 </Text>
                               </Tooltip>
-                            )}
+                            ) }
                           </Flex>
-                        )}
+                        ) }
                       </Flex>
                     </Flex>
                   </Skeleton>
                 </Flex>
-                {/* Post footer */}
+                {/* Post footer */ }
                 <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
-                  {pending ? (
+                  { pending ? (
                     !loading && (
                       /* <Flex
                         fontSize="12px"
@@ -671,7 +671,7 @@ const ClassicPost = ({
                       padding="0 8px 0 4px"
                       flexGrow="1"
                     >
-                      {post?.content ? (
+                      { post?.content ? (
                         <Flex
                           padding="8px"
                           wordBreak="normal"
@@ -682,13 +682,13 @@ const ClassicPost = ({
                           fontWeight="700"
                           lineHeight="16px"
                           boxSizing="border-box"
-                          _hover={{
+                          _hover={ {
                             backgroundColor: inputBg,
-                          }}
-                          onClick={() => setShowContent(!showContent)}
+                          } }
+                          onClick={ () => setShowContent(!showContent) }
                         >
                           <Icon
-                            as={showContent ? CgCompressLeft : CgArrowsExpandLeft}
+                            as={ showContent ? CgCompressLeft : CgArrowsExpandLeft }
                             width="20px"
                             height="20px"
                             verticalAlign="middle"
@@ -697,7 +697,7 @@ const ClassicPost = ({
                           />
                         </Flex>
                       ) : (
-                        <Link href={post?.link} isExternal>
+                        <Link href={ post?.link } isExternal>
                           <Flex
                             padding="8px"
                             wordBreak="normal"
@@ -708,12 +708,12 @@ const ClassicPost = ({
                             fontWeight="700"
                             lineHeight="16px"
                             boxSizing="border-box"
-                            _hover={{
+                            _hover={ {
                               backgroundColor: inputBg,
-                            }}
+                            } }
                           >
                             <Icon
-                              as={VscLinkExternal}
+                              as={ VscLinkExternal }
                               width="20px"
                               height="20px"
                               verticalAlign="middle"
@@ -722,7 +722,7 @@ const ClassicPost = ({
                             />
                           </Flex>
                         </Link>
-                      )}
+                      ) }
                       <Flex
                         padding="8px"
                         wordBreak="normal"
@@ -733,13 +733,13 @@ const ClassicPost = ({
                         fontWeight="700"
                         lineHeight="16px"
                         boxSizing="border-box"
-                        _hover={{
+                        _hover={ {
                           backgroundColor: inputBg,
-                        }}
-                        onClick={() => history.push(detailRoute, [])}
+                        } }
+                        onClick={ () => history.push(detailRoute, []) }
                       >
                         <Icon
-                          as={BsChatSquare}
+                          as={ BsChatSquare }
                           width="20px"
                           height="20px"
                           verticalAlign="middle"
@@ -748,11 +748,11 @@ const ClassicPost = ({
                         />
                         <Text
                           display="inline-block"
-                          lineHeight={1}
+                          lineHeight={ 1 }
                           textTransform="capitalize"
                           verticalAlign="middle"
                         >
-                          {post?.replyCount}
+                          { post?.replyCount }
                         </Text>
                       </Flex>
                       <Flex
@@ -765,12 +765,12 @@ const ClassicPost = ({
                         fontWeight="700"
                         lineHeight="16px"
                         boxSizing="border-box"
-                        _hover={{
+                        _hover={ {
                           backgroundColor: inputBg,
-                        }}
+                        } }
                       >
                         <Icon
-                          as={GoGift}
+                          as={ GoGift }
                           width="20px"
                           height="20px"
                           verticalAlign="middle"
@@ -779,14 +779,14 @@ const ClassicPost = ({
                         />
                         <Text
                           display="inline-block"
-                          lineHeight={1}
+                          lineHeight={ 1 }
                           textTransform="capitalize"
                           verticalAlign="middle"
                         >
                           Award
                         </Text>
                       </Flex>
-                      <CopyToClipboard text={location} onCopy={handleCopy}>
+                      <CopyToClipboard text={ location } onCopy={ handleCopy }>
                         <Flex
                           padding="8px"
                           wordBreak="normal"
@@ -797,12 +797,12 @@ const ClassicPost = ({
                           fontWeight="700"
                           lineHeight="16px"
                           boxSizing="border-box"
-                          _hover={{
+                          _hover={ {
                             backgroundColor: inputBg,
-                          }}
+                          } }
                         >
                           <Icon
-                            as={FaShare}
+                            as={ FaShare }
                             width="20px"
                             height="20px"
                             verticalAlign="middle"
@@ -811,15 +811,15 @@ const ClassicPost = ({
                           />
                           <Text
                             display="inline-block"
-                            lineHeight={1}
+                            lineHeight={ 1 }
                             textTransform="capitalize"
                             verticalAlign="middle"
                           >
-                            {copied ? 'copied' : 'Share'}
+                            { copied ? 'copied' : 'Share' }
                           </Text>
                         </Flex>
                       </CopyToClipboard>
-                      {post?.removed ? (
+                      { post?.removed ? (
                         <Flex
                           padding="8px"
                           wordBreak="normal"
@@ -830,14 +830,14 @@ const ClassicPost = ({
                           fontWeight="700"
                           lineHeight="16px"
                           boxSizing="border-box"
-                          _hover={{
+                          _hover={ {
                             backgroundColor: inputBg,
-                          }}
-                          color={approveColor}
-                          onClick={() => handleOption({ id: 'approved' })}
+                          } }
+                          color={ approveColor }
+                          onClick={ () => handleOption({ id: 'approved' }) }
                         >
                           <Icon
-                            as={HiOutlineCheckCircle}
+                            as={ HiOutlineCheckCircle }
                             width="20px"
                             height="20px"
                             verticalAlign="middle"
@@ -846,7 +846,7 @@ const ClassicPost = ({
                           />
                           <Text
                             display="inline-block"
-                            lineHeight={1}
+                            lineHeight={ 1 }
                             textTransform="capitalize"
                             verticalAlign="middle"
                           >
@@ -864,14 +864,14 @@ const ClassicPost = ({
                           fontWeight="700"
                           lineHeight="16px"
                           boxSizing="border-box"
-                          _hover={{
+                          _hover={ {
                             backgroundColor: inputBg,
-                          }}
-                          color={removeColor}
-                          onClick={() => handleOption({ id: 'removed' })}
+                          } }
+                          color={ removeColor }
+                          onClick={ () => handleOption({ id: 'removed' }) }
                         >
                           <Icon
-                            as={TiDeleteOutline}
+                            as={ TiDeleteOutline }
                             width="20px"
                             height="20px"
                             verticalAlign="middle"
@@ -880,14 +880,14 @@ const ClassicPost = ({
                           />
                           <Text
                             display="inline-block"
-                            lineHeight={1}
+                            lineHeight={ 1 }
                             textTransform="capitalize"
                             verticalAlign="middle"
                           >
                             Remove
                           </Text>
                         </Flex>
-                      )}
+                      ) }
 
                       <Flex
                         padding="8px"
@@ -899,12 +899,12 @@ const ClassicPost = ({
                         fontWeight="700"
                         lineHeight="16px"
                         boxSizing="border-box"
-                        _hover={{
+                        _hover={ {
                           backgroundColor: inputBg,
-                        }}
+                        } }
                       >
                         <DropDown
-                          onClick={handleOption}
+                          onClick={ handleOption }
                           dropDownTitle={
                             <Flex
                               borderRadius="2px"
@@ -915,14 +915,14 @@ const ClassicPost = ({
                               bg="transparent"
                               border="none"
                               alignItems="center"
-                              _hover={{
+                              _hover={ {
                                 backgroundColor: inputBg,
-                              }}
+                              } }
                             >
-                              <Icon as={BsShield} color={iconColor} h="20px" w="20px" />
+                              <Icon as={ BsShield } color={ iconColor } h="20px" w="20px" />
                             </Flex>
                           }
-                          options={[
+                          options={ [
                             {
                               label: 'Sticky Post',
                               icon: post?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
@@ -938,8 +938,8 @@ const ClassicPost = ({
                               icon: post?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
                               id: 'spoiler',
                             },
-                          ]}
-                          rightOffset={0}
+                          ] }
+                          rightOffset={ 0 }
                           leftOffset="none"
                           topOffset="34px"
                         />
@@ -955,7 +955,7 @@ const ClassicPost = ({
                       padding="0 8px 0 4px"
                       flexGrow="1"
                     >
-                      {!post?.thumbnailUrl && (
+                      { !post?.thumbnailUrl && (
                         <Flex
                           padding="8px"
                           wordBreak="normal"
@@ -966,13 +966,13 @@ const ClassicPost = ({
                           fontWeight="700"
                           lineHeight="16px"
                           boxSizing="border-box"
-                          _hover={{
+                          _hover={ {
                             backgroundColor: inputBg,
-                          }}
-                          onClick={() => setShowContent(!showContent)}
+                          } }
+                          onClick={ () => setShowContent(!showContent) }
                         >
                           <Icon
-                            as={showContent ? CgCompressLeft : CgArrowsExpandLeft}
+                            as={ showContent ? CgCompressLeft : CgArrowsExpandLeft }
                             width="20px"
                             height="20px"
                             verticalAlign="middle"
@@ -980,10 +980,10 @@ const ClassicPost = ({
                             mr="6px"
                           />
                         </Flex>
-                      )}
+                      ) }
 
-                      {post?.thumbnailUrl && (
-                        <Link href={post?.link} isExternal>
+                      { post?.thumbnailUrl && (
+                        <Link href={ post?.link } isExternal>
                           <Flex
                             padding="8px"
                             wordBreak="normal"
@@ -994,12 +994,12 @@ const ClassicPost = ({
                             fontWeight="700"
                             lineHeight="16px"
                             boxSizing="border-box"
-                            _hover={{
+                            _hover={ {
                               backgroundColor: inputBg,
-                            }}
+                            } }
                           >
                             <Icon
-                              as={VscLinkExternal}
+                              as={ VscLinkExternal }
                               width="20px"
                               height="20px"
                               verticalAlign="middle"
@@ -1008,7 +1008,7 @@ const ClassicPost = ({
                             />
                           </Flex>
                         </Link>
-                      )}
+                      ) }
 
                       <Flex
                         padding="8px"
@@ -1020,13 +1020,13 @@ const ClassicPost = ({
                         fontWeight="700"
                         lineHeight="16px"
                         boxSizing="border-box"
-                        _hover={{
+                        _hover={ {
                           backgroundColor: inputBg,
-                        }}
-                        onClick={() => history.push(detailRoute, [])}
+                        } }
+                        onClick={ () => history.push(detailRoute, []) }
                       >
                         <Icon
-                          as={BsChat}
+                          as={ BsChat }
                           width="20px"
                           height="20px"
                           verticalAlign="middle"
@@ -1035,11 +1035,11 @@ const ClassicPost = ({
                         />
                         <Text
                           display="inline-block"
-                          lineHeight={1}
+                          lineHeight={ 1 }
                           textTransform="capitalize"
                           verticalAlign="middle"
                         >
-                          {post?.replyCount} comment{post?.replyCount === 1 ? '' : 's'}
+                          { post?.replyCount } comment{ post?.replyCount === 1 ? '' : 's' }
                         </Text>
                       </Flex>
                       <Flex
@@ -1052,12 +1052,12 @@ const ClassicPost = ({
                         fontWeight="700"
                         lineHeight="16px"
                         boxSizing="border-box"
-                        _hover={{
+                        _hover={ {
                           backgroundColor: inputBg,
-                        }}
+                        } }
                       >
                         <Icon
-                          as={GoGift}
+                          as={ GoGift }
                           width="20px"
                           height="20px"
                           verticalAlign="middle"
@@ -1066,14 +1066,14 @@ const ClassicPost = ({
                         />
                         <Text
                           display="inline-block"
-                          lineHeight={1}
+                          lineHeight={ 1 }
                           textTransform="capitalize"
                           verticalAlign="middle"
                         >
                           Award
                         </Text>
                       </Flex>
-                      <CopyToClipboard text={location} onCopy={handleCopy}>
+                      <CopyToClipboard text={ location } onCopy={ handleCopy }>
                         <Flex
                           padding="8px"
                           wordBreak="normal"
@@ -1084,12 +1084,12 @@ const ClassicPost = ({
                           fontWeight="700"
                           lineHeight="16px"
                           boxSizing="border-box"
-                          _hover={{
+                          _hover={ {
                             backgroundColor: inputBg,
-                          }}
+                          } }
                         >
                           <Icon
-                            as={FaShare}
+                            as={ FaShare }
                             width="20px"
                             height="20px"
                             verticalAlign="middle"
@@ -1098,11 +1098,11 @@ const ClassicPost = ({
                           />
                           <Text
                             display="inline-block"
-                            lineHeight={1}
+                            lineHeight={ 1 }
                             textTransform="capitalize"
                             verticalAlign="middle"
                           >
-                            {copied ? 'copied' : 'Share'}
+                            { copied ? 'copied' : 'Share' }
                           </Text>
                         </Flex>
                       </CopyToClipboard>
@@ -1116,12 +1116,12 @@ const ClassicPost = ({
                         fontWeight="700"
                         lineHeight="16px"
                         boxSizing="border-box"
-                        _hover={{
+                        _hover={ {
                           backgroundColor: inputBg,
-                        }}
+                        } }
                       >
                         <Icon
-                          as={BsBookmark}
+                          as={ BsBookmark }
                           width="20px"
                           height="20px"
                           verticalAlign="middle"
@@ -1130,14 +1130,14 @@ const ClassicPost = ({
                         />
                         <Text
                           display="inline-block"
-                          lineHeight={1}
+                          lineHeight={ 1 }
                           textTransform="capitalize"
                           verticalAlign="middle"
                         >
                           Save
                         </Text>
                       </Flex>
-                      {!owner ? (
+                      { !owner ? (
                         <>
                           <Flex
                             padding="8px"
@@ -1149,12 +1149,12 @@ const ClassicPost = ({
                             fontWeight="700"
                             lineHeight="16px"
                             boxSizing="border-box"
-                            _hover={{
+                            _hover={ {
                               backgroundColor: inputBg,
-                            }}
+                            } }
                           >
                             <Icon
-                              as={BsEyeSlash}
+                              as={ BsEyeSlash }
                               width="20px"
                               height="20px"
                               verticalAlign="middle"
@@ -1163,7 +1163,7 @@ const ClassicPost = ({
                             />
                             <Text
                               display="inline-block"
-                              lineHeight={1}
+                              lineHeight={ 1 }
                               textTransform="capitalize"
                               verticalAlign="middle"
                             >
@@ -1180,12 +1180,12 @@ const ClassicPost = ({
                             fontWeight="700"
                             lineHeight="16px"
                             boxSizing="border-box"
-                            _hover={{
+                            _hover={ {
                               backgroundColor: inputBg,
-                            }}
+                            } }
                           >
                             <Icon
-                              as={BsFlag}
+                              as={ BsFlag }
                               width="20px"
                               height="20px"
                               verticalAlign="middle"
@@ -1194,7 +1194,7 @@ const ClassicPost = ({
                             />
                             <Text
                               display="inline-block"
-                              lineHeight={1}
+                              lineHeight={ 1 }
                               textTransform="capitalize"
                               verticalAlign="middle"
                             >
@@ -1213,13 +1213,13 @@ const ClassicPost = ({
                           fontWeight="700"
                           lineHeight="16px"
                           boxSizing="border-box"
-                          _hover={{
+                          _hover={ {
                             backgroundColor: inputBg,
-                          }}
-                          onClick={() => handleOption({ label: 'Delete', id: 'delete' })}
+                          } }
+                          onClick={ () => handleOption({ label: 'Delete', id: 'delete' }) }
                         >
                           <Icon
-                            as={MdOutlineDeleteOutline}
+                            as={ MdOutlineDeleteOutline }
                             width="20px"
                             height="20px"
                             verticalAlign="middle"
@@ -1228,25 +1228,25 @@ const ClassicPost = ({
                           />
                           <Text
                             display="inline-block"
-                            lineHeight={1}
+                            lineHeight={ 1 }
                             textTransform="capitalize"
                             verticalAlign="middle"
                           >
                             Delete
                           </Text>
                         </Flex>
-                      )}
+                      ) }
                     </Flex>
-                  )}
+                  ) }
                 </Flex>
               </Box>
             </Flex>
-            {showContent && (
-              <Box bg={postBg}>
-                {post?.content && (
+            { showContent && (
+              <Box bg={ postBg }>
+                { post?.content && (
                   <Box padding="5px 16px 5px 8px" maxWidth="100%">
                     <Box
-                      color={voteColor}
+                      color={ voteColor }
                       fontSize="14px"
                       fontWeight="400"
                       lineHeight="21px"
@@ -1255,68 +1255,68 @@ const ClassicPost = ({
                       paddingBottom="1px"
                       marginBottom="-1px"
                     >
-                      <Marked content={post?.content} />
+                      <Marked content={ post?.content } />
                     </Box>
                   </Box>
-                )}
-                {mediaInfo?.type === 'image' && (
+                ) }
+                { mediaInfo?.type === 'image' && (
                   <Image
                     maxH="512px"
                     margin="0 auto"
                     maxW="100%"
-                    bg={postBg}
-                    src={post?.link}
-                    onError={(event) => (event.target.style.display = 'none')}
+                    bg={ postBg }
+                    src={ post?.link }
+                    onError={ (event) => (event.target.style.display = 'none') }
                   />
-                )}
+                ) }
 
-                {mediaInfo?.type === 'video' && (
+                { mediaInfo?.type === 'video' && (
                   <Box bg="black" maxHeight="512px" width="100%" maxW="100%" color="#fff">
                     <video
                       autoPlay
                       playsInline
                       preload="auto"
                       controls
-                      style={{
+                      style={ {
                         objectFit: 'contain',
                         width: '100% !important',
                         overflowClipMargin: 'content-box',
                         overflow: 'clip',
-                      }}
-                      onError={(event) => (event.target.style.display = 'none')}
+                      } }
+                      onError={ (event) => (event.target.style.display = 'none') }
                       muted
                     >
-                      <source src={post?.link} />
+                      <source src={ post?.link } />
                     </video>
                   </Box>
-                )}
+                ) }
 
-                {mediaInfo?.type === 'audio' && (
+                { mediaInfo?.type === 'audio' && (
                   <Box maxW="100%" color="#fff" margin="4px 8px">
                     <audio
                       preload="auto"
                       src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-                      onError={(event) => (event.target.style.display = 'none')}
+                      onError={ (event) => (event.target.style.display = 'none') }
                       controls
-                      style={{
+                      style={ {
                         width: '100%',
-                      }}
+                      } }
                     >
                       <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
                     </audio>
                   </Box>
-                )}
+                ) }
               </Box>
-            )}
+            ) }
           </Box>
         </Box>
       ) : (
         <Box>
-          <Box position="relative" bg={mainMobileBg}>
-            {/* Background link */}
+          <Box position="relative" bg={ mainMobileBg }>
+            {/* Background link */ }
             <Link
-              as={ReactLink}
-              to={detailRoute}
+              as={ ReactLink }
+              to={ detailRoute }
               bottom="0"
               left="0"
               pointerEvents="all"
@@ -1324,7 +1324,7 @@ const ClassicPost = ({
               right="0"
               top="0"
             />
-            {/*Header */}
+            {/*Header */ }
             <Box pointerEvents="none" position="relative">
               <Box paddingTop="0">
                 <Flex alignItems="center">
@@ -1336,14 +1336,14 @@ const ClassicPost = ({
                     position="relative"
                     verticalAlign="middle"
                     flex="1 0"
-                    _after={{
+                    _after={ {
                       background: 'linear-gradient(90deg,hsla(0,0%,100%,0) 0,#fff 70%)',
                       content: `""`,
                       top: '0',
                       right: '0',
                       bottom: '0',
                       width: '3em',
-                    }}
+                    } }
                   >
                     <Box
                       color="#798389"
@@ -1360,42 +1360,42 @@ const ClassicPost = ({
                           fontSize="14px"
                           fontWeight="500"
                           lineHeight="18px"
-                          color={postHeadColor}
+                          color={ postHeadColor }
                         >
                           <Avatar
-                            avatar={subPlebbit?.avatar}
-                            width={24}
-                            height={24}
+                            avatar={ subPlebbit?.avatar }
+                            width={ 24 }
+                            height={ 24 }
                             mr="8px"
                             badge
-                            isOnline={isOnline}
+                            isOnline={ isOnline }
                           />
-                          <Skeleton isLoaded={!loading}>{getSubName(subPlebbit)}</Skeleton>
+                          <Skeleton isLoaded={ !loading }>{ getSubName(subPlebbit) }</Skeleton>
                         </Flex>
                         <Box
                           mx="4px"
-                          _after={{
+                          _after={ {
                             color: '#818384',
                             content: `"•"`,
                             margin: '0 4px',
                             position: 'relative',
                             top: '-1px',
                             verticalAlign: 'middle',
-                          }}
+                          } }
                           fontSize="14px"
                           lineHeight="18px"
                           color="#798389"
                         />
                         <Box>
-                          <Skeleton isLoaded={!loading}>{fromNow(post?.timestamp * 1000)}</Skeleton>
+                          <Skeleton isLoaded={ !loading }>{ fromNow(post?.timestamp * 1000) }</Skeleton>
                         </Box>
-                        {pending && (
-                          <Skeleton isLoaded={!loading}>
+                        { pending && (
+                          <Skeleton isLoaded={ !loading }>
                             <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
                               Pending
                             </Tag>
                           </Skeleton>
-                        )}
+                        ) }
                       </Flex>
                     </Box>
                   </Box>
@@ -1408,14 +1408,14 @@ const ClassicPost = ({
                       whiteSpace="nowrap"
                       ml="auto"
                     >
-                      {post?.pinned && <Icon as={BsPinAngleFill} color={approveColor} />}
-                      {post?.locked && <Icon as={HiLockClosed} color={lockColor} />}
-                      {post?.removed && <Icon as={AiTwotoneDelete} color={removeColor} />}
+                      { post?.pinned && <Icon as={ BsPinAngleFill } color={ approveColor } /> }
+                      { post?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
+                      { post?.removed && <Icon as={ AiTwotoneDelete } color={ removeColor } /> }
                     </Flex>
-                    {!pending && (
+                    { !pending && (
                       <Box pointerEvents="all">
                         <DropDown
-                          onChange={handleOption}
+                          onChange={ handleOption }
                           rightOffset="10px"
                           leftOffset="none"
                           dropDownTitle={
@@ -1426,14 +1426,14 @@ const ClassicPost = ({
                               verticalAlign="middle"
                             >
                               <Icon
-                                as={FiMoreHorizontal}
+                                as={ FiMoreHorizontal }
                                 verticalAlign="inherit"
-                                height={5}
-                                w={5}
+                                height={ 5 }
+                                w={ 5 }
                               />
                             </Box>
                           }
-                          options={[
+                          options={ [
                             {
                               label: 'Edit',
                               icon: BsPencil,
@@ -1466,14 +1466,14 @@ const ClassicPost = ({
                               id: 'delete',
                               disabled: !owner,
                             },
-                          ]}
+                          ] }
                         />
                       </Box>
-                    )}
+                    ) }
                   </Flex>
                 </Flex>
                 <Box padding="0 16px 8px">
-                  {post?.spoiler && (
+                  { post?.spoiler && (
                     <Tag
                       borderRadius="2px"
                       p="1px 8px"
@@ -1483,10 +1483,10 @@ const ClassicPost = ({
                     >
                       SPOILER
                     </Tag>
-                  )}
+                  ) }
                 </Box>
 
-                {post?.link ? (
+                { post?.link ? (
                   <Flex
                     justifyContent="space-between"
                     pointerEvents="none"
@@ -1496,22 +1496,25 @@ const ClassicPost = ({
                   >
                     <Box overflow="hidden" overflowWrap="break-word">
                       <Box
+                        color={ mobileMainColor }
                         fontSize="16px"
                         fontWeight="500"
                         lineHeight="19px"
-                        padding="2px 0"
-                        color="#a5a4a4"
+                        margin="0"
+                        overflowX="hidden"
+                        pr="8px"
+                        overflowWrap="break-word"
                       >
-                        {post?.title}
+                        { post?.title }
                       </Box>
                     </Box>
                     <Box margin="0 0 16px">
-                      <Box position="relative" marginX="0">
-                        <Link href={post?.link}>
+                      { post?.thumbnailUrl && post?.link && <Box pointerEvents="none" position="relative" marginX="0">
+                        <Link href={ post?.link }>
                           <Box width="70px" height="52px" pointerEvent="all">
                             <Image
-                              fallbackSrc={require('../../assets/images/fallback.png')}
-                              src={post?.link}
+                              fallbackSrc={ require('../../assets/images/fallback.png') }
+                              src={ post?.thumbnailUrl }
                               position="absolute"
                               height="100%"
                               objectFit="cover"
@@ -1520,46 +1523,153 @@ const ClassicPost = ({
                             />
                           </Box>
                         </Link>
-                      </Box>
+                        <Text left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" color="#fff" pos="absolute" fontSize="10px" padding="4px" noOfLines={ 1 } isTruncated overflow="hidden">{ post?.link?.replace(/(^\w+:|^)\/\//, '') }</Text>
+                      </Box> }
+                      { mediaInfo?.type === "image" && (
+                        <Box width="70px" height="52px" onClick={ () => setShowContent(!showContent) } >
+
+                          <Image
+                            width="100%" height="100%"
+                            bg={ postBg }
+                            src={ post?.link }
+                            onError={ (event) =>
+                              (event.target.style.display = "none")
+                            }
+                            fallbackSrc={ require('../../assets/images/fallback.png') }
+
+                          />
+                        </Box>
+
+                      ) }
+                      { mediaInfo?.type === "video" && (
+                        <Flex justifyContent="center" alignItems="center" width="70px" height="52px" onClick={ () => setShowContent(!showContent) } >
+
+                          <Icon
+                            as={ AiOutlineYoutube }
+                            width="28px"
+                            height="28px"
+                            verticalAlign="middle"
+                          />
+                        </Flex>
+
+                      ) }
+                      { mediaInfo?.type === "audio" && (
+                        <Flex justifyContent="center" alignItems="center" width="70px" height="52px" onClick={ () => setShowContent(!showContent) } >
+
+                          <Icon
+                            as={ MdOutlineAudiotrack }
+                            width="28px"
+                            height="28px"
+                            verticalAlign="middle"
+                          />
+                        </Flex>
+
+                      ) }
+
                     </Box>
                   </Flex>
                 ) : (
                   <Box
-                    color={mobileMainColor}
+                    color={ mobileMainColor }
                     fontSize="18px"
                     fontWeight="500"
                     margin="0"
                     overflowX="hidden"
                     padding="0 16px 8px"
                   >
-                    <Skeleton isLoaded={!loading}>{post?.title}</Skeleton>
+                    <Skeleton isLoaded={ !loading }>{ post?.title }</Skeleton>
                   </Box>
-                )}
-                <Box padding="0 16px 8px">
-                  {post?.flair?.text ? (
+                ) }
+                { detail && <Box padding="0 16px 8px">
+                  { post?.flair?.text ? (
                     <Tag
                       borderRadius="20px"
                       p="2px 8px"
                       mr="5px"
-                      background={post?.flair?.backgroundColor}
-                      color={post?.flair?.textColor}
+                      background={ post?.flair?.backgroundColor }
+                      color={ post?.flair?.textColor }
                     >
-                      {post?.flair.text}
+                      { post?.flair.text }
                     </Tag>
-                  ) : null}
-                </Box>
+                  ) : null }
+                </Box> }
+                { showContent && <Box pt="10%" >
+
+                  { mediaInfo?.type === "image" && (
+                    <Image
+                      maxH="320px"
+                      margin="0 auto"
+                      maxW="100%"
+                      width="100%"
+                      bg={ postBg }
+                      src={ post?.link }
+                      onError={ (event) =>
+                        (event.target.style.display = "none")
+                      }
+                    />
+                  ) }
+
+                  { mediaInfo?.type === "video" && (
+                    <Box
+                      bg="black"
+                      maxHeight="320px"
+                      width="100%"
+                      maxW="100%"
+                      color="#fff"
+                    >
+                      <video
+                        autoPlay
+                        playsInline
+                        preload="auto"
+                        controls
+                        style={ {
+                          objectFit: "contain",
+                          width: "100% !important",
+                          overflowClipMargin: "content-box",
+                          overflow: "clip",
+                        } }
+                        onError={ (event) =>
+                          (event.target.style.display = "none")
+                        }
+                        muted
+                      >
+                        <source src={ post?.link } />
+                      </video>
+                    </Box>
+                  ) }
+
+                  { mediaInfo?.type === "audio" && (
+                    <Box maxW="100%" color="#fff" margin="4px 8px">
+                      <audio
+                        preload="auto"
+                        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                        onError={ (event) =>
+                          (event.target.style.display = "none")
+                        }
+                        controls
+                        style={ {
+                          width: "100%",
+                        } }
+                      >
+                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
+                      </audio>
+                    </Box>
+                  ) }
+                </Box> }
               </Box>
             </Box>
             <Box marginTop="8px" padding="0 8px">
               <>
-                {detail &&
+                { detail &&
+
+
                   (showSpoiler ? (
                     <Flex alignItems="center" justifyContent="center">
                       <Button
                         variant="outline"
                         colorScheme="blackAlpha"
                         padding="10px 20px"
-                        onClick={() => setShowSpoiler(false)}
+                        onClick={ () => setShowSpoiler(false) }
                         borderRadius="none"
                         fontWeight="400"
                         my="10px"
@@ -1569,7 +1679,7 @@ const ClassicPost = ({
                     </Flex>
                   ) : (
                     <Box
-                      color={subPledditTextColor}
+                      color={ subPledditTextColor }
                       padding="5px 8px 10px"
                       fontFamily="Noto sans, Arial, sans-serif"
                       fontSize="14px"
@@ -1578,21 +1688,25 @@ const ClassicPost = ({
                       wordBreak="break-word"
                       overflow="hidden"
                     >
-                      {post?.content ? (
-                        <Marked content={post?.content} />
+                      { post?.content ? (
+                        <Marked content={ post?.content } />
                       ) : (
-                        <Skeleton isLoaded={!loading}>
+                        <Skeleton isLoaded={ !loading }>
                           <Box display="flex" justifyContent="center">
-                            <Image fallbackSrc="https://via.placeholder.com/150" src={post?.link} />
+                            <Image fallbackSrc="https://via.placeholder.com/150" src={ post?.link } />
                           </Box>
+
                         </Skeleton>
-                      )}
+                      ) }
                     </Box>
-                  ))}
+                  ))
+
+
+                }
               </>
             </Box>
-            {/* Footer */}
-            {pending ? (
+            {/* Footer */ }
+            { pending ? (
               !loading && (
                 /* <Box
                   paddingBottom="12px"
@@ -1688,22 +1802,22 @@ const ClassicPost = ({
                 paddingBottom="12px"
                 paddingTop="8px"
                 padding="8px 16px"
-                borderBottom={`8px solid ${border2}`}
+                borderBottom={ `8px solid ${border2}` }
                 pointerEvents="none"
-                _before={{
+                _before={ {
                   content: `" "`,
                   display: 'table',
-                }}
-                _after={{
+                } }
+                _after={ {
                   clear: 'both',
                   content: `" "`,
                   display: 'table',
-                }}
+                } }
               >
                 <Flex flex="1" float="none" top="0" position="relative" pointerEvents="none">
-                  {/* vote button */}
+                  {/* vote button */ }
                   <Flex
-                    border={`1px solid ${border2}`}
+                    border={ `1px solid ${border2}` }
                     alignItems="center"
                     borderRadius="16px"
                     flexShrink="0"
@@ -1727,25 +1841,25 @@ const ClassicPost = ({
                       width="32px"
                       minW="32px"
                       fontSize="12px"
-                      fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
-                      color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                      fill={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
+                      color={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
                       lineHeight="24px"
-                      onClick={() => {
+                      onClick={ () => {
                         handleVoting(vote === 1 ? 0 : 1);
-                      }}
+                      } }
                     >
                       <Icon
-                        fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
-                        color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
-                        as={vote === 1 ? ImArrowUp : BiUpvote}
+                        fill={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
+                        color={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
+                        as={ vote === 1 ? ImArrowUp : BiUpvote }
                         height="16px"
                         width="16px"
                         flex="0 0 16px"
                       />
                     </Flex>
                     <Box
-                      color={mobileIconColor}
-                      fill={mobileIconColor}
+                      color={ mobileIconColor }
+                      fill={ mobileIconColor }
                       fontSize="12px"
                       paddingTop="2px"
                       minW="16px"
@@ -1753,8 +1867,8 @@ const ClassicPost = ({
                       textAlign="center"
                       verticalAlign="middle"
                     >
-                      <Skeleton isLoaded={!loading}>
-                        {!loading ? (postVotes === 0 ? 'vote' : numFormatter(postVotes)) : 'vote'}
+                      <Skeleton isLoaded={ !loading }>
+                        { !loading ? (postVotes === 0 ? 'vote' : numFormatter(postVotes)) : 'vote' }
                       </Skeleton>
                     </Box>
                     <Flex
@@ -1767,27 +1881,27 @@ const ClassicPost = ({
                       width="32px"
                       minW="32px"
                       fontSize="12px"
-                      fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
-                      color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                      fill={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
+                      color={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
                       lineHeight="24px"
-                      onClick={() => {
+                      onClick={ () => {
                         handleVoting(vote === -1 ? 0 : -1);
-                      }}
+                      } }
                     >
                       <Icon
-                        fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
-                        color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
-                        as={vote === -1 ? ImArrowDown : BiDownvote}
+                        fill={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
+                        color={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
+                        as={ vote === -1 ? ImArrowDown : BiDownvote }
                         height="16px"
                         width="16px"
                         flex="0 0 16px"
                       />
                     </Flex>
                   </Flex>
-                  {/* award button */}
+                  {/* award button */ }
                   <Flex
-                    color={mobileIconColor}
-                    border={`1px solid ${border2}`}
+                    color={ mobileIconColor }
+                    border={ `1px solid ${border2}` }
                     alignItems="center"
                     fontWeight="500"
                     height="32px"
@@ -1809,15 +1923,15 @@ const ClassicPost = ({
                       justifyContent="center"
                       padding="1px 7px"
                     >
-                      <Icon as={GoGift} height="16px" width="16px" />
+                      <Icon as={ GoGift } height="16px" width="16px" />
                     </Flex>
                   </Flex>
-                  {/* comment button */}
-                  <Link as={ReactLink} to={detailRoute}>
+                  {/* comment button */ }
+                  <Link as={ ReactLink } to={ detailRoute }>
                     <Flex
-                      color={mobileIconColor}
-                      fill={mobileIconColor}
-                      border={`1px solid ${border2}`}
+                      color={ mobileIconColor }
+                      fill={ mobileIconColor }
+                      border={ `1px solid ${border2}` }
                       alignItems="center"
                       borderRadius="16px"
                       flexShrink="0"
@@ -1830,24 +1944,24 @@ const ClassicPost = ({
                       maxW="100px"
                     >
                       <Icon
-                        as={BsChat}
-                        color={mobileIconColor}
-                        fill={mobileIconColor}
+                        as={ BsChat }
+                        color={ mobileIconColor }
+                        fill={ mobileIconColor }
                         height="16px"
                         width="16px"
                         mr="4px"
                         flex="0 0 16px"
                       />
-                      <Skeleton isLoaded={!loading}>{post?.replyCount}</Skeleton>
+                      <Skeleton isLoaded={ !loading }>{ post?.replyCount }</Skeleton>
                     </Flex>
                   </Link>
-                  {/* mod button */}
+                  {/* mod button */ }
                   <Box pointerEvents="all" ml="auto">
                     <DropDown
-                      menuSx={{
+                      menuSx={ {
                         pointerEvents: 'all',
-                      }}
-                      onChange={handleOption}
+                      } }
+                      onChange={ handleOption }
                       dropDownTitle={
                         <Flex
                           overflow="hidden"
@@ -1857,10 +1971,10 @@ const ClassicPost = ({
                           justifyContent="center"
                           padding="1px 7px"
                         >
-                          <Icon as={BsShield} height="16px" width="16px" />
+                          <Icon as={ BsShield } height="16px" width="16px" />
                         </Flex>
                       }
-                      options={[
+                      options={ [
                         {
                           label: 'Sticky Post',
                           icon: post?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
@@ -1876,8 +1990,8 @@ const ClassicPost = ({
                           icon: post?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
                           id: 'spoiler',
                         },
-                      ]}
-                      rightOffset={0}
+                      ] }
+                      rightOffset={ 0 }
                       leftOffset="none"
                       topOffset="34px"
                     />
@@ -1889,22 +2003,22 @@ const ClassicPost = ({
                 paddingBottom="12px"
                 paddingTop="8px"
                 padding="8px 16px"
-                borderBottom={`8px solid ${border2}`}
+                borderBottom={ `8px solid ${border2}` }
                 pointerEvents="none"
-                _before={{
+                _before={ {
                   content: `" "`,
                   display: 'table',
-                }}
-                _after={{
+                } }
+                _after={ {
                   clear: 'both',
                   content: `" "`,
                   display: 'table',
-                }}
+                } }
               >
                 <Flex flex="1" float="none" top="0" position="relative" pointerEvents="none">
-                  {/* vote button */}
+                  {/* vote button */ }
                   <Flex
-                    border={`1px solid ${border2}`}
+                    border={ `1px solid ${border2}` }
                     alignItems="center"
                     borderRadius="16px"
                     flexShrink="0"
@@ -1928,25 +2042,25 @@ const ClassicPost = ({
                       width="32px"
                       minW="32px"
                       fontSize="12px"
-                      fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
-                      color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
+                      fill={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
+                      color={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
                       lineHeight="24px"
-                      onClick={() => {
+                      onClick={ () => {
                         handleVoting(vote === 1 ? 0 : 1);
-                      }}
+                      } }
                     >
                       <Icon
-                        fill={vote === 1 ? 'upvoteOrange' : mobileIconColor}
-                        color={vote === 1 ? 'upvoteOrange' : mobileIconColor}
-                        as={vote === 1 ? ImArrowUp : BiUpvote}
+                        fill={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
+                        color={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
+                        as={ vote === 1 ? ImArrowUp : BiUpvote }
                         height="16px"
                         width="16px"
                         flex="0 0 16px"
                       />
                     </Flex>
                     <Box
-                      color={mobileIconColor}
-                      fill={mobileIconColor}
+                      color={ mobileIconColor }
+                      fill={ mobileIconColor }
                       fontSize="12px"
                       paddingTop="2px"
                       minW="16px"
@@ -1954,8 +2068,8 @@ const ClassicPost = ({
                       textAlign="center"
                       verticalAlign="middle"
                     >
-                      <Skeleton isLoaded={!loading}>
-                        {!loading ? (postVotes === 0 ? 'vote' : numFormatter(postVotes)) : 'vote'}
+                      <Skeleton isLoaded={ !loading }>
+                        { !loading ? (postVotes === 0 ? 'vote' : numFormatter(postVotes)) : 'vote' }
                       </Skeleton>
                     </Box>
                     <Flex
@@ -1968,27 +2082,27 @@ const ClassicPost = ({
                       width="32px"
                       minW="32px"
                       fontSize="12px"
-                      fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
-                      color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
+                      fill={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
+                      color={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
                       lineHeight="24px"
-                      onClick={() => {
+                      onClick={ () => {
                         handleVoting(vote === -1 ? 0 : -1);
-                      }}
+                      } }
                     >
                       <Icon
-                        fill={vote === -1 ? 'downvoteBlue' : mobileIconColor}
-                        color={vote === -1 ? 'downvoteBlue' : mobileIconColor}
-                        as={vote === -1 ? ImArrowDown : BiDownvote}
+                        fill={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
+                        color={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
+                        as={ vote === -1 ? ImArrowDown : BiDownvote }
                         height="16px"
                         width="16px"
                         flex="0 0 16px"
                       />
                     </Flex>
                   </Flex>
-                  {/* award button */}
+                  {/* award button */ }
                   <Flex
-                    color={mobileIconColor}
-                    border={`1px solid ${border2}`}
+                    color={ mobileIconColor }
+                    border={ `1px solid ${border2}` }
                     alignItems="center"
                     fontWeight="500"
                     height="32px"
@@ -2010,15 +2124,15 @@ const ClassicPost = ({
                       justifyContent="center"
                       padding="1px 7px"
                     >
-                      <Icon as={GoGift} height="16px" width="16px" />
+                      <Icon as={ GoGift } height="16px" width="16px" />
                     </Flex>
                   </Flex>
-                  {/* comment button */}
-                  <Link as={ReactLink} to={detailRoute}>
+                  {/* comment button */ }
+                  <Link as={ ReactLink } to={ detailRoute }>
                     <Flex
-                      color={mobileIconColor}
-                      fill={mobileIconColor}
-                      border={`1px solid ${border2}`}
+                      color={ mobileIconColor }
+                      fill={ mobileIconColor }
+                      border={ `1px solid ${border2}` }
                       alignItems="center"
                       borderRadius="16px"
                       flexShrink="0"
@@ -2031,23 +2145,23 @@ const ClassicPost = ({
                       maxW="100px"
                     >
                       <Icon
-                        as={BsChat}
-                        color={mobileIconColor}
-                        fill={mobileIconColor}
+                        as={ BsChat }
+                        color={ mobileIconColor }
+                        fill={ mobileIconColor }
                         height="16px"
                         width="16px"
                         mr="4px"
                         flex="0 0 16px"
                       />
-                      <Skeleton isLoaded={!loading}>{post?.replyCount}</Skeleton>
+                      <Skeleton isLoaded={ !loading }>{ post?.replyCount }</Skeleton>
                     </Flex>
                   </Link>
-                  {/* share button */}
-                  <CopyToClipboard text={location} onCopy={handleCopy}>
+                  {/* share button */ }
+                  <CopyToClipboard text={ location } onCopy={ handleCopy }>
                     <Flex
-                      color={mobileIconColor}
-                      fill={mobileIconColor}
-                      border={`1px solid ${border2}`}
+                      color={ mobileIconColor }
+                      fill={ mobileIconColor }
+                      border={ `1px solid ${border2}` }
                       alignItems="center"
                       borderRadius="16px"
                       flexShrink="0"
@@ -2062,23 +2176,23 @@ const ClassicPost = ({
                       maxW="85px"
                     >
                       <Icon
-                        as={FiShare}
-                        color={mobileIconColor}
+                        as={ FiShare }
+                        color={ mobileIconColor }
                         height="16px"
                         width="16px"
                         flex="0 0 16px"
                         overflow="hidden"
                         mr="4px"
                       />
-                      {copied ? 'copied' : 'Share'}
+                      { copied ? 'copied' : 'Share' }
                     </Flex>
                   </CopyToClipboard>
                 </Flex>
               </Box>
-            )}
+            ) }
           </Box>
         </Box>
-      )}
+      ) }
     </>
   );
 };

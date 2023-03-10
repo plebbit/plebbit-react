@@ -83,10 +83,10 @@ function PostDetail() {
   const comment = feedFromProfile
     ? profilePost
     : commentFromCid === undefined
-    ? commentFromFeed
-    : (commentFromFeed?.updatedAt || 0) > (commentFromCid?.updatedAt || 0)
-    ? commentFromFeed
-    : commentFromCid;
+      ? commentFromFeed
+      : (commentFromFeed?.updatedAt || 0) > (commentFromCid?.updatedAt || 0)
+        ? commentFromFeed
+        : commentFromCid;
   let detail;
   let reply;
   let replyParent;
@@ -160,7 +160,7 @@ function PostDetail() {
   const [showSpoiler, setShowSpoiler] = useState(detail?.spoiler);
   const {
     device,
-    postStyle,
+
     profile,
     accountSubplebbits,
     baseUrl,
@@ -431,13 +431,13 @@ function PostDetail() {
 
   return (
     <Layout
-      name={{
+      name={ {
         label: subplebbit?.title || getSubName(subplebbit) || getAddress(params?.commentCid),
         value: location?.pathname,
-      }}
+      } }
     >
       <Box maxWidth="100%">
-        {device !== 'mobile' ? (
+        { device !== 'mobile' ? (
           <Box>
             <Box
               top="48px"
@@ -449,7 +449,7 @@ function PostDetail() {
               right="0"
               width="100%"
               zIndex="50"
-              _after={{
+              _after={ {
                 background: detBg,
                 bottom: '0',
                 height: '100%',
@@ -461,8 +461,8 @@ function PostDetail() {
                 right: '0',
                 width: 'calc(100% - 160px)',
                 top: '0',
-              }}
-              // onClick={() => history.goBack()}
+              } }
+            // onClick={() => history.goBack()}
             >
               <Box
                 top="48px"
@@ -473,9 +473,9 @@ function PostDetail() {
                 right="0"
                 width="100%"
                 zIndex="50"
-                sx={{
+                sx={ {
                   backfaceVisibility: 'hidden',
-                }}
+                } }
               >
                 <Box
                   height="100%"
@@ -483,11 +483,11 @@ function PostDetail() {
                   position="relative"
                   width="100%"
                   willChange="transform"
-                  sx={{
+                  sx={ {
                     contain: 'layout style size',
-                  }}
+                  } }
                 >
-                  {/* head */}
+                  {/* head */ }
                   <Box
                     background="#030303"
                     height="48px"
@@ -511,7 +511,7 @@ function PostDetail() {
                       padding="0 32px"
                     >
                       <Flex alignItems="center" flex="1" maxW="calc(100% - 324px)" width="100%">
-                        <Skeleton mr="4px" isLoaded={!loading}>
+                        <Skeleton mr="4px" isLoaded={ !loading }>
                           <Flex mr="4px" alignItems="center" margin="0" padding="0 2px">
                             <Box
                               borderRight="1px solid #a4a4a4"
@@ -523,7 +523,7 @@ function PostDetail() {
                             />
                             <IconButton
                               aria-label="Upvote Post"
-                              color={vote === 1 ? 'upvoteOrange' : iconColor}
+                              color={ vote === 1 ? 'upvoteOrange' : iconColor }
                               w="24px"
                               h="24px"
                               bg="none"
@@ -531,17 +531,17 @@ function PostDetail() {
                               minH="24px"
                               border="none"
                               borderRadius="2px"
-                              _hover={{
+                              _hover={ {
                                 bg: iconBg,
                                 color: 'upvoteOrange',
-                              }}
-                              _focus={{
+                              } }
+                              _focus={ {
                                 outline: 'none',
-                              }}
-                              onClick={() => {
+                              } }
+                              onClick={ () => {
                                 handleVoting(vote === 1 ? 0 : 1);
-                              }}
-                              icon={<Icon as={vote === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
+                              } }
+                              icon={ <Icon as={ vote === 1 ? ImArrowUp : BiUpvote } w={ 4 } h={ 4 } /> }
                             />
                             <Text
                               fontSize="12px"
@@ -550,13 +550,13 @@ function PostDetail() {
                               pointerEvents="none"
                               color="#D7DADC"
                             >
-                              <Skeleton isLoaded={!loading}>
-                                {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
+                              <Skeleton isLoaded={ !loading }>
+                                { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
                               </Skeleton>
                             </Text>
                             <IconButton
                               aria-label="Downvote Post"
-                              color={vote === -1 ? 'downvoteBlue' : iconColor}
+                              color={ vote === -1 ? 'downvoteBlue' : iconColor }
                               w="24px"
                               h="24px"
                               minW="24px"
@@ -564,18 +564,18 @@ function PostDetail() {
                               border="none"
                               bg="none"
                               borderRadius="2px"
-                              _hover={{
+                              _hover={ {
                                 bg: iconBg,
                                 color: 'downvoteBlue',
-                              }}
-                              _focus={{
+                              } }
+                              _focus={ {
                                 outline: 'none',
-                              }}
-                              onClick={() => {
+                              } }
+                              onClick={ () => {
                                 handleVoting(vote === -1 ? 0 : -1);
-                              }}
+                              } }
                               icon={
-                                <Icon as={vote === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
+                                <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } />
                               }
                             />
                             <Box
@@ -588,8 +588,8 @@ function PostDetail() {
                             />
                           </Flex>
                         </Skeleton>
-                        <Skeleton isLoaded={!loading}>
-                          <Icon as={CgNotes} mr="8px" color="#D7DADC" />
+                        <Skeleton isLoaded={ !loading }>
+                          <Icon as={ CgNotes } mr="8px" color="#D7DADC" />
                         </Skeleton>
 
                         <Text
@@ -600,14 +600,14 @@ function PostDetail() {
                           minWidth="0"
                           ml="2px"
                           paddingRight="5px"
-                          sx={{
+                          sx={ {
                             '@media (max-width: 768px)': {
                               display: 'none',
                             },
-                          }}
+                          } }
                           isTruncated
                         >
-                          {detail?.title}
+                          { detail?.title }
                         </Text>
                       </Flex>
                       <Flex
@@ -620,8 +620,8 @@ function PostDetail() {
                         marginLeft="12px"
                         color="#d7dadc"
                       >
-                        <CloseIcon mr="5px" onClick={() => history.goBack()} cursor="pointer" />
-                        <Box onClick={() => history.goBack()} cursor="pointer">
+                        <CloseIcon mr="5px" onClick={ () => history.goBack() } cursor="pointer" />
+                        <Box onClick={ () => history.goBack() } cursor="pointer">
                           Close
                         </Box>
                       </Flex>
@@ -646,9 +646,9 @@ function PostDetail() {
                       width="100%"
                       wordBreak="break-word"
                     >
-                      {/* Main */}
-                      <Flex width="100%" bg={bg} borderRadius="4px">
-                        {/* vote column */}
+                      {/* Main */ }
+                      <Flex width="100%" bg={ bg } borderRadius="4px">
+                        {/* vote column */ }
                         <Flex display="flex">
                           <Flex
                             flexDir="column"
@@ -659,17 +659,17 @@ function PostDetail() {
                             bg="none"
                             alignItems="center"
                             p="8px 4px 8px 0"
-                            sx={{
+                            sx={ {
                               '@media (max-width: 960px)': {
                                 display: 'none',
                               },
-                            }}
+                            } }
                           >
-                            <Skeleton isLoaded={!loading}>
+                            <Skeleton isLoaded={ !loading }>
                               <>
                                 <IconButton
                                   aria-label="Upvote Post"
-                                  color={vote === 1 ? 'upvoteOrange' : iconColor}
+                                  color={ vote === 1 ? 'upvoteOrange' : iconColor }
                                   w="24px"
                                   h="24px"
                                   bg="none"
@@ -677,17 +677,17 @@ function PostDetail() {
                                   minH="24px"
                                   border="none"
                                   borderRadius="2px"
-                                  _hover={{
+                                  _hover={ {
                                     bg: iconBg,
                                     color: 'upvoteOrange',
-                                  }}
-                                  _focus={{
+                                  } }
+                                  _focus={ {
                                     outline: 'none',
-                                  }}
-                                  onClick={() => {
+                                  } }
+                                  onClick={ () => {
                                     handleVoting(vote === 1 ? 0 : 1);
-                                  }}
-                                  icon={<Icon as={vote === 1 ? ImArrowUp : BiUpvote} w={4} h={4} />}
+                                  } }
+                                  icon={ <Icon as={ vote === 1 ? ImArrowUp : BiUpvote } w={ 4 } h={ 4 } /> }
                                 />
                                 <Text
                                   fontSize="12px"
@@ -696,11 +696,11 @@ function PostDetail() {
                                   pointerEvents="none"
                                   color=""
                                 >
-                                  {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
+                                  { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
                                 </Text>
                                 <IconButton
                                   aria-label="Downvote Post"
-                                  color={vote === -1 ? 'downvoteBlue' : iconColor}
+                                  color={ vote === -1 ? 'downvoteBlue' : iconColor }
                                   w="24px"
                                   h="24px"
                                   minW="24px"
@@ -708,27 +708,27 @@ function PostDetail() {
                                   border="none"
                                   bg="none"
                                   borderRadius="2px"
-                                  _hover={{
+                                  _hover={ {
                                     bg: iconBg,
                                     color: 'downvoteBlue',
-                                  }}
-                                  _focus={{
+                                  } }
+                                  _focus={ {
                                     outline: 'none',
-                                  }}
-                                  onClick={() => {
+                                  } }
+                                  onClick={ () => {
                                     handleVoting(vote === -1 ? 0 : -1);
-                                  }}
+                                  } }
                                   icon={
-                                    <Icon as={vote === -1 ? ImArrowDown : BiDownvote} w={4} h={4} />
+                                    <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } />
                                   }
                                 />
                               </>
                             </Skeleton>
                           </Flex>
                         </Flex>
-                        {/* post Details */}
+                        {/* post Details */ }
                         <Flex flexDir="column" paddingTop="8px" flex="1">
-                          {/* post Head */}
+                          {/* post Head */ }
 
                           <Flex
                             alignItems="start"
@@ -738,21 +738,21 @@ function PostDetail() {
                             margin="0 8px 8px"
                           >
                             <Skeleton
-                              isLoaded={!loading}
+                              isLoaded={ !loading }
                               mr="8px"
                               width="20px"
                               height="20px"
                               borderRadius="50%"
                             >
                               <Avatar
-                                width={20}
-                                height={20}
+                                width={ 20 }
+                                height={ 20 }
                                 mr="8px"
                                 badge
-                                isOnline={getIsOnline(subplebbit?.updatedAt)}
+                                isOnline={ getIsOnline(subplebbit?.updatedAt) }
                               />
                             </Skeleton>
-                            <Skeleton isLoaded={!loading}>
+                            <Skeleton isLoaded={ !loading }>
                               <Flex
                                 alignItems="center"
                                 flexWrap="wrap"
@@ -763,21 +763,21 @@ function PostDetail() {
                                 <Box display="inline">
                                   <Box display="inline-block" flex="0 0 auto">
                                     <Box
-                                      color={subPledditTextColor}
+                                      color={ subPledditTextColor }
                                       fontSize="12px"
                                       fontWeight="700"
                                       display="inline"
                                       lineHeight="20px"
                                       textDecoration="none"
-                                      onClick={() =>
+                                      onClick={ () =>
                                         history.push(`/p/${detail?.subplebbitAddress}`, [])
                                       }
                                     >
-                                      {getSubName(subplebbit)}
+                                      { getSubName(subplebbit) }
                                     </Box>
                                   </Box>
                                   <Text
-                                    color={separatorColor}
+                                    color={ separatorColor }
                                     as="span"
                                     verticalAlign="middle"
                                     fontSize="6px"
@@ -786,7 +786,7 @@ function PostDetail() {
                                   >
                                     •
                                   </Text>
-                                  <Text color={misCol} as="span" marginRight="3px">
+                                  <Text color={ misCol } as="span" marginRight="3px">
                                     Posted By
                                   </Text>
 
@@ -796,16 +796,16 @@ function PostDetail() {
                                     textDecor="none"
                                     fontSize="12px"
                                     lineHeight="16px"
-                                    color={misCol}
+                                    color={ misCol }
                                     marginRight="3px"
                                   >
-                                    {getUserName(detail?.author)}
+                                    { getUserName(detail?.author) }
                                   </Link>
-                                  {detail?.author?.flair && (
+                                  { detail?.author?.flair && (
                                     <Box display="inline" verticalAlign="text-top">
                                       <Text
-                                        bg={statusBg}
-                                        color={statusColor}
+                                        bg={ statusBg }
+                                        color={ statusColor }
                                         fontSize="12px"
                                         fontWeight="500"
                                         lineHeight="16px"
@@ -816,26 +816,26 @@ function PostDetail() {
                                         isTruncated
                                         padding="0 4px"
                                       >
-                                        {detail?.author?.flair?.text}
+                                        { detail?.author?.flair?.text }
                                       </Text>
                                     </Box>
-                                  )}
-                                  <Link color={misCol}>
-                                    {dateToNow(parseInt(detail?.timestamp * 1000))} ago
+                                  ) }
+                                  <Link color={ misCol }>
+                                    { dateToNow(parseInt(detail?.timestamp * 1000)) } ago
                                   </Link>
                                 </Box>
-                                {detail?.locked && <Icon as={HiLockClosed} color={lockColor} />}
-                                {detail?.removed && (
+                                { detail?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
+                                { detail?.removed && (
                                   <Flex
                                     cursor="pointer"
-                                    color={removeColor}
+                                    color={ removeColor }
                                     alignItems="center"
-                                    onClick={() =>
+                                    onClick={ () =>
                                       !detail?.moderatorReason ? openRemovalModal() : {}
                                     }
                                   >
-                                    <Icon as={TiDeleteOutline} color={removeColor} />
-                                    {!detail?.moderatorReason ? (
+                                    <Icon as={ TiDeleteOutline } color={ removeColor } />
+                                    { !detail?.moderatorReason ? (
                                       isSpecial && <Box mx="3px">Add A removal reason</Box>
                                     ) : (
                                       <Tooltip
@@ -845,61 +845,61 @@ function PostDetail() {
                                         placement="top"
                                       >
                                         <Text
-                                          color={misCol}
+                                          color={ misCol }
                                           mr="3px"
                                           textDecor="none"
                                           display="inline-block"
                                           flex="0 0 auto"
                                         >
-                                          {detail?.moderatorReason}
+                                          { detail?.moderatorReason }
                                         </Text>
                                       </Tooltip>
-                                    )}
+                                    ) }
                                   </Flex>
-                                )}
+                                ) }
 
-                                {/* <PdMenu /> */}
+                                {/* <PdMenu /> */ }
                               </Flex>
                             </Skeleton>
                             <Flex ml="auto">
-                              <Skeleton isLoaded={!loading}>
+                              <Skeleton isLoaded={ !loading }>
                                 <Icon
-                                  sx={{
+                                  sx={ {
                                     '@media (min-width: 1280px)': {},
                                     '@media (max-width: 1120px)': {
                                       display: 'none',
                                     },
-                                  }}
-                                  as={FiBell}
+                                  } }
+                                  as={ FiBell }
                                   height="16px"
                                   width="16px"
                                 />
                               </Skeleton>
                             </Flex>
                           </Flex>
-                          {/* post Title */}
+                          {/* post Title */ }
                           <Flex margin="0 8px" display="flex" alignItems="center">
                             <Text
-                              color={titleColor}
+                              color={ titleColor }
                               fontSize="18px"
                               fontWeight="500"
                               lineHeight="22px"
                               paddingRight="5px"
                               wordBreak="break-word"
                             >
-                              {detail?.title}{' '}
-                              {detail?.flair?.text ? (
+                              { detail?.title }{ ' ' }
+                              { detail?.flair?.text ? (
                                 <Tag
                                   borderRadius="20px"
                                   p="2px 8px"
                                   mr="5px"
-                                  background={detail?.flair?.backgroundColor}
-                                  color={detail?.flair?.textColor}
+                                  background={ detail?.flair?.backgroundColor }
+                                  color={ detail?.flair?.textColor }
                                 >
-                                  {detail?.flair.text}
+                                  { detail?.flair.text }
                                 </Tag>
-                              ) : null}
-                              {detail?.spoiler && (
+                              ) : null }
+                              { detail?.spoiler && (
                                 <Tag
                                   borderRadius="none"
                                   p="2px 8px"
@@ -909,22 +909,22 @@ function PostDetail() {
                                 >
                                   SPOILER
                                 </Tag>
-                              )}
-                              {detailPending && (
-                                <Skeleton isLoaded={!loading} my="4px">
+                              ) }
+                              { detailPending && (
+                                <Skeleton isLoaded={ !loading } my="4px">
                                   <Tag size="sm" colorScheme="yellow" variant="outline">
                                     Pending
                                   </Tag>
                                 </Skeleton>
-                              )}
+                              ) }
                             </Text>
                           </Flex>
-                          {/* post Body */}
-                          {edit ? (
+                          {/* post Body */ }
+                          { edit ? (
                             <Box marginTop="8px" padding="10px">
                               <Flex alignItems="stretch">
                                 <Flex
-                                  color={color}
+                                  color={ color }
                                   fontSize="14px"
                                   fontWeight="700"
                                   lineHeight="18px"
@@ -942,13 +942,13 @@ function PostDetail() {
                                   alignItems="center"
                                   whiteSpace="nowrap"
                                   padding="15px 17px"
-                                  borderBottom={editMode === 'post' && '3px solid #a4a4a4'}
-                                  onClick={() => {
+                                  borderBottom={ editMode === 'post' && '3px solid #a4a4a4' }
+                                  onClick={ () => {
                                     setEditMode('post');
-                                  }}
+                                  } }
                                 >
                                   <Icon
-                                    as={MdStickyNote2}
+                                    as={ MdStickyNote2 }
                                     fontSize="20px"
                                     fontWeight="400"
                                     height="20px"
@@ -960,7 +960,7 @@ function PostDetail() {
                                   Post
                                 </Flex>
                                 <Flex
-                                  color={color}
+                                  color={ color }
                                   fontSize="14px"
                                   fontWeight="700"
                                   lineHeight="18px"
@@ -973,15 +973,15 @@ function PostDetail() {
                                   borderColor="#a4a4a4"
                                   borderStyle="solid"
                                   borderWidth="0 1px 1px 0"
-                                  borderBottom={editMode === 'link' && '3px solid #a4a4a4'}
+                                  borderBottom={ editMode === 'link' && '3px solid #a4a4a4' }
                                   borderRadius="0"
                                   justifyContent="center"
                                   alignItems="center"
                                   whiteSpace="nowrap"
                                   padding="15px 17px"
-                                  onClick={() => {
+                                  onClick={ () => {
                                     setEditMode('link');
-                                  }}
+                                  } }
                                 >
                                   <LinkIcon
                                     fontSize="20px"
@@ -995,26 +995,26 @@ function PostDetail() {
                                   Link
                                 </Flex>
                               </Flex>
-                              {editMode === 'post' ? (
+                              { editMode === 'post' ? (
                                 <Editor
-                                  editorState={postEditorState}
-                                  setEditorState={setPostEditorState}
-                                  setValue={setEditPost}
+                                  editorState={ postEditorState }
+                                  setEditorState={ setPostEditorState }
+                                  setValue={ setEditPost }
                                 />
                               ) : (
                                 <Textarea
                                   placeholder="Url"
-                                  onChange={(e) => setEditPost(e.target.value)}
-                                  value={editPost}
-                                  color={color}
+                                  onChange={ (e) => setEditPost(e.target.value) }
+                                  value={ editPost }
+                                  color={ color }
                                 />
-                              )}
+                              ) }
                               <Flex alignItems="center" mt="8px" justifyContent="flex-end">
                                 <Button
                                   borderRadius="999px"
                                   border="transparent"
                                   bg="transparent"
-                                  onClick={() => setEdit(false)}
+                                  onClick={ () => setEdit(false) }
                                 >
                                   Cancel
                                 </Button>
@@ -1023,15 +1023,15 @@ function PostDetail() {
                                   padding="5px 10px"
                                   minW="90px"
                                   minH="27px"
-                                  onClick={() => handleOption({ id: 'saveEdit' })}
-                                  isLoading={editLoading}
+                                  onClick={ () => handleOption({ id: 'saveEdit' }) }
+                                  isLoading={ editLoading }
                                 >
                                   Save
                                 </Button>
                               </Flex>
                             </Box>
                           ) : detail?.removed ? (
-                            <RemovedMessage subplebbit={subplebbit} />
+                            <RemovedMessage subplebbit={ subplebbit } />
                           ) : detail?.deleted ? (
                             <DeletedMessage />
                           ) : showSpoiler ? (
@@ -1040,7 +1040,7 @@ function PostDetail() {
                                 variant="outline"
                                 colorScheme="blackAlpha"
                                 padding="10px 20px"
-                                onClick={() => setShowSpoiler(false)}
+                                onClick={ () => setShowSpoiler(false) }
                                 borderRadius="none"
                                 fontWeight="400"
                                 my="10px"
@@ -1050,9 +1050,9 @@ function PostDetail() {
                             </Flex>
                           ) : (
                             <Box marginTop="8px">
-                              {detail?.content ? (
+                              { detail?.content ? (
                                 <Box
-                                  color={subPledditTextColor}
+                                  color={ subPledditTextColor }
                                   padding="5px 8px 10px"
                                   fontFamily="Noto sans, Arial, sans-serif"
                                   fontSize="14px"
@@ -1061,24 +1061,24 @@ function PostDetail() {
                                   wordBreak="break-word"
                                   overflow="hidden"
                                 >
-                                  <Skeleton isLoaded={!loading}>
-                                    <Marked content={detail?.content} />
+                                  <Skeleton isLoaded={ !loading }>
+                                    <Marked content={ detail?.content } />
                                   </Skeleton>
                                 </Box>
                               ) : (
                                 <Box display="flex" justifyContent="center">
-                                  <Skeleton isLoaded={!loading}>
+                                  <Skeleton isLoaded={ !loading }>
                                     <Image
                                       fallbackSrc="https://via.placeholder.com/150"
-                                      src={detail?.link}
+                                      src={ detail?.link }
                                     />
                                   </Skeleton>
                                 </Box>
-                              )}
+                              ) }
                             </Box>
-                          )}
-                          {/* Post Bottom Bar */}
-                          {detailPending ? (
+                          ) }
+                          {/* Post Bottom Bar */ }
+                          { detailPending ? (
                             !loading && <Flex />
                           ) : isSpecial ? (
                             <Flex
@@ -1087,12 +1087,12 @@ function PostDetail() {
                               paddingRight="10px"
                               overflowY="visible"
                               mb="2px"
-                              color={iconColor}
+                              color={ iconColor }
                             >
                               <Flex
                                 flexDirection="row"
                                 alignItems="stretch"
-                                flexGrow={1}
+                                flexGrow={ 1 }
                                 padding="0 8px 0 4px"
                                 fontSize="12px"
                                 fontWeight="700"
@@ -1104,74 +1104,74 @@ function PostDetail() {
                                   borderRadius="2px"
                                   padding="8px"
                                   marginRight="4px"
-                                  _hover={{
+                                  _hover={ {
                                     textDecor: 'none',
                                     outline: 'none',
                                     bg: bottomButtonHover,
-                                  }}
-                                  _focus={{
+                                  } }
+                                  _focus={ {
                                     boxShadow: 'none',
-                                  }}
+                                  } }
                                 >
-                                  <Icon as={BsChatSquare} height={5} width={5} mr="5px" />
-                                  <Box>{detail?.replyCount}</Box>
+                                  <Icon as={ BsChatSquare } height={ 5 } width={ 5 } mr="5px" />
+                                  <Box>{ detail?.replyCount }</Box>
                                 </Link>
                                 <Flex
                                   alignItems="center"
                                   borderRadius="2px"
                                   padding="8px"
                                   marginRight="4px"
-                                  _hover={{
+                                  _hover={ {
                                     textDecor: 'none',
                                     outline: 'none',
                                     bg: bottomButtonHover,
-                                  }}
-                                  _focus={{
+                                  } }
+                                  _focus={ {
                                     boxShadow: 'none',
-                                  }}
+                                  } }
                                 >
-                                  <Icon as={GoGift} height={5} width={5} mr="5px" />
+                                  <Icon as={ GoGift } height={ 5 } width={ 5 } mr="5px" />
                                   <Box>Award</Box>
                                 </Flex>
-                                <CopyToClipboard text={sharePath} onCopy={handleCopy}>
+                                <CopyToClipboard text={ sharePath } onCopy={ handleCopy }>
                                   <Link
                                     display="flex"
                                     alignItems="center"
                                     borderRadius="2px"
                                     padding="8px"
                                     marginRight="4px"
-                                    _hover={{
+                                    _hover={ {
                                       textDecor: 'none',
                                       outline: 'none',
                                       bg: bottomButtonHover,
-                                    }}
-                                    _focus={{
+                                    } }
+                                    _focus={ {
                                       boxShadow: 'none',
-                                    }}
+                                    } }
                                   >
-                                    <Icon as={FaShare} height={5} width={5} mr="5px" />
-                                    <Box>{copied ? 'Copied' : 'share'}</Box>
+                                    <Icon as={ FaShare } height={ 5 } width={ 5 } mr="5px" />
+                                    <Box>{ copied ? 'Copied' : 'share' }</Box>
                                   </Link>
                                 </CopyToClipboard>
 
-                                {detail?.removed ? (
+                                { detail?.removed ? (
                                   <Flex
                                     alignItems="center"
                                     borderRadius="2px"
                                     padding="8px"
                                     marginRight="4px"
-                                    _hover={{
+                                    _hover={ {
                                       textDecor: 'none',
                                       outline: 'none',
                                       bg: bottomButtonHover,
-                                    }}
-                                    _focus={{
+                                    } }
+                                    _focus={ {
                                       boxShadow: 'none',
-                                    }}
-                                    onClick={() => handleOption({ id: 'approved' })}
-                                    color={approveColor}
+                                    } }
+                                    onClick={ () => handleOption({ id: 'approved' }) }
+                                    color={ approveColor }
                                   >
-                                    <Icon as={HiOutlineCheckCircle} height={5} width={5} mr="5px" />
+                                    <Icon as={ HiOutlineCheckCircle } height={ 5 } width={ 5 } mr="5px" />
                                     <Box>Approve</Box>
                                   </Flex>
                                 ) : (
@@ -1180,25 +1180,25 @@ function PostDetail() {
                                     borderRadius="2px"
                                     padding="8px"
                                     marginRight="4px"
-                                    _hover={{
+                                    _hover={ {
                                       textDecor: 'none',
                                       outline: 'none',
                                       bg: bottomButtonHover,
-                                    }}
-                                    _focus={{
+                                    } }
+                                    _focus={ {
                                       boxShadow: 'none',
-                                    }}
-                                    color={removeColor}
-                                    onClick={() => handleOption({ id: 'removed' })}
+                                    } }
+                                    color={ removeColor }
+                                    onClick={ () => handleOption({ id: 'removed' }) }
                                   >
-                                    <Icon as={TiDeleteOutline} height={5} width={5} mr="5px" />
+                                    <Icon as={ TiDeleteOutline } height={ 5 } width={ 5 } mr="5px" />
                                     <Box>Remove</Box>
                                   </Flex>
-                                )}
+                                ) }
 
                                 <Flex justifyContent="center">
                                   <DropDown
-                                    onChange={(val) => handleOption(val)}
+                                    onChange={ (val) => handleOption(val) }
                                     dropDownTitle={
                                       <Flex
                                         borderRadius="2px"
@@ -1209,14 +1209,14 @@ function PostDetail() {
                                         bg="transparent"
                                         border="none"
                                         alignItems="center"
-                                        _hover={{
+                                        _hover={ {
                                           backgroundColor: inputBg,
-                                        }}
+                                        } }
                                       >
-                                        <Icon as={BsShield} color={iconColor} h="20px" w="20px" />
+                                        <Icon as={ BsShield } color={ iconColor } h="20px" w="20px" />
                                       </Flex>
                                     }
-                                    options={[
+                                    options={ [
                                       {
                                         label: 'Sticky Post',
                                         icon: detail?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
@@ -1232,28 +1232,28 @@ function PostDetail() {
                                         icon: detail?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
                                         id: 'spoiler',
                                       },
-                                    ]}
-                                    rightOffset={0}
+                                    ] }
+                                    rightOffset={ 0 }
                                     leftOffset="none"
                                     topOffset="34px"
                                   />
                                 </Flex>
 
-                                {owner ? (
+                                { owner ? (
                                   <Link
                                     display="flex"
                                     alignItems="center"
                                     borderRadius="2px"
                                     padding="8px"
                                     marginRight="4px"
-                                    _hover={{
+                                    _hover={ {
                                       textDecor: 'none',
                                       outline: 'none',
                                       bg: bottomButtonHover,
-                                    }}
-                                    _focus={{
+                                    } }
+                                    _focus={ {
                                       boxShadow: 'none',
-                                    }}
+                                    } }
                                   >
                                     <DropDown
                                       topOffset="30px"
@@ -1270,14 +1270,14 @@ function PostDetail() {
                                           alignItems="center"
                                         >
                                           <Icon
-                                            as={FiMoreHorizontal}
-                                            color={iconColor}
+                                            as={ FiMoreHorizontal }
+                                            color={ iconColor }
                                             h="20px"
                                             w="20px"
                                           />
                                         </Flex>
                                       }
-                                      options={[
+                                      options={ [
                                         {
                                           label: 'Edit Post',
                                           icon: BsPencil,
@@ -1294,26 +1294,26 @@ function PostDetail() {
                                           icon: MdOutlineDeleteOutline,
                                           id: 'delete',
                                         },
-                                      ]}
-                                      render={(item) => (
+                                      ] }
+                                      render={ (item) => (
                                         <Flex
                                           alignItems="center"
                                           padding="8px"
                                           fontSize="14px"
                                           lineHeight="18px"
                                           fontWeight="500"
-                                          color={iconColor}
-                                          borderTop={`1px solid ${border2}`}
+                                          color={ iconColor }
+                                          borderTop={ `1px solid ${border2}` }
                                           textTransform="capitalize"
-                                          _hover={{
+                                          _hover={ {
                                             bg: bottomButtonHover,
-                                          }}
-                                          onClick={() => handleOption(item)}
+                                          } }
+                                          onClick={ () => handleOption(item) }
                                         >
-                                          <Icon as={item?.icon} w="20px" h="20px" mr="6px" />
-                                          <Box>{item?.label}</Box>
+                                          <Icon as={ item?.icon } w="20px" h="20px" mr="6px" />
+                                          <Box>{ item?.label }</Box>
                                         </Flex>
-                                      )}
+                                      ) }
                                     />
                                   </Link>
                                 ) : (
@@ -1324,20 +1324,20 @@ function PostDetail() {
                                       borderRadius="2px"
                                       padding="8px"
                                       marginRight="4px"
-                                      _hover={{
+                                      _hover={ {
                                         textDecor: 'none',
                                         outline: 'none',
                                         bg: bottomButtonHover,
-                                      }}
-                                      _focus={{
+                                      } }
+                                      _focus={ {
                                         boxShadow: 'none',
-                                      }}
+                                      } }
                                     >
-                                      <Icon as={BsEyeSlash} height={5} width={5} mr="5px" />
+                                      <Icon as={ BsEyeSlash } height={ 5 } width={ 5 } mr="5px" />
                                       <Box>Block Author</Box>
                                     </Link>
                                   </>
-                                )}
+                                ) }
                               </Flex>
                             </Flex>
                           ) : (
@@ -1347,12 +1347,12 @@ function PostDetail() {
                               paddingRight="10px"
                               overflowY="visible"
                               mb="2px"
-                              color={iconColor}
+                              color={ iconColor }
                             >
                               <Flex
                                 flexDirection="row"
                                 alignItems="stretch"
-                                flexGrow={1}
+                                flexGrow={ 1 }
                                 padding="0 8px 0 4px"
                                 fontSize="12px"
                                 fontWeight="700"
@@ -1364,19 +1364,19 @@ function PostDetail() {
                                   borderRadius="2px"
                                   padding="8px"
                                   marginRight="4px"
-                                  _hover={{
+                                  _hover={ {
                                     textDecor: 'none',
                                     outline: 'none',
                                     bg: bottomButtonHover,
-                                  }}
-                                  _focus={{
+                                  } }
+                                  _focus={ {
                                     boxShadow: 'none',
-                                  }}
+                                  } }
                                 >
-                                  <Icon as={BsChat} height={5} width={5} mr="5px" />
+                                  <Icon as={ BsChat } height={ 5 } width={ 5 } mr="5px" />
                                   <Box>
-                                    {detail?.replyCount} Comment
-                                    {detail?.replyCount === 1 ? '' : 's'}
+                                    { detail?.replyCount } Comment
+                                    { detail?.replyCount === 1 ? '' : 's' }
                                   </Box>
                                 </Link>
                                 <Link
@@ -1385,36 +1385,36 @@ function PostDetail() {
                                   borderRadius="2px"
                                   padding="8px"
                                   marginRight="4px"
-                                  _hover={{
+                                  _hover={ {
                                     textDecor: 'none',
                                     outline: 'none',
                                     bg: bottomButtonHover,
-                                  }}
-                                  _focus={{
+                                  } }
+                                  _focus={ {
                                     boxShadow: 'none',
-                                  }}
+                                  } }
                                 >
-                                  <Icon as={GoGift} height={5} width={5} mr="5px" />
+                                  <Icon as={ GoGift } height={ 5 } width={ 5 } mr="5px" />
                                   <Box>Award</Box>
                                 </Link>
-                                <CopyToClipboard text={sharePath} onCopy={handleCopy}>
+                                <CopyToClipboard text={ sharePath } onCopy={ handleCopy }>
                                   <Link
                                     display="flex"
                                     alignItems="center"
                                     borderRadius="2px"
                                     padding="8px"
                                     marginRight="4px"
-                                    _hover={{
+                                    _hover={ {
                                       textDecor: 'none',
                                       outline: 'none',
                                       bg: bottomButtonHover,
-                                    }}
-                                    _focus={{
+                                    } }
+                                    _focus={ {
                                       boxShadow: 'none',
-                                    }}
+                                    } }
                                   >
-                                    <Icon as={FaShare} height={5} width={5} mr="5px" />
-                                    <Box>{copied ? 'Copied' : 'share'}</Box>
+                                    <Icon as={ FaShare } height={ 5 } width={ 5 } mr="5px" />
+                                    <Box>{ copied ? 'Copied' : 'share' }</Box>
                                   </Link>
                                 </CopyToClipboard>
 
@@ -1424,34 +1424,34 @@ function PostDetail() {
                                   borderRadius="2px"
                                   padding="8px"
                                   marginRight="4px"
-                                  _hover={{
+                                  _hover={ {
                                     textDecor: 'none',
                                     outline: 'none',
                                     bg: bottomButtonHover,
-                                  }}
-                                  _focus={{
+                                  } }
+                                  _focus={ {
                                     boxShadow: 'none',
-                                  }}
+                                  } }
                                 >
-                                  <Icon as={BsBookmark} height={5} width={5} mr="5px" />
+                                  <Icon as={ BsBookmark } height={ 5 } width={ 5 } mr="5px" />
                                   <Box>save</Box>
                                 </Link>
 
-                                {owner ? (
+                                { owner ? (
                                   <Link
                                     display="flex"
                                     alignItems="center"
                                     borderRadius="2px"
                                     padding="8px"
                                     marginRight="4px"
-                                    _hover={{
+                                    _hover={ {
                                       textDecor: 'none',
                                       outline: 'none',
                                       bg: bottomButtonHover,
-                                    }}
-                                    _focus={{
+                                    } }
+                                    _focus={ {
                                       boxShadow: 'none',
-                                    }}
+                                    } }
                                   >
                                     <DropDown
                                       topOffset="30px"
@@ -1468,14 +1468,14 @@ function PostDetail() {
                                           alignItems="center"
                                         >
                                           <Icon
-                                            as={FiMoreHorizontal}
-                                            color={iconColor}
+                                            as={ FiMoreHorizontal }
+                                            color={ iconColor }
                                             h="20px"
                                             w="20px"
                                           />
                                         </Flex>
                                       }
-                                      options={[
+                                      options={ [
                                         {
                                           label: 'Edit Post',
                                           icon: BsPencil,
@@ -1491,26 +1491,26 @@ function PostDetail() {
                                           icon: MdOutlineDeleteOutline,
                                           id: 'delete',
                                         },
-                                      ]}
-                                      render={(item) => (
+                                      ] }
+                                      render={ (item) => (
                                         <Flex
                                           alignItems="center"
                                           padding="8px"
                                           fontSize="14px"
                                           lineHeight="18px"
                                           fontWeight="500"
-                                          color={iconColor}
-                                          borderTop={`1px solid ${border2}`}
+                                          color={ iconColor }
+                                          borderTop={ `1px solid ${border2}` }
                                           textTransform="capitalize"
-                                          _hover={{
+                                          _hover={ {
                                             bg: bottomButtonHover,
-                                          }}
-                                          onClick={() => handleOption(item)}
+                                          } }
+                                          onClick={ () => handleOption(item) }
                                         >
-                                          <Icon as={item?.icon} w="20px" h="20px" mr="6px" />
-                                          <Box>{item?.label}</Box>
+                                          <Icon as={ item?.icon } w="20px" h="20px" mr="6px" />
+                                          <Box>{ item?.label }</Box>
                                         </Flex>
-                                      )}
+                                      ) }
                                     />
                                   </Link>
                                 ) : (
@@ -1521,33 +1521,33 @@ function PostDetail() {
                                       borderRadius="2px"
                                       padding="8px"
                                       marginRight="4px"
-                                      _hover={{
+                                      _hover={ {
                                         textDecor: 'none',
                                         outline: 'none',
                                         bg: bottomButtonHover,
-                                      }}
-                                      _focus={{
+                                      } }
+                                      _focus={ {
                                         boxShadow: 'none',
-                                      }}
+                                      } }
                                     >
-                                      <Icon as={BsEyeSlash} height={5} width={5} mr="5px" />
+                                      <Icon as={ BsEyeSlash } height={ 5 } width={ 5 } mr="5px" />
                                       <Box>Block Author</Box>
                                     </Link>
                                   </>
-                                )}
+                                ) }
                               </Flex>
                             </Flex>
-                          )}
+                          ) }
                         </Flex>
                       </Flex>
-                      <Box maxW="100%" bg={bg} mt="10px" padding="10px">
+                      <Box maxW="100%" bg={ bg } mt="10px" padding="10px">
                         <Box padding="24px 40px">
-                          {detail?.locked ? (
-                            <LockedMessage subplebbit={subplebbit} />
+                          { detail?.locked ? (
+                            <LockedMessage subplebbit={ subplebbit } />
                           ) : (
                             <>
                               <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                                Comment as {getUserName(profile?.author)}
+                                Comment as { getUserName(profile?.author) }
                               </Box>
                               <Box
                                 borderRadius="4px"
@@ -1557,15 +1557,15 @@ function PostDetail() {
                                 minH="200px"
                               >
                                 <Editor
-                                  setValue={setContent}
-                                  editorState={editorState}
-                                  setEditorState={setEditorState}
+                                  setValue={ setContent }
+                                  editorState={ editorState }
+                                  setEditorState={ setEditorState }
                                   showSubmit
-                                  handleSubmit={handlePublishPost}
+                                  handleSubmit={ handlePublishPost }
                                 />
                               </Box>
                             </>
-                          )}
+                          ) }
 
                           <Box
                             fontSize="12px"
@@ -1577,25 +1577,25 @@ function PostDetail() {
                             Sort By: Best
                           </Box>
                           <hr />
-                          {isReply ? (
+                          { isReply ? (
                             <Box
                               fontSize="12px"
                               fontWeight="700"
                               my="8px"
-                              _hover={{
+                              _hover={ {
                                 textDecoration: 'underline',
-                              }}
-                              onClick={() => setShowFullComments(!showFullComments)}
+                              } }
+                              onClick={ () => setShowFullComments(!showFullComments) }
                             >
                               View all comments
                             </Box>
-                          ) : null}
+                          ) : null }
                         </Box>
-                        {isReply ? <Replies parent={replyParent} reply={reply} /> : null}
-                        {showFullComments &&
+                        { isReply ? <Replies parent={ replyParent } reply={ reply } /> : null }
+                        { showFullComments &&
                           detail?.replies?.pages?.topAll?.comments.map((comment) => (
-                            <Comment comment={comment} key={comment.cid} parentCid={detail?.cid} />
-                          ))}
+                            <Comment comment={ comment } key={ comment.cid } parentCid={ detail?.cid } />
+                          )) }
                       </Box>
                     </Box>
                     <SideBar
@@ -1605,19 +1605,19 @@ function PostDetail() {
                       right="0"
                       top="0"
                       width="312px"
-                      sx={{
+                      sx={ {
                         '@media (max-width: 1120px)': {
                           display: 'none',
                         },
-                      }}
-                      handleSubscribe={handleSubscribe}
-                      handleUnSubscribe={handleUnSubscribe}
-                      subLoading={subLoading}
-                      setSubLoading={setSubLoading}
-                      subscriptions={subscriptions}
-                      detail={detail}
-                      loading={!loading}
-                      subplebbit={subplebbit}
+                      } }
+                      handleSubscribe={ handleSubscribe }
+                      handleUnSubscribe={ handleUnSubscribe }
+                      subLoading={ subLoading }
+                      setSubLoading={ setSubLoading }
+                      subscriptions={ subscriptions }
+                      detail={ detail }
+                      loading={ !loading }
+                      subplebbit={ subplebbit }
                     />
                   </Flex>
                 </Box>
@@ -1627,7 +1627,7 @@ function PostDetail() {
         ) : (
           <Box>
             <Box>
-              <Box position="relative" bg={mainMobileBg}>
+              <Box position="relative" bg={ mainMobileBg }>
                 <Box position="relative">
                   <Box paddingTop="0">
                     <Box
@@ -1654,20 +1654,20 @@ function PostDetail() {
                         pos="absolute"
                         right="0"
                         top="0"
-                        onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}
+                        onClick={ () => history.push(`/p/${detail?.subplebbitAddress}`, []) }
                       />
                       <Box
-                        backgroundColor={mainMobileBg}
+                        backgroundColor={ mainMobileBg }
                         borderRadius="20px 20px 0 0"
                         position="relative"
                       >
                         <Icon
-                          onClick={() => history.goBack()}
-                          as={CgClose}
-                          color={mobileColor}
-                          fill={mobileColor}
-                          width={6}
-                          height={6}
+                          onClick={ () => history.goBack() }
+                          as={ CgClose }
+                          color={ mobileColor }
+                          fill={ mobileColor }
+                          width={ 6 }
+                          height={ 6 }
                           lineHeight="20px"
                           verticalAlign="middle"
                           bg="#efefed"
@@ -1676,63 +1676,63 @@ function PostDetail() {
                           right="16px"
                           top="16px"
                           pointerEvents="all"
-                          _before={{
+                          _before={ {
                             verticalAlign: 'inherit',
-                          }}
+                          } }
                         />
                         <Flex alignItems="center" flexFlow="column nowrap">
                           <Skeleton
-                            isLoaded={!loading}
+                            isLoaded={ !loading }
                             width="72px"
                             height="72px"
                             borderRadius="50%"
                             mb="8px"
                           >
                             <Avatar
-                              width={72}
-                              height={72}
-                              avatar={subplebbit?.avatar}
+                              width={ 72 }
+                              height={ 72 }
+                              avatar={ subplebbit?.avatar }
                               badge
-                              isOnline={getIsOnline(subplebbit?.updatedAt)}
+                              isOnline={ getIsOnline(subplebbit?.updatedAt) }
                               mb="8px"
                             />
                           </Skeleton>
-                          <Skeleton margin="5px" isLoaded={!loading}>
+                          <Skeleton margin="5px" isLoaded={ !loading }>
                             <Box
-                              onClick={() => history.push(`/p/${detail?.subplebbitAddress}`, [])}
+                              onClick={ () => history.push(`/p/${detail?.subplebbitAddress}`, []) }
                               fontWeight="700"
                               lineHeight="18px"
                               margin="5px"
                               textAlign="center"
                             >
-                              {getSubName(subplebbit)}
+                              { getSubName(subplebbit) }
                             </Box>
                           </Skeleton>
                         </Flex>
                       </Box>
                     </Box>
-                    {edit ? (
+                    { edit ? (
                       <Box marginTop="8px" padding="10px">
-                        {editMode === 'post' ? (
+                        { editMode === 'post' ? (
                           <Editor
-                            editorState={postEditorState}
-                            setEditorState={setPostEditorState}
-                            setValue={setEditPost}
+                            editorState={ postEditorState }
+                            setEditorState={ setPostEditorState }
+                            setValue={ setEditPost }
                           />
                         ) : (
                           <Textarea
                             placeholder="Url"
-                            onChange={(e) => setEditPost(e.target.value)}
-                            value={editPost}
-                            color={color}
+                            onChange={ (e) => setEditPost(e.target.value) }
+                            value={ editPost }
+                            color={ color }
                           />
-                        )}
+                        ) }
                         <Flex alignItems="center" mt="8px" justifyContent="flex-end">
                           <Button
                             borderRadius="999px"
                             border="transparent"
                             bg="transparent"
-                            onClick={() => setEdit(false)}
+                            onClick={ () => setEdit(false) }
                           >
                             Cancel
                           </Button>
@@ -1741,8 +1741,8 @@ function PostDetail() {
                             padding="5px 10px"
                             minW="90px"
                             minH="27px"
-                            onClick={() => handleOption({ id: 'saveEdit' })}
-                            isLoading={editLoading}
+                            onClick={ () => handleOption({ id: 'saveEdit' }) }
+                            isLoading={ editLoading }
                           >
                             Save
                           </Button>
@@ -1752,14 +1752,14 @@ function PostDetail() {
                       <Flex flexDir="column">
                         <Post
                           detail
-                          post={detail}
-                          mode={postStyle}
-                          key={detail?.cid}
-                          handleOption={handleOption}
-                          loading={loading}
+                          post={ detail }
+                          mode="card"
+                          key={ detail?.cid }
+                          handleOption={ handleOption }
+                          loading={ loading }
                         />
                       </Flex>
-                    )}
+                    ) }
                   </Box>
                 </Box>
               </Box>
@@ -1767,29 +1767,29 @@ function PostDetail() {
             <Box minH="calc(100vh - 48px)">
               <Box padding="8px 16px 4px">
                 <Box
-                  _before={{
+                  _before={ {
                     content: `" "`,
                     display: 'table',
-                  }}
-                  _after={{
+                  } }
+                  _after={ {
                     content: `" "`,
                     display: 'table',
                     clear: 'both',
-                  }}
+                  } }
                 >
                   <Box w="100%" lineHeight="1.5" mr="0" maxW="100%" padding="4px 0">
                     <Flex alignItems="center" flexFlow="row nowrap">
                       <Box>
-                        {detail?.replyCount} comment{detail?.replyCount === 1 ? '' : 's'}
+                        { detail?.replyCount } comment{ detail?.replyCount === 1 ? '' : 's' }
                       </Box>
                     </Flex>
                   </Box>
 
-                  {detail?.locked ? (
+                  { detail?.locked ? (
                     <LockedMessage />
                   ) : (
                     <>
-                      {showMEditor ? (
+                      { showMEditor ? (
                         <Box margin="0 12px">
                           <Flex
                             backgroundColor="inherit"
@@ -1799,14 +1799,14 @@ function PostDetail() {
                           >
                             <Box width="100%">
                               <Editor
-                                setValue={setContent}
-                                editorState={editorState}
-                                setEditorState={setEditorState}
+                                setValue={ setContent }
+                                editorState={ editorState }
+                                setEditorState={ setEditorState }
                                 showSubmit
-                                handleSubmit={handlePublishPost}
+                                handleSubmit={ handlePublishPost }
                                 submitBtnText="Add Comment"
                                 otherBtn={
-                                  <Button mr="auto" onClick={() => setShowMEditor(false)}>
+                                  <Button mr="auto" onClick={ () => setShowMEditor(false) }>
                                     <MdClose />
                                   </Button>
                                 }
@@ -1824,16 +1824,16 @@ function PostDetail() {
                           <Image
                             h="24px"
                             verticalAlign="middle"
-                            src={authorAvatarImageUrl}
+                            src={ authorAvatarImageUrl }
                             alt="user-icon"
-                            fallbackSrc={require('../../../assets/images/fallback.png')}
+                            fallbackSrc={ require('../../../assets/images/fallback.png') }
                             color="transparent"
                             borderRadius="50%"
                             w="24px"
                             mr="8px"
                           />
                           <Button
-                            border={`1px solid ${borderColor2}`}
+                            border={ `1px solid ${borderColor2}` }
                             color="#818384"
                             overflow="hidden"
                             textOverflow="ellipsis"
@@ -1845,48 +1845,48 @@ function PostDetail() {
                             textAlign="left"
                             padding="0 8px"
                             justifyContent="flex-start"
-                            onClick={() => setShowMEditor(true)}
+                            onClick={ () => setShowMEditor(true) }
                           >
                             Leave a comment
                           </Button>
                         </Flex>
-                      )}
+                      ) }
                     </>
-                  )}
+                  ) }
                 </Box>
               </Box>
               <Box padding="16px" maxW="100%">
-                {isReply ? (
+                { isReply ? (
                   <Box
                     fontSize="12px"
                     fontWeight="700"
                     my="8px"
-                    _hover={{
+                    _hover={ {
                       textDecoration: 'underline',
-                    }}
-                    onClick={() => setShowFullComments(!showFullComments)}
+                    } }
+                    onClick={ () => setShowFullComments(!showFullComments) }
                   >
                     View all comments
                   </Box>
-                ) : null}
-                {isReply ? <Replies parent={replyParent} reply={reply} /> : null}
-                {showFullComments &&
+                ) : null }
+                { isReply ? <Replies parent={ replyParent } reply={ reply } /> : null }
+                { showFullComments &&
                   detail?.replies?.pages?.topAll?.comments.map((comment) => (
-                    <Comment comment={comment} key={comment.cid} />
-                  ))}
+                    <Comment comment={ comment } key={ comment.cid } />
+                  )) }
               </Box>
             </Box>
           </Box>
-        )}
+        ) }
       </Box>
-      {isRemovalModalOpen && (
+      { isRemovalModalOpen && (
         <AddRemovalReason
-          handleRemove={handleEditPost}
-          isOpen={isRemovalModalOpen}
-          onClose={closeRemovalModal}
-          post={detail}
+          handleRemove={ handleEditPost }
+          isOpen={ isRemovalModalOpen }
+          onClose={ closeRemovalModal }
+          post={ detail }
         />
-      )}
+      ) }
     </Layout>
   );
 }

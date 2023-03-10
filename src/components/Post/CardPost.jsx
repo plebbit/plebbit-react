@@ -1439,11 +1439,11 @@ const CardPost = ({
                 </Box>
                 <Box
                   color={ mobileMainColor }
-                  fontSize="18px"
+                  fontSize="16px"
                   fontWeight="500"
                   margin="0"
                   overflowX="hidden"
-                  padding="0 16px 8px"
+                  padding="0 16px"
                 >
                   <Skeleton isLoaded={ !loading }>{ post?.title }</Skeleton>
                 </Box>
@@ -1508,7 +1508,7 @@ const CardPost = ({
                       ))
                     }
                   </> : <>
-                    <Box >
+                    <Box pt="10%" >
                       {
                         post?.thumbnailUrl && post?.link &&
                         <Box
@@ -1519,13 +1519,16 @@ const CardPost = ({
                         >
                           <Box height="100%" width="100%">
                             <Image
-                              h="318px"
+                              maxH="318px"
+                              objectFit="cover"
                               width="100%"
                               bg={ postBg }
                               src={ post?.thumbnailUrl }
                               onError={ (event) =>
                                 (event.target.style.display = "none")
                               }
+                              fallbackSrc={ require("../../assets/images/fallback.png") }
+
 
                             />
 
