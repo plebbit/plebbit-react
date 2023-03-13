@@ -2,6 +2,10 @@ _Telegram group for this repo https://t.me/plebbitreact_
 
 _Demo https://plebbit-dev.netlify.app and https://plebbitdemo.eth.limo_
 
+### Development
+
+For development it is recommened to use the [mock content env variables](https://github.com/plebbit/plebbit-react-hooks/blob/master/docs/mock-content.md#add-env-variable-for-mocking) because the demo subplebbits are slow and often offline.
+
 ### Style:
 
 - Use https://chakra-ui.com/ for all components
