@@ -2,7 +2,7 @@ _Telegram group for this repo https://t.me/plebbitreact_
 
 _Demo https://plebbit-dev.netlify.app and https://plebbitdemo.eth.limo_
 
-### Development
+### Development:
 
 For development it is recommened to use the [mock content env variables](https://github.com/plebbit/plebbit-react-hooks/blob/master/docs/mock-content.md#add-env-variable-for-mocking) because the demo subplebbits are slow and often offline.
 
@@ -13,12 +13,6 @@ For development it is recommened to use the [mock content env variables](https:/
 - Don't use Redux or React context for state management, use zustand https://www.npmjs.com/package/zustand
 - Only use styled components or chakra-ui, don't write CSS files
 
-### Data:
-
-We don't have APIs yet for the backend, so please use hardcoded static mock data. It could be in a JSON file or something and passed down to props. Don't create a backend or do HTTP request to fetch the data yet.
-
-Unlike Reddit, Plebbit will be text only, it will not have any videos or images, only links and embeds. Kind of like Reddit back in the day.
-
 ### Pages and components:
 
 The site should use a hash router (localhost:3000/#/page-name). We need to recreate every page that Reddit in this order of priority:
@@ -26,12 +20,11 @@ The site should use a hash router (localhost:3000/#/page-name). We need to recre
 - Feed
 - Single post
 - Create post
-- User profile
-- User profile settings
-- Site settings
+- Profile
+- Settings
 - Etc.
 
-### URL scheme
+### URL scheme:
 
 - Post or nested comment page -> plebbit.eth/#/p/:subplebbitAddress/c/:commentCid
 - Subplebbit page/feed -> plebbit.eth/#/p/:subplebbitAddress
@@ -41,4 +34,4 @@ The site should use a hash router (localhost:3000/#/page-name). We need to recre
 - Settings page (like https://www.reddit.com/settings) -> plebbit.eth/#/settings/:pageName?
 - Submit post (like https://www.reddit.com/r/ethereum/submit) -> plebbit.eth/#/p/:subplebbitAddress/submit
 - Moderator/about pages (like https://www.reddit.com/r/ethereum/about/modqueue/ https://www.reddit.com/r/ethereum/about/moderators/ https://www.reddit.com/r/ethereum/about/rules/) -> plebbit.eth/#/p/:subplebbitAddress/about/:pageName?
-- (not supported yet) Author profile page -> plebbit.eth/#/u/authorAddress
+- Author profile page -> plebbit.eth/#/u/:authorAddress/c/:authorCommentCid (not possible to fetch an author without a comment cid)
