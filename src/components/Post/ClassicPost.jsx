@@ -1264,6 +1264,7 @@ const ClassicPost = ({
                     maxH="512px"
                     margin="0 auto"
                     maxW="100%"
+                    overflow="hidden"
                     bg={ postBg }
                     src={ post?.link }
                     onError={ (event) => (event.target.style.display = 'none') }
@@ -1526,6 +1527,7 @@ const ClassicPost = ({
                         <Text left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" color="#fff" pos="absolute" fontSize="10px" padding="4px" noOfLines={ 1 } isTruncated overflow="hidden">{ post?.link?.replace(/(^\w+:|^)\/\//, '') }</Text>
                       </Box> }
                       { mediaInfo?.type === "image" && (
+
                         <Box width="70px" height="52px" onClick={ () => setShowContent(!showContent) } >
 
                           <Image
@@ -1600,7 +1602,7 @@ const ClassicPost = ({
                       maxH="320px"
                       margin="0 auto"
                       maxW="100%"
-                      width="100%"
+                      overflow="hidden"
                       bg={ postBg }
                       src={ post?.link }
                       onError={ (event) =>

@@ -608,6 +608,7 @@ const CardPost = ({
                         maxH="512px"
                         margin="0 auto"
                         maxW="100%"
+                        overflow="hidden"
                         bg={ postBg }
                         src={ post?.link }
                         onError={ (event) =>
@@ -693,6 +694,7 @@ const CardPost = ({
                             src={ post?.thumbnailUrl }
                             width="100%"
                             height="100%"
+
                           />
                         </Link>
                       </Skeleton>
@@ -1509,7 +1511,8 @@ const CardPost = ({
                                       <Image
                                         maxH="318px"
                                         objectFit="cover"
-                                        width="100%"
+                                        maxW="100%"
+                                        overflow="hidden"
                                         bg={ postBg }
                                         src={ post?.thumbnailUrl }
                                         onError={ (event) =>
@@ -1531,7 +1534,7 @@ const CardPost = ({
                                     maxH="320px"
                                     margin="0 auto"
                                     maxW="100%"
-                                    width="100%"
+                                    overflow="hidden"
                                     bg={ postBg }
                                     src={ post?.link }
                                     onError={ (event) =>
@@ -1628,7 +1631,7 @@ const CardPost = ({
                           maxH="320px"
                           margin="0 auto"
                           maxW="100%"
-                          width="100%"
+                          overflow="hidden"
                           bg={ postBg }
                           src={ post?.link }
                           onError={ (event) =>
