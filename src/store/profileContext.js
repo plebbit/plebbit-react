@@ -93,7 +93,7 @@ export const ProfileDataProvider = (props) => {
   );
   const authorAvatarImageUrl = useAuthorAvatarImageUrl(profile?.author);
   const mode = window?.location?.protocol;
-  const baseUrl = mode === 'https:' ? 'plebbitdemo.eth/#/' : `${window.origin}/#`;
+  const baseUrl = mode === 'https:' ? 'plebbitdemo.eth.limo/#/' : `${window.origin}/#`;
 
   const handleResize = () => {
     if (window.innerWidth > 1200) {
