@@ -1150,7 +1150,7 @@ function PostDetail() {
                                     } }
                                   >
                                     <Icon as={ FaShare } height={ 5 } width={ 5 } mr="5px" />
-                                    <Box>{ copied ? 'Copied' : 'share' }</Box>
+                                    <Box>{ copied ? 'Copied' : 'Share' }</Box>
                                   </Link>
                                 </CopyToClipboard>
 
@@ -1414,7 +1414,7 @@ function PostDetail() {
                                     } }
                                   >
                                     <Icon as={ FaShare } height={ 5 } width={ 5 } mr="5px" />
-                                    <Box>{ copied ? 'Copied' : 'share' }</Box>
+                                    <Box>{ copied ? 'Copied' : 'Share' }</Box>
                                   </Link>
                                 </CopyToClipboard>
 
