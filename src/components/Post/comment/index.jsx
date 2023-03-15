@@ -401,7 +401,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                   pointerEvents="none"
                   color=""
                 >
-                  {copied ? 'Copied' : 'share'}
+                  {copied ? 'Copied' : 'Share'}
                 </Text>
               </Link>
             </CopyToClipboard>
