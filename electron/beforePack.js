@@ -11,7 +11,7 @@ const ipfsClientMacPath = path.join(ipfsClientsPath, 'mac');
 const ipfsClientLinuxPath = path.join(ipfsClientsPath, 'linux');
 
 // download links https://docs.ipfs.io/install/command-line/#official-distributions
-const ipfsClientVersion = '0.16.0';
+const ipfsClientVersion = '0.18.1';
 const ipfsClientWindowsUrl = `https://dist.ipfs.io/kubo/v${ipfsClientVersion}/kubo_v${ipfsClientVersion}_windows-amd64.zip`;
 const ipfsClientMacUrl = `https://dist.ipfs.io/kubo/v${ipfsClientVersion}/kubo_v${ipfsClientVersion}_darwin-amd64.tar.gz`;
 const ipfsClientLinuxPUrl = `https://dist.ipfs.io/kubo/v${ipfsClientVersion}/kubo_v${ipfsClientVersion}_linux-amd64.tar.gz`;
