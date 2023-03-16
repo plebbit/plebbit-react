@@ -89,7 +89,7 @@ function PostDetailModal() {
   const myPost = useAccountComments();
   const profilePost = myPost && myPostLocation && myPost[Number(myPostLocation)];
   // post from link or link address
-  const commentFromCid = useComment(!feedFromProfile ? params?.commentCid : undefined);
+  const commentFromCid = useComment({ commentCid: !feedFromProfile ? params?.commentCid : undefined });
   const commentFromFeed = location?.state?.detail;
   // applicable if coming from feeds, if posts takes time to load uses feeds post props
   const comment = feedFromProfile
@@ -103,7 +103,7 @@ function PostDetailModal() {
   let reply;
   let replyParent;
   let replyPost = useComment(
-    feedFromProfile ? comment?.postCid || comment?.parentCid : comment?.postCid
+    { commentCid: feedFromProfile ? comment?.postCid || comment?.parentCid : comment?.postCid }
   ); // if comment is a reply, this is what you replied to
   const isReply =
     (feedFromProfile && profilePost?.parentCid) || (comment?.parentCid && comment?.depth !== 0);
@@ -113,8 +113,8 @@ function PostDetailModal() {
   } else {
     detail = comment;
   }
-  const replyParentaux = useComment(reply?.parentCid); // incase what the reply parent is a comment also this is the parent
-  replyPost = useComment(replyParentaux?.postCid);
+  const replyParentaux = useComment({ commentCid: reply?.parentCid }); // incase what the reply parent is a comment also this is the parent
+  replyPost = useComment({ commentCid: replyParentaux?.postCid });
   if (replyPost) {
     detail = replyPost;
   }
