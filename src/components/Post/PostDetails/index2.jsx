@@ -22,10 +22,11 @@ import { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import {
   useAccountComments,
-  useAccountsActions,
+  usePublishComment, usePublishCommentEdit, useSubscribe,
   useAccountVote,
   useComment,
   useSubplebbit,
+  usePublishVote,
 } from '@plebbit/plebbit-react-hooks';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Swal from 'sweetalert2';
@@ -153,8 +154,6 @@ function PostDetailModal() {
   const mobileColor = useColorModeValue('lightMobileText2', 'darkMobileText');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const toast = useToast();
-  const { publishVote, publishComment, publishCommentEdit, subscribe, unsubscribe } =
-    useAccountsActions();
   const [subLoading, setSubLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -244,16 +243,19 @@ function PostDetailModal() {
     handleVote(curr);
   };
 
+  const publishVoteOptions = {
+    vote: curr,
+    commentCid: detail?.cid,
+    subplebbitAddress: detail?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError,
+  }
+  const { publishVote } = usePublishVote(publishVoteOptions)
+
   const handleVote = async (curr) => {
     try {
-      await publishVote({
-        vote: curr,
-        commentCid: detail?.cid,
-        subplebbitAddress: detail?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError,
-      });
+      await publishVote();
     } catch (error) {
       logger('post:detail:voting:', error, 'error');
 
@@ -267,17 +269,22 @@ function PostDetailModal() {
     }
   };
 
+  const publishCommentOptions = {
+    content,
+    postCid: detail?.cid, // the thread the comment is on
+    parentCid: detail?.cid, // if top level reply to a post, same as postCid
+    subplebbitAddress: detail?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError,
+  }
+
+  const { publishComment } = usePublishComment(publishCommentOptions)
+
+
   const handlePublishPost = async () => {
     try {
-      await publishComment({
-        content,
-        postCid: detail?.cid, // the thread the comment is on
-        parentCid: detail?.cid, // if top level reply to a post, same as postCid
-        subplebbitAddress: detail?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError,
-      });
+      await publishComment();
     } catch (error) {
       toast({
         title: 'Comment Declined.',
@@ -315,17 +322,20 @@ function PostDetailModal() {
       });
     }
   };
+
+  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
+  const publishCommentEditOptions = {
+    commentCid: cid,
+    deleted: true,
+    subplebbitAddress: address,
+    onChallenge,
+    onChallengeVerification,
+    onError: onError,
+  }
   const handleDeletePost = async (cid, address) => {
     try {
       setEditLoading(true);
-      await publishCommentEdit({
-        commentCid: cid,
-        deleted: true,
-        subplebbitAddress: address,
-        onChallenge,
-        onChallengeVerification,
-        onError: onError,
-      });
+      await publishCommentEdit();
       setEditLoading(false);
     } catch (error) {
       logger('delete:comment:response:', error, 'error');
@@ -339,6 +349,8 @@ function PostDetailModal() {
       });
     }
   };
+
+  const { subscribe, unsubscribe } = useSubscribe()
 
   const handleSubscribe = async () => {
     try {

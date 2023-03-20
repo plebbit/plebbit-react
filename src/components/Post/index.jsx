@@ -2,10 +2,11 @@ import React, { useContext, useState } from 'react';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
 import {
-  useAccountsActions,
   useAccountVote,
-  useAuthorAvatarImageUrl,
+  useAuthorAvatar,
   useSubplebbit,
+  usePublishVote,
+  usePublishCommentEdit
 } from '@plebbit/plebbit-react-hooks';
 import CardPost from './CardPost';
 import ClassicPost from './ClassicPost';
@@ -29,8 +30,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
   const toast = useToast();
-  const { publishVote, publishCommentEdit } = useAccountsActions();
-  const authorAvatarImageUrl = useAuthorAvatarImageUrl(post?.author);
+  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: post?.author });
   const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit(post?.subplebbitAddress);
   const isOnline = getIsOnline(getSub?.updatedAt);
@@ -120,16 +120,20 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     handleVote(curr);
   };
 
+  const { publishVote } = usePublishVote(publishVoteOptions)
+
+  const publishVoteOptions = {
+    vote: curr,
+    commentCid: post?.cid,
+    subplebbitAddress: post?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError: onError,
+  }
+
   const handleVote = async (curr) => {
     try {
-      await publishVote({
-        vote: curr,
-        commentCid: post?.cid,
-        subplebbitAddress: post?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError: onError,
-      });
+      await publishVote();
     } catch (error) {
       logger('Voting-Declined', error, 'error');
       setPostVotes((prev) => prev - curr);
@@ -154,16 +158,20 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     state: { detail: post, modal: true, location },
   };
 
+
+  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
+  const publishCommentEditOptions = {
+    commentCid: post?.cid,
+    subplebbitAddress: post?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError: onError,
+    ...update,
+  }
+
   const handleEditPost = async (update, callBack, failedCallBack) => {
     try {
-      await publishCommentEdit({
-        commentCid: post?.cid,
-        subplebbitAddress: post?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError: onError,
-        ...update,
-      });
+      await publishCommentEdit();
       callBack ? callBack() : '';
     } catch (error) {
       logger('edit:comment:response:', error, 'error');
@@ -211,136 +219,136 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   return (
     <>
       <Box>
-        {/* card */}
-        {mode === 'card' && (
+        {/* card */ }
+        { mode === 'card' && (
           <CardPost
-            vote={vote}
-            postVotes={postVotes}
-            handleVoting={!pending ? handleVoting : ''}
-            type={type}
-            post={post}
-            loading={loading}
-            detail={detail}
-            handleOption={handleOption === undefined ? handleModOption : handleOption}
-            copied={copied}
-            setCopied={setCopied}
-            location={sharePath}
-            avatar={authorAvatarImageUrl}
-            isOnline={isOnline}
-            subPlebbit={getSub}
-            handleCopy={handleCopy}
-            pending={pending}
-            detailRoute={detailRoute}
-            allowedSpecial={isSpecial || allowedSpecial}
-            handleEditPost={handleEditPost}
-            openRemovalModal={openRemovalModal}
-            owner={owner}
-            showSpoiler={showSpoiler}
-            setShowSpoiler={setShowSpoiler}
-            mediaInfo={mediaInfo}
+            vote={ vote }
+            postVotes={ postVotes }
+            handleVoting={ !pending ? handleVoting : '' }
+            type={ type }
+            post={ post }
+            loading={ loading }
+            detail={ detail }
+            handleOption={ handleOption === undefined ? handleModOption : handleOption }
+            copied={ copied }
+            setCopied={ setCopied }
+            location={ sharePath }
+            avatar={ authorAvatarImageUrl }
+            isOnline={ isOnline }
+            subPlebbit={ getSub }
+            handleCopy={ handleCopy }
+            pending={ pending }
+            detailRoute={ detailRoute }
+            allowedSpecial={ isSpecial || allowedSpecial }
+            handleEditPost={ handleEditPost }
+            openRemovalModal={ openRemovalModal }
+            owner={ owner }
+            showSpoiler={ showSpoiler }
+            setShowSpoiler={ setShowSpoiler }
+            mediaInfo={ mediaInfo }
           />
-        )}
-        {/* classic */}
-        {mode === 'classic' && (
+        ) }
+        {/* classic */ }
+        { mode === 'classic' && (
           <ClassicPost
-            vote={vote}
-            postVotes={postVotes}
-            handleVoting={!pending ? handleVoting : ''}
-            showContent={showContent}
-            setShowContent={setShowContent}
-            type={type}
-            post={post}
-            loading={loading}
-            detail={detail}
-            handleOption={handleOption === undefined ? handleModOption : handleOption}
-            copied={copied}
-            setCopied={setCopied}
-            location={sharePath}
-            avatar={authorAvatarImageUrl}
-            isOnline={isOnline}
-            subPlebbit={getSub}
-            handleCopy={handleCopy}
-            pending={pending}
-            detailRoute={detailRoute}
-            allowedSpecial={isSpecial || allowedSpecial}
-            handleEditPost={handleEditPost}
-            openRemovalModal={openRemovalModal}
-            owner={owner}
-            showSpoiler={showSpoiler}
-            setShowSpoiler={setShowSpoiler}
-            mediaInfo={mediaInfo}
+            vote={ vote }
+            postVotes={ postVotes }
+            handleVoting={ !pending ? handleVoting : '' }
+            showContent={ showContent }
+            setShowContent={ setShowContent }
+            type={ type }
+            post={ post }
+            loading={ loading }
+            detail={ detail }
+            handleOption={ handleOption === undefined ? handleModOption : handleOption }
+            copied={ copied }
+            setCopied={ setCopied }
+            location={ sharePath }
+            avatar={ authorAvatarImageUrl }
+            isOnline={ isOnline }
+            subPlebbit={ getSub }
+            handleCopy={ handleCopy }
+            pending={ pending }
+            detailRoute={ detailRoute }
+            allowedSpecial={ isSpecial || allowedSpecial }
+            handleEditPost={ handleEditPost }
+            openRemovalModal={ openRemovalModal }
+            owner={ owner }
+            showSpoiler={ showSpoiler }
+            setShowSpoiler={ setShowSpoiler }
+            mediaInfo={ mediaInfo }
           />
-        )}
-        {/* compact */}
-        {mode === 'compact' &&
+        ) }
+        {/* compact */ }
+        { mode === 'compact' &&
           (device === 'pc' ? (
             <CompactPost
-              vote={vote}
-              postVotes={postVotes}
-              handleVoting={!pending ? handleVoting : ''}
-              showContent={showContent}
-              setShowContent={setShowContent}
-              type={type}
-              post={post}
-              loading={loading}
-              detail={detail}
-              handleOption={handleOption === undefined ? handleModOption : handleOption}
-              copied={copied}
-              setCopied={setCopied}
-              location={sharePath}
-              avatar={authorAvatarImageUrl}
-              isOnline={isOnline}
-              subPlebbit={getSub}
-              handleCopy={handleCopy}
-              detailRoute={detailRoute}
-              pending={pending}
-              allowedSpecial={isSpecial || allowedSpecial}
-              handleEditPost={handleEditPost}
-              openRemovalModal={openRemovalModal}
-              owner={owner}
-              showSpoiler={showSpoiler}
-              setShowSpoiler={setShowSpoiler}
-              mediaInfo={mediaInfo}
+              vote={ vote }
+              postVotes={ postVotes }
+              handleVoting={ !pending ? handleVoting : '' }
+              showContent={ showContent }
+              setShowContent={ setShowContent }
+              type={ type }
+              post={ post }
+              loading={ loading }
+              detail={ detail }
+              handleOption={ handleOption === undefined ? handleModOption : handleOption }
+              copied={ copied }
+              setCopied={ setCopied }
+              location={ sharePath }
+              avatar={ authorAvatarImageUrl }
+              isOnline={ isOnline }
+              subPlebbit={ getSub }
+              handleCopy={ handleCopy }
+              detailRoute={ detailRoute }
+              pending={ pending }
+              allowedSpecial={ isSpecial || allowedSpecial }
+              handleEditPost={ handleEditPost }
+              openRemovalModal={ openRemovalModal }
+              owner={ owner }
+              showSpoiler={ showSpoiler }
+              setShowSpoiler={ setShowSpoiler }
+              mediaInfo={ mediaInfo }
             />
           ) : (
             <ClassicPost
-              vote={vote}
-              postVotes={postVotes}
-              handleVoting={!pending ? handleVoting : ''}
-              showContent={showContent}
-              setShowContent={setShowContent}
-              type={type}
-              post={post}
-              loading={loading}
-              detail={detail}
-              handleOption={handleOption === undefined ? handleModOption : handleOption}
-              copied={copied}
-              setCopied={setCopied}
-              location={sharePath}
-              avatar={authorAvatarImageUrl}
-              isOnline={isOnline}
-              subPlebbit={getSub}
-              handleCopy={handleCopy}
-              pending={pending}
-              detailRoute={detailRoute}
-              allowedSpecial={isSpecial || allowedSpecial}
-              handleEditPost={handleEditPost}
-              openRemovalModal={openRemovalModal}
-              owner={owner}
-              showSpoiler={showSpoiler}
-              setShowSpoiler={setShowSpoiler}
-              mediaInfo={mediaInfo}
+              vote={ vote }
+              postVotes={ postVotes }
+              handleVoting={ !pending ? handleVoting : '' }
+              showContent={ showContent }
+              setShowContent={ setShowContent }
+              type={ type }
+              post={ post }
+              loading={ loading }
+              detail={ detail }
+              handleOption={ handleOption === undefined ? handleModOption : handleOption }
+              copied={ copied }
+              setCopied={ setCopied }
+              location={ sharePath }
+              avatar={ authorAvatarImageUrl }
+              isOnline={ isOnline }
+              subPlebbit={ getSub }
+              handleCopy={ handleCopy }
+              pending={ pending }
+              detailRoute={ detailRoute }
+              allowedSpecial={ isSpecial || allowedSpecial }
+              handleEditPost={ handleEditPost }
+              openRemovalModal={ openRemovalModal }
+              owner={ owner }
+              showSpoiler={ showSpoiler }
+              setShowSpoiler={ setShowSpoiler }
+              mediaInfo={ mediaInfo }
             />
-          ))}
+          )) }
       </Box>
-      {isRemovalModalOpen && (
+      { isRemovalModalOpen && (
         <AddRemovalReason
-          handleRemove={handleEditPost}
-          isOpen={isRemovalModalOpen}
-          onClose={closeRemovalModal}
-          post={post}
+          handleRemove={ handleEditPost }
+          isOpen={ isRemovalModalOpen }
+          onClose={ closeRemovalModal }
+          post={ post }
         />
-      )}
+      ) }
     </>
   );
 };

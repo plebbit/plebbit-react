@@ -9,7 +9,7 @@ import {
   useToast,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import { usePublishComment } from '@plebbit/plebbit-react-hooks';
 import { LinkIcon } from '@chakra-ui/icons';
 import { EditorState } from 'draft-js';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -44,17 +44,18 @@ const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [mode, setMode] = useState('post');
   const [spoiler, setSpoiler] = useState(false);
   const toast = useToast();
+  const { publishComment } = usePublishComment(publishCommentOptions)
+
   const mySubplebbits = Object.keys(accountSubplebbits)?.length
     ? Object.keys(accountSubplebbits)?.map((pages) => ({
-        label: truncateString(accountSubplebbits[pages]?.title),
-        value: pages,
-        ...accountSubplebbits[pages],
-      }))
+      label: truncateString(accountSubplebbits[pages]?.title),
+      value: pages,
+      ...accountSubplebbits[pages],
+    }))
     : [];
   const subs = subscriptions?.length
     ? subscriptions?.map((x) => ({ ...x, value: x?.address, label: x?.title }))
@@ -63,7 +64,6 @@ const CreatePost = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 
-  const { publishComment } = useAccountsActions();
   const location = useLocation();
   const options = Sort(
     convertArrToObj(
@@ -168,19 +168,21 @@ const CreatePost = () => {
     }
   };
 
+  const publishCommentOptions = {
+    content: content ? content : undefined,
+    title,
+    link: link ? link : undefined,
+    spoiler: spoiler ? spoiler : undefined,
+    subplebbitAddress: address?.value,
+    onChallenge,
+    onChallengeVerification,
+    onError: onError,
+  }
+
   const handlePublishPost = async () => {
     try {
       setLoading(true);
-      const res = await publishComment({
-        content: content ? content : undefined,
-        title,
-        link: link ? link : undefined,
-        spoiler: spoiler ? spoiler : undefined,
-        subplebbitAddress: address?.value,
-        onChallenge,
-        onChallengeVerification,
-        onError: onError,
-      });
+      const res = await publishComment();
       history.push(`/profile/c/${res?.index}`);
       logger('create-post', res, 'error');
     } catch (error) {
@@ -197,7 +199,7 @@ const CreatePost = () => {
   };
 
   return (
-    <Layout name={{ label: 'Create Post', value: location?.pathname }}>
+    <Layout name={ { label: 'Create Post', value: location?.pathname } }>
       <Flex maxWidth="100%" justifyContent="center" margin="0 auto !important" height="100vh">
         <Box width="740px">
           <Flex flexDirection="column">
@@ -240,44 +242,44 @@ const CreatePost = () => {
                 borderRadius="4px"
                 transition="box-shadow .2s ease"
                 boxShadow="0 0 0 0 #a4a4a4"
-                backgroundColor={bg}
+                backgroundColor={ bg }
                 zIndex="2"
               >
                 <DropDown2
-                  options={options}
-                  onChange={(value) => setAddress(value)}
-                  value={address}
-                  render={(data) => (
+                  options={ options }
+                  onChange={ (value) => setAddress(value) }
+                  value={ address }
+                  render={ (data) => (
                     <Flex
                       alignItems="center"
-                      _hover={{
+                      _hover={ {
                         bg: '#DEEBFF',
-                      }}
+                      } }
                       padding="8px 12px"
                       textTransform="capitalize"
                       fontWeight="400"
                       fontSize="14px"
                     >
                       <Avatar
-                        width={20}
-                        height={20}
+                        width={ 20 }
+                        height={ 20 }
                         mr="8px"
-                        avatar={data?.avatar}
+                        avatar={ data?.avatar }
                         badge
-                        isOnline={getIsOnline(data?.updatedAt)}
+                        isOnline={ getIsOnline(data?.updatedAt) }
                       />
 
-                      <Box>{data?.label ? data?.label : truncateString(data?.address, 20)}</Box>
+                      <Box>{ data?.label ? data?.label : truncateString(data?.address, 20) }</Box>
                     </Flex>
-                  )}
+                  ) }
                 />
               </Box>
             </Flex>
-            <Box bg={bg} marginBottom="15px" borderRadius="5px">
+            <Box bg={ bg } marginBottom="15px" borderRadius="5px">
               <Box margin="0 0 12px" overflow="auto">
                 <Flex alignItems="stretch">
                   <Flex
-                    color={color}
+                    color={ color }
                     fontSize="14px"
                     fontWeight="700"
                     lineHeight="18px"
@@ -295,14 +297,14 @@ const CreatePost = () => {
                     alignItems="center"
                     whiteSpace="nowrap"
                     padding="15px 17px"
-                    borderBottom={mode === 'post' && '3px solid #a4a4a4'}
-                    onClick={() => {
+                    borderBottom={ mode === 'post' && '3px solid #a4a4a4' }
+                    onClick={ () => {
                       setMode('post');
                       setLink('');
-                    }}
+                    } }
                   >
                     <Icon
-                      as={MdStickyNote2}
+                      as={ MdStickyNote2 }
                       fontSize="20px"
                       fontWeight="400"
                       height="20px"
@@ -314,7 +316,7 @@ const CreatePost = () => {
                     Post
                   </Flex>
                   <Flex
-                    color={color}
+                    color={ color }
                     fontSize="14px"
                     fontWeight="700"
                     lineHeight="18px"
@@ -327,16 +329,16 @@ const CreatePost = () => {
                     borderColor="#a4a4a4"
                     borderStyle="solid"
                     borderWidth="0 1px 1px 0"
-                    borderBottom={mode === 'link' && '3px solid #a4a4a4'}
+                    borderBottom={ mode === 'link' && '3px solid #a4a4a4' }
                     borderRadius="0"
                     justifyContent="center"
                     alignItems="center"
                     whiteSpace="nowrap"
                     padding="15px 17px"
-                    onClick={() => {
+                    onClick={ () => {
                       setMode('link');
                       setContent('');
-                    }}
+                    } }
                   >
                     <LinkIcon
                       fontSize="20px"
@@ -361,7 +363,7 @@ const CreatePost = () => {
                       overflowX="hidden"
                       overflowWrap="break-word"
                       height="39px"
-                      color={color}
+                      color={ color }
                       padding="8px 68px 8px 16px"
                       backgroundColor="transparent"
                       resize="none"
@@ -370,8 +372,8 @@ const CreatePost = () => {
                       fontWeight="400"
                       lineHeight="21px"
                       fontFamily="inherit"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      value={ title }
+                      onChange={ (e) => setTitle(e.target.value) }
                     />
                     <Box
                       fontSize="10px"
@@ -380,12 +382,12 @@ const CreatePost = () => {
                       lineHeight="12px"
                       textTransform="uppercase"
                       bottom="12px"
-                      color={color}
+                      color={ color }
                       position="absolute"
                       right="12px"
                       pointerEvents="none"
                     >
-                      {`${title.length}/300`}
+                      { `${title.length}/300` }
                     </Box>
                   </Box>
                 </Box>
@@ -393,25 +395,25 @@ const CreatePost = () => {
                   <Box borderRadius="4px" position="relative">
                     <Box
                       borderRadius="4px"
-                      minH={mode === 'post' && '300px'}
+                      minH={ mode === 'post' && '300px' }
                       overflow="hidden auto"
                       resize="vertical"
                     >
-                      {mode === 'post' ? (
+                      { mode === 'post' ? (
                         <Editor
-                          setValue={setContent}
-                          editorState={editorState}
-                          setEditorState={setEditorState}
+                          setValue={ setContent }
+                          editorState={ editorState }
+                          setEditorState={ setEditorState }
                           placeholder="Text (Optional)"
                         />
                       ) : (
                         <Textarea
                           placeholder="Url"
-                          onChange={(e) => setLink(e.target.value)}
-                          value={link}
-                          color={color}
+                          onChange={ (e) => setLink(e.target.value) }
+                          value={ link }
+                          color={ color }
                         />
-                      )}
+                      ) }
                       {/* <Editor
                           setValue={setLink}
                           editorState={editorState}
@@ -447,18 +449,18 @@ const CreatePost = () => {
                       borderRadius="30px"
                       justifyContent="center"
                       width="auto"
-                      disabled={true}
+                      disabled={ true }
                       display="flex"
-                      sx={{
+                      sx={ {
                         padding: '4px 16px',
-                      }}
+                      } }
                       content={
                         <>
                           <Icon
-                            as={AiOutlinePlus}
+                            as={ AiOutlinePlus }
                             display="inline-block"
-                            height={8}
-                            width={8}
+                            height={ 8 }
+                            width={ 8 }
                             fontSize="20px"
                             lineHeight="20px"
                             fontWeight="400"
@@ -474,9 +476,9 @@ const CreatePost = () => {
                       mb="8px"
                       mr="4px"
                       zIndex="1"
-                      backgroundColor={spoiler && '#3293db'}
+                      backgroundColor={ spoiler && '#3293db' }
                       border="1px solid #878a8c"
-                      color={spoiler ? '#fff' : '#878a8c'}
+                      color={ spoiler ? '#fff' : '#878a8c' }
                       fill="#878a8c"
                       position="relative"
                       fontSize="14px"
@@ -487,18 +489,18 @@ const CreatePost = () => {
                       borderRadius="30px"
                       justifyContent="center"
                       width="auto"
-                      onClick={() => setSpoiler(!spoiler)}
+                      onClick={ () => setSpoiler(!spoiler) }
                       display="flex"
-                      sx={{
+                      sx={ {
                         padding: '4px 16px',
-                      }}
+                      } }
                       content={
                         <>
                           <Icon
-                            as={AiOutlinePlus}
+                            as={ AiOutlinePlus }
                             display="inline-block"
-                            height={8}
-                            width={8}
+                            height={ 8 }
+                            width={ 8 }
                             fontSize="20px"
                             lineHeight="20px"
                             fontWeight="400"
@@ -527,16 +529,16 @@ const CreatePost = () => {
                       justifyContent="center"
                       width="auto"
                       display="flex"
-                      sx={{
+                      sx={ {
                         padding: '4px 16px',
-                      }}
+                      } }
                       content={
                         <>
                           <Icon
-                            as={AiOutlinePlus}
+                            as={ AiOutlinePlus }
                             display="inline-block"
-                            height={8}
-                            width={8}
+                            height={ 8 }
+                            width={ 8 }
                             fontSize="20px"
                             lineHeight="20px"
                             fontWeight="400"
@@ -565,19 +567,19 @@ const CreatePost = () => {
                       justifyContent="center"
                       width="auto"
                       display="flex"
-                      sx={{
+                      sx={ {
                         padding: '4px 16px',
-                      }}
-                      onClick={onOpen}
+                      } }
+                      onClick={ onOpen }
                       disabled
                       content={
                         <>
                           <Box padding="0 8px 0 0"> FLAIR</Box>
                           <Icon
-                            as={BsChevronDown}
+                            as={ BsChevronDown }
                             display="inline-block"
-                            height={5}
-                            width={5}
+                            height={ 5 }
+                            width={ 5 }
                             fontSize="20px"
                             lineHeight="20px"
                             fontWeight="400"
@@ -592,40 +594,40 @@ const CreatePost = () => {
                 <Box position="relative" width="100%" marginTop="8px">
                   <Flex flexDir="row-reverse" paddingTop="8px" alignItems="center">
                     <Flex
-                      sx={{
+                      sx={ {
                         '@media (min-width: 189px)': {
                           marginLeft: '8px',
                         },
-                      }}
+                      } }
                     >
                       <Button
-                        backgroundColor={colorMode === 'light' ? '#3293db' : '#dfe1e3'}
+                        backgroundColor={ colorMode === 'light' ? '#3293db' : '#dfe1e3' }
                         color={
                           colorMode === 'light' ? 'rgba(255,255,255,0.5)' : 'rgba(26,26,27,0.5)'
                         }
                         fill="rgba(255,255,255,0.5)"
                         width="100%"
-                        sx={{
+                        sx={ {
                           tabIndex: '0',
                           filter: 'grayscale(1)',
-                        }}
-                        disabled={!content || !title || !address || loading}
+                        } }
+                        disabled={ !content || !title || !address || loading }
                         content="Post"
-                        onClick={handlePublishPost}
-                        loading={loading}
+                        onClick={ handlePublishPost }
+                        loading={ loading }
                       />
                     </Flex>
                     <Flex>
                       <Button
-                        border={borderColor}
+                        border={ borderColor }
                         color={
                           colorMode === 'light' ? 'rgba(0,121,211,0.5)' : 'rgba(215,218,220,0.5)'
                         }
                         width="100%"
-                        sx={{
+                        sx={ {
                           tabIndex: '0',
                           filter: 'grayscale(1)',
-                        }}
+                        } }
                         content="Save Draft"
                       />
                     </Flex>
@@ -638,7 +640,7 @@ const CreatePost = () => {
 
         <SideBar />
       </Flex>
-      {isOpen && <AddFlair isOpen={isOpen} onClose={onClose} />}
+      { isOpen && <AddFlair isOpen={ isOpen } onClose={ onClose } /> }
     </Layout>
   );
 };

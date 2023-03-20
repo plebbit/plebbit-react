@@ -12,7 +12,7 @@
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",
     "@plebbit/plebbit-logger": "https://github.com/plebbit/plebbit-logger.git",
-    "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#c587f7739d7d4e5be110dfd4e91239b5bcf75e87",
+    "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#c1c19dbd10a2ecd44dbd5ef7179eb7209a7c7a74",
     "@sweetalert/with-react": "0.1.1",
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/react": "12.1.2",
@@ -73,12 +73,6 @@
     "prepare": "husky install",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       "chrome >= 67",
@@ -129,8 +123,6 @@
       "category": "Network"
     }
   },
-  "lint": "eslint .",
-  "lint:fix": "eslint --fix",
   "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
   "devDependencies": {
     "@capacitor/cli": "3.6.0",
@@ -140,20 +132,11 @@
     "decompress": "4.2.1",
     "electron": "19.0.1",
     "electron-builder": "23.0.9",
-    "eslint": "8.22.0",
-    "eslint-config-node": "4.1.0",
     "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-prettier": "4.2.1",
-    "eslint-plugin-react": "^7.32.2",
-    "husky": ">=7",
     "lint-staged": ">=10",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.4",
     "wait-on": "6.0.1",
     "yarn": "1.22.18"
-  },
-  "lint-staged": {
-    "*.js": "eslint --cache --fix"
   }
 }

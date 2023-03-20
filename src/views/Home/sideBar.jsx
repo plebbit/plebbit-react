@@ -56,16 +56,16 @@ const SideBar = ({
 
   return (
     <Box
-      marginLeft={ml || '24px'}
-      marginTop={mt || '28px'}
-      border={border}
-      borderColor={borderColor}
-      margin={margin}
-      width={width}
-      padding={padding}
-      borderRadius={borderRadius}
-      top={top}
-      right={right}
+      marginLeft={ ml || '24px' }
+      marginTop={ mt || '28px' }
+      border={ border }
+      borderColor={ borderColor }
+      margin={ margin }
+      width={ width }
+      padding={ padding }
+      borderRadius={ borderRadius }
+      top={ top }
+      right={ right }
       sx={
         sx || {
           '@media (min-width: 960px)': {
@@ -84,7 +84,7 @@ const SideBar = ({
           borderRadius="4px"
           overflow="visible"
           wordBreak="break-word"
-          bg={bg || Bg}
+          bg={ bg || Bg }
           paddingBottom="12px"
         >
           <Box
@@ -110,9 +110,9 @@ const SideBar = ({
             </Text>
           </Box>
           <List>
-            {subs?.map((sub, index) => (
+            { subs?.map((sub, index) => (
               <ListItem
-                key={`${index}${sub?.id}`}
+                key={ `${index}${sub?.id}` }
                 display="flex"
                 alignItems="center"
                 padding="0 12px"
@@ -120,7 +120,7 @@ const SideBar = ({
                 justifyContent="space-between"
                 borderBottom="thin solid #edeff1"
                 cursor="pointer"
-                onClick={() => history.push(`/p/${sub?.address}`, [])}
+                onClick={ () => history.push(`/p/${sub?.address}`, []) }
               >
                 <Flex alignItems="center">
                   <Box
@@ -132,27 +132,27 @@ const SideBar = ({
                     alignItems="center"
                     justifyContent="flex-end"
                   >
-                    {index + 1}
+                    { index + 1 }
                   </Box>
                   <Avatar
-                    width={20}
-                    height={20}
+                    width={ 20 }
+                    height={ 20 }
                     mx="8px"
                     badge
-                    isOnline={getIsOnline(sub?.updatedAt)}
+                    isOnline={ getIsOnline(sub?.updatedAt) }
                   />
                   <Box alignSelf="center" fontSize="14px" fontWeight="500" lineHeight="18px">
-                    {getSubName(sub)}
+                    { getSubName(sub) }
                   </Box>
                 </Flex>
-                {/* <Button content="Join" bg="#a4a4a4" height="24px" color={color} /> */}
+                {/* <Button content="Join" bg="#a4a4a4" height="24px" color={color} /> */ }
               </ListItem>
-            ))}
+            )) }
           </List>
         </Box>
 
         <Box marginTop="16px">
-          <Box borderRadius="4px" overflow="hidden" wordBreak="break-word" bg={bg || Bg}>
+          <Box borderRadius="4px" overflow="hidden" wordBreak="break-word" bg={ bg || Bg }>
             <Accordion maxHeight="none" allowToggle>
               <AccordionItem>
                 <Box>
@@ -313,7 +313,7 @@ const SideBar = ({
           </Box>
         </Box>
         <Box flex="1 1 auto" width="inherit" position="relative">
-          <BottomSideBar bg={bg} />
+          <BottomSideBar bg={ bg } />
           <BacktoTopButton />
         </Box>
       </Flex>

@@ -1,13 +1,19 @@
 import { useColorMode } from '@chakra-ui/react';
 import {
   useAccount,
-  useAccountNotifications,
+  useNotifications,
   useAccounts,
-  useAccountsActions,
   useAccountSubplebbits,
-  useAuthorAvatarImageUrl,
+  useAuthorAvatar,
   useSubplebbits,
+  exportAccount,
+  createAccount,
+  importAccount,
+  setActiveAccount,
+  setAccountsOrder,
+  deleteAccount,
 } from '@plebbit/plebbit-react-hooks';
+import { setAccount } from "@plebbit/plebbit-react-hooks/dist/stores/accounts/accounts-actions"
 import React, { createContext, useState, useEffect } from 'react';
 import useSubPlebbitDefaultData from '../hooks/useSubPlebbitDefaultData';
 
@@ -21,22 +27,13 @@ export const ProfileDataProvider = (props) => {
   const [feedSort, setFeedSort] = useState('hot');
   const [showSplashcreen, setShowSplashcreen] = useState(true);
   const [device, setDevice] = useState('pc');
-  const {
-    exportAccount,
-    createAccount,
-    importAccount,
-    setActiveAccount,
-    setAccountsOrder,
-    setAccount,
-    deleteAccount,
-  } = useAccountsActions();
   const defaultAccount = useAccount();
   const accountLists = useAccounts();
   const profile = defaultAccount;
   const accountSubplebbits = useAccountSubplebbits();
   const [showSide, setShowSide] = useState(false);
   const userTheme = profile?.plebbitReactOptions?.darkMode;
-  const notifications = useAccountNotifications(profile?.name);
+  const notifications = useNotifications({ accountName: profile?.name });
 
   const toggleTheme = async () => {
     toggleColorMode();
@@ -49,7 +46,10 @@ export const ProfileDataProvider = (props) => {
   };
 
   //account Subscription === obj[]
-  const subscriptions = useSubplebbits(defaultAccount?.subscriptions);
+  const { subplebbits: subscriptions } = useSubplebbits(defaultAccount?.subscriptions);
+
+
+  console.log('xxx', subscriptions)
 
   // account subscriptions &&  created subs === address[]
   const [homeAdd, setHomeAdd] = useState(
@@ -91,7 +91,7 @@ export const ProfileDataProvider = (props) => {
   const [postView, setPostView] = useState(
     homeAdd ? homeAdd : [homeAdd, subPlebbitDefData?.map((x) => x?.address)].flat()
   );
-  const authorAvatarImageUrl = useAuthorAvatarImageUrl(profile?.author);
+  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
   const mode = window?.location?.protocol;
   const baseUrl = mode === 'https:' ? 'plebbitdemo.eth/#/' : `${window.origin}/#`;
 
@@ -137,7 +137,7 @@ export const ProfileDataProvider = (props) => {
 
   return (
     <ProfileContext.Provider
-      value={{
+      value={ {
         profile,
         setReloadUser,
         reloadUser,
@@ -171,9 +171,9 @@ export const ProfileDataProvider = (props) => {
         deleteAccount,
         toggleTheme,
         notifications,
-      }}
+      } }
     >
-      {children}
+      { children }
     </ProfileContext.Provider>
   );
 };

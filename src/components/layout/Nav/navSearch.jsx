@@ -27,7 +27,7 @@ const NavSearch = () => {
 
   return (
     <Flex
-      flexGrow={1}
+      flexGrow={ 1 }
       marginX="16px"
       width="auto"
       height="auto"
@@ -40,72 +40,72 @@ const NavSearch = () => {
       <InputGroup
         boxShadow="none"
         height="36px"
-        bg={inputBg}
+        bg={ inputBg }
         borderWidth="1px"
-        borderColor={navBorder}
+        borderColor={ navBorder }
         alignItems="center"
         boxSizing="border-box"
       >
         <InputLeftElement>
-          <Icon as={RiSearchLine} color={iconColor} w="20px" h="20px" />
+          <Icon as={ RiSearchLine } color={ iconColor } w="20px" h="20px" />
         </InputLeftElement>
         <Input
           placeholder="Search plebbit"
-          value={searchVal}
-          onChange={(e) => setSearchVal(e.target.value)}
+          value={ searchVal }
+          onChange={ (e) => setSearchVal(e.target.value) }
         />
       </InputGroup>
-      {searchVal && (
+      { searchVal && (
         <Flex
           padding="20px"
           borderWidth="1px"
           borderStyle="solid"
           borderRadius="5px"
-          borderColor={navBorder}
+          borderColor={ navBorder }
           top="45px"
           width="100%"
           position="absolute"
-          background={bg}
+          background={ bg }
         >
           <Flex
             flexDirection="row"
             alignItems="center"
             width="100%"
             cursor="pointer"
-            onClick={() => history.push(`/p/${searchVal}`, [])}
+            onClick={ () => history.push(`/p/${searchVal}`, []) }
           >
             <Avatar
-              avatar={data?.avatar}
-              width={24}
-              height={24}
-              sx={{
+              avatar={ data?.avatar }
+              width={ 24 }
+              height={ 24 }
+              sx={ {
                 marginRight: '8px',
-              }}
-              badge={data !== undefined ? true : false}
-              isOnline={getIsOnline(data?.updateAt)}
+              } }
+              badge={ data !== undefined ? true : false }
+              isOnline={ getIsOnline(data?.updateAt) }
             />
             <Flex flexDir="column" overflow="hidden">
-              {data?.title && (
-                <Box flex={1} overflow="hidden" fontSize="14px" fontWeight="500" lineHeight="18px">
-                  {data?.title}
+              { data?.title && (
+                <Box flex={ 1 } overflow="hidden" fontSize="14px" fontWeight="500" lineHeight="18px">
+                  { data?.title }
                 </Box>
-              )}
+              ) }
 
               <Box
                 wordBreak="break-all"
-                color={metaColor}
+                color={ metaColor }
                 fontSize="12px"
                 fontWeight="400"
                 lineHeight="16px"
-                noOfLines={1}
+                noOfLines={ 1 }
                 isTruncated
               >
-                {searchVal}
+                { searchVal }
               </Box>
             </Flex>
           </Flex>
         </Flex>
-      )}
+      ) }
     </Flex>
   );
 };

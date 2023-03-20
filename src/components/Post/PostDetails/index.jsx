@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react';
 import {
   useAccountComments,
-  useAccountsActions,
+  usePublishVote, usePublishComment, usePublishCommentEdit, useSubscribe,
   useAccountVote,
   useComment,
   useSubplebbit,
@@ -142,8 +142,7 @@ function PostDetail() {
   const mainMobileBg = useColorModeValue('white', 'black');
   const mobileColor = useColorModeValue('lightMobileText2', 'darkMobileText');
   const toast = useToast();
-  const { publishVote, publishComment, publishCommentEdit, subscribe, unsubscribe } =
-    useAccountsActions();
+
   const [subLoading, setSubLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -168,6 +167,7 @@ function PostDetail() {
     authorAvatarImageUrl,
   } = useContext(ProfileContext);
   const history = useHistory();
+  const { publishComment } = usePublishComment(publishCommentOptions)
   const [showMEditor, setShowMEditor] = useState(false);
   const [showFullComments, setShowFullComments] = useState(!isReply);
 
@@ -234,16 +234,23 @@ function PostDetail() {
     handleVote(curr);
   };
 
-  const handleVote = async (curr) => {
+
+
+  const publishVoteOptions = {
+    vote: curr,
+    commentCid: detail?.cid,
+    subplebbitAddress: detail?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError,
+  }
+
+  const { publishVote } = usePublishVote(publishVoteOptions)
+
+
+  const handleVote = async () => {
     try {
-      await publishVote({
-        vote: curr,
-        commentCid: detail?.cid,
-        subplebbitAddress: detail?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError,
-      });
+      await publishVote();
     } catch (error) {
       logger('post:detail:voting:', error, 'error');
 
@@ -257,17 +264,20 @@ function PostDetail() {
     }
   };
 
+
+  const publishCommentOptions = {
+    content,
+    postCid: detail?.cid, // the thread the comment is on
+    parentCid: detail?.cid, // if top level reply to a post, same as postCid
+    subplebbitAddress: detail?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError,
+  }
+
   const handlePublishPost = async () => {
     try {
-      await publishComment({
-        content,
-        postCid: detail?.cid, // the thread the comment is on
-        parentCid: detail?.cid, // if top level reply to a post, same as postCid
-        subplebbitAddress: detail?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError,
-      });
+      await publishComment();
     } catch (error) {
       toast({
         title: 'Comment Declined.',
@@ -279,17 +289,21 @@ function PostDetail() {
       logger('post:comment:response:', error);
     }
   };
+
+  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
+
+  const publishCommentEditOptions = {
+    commentCid: detail?.cid,
+    subplebbitAddress: detail?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError: onError,
+    ...update,
+  }
   const handleEditPost = async (update, callBack, failedCallBack) => {
     try {
       setEditLoading(true);
-      await publishCommentEdit({
-        commentCid: detail?.cid,
-        subplebbitAddress: detail?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError: onError,
-        ...update,
-      });
+      await publishCommentEdit();
       callBack ? callBack() : '';
       setEditLoading(false);
     } catch (error) {
@@ -329,6 +343,8 @@ function PostDetail() {
       });
     }
   };
+
+  const { subscribe } = useSubscribe()
 
   const handleSubscribe = async () => {
     try {

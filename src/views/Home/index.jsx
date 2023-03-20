@@ -24,8 +24,8 @@ const Home = () => {
   const feeds = feed;
 
   return (
-    <Layout name={{ label: 'Home', value: homeAdd }}>
-      {device !== 'mobile' ? (
+    <Layout name={ { label: 'Home', value: homeAdd } }>
+      { device !== 'mobile' ? (
         <Flex
           maxW="100%"
           padding="20px 24px"
@@ -33,39 +33,39 @@ const Home = () => {
           justifyContent="center"
           margin="0 auto"
         >
-          <Box width={postStyle === 'card' ? '640px' : '100%'} minW="0">
-            {/* Create Post Bar */}
+          <Box width={ postStyle === 'card' ? '640px' : '100%' } minW="0">
+            {/* Create Post Bar */ }
             <CreatePostBar />
-            {/* feed sorter bar */}
+            {/* feed sorter bar */ }
             <FeedSort />
 
             <Box minHeight="1000px" width="100%">
               <InfiniteScroll
-                hasMore={hasMore}
-                loadMore={loadMore}
-                content={(feed) => <Post post={feed} key={Math.random()} mode={postStyle} />}
-                feeds={feeds}
-                loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
+                hasMore={ hasMore }
+                loadMore={ loadMore }
+                content={ (feed) => <Post post={ feed } key={ Math.random() } mode={ postStyle } /> }
+                feeds={ feeds }
+                loader={ <Post loading={ true } mode={ postStyle } key={ Math.random() } /> }
               />
             </Box>
           </Box>
 
-          <SideBar bg={bg} width="312px" />
+          <SideBar bg={ bg } width="312px" />
         </Flex>
       ) : (
-        <Box bg={mainMobileBg}>
+        <Box bg={ mainMobileBg }>
           <FeedSort />
-          <Box bg={mainMobileBg}>
+          <Box bg={ mainMobileBg }>
             <InfiniteScroll
-              hasMore={hasMore}
-              loadMore={loadMore}
-              content={(feed) => <Post post={feed} key={Math.random()} mode={postStyle} />}
-              feeds={feeds || []}
-              loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
+              hasMore={ hasMore }
+              loadMore={ loadMore }
+              content={ (feed) => <Post post={ feed } key={ Math.random() } mode={ postStyle } /> }
+              feeds={ feeds || [] }
+              loader={ <Post loading={ true } mode={ postStyle } key={ Math.random() } /> }
             />
           </Box>
         </Box>
-      )}
+      ) }
     </Layout>
   );
 };
