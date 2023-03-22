@@ -30,7 +30,7 @@ import AddBlockProvide from './modal/addBlockProvider';
 import Swal from 'sweetalert2';
 import Layout from '../../components/layout';
 import { useHistory, useLocation } from 'react-router-dom';
-import { deleteDatabases, deleteCaches } from '@plebbit/plebbit-react-hooks';
+import { deleteCaches } from '@plebbit/plebbit-react-hooks';
 
 const Settings = () => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -215,7 +215,6 @@ const Settings = () => {
   };
 
   const handleClearDb = async () => {
-    await deleteDatabases();
     await deleteCaches();
     toast({
       title: `db-cleared`,

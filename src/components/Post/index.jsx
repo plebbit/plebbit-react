@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
 import {
@@ -24,8 +24,8 @@ import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
   const pending = !post?.cid;
-  const postVote = useAccountVote(post?.cid);
-  const vote = postVote?.vote || 0;
+  const { vote: postVote } = useAccountVote(post?.cid);
+  const [vote, setVote] = useState(postVote?.vote || 0);
   const [postVotes, setPostVotes] = useState(pending ? 0 : post?.upvoteCount - post?.downvoteCount);
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -117,13 +117,12 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
 
   const handleVoting = async (curr) => {
     setPostVotes((prev) => prev + curr);
-    handleVote(curr);
+    setVote(curr)
+    handleVote();
   };
 
-  const { publishVote } = usePublishVote(publishVoteOptions)
-
   const publishVoteOptions = {
-    vote: curr,
+    vote: vote,
     commentCid: post?.cid,
     subplebbitAddress: post?.subplebbitAddress,
     onChallenge,
@@ -131,12 +130,15 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     onError: onError,
   }
 
-  const handleVote = async (curr) => {
+  const { publishVote } = usePublishVote(publishVoteOptions)
+
+
+
+  const handleVote = async () => {
     try {
       await publishVote();
     } catch (error) {
       logger('Voting-Declined', error, 'error');
-      setPostVotes((prev) => prev - curr);
       toast({
         title: 'Voting Declined.',
         description: error?.stack.toString(),
@@ -146,6 +148,11 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
       });
     }
   };
+  useEffect(() => {
+    setPostVotes(pending ? 0 : post?.upvoteCount - post?.downvoteCount);
+    setVote(postVote?.vote)
+  }, [post])
+
   const detailPath = !pending
     ? `/p/${post?.subplebbitAddress}/c/${post?.cid}`
     : `/profile/c/${post?.index}`;

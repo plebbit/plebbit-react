@@ -16,10 +16,12 @@ const Home = () => {
   const mainMobileBg = useColorModeValue('white', 'black');
 
   const { feed, loadMore, hasMore } = useFeed(
-    postView?.length
-      ? postView?.filter((x) => x !== null)
-      : subPlebbitData?.map((x) => x?.address)?.filter((x) => x !== null),
-    feedSort
+    {
+      subplebbitAddresses: postView?.length
+        ? postView?.filter((x) => x !== null)
+        : subPlebbitData?.map((x) => x?.address)?.filter((x) => x !== null),
+      sortType: feedSort
+    }
   );
   const feeds = feed;
 

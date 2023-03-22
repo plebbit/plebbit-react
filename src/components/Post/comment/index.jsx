@@ -10,7 +10,7 @@ import {
   useToast,
   Tag,
 } from '@chakra-ui/react';
-import { usePublishVote, usePublishComment, usePublishCommentEdit, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
+import { usePublishVote, usePublishComment, usePublishCommentEdit, useAuthorAvatar, useAccountVote } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -37,7 +37,8 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const [vote] = useState(+comment?.upvoteCount - +comment?.downvoteCount);
-  const [voteMode, setVoteMode] = useState(0);
+  const { vote: postVote } = useAccountVote(post?.cid);
+  const [voteMode, setVoteMode] = useState(postVote?.vote || 0);
   const [reply, setShowReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const toast = useToast();
@@ -119,18 +120,19 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     }
   };
 
-  const { publishVote } = usePublishVote(publishVoteOptions)
   const publishVoteOptions = {
-    vote,
+    vote: voteMode,
     commentCid: comment?.cid,
     subplebbitAddress: comment?.subplebbitAddress,
     onChallenge,
     onChallengeVerification,
     onError: onError,
   }
+  const { publishVote } = usePublishVote(publishVoteOptions)
 
 
-  const handleVote = () => {
+  const handleVote = (curr) => {
+    setVoteMode(curr)
     try {
       publishVote();
     } catch (error) {
@@ -144,6 +146,12 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
       });
     }
   };
+
+
+  useEffect(() => {
+    setPostVotes(+comment?.upvoteCount - +comment?.downvoteCount);
+    setVoteMode(comment?.vote)
+  }, [comment?.vote])
 
   //options needed to publish a comment
   const publishCommentOptions = {

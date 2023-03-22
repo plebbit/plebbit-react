@@ -3252,9 +3252,9 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#695d574ed87aa153ce1202e294e2539e94451303":
+"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#f1279f55558db3cdf0459be786217b9bfe845194":
   version "0.0.3"
-  resolved "https://github.com/plebbit/plebbit-js.git#695d574ed87aa153ce1202e294e2539e94451303"
+  resolved "https://github.com/plebbit/plebbit-js.git#f1279f55558db3cdf0459be786217b9bfe845194"
   dependencies:
     "@keyv/sqlite" "3.6.2"
     "@plebbit/plebbit-logger" "github:plebbit/plebbit-logger"
@@ -3279,10 +3279,11 @@
     libp2p-crypto "0.21.2"
     lodash-es "4.17.21"
     peer-id "0.16.0"
-    proper-lockfile "github:Rinse12/node-proper-lockfile"
+    proper-lockfile "github:plebbit/node-proper-lockfile"
     safe-stable-stringify "2.4.1"
     skia-canvas "1.0.0"
     sqlite3 "5.1.2"
+    tiny-typed-emitter "2.1.0"
     tinycache "1.1.2"
     uuid "9.0.0"
 
@@ -3299,11 +3300,11 @@
   dependencies:
     debug "4.3.3"
 
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#c1c19dbd10a2ecd44dbd5ef7179eb7209a7c7a74":
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#1ee06ac4dae8f2fc330205031d86fc959d431fe0":
   version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#c1c19dbd10a2ecd44dbd5ef7179eb7209a7c7a74"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#1ee06ac4dae8f2fc330205031d86fc959d431fe0"
   dependencies:
-    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#695d574ed87aa153ce1202e294e2539e94451303"
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#f1279f55558db3cdf0459be786217b9bfe845194"
     "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
     assert "2.0.0"
     ethers "5.6.9"
@@ -3971,9 +3972,9 @@
   integrity sha512-46yIhxSe5xEaJZXWdIBP7GU4HDTG8/eo0qd9atdiL+lFpA03y8KS+lkTN834TWJj5767GbWv4n/P6efyTFt1Dw==
 
 "@types/node@>=13.7.0":
-  version "18.15.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.3.tgz#f0b991c32cfc6a4e7f3399d6cb4b8cf9a0315014"
-  integrity sha512-p6ua9zBxz5otCmbpb5D3U4B5Nanw6Pk3PPyX05xnxbB/fRv71N7CPmORg7uAD5P70T0xmx1pzAx/FUfa5X+3cw==
+  version "18.15.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.5.tgz#3af577099a99c61479149b716183e70b5239324a"
+  integrity sha512-Ark2WDjjZO7GmvsyFFf81MXuGTA/d6oP38anyxWOL6EREyBKAxKoFHwBhaZxCfLRLpO8JgVXwqOwSwa7jRcjew==
 
 "@types/node@^16.11.26":
   version "16.11.56"
@@ -5569,9 +5570,9 @@ case-sensitive-paths-webpack-plugin@^2.4.0:
   integrity sha512-roIFONhcxog0JSSWbvVAh3OocukmSgpqOH6YpMkCvav/ySIV3JKg4Dc8vYtQjYi/UxpNE36r/9v+VqTQqgkYmw==
 
 cborg@^1.5.4, cborg@^1.6.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/cborg/-/cborg-1.10.0.tgz#0fe157961dd47b537ccb84dc9ba681de8b699013"
-  integrity sha512-/eM0JCaL99HDHxjySNQJLaolZFVdl6VA0/hEKIoiQPcQzE5LrG5QHdml0HaBt31brgB9dNe1zMr3f8IVrpotRQ==
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/cborg/-/cborg-1.10.1.tgz#24cfe52c69ec0f66f95e23dc57f2086954c8d718"
+  integrity sha512-et6Qm8MOUY2kCWa5GKk2MlBVoPjHv0hQBmlzI/Z7+5V3VJCeIkGehIB3vWknNsm2kOkAIs6wEKJFJo8luWQQ/w==
 
 ccount@^2.0.0:
   version "2.0.1"
@@ -9329,6 +9330,11 @@ humanize-ms@^1.2.1:
   integrity sha512-Fl70vYtsAFb/C06PTS9dZBo7ihau+Tu/DNCk/OyHhea07S+aeMWpFFkUaXRa8fI+ScZbEI8dfSxwY7gxZ9SAVQ==
   dependencies:
     ms "^2.0.0"
+
+husky@^8.0.3:
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-8.0.3.tgz#4936d7212e46d1dea28fef29bb3a108872cd9184"
+  integrity sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==
 
 iconv-corefoundation@^1.1.7:
   version "1.1.7"
@@ -13891,9 +13897,9 @@ prop-types@^15.0.0, prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.2,
     object-assign "^4.1.1"
     react-is "^16.13.1"
 
-"proper-lockfile@github:Rinse12/node-proper-lockfile":
+"proper-lockfile@github:plebbit/node-proper-lockfile":
   version "4.1.2"
-  resolved "https://codeload.github.com/Rinse12/node-proper-lockfile/tar.gz/072ee9e37d52858cf8410ce55c281599cef1fb92"
+  resolved "https://codeload.github.com/plebbit/node-proper-lockfile/tar.gz/072ee9e37d52858cf8410ce55c281599cef1fb92"
   dependencies:
     graceful-fs "^4.2.4"
     retry "^0.12.0"
@@ -16270,6 +16276,11 @@ tiny-invariant@^1.0.2, tiny-invariant@^1.0.6:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.2.0.tgz#a1141f86b672a9148c72e978a19a73b9b94a15a9"
   integrity sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==
+
+tiny-typed-emitter@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tiny-typed-emitter/-/tiny-typed-emitter-2.1.0.tgz#b3b027fdd389ff81a152c8e847ee2f5be9fad7b5"
+  integrity sha512-qVtvMxeXbVej0cQWKqVSSAHmKZEHAvxdF8HEUBFWts8h+xEo5m/lEiPakuyZ3BnCBjOD8i24kzNOiOLLgsSxhA==
 
 tiny-warning@^1.0.0, tiny-warning@^1.0.3:
   version "1.0.3"

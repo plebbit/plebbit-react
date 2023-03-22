@@ -40,7 +40,7 @@ const SideBar = ({
 }) => {
   const { subPlebbitData } = useContext(ProfileContext);
   const Bg = useColorModeValue('#F8F9FA', '');
-  const subplebbits = useSubplebbits(subPlebbitData?.map((x) => x?.address));
+  const { subplebbits } = useSubplebbits(subPlebbitData?.map((x) => x?.address));
   const history = useHistory();
   const subs = Sort(
     convertArrToObj(

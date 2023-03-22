@@ -123,8 +123,8 @@ function PostDetail() {
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
   const [postVotes, setPostVotes] = useState(detail?.upvoteCount - detail?.downvoteCount);
-  const pVote = useAccountVote(params?.commentCid);
-  const vote = pVote?.vote | 0;
+  const { vote: pVote } = useAccountVote(detail?.commentCid);
+  const [vote, setVote] = useVote(pVote?.vote | 0);
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -231,13 +231,14 @@ function PostDetail() {
 
   const handleVoting = async (curr) => {
     setPostVotes((prev) => prev + curr);
-    handleVote(curr);
+    setVote(curr)
+    handleVote();
   };
 
 
 
   const publishVoteOptions = {
-    vote: curr,
+    vote,
     commentCid: detail?.cid,
     subplebbitAddress: detail?.subplebbitAddress,
     onChallenge,
@@ -249,11 +250,11 @@ function PostDetail() {
 
 
   const handleVote = async () => {
+
     try {
       await publishVote();
     } catch (error) {
       logger('post:detail:voting:', error, 'error');
-
       toast({
         title: 'Voting Declined.',
         description: error?.stack.toString(),
@@ -263,6 +264,14 @@ function PostDetail() {
       });
     }
   };
+
+
+  useEffect(() => {
+    setPostVotes(detail?.upvoteCount - detail?.downvoteCount);
+    setVote(detail?.vote)
+
+
+  }, [detail])
 
 
   const publishCommentOptions = {

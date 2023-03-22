@@ -135,8 +135,8 @@ function PostDetailModal() {
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
   const [postVotes, setPostVotes] = useState(detail?.upvoteCount - detail?.downvoteCount);
-  const pVote = useAccountVote(params?.commentCid);
-  const vote = pVote?.vote | 0;
+  const { vote: pVote } = useAccountVote(detail?.commentCid);
+  const [vote, setVote] = useState(pVote?.vote | 0);
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -240,11 +240,12 @@ function PostDetailModal() {
 
   const handleVoting = async (curr) => {
     setPostVotes((prev) => prev + curr);
+    setVote(curr)
     handleVote(curr);
   };
 
   const publishVoteOptions = {
-    vote: curr,
+    vote,
     commentCid: detail?.cid,
     subplebbitAddress: detail?.subplebbitAddress,
     onChallenge,
@@ -268,6 +269,13 @@ function PostDetailModal() {
       });
     }
   };
+
+  useEffect(() => {
+    setPostVotes(detail?.upvoteCount - detail?.downvoteCount);
+    setVote(detail?.vote)
+
+
+  }, [detail])
 
   const publishCommentOptions = {
     content,

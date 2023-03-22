@@ -28,9 +28,9 @@ export const ProfileDataProvider = (props) => {
   const [showSplashcreen, setShowSplashcreen] = useState(true);
   const [device, setDevice] = useState('pc');
   const defaultAccount = useAccount();
-  const accountLists = useAccounts();
+  const { accounts: accountLists } = useAccounts();
   const profile = defaultAccount;
-  const accountSubplebbits = useAccountSubplebbits();
+  const { accountSubplebbits } = useAccountSubplebbits();
   const [showSide, setShowSide] = useState(false);
   const userTheme = profile?.plebbitReactOptions?.darkMode;
   const notifications = useNotifications({ accountName: profile?.name });
@@ -49,7 +49,6 @@ export const ProfileDataProvider = (props) => {
   const { subplebbits: subscriptions } = useSubplebbits(defaultAccount?.subscriptions);
 
 
-  console.log('xxx', subscriptions)
 
   // account subscriptions &&  created subs === address[]
   const [homeAdd, setHomeAdd] = useState(
@@ -70,7 +69,7 @@ export const ProfileDataProvider = (props) => {
   //git default subs === {...obj}
   const subPlebbitData = useSubPlebbitDefaultData();
   // account subscriptions &&  created subs && git default subs === obj[]
-  const subPlebbitDefData = useSubplebbits(
+  const { subplebbits: subPlebbitDefData } = useSubplebbits(
     [
       subscriptions
         ?.map((x) => {
