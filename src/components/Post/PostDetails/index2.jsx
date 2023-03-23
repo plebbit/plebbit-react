@@ -67,6 +67,7 @@ import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
 import AddRemovalReason from '../Modal/addRemovalReason';
 import { DeletedMessage, LockedMessage, RemovedMessage } from '../../Card/ModMessage';
+import getCommentMediaInfo from '../../../utils/getCommentMediaInfo';
 
 function PostDetailModal() {
   const [showModal, setShowModal] = useState(true);
@@ -129,12 +130,13 @@ function PostDetailModal() {
   const loading = detail === undefined;
   const detailPending = !detail?.cid;
   const subplebbit = sub === undefined ? { address: detail?.subplebbitAddress } : sub;
+  const mediaInfo = getCommentMediaInfo(detail);
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
-  const [postVotes, setPostVotes] = useState(detail?.upvoteCount - detail?.downvoteCount);
+  const [postVotes, setPostVotes] = useState(detail?.upvoteCount || 0 - detail?.downvoteCount || 0);
   const { vote: postVote } = useAccountVote({ commentCid: detail?.cid });
   const [vote, setVote] = useState(postVote === undefined ? 0 : postVote);
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -252,7 +254,8 @@ function PostDetailModal() {
     onError,
   }
 
-  console.log({ publishVoteOptions, detail, postVote, vote })
+  console.log({ publishVoteOptions, detail, postVote, vote, postVotes })
+  console.log(detail?.upvoteCount, detail?.downvoteCount)
   const { publishVote } = usePublishVote(publishVoteOptions)
 
   const handleVote = async () => {
@@ -1049,10 +1052,96 @@ function PostDetailModal() {
                         ) : (
                           <Box display="flex" justifyContent="center">
                             <Skeleton isLoaded={ !loading }>
-                              <Image
-                                fallbackSrc="https://via.placeholder.com/150"
-                                src={ detail?.link }
-                              />
+                              <>
+                                <Flex mt="0">
+                                  { detail?.link && detail?.thumbnailUrl && (
+                                    <Link
+                                      fontSize="12px"
+                                      fontWeight="400"
+                                      lineHeight="16px"
+                                      margin="4px 8px"
+                                      whiteSpace="nowrap"
+                                      color="mainBlue"
+                                      display="flex"
+                                      href={ post?.link }
+                                      alignItems="flex-end"
+                                      isExternal
+                                    >
+                                      <Box>{ detail?.link?.substring(0, 20) + "..." }</Box>
+                                      <Icon
+                                        as={ FiExternalLink }
+                                        verticalAlign="middle"
+                                        fontWeight="400"
+                                        width="20px"
+                                        height="20px"
+                                        fontSize="12px"
+                                        paddingLeft="4px"
+                                      />
+                                    </Link>
+                                  ) }
+                                </Flex>
+
+                                { mediaInfo?.type === "image" && (
+                                  <Image
+                                    maxH="512px"
+                                    margin="0 auto"
+                                    maxW="100%"
+                                    overflow="hidden"
+                                    bg={ postBg }
+                                    src={ detail?.link }
+                                    onError={ (event) =>
+                                      (event.target.style.display = "none")
+                                    }
+                                  />
+                                ) }
+
+                                { mediaInfo?.type === "video" && (
+                                  <Box
+                                    bg="black"
+                                    maxHeight="512px"
+                                    width="100%"
+                                    maxW="100%"
+                                    color="#fff"
+                                  >
+                                    <video
+                                      autoPlay
+                                      playsInline
+                                      preload="auto"
+                                      controls
+                                      style={ {
+                                        objectFit: "contain",
+                                        width: "100% !important",
+                                        overflowClipMargin: "content-box",
+                                        overflow: "clip",
+                                      } }
+                                      onError={ (event) =>
+                                        (event.target.style.display = "none")
+                                      }
+                                      muted
+                                    >
+                                      <source src={ detail?.link } />
+                                    </video>
+                                  </Box>
+                                ) }
+
+                                { mediaInfo?.type === "audio" && (
+                                  <Box maxW="100%" color="#fff" margin="4px 8px">
+                                    <audio
+                                      preload="auto"
+                                      src={ detail?.link }
+                                      onError={ (event) =>
+                                        (event.target.style.display = "none")
+                                      }
+                                      controls
+                                      style={ {
+                                        width: "100%",
+                                      } }
+                                    >
+                                      <source src={ detail?.link } />
+                                    </audio>
+                                  </Box>
+                                ) }
+                              </>
                             </Skeleton>
                           </Box>
                         ) }

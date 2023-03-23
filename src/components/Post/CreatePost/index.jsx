@@ -48,7 +48,6 @@ const CreatePost = () => {
   const [mode, setMode] = useState('post');
   const [spoiler, setSpoiler] = useState(false);
   const toast = useToast();
-  const { publishComment } = usePublishComment(publishCommentOptions)
 
   const mySubplebbits = Object.keys(accountSubplebbits)?.length
     ? Object.keys(accountSubplebbits)?.map((pages) => ({
@@ -179,6 +178,10 @@ const CreatePost = () => {
     onError: onError,
   }
 
+
+  const { publishComment } = usePublishComment(publishCommentOptions)
+
+
   const handlePublishPost = async () => {
     try {
       setLoading(true);
@@ -197,6 +200,8 @@ const CreatePost = () => {
       });
     }
   };
+
+
 
   return (
     <Layout name={ { label: 'Create Post', value: location?.pathname } }>

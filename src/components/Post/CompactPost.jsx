@@ -950,14 +950,14 @@ const CompactPost = ({
             <Box maxW="100%" color="#fff" margin="4px 8px">
               <audio
                 preload="auto"
-                src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                src={ post?.link }
                 onError={ (event) => (event.target.style.display = 'none') }
                 controls
                 style={ {
                   width: '100%',
                 } }
               >
-                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
+                <source src={ post?.link } />
               </audio>
             </Box>
           ) }

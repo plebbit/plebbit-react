@@ -26,7 +26,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   const pending = !post?.cid;
   const { vote: postVote } = useAccountVote({ commentCid: post?.cid });
   const [vote, setVote] = useState(postVote === undefined ? 0 : postVote);
-  const [postVotes, setPostVotes] = useState(pending ? 0 : post?.upvoteCount - post?.downvoteCount);
+  const [postVotes, setPostVotes] = useState(pending ? 0 : post?.upvoteCount || 0 - post?.downvoteCount || 0);
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
   const toast = useToast();
