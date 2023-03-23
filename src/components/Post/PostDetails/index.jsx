@@ -123,8 +123,8 @@ function PostDetail() {
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
   const [postVotes, setPostVotes] = useState(detail?.upvoteCount - detail?.downvoteCount);
-  const { vote: pVote } = useAccountVote({ commentCid: detail?.commentCid });
-  const [vote, setVote] = useState(pVote?.vote | 0);
+  const { vote: postVote } = useAccountVote({ commentCid: detail?.cid });
+  const [vote, setVote] = useState(postVote === undefined ? 0 : postVote);
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -267,10 +267,8 @@ function PostDetail() {
 
   useEffect(() => {
     setPostVotes(detail?.upvoteCount - detail?.downvoteCount);
-    setVote(detail?.vote)
-
-
-  }, [detail])
+    setVote(postVote === undefined ? 0 : postVote)
+  }, [postVote])
 
 
   const publishCommentOptions = {
@@ -458,6 +456,10 @@ function PostDetail() {
   const owner =
     profile?.author?.address === detail?.author?.address ||
     profile?.signer?.address === detail?.author?.address;
+
+
+
+  console.log({ publishVoteOptions, postVote, vote, detail }, postVote === undefined ? 0 : postVote)
 
   return (
     <Layout

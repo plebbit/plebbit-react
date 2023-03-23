@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -36,9 +36,9 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
-  const [vote] = useState(+comment?.upvoteCount - +comment?.downvoteCount);
-  const { vote: postVote } = useAccountVote({ commentCid: post?.cid });
-  const [voteMode, setVoteMode] = useState(postVote?.vote || 0);
+  const [vote, setVote] = useState(+comment?.upvoteCount - +comment?.downvoteCount);
+  const { vote: postVote } = useAccountVote({ commentCid: comment?.cid });
+  const [voteMode, setVoteMode] = useState(postVote === undefined ? 0 : postVote);
   const [reply, setShowReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const toast = useToast();
@@ -51,7 +51,6 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const [loader, setLoader] = useState(false);
   const commentPending = !comment?.cid;
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(comment?.subplebbitAddress);
-  const { publishComment } = usePublishComment(publishCommentOptions)
 
   const owner =
     profile?.author?.address === comment?.author?.address ||
@@ -149,7 +148,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
 
 
   useEffect(() => {
-    setPostVotes(+comment?.upvoteCount - +comment?.downvoteCount);
+    setVote(+comment?.upvoteCount - +comment?.downvoteCount);
     setVoteMode(comment?.vote)
   }, [comment?.vote])
 
@@ -162,6 +161,9 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     onChallengeVerification,
     onError: onError,
   }
+
+  const { publishComment } = usePublishComment(publishCommentOptions)
+
 
   const handlePublishPost = () => {
     try {
@@ -181,7 +183,6 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
 
   const [update, setUpdate] = useState({})
 
-  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
 
   const publishCommentEditOptions = {
     commentCid: comment?.cid,
@@ -191,6 +192,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     onError: onError,
     ...update,
   }
+  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
 
   const handleEditPost = async (val, callBack, failedCallBack) => {
     setUpdate({ ...val })

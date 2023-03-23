@@ -135,8 +135,8 @@ function PostDetailModal() {
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
   const [postVotes, setPostVotes] = useState(detail?.upvoteCount - detail?.downvoteCount);
-  const { vote: pVote } = useAccountVote({ commentCid: detail?.commentCid });
-  const [vote, setVote] = useState(pVote?.vote | 0);
+  const { vote: postVote } = useAccountVote({ commentCid: detail?.cid });
+  const [vote, setVote] = useState(postVote === undefined ? 0 : postVote);
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -240,7 +240,7 @@ function PostDetailModal() {
   const handleVoting = async (curr) => {
     setPostVotes((prev) => prev + curr);
     setVote(curr)
-    handleVote(curr);
+    handleVote();
   };
 
   const publishVoteOptions = {
@@ -251,9 +251,11 @@ function PostDetailModal() {
     onChallengeVerification,
     onError,
   }
+
+  console.log({ publishVoteOptions, detail, postVote, vote })
   const { publishVote } = usePublishVote(publishVoteOptions)
 
-  const handleVote = async (curr) => {
+  const handleVote = async () => {
     try {
       await publishVote();
     } catch (error) {
@@ -271,8 +273,8 @@ function PostDetailModal() {
 
   useEffect(() => {
     setPostVotes(detail?.upvoteCount - detail?.downvoteCount);
-    setVote(detail?.vote)
-  }, [detail])
+    setVote(postVote === undefined ? 0 : postVote)
+  }, [postVote])
 
   const publishCommentOptions = {
     content,

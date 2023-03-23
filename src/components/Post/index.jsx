@@ -25,7 +25,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
   const pending = !post?.cid;
   const { vote: postVote } = useAccountVote({ commentCid: post?.cid });
-  const [vote, setVote] = useState(postVote?.vote || 0);
+  const [vote, setVote] = useState(postVote === undefined ? 0 : postVote);
   const [postVotes, setPostVotes] = useState(pending ? 0 : post?.upvoteCount - post?.downvoteCount);
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -151,8 +151,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   };
   useEffect(() => {
     setPostVotes(pending ? 0 : post?.upvoteCount - post?.downvoteCount);
-    setVote(postVote?.vote)
-  }, [post])
+    setVote(postVote === undefined ? 0 : postVote)
+  }, [postVote])
 
   const detailPath = !pending
     ? `/p/${post?.subplebbitAddress}/c/${post?.cid}`
@@ -225,6 +225,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     //   handleEditPost({ removed: true });
     // } else handleEditPost({ [val?.id]: post[val?.id] ? false : true });
   };
+
+
 
   return (
     <>
