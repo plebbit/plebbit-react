@@ -20,7 +20,7 @@ const About = () => {
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const location = useLocation();
   const { subplebbitAddress } = useParams();
-  const subPlebbit = useSubplebbit(subplebbitAddress);
+  const subPlebbit = useSubplebbit({ subplebbitAddress: subplebbitAddress });
   const page = location.pathname.split('/').at(-1);
   const [showSidebar, setShowSideBar] = useState(false);
   const role = accountSubplebbits[subPlebbit?.address]?.role?.role;

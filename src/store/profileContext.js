@@ -46,7 +46,7 @@ export const ProfileDataProvider = (props) => {
   };
 
   //account Subscription === obj[]
-  const { subplebbits: subscriptions } = useSubplebbits(defaultAccount?.subscriptions);
+  const { subplebbits: subscriptions } = useSubplebbits({ subplebbitAddresses: defaultAccount?.subscriptions });
 
 
 
@@ -69,21 +69,23 @@ export const ProfileDataProvider = (props) => {
   //git default subs === {...obj}
   const subPlebbitData = useSubPlebbitDefaultData();
   // account subscriptions &&  created subs && git default subs === obj[]
-  const { subplebbits: subPlebbitDefData } = useSubplebbits(
-    [
-      subscriptions
-        ?.map((x) => {
-          if (!x?.address) {
-            return '';
-          }
-          return x?.address;
-        })
-        ?.filter(Boolean),
-      ...Object.keys(accountSubplebbits),
-      subPlebbitData ? subPlebbitData?.map((x) => x?.address).filter(Boolean) : [],
-    ]
-      .flat()
-      ?.filter((x) => x !== undefined)
+  const { subplebbits: subPlebbitDefData } = useSubplebbits({
+    subplebbitAddresses:
+      [
+        subscriptions
+          ?.map((x) => {
+            if (!x?.address) {
+              return '';
+            }
+            return x?.address;
+          })
+          ?.filter(Boolean),
+        ...Object.keys(accountSubplebbits),
+        subPlebbitData ? subPlebbitData?.map((x) => x?.address).filter(Boolean) : [],
+      ]
+        .flat()
+        ?.filter((x) => x !== undefined)
+  }
   );
 
   const { version } = require('../../package.json');

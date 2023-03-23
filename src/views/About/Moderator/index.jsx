@@ -17,7 +17,7 @@ const Moderators = ({ match }) => {
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const location = useLocation();
 
-  const subPlebbit = useSubplebbit(match?.params?.subplebbitAddress);
+  const subPlebbit = useSubplebbit({ subplebbitAddress: match?.params?.subplebbitAddress });
   return (
     <Layout
       name={ {

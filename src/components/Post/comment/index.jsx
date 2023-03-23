@@ -37,7 +37,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const [vote] = useState(+comment?.upvoteCount - +comment?.downvoteCount);
-  const { vote: postVote } = useAccountVote(post?.cid);
+  const { vote: postVote } = useAccountVote({ commentCid: post?.cid });
   const [voteMode, setVoteMode] = useState(postVote?.vote || 0);
   const [reply, setShowReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
@@ -179,6 +179,8 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     }
   };
 
+  const [update, setUpdate] = useState({})
+
   const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
 
   const publishCommentEditOptions = {
@@ -190,10 +192,12 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     ...update,
   }
 
-  const handleEditPost = async (update, callBack, failedCallBack) => {
+  const handleEditPost = async (val, callBack, failedCallBack) => {
+    setUpdate({ ...val })
     try {
       await publishCommentEdit();
       callBack ? callBack() : '';
+      setUpdate({})
     } catch (error) {
       logger('edit:comment:response:', error, 'error');
       toast({

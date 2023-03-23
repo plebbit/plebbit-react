@@ -94,7 +94,7 @@ function PostDetail() {
     { commentCid: feedFromProfile ? comment?.postCid || comment?.parentCid : comment?.postCid }
   ); // if comment is a reply, this is what you replied to
   const isReply =
-    (feedFromProfile && profilePost?.parentCid) || (comment?.parentCid && comment?.depth !== 0);
+    Boolean((feedFromProfile && profilePost?.parentCid) || (comment?.parentCid && comment?.depth !== 0));
   if (isReply) {
     detail = replyPost;
     reply = comment;
@@ -103,7 +103,7 @@ function PostDetail() {
   }
   const replyParentaux = useComment({ commentCid: reply?.parentCid }); // incase what the reply parent is a comment also this is the parent
   replyPost = useComment({ commentCid: replyParentaux?.postCid });
-  if (replyPost) {
+  if (replyPost?.state === 'succeeded') {
     detail = replyPost;
   }
   replyParent = replyParentaux;
@@ -112,7 +112,7 @@ function PostDetail() {
     reply = undefined;
   }
 
-  const sub = useSubplebbit(detail?.subplebbitAddress);
+  const sub = useSubplebbit({ subplebbitAddress: detail?.subplebbitAddress });
   const loading = detail === undefined;
   const detailPending = !detail?.cid;
   const subplebbit =
@@ -123,8 +123,8 @@ function PostDetail() {
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
   const [postVotes, setPostVotes] = useState(detail?.upvoteCount - detail?.downvoteCount);
-  const { vote: pVote } = useAccountVote(detail?.commentCid);
-  const [vote, setVote] = useVote(pVote?.vote | 0);
+  const { vote: pVote } = useAccountVote({ commentCid: detail?.commentCid });
+  const [vote, setVote] = useState(pVote?.vote | 0);
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -167,7 +167,6 @@ function PostDetail() {
     authorAvatarImageUrl,
   } = useContext(ProfileContext);
   const history = useHistory();
-  const { publishComment } = usePublishComment(publishCommentOptions)
   const [showMEditor, setShowMEditor] = useState(false);
   const [showFullComments, setShowFullComments] = useState(!isReply);
 
@@ -284,6 +283,9 @@ function PostDetail() {
     onError,
   }
 
+  const { publishComment } = usePublishComment(publishCommentOptions)
+
+
   const handlePublishPost = async () => {
     try {
       await publishComment();
@@ -299,7 +301,7 @@ function PostDetail() {
     }
   };
 
-  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
+  const [update, setUpdate] = useState({})
 
   const publishCommentEditOptions = {
     commentCid: detail?.cid,
@@ -309,7 +311,10 @@ function PostDetail() {
     onError: onError,
     ...update,
   }
-  const handleEditPost = async (update, callBack, failedCallBack) => {
+  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
+
+  const handleEditPost = async (val, callBack, failedCallBack) => {
+    setUpdate({ ...val })
     try {
       setEditLoading(true);
       await publishCommentEdit();

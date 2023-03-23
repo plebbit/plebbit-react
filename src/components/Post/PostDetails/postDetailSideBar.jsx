@@ -32,7 +32,7 @@ const PostDetailSideBar = ({
 }) => {
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '#1A1A1B');
-  const sub = useSubplebbit(detail?.subplebbitAddress);
+  const sub = useSubplebbit({ subplebbitAddress: detail?.subplebbitAddress });
   const subPlebbit = sub || subs;
   const loading = subPlebbit === undefined;
 

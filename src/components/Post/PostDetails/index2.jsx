@@ -107,7 +107,7 @@ function PostDetailModal() {
     { commentCid: feedFromProfile ? comment?.postCid || comment?.parentCid : comment?.postCid }
   ); // if comment is a reply, this is what you replied to
   const isReply =
-    (feedFromProfile && profilePost?.parentCid) || (comment?.parentCid && comment?.depth !== 0);
+    Boolean((feedFromProfile && profilePost?.parentCid) || (comment?.parentCid && comment?.depth !== 0));
   if (isReply) {
     detail = replyPost;
     reply = comment;
@@ -116,7 +116,7 @@ function PostDetailModal() {
   }
   const replyParentaux = useComment({ commentCid: reply?.parentCid }); // incase what the reply parent is a comment also this is the parent
   replyPost = useComment({ commentCid: replyParentaux?.postCid });
-  if (replyPost) {
+  if (replyPost?.state === "succeeded") {
     detail = replyPost;
   }
   replyParent = replyParentaux;
@@ -125,7 +125,7 @@ function PostDetailModal() {
     reply = undefined;
   }
 
-  const sub = useSubplebbit(detail?.subplebbitAddress);
+  const sub = useSubplebbit({ subplebbitAddress: detail?.subplebbitAddress });
   const loading = detail === undefined;
   const detailPending = !detail?.cid;
   const subplebbit = sub === undefined ? { address: detail?.subplebbitAddress } : sub;
@@ -135,7 +135,7 @@ function PostDetailModal() {
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
   const [postVotes, setPostVotes] = useState(detail?.upvoteCount - detail?.downvoteCount);
-  const { vote: pVote } = useAccountVote(detail?.commentCid);
+  const { vote: pVote } = useAccountVote({ commentCid: detail?.commentCid });
   const [vote, setVote] = useState(pVote?.vote | 0);
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
@@ -170,7 +170,6 @@ function PostDetailModal() {
   const [showSpoiler, setShowSpoiler] = useState(detail?.spoiler);
   const {
     device,
-
     profile,
     baseUrl,
     subscriptions,
@@ -273,8 +272,6 @@ function PostDetailModal() {
   useEffect(() => {
     setPostVotes(detail?.upvoteCount - detail?.downvoteCount);
     setVote(detail?.vote)
-
-
   }, [detail])
 
   const publishCommentOptions = {
@@ -331,20 +328,22 @@ function PostDetailModal() {
     }
   };
 
-  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
+  const [update, setUpdate] = useState({})
+
   const publishCommentEditOptions = {
-    commentCid: cid,
-    deleted: true,
-    subplebbitAddress: address,
+    ...update,
     onChallenge,
     onChallengeVerification,
     onError: onError,
   }
+  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
   const handleDeletePost = async (cid, address) => {
+    setUpdate({ commentCid: cid, subplebbitAddress: address, deleted: true })
     try {
       setEditLoading(true);
       await publishCommentEdit();
       setEditLoading(false);
+      setUpdate({})
     } catch (error) {
       logger('delete:comment:response:', error, 'error');
       setSubLoading(false);
@@ -459,6 +458,8 @@ function PostDetailModal() {
   const owner =
     profile?.author?.address === detail?.author?.address ||
     profile?.signer?.address === detail?.author?.address;
+
+
 
   return (
     <>

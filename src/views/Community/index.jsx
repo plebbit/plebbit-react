@@ -44,7 +44,7 @@ const CommunitySettings = ({ match }) => {
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const border1 = useColorModeValue('#edeff1', '#343536');
   const location = useLocation();
-  const subplebbit = useSubplebbit(match?.params?.subplebbitAddress);
+  const subplebbit = useSubplebbit({ subplebbitAddress: match?.params?.subplebbitAddress });
   const page = new URLSearchParams(location.search).get('page') || 'community';
   const [data, setData] = useState({ ...subplebbit });
   const [loading, setLoading] = useState(false);

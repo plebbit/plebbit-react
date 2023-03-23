@@ -24,7 +24,7 @@ import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
   const pending = !post?.cid;
-  const { vote: postVote } = useAccountVote(post?.cid);
+  const { vote: postVote } = useAccountVote({ commentCid: post?.cid });
   const [vote, setVote] = useState(postVote?.vote || 0);
   const [postVotes, setPostVotes] = useState(pending ? 0 : post?.upvoteCount - post?.downvoteCount);
   const [showContent, setShowContent] = useState(false);
@@ -32,7 +32,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   const toast = useToast();
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: post?.author });
   const { baseUrl } = useContext(ProfileContext);
-  const getSub = useSubplebbit(post?.subplebbitAddress);
+  const getSub = useSubplebbit({ subplebbitAddress: post?.subplebbitAddress });
   const isOnline = getIsOnline(getSub?.updatedAt);
   const [showSpoiler, setShowSpoiler] = useState(post?.spoiler);
   const owner =
@@ -46,6 +46,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   } = useDisclosure();
 
   const mediaInfo = getCommentMediaInfo(post);
+  const [update, setUpdate] = useState({})
 
   const onChallengeVerification = (challengeVerification, comment) => {
     // if the challengeVerification fails, a new challenge request will be sent automatically
@@ -166,7 +167,6 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   };
 
 
-  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
   const publishCommentEditOptions = {
     commentCid: post?.cid,
     subplebbitAddress: post?.subplebbitAddress,
@@ -175,11 +175,14 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     onError: onError,
     ...update,
   }
+  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
 
-  const handleEditPost = async (update, callBack, failedCallBack) => {
+  const handleEditPost = async (val, callBack, failedCallBack) => {
+    setUpdate({ ...val })
     try {
       await publishCommentEdit();
       callBack ? callBack() : '';
+      setUpdate({})
     } catch (error) {
       logger('edit:comment:response:', error, 'error');
       toast({

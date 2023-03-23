@@ -31,8 +31,8 @@ const SubPlebbit = ({ match }) => {
   // const inactiveSubTitle = useColorModeValue('lightText1', 'darkText1');
   const mobileMainColor = useColorModeValue('lightMobileText', 'darkMobileText');
   const mainMobileBg = useColorModeValue('white', 'black');
-  const { feed, loadMore, hasMore } = useFeed([match?.params?.subplebbitAddress], feedSort);
-  const subPlebbit = useSubplebbit(match?.params?.subplebbitAddress);
+  const { feed, loadMore, hasMore } = useFeed({ subplebbitAddresses: [match?.params?.subplebbitAddress], sortType: feedSort });
+  const subPlebbit = useSubplebbit({ subplebbitAddress: match?.params?.subplebbitAddress });
   const feeds = feed;
   const [data, setData] = useState({ ...subPlebbit });
   const toast = useToast();
@@ -44,6 +44,9 @@ const SubPlebbit = ({ match }) => {
   const isOnline = getIsOnline(subPlebbit?.updatedAt);
   const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';
   const showStyleBar = location?.search === '?styling=true';
+
+
+  console.log({ feed })
 
   useEffect(() => {
     setData({ ...subPlebbit });

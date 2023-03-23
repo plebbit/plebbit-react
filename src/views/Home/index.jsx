@@ -23,6 +23,7 @@ const Home = () => {
       sortType: feedSort
     }
   );
+
   const feeds = feed;
 
   return (
