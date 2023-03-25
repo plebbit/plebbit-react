@@ -32,22 +32,22 @@ const PostDetailSideBar = ({
 }) => {
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '#1A1A1B');
-  const sub = useSubplebbit(detail?.subplebbitAddress);
+  const sub = useSubplebbit({ subplebbitAddress: detail?.subplebbitAddress });
   const subPlebbit = sub || subs;
   const loading = subPlebbit === undefined;
 
   return (
     <Box
-      marginLeft={ml || '24px'}
-      marginTop={mt || '28px'}
-      border={border}
-      borderColor={borderColor}
-      margin={margin}
-      width={width}
-      padding={padding}
-      borderRadius={borderRadius}
-      top={top}
-      right={right}
+      marginLeft={ ml || '24px' }
+      marginTop={ mt || '28px' }
+      border={ border }
+      borderColor={ borderColor }
+      margin={ margin }
+      width={ width }
+      padding={ padding }
+      borderRadius={ borderRadius }
+      top={ top }
+      right={ right }
       sx={
         sx || {
           '@media (min-width: 960px)': {
@@ -62,7 +62,7 @@ const PostDetailSideBar = ({
       }
     >
       <Flex flexDirection="column" height="100%" width="inherit">
-        <Box borderRadius="4px" overflow="visible" wordBreak="break-word" bg={bg || Bg}>
+        <Box borderRadius="4px" overflow="visible" wordBreak="break-word" bg={ bg || Bg }>
           <Box
             maxHeight="none"
             backgroundPosition="50%"
@@ -83,24 +83,24 @@ const PostDetailSideBar = ({
             />
           </Box>
           <Flex width="100" padding="12px" alignItems="center" mb="8px">
-            <Skeleton borderRadius="50%" width="54px" height="54px" mr="8px" isLoaded={!loading}>
+            <Skeleton borderRadius="50%" width="54px" height="54px" mr="8px" isLoaded={ !loading }>
               <Avatar
-                avatar={subPlebbit?.avatar}
-                width={54}
-                height={54}
+                avatar={ subPlebbit?.avatar }
+                width={ 54 }
+                height={ 54 }
                 badge
-                isOnline={getIsOnline(subPlebbit?.updatedAt)}
+                isOnline={ getIsOnline(subPlebbit?.updatedAt) }
                 mr="8px"
               />
             </Skeleton>
-            <Skeleton isLoaded={!loading}>
+            <Skeleton isLoaded={ !loading }>
               <Box fontSize="16px" fontWeight="500" lineHeight="20px" text-overflow="ellipsis">
-                {getSubName(subPlebbit)}
+                { getSubName(subPlebbit) }
               </Box>
             </Skeleton>
           </Flex>
           <Box marginBottom="8px" position="relative" padding="12px">
-            {subPlebbit?.about}
+            { subPlebbit?.about }
           </Box>
 
           <Box padding="12px">
@@ -115,14 +115,14 @@ const PostDetailSideBar = ({
               flexFlow="row nowrap"
               padding="12px"
             >
-              <Icon as={BiCake} margin="-2px 8px 0 0" w={6} h={6} color="inherit" />
-              <Box>Created {dateFormater(subPlebbit?.createdAt * 1000)} </Box>
+              <Icon as={ BiCake } margin="-2px 8px 0 0" w={ 6 } h={ 6 } color="inherit" />
+              <Box>Created { dateFormater(subPlebbit?.createdAt * 1000) } </Box>
             </Flex>
           </Box>
 
           <Box padding="12px">
             <Button
-              color={color}
+              color={ color }
               content={
                 subscriptions?.map((x) => x?.address)?.includes(detail?.subplebbitAddress)
                   ? 'Joined'
@@ -136,13 +136,13 @@ const PostDetailSideBar = ({
                   ? handleUnSubscribe
                   : handleSubscribe
               }
-              loading={subLoading}
+              loading={ subLoading }
             />
           </Box>
         </Box>
 
         <Box flex="1 1 auto" width="inherit" position="relative">
-          <BottomSideBar bg={bg} />
+          <BottomSideBar bg={ bg } />
           <BacktoTopButton />
         </Box>
       </Flex>

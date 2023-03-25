@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react';
 import {
   useAccountComments,
-  useAccountsActions,
+  usePublishVote, usePublishComment, usePublishCommentEdit, useSubscribe,
   useAccountVote,
   useComment,
   useSubplebbit,
@@ -63,6 +63,7 @@ import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
 import AddRemovalReason from '../Modal/addRemovalReason';
 import { DeletedMessage, LockedMessage, RemovedMessage } from '../../Card/ModMessage';
+import getCommentMediaInfo from '../../../utils/getCommentMediaInfo';
 
 function PostDetail() {
   const {
@@ -94,7 +95,7 @@ function PostDetail() {
     { commentCid: feedFromProfile ? comment?.postCid || comment?.parentCid : comment?.postCid }
   ); // if comment is a reply, this is what you replied to
   const isReply =
-    (feedFromProfile && profilePost?.parentCid) || (comment?.parentCid && comment?.depth !== 0);
+    Boolean((feedFromProfile && profilePost?.parentCid) || (comment?.parentCid && comment?.depth !== 0));
   if (isReply) {
     detail = replyPost;
     reply = comment;
@@ -103,7 +104,7 @@ function PostDetail() {
   }
   const replyParentaux = useComment({ commentCid: reply?.parentCid }); // incase what the reply parent is a comment also this is the parent
   replyPost = useComment({ commentCid: replyParentaux?.postCid });
-  if (replyPost) {
+  if (replyPost?.state === 'succeeded') {
     detail = replyPost;
   }
   replyParent = replyParentaux;
@@ -112,19 +113,22 @@ function PostDetail() {
     reply = undefined;
   }
 
-  const sub = useSubplebbit(detail?.subplebbitAddress);
+  const sub = useSubplebbit({ subplebbitAddress: detail?.subplebbitAddress });
   const loading = detail === undefined;
   const detailPending = !detail?.cid;
   const subplebbit =
     sub === undefined ? { ...detail?.subplebbit, address: detail?.subplebbitAddress } : sub;
+
+
+  const mediaInfo = getCommentMediaInfo(detail);
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
-  const [postVotes, setPostVotes] = useState(detail?.upvoteCount - detail?.downvoteCount);
-  const pVote = useAccountVote(params?.commentCid);
-  const vote = pVote?.vote | 0;
+  const [postVotes, setPostVotes] = useState(detail?.upvoteCount || 0 - detail?.downvoteCount || 0);
+  const { vote: postVote } = useAccountVote({ commentCid: detail?.cid });
+  const [vote, setVote] = useState(postVote === undefined ? 0 : postVote);
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -136,14 +140,17 @@ function PostDetail() {
   const removeColor = useColorModeValue('persimmon', 'persimmon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   // const borderColor = useColorModeValue('#ccc', '#343536');
+  const postBg = useColorModeValue(
+    "lightCommunityThemePost",
+    "darkCommunityThemePost"
+  );
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const borderColor2 = useColorModeValue('#d3d6da', '#545452');
   const border2 = useColorModeValue('#edeff1', '#343536');
   const mainMobileBg = useColorModeValue('white', 'black');
   const mobileColor = useColorModeValue('lightMobileText2', 'darkMobileText');
   const toast = useToast();
-  const { publishVote, publishComment, publishCommentEdit, subscribe, unsubscribe } =
-    useAccountsActions();
+
   const [subLoading, setSubLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -231,22 +238,30 @@ function PostDetail() {
 
   const handleVoting = async (curr) => {
     setPostVotes((prev) => prev + curr);
-    handleVote(curr);
+    setVote(curr)
+    handleVote();
   };
 
-  const handleVote = async (curr) => {
+
+
+  const publishVoteOptions = {
+    vote,
+    commentCid: detail?.cid,
+    subplebbitAddress: detail?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError,
+  }
+
+  const { publishVote } = usePublishVote(publishVoteOptions)
+
+
+  const handleVote = async () => {
+
     try {
-      await publishVote({
-        vote: curr,
-        commentCid: detail?.cid,
-        subplebbitAddress: detail?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError,
-      });
+      await publishVote();
     } catch (error) {
       logger('post:detail:voting:', error, 'error');
-
       toast({
         title: 'Voting Declined.',
         description: error?.stack.toString(),
@@ -257,17 +272,29 @@ function PostDetail() {
     }
   };
 
+
+  useEffect(() => {
+    setPostVotes(detail?.upvoteCount - detail?.downvoteCount);
+    setVote(postVote === undefined ? 0 : postVote)
+  }, [postVote])
+
+
+  const publishCommentOptions = {
+    content,
+    postCid: detail?.cid, // the thread the comment is on
+    parentCid: detail?.cid, // if top level reply to a post, same as postCid
+    subplebbitAddress: detail?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError,
+  }
+
+  const { publishComment } = usePublishComment(publishCommentOptions)
+
+
   const handlePublishPost = async () => {
     try {
-      await publishComment({
-        content,
-        postCid: detail?.cid, // the thread the comment is on
-        parentCid: detail?.cid, // if top level reply to a post, same as postCid
-        subplebbitAddress: detail?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError,
-      });
+      await publishComment();
     } catch (error) {
       toast({
         title: 'Comment Declined.',
@@ -279,17 +306,24 @@ function PostDetail() {
       logger('post:comment:response:', error);
     }
   };
-  const handleEditPost = async (update, callBack, failedCallBack) => {
+
+  const [update, setUpdate] = useState({})
+
+  const publishCommentEditOptions = {
+    commentCid: detail?.cid,
+    subplebbitAddress: detail?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError: onError,
+    ...update,
+  }
+  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
+
+  const handleEditPost = async (val, callBack, failedCallBack) => {
+    setUpdate({ ...val })
     try {
       setEditLoading(true);
-      await publishCommentEdit({
-        commentCid: detail?.cid,
-        subplebbitAddress: detail?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError: onError,
-        ...update,
-      });
+      await publishCommentEdit();
       callBack ? callBack() : '';
       setEditLoading(false);
     } catch (error) {
@@ -329,6 +363,8 @@ function PostDetail() {
       });
     }
   };
+
+  const { subscribe } = useSubscribe()
 
   const handleSubscribe = async () => {
     try {
@@ -428,6 +464,10 @@ function PostDetail() {
   const owner =
     profile?.author?.address === detail?.author?.address ||
     profile?.signer?.address === detail?.author?.address;
+
+
+
+  console.log({ publishVoteOptions, postVote, vote, detail }, postVote === undefined ? 0 : postVote)
 
   return (
     <Layout
@@ -1068,10 +1108,96 @@ function PostDetail() {
                               ) : (
                                 <Box display="flex" justifyContent="center">
                                   <Skeleton isLoaded={ !loading }>
-                                    <Image
-                                      fallbackSrc="https://via.placeholder.com/150"
-                                      src={ detail?.link }
-                                    />
+                                    <>
+                                      <Flex mt="0">
+                                        { detail?.link && detail?.thumbnailUrl && (
+                                          <Link
+                                            fontSize="12px"
+                                            fontWeight="400"
+                                            lineHeight="16px"
+                                            margin="4px 8px"
+                                            whiteSpace="nowrap"
+                                            color="mainBlue"
+                                            display="flex"
+                                            href={ post?.link }
+                                            alignItems="flex-end"
+                                            isExternal
+                                          >
+                                            <Box>{ detail?.link?.substring(0, 20) + "..." }</Box>
+                                            <Icon
+                                              as={ FiExternalLink }
+                                              verticalAlign="middle"
+                                              fontWeight="400"
+                                              width="20px"
+                                              height="20px"
+                                              fontSize="12px"
+                                              paddingLeft="4px"
+                                            />
+                                          </Link>
+                                        ) }
+                                      </Flex>
+
+                                      { mediaInfo?.type === "image" && (
+                                        <Image
+                                          maxH="512px"
+                                          margin="0 auto"
+                                          maxW="100%"
+                                          overflow="hidden"
+                                          bg={ postBg }
+                                          src={ detail?.link }
+                                          onError={ (event) =>
+                                            (event.target.style.display = "none")
+                                          }
+                                        />
+                                      ) }
+
+                                      { mediaInfo?.type === "video" && (
+                                        <Box
+                                          bg="black"
+                                          maxHeight="512px"
+                                          width="100%"
+                                          maxW="100%"
+                                          color="#fff"
+                                        >
+                                          <video
+                                            autoPlay
+                                            playsInline
+                                            preload="auto"
+                                            controls
+                                            style={ {
+                                              objectFit: "contain",
+                                              width: "100% !important",
+                                              overflowClipMargin: "content-box",
+                                              overflow: "clip",
+                                            } }
+                                            onError={ (event) =>
+                                              (event.target.style.display = "none")
+                                            }
+                                            muted
+                                          >
+                                            <source src={ detail?.link } />
+                                          </video>
+                                        </Box>
+                                      ) }
+
+                                      { mediaInfo?.type === "audio" && (
+                                        <Box maxW="100%" color="#fff" margin="4px 8px">
+                                          <audio
+                                            preload="auto"
+                                            src={ detail?.link }
+                                            onError={ (event) =>
+                                              (event.target.style.display = "none")
+                                            }
+                                            controls
+                                            style={ {
+                                              width: "100%",
+                                            } }
+                                          >
+                                            <source src={ detail?.link } />
+                                          </audio>
+                                        </Box>
+                                      ) }
+                                    </>
                                   </Skeleton>
                                 </Box>
                               ) }

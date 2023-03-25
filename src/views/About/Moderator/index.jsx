@@ -17,13 +17,13 @@ const Moderators = ({ match }) => {
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const location = useLocation();
 
-  const subPlebbit = useSubplebbit(match?.params?.subplebbitAddress);
+  const subPlebbit = useSubplebbit({ subplebbitAddress: match?.params?.subplebbitAddress });
   return (
     <Layout
-      name={{
+      name={ {
         label: subPlebbit?.title || getAddress(subPlebbit?.address),
         value: location?.pathname,
-      }}
+      } }
     >
       <Box>
         <Flex
@@ -33,18 +33,18 @@ const Moderators = ({ match }) => {
           textTransform="uppercase"
           lineHeight="24px"
           alignItems="center"
-          bg={mainBg}
+          bg={ mainBg }
           height="40px"
           paddingLeft="24px"
           position="fixed"
           width="100%"
           zIndex="30"
         >
-          <Avatar width={20} height={20} mr="8px" />
-          <Link to={`/p/${subPlebbit?.address}`}>
-            <Flex alignItems="center" color={linkColor} mr="4px">
-              {subPlebbit?.title || getAddress(subPlebbit?.address)} {'  '}
-              <Box color={mainColor}>/ MODERATORS</Box>
+          <Avatar width={ 20 } height={ 20 } mr="8px" />
+          <Link to={ `/p/${subPlebbit?.address}` }>
+            <Flex alignItems="center" color={ linkColor } mr="4px">
+              { subPlebbit?.title || getAddress(subPlebbit?.address) } { '  ' }
+              <Box color={ mainColor }>/ MODERATORS</Box>
             </Flex>
           </Link>
         </Flex>
@@ -53,15 +53,15 @@ const Moderators = ({ match }) => {
             fontSize="18px"
             fontWeight="500"
             lineHeight="22px"
-            color={mainColor}
+            color={ mainColor }
             marginBottom="16px"
             alignItems="center"
           >
-            <Box>Moderators of {subPlebbit?.title}</Box>
-            <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
+            <Box>Moderators of { subPlebbit?.title }</Box>
+            <Icon as={ AiOutlineInfoCircle } ml="4px" verticalAlign="text-top" />
           </Flex>
           <Flex
-            bg={border1}
+            bg={ border1 }
             alignItems="center"
             borderRadius="4px 4px 0 0"
             boxSizing="border-box"
@@ -72,43 +72,43 @@ const Moderators = ({ match }) => {
               <Input
                 placeholder="Search for a user"
                 width="248px"
-                bg={mainBg}
-                border={`1px solid ${border1}`}
-                color={mainColor}
+                bg={ mainBg }
+                border={ `1px solid ${border1}` }
+                color={ mainColor }
                 borderRadius="4px 0 0 4px"
                 boxSizing="border-box"
                 height="32px"
                 padding="8px"
-                _placeholder={{
+                _placeholder={ {
                   fontSize: '14px',
                   fontWeight: '400',
                   lineHeight: '21px',
-                }}
+                } }
               />
-              <Button bg={iconColor} borderRadius="0 4px 4px 0" height="32px" width="40px">
-                <Icon as={FiSearch} color={mainBg} />
+              <Button bg={ iconColor } borderRadius="0 4px 4px 0" height="32px" width="40px">
+                <Icon as={ FiSearch } color={ mainBg } />
               </Button>
             </Flex>
           </Flex>
           <Box
-            border={`1px solid ${border1}`}
+            border={ `1px solid ${border1}` }
             borderRadius="0 4px 4px 0"
             boxSizing="border-box"
             marginBottom="36px"
             overflow="hidden"
           >
-            {subPlebbit?.roles &&
+            { subPlebbit?.roles &&
               Object.keys(subPlebbit?.roles)?.map((user, index) => (
                 <Flex
-                  key={`${user}${index}`}
+                  key={ `${user}${index}` }
                   alignItems="center"
                   fontSize="12px"
                   fontWeight="400"
                   lineHeight="16px"
-                  bg={mainBg}
-                  borderBottom={`1px solid ${border1}`}
+                  bg={ mainBg }
+                  borderBottom={ `1px solid ${border1}` }
                   boxSizing="border-box"
-                  color={iconColor}
+                  color={ iconColor }
                   height="48px"
                   padding="8px 16px"
                   width="100%"
@@ -117,7 +117,7 @@ const Moderators = ({ match }) => {
                     fontSize="14px"
                     fontWeight="500"
                     lineHeight="18px"
-                    color={mainColor}
+                    color={ mainColor }
                     flex="0 0 220px"
                     minW="220px"
                   >
@@ -126,11 +126,11 @@ const Moderators = ({ match }) => {
                         <Box h="32px" width="32px" mr="6px" verticalAlign="middle">
                           <Box height="100%" position="relative">
                             <Box borderRadius="4px" width="100%" height="100%" position="relative">
-                              <Box bg={border1} width="100%" height="100%" borderRadius="50%" />
+                              <Box bg={ border1 } width="100%" height="100%" borderRadius="50%" />
                               <Box width="100%" position="absolute" bottom="0">
                                 <Box
                                   width="100%"
-                                  border={`1px solid ${border1}`}
+                                  border={ `1px solid ${border1}` }
                                   borderRadius="50%"
                                 >
                                   <PlebLogo />
@@ -139,7 +139,7 @@ const Moderators = ({ match }) => {
                             </Box>
                           </Box>
                         </Box>
-                        <Box>{getAddress(user)}</Box>
+                        <Box>{ getAddress(user) }</Box>
                       </Flex>
                     </Link>
                   </Box>
@@ -163,7 +163,7 @@ const Moderators = ({ match }) => {
                     </Box>
                   </Flex>
                 </Flex>
-              ))}
+              )) }
           </Box>
         </Box>
       </Box>
