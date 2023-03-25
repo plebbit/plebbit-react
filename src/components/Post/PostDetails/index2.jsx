@@ -147,6 +147,10 @@ function PostDetailModal() {
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   // const borderColor = useColorModeValue('#ccc', '#343536');
+  const postBg = useColorModeValue(
+    "lightCommunityThemePost",
+    "darkCommunityThemePost"
+  );
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
   const removeColor = useColorModeValue('persimmon', 'persimmon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');

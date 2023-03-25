@@ -140,6 +140,10 @@ function PostDetail() {
   const removeColor = useColorModeValue('persimmon', 'persimmon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   // const borderColor = useColorModeValue('#ccc', '#343536');
+  const postBg = useColorModeValue(
+    "lightCommunityThemePost",
+    "darkCommunityThemePost"
+  );
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const borderColor2 = useColorModeValue('#d3d6da', '#545452');
   const border2 = useColorModeValue('#edeff1', '#343536');
