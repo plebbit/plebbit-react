@@ -365,12 +365,12 @@ function PostDetail() {
     }
   };
 
-  const { subscribe } = useSubscribe()
+  const { subscribe, unsubscribe } = useSubscribe({ subplebbitAddress: detail?.subplebbitAddress })
 
   const handleSubscribe = async () => {
     try {
       setSubLoading(true);
-      await subscribe(detail?.subplebbitAddress);
+      await subscribe();
       toast({
         title: 'Subscription.',
         description: 'Joined successfully',
@@ -394,7 +394,7 @@ function PostDetail() {
   const handleUnSubscribe = async () => {
     try {
       setSubLoading(true);
-      await unsubscribe(detail?.subplebbitAddress);
+      await unsubscribe();
       toast({
         title: 'Unsubscribed.',
         description: 'Unsubscribed successfully',

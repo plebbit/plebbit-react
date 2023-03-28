@@ -105,12 +105,12 @@ const SubPlebbit = ({ match }) => {
     }
   };
 
-  const { subscribe, unsubscribe } = useSubscribe()
+  const { subscribe, unsubscribe } = useSubscribe({ subplebbitAddress: subPlebbit?.address })
 
   const handleSubscribe = async () => {
     setSubLoading(true);
     try {
-      await subscribe(subPlebbit?.address);
+      await subscribe();
       toast({
         title: 'Subscribed.',
         description: 'Joined successfully',
@@ -133,7 +133,7 @@ const SubPlebbit = ({ match }) => {
   const handleUnSubscribe = async () => {
     try {
       setSubLoading(true);
-      await unsubscribe(subPlebbit?.address);
+      await unsubscribe();
       toast({
         title: 'Unsubscribed.',
         description: 'Unsubscribed successfully',
