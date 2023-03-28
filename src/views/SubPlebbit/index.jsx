@@ -105,7 +105,7 @@ const SubPlebbit = ({ match }) => {
     }
   };
 
-  const { subscribe, unsubscribe } = useSubscribe({ subplebbitAddress: subPlebbit?.address })
+  const { subscribe, unsubscribe, subscribed } = useSubscribe({ subplebbitAddress: subPlebbit?.address })
 
   const handleSubscribe = async () => {
     setSubLoading(true);
@@ -282,7 +282,7 @@ const SubPlebbit = ({ match }) => {
                             minH="32px"
                             loading={ subLoading }
                             onClick={
-                              subscriptions?.map((x) => x?.address)?.includes(subPlebbit?.address)
+                              subscribed
                                 ? handleUnSubscribe
                                 : handleSubscribe
                             }
@@ -436,7 +436,7 @@ const SubPlebbit = ({ match }) => {
                     <Button
                       bg="transparent"
                       content={
-                        subscriptions?.map((x) => x?.address)?.includes(subPlebbit?.address)
+                        subscribed
                           ? 'Joined'
                           : 'Join'
                       }
@@ -445,7 +445,7 @@ const SubPlebbit = ({ match }) => {
                       minH="32px"
                       loading={ subLoading }
                       onClick={
-                        subscriptions?.map((x) => x?.address)?.includes(subPlebbit?.address)
+                        subscribed
                           ? handleUnSubscribe
                           : handleSubscribe
                       }

@@ -178,7 +178,6 @@ function PostDetailModal() {
     device,
     profile,
     baseUrl,
-    subscriptions,
     authorAvatarImageUrl,
     accountSubplebbits,
   } = useContext(ProfileContext);
@@ -365,7 +364,7 @@ function PostDetailModal() {
     }
   };
 
-  const { subscribe, unsubscribe } = useSubscribe({ subplebbitAddress: detail?.subplebbitAddress })
+  const { subscribe, unsubscribe, subscribed } = useSubscribe({ subplebbitAddress: detail?.subplebbitAddress })
 
   const handleSubscribe = async () => {
     try {
@@ -1687,10 +1686,10 @@ function PostDetailModal() {
                 handleUnSubscribe={ handleUnSubscribe }
                 subLoading={ subLoading }
                 setSubLoading={ setSubLoading }
-                subscriptions={ subscriptions }
                 detail={ detail }
                 loading={ !loading }
                 subplebbit={ subplebbit }
+                subscribed={ subscribed }
               />
             </Flex>
           </ModalContent>

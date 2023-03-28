@@ -170,7 +170,6 @@ function PostDetail() {
     profile,
     accountSubplebbits,
     baseUrl,
-    subscriptions,
     authorAvatarImageUrl,
   } = useContext(ProfileContext);
   const history = useHistory();
@@ -365,7 +364,7 @@ function PostDetail() {
     }
   };
 
-  const { subscribe, unsubscribe } = useSubscribe({ subplebbitAddress: detail?.subplebbitAddress })
+  const { subscribe, unsubscribe, subscribed } = useSubscribe({ subplebbitAddress: detail?.subplebbitAddress })
 
   const handleSubscribe = async () => {
     try {
@@ -1740,7 +1739,7 @@ function PostDetail() {
                       handleUnSubscribe={ handleUnSubscribe }
                       subLoading={ subLoading }
                       setSubLoading={ setSubLoading }
-                      subscriptions={ subscriptions }
+                      subscribed={ subscribed }
                       detail={ detail }
                       loading={ !loading }
                       subplebbit={ subplebbit }
