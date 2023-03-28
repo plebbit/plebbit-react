@@ -89,6 +89,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     try {
       // ask the user to complete the challenges in a modal window
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
+      console.log({ challengeAnswers, comment })
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
       logger('vote:challeng', error, 'error');
@@ -101,6 +102,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
       });
     }
     if (challengeAnswers) {
+
       try {
         await comment.publishChallengeAnswers(challengeAnswers);
       } catch (error) {
@@ -128,10 +130,12 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     subplebbitAddress: post?.subplebbitAddress,
     onChallenge,
     onChallengeVerification,
-    onError: onError,
+    onError,
   }
 
-  const { publishVote } = usePublishVote(publishVoteOptions)
+
+
+  const { publishVote, } = usePublishVote(publishVoteOptions)
 
 
 

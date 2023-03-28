@@ -167,7 +167,6 @@ function PostDetail() {
   const [showSpoiler, setShowSpoiler] = useState(detail?.spoiler);
   const {
     device,
-
     profile,
     accountSubplebbits,
     baseUrl,
@@ -218,6 +217,8 @@ function PostDetail() {
 
     try {
       // ask the user to complete the challenges in a modal window
+      console.log({ challengeAnswers, comment })
+
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
@@ -467,7 +468,6 @@ function PostDetail() {
 
 
 
-  console.log({ publishVoteOptions, postVote, vote, detail }, postVote === undefined ? 0 : postVote)
 
   return (
     <Layout

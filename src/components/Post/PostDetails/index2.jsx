@@ -258,8 +258,7 @@ function PostDetailModal() {
     onError,
   }
 
-  console.log({ publishVoteOptions, detail, postVote, vote, postVotes })
-  console.log(detail?.upvoteCount, detail?.downvoteCount)
+
   const { publishVote } = usePublishVote(publishVoteOptions)
 
   const handleVote = async () => {
