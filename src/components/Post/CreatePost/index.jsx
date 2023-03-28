@@ -179,14 +179,16 @@ const CreatePost = () => {
   }
 
 
-  const { publishComment } = usePublishComment(publishCommentOptions)
+  const { index, publishComment } = usePublishComment(publishCommentOptions)
+
 
 
   const handlePublishPost = async () => {
     try {
       setLoading(true);
       const res = await publishComment();
-      history.push(`/profile/c/${res?.index}`);
+      history.push(`/profile/c/${index}`);
+
       logger('create-post', res, 'error');
     } catch (error) {
       logger('create-post', error, 'error');

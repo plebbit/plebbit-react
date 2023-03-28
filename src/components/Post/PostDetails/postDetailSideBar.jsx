@@ -23,12 +23,12 @@ const PostDetailSideBar = ({
   border,
   borderColor,
   bg,
-  subscriptions,
   detail,
   handleUnSubscribe,
   handleSubscribe,
   subLoading,
   subplebbit: subs,
+  subscribed
 }) => {
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '#1A1A1B');
@@ -124,7 +124,7 @@ const PostDetailSideBar = ({
             <Button
               color={ color }
               content={
-                subscriptions?.map((x) => x?.address)?.includes(detail?.subplebbitAddress)
+                subscribed
                   ? 'Joined'
                   : 'Join'
               }
@@ -132,7 +132,7 @@ const PostDetailSideBar = ({
               height="34px"
               width="100%"
               onClick={
-                subscriptions?.includes(detail?.subplebbitAddress)
+                subscribed
                   ? handleUnSubscribe
                   : handleSubscribe
               }

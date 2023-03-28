@@ -178,7 +178,6 @@ function PostDetailModal() {
     device,
     profile,
     baseUrl,
-    subscriptions,
     authorAvatarImageUrl,
     accountSubplebbits,
   } = useContext(ProfileContext);
@@ -258,8 +257,7 @@ function PostDetailModal() {
     onError,
   }
 
-  console.log({ publishVoteOptions, detail, postVote, vote, postVotes })
-  console.log(detail?.upvoteCount, detail?.downvoteCount)
+
   const { publishVote } = usePublishVote(publishVoteOptions)
 
   const handleVote = async () => {
@@ -366,12 +364,12 @@ function PostDetailModal() {
     }
   };
 
-  const { subscribe, unsubscribe } = useSubscribe()
+  const { subscribe, unsubscribe, subscribed } = useSubscribe({ subplebbitAddress: detail?.subplebbitAddress })
 
   const handleSubscribe = async () => {
     try {
       setSubLoading(true);
-      await subscribe(detail?.subplebbitAddress);
+      await subscribe();
       toast({
         title: 'Subscription.',
         description: 'Joined successfully',
@@ -395,7 +393,7 @@ function PostDetailModal() {
   const handleUnSubscribe = async () => {
     try {
       setSubLoading(true);
-      await unsubscribe(detail?.subplebbitAddress);
+      await unsubscribe();
       toast({
         title: 'Unsubscribed.',
         description: 'Unsubscribed successfully',
@@ -1688,10 +1686,10 @@ function PostDetailModal() {
                 handleUnSubscribe={ handleUnSubscribe }
                 subLoading={ subLoading }
                 setSubLoading={ setSubLoading }
-                subscriptions={ subscriptions }
                 detail={ detail }
                 loading={ !loading }
                 subplebbit={ subplebbit }
+                subscribed={ subscribed }
               />
             </Flex>
           </ModalContent>

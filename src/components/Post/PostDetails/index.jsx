@@ -167,11 +167,9 @@ function PostDetail() {
   const [showSpoiler, setShowSpoiler] = useState(detail?.spoiler);
   const {
     device,
-
     profile,
     accountSubplebbits,
     baseUrl,
-    subscriptions,
     authorAvatarImageUrl,
   } = useContext(ProfileContext);
   const history = useHistory();
@@ -218,6 +216,8 @@ function PostDetail() {
 
     try {
       // ask the user to complete the challenges in a modal window
+      console.log({ challengeAnswers, comment })
+
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {
       // if  he declines, throw error and don't get a challenge answer
@@ -364,12 +364,12 @@ function PostDetail() {
     }
   };
 
-  const { subscribe } = useSubscribe()
+  const { subscribe, unsubscribe, subscribed } = useSubscribe({ subplebbitAddress: detail?.subplebbitAddress })
 
   const handleSubscribe = async () => {
     try {
       setSubLoading(true);
-      await subscribe(detail?.subplebbitAddress);
+      await subscribe();
       toast({
         title: 'Subscription.',
         description: 'Joined successfully',
@@ -393,7 +393,7 @@ function PostDetail() {
   const handleUnSubscribe = async () => {
     try {
       setSubLoading(true);
-      await unsubscribe(detail?.subplebbitAddress);
+      await unsubscribe();
       toast({
         title: 'Unsubscribed.',
         description: 'Unsubscribed successfully',
@@ -467,7 +467,6 @@ function PostDetail() {
 
 
 
-  console.log({ publishVoteOptions, postVote, vote, detail }, postVote === undefined ? 0 : postVote)
 
   return (
     <Layout
@@ -1740,7 +1739,7 @@ function PostDetail() {
                       handleUnSubscribe={ handleUnSubscribe }
                       subLoading={ subLoading }
                       setSubLoading={ setSubLoading }
-                      subscriptions={ subscriptions }
+                      subscribed={ subscribed }
                       detail={ detail }
                       loading={ !loading }
                       subplebbit={ subplebbit }
