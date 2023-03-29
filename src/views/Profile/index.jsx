@@ -22,12 +22,14 @@ const Profile = () => {
   const mobileBorder = useColorModeValue('lightMobileIcon', 'darkMobileIcon');
   const mobileLink = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
-  const myPost = useAccountComments();
+  const { accountComments: myPost } = useAccountComments();
   const [selectedNav, setSelectedNav] = useState('Overview');
   const navOptions = ['Overview', 'Posts', 'Comments', 'Moderation', 'Saved', 'Hidden'];
   const history = useHistory();
   const location = useLocation();
   const feeds = myPost ? [...myPost].reverse() : [];
+
+
 
   return (
     <Layout name={ { label: profile?.author?.title || 'Profile', value: location?.pathname } }>

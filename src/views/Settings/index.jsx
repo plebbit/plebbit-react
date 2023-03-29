@@ -60,8 +60,8 @@ const Settings = () => {
   const toast = useToast();
   const history = useHistory();
 
-  const resolvedAuthorAddress = useResolvedAuthorAddress(
-    userProfile ? userProfile?.author?.address : ''
+  const { resolvedAddress: resolvedAuthorAddress } = useResolvedAuthorAddress(
+    { author: userProfile ? userProfile?.author?.address : '', cache: false }
   );
   logger('resolvedAddress', resolvedAuthorAddress, 'trace');
 
@@ -85,8 +85,9 @@ const Settings = () => {
     });
   };
 
+
   const handleDelete = async (val) => {
-    await delete userProfile?.plebbitOptions?.blockchainProviders[val];
+    await delete userProfile?.plebbitOptions?.chainProviders[val];
     try {
       await setAccount(userProfile);
       toast({
@@ -106,15 +107,15 @@ const Settings = () => {
     }
   };
 
-  const handleSaveBlockchainProvider = async (data) => {
+  const handleSaveChainProvider = async (data) => {
     try {
       setBpLoading(true);
       await setAccount({
         ...userProfile,
         plebbitOptions: {
           ...userProfile?.plebbitOptions,
-          blockchainProviders: {
-            ...userProfile?.plebbitOptions?.blockchainProviders,
+          chainProviders: {
+            ...userProfile?.plebbitOptions?.chainProviders,
             [data?.chainTicker]: {
               ...data,
             },
@@ -260,7 +261,7 @@ const Settings = () => {
           <AddBlockProvide
             isOpen={ isBlockOpen }
             onClose={ onBlockClose }
-            handleSave={ handleSaveBlockchainProvider }
+            handleSave={ handleSaveChainProvider }
             loading={ bPLoading }
           />
         ) : (
@@ -1129,7 +1130,7 @@ const Settings = () => {
                   paddingBottom="6px"
                   marginBottom="32px"
                 >
-                  blockchainProviders
+                  chainProviders
                 </Text>
                 <Button
                   fontSize="10px"
@@ -1144,7 +1145,7 @@ const Settings = () => {
                   add custom
                 </Button>
               </Flex>
-              { Object?.keys(userProfile?.plebbitOptions?.blockchainProviders || {})?.map((val) => (
+              { Object?.keys(userProfile?.plebbitOptions?.chainProviders || {})?.map((val) => (
                 <Box key={ val }>
                   <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
                     <Flex justifyContent="space-between">
@@ -1182,7 +1183,7 @@ const Settings = () => {
                       justifyContent="flex-end"
                     >
                       <Input
-                        placeholder="BlockchainProvider Chain Ticker"
+                        placeholder="ChainProvider Chain Ticker"
                         backgroundColor={ mainBg }
                         color={ mainColor }
                         boxSizing="border-box"
@@ -1221,7 +1222,7 @@ const Settings = () => {
                       justifyContent="flex-end"
                     >
                       <Input
-                        placeholder="BlockchainProvider Url"
+                        placeholder="ChainProvider Url"
                         backgroundColor={ mainBg }
                         color={ mainColor }
                         boxSizing="border-box"
@@ -1232,16 +1233,16 @@ const Settings = () => {
                         borderRadius="4px"
                         padding="12px 24px 4px 12px"
                         width="100%"
-                        value={ userProfile?.plebbitOptions?.blockchainProviders[val]?.url }
+                        value={ userProfile?.plebbitOptions?.chainProviders[val]?.url }
                         onChange={ (e) =>
                           setUserProfile({
                             ...userProfile,
                             plebbitOptions: {
                               ...userProfile?.plebbitOptions,
-                              blockchainProviders: {
-                                ...userProfile?.plebbitOptions?.blockchainProviders,
+                              chainProviders: {
+                                ...userProfile?.plebbitOptions?.chainProviders,
                                 [val]: {
-                                  ...userProfile?.plebbitOptions?.blockchainProviders[val],
+                                  ...userProfile?.plebbitOptions?.chainProviders[val],
                                   url: e.target.value,
                                 },
                               },
@@ -1274,7 +1275,7 @@ const Settings = () => {
                       justifyContent="flex-end"
                     >
                       <Input
-                        placeholder="BlockchainProvider chainId"
+                        placeholder="ChainProvider chainId"
                         backgroundColor={ mainBg }
                         color={ mainColor }
                         boxSizing="border-box"
@@ -1286,16 +1287,16 @@ const Settings = () => {
                         padding="12px 24px 4px 12px"
                         width="100%"
                         type="number"
-                        value={ userProfile?.plebbitOptions?.blockchainProviders[val]?.chainId }
+                        value={ userProfile?.plebbitOptions?.chainProviders[val]?.chainId }
                         onChange={ (e) =>
                           setUserProfile({
                             ...userProfile,
                             plebbitOptions: {
                               ...userProfile?.plebbitOptions,
-                              blockchainProviders: {
-                                ...userProfile?.plebbitOptions?.blockchainProviders,
+                              chainProviders: {
+                                ...userProfile?.plebbitOptions?.chainProviders,
                                 [val]: {
-                                  ...userProfile?.plebbitOptions?.blockchainProviders[val],
+                                  ...userProfile?.plebbitOptions?.chainProviders[val],
                                   chainId: e.target.value,
                                 },
                               },
