@@ -60,7 +60,7 @@ const createMainWindow = () => {
     show: false,
     backgroundColor: 'white',
     webPreferences: {
-      // fix cors error for blockchain providers
+      // fix cors error for Chain providers
       webSecurity: false,
       nodeIntegration: false,
       contextIsolation: true,

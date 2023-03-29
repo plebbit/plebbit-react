@@ -49,7 +49,7 @@ const CommunitySettings = ({ match }) => {
   const [data, setData] = useState({ ...subplebbit });
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const resolvedAuthorAddress = useResolvedSubplebbitAddress(data ? data?.address : '');
+  const { resolvedAddress: resolvedAuthorAddress } = useResolvedSubplebbitAddress({ subplebbitAddress: data ? data?.address : '' });
   const { device, accountSubplebbits } = useContext(ProfileContext);
   const [showSidebar, setShowSideBar] = useState(false);
 

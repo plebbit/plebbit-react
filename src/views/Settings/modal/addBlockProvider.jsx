@@ -24,12 +24,12 @@ const AddBlockProvide = ({ isOpen, onClose, handleSave, loading }) => {
   const [data, setData] = useState({});
 
   return (
-    <Modal trapFocus={false} scrollBehavior="inside" isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal trapFocus={ false } scrollBehavior="inside" isOpen={ isOpen } onClose={ onClose } isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Add Block Provider</ModalHeader>
         <ModalCloseButton />
-        <ModalBody pb={6}>
+        <ModalBody pb={ 6 }>
           <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
             <Flex justifyContent="space-between">
               <Flex flexDir="column" marginRight="8px">
@@ -37,12 +37,12 @@ const AddBlockProvide = ({ isOpen, onClose, handleSave, loading }) => {
                   fontSize="16px"
                   fontWeight="500"
                   lineHeight="20px"
-                  color={mainColor}
+                  color={ mainColor }
                   marginBottom="4px"
                 >
                   ChainTicker
                 </Text>
-                <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+                <Text fontWeight="400" color={ metaColor } fontSize="12px" lineHeight="16px">
                   ChainTicker of the provider RPC
                 </Text>
               </Flex>
@@ -55,21 +55,21 @@ const AddBlockProvide = ({ isOpen, onClose, handleSave, loading }) => {
               justifyContent="flex-end"
             >
               <Input
-                placeholder="BlockchainProvider Chain Ticker"
-                backgroundColor={mainBg}
-                color={mainColor}
+                placeholder="ChainProvider Chain Ticker"
+                backgroundColor={ mainBg }
+                color={ mainColor }
                 boxSizing="border-box"
                 marginBottom="8px"
-                border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                border={ `1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}` }
+                borderColor={ colorMode === 'light' ? '#edeff1' : '#343456' }
                 height="48px"
                 borderRadius="4px"
                 padding="12px 24px 4px 12px"
                 width="100%"
-                value={data?.chainTicker}
-                onChange={(e) => setData({ ...data, chainTicker: e.target.value.toLowerCase() })}
+                value={ data?.chainTicker }
+                onChange={ (e) => setData({ ...data, chainTicker: e.target.value.toLowerCase() }) }
                 name="chainTicker"
-                disabled={loading}
+                disabled={ loading }
               />
             </Flex>
           </Flex>
@@ -79,12 +79,12 @@ const AddBlockProvide = ({ isOpen, onClose, handleSave, loading }) => {
                 fontSize="16px"
                 fontWeight="500"
                 lineHeight="20px"
-                color={mainColor}
+                color={ mainColor }
                 marginBottom="4px"
               >
                 url
               </Text>
-              <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+              <Text fontWeight="400" color={ metaColor } fontSize="12px" lineHeight="16px">
                 URL of the provider RPC
               </Text>
             </Flex>
@@ -96,21 +96,21 @@ const AddBlockProvide = ({ isOpen, onClose, handleSave, loading }) => {
               justifyContent="flex-end"
             >
               <Input
-                placeholder="BlockchainProvider Url"
-                backgroundColor={mainBg}
-                color={mainColor}
+                placeholder="ChainProvider Url"
+                backgroundColor={ mainBg }
+                color={ mainColor }
                 boxSizing="border-box"
                 marginBottom="8px"
-                border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                border={ `1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}` }
+                borderColor={ colorMode === 'light' ? '#edeff1' : '#343456' }
                 height="48px"
                 borderRadius="4px"
                 padding="12px 24px 4px 12px"
                 width="100%"
-                value={data?.url}
-                onChange={(e) => setData({ ...data, url: e.target.value })}
+                value={ data?.url }
+                onChange={ (e) => setData({ ...data, url: e.target.value }) }
                 name="url"
-                disabled={loading}
+                disabled={ loading }
               />
             </Flex>
           </Flex>
@@ -120,12 +120,12 @@ const AddBlockProvide = ({ isOpen, onClose, handleSave, loading }) => {
                 fontSize="16px"
                 fontWeight="500"
                 lineHeight="20px"
-                color={mainColor}
+                color={ mainColor }
                 marginBottom="4px"
               >
                 chainId
               </Text>
-              <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+              <Text fontWeight="400" color={ metaColor } fontSize="12px" lineHeight="16px">
                 ID of the EVM chain if any
               </Text>
             </Flex>
@@ -137,32 +137,32 @@ const AddBlockProvide = ({ isOpen, onClose, handleSave, loading }) => {
               justifyContent="flex-end"
             >
               <Input
-                placeholder="BlockchainProvider chainId"
-                backgroundColor={mainBg}
-                color={mainColor}
+                placeholder="ChainProvider chainId"
+                backgroundColor={ mainBg }
+                color={ mainColor }
                 boxSizing="border-box"
                 marginBottom="8px"
-                border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-                borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+                border={ `1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}` }
+                borderColor={ colorMode === 'light' ? '#edeff1' : '#343456' }
                 height="48px"
                 borderRadius="4px"
                 padding="12px 24px 4px 12px"
                 width="100%"
                 type="number"
-                value={data?.chainId}
-                onChange={(e) => setData({ ...data, chainId: e.target.value })}
+                value={ data?.chainId }
+                onChange={ (e) => setData({ ...data, chainId: e.target.value }) }
                 name="chainId"
-                disabled={loading}
+                disabled={ loading }
               />
             </Flex>
           </Flex>
         </ModalBody>
 
-        <ModalFooter mt={3}>
-          <Button isLoading={loading} onClick={() => handleSave(data)} mr="10px">
+        <ModalFooter mt={ 3 }>
+          <Button isLoading={ loading } onClick={ () => handleSave(data) } mr="10px">
             save
           </Button>
-          <Button colorScheme="red" onClick={onClose}>
+          <Button colorScheme="red" onClick={ onClose }>
             cancel
           </Button>
         </ModalFooter>
