@@ -17,7 +17,7 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { useAccountsActions } from '@plebbit/plebbit-react-hooks';
+import { useCreateSubplebbit } from '@plebbit/plebbit-react-hooks';
 import React, { useState } from 'react';
 import logger from '../../../../utils/logger';
 import { useHistory } from 'react-router-dom';
@@ -25,10 +25,13 @@ import { useHistory } from 'react-router-dom';
 const CreateSubPlebbit = ({ isOpen, onClose }) => {
   const navBorder = useColorModeValue('#edeff1', '#343536');
   const [value, setValue] = useState({ title: '', type: 'public' });
-  const { createSubplebbit } = useAccountsActions();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+
+
+
+  const { createSubplebbit } = useCreateSubplebbit({ value })
 
   const handleCreateSubPlebbit = async () => {
     setLoading(true);
@@ -53,17 +56,17 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
 
   return (
     <Modal
-      trapFocus={false}
+      trapFocus={ false }
       scrollBehavior="inside"
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={ isOpen }
+      onClose={ onClose }
       isCentered
       size="xl"
     >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
-          borderBottomColor={navBorder}
+          borderBottomColor={ navBorder }
           borderBottomStyle="solid"
           borderBottomWidth="1px"
         >
@@ -77,9 +80,9 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
             </Box>
             <InputGroup mt="12px" mb="8px">
               <Input
-                disabled={loading}
-                value={value?.title}
-                onChange={(e) => setValue({ ...value, title: e.target.value })}
+                disabled={ loading }
+                value={ value?.title }
+                onChange={ (e) => setValue({ ...value, title: e.target.value }) }
                 placeholder="input subplebbit title"
               />
             </InputGroup>
@@ -93,7 +96,7 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
               Community type
             </Box>
             <Flex flexDirection="column" mt="12px" alignItems="flex-start">
-              <RadioGroup onChange={(x) => setValue({ ...value, type: x })} value={value?.type}>
+              <RadioGroup onChange={ (x) => setValue({ ...value, type: x }) } value={ value?.type }>
                 <Stack direction="column">
                   <Radio value="public" colorScheme="gray" color="gray">
                     <Flex alignItems="center">
@@ -132,16 +135,16 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
         </ModalBody>
 
         <ModalFooter
-          sx={{
+          sx={ {
             bg: navBorder,
-          }}
+          } }
         >
           <Button
             variant="outline"
             colorScheme="blue"
-            ml={8}
-            mr={3}
-            onClick={onClose}
+            ml={ 8 }
+            mr={ 3 }
+            onClick={ onClose }
             borderRadius="999px"
             padding="4px 16px"
           >
@@ -151,8 +154,8 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
             colorScheme="blue"
             borderRadius="999px"
             padding="4px 16px"
-            onClick={handleCreateSubPlebbit}
-            isLoading={loading}
+            onClick={ handleCreateSubPlebbit }
+            isLoading={ loading }
           >
             Create a community
           </Button>

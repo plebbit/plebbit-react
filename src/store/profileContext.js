@@ -1,13 +1,19 @@
 import { useColorMode } from '@chakra-ui/react';
 import {
   useAccount,
-  useAccountNotifications,
+  useNotifications,
   useAccounts,
-  useAccountsActions,
   useAccountSubplebbits,
-  useAuthorAvatarImageUrl,
+  useAuthorAvatar,
   useSubplebbits,
+  exportAccount,
+  createAccount,
+  importAccount,
+  setActiveAccount,
+  setAccountsOrder,
+  deleteAccount,
 } from '@plebbit/plebbit-react-hooks';
+import { setAccount } from "@plebbit/plebbit-react-hooks/dist/stores/accounts/accounts-actions"
 import React, { createContext, useState, useEffect } from 'react';
 import useSubPlebbitDefaultData from '../hooks/useSubPlebbitDefaultData';
 
@@ -21,22 +27,13 @@ export const ProfileDataProvider = (props) => {
   const [feedSort, setFeedSort] = useState('hot');
   const [showSplashcreen, setShowSplashcreen] = useState(true);
   const [device, setDevice] = useState('pc');
-  const {
-    exportAccount,
-    createAccount,
-    importAccount,
-    setActiveAccount,
-    setAccountsOrder,
-    setAccount,
-    deleteAccount,
-  } = useAccountsActions();
   const defaultAccount = useAccount();
-  const accountLists = useAccounts();
+  const { accounts: accountLists } = useAccounts();
   const profile = defaultAccount;
-  const accountSubplebbits = useAccountSubplebbits();
+  const { accountSubplebbits } = useAccountSubplebbits();
   const [showSide, setShowSide] = useState(false);
   const userTheme = profile?.plebbitReactOptions?.darkMode;
-  const notifications = useAccountNotifications(profile?.name);
+  const notifications = useNotifications({ accountName: profile?.name });
 
   const toggleTheme = async () => {
     toggleColorMode();
@@ -49,7 +46,9 @@ export const ProfileDataProvider = (props) => {
   };
 
   //account Subscription === obj[]
-  const subscriptions = useSubplebbits(defaultAccount?.subscriptions);
+  const { subplebbits: subscriptions } = useSubplebbits({ subplebbitAddresses: defaultAccount?.subscriptions });
+
+
 
   // account subscriptions &&  created subs === address[]
   const [homeAdd, setHomeAdd] = useState(
@@ -70,28 +69,30 @@ export const ProfileDataProvider = (props) => {
   //git default subs === {...obj}
   const subPlebbitData = useSubPlebbitDefaultData();
   // account subscriptions &&  created subs && git default subs === obj[]
-  const subPlebbitDefData = useSubplebbits(
-    [
-      subscriptions
-        ?.map((x) => {
-          if (!x?.address) {
-            return '';
-          }
-          return x?.address;
-        })
-        ?.filter(Boolean),
-      ...Object.keys(accountSubplebbits),
-      subPlebbitData ? subPlebbitData?.map((x) => x?.address).filter(Boolean) : [],
-    ]
-      .flat()
-      ?.filter((x) => x !== undefined)
+  const { subplebbits: subPlebbitDefData } = useSubplebbits({
+    subplebbitAddresses:
+      [
+        subscriptions
+          ?.map((x) => {
+            if (!x?.address) {
+              return '';
+            }
+            return x?.address;
+          })
+          ?.filter(Boolean),
+        ...Object.keys(accountSubplebbits),
+        subPlebbitData ? subPlebbitData?.map((x) => x?.address).filter(Boolean) : [],
+      ]
+        .flat()
+        ?.filter((x) => x !== undefined)
+  }
   );
 
   const { version } = require('../../package.json');
   const [postView, setPostView] = useState(
     homeAdd ? homeAdd : [homeAdd, subPlebbitDefData?.map((x) => x?.address)].flat()
   );
-  const authorAvatarImageUrl = useAuthorAvatarImageUrl(profile?.author);
+  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
   const mode = window?.location?.protocol;
   const baseUrl = mode === 'https:' ? 'plebbitdemo.eth.limo/#/' : `${window.origin}/#`;
 
@@ -137,7 +138,7 @@ export const ProfileDataProvider = (props) => {
 
   return (
     <ProfileContext.Provider
-      value={{
+      value={ {
         profile,
         setReloadUser,
         reloadUser,
@@ -171,9 +172,9 @@ export const ProfileDataProvider = (props) => {
         deleteAccount,
         toggleTheme,
         notifications,
-      }}
+      } }
     >
-      {children}
+      { children }
     </ProfileContext.Provider>
   );
 };

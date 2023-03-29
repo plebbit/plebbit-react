@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -10,7 +10,7 @@ import {
   useToast,
   Tag,
 } from '@chakra-ui/react';
-import { useAccountsActions, useAuthorAvatarImageUrl } from '@plebbit/plebbit-react-hooks';
+import { usePublishVote, usePublishComment, usePublishCommentEdit, useAuthorAvatar, useAccountVote } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -36,15 +36,16 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
-  const [vote] = useState(+comment?.upvoteCount - +comment?.downvoteCount);
-  const [voteMode, setVoteMode] = useState(0);
+  const [vote, setVote] = useState(+comment?.upvoteCount - +comment?.downvoteCount);
+  const { vote: postVote } = useAccountVote({ commentCid: comment?.cid });
+  const [voteMode, setVoteMode] = useState(postVote === undefined ? 0 : postVote);
   const [reply, setShowReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const toast = useToast();
-  const { publishVote, publishComment, publishCommentEdit } = useAccountsActions();
+
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const authorAvatarImageUrl = useAuthorAvatarImageUrl(comment?.author);
+  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: comment?.author });
   const { baseUrl, profile, accountSubplebbits } = useContext(ProfileContext);
   const [copied, setCopied] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -54,6 +55,8 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const owner =
     profile?.author?.address === comment?.author?.address ||
     profile?.signer?.address === comment?.author?.address;
+
+  //function to verify challenge
   const onChallengeVerification = (challengeVerification) => {
     if (challengeVerification.challengeSuccess === true) {
       toast({
@@ -89,6 +92,8 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     }
   };
 
+
+  //challenge function for user
   const onChallenge = async (challenges, comment) => {
     let challengeAnswers = [];
 
@@ -114,16 +119,21 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     }
   };
 
-  const handleVote = (vote) => {
+  const publishVoteOptions = {
+    vote: voteMode,
+    commentCid: comment?.cid,
+    subplebbitAddress: comment?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError: onError,
+  }
+  const { publishVote } = usePublishVote(publishVoteOptions)
+
+
+  const handleVote = (curr) => {
+    setVoteMode(curr)
     try {
-      publishVote({
-        vote,
-        commentCid: comment?.cid,
-        subplebbitAddress: comment?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError: onError,
-      });
+      publishVote();
     } catch (error) {
       logger('voting-declined', error, 'error');
       toast({
@@ -136,17 +146,29 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     }
   };
 
+
+  useEffect(() => {
+    setVote(+comment?.upvoteCount - +comment?.downvoteCount);
+    setVoteMode(comment?.vote)
+  }, [comment?.vote])
+
+  //options needed to publish a comment
+  const publishCommentOptions = {
+    content,
+    parentCid: comment?.cid, // if top level reply to a post, same as postCid
+    subplebbitAddress: comment?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError: onError,
+  }
+
+  const { publishComment } = usePublishComment(publishCommentOptions)
+
+
   const handlePublishPost = () => {
     try {
       setLoader(true);
-      publishComment({
-        content,
-        parentCid: comment?.cid, // if top level reply to a post, same as postCid
-        subplebbitAddress: comment?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError: onError,
-      });
+      publishComment();
     } catch (error) {
       logger('create:comment:response', error, 'error');
       toast({
@@ -159,17 +181,25 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     }
   };
 
-  const handleEditPost = async (update, callBack, failedCallBack) => {
+  const [update, setUpdate] = useState({})
+
+
+  const publishCommentEditOptions = {
+    commentCid: comment?.cid,
+    subplebbitAddress: comment?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError: onError,
+    ...update,
+  }
+  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
+
+  const handleEditPost = async (val, callBack, failedCallBack) => {
+    setUpdate({ ...val })
     try {
-      await publishCommentEdit({
-        commentCid: comment?.cid,
-        subplebbitAddress: comment?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError: onError,
-        ...update,
-      });
+      await publishCommentEdit();
       callBack ? callBack() : '';
+      setUpdate({})
     } catch (error) {
       logger('edit:comment:response:', error, 'error');
       toast({
@@ -202,36 +232,36 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
 
   const oneComment = (
     <Comment
-      key={singleComment?.cid}
-      comment={singleComment}
+      key={ singleComment?.cid }
+      comment={ singleComment }
       type="singleComment"
-      parentCid={singleComment?.cid}
+      parentCid={ singleComment?.cid }
     />
   );
 
   const nestedComments = (comment?.replies?.pages?.topAll?.comments || []).map((data) => {
     return (
       <Comment
-        key={data?.cid}
-        comment={data}
-        type={data?.cid === singleComment?.cid ? 'singleComment' : 'child'}
-        parentCid={data?.cid}
+        key={ data?.cid }
+        comment={ data }
+        type={ data?.cid === singleComment?.cid ? 'singleComment' : 'child' }
+        parentCid={ data?.cid }
       />
     );
   });
   return (
-    <Flex marginTop="15px" bg={type === 'singleComment' && commentBg} padding="8px 0 0 8px">
+    <Flex marginTop="15px" bg={ type === 'singleComment' && commentBg } padding="8px 0 0 8px">
       <Flex marginRight="8px" flexDir="column" alignItems="center">
-        <Avatar width={28} height={28} avatar={authorAvatarImageUrl} mb="10px" />
+        <Avatar width={ 28 } height={ 28 } avatar={ authorAvatarImageUrl } mb="10px" />
 
         <Box borderRight="2px solid #edeff1" width="0" height="100%" />
       </Flex>
 
-      <Flex flexDir="column" flexGrow={1}>
+      <Flex flexDir="column" flexGrow={ 1 }>
         <Flex flexDir="column" mb="6px">
           <Flex alignItems="center" fontWeight="400" fontSize="12px">
             <Box maxW="50%" mr="5px">
-              <Box isTruncated>{getUserName(comment?.author)} </Box>
+              <Box isTruncated>{ getUserName(comment?.author) } </Box>
             </Box>
 
             <Box
@@ -244,13 +274,13 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
             >
               •
             </Box>
-            <Box color={iconColor}>
-              <i> {dateToNow(comment?.timestamp * 1000)}</i>
+            <Box color={ iconColor }>
+              <i> { dateToNow(comment?.timestamp * 1000) }</i>
             </Box>
           </Flex>
-          {comment?.flair?.text && (
+          { comment?.flair?.text && (
             <Box
-              backgroundColor={comment?.flair?.color}
+              backgroundColor={ comment?.flair?.color }
               color="#fff"
               width="fit-content"
               padding="0 4px"
@@ -259,23 +289,23 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
               mt="2px"
               borderRadius="2px"
             >
-              {comment?.flair?.text}
+              { comment?.flair?.text }
             </Box>
-          )}
+          ) }
         </Flex>
         <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>
-          <Marked content={comment?.content || ''} />
-          {commentPending && (
+          <Marked content={ comment?.content || '' } />
+          { commentPending && (
             <Tag size="sm" colorScheme="yellow" variant="outline">
               Pending
             </Tag>
-          )}
+          ) }
         </Box>
-        {/* footer */}
-        {commentPending ? (
+        {/* footer */ }
+        { commentPending ? (
           <Flex />
         ) : (
-          <Flex color={iconColor}>
+          <Flex color={ iconColor }>
             <Flex
               alignItems="center"
               maxH=""
@@ -288,7 +318,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
             >
               <IconButton
                 aria-label="Upvote Post"
-                color={voteMode === 1 ? 'upvoteOrange' : iconColor}
+                color={ voteMode === 1 ? 'upvoteOrange' : iconColor }
                 w="24px"
                 h="24px"
                 bg="none"
@@ -296,25 +326,25 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                 minH="24px"
                 border="none"
                 borderRadius="2px"
-                _hover={{
+                _hover={ {
                   color: 'upvoteOrange',
                   bg: bottomButtonHover,
-                }}
-                _focus={{
+                } }
+                _focus={ {
                   outline: 'none',
-                }}
-                onClick={() => {
+                } }
+                onClick={ () => {
                   setVoteMode(voteMode === 1 ? 0 : 1);
                   handleVote(voteMode === 1 ? 0 : 1);
-                }}
-                icon={<Icon as={voteMode === 1 ? ImArrowUp : BiUpvote} w="20px" h="20px" />}
+                } }
+                icon={ <Icon as={ voteMode === 1 ? ImArrowUp : BiUpvote } w="20px" h="20px" /> }
               />
               <Box fontSize="14px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
-                {numFormatter(vote + voteMode) === 0 ? 'vote' : numFormatter(vote + voteMode) || 0}
+                { numFormatter(vote + voteMode) === 0 ? 'vote' : numFormatter(vote + voteMode) || 0 }
               </Box>
               <IconButton
                 aria-label="Downvote Post"
-                color={voteMode === -1 ? 'downvoteBlue' : iconColor}
+                color={ voteMode === -1 ? 'downvoteBlue' : iconColor }
                 w="24px"
                 h="24px"
                 minW="24px"
@@ -322,18 +352,18 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                 border="none"
                 bg="none"
                 borderRadius="2px"
-                _hover={{
+                _hover={ {
                   color: 'downvoteBlue',
                   bg: bottomButtonHover,
-                }}
-                _focus={{
+                } }
+                _focus={ {
                   outline: 'none',
-                }}
-                onClick={() => {
+                } }
+                onClick={ () => {
                   setVoteMode(voteMode === -1 ? 0 : -1);
                   handleVote(voteMode === -1 ? 0 : -1);
-                }}
-                icon={<Icon as={voteMode === -1 ? ImArrowDown : BiDownvote} w="20px" h="20px" />}
+                } }
+                icon={ <Icon as={ voteMode === -1 ? ImArrowDown : BiDownvote } w="20px" h="20px" /> }
               />
             </Flex>
             <Link
@@ -342,17 +372,17 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
               borderRadius="2px"
               padding="2px"
               marginRight="4px"
-              _hover={{
+              _hover={ {
                 textDecor: 'none',
                 outline: 'none',
                 bg: bottomButtonHover,
-              }}
-              _focus={{
+              } }
+              _focus={ {
                 boxShadow: 'none',
-              }}
-              onClick={() => setShowReply(!reply)}
+              } }
+              onClick={ () => setShowReply(!reply) }
             >
-              <Icon as={BsChat} height="20px" width="20px" mr="5px" />
+              <Icon as={ BsChat } height="20px" width="20px" mr="5px" />
               <Text
                 fontSize="12px"
                 fontWeight="700"
@@ -365,13 +395,13 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
             </Link>
 
             <CopyToClipboard
-              text={`${baseUrl}p/${comment?.subplebbitAddress}/c/${comment?.cid}`}
-              onCopy={() => {
+              text={ `${baseUrl}p/${comment?.subplebbitAddress}/c/${comment?.cid}` }
+              onCopy={ () => {
                 setCopied(true);
                 setTimeout(() => {
                   setCopied(false);
                 }, 3000);
-              }}
+              } }
             >
               <Link
                 display="flex"
@@ -379,20 +409,20 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                 borderRadius="2px"
                 padding="4px"
                 marginRight="4px"
-                _hover={{
+                _hover={ {
                   textDecor: 'none',
                   outline: 'none',
                   bg: bottomButtonHover,
-                }}
-                _focus={{
+                } }
+                _focus={ {
                   boxShadow: 'none',
-                }}
-                sx={{
+                } }
+                sx={ {
                   '@media (min-width: 1280px)': {},
                   '@media (max-width: 1120px)': {
                     display: 'none',
                   },
-                }}
+                } }
               >
                 <Text
                   fontSize="12px"
@@ -401,13 +431,13 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                   pointerEvents="none"
                   color=""
                 >
-                  {copied ? 'Copied' : 'Share'}
+                  { copied ? 'Copied' : 'share' }
                 </Text>
               </Link>
             </CopyToClipboard>
             <Flex justifyContent="center">
               <DropDown
-                onChange={handleOption}
+                onChange={ handleOption }
                 dropDownTitle={
                   <Flex
                     borderRadius="2px"
@@ -418,16 +448,16 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                     bg="transparent"
                     border="none"
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       textDecor: 'none',
                       outline: 'none',
                       bg: bottomButtonHover,
-                    }}
+                    } }
                   >
-                    <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
+                    <Icon as={ FiMoreHorizontal } color={ iconColor } h="20px" w="20px" />
                   </Flex>
                 }
-                options={[
+                options={ [
                   {
                     label: 'Give Award',
                     icon: GoGift,
@@ -450,16 +480,16 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                     id: 'delete',
                     disabled: !owner,
                   },
-                ]}
-                rightOffset={0}
+                ] }
+                rightOffset={ 0 }
                 leftOffset="none"
                 topOffset="34px"
               />
             </Flex>
-            {isSpecial && (
+            { isSpecial && (
               <Flex justifyContent="center">
                 <DropDown
-                  onChange={(val) => handleEditPost({ [val?.id]: comment[val?.id] ? false : true })}
+                  onChange={ (val) => handleEditPost({ [val?.id]: comment[val?.id] ? false : true }) }
                   dropDownTitle={
                     <Flex
                       borderRadius="2px"
@@ -470,18 +500,18 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                       bg="transparent"
                       border="none"
                       alignItems="center"
-                      _hover={{
+                      _hover={ {
                         color: 'downvoteBlue',
                         bg: bottomButtonHover,
-                      }}
-                      _focus={{
+                      } }
+                      _focus={ {
                         outline: 'none',
-                      }}
+                      } }
                     >
-                      <Icon as={BsShield} color={iconColor} h="20px" w="20px" />
+                      <Icon as={ BsShield } color={ iconColor } h="20px" w="20px" />
                     </Flex>
                   }
-                  options={[
+                  options={ [
                     {
                       label: !comment?.removed ? 'Approved' : 'Approve',
                       id: 'removed',
@@ -492,16 +522,16 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                       id: 'locked',
                       color: comment?.locked && 'red',
                     },
-                  ]}
-                  rightOffset={0}
+                  ] }
+                  rightOffset={ 0 }
                   leftOffset="none"
                   topOffset="34px"
                 />
               </Flex>
-            )}
+            ) }
           </Flex>
-        )}
-        {reply ? (
+        ) }
+        { reply ? (
           <Box
             minH="150px"
             borderRadius="4px"
@@ -510,23 +540,23 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
             resize="vertical"
           >
             <Editor
-              setValue={setContent}
-              editorState={editorState}
-              setEditorState={setEditorState}
+              setValue={ setContent }
+              editorState={ editorState }
+              setEditorState={ setEditorState }
               showSubmit
-              handleSubmit={handlePublishPost}
-              loading={loader}
+              handleSubmit={ handlePublishPost }
+              loading={ loader }
             />
           </Box>
         ) : (
           ''
-        )}
-        {singleComment && oneComment}
-        {!disableReplies && showReplies ? (
+        ) }
+        { singleComment && oneComment }
+        { !disableReplies && showReplies ? (
           nestedComments
         ) : comment?.replies?.pages?.topAll?.comments.length > 0 ? (
           <Box
-            onClick={() => setShowReplies(true)}
+            onClick={ () => setShowReplies(true) }
             fontSize="12px"
             fontWeight="700"
             lineHeight="16px"
@@ -535,12 +565,12 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
             pl="4px"
             cursor="pointer"
           >
-            {comment?.replyCount}
-            {comment?.replyCount > 0 ? ' more' : ''} repl{comment?.replyCount === 1 ? 'y' : 'ies'}
+            { comment?.replyCount }
+            { comment?.replyCount > 0 ? ' more' : '' } repl{ comment?.replyCount === 1 ? 'y' : 'ies' }
           </Box>
         ) : (
           ''
-        )}
+        ) }
       </Flex>
     </Flex>
   );

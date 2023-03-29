@@ -75,6 +75,7 @@ const NavBar = ({ location, showStyleBar }) => {
     setShowSide,
     toggleTheme,
   } = useContext(ProfileContext);
+
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -102,12 +103,13 @@ const NavBar = ({ location, showStyleBar }) => {
     });
   };
 
+
   return (
     <Box>
-      {device !== 'mobile' ? (
+      { device !== 'mobile' ? (
         <Flex
           // for the side bar
-          marginLeft={showStyleBar && '284px'}
+          marginLeft={ showStyleBar && '284px' }
           flex="0"
           left="0"
           position="fixed"
@@ -115,21 +117,21 @@ const NavBar = ({ location, showStyleBar }) => {
           top="0"
           zIndex="2001"
           marginTop="0"
-          color={mainColor}
+          color={ mainColor }
           height="48px"
           alignItems="center"
         >
           <Flex
             alignItems="center"
-            bg={bg}
-            borderBottom={`1px solid ${navBorder}`}
+            bg={ bg }
+            borderBottom={ `1px solid ${navBorder}` }
             boxSizing="border-box"
-            flexGrow={1}
+            flexGrow={ 1 }
             padding="0 20px"
             height="100%"
           >
             <Flex alignItems="center" flexGrow="1">
-              <Flex display="flex" alignItems="center" onClick={() => history.push('/', [])}>
+              <Flex display="flex" alignItems="center" onClick={ () => history.push('/', []) }>
                 <Box
                   mr="8px"
                   cursor="pointer"
@@ -141,19 +143,19 @@ const NavBar = ({ location, showStyleBar }) => {
                   <PlebLogo />
                 </Box>
                 <PlebbitTextLogo
-                  style={{
+                  style={ {
                     height: '20px',
                     border: 'none',
                     marginRight: '10px',
                     cursor: 'pointer',
                     overflow: 'hidden',
-                  }}
-                  color={colorMode === 'light' ? '#000' : '#fff'}
+                  } }
+                  color={ colorMode === 'light' ? '#000' : '#fff' }
                 />
               </Flex>
               <Box>
                 <DropDown2
-                  onChange={(x) => {
+                  onChange={ (x) => {
                     if (location.label === 'Home') {
                       setPostView(x.value);
                     } else {
@@ -163,78 +165,78 @@ const NavBar = ({ location, showStyleBar }) => {
                         history.push(x?.value);
                       }
                     }
-                  }}
-                  prefix={(val) => (val?.icon ? val?.icon : <Icon as={MdHome} h={6} w={8} />)}
-                  suffix={() => {
+                  } }
+                  prefix={ (val) => (val?.icon ? val?.icon : <Icon as={ MdHome } h={ 6 } w={ 8 } />) }
+                  suffix={ () => {
                     return (
                       !showSide &&
                       location.label === 'Home' && (
                         <Flex>
-                          <Icon as={RiSideBarFill} h={6} w={8} onClick={() => setShowSide(true)} />
+                          <Icon as={ RiSideBarFill } h={ 6 } w={ 8 } onClick={ () => setShowSide(true) } />
                         </Flex>
                       )
                     );
-                  }}
-                  options={[
+                  } }
+                  options={ [
                     location || {},
                     {
                       label: location?.label !== 'Home' ? 'Home' : 'p/All',
                       value: subPlebbitData?.map((x) => x?.address)?.filter((x) => x !== undefined),
                     },
-                  ]}
+                  ] }
                   placeholder="Home"
-                  getOptionValue={(item) => item?.value}
-                  sx={{
+                  getOptionValue={ (item) => item?.value }
+                  sx={ {
                     width: '270px',
                     height: '36px',
                     background: 'transparent',
-                  }}
+                  } }
                   value={
                     location?.label !== 'Home'
                       ? location
                       : [
-                          { label: 'Home', value: homeAdd },
-                          {
-                            label: location?.label !== 'Home' ? 'Home' : 'p/All',
-                            value: subPlebbitData
-                              ?.map((x) => x?.address)
-                              ?.filter((x) => x !== undefined),
-                          },
-                        ].find((x) => x?.value === postView)
+                        { label: 'Home', value: homeAdd },
+                        {
+                          label: location?.label !== 'Home' ? 'Home' : 'p/All',
+                          value: subPlebbitData
+                            ?.map((x) => x?.address)
+                            ?.filter((x) => x !== undefined),
+                        },
+                      ].find((x) => x?.value === postView)
                   }
-                  isSearchable={false}
+                  isSearchable={ false }
                   topMenu={
                     <Box>
                       <Box paddingX="12px" paddingTop="10px" fontSize="10px">
-                        {Object.keys(accountSubplebbits)?.length ? 'Moderating' : ''}
+                        { Object.keys(accountSubplebbits)?.length ? 'Moderating' : '' }
                       </Box>
-                      {Object.keys(accountSubplebbits)?.length
+                      { Object.keys(accountSubplebbits)?.length
                         ? Object.keys(accountSubplebbits)?.map((pages, index) => (
-                            <Link key={index} to={`/p/${pages}/`}>
-                              <Flex
-                                alignItems="center"
-                                _hover={{
-                                  bg: '#DEEBFF',
-                                }}
-                                padding="8px 12px"
-                                fontWeight="400"
-                                fontSize="14px"
-                                borderBottom={`1px solid ${navBorder}`}
-                              >
-                                <Avatar
-                                  width={20}
-                                  height={20}
-                                  mr="8px"
-                                  avatar={accountSubplebbits[pages]?.avatar}
-                                  badge
-                                  isOnline={getIsOnline(accountSubplebbits[pages]?.updatedAt)}
-                                />
+                          <Link key={ index } to={ `/p/${pages}/` }>
+                            <Flex
+                              alignItems="center"
+                              _hover={ {
+                                bg: '#DEEBFF',
+                              } }
+                              padding="8px 12px"
+                              fontWeight="400"
+                              fontSize="14px"
+                              borderBottom={ `1px solid ${navBorder}` }
+                            >
+                              <Avatar
+                                width={ 20 }
+                                height={ 20 }
+                                mr="8px"
+                                avatar={ accountSubplebbits[pages]?.avatar }
+                                badge
+                                isOnline={ getIsOnline(accountSubplebbits[pages]?.updatedAt) }
+                              />
 
-                                <Box>{getSubName(accountSubplebbits[pages])}</Box>
-                              </Flex>
-                            </Link>
-                          ))
-                        : ''}
+                              <Box>{ getSubName(accountSubplebbits[pages]) }</Box>
+                            </Flex>
+                          </Link>
+                        ))
+                        : '' }
                     </Box>
                   }
                   bottomMenu={
@@ -248,19 +250,19 @@ const NavBar = ({ location, showStyleBar }) => {
                         padding="12px"
                         cursor="pointer"
                         color="blue.400"
-                        borderBottomColor={navBorder}
+                        borderBottomColor={ navBorder }
                         borderBottomWidth="3px"
                         borderBottomStyle="solid"
-                        _hover={{
+                        _hover={ {
                           bg: inputBg,
-                        }}
-                        onClick={onOpenCreate}
+                        } }
+                        onClick={ onOpenCreate }
                         alignItems="center"
                       >
-                        <Icon onClick={() => onOpenCreate()} as={BsPlusLg} mr="8px" />
-                        <Box onClick={() => onOpenCreate()}>Create Community</Box>
+                        <Icon onClick={ () => onOpenCreate() } as={ BsPlusLg } mr="8px" />
+                        <Box onClick={ () => onOpenCreate() }>Create Community</Box>
                       </Flex>
-                      {[
+                      { [
                         subPlebbitData?.map((x) => ({
                           ...x,
                           label: x?.title ? x?.title : getSubName(x),
@@ -269,58 +271,58 @@ const NavBar = ({ location, showStyleBar }) => {
                       ]
                         .flat()
                         ?.map((pages, index) => (
-                          <Link key={index} to={`/p/${pages?.value}/`}>
+                          <Link key={ index } to={ `/p/${pages?.value}/` }>
                             <Flex
-                              _hover={{
+                              _hover={ {
                                 bg: '#DEEBFF',
-                              }}
+                              } }
                               padding="8px 12px"
                               fontWeight="400"
                               fontSize="14px"
-                              borderBottom={`1px solid ${navBorder}`}
+                              borderBottom={ `1px solid ${navBorder}` }
                               alignItems="center"
                             >
                               <Avatar
-                                width={20}
-                                height={20}
+                                width={ 20 }
+                                height={ 20 }
                                 mr="8px"
-                                avatar={pages?.avatar}
+                                avatar={ pages?.avatar }
                                 badge
-                                isOnline={getIsOnline(pages?.updatedAt)}
+                                isOnline={ getIsOnline(pages?.updatedAt) }
                               />
 
-                              <Box>{getSubName(pages)}</Box>
+                              <Box>{ getSubName(pages) }</Box>
                             </Flex>
                           </Link>
-                        ))}
+                        )) }
                     </>
                   }
                 />
               </Box>
-              {/* Search bar */}
+              {/* Search bar */ }
               <NavSearch />
             </Flex>
             <Flex alignItems="center" flexGrow="0">
               <Flex
                 marginRight="8px"
                 paddingRight="8px"
-                borderRight={`1px solid ${navBorder}`}
+                borderRight={ `1px solid ${navBorder}` }
                 alignItems="center"
               >
                 <Icon
                   borderRadius="2px"
-                  color={iconColor2}
-                  width={5}
-                  height={5}
-                  as={BsArrowUpRightCircle}
+                  color={ iconColor2 }
+                  width={ 5 }
+                  height={ 5 }
+                  as={ BsArrowUpRightCircle }
                 />
                 <Icon
                   marginLeft="8px"
                   borderRadius="2px"
-                  width={6}
-                  height={6}
-                  as={HiOutlineChartSquareBar}
-                  color={iconColor2}
+                  width={ 6 }
+                  height={ 6 }
+                  as={ HiOutlineChartSquareBar }
+                  color={ iconColor2 }
                 />
               </Flex>
               <Flex alignItems="center">
@@ -328,28 +330,28 @@ const NavBar = ({ location, showStyleBar }) => {
                   <Flex alignItems="center">
                     <Icon
                       borderRadius="2px"
-                      color={iconColor2}
-                      width={6}
-                      height={6}
-                      as={HiOutlineChat}
+                      color={ iconColor2 }
+                      width={ 6 }
+                      height={ 6 }
+                      as={ HiOutlineChat }
                     />
                     <NavNotification />
 
                     <Icon
                       ml="8px"
-                      color={iconColor2}
-                      width={6}
-                      height={6}
-                      as={AiOutlinePlus}
-                      onClick={() => history.push('/submit')}
+                      color={ iconColor2 }
+                      width={ 6 }
+                      height={ 6 }
+                      as={ AiOutlinePlus }
+                      onClick={ () => history.push('/submit') }
                     />
                   </Flex>
 
                   <NDDown
-                    onClick={() => {
+                    onClick={ () => {
                       setShowDropDown(!showDropDown);
                       setShowComponent(!showDropDown);
-                    }}
+                    } }
                   />
                 </Flex>
               </Flex>
@@ -371,53 +373,53 @@ const NavBar = ({ location, showStyleBar }) => {
               flex="1 0 130px"
               mr="auto"
               alignItems="center"
-              onClick={() => {
+              onClick={ () => {
                 history.push('/', []);
-              }}
+              } }
             >
               <Box mr="4px" cursor="pointer" borderRadius="full" width="30px" height="30px">
                 <PlebLogo />
               </Box>
               <PlebbitTextLogo
-                style={{
+                style={ {
                   height: '20px',
                   border: 'none',
                   marginRight: '10px',
                   cursor: 'pointer',
                   overflow: 'hidden',
-                }}
+                } }
                 color="#fff"
               />
             </Flex>
             <Flex
               mr="8px"
-              padding={0}
+              padding={ 0 }
               height="36px"
               width="36px"
               alignItems="center"
               justifyContent="center"
-              onClick={() => history.push('/submit', [])}
+              onClick={ () => history.push('/submit', []) }
             >
-              <Icon as={BiPencil} width={6} height={6} color="#fff" />
+              <Icon as={ BiPencil } width={ 6 } height={ 6 } color="#fff" />
             </Flex>
             <Flex
-              onClick={() => {
+              onClick={ () => {
                 setShowDropDown(!showDropDown);
                 setShowComponent(!showDropDown);
-              }}
+              } }
               height="36px"
               width="36px"
               alignItems="center"
               justifyContent="center"
             >
-              <Icon as={GiHamburgerMenu} width={6} height={6} color="#fff" />
+              <Icon as={ GiHamburgerMenu } width={ 6 } height={ 6 } color="#fff" />
             </Flex>
           </Flex>
         </Flex>
-      )}
-      {showDropDown && showComponent && (
-        <Box ref={ref}>
-          {device !== 'mobile' ? (
+      ) }
+      { showDropDown && showComponent && (
+        <Box ref={ ref }>
+          { device !== 'mobile' ? (
             <Box
               position="fixed"
               right="16px"
@@ -427,13 +429,13 @@ const NavBar = ({ location, showStyleBar }) => {
               marginTop="4px"
               paddingY="8px"
               width="252px"
-              border={`1px solid ${navBorder}`}
+              border={ `1px solid ${navBorder}` }
               boxShadow="none"
               maxHeight="80%"
               overflowY="auto"
               overflowX="hidden"
               zIndex="2001"
-              bg={bg}
+              bg={ bg }
             >
               <Flex alignItems="center" height="100%" padding="0 10px">
                 <DropDown2
@@ -445,13 +447,13 @@ const NavBar = ({ location, showStyleBar }) => {
                         fontSize="14px"
                         mb="10px"
                         color="blue.600"
-                        _hover={{
+                        _hover={ {
                           bg: inputBg,
-                        }}
+                        } }
                         fontWeight="500"
                         fontStyle="italic"
                         padding="10px 20px"
-                        onClick={handleCreateAccount}
+                        onClick={ handleCreateAccount }
                       >
                         Create Account
                       </Box>
@@ -461,23 +463,23 @@ const NavBar = ({ location, showStyleBar }) => {
                         mb="10px"
                         color="blue.600"
                         padding="5px 20px"
-                        _hover={{
+                        _hover={ {
                           bg: inputBg,
-                        }}
+                        } }
                         fontWeight="500"
                         fontStyle="italic"
-                        onClick={onOpen}
+                        onClick={ onOpen }
                       >
                         Import Account
                       </Box>
                     </Flex>
                   }
-                  options={accountLists}
-                  getOptionLabel={(item) =>
+                  options={ accountLists }
+                  getOptionLabel={ (item) =>
                     item?.author?.displayName ? item?.author?.displayName : item?.name
                   }
-                  getOptionValue={(item) => item?.name}
-                  onChange={async (val) => {
+                  getOptionValue={ (item) => item?.name }
+                  onChange={ async (val) => {
                     await setActiveAccount(val?.name);
                     toast({
                       title: 'Account Changed.',
@@ -486,11 +488,11 @@ const NavBar = ({ location, showStyleBar }) => {
                       duration: 5000,
                       isClosable: true,
                     });
-                  }}
-                  value={profile}
-                  sx={{
+                  } }
+                  value={ profile }
+                  sx={ {
                     background: 'transparent',
-                  }}
+                  } }
                 />
               </Flex>
               <Box width="100%" height="40px" color="#787c7e">
@@ -504,7 +506,7 @@ const NavBar = ({ location, showStyleBar }) => {
                     minW="20px"
                     w="20px"
                   >
-                    <Icon as={CgProfile} width={5} height={5} />
+                    <Icon as={ CgProfile } width={ 5 } height={ 5 } />
                   </Flex>
                   <Box
                     flex="1 1 100%"
@@ -521,7 +523,7 @@ const NavBar = ({ location, showStyleBar }) => {
                   </Box>
                 </Flex>
               </Box>
-              <Box borderBottom={`1px solid ${navBorder}`} marginBottom="12px" paddingBottom="12px">
+              <Box borderBottom={ `1px solid ${navBorder}` } marginBottom="12px" paddingBottom="12px">
                 <Flex
                   boxSizing="border-box"
                   height="40px"
@@ -531,13 +533,13 @@ const NavBar = ({ location, showStyleBar }) => {
                   fontWeight="500"
                   lineHeight="18px"
                   alignItems="center"
-                  color={mainColor}
+                  color={ mainColor }
                   paddingRight="16px"
                   paddingLeft="52px"
                   justifyContent="space-between"
-                  _hover={{
+                  _hover={ {
                     bg: inputBg,
-                  }}
+                  } }
                 >
                   <Box>Online Status</Box>
                   <Switch size="md" />
@@ -551,14 +553,14 @@ const NavBar = ({ location, showStyleBar }) => {
                   fontWeight="500"
                   lineHeight="18px"
                   alignItems="center"
-                  color={mainColor}
+                  color={ mainColor }
                   paddingRight="16px"
-                  _hover={{
+                  _hover={ {
                     bg: inputBg,
-                  }}
+                  } }
                   paddingLeft="52px"
                   justifyContent="space-between"
-                  onClick={() => history.push(`/profile`, [])}
+                  onClick={ () => history.push(`/profile`, []) }
                 >
                   <Box>Profile</Box>
                 </Flex>
@@ -571,20 +573,20 @@ const NavBar = ({ location, showStyleBar }) => {
                   fontWeight="500"
                   lineHeight="18px"
                   alignItems="center"
-                  color={mainColor}
+                  color={ mainColor }
                   paddingRight="16px"
                   paddingLeft="52px"
                   justifyContent="space-between"
-                  _hover={{
+                  _hover={ {
                     bg: inputBg,
-                  }}
+                  } }
                 >
                   <Box>Style Avatar</Box>
                 </Flex>
                 <Flex
-                  _hover={{
+                  _hover={ {
                     bg: inputBg,
-                  }}
+                  } }
                   boxSizing="border-box"
                   height="40px"
                   width="100%"
@@ -593,11 +595,11 @@ const NavBar = ({ location, showStyleBar }) => {
                   fontWeight="500"
                   lineHeight="18px"
                   alignItems="center"
-                  color={mainColor}
+                  color={ mainColor }
                   paddingRight="16px"
                   paddingLeft="52px"
                   justifyContent="space-between"
-                  onClick={() => history.push(`/settings`, [])}
+                  onClick={ () => history.push(`/settings`, []) }
                 >
                   <Box>User Settings</Box>
                 </Flex>
@@ -613,7 +615,7 @@ const NavBar = ({ location, showStyleBar }) => {
                     minW="20px"
                     w="20px"
                   >
-                    <Icon as={BsEye} width={5} height={5} />
+                    <Icon as={ BsEye } width={ 5 } height={ 5 } />
                   </Flex>
                   <Box
                     flex="1 1 100%"
@@ -631,10 +633,10 @@ const NavBar = ({ location, showStyleBar }) => {
                 </Flex>
               </Box>
               <Box
-                _hover={{
+                _hover={ {
                   bg: inputBg,
-                }}
-                borderBottom={`1px solid ${navBorder}`}
+                } }
+                borderBottom={ `1px solid ${navBorder}` }
                 marginBottom="12px"
                 paddingBottom="12px"
               >
@@ -647,7 +649,7 @@ const NavBar = ({ location, showStyleBar }) => {
                   fontWeight="500"
                   lineHeight="18px"
                   alignItems="center"
-                  color={mainColor}
+                  color={ mainColor }
                   paddingRight="16px"
                   paddingLeft="52px"
                   justifyContent="space-between"
@@ -655,22 +657,22 @@ const NavBar = ({ location, showStyleBar }) => {
                   <Box>Dark Mode</Box>
                   <Switch
                     size="md"
-                    onChange={toggleTheme}
-                    isChecked={colorMode === 'dark'}
+                    onChange={ toggleTheme }
+                    isChecked={ colorMode === 'dark' }
                     ml="auto"
                   />
                 </Flex>
               </Box>
-              <Box borderBottom={`1px solid ${navBorder}`} marginBottom="12px" paddingBottom="12px">
+              <Box borderBottom={ `1px solid ${navBorder}` } marginBottom="12px" paddingBottom="12px">
                 <Box
                   width="100%"
                   height="40px"
-                  color={mainColor}
+                  color={ mainColor }
                   cursor="pointer"
-                  _hover={{
+                  _hover={ {
                     bg: inputBg,
-                  }}
-                  onClick={onOpenCreate}
+                  } }
+                  onClick={ onOpenCreate }
                 >
                   <Flex alignItems="center" height="100%" padding="0 20px">
                     <Flex
@@ -682,7 +684,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       minW="20px"
                       w="20px"
                     >
-                      <Icon as={RiCreativeCommonsByLine} width={5} height={5} />
+                      <Icon as={ RiCreativeCommonsByLine } width={ 5 } height={ 5 } />
                     </Flex>
                     <Box
                       flex="1 1 100%"
@@ -702,11 +704,11 @@ const NavBar = ({ location, showStyleBar }) => {
                 <Box
                   width="100%"
                   height="40px"
-                  color={mainColor}
+                  color={ mainColor }
                   cursor="pointer"
-                  _hover={{
+                  _hover={ {
                     bg: inputBg,
-                  }}
+                  } }
                 >
                   <Flex alignItems="center" height="100%" padding="0 20px">
                     <Flex
@@ -718,7 +720,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       minW="20px"
                       w="20px"
                     >
-                      <Icon as={BiHelpCircle} width={5} height={5} />
+                      <Icon as={ BiHelpCircle } width={ 5 } height={ 5 } />
                     </Flex>
                     <Box
                       flex="1 1 100%"
@@ -738,17 +740,17 @@ const NavBar = ({ location, showStyleBar }) => {
                 <Box
                   width="100%"
                   height="40px"
-                  color={mainColor}
+                  color={ mainColor }
                   cursor="pointer"
-                  _hover={{
+                  _hover={ {
                     bg: inputBg,
-                  }}
+                  } }
                 >
                   <Flex alignItems="center" height="100%" padding="0 20px">
-                    <Icon as={GiTwoCoins} w="20px" h="20px" mr="8px" />
+                    <Icon as={ GiTwoCoins } w="20px" h="20px" mr="8px" />
                     <Flex flexDir="column">
                       <Box>Coins</Box>
-                      <Box fontSize="12px" fontWeight="400" lineHeight="16px" color={iconColor}>
+                      <Box fontSize="12px" fontWeight="400" lineHeight="16px" color={ iconColor }>
                         0 Coins
                       </Box>
                     </Flex>
@@ -775,7 +777,7 @@ const NavBar = ({ location, showStyleBar }) => {
                 </Flex>
               </Box> */}
               <Box
-                color={iconColor}
+                color={ iconColor }
                 width="100%"
                 fontSize="12px"
                 lineHeight="16px"
@@ -785,7 +787,7 @@ const NavBar = ({ location, showStyleBar }) => {
                 minH="40px"
                 height="unset"
               >
-                Plebbit v{version}. GPL-2.0
+                Plebbit v{ version }. GPL-2.0
               </Box>
             </Box>
           ) : (
@@ -819,7 +821,7 @@ const NavBar = ({ location, showStyleBar }) => {
                     border="1px solid transparent"
                     padding="0 12px"
                   >
-                    <Icon as={RiSearchLine} color="#d7dadc" fill="#d7dadc" w={5} h={5} mr="8px" />
+                    <Icon as={ RiSearchLine } color="#d7dadc" fill="#d7dadc" w={ 5 } h={ 5 } mr="8px" />
                     <Box flex="1">
                       <Input
                         color="#fff"
@@ -847,15 +849,15 @@ const NavBar = ({ location, showStyleBar }) => {
                   <Flex
                     alignItems="center"
                     flexFlow="row nowrap"
-                    onClick={() => {
+                    onClick={ () => {
                       history.push('/profile', []);
                       setShowDropDown(!showDropDown);
                       setShowComponent(!showDropDown);
-                    }}
+                    } }
                   >
-                    <Avatar width={24} height={24} mr="8px" avatar={authorAvatarImageUrl} />
+                    <Avatar width={ 24 } height={ 24 } mr="8px" avatar={ authorAvatarImageUrl } />
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      {getUserName(profile?.author)}
+                      { getUserName(profile?.author) }
                     </Box>
                   </Flex>
                 </Flex>
@@ -868,9 +870,9 @@ const NavBar = ({ location, showStyleBar }) => {
                   color="#fff"
                 >
                   <DropDown2
-                    selectStyles={{
+                    selectStyles={ {
                       background: '#1d2535',
-                    }}
+                    } }
                     placeholder=" "
                     topMenu={
                       <Flex flexDir="column">
@@ -879,13 +881,13 @@ const NavBar = ({ location, showStyleBar }) => {
                           fontSize="14px"
                           mb="10px"
                           color="blue.600"
-                          _hover={{
+                          _hover={ {
                             bg: inputBg,
-                          }}
+                          } }
                           fontWeight="500"
                           fontStyle="italic"
                           padding="10px 20px"
-                          onClick={handleCreateAccount}
+                          onClick={ handleCreateAccount }
                         >
                           Create Account
                         </Box>
@@ -895,23 +897,23 @@ const NavBar = ({ location, showStyleBar }) => {
                           mb="10px"
                           color="blue.600"
                           padding="5px 20px"
-                          _hover={{
+                          _hover={ {
                             bg: inputBg,
-                          }}
+                          } }
                           fontWeight="500"
                           fontStyle="italic"
-                          onClick={onOpen}
+                          onClick={ onOpen }
                         >
                           Import Account
                         </Box>
                       </Flex>
                     }
-                    options={accountLists}
-                    getOptionLabel={(item) =>
+                    options={ accountLists }
+                    getOptionLabel={ (item) =>
                       item?.author?.displayName ? item?.author?.displayName : item?.name
                     }
-                    getOptionValue={(item) => item?.id}
-                    onChange={async (val) => {
+                    getOptionValue={ (item) => item?.id }
+                    onChange={ async (val) => {
                       await setActiveAccount(val?.name);
                       toast({
                         title: 'Account Changed.',
@@ -920,11 +922,11 @@ const NavBar = ({ location, showStyleBar }) => {
                         duration: 5000,
                         isClosable: true,
                       });
-                    }}
-                    value={profile}
-                    sx={{
+                    } }
+                    value={ profile }
+                    sx={ {
                       background: 'transparent',
-                    }}
+                    } }
                   />
                 </Flex>
                 <Flex
@@ -945,7 +947,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       position="8px"
                       width="24px"
                     >
-                      <Icon as={VscMail} w={5} h={5} opacity=".5" />
+                      <Icon as={ VscMail } w={ 5 } h={ 5 } opacity=".5" />
                     </Flex>
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                       Inbox
@@ -970,7 +972,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       position="8px"
                       width="24px"
                     >
-                      <Icon as={GiTwoCoins} w={5} h={5} opacity=".5" />
+                      <Icon as={ GiTwoCoins } w={ 5 } h={ 5 } opacity=".5" />
                     </Flex>
                     <Flex flexDir="column" justifyContent="center">
                       <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
@@ -1000,7 +1002,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       position="8px"
                       width="24px"
                     >
-                      <Icon as={AiOutlineThunderbolt} w={5} h={5} opacity=".5" />
+                      <Icon as={ AiOutlineThunderbolt } w={ 5 } h={ 5 } opacity=".5" />
                     </Flex>
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                       Powerups
@@ -1027,13 +1029,13 @@ const NavBar = ({ location, showStyleBar }) => {
                           position="8px"
                           width="24px"
                         >
-                          <Icon as={BiHelpCircle} w={5} h={5} opacity=".5" />
+                          <Icon as={ BiHelpCircle } w={ 5 } h={ 5 } opacity=".5" />
                         </Flex>
                         <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                           Recent Communities
                         </Box>
 
-                        <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
+                        <Icon as={ BsChevronDown } color="#787c7e" ml="auto" w={ 6 } h={ 5 } />
                       </Flex>
                     </Flex>
                   }
@@ -1045,7 +1047,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       marginLeft="-4px"
                       paddingLeft="20px"
                     >
-                      {[
+                      { [
                         { label: 'Home', value: homeAdd },
                         {
                           label: 'p/All',
@@ -1055,15 +1057,15 @@ const NavBar = ({ location, showStyleBar }) => {
                         },
                       ]?.map((pages, index) => (
                         <Flex
-                          key={index}
+                          key={ index }
                           alignItems="center"
                           flexFlow="row nowrap"
                           cursor="pointer"
-                          onClick={() => {
+                          onClick={ () => {
                             setShowDropDown(!showDropDown);
                             setShowComponent(!showDropDown);
                             setPostView(pages?.value);
-                          }}
+                          } }
                         >
                           <Flex
                             alignItems="center"
@@ -1074,14 +1076,14 @@ const NavBar = ({ location, showStyleBar }) => {
                             position="8px"
                             width="24px"
                           >
-                            {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */}
+                            {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */ }
                           </Flex>
                           <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                            {pages.label}
+                            { pages.label }
                           </Box>
                         </Flex>
-                      ))}
-                      {[
+                      )) }
+                      { [
                         subPlebbitData
                           .map((x) => ({
                             ...x,
@@ -1092,32 +1094,32 @@ const NavBar = ({ location, showStyleBar }) => {
                       ]
                         .flat()
                         ?.map((pages, index) => (
-                          <Link key={index} to={`/p/${pages?.value}/`}>
+                          <Link key={ index } to={ `/p/${pages?.value}/` }>
                             <Flex
-                              key={index}
+                              key={ index }
                               alignItems="center"
                               flexFlow="row nowrap"
                               cursor="pointer"
-                              onClick={() => {
+                              onClick={ () => {
                                 setShowDropDown(!showDropDown);
                                 setShowComponent(!showDropDown);
-                              }}
+                              } }
                             >
                               <Avatar
                                 badge
-                                avatar={pages?.avatar}
-                                width={24}
-                                height={24}
+                                avatar={ pages?.avatar }
+                                width={ 24 }
+                                height={ 24 }
                                 mr="8px"
-                                isOnline={getIsOnline(pages?.updatedAt)}
+                                isOnline={ getIsOnline(pages?.updatedAt) }
                               />
 
                               <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                                {getSubName(pages)}
+                                { getSubName(pages) }
                               </Box>
                             </Flex>
                           </Link>
-                        ))}
+                        )) }
                     </Flex>
                   }
                 />
@@ -1141,13 +1143,13 @@ const NavBar = ({ location, showStyleBar }) => {
                           mr="8px"
                           width="24px"
                         >
-                          <Icon as={HiOutlineUserGroup} w={5} h={5} opacity=".5" />
+                          <Icon as={ HiOutlineUserGroup } w={ 5 } h={ 5 } opacity=".5" />
                         </Flex>
                         <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                           My Communities
                         </Box>
 
-                        <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
+                        <Icon as={ BsChevronDown } color="#787c7e" ml="auto" w={ 6 } h={ 5 } />
                       </Flex>
                     </Flex>
                   }
@@ -1162,16 +1164,16 @@ const NavBar = ({ location, showStyleBar }) => {
                       <Box
                         width="100%"
                         height="40px"
-                        color={mainColor}
+                        color={ mainColor }
                         cursor="pointer"
-                        _hover={{
+                        _hover={ {
                           bg: inputBg,
-                        }}
-                        onClick={() => {
+                        } }
+                        onClick={ () => {
                           setShowDropDown(!showDropDown);
                           setShowComponent(!showDropDown);
                           onOpenCreate();
-                        }}
+                        } }
                       >
                         <Flex alignItems="center" height="100%" padding="0 20px">
                           <Flex
@@ -1183,7 +1185,7 @@ const NavBar = ({ location, showStyleBar }) => {
                             minW="20px"
                             w="20px"
                           >
-                            <Icon as={RiCreativeCommonsByLine} width={5} height={5} />
+                            <Icon as={ RiCreativeCommonsByLine } width={ 5 } height={ 5 } />
                           </Flex>
                           <Box
                             flex="1 1 100%"
@@ -1200,32 +1202,32 @@ const NavBar = ({ location, showStyleBar }) => {
                           </Box>
                         </Flex>
                       </Box>
-                      {Object.keys(accountSubplebbits)?.map((pages, index) => (
-                        <Link key={index} to={`/p/${pages}/`}>
+                      { Object.keys(accountSubplebbits)?.map((pages, index) => (
+                        <Link key={ index } to={ `/p/${pages}/` }>
                           <Flex
                             alignItems="center"
                             flexFlow="row nowrap"
                             cursor="pointer"
-                            onClick={() => {
+                            onClick={ () => {
                               setShowDropDown(!showDropDown);
                               setShowComponent(!showDropDown);
-                            }}
+                            } }
                           >
                             <Avatar
                               badge
-                              avatar={accountSubplebbits[pages]?.avatar}
-                              width={24}
-                              height={24}
+                              avatar={ accountSubplebbits[pages]?.avatar }
+                              width={ 24 }
+                              height={ 24 }
                               mr="8px"
-                              isOnline={getIsOnline(accountSubplebbits[pages]?.updatedAt)}
+                              isOnline={ getIsOnline(accountSubplebbits[pages]?.updatedAt) }
                             />
 
                             <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                              {getSubName(accountSubplebbits[pages])}
+                              { getSubName(accountSubplebbits[pages]) }
                             </Box>
                           </Flex>
                         </Link>
-                      ))}
+                      )) }
                     </Flex>
                   }
                 />
@@ -1248,7 +1250,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       position="8px"
                       width="24px"
                     >
-                      <Icon as={HiOutlineChat} w={5} h={5} opacity=".5" />
+                      <Icon as={ HiOutlineChat } w={ 5 } h={ 5 } opacity=".5" />
                     </Flex>
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                       Chat
@@ -1273,7 +1275,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       position="8px"
                       width="24px"
                     >
-                      <Icon as={BiBookmarks} w={5} h={5} opacity=".5" />
+                      <Icon as={ BiBookmarks } w={ 5 } h={ 5 } opacity=".5" />
                     </Flex>
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                       Saved
@@ -1287,11 +1289,11 @@ const NavBar = ({ location, showStyleBar }) => {
                   marginBottom="20px"
                   marginLeft="-4px"
                   paddingLeft="2px"
-                  onClick={() => {
+                  onClick={ () => {
                     history.push('/settings', []);
                     setShowDropDown(!showDropDown);
                     setShowComponent(!showDropDown);
-                  }}
+                  } }
                 >
                   <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
                     <Flex
@@ -1303,13 +1305,13 @@ const NavBar = ({ location, showStyleBar }) => {
                       position="8px"
                       width="24px"
                     >
-                      <Icon as={AiFillSetting} w={5} h={5} opacity=".5" />
+                      <Icon as={ AiFillSetting } w={ 5 } h={ 5 } opacity=".5" />
                     </Flex>
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                       Settings
                     </Box>
 
-                    <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
+                    <Icon as={ BsChevronDown } color="#787c7e" ml="auto" w={ 6 } h={ 5 } />
                   </Flex>
                 </Flex>
                 <Flex
@@ -1330,7 +1332,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       position="8px"
                       width="24px"
                     >
-                      <Icon as={BiTrendingUp} w={5} h={5} opacity=".5" />
+                      <Icon as={ BiTrendingUp } w={ 5 } h={ 5 } opacity=".5" />
                     </Flex>
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                       p/popular
@@ -1349,7 +1351,7 @@ const NavBar = ({ location, showStyleBar }) => {
                     alignItems="center"
                     flexFlow="row nowrap"
                     cursor="pointer"
-                    onClick={() =>
+                    onClick={ () =>
                       setPostView(subPlebbitData?.map((x) => x?.address))?.filter(
                         (x) => x !== undefined
                       )
@@ -1364,7 +1366,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       position="8px"
                       width="24px"
                     >
-                      <Icon as={BsBarChartFill} w={5} h={5} opacity=".5" />
+                      <Icon as={ BsBarChartFill } w={ 5 } h={ 5 } opacity=".5" />
                     </Flex>
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                       p/all
@@ -1389,7 +1391,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       position="8px"
                       width="24px"
                     >
-                      <Icon as={BiHelpCircle} w={5} h={5} opacity=".5" />
+                      <Icon as={ BiHelpCircle } w={ 5 } h={ 5 } opacity=".5" />
                     </Flex>
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                       Help Center
@@ -1414,13 +1416,13 @@ const NavBar = ({ location, showStyleBar }) => {
                       position="8px"
                       width="24px"
                     >
-                      <Icon as={AiOutlineInfoCircle} w={5} h={5} opacity=".5" />
+                      <Icon as={ AiOutlineInfoCircle } w={ 5 } h={ 5 } opacity=".5" />
                     </Flex>
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                       More
                     </Box>
 
-                    <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
+                    <Icon as={ BsChevronDown } color="#787c7e" ml="auto" w={ 6 } h={ 5 } />
                   </Flex>
                 </Flex>
                 <Flex
@@ -1441,13 +1443,13 @@ const NavBar = ({ location, showStyleBar }) => {
                       position="8px"
                       width="24px"
                     >
-                      <Icon as={CgNotes} w={5} h={5} opacity=".5" />
+                      <Icon as={ CgNotes } w={ 5 } h={ 5 } opacity=".5" />
                     </Flex>
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                       Terms and Conditions
                     </Box>
 
-                    <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
+                    <Icon as={ BsChevronDown } color="#787c7e" ml="auto" w={ 6 } h={ 5 } />
                   </Flex>
                 </Flex>
                 <Flex
@@ -1473,12 +1475,12 @@ const NavBar = ({ location, showStyleBar }) => {
                 </Flex>
               </Flex>
             </Box>
-          )}
+          ) }
         </Box>
-      )}
+      ) }
 
-      {isOpen ? <ImportAccount isOpen={isOpen} onClose={onClose} /> : ''}
-      {isOpenCreate ? <CreateSubPlebbit isOpen={isOpenCreate} onClose={onCloseCreate} /> : ''}
+      { isOpen ? <ImportAccount isOpen={ isOpen } onClose={ onClose } /> : '' }
+      { isOpenCreate ? <CreateSubPlebbit isOpen={ isOpenCreate } onClose={ onCloseCreate } /> : '' }
     </Box>
   );
 };

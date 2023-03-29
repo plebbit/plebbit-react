@@ -22,10 +22,11 @@ import { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import {
   useAccountComments,
-  useAccountsActions,
+  usePublishComment, usePublishCommentEdit, useSubscribe,
   useAccountVote,
   useComment,
   useSubplebbit,
+  usePublishVote,
 } from '@plebbit/plebbit-react-hooks';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Swal from 'sweetalert2';
@@ -66,6 +67,7 @@ import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
 import AddRemovalReason from '../Modal/addRemovalReason';
 import { DeletedMessage, LockedMessage, RemovedMessage } from '../../Card/ModMessage';
+import getCommentMediaInfo from '../../../utils/getCommentMediaInfo';
 
 function PostDetailModal() {
   const [showModal, setShowModal] = useState(true);
@@ -89,7 +91,7 @@ function PostDetailModal() {
   const myPost = useAccountComments();
   const profilePost = myPost && myPostLocation && myPost[Number(myPostLocation)];
   // post from link or link address
-  const commentFromCid = useComment(!feedFromProfile ? params?.commentCid : undefined);
+  const commentFromCid = useComment({ commentCid: !feedFromProfile ? params?.commentCid : undefined });
   const commentFromFeed = location?.state?.detail;
   // applicable if coming from feeds, if posts takes time to load uses feeds post props
   const comment = feedFromProfile
@@ -103,19 +105,19 @@ function PostDetailModal() {
   let reply;
   let replyParent;
   let replyPost = useComment(
-    feedFromProfile ? comment?.postCid || comment?.parentCid : comment?.postCid
+    { commentCid: feedFromProfile ? comment?.postCid || comment?.parentCid : comment?.postCid }
   ); // if comment is a reply, this is what you replied to
   const isReply =
-    (feedFromProfile && profilePost?.parentCid) || (comment?.parentCid && comment?.depth !== 0);
+    Boolean((feedFromProfile && profilePost?.parentCid) || (comment?.parentCid && comment?.depth !== 0));
   if (isReply) {
     detail = replyPost;
     reply = comment;
   } else {
     detail = comment;
   }
-  const replyParentaux = useComment(reply?.parentCid); // incase what the reply parent is a comment also this is the parent
-  replyPost = useComment(replyParentaux?.postCid);
-  if (replyPost) {
+  const replyParentaux = useComment({ commentCid: reply?.parentCid }); // incase what the reply parent is a comment also this is the parent
+  replyPost = useComment({ commentCid: replyParentaux?.postCid });
+  if (replyPost?.state === "succeeded") {
     detail = replyPost;
   }
   replyParent = replyParentaux;
@@ -124,18 +126,19 @@ function PostDetailModal() {
     reply = undefined;
   }
 
-  const sub = useSubplebbit(detail?.subplebbitAddress);
+  const sub = useSubplebbit({ subplebbitAddress: detail?.subplebbitAddress });
   const loading = detail === undefined;
   const detailPending = !detail?.cid;
   const subplebbit = sub === undefined ? { address: detail?.subplebbitAddress } : sub;
+  const mediaInfo = getCommentMediaInfo(detail);
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
-  const [postVotes, setPostVotes] = useState(detail?.upvoteCount - detail?.downvoteCount);
-  const pVote = useAccountVote(params?.commentCid);
-  const vote = pVote?.vote | 0;
+  const [postVotes, setPostVotes] = useState(detail?.upvoteCount || 0 - detail?.downvoteCount || 0);
+  const { vote: postVote } = useAccountVote({ commentCid: detail?.cid });
+  const [vote, setVote] = useState(postVote === undefined ? 0 : postVote);
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -144,6 +147,10 @@ function PostDetailModal() {
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   // const borderColor = useColorModeValue('#ccc', '#343536');
+  const postBg = useColorModeValue(
+    "lightCommunityThemePost",
+    "darkCommunityThemePost"
+  );
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
   const removeColor = useColorModeValue('persimmon', 'persimmon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
@@ -153,8 +160,6 @@ function PostDetailModal() {
   const mobileColor = useColorModeValue('lightMobileText2', 'darkMobileText');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const toast = useToast();
-  const { publishVote, publishComment, publishCommentEdit, subscribe, unsubscribe } =
-    useAccountsActions();
   const [subLoading, setSubLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -171,10 +176,8 @@ function PostDetailModal() {
   const [showSpoiler, setShowSpoiler] = useState(detail?.spoiler);
   const {
     device,
-
     profile,
     baseUrl,
-    subscriptions,
     authorAvatarImageUrl,
     accountSubplebbits,
   } = useContext(ProfileContext);
@@ -241,19 +244,25 @@ function PostDetailModal() {
 
   const handleVoting = async (curr) => {
     setPostVotes((prev) => prev + curr);
-    handleVote(curr);
+    setVote(curr)
+    handleVote();
   };
 
-  const handleVote = async (curr) => {
+  const publishVoteOptions = {
+    vote,
+    commentCid: detail?.cid,
+    subplebbitAddress: detail?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError,
+  }
+
+
+  const { publishVote } = usePublishVote(publishVoteOptions)
+
+  const handleVote = async () => {
     try {
-      await publishVote({
-        vote: curr,
-        commentCid: detail?.cid,
-        subplebbitAddress: detail?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError,
-      });
+      await publishVote();
     } catch (error) {
       logger('post:detail:voting:', error, 'error');
 
@@ -267,17 +276,27 @@ function PostDetailModal() {
     }
   };
 
+  useEffect(() => {
+    setPostVotes(detail?.upvoteCount - detail?.downvoteCount);
+    setVote(postVote === undefined ? 0 : postVote)
+  }, [postVote])
+
+  const publishCommentOptions = {
+    content,
+    postCid: detail?.cid, // the thread the comment is on
+    parentCid: detail?.cid, // if top level reply to a post, same as postCid
+    subplebbitAddress: detail?.subplebbitAddress,
+    onChallenge,
+    onChallengeVerification,
+    onError,
+  }
+
+  const { publishComment } = usePublishComment(publishCommentOptions)
+
+
   const handlePublishPost = async () => {
     try {
-      await publishComment({
-        content,
-        postCid: detail?.cid, // the thread the comment is on
-        parentCid: detail?.cid, // if top level reply to a post, same as postCid
-        subplebbitAddress: detail?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError,
-      });
+      await publishComment();
     } catch (error) {
       toast({
         title: 'Comment Declined.',
@@ -315,18 +334,23 @@ function PostDetailModal() {
       });
     }
   };
+
+  const [update, setUpdate] = useState({})
+
+  const publishCommentEditOptions = {
+    ...update,
+    onChallenge,
+    onChallengeVerification,
+    onError: onError,
+  }
+  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
   const handleDeletePost = async (cid, address) => {
+    setUpdate({ commentCid: cid, subplebbitAddress: address, deleted: true })
     try {
       setEditLoading(true);
-      await publishCommentEdit({
-        commentCid: cid,
-        deleted: true,
-        subplebbitAddress: address,
-        onChallenge,
-        onChallengeVerification,
-        onError: onError,
-      });
+      await publishCommentEdit();
       setEditLoading(false);
+      setUpdate({})
     } catch (error) {
       logger('delete:comment:response:', error, 'error');
       setSubLoading(false);
@@ -340,10 +364,12 @@ function PostDetailModal() {
     }
   };
 
+  const { subscribe, unsubscribe, subscribed } = useSubscribe({ subplebbitAddress: detail?.subplebbitAddress })
+
   const handleSubscribe = async () => {
     try {
       setSubLoading(true);
-      await subscribe(detail?.subplebbitAddress);
+      await subscribe();
       toast({
         title: 'Subscription.',
         description: 'Joined successfully',
@@ -367,7 +393,7 @@ function PostDetailModal() {
   const handleUnSubscribe = async () => {
     try {
       setSubLoading(true);
-      await unsubscribe(detail?.subplebbitAddress);
+      await unsubscribe();
       toast({
         title: 'Unsubscribed.',
         description: 'Unsubscribed successfully',
@@ -439,6 +465,8 @@ function PostDetailModal() {
   const owner =
     profile?.author?.address === detail?.author?.address ||
     profile?.signer?.address === detail?.author?.address;
+
+
 
   return (
     <>
@@ -1026,10 +1054,96 @@ function PostDetailModal() {
                         ) : (
                           <Box display="flex" justifyContent="center">
                             <Skeleton isLoaded={ !loading }>
-                              <Image
-                                fallbackSrc="https://via.placeholder.com/150"
-                                src={ detail?.link }
-                              />
+                              <>
+                                <Flex mt="0">
+                                  { detail?.link && detail?.thumbnailUrl && (
+                                    <Link
+                                      fontSize="12px"
+                                      fontWeight="400"
+                                      lineHeight="16px"
+                                      margin="4px 8px"
+                                      whiteSpace="nowrap"
+                                      color="mainBlue"
+                                      display="flex"
+                                      href={ post?.link }
+                                      alignItems="flex-end"
+                                      isExternal
+                                    >
+                                      <Box>{ detail?.link?.substring(0, 20) + "..." }</Box>
+                                      <Icon
+                                        as={ FiExternalLink }
+                                        verticalAlign="middle"
+                                        fontWeight="400"
+                                        width="20px"
+                                        height="20px"
+                                        fontSize="12px"
+                                        paddingLeft="4px"
+                                      />
+                                    </Link>
+                                  ) }
+                                </Flex>
+
+                                { mediaInfo?.type === "image" && (
+                                  <Image
+                                    maxH="512px"
+                                    margin="0 auto"
+                                    maxW="100%"
+                                    overflow="hidden"
+                                    bg={ postBg }
+                                    src={ detail?.link }
+                                    onError={ (event) =>
+                                      (event.target.style.display = "none")
+                                    }
+                                  />
+                                ) }
+
+                                { mediaInfo?.type === "video" && (
+                                  <Box
+                                    bg="black"
+                                    maxHeight="512px"
+                                    width="100%"
+                                    maxW="100%"
+                                    color="#fff"
+                                  >
+                                    <video
+                                      autoPlay
+                                      playsInline
+                                      preload="auto"
+                                      controls
+                                      style={ {
+                                        objectFit: "contain",
+                                        width: "100% !important",
+                                        overflowClipMargin: "content-box",
+                                        overflow: "clip",
+                                      } }
+                                      onError={ (event) =>
+                                        (event.target.style.display = "none")
+                                      }
+                                      muted
+                                    >
+                                      <source src={ detail?.link } />
+                                    </video>
+                                  </Box>
+                                ) }
+
+                                { mediaInfo?.type === "audio" && (
+                                  <Box maxW="100%" color="#fff" margin="4px 8px">
+                                    <audio
+                                      preload="auto"
+                                      src={ detail?.link }
+                                      onError={ (event) =>
+                                        (event.target.style.display = "none")
+                                      }
+                                      controls
+                                      style={ {
+                                        width: "100%",
+                                      } }
+                                    >
+                                      <source src={ detail?.link } />
+                                    </audio>
+                                  </Box>
+                                ) }
+                              </>
                             </Skeleton>
                           </Box>
                         ) }
@@ -1572,10 +1686,10 @@ function PostDetailModal() {
                 handleUnSubscribe={ handleUnSubscribe }
                 subLoading={ subLoading }
                 setSubLoading={ setSubLoading }
-                subscriptions={ subscriptions }
                 detail={ detail }
                 loading={ !loading }
                 subplebbit={ subplebbit }
+                subscribed={ subscribed }
               />
             </Flex>
           </ModalContent>
