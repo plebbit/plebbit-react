@@ -8,11 +8,11 @@ For development it is recommened to use the [mock content env variables](https:/
 
 ### Scripts:
 
-- start web client: `yarn start`
-- start electron client (must start web client first): `yarn electron`
-- start electron client and don't delete data: `yarn electron:no-delete-data`
-- start web client and electron client: `yarn electron:start`
-- start web client and electron client and don't delete data: `yarn electron:start:no-delete-data`
+- Web client: `yarn start`
+- Electron client (must start web client first): `yarn electron`
+- Electron client and don't delete data: `yarn electron:no-delete-data`
+- Web client and electron client: `yarn electron:start`
+- Web client and electron client and don't delete data: `yarn electron:start:no-delete-data`
 
 ### Style:
 
