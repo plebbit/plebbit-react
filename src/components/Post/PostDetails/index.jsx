@@ -79,15 +79,15 @@ function PostDetail() {
   const profilePost = myPost && myPostLocation && myPost[Number(myPostLocation)];
   // post from link or link address
   const commentFromCid = useComment({ commentCid: !feedFromProfile ? params?.commentCid : undefined });
-  const commentFromFeed = location?.state?.detail;
+  // const commentFromFeed = location?.state?.detail;
   // applicable if coming from feeds, if posts takes time to load uses feeds post props
   const comment = feedFromProfile
     ? profilePost
-    : commentFromCid === undefined
-      ? commentFromFeed
-      : (commentFromFeed?.updatedAt || 0) > (commentFromCid?.updatedAt || 0)
-        ? commentFromFeed
-        : commentFromCid;
+    // : commentFromCid === undefined
+    //   ? commentFromFeed
+    //   : (commentFromFeed?.updatedAt || 0) > (commentFromCid?.updatedAt || 0)
+    //     ? commentFromFeed
+    : commentFromCid;
   let detail;
   let reply;
   let replyParent;
@@ -1118,7 +1118,7 @@ function PostDetail() {
                                             whiteSpace="nowrap"
                                             color="mainBlue"
                                             display="flex"
-                                            href={ post?.link }
+                                            href={ detail?.link }
                                             alignItems="flex-end"
                                             isExternal
                                           >
