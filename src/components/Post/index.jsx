@@ -167,7 +167,10 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
 
   const detailRoute = {
     pathname: detailPath,
-    state: { detail: post, modal: true, location },
+    state: {
+      detail: true,
+      modal: true, location
+    },
   };
 
 
