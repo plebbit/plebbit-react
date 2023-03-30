@@ -101,6 +101,9 @@ function PostDetailModal() {
     //   : (commentFromFeed?.updatedAt || 0) > (commentFromCid?.updatedAt || 0)
     //     ? commentFromFeed
     : commentFromCid;
+
+
+
   let detail;
   let reply;
   let replyParent;

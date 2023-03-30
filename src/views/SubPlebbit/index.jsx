@@ -46,7 +46,6 @@ const SubPlebbit = ({ match }) => {
   const showStyleBar = location?.search === '?styling=true';
 
 
-  console.log({ feed })
 
   useEffect(() => {
     setData({ ...subPlebbit });
