@@ -6,6 +6,14 @@ _Demo https://plebbit-dev.netlify.app and https://plebbitdemo.eth.limo_
 
 For development it is recommened to use the [mock content env variables](https://github.com/plebbit/plebbit-react-hooks/blob/master/docs/mock-content.md#add-env-variable-for-mocking) because the demo subplebbits are slow and often offline.
 
+### Scripts:
+
+- start web client: `yarn start`
+- start electron client (must start web client first): `yarn electron`
+- start electron client and don't delete data: `yarn electron:no-delete-data`
+- start web client and electron client: `yarn electron:start`
+- start web client and electron client and don't delete data: `yarn electron:start:no-delete-data`
+
 ### Style:
 
 - Use https://chakra-ui.com/ for all components
@@ -35,3 +43,7 @@ The site should use a hash router (localhost:3000/#/page-name). We need to recre
 - Submit post (like https://www.reddit.com/r/ethereum/submit) -> plebbit.eth/#/p/:subplebbitAddress/submit
 - Moderator/about pages (like https://www.reddit.com/r/ethereum/about/modqueue/ https://www.reddit.com/r/ethereum/about/moderators/ https://www.reddit.com/r/ethereum/about/rules/) -> plebbit.eth/#/p/:subplebbitAddress/about/:pageName?
 - Author profile page -> plebbit.eth/#/u/:authorAddress/c/:authorCommentCid (not possible to fetch an author without a comment cid)
+
+### Build:
+
+The linux/windows/mac/android build scripts are in https://github.com/plebbit/plebbit-react/blob/master/.github/workflows/release.yml
