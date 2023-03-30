@@ -75,7 +75,7 @@ function PostDetail() {
   const params = useParams();
   const feedFromProfile = location?.pathname.includes('/profile/c');
   const myPostLocation = params?.index;
-  const myPost = useAccountComments();
+  const { accountComments: myPost } = useAccountComments();
   const profilePost = myPost && myPostLocation && myPost[Number(myPostLocation)];
   // post from link or link address
   const commentFromCid = useComment({ commentCid: !feedFromProfile ? params?.commentCid : undefined });
@@ -290,7 +290,6 @@ function PostDetail() {
   }
 
   const { publishComment } = usePublishComment(publishCommentOptions)
-
 
   const handlePublishPost = async () => {
     try {

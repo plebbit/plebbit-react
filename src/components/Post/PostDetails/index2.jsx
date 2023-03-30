@@ -88,7 +88,7 @@ function PostDetailModal() {
   const location = useLocation();
   const feedFromProfile = location?.pathname.includes('/profile/c');
   const myPostLocation = params?.index;
-  const myPost = useAccountComments();
+  const { accountComments: myPost } = useAccountComments();
   const profilePost = myPost && myPostLocation && myPost[Number(myPostLocation)];
   // post from link or link address
   const commentFromCid = useComment({ commentCid: !feedFromProfile ? params?.commentCid : undefined });
@@ -101,6 +101,9 @@ function PostDetailModal() {
     //   : (commentFromFeed?.updatedAt || 0) > (commentFromCid?.updatedAt || 0)
     //     ? commentFromFeed
     : commentFromCid;
+
+
+
   let detail;
   let reply;
   let replyParent;
