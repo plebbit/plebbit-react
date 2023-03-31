@@ -64,7 +64,7 @@
     "utils:delete-plebbit-data": "rimraf .plebbit",
     "utils:electron-run": "electron .",
     "utils:download-ipfs": "node electron/downloadIpfs",
-    "electron": "run-s utils:download-ipfs electron:run",
+    "electron": "run-s utils:download-ipfs utils:electron-run",
     "electron:start": "run-s utils:delete-plebbit-data utils:yarn-start-wait-on electron",
     "electron:start:persist": "run-s utils:yarn-start-wait-on electron",
     "electron:build:linux": "electron-builder build --publish never -l",
