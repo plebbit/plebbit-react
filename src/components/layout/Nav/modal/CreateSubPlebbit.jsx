@@ -18,7 +18,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { useCreateSubplebbit } from '@plebbit/plebbit-react-hooks';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logger from '../../../../utils/logger';
 import { useHistory } from 'react-router-dom';
 
@@ -31,27 +31,37 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
 
 
 
-  const { createSubplebbit } = useCreateSubplebbit({ value })
+  const { createdSubplebbit, createSubplebbit, error, errors } = useCreateSubplebbit({ value })
+
+  console.log({ createdSubplebbit, error, errors })
+
+
+  useEffect(() => {
+    if (createdSubplebbit?.address) {
+      history.push(`/p/${createdSubplebbit?.address}`, []);
+      logger('created-sub', createdSubplebbit);
+      setLoading(false);
+      onClose();
+    }
+  }, [createdSubplebbit?.address])
+
+  if (error) {
+    logger('create-sub', error, 'error');
+    setLoading(false);
+    toast({
+      title: 'Create Subplebbit.',
+      description: error?.stack.toString(),
+      status: 'error',
+      duration: 5000,
+      isClosable: true,
+    });
+  }
+
 
   const handleCreateSubPlebbit = async () => {
     setLoading(true);
-    try {
-      const subplebbit = await createSubplebbit(value);
-      logger('create-sub', subplebbit);
-      setLoading(false);
-      onClose();
-      history.push(`/p/${subplebbit?.address}`, []);
-    } catch (error) {
-      logger('create-sub', error, 'error');
-      setLoading(false);
-      toast({
-        title: 'Create Subplebbit.',
-        description: error?.stack.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
+    await createSubplebbit();
+
   };
 
   return (
