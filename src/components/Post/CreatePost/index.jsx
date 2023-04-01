@@ -179,14 +179,16 @@ const CreatePost = () => {
   }
 
 
+
+
   const { index, publishComment } = usePublishComment(publishCommentOptions)
 
-  console.log({ index })
 
   if (index) {
     history.push(`/profile/c/${index}`);
 
   }
+
 
 
 
@@ -623,7 +625,7 @@ const CreatePost = () => {
                           tabIndex: '0',
                           filter: 'grayscale(1)',
                         } }
-                        disabled={ !content || !title || !address || loading }
+                        disabled={ (mode === 'post' ? !content : !link) || !title || !address || loading }
                         content="Post"
                         onClick={ handlePublishPost }
                         loading={ loading }

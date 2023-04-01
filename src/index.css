@@ -192,3 +192,8 @@ body {
 .swal2-container {
   z-index: 2000 !important;
 }
+
+.Toastify__toast-container {
+  width: auto !important;
+  overflow: auto;
+}
