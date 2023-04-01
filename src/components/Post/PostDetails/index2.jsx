@@ -37,7 +37,7 @@ import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { BsChat, BsBookmark, BsEyeSlash, BsPencil, BsChatSquare, BsShield } from 'react-icons/bs';
 import { GoGift } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
-import { FiMoreHorizontal, FiBell } from 'react-icons/fi';
+import { FiMoreHorizontal, FiBell, FiExternalLink } from 'react-icons/fi';
 import { CgNotes, CgClose } from 'react-icons/cg';
 import SideBar from './postDetailSideBar';
 import { dateToNow } from '../../../utils/formatDate';
@@ -1058,8 +1058,8 @@ function PostDetailModal() {
                           <Box display="flex" justifyContent="center">
                             <Skeleton isLoaded={ !loading }>
                               <>
-                                <Flex mt="0">
-                                  { detail?.link && detail?.thumbnailUrl && (
+                                <Box w="100%" mt="0">
+                                  { detail?.link && (
                                     <Link
                                       fontSize="12px"
                                       fontWeight="400"
@@ -1070,10 +1070,10 @@ function PostDetailModal() {
                                       display="flex"
                                       href={ detail?.link }
                                       alignItems="flex-end"
-                                      isExternal
+                                      isExternal={ !detail?.thumbnailUrl }
                                     >
                                       <Box>{ detail?.link?.substring(0, 20) + "..." }</Box>
-                                      <Icon
+                                      { !detail?.thumbnailUrl && <Icon
                                         as={ FiExternalLink }
                                         verticalAlign="middle"
                                         fontWeight="400"
@@ -1081,10 +1081,10 @@ function PostDetailModal() {
                                         height="20px"
                                         fontSize="12px"
                                         paddingLeft="4px"
-                                      />
+                                      /> }
                                     </Link>
                                   ) }
-                                </Flex>
+                                </Box>
 
                                 { mediaInfo?.type === "image" && (
                                   <Image

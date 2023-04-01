@@ -1,7 +1,9 @@
 import { toast } from 'react-toastify';
 
-const onError = ({ error }) => {
-  return toast.error(error?.stack.toString(), {
+const onError = (error) => {
+
+
+  return toast.error(error?.stack?.toString(), {
     position: 'bottom-center',
     autoClose: false,
     hideProgressBar: false,
@@ -9,7 +11,8 @@ const onError = ({ error }) => {
     pauseOnHover: true,
     draggable: false,
     progress: undefined,
-    theme: 'colored',
+    theme: 'light',
+    className: 'toast-message'
   });
 };
 

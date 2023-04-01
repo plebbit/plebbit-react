@@ -3252,9 +3252,9 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#7e6f4d7d90f628e474e02c51a89e2723fb71a73d":
+"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#d5f312ef577dc4a845e15d1f87c4273cb2195c08":
   version "0.0.3"
-  resolved "https://github.com/plebbit/plebbit-js.git#7e6f4d7d90f628e474e02c51a89e2723fb71a73d"
+  resolved "https://github.com/plebbit/plebbit-js.git#d5f312ef577dc4a845e15d1f87c4273cb2195c08"
   dependencies:
     "@keyv/sqlite" "3.6.2"
     "@plebbit/plebbit-logger" "github:plebbit/plebbit-logger"
@@ -3269,6 +3269,7 @@
     ethers "5.7.2"
     file-type "16.5.4"
     form-data "4.0.0"
+    hpagent "1.2.0"
     ipfs-http-client "56.0.3"
     ipfs-only-hash "4.0.0"
     is-ipfs "6.0.2"
@@ -3277,8 +3278,9 @@
     keyv "4.5.2"
     knex "2.3.0"
     libp2p-crypto "0.21.2"
+    limiter "2.1.0"
     lodash-es "4.17.21"
-    open-graph-scraper "^5.2.2"
+    open-graph-scraper "5.2.3"
     peer-id "0.16.0"
     proper-lockfile "github:plebbit/node-proper-lockfile"
     retry "0.13.1"
@@ -3287,7 +3289,7 @@
     sqlite3 "5.1.2"
     tiny-typed-emitter "2.1.0"
     tinycache "1.1.2"
-    tunnel "0.0.6"
+    ts-custom-error "3.3.1"
     uuid "9.0.0"
 
 "@plebbit/plebbit-logger@github:plebbit/plebbit-logger":
@@ -3303,11 +3305,26 @@
   dependencies:
     debug "4.3.3"
 
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#b42bcb6a4f74ab23bbb8dfa49e43e9cccef3ece6":
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#3a93e0960a97ecfd2335abdcc4cde835eb137bb3":
   version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#b42bcb6a4f74ab23bbb8dfa49e43e9cccef3ece6"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#3a93e0960a97ecfd2335abdcc4cde835eb137bb3"
   dependencies:
-    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#7e6f4d7d90f628e474e02c51a89e2723fb71a73d"
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#d5f312ef577dc4a845e15d1f87c4273cb2195c08"
+    "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
+    assert "2.0.0"
+    ethers "5.6.9"
+    localforage "1.10.0"
+    lodash.isequal "4.5.0"
+    memoizee "0.4.15"
+    quick-lru "5.1.1"
+    uuid "8.3.2"
+    zustand "4.0.0"
+
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#db50f393b09e0993e0c58b94c6b4c787e5b399fe":
+  version "0.0.1"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#db50f393b09e0993e0c58b94c6b4c787e5b399fe"
+  dependencies:
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#d5f312ef577dc4a845e15d1f87c4273cb2195c08"
     "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
     assert "2.0.0"
     ethers "5.6.9"
@@ -9249,6 +9266,11 @@ hpack.js@^2.1.6:
     readable-stream "^2.0.1"
     wbuf "^1.1.0"
 
+hpagent@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/hpagent/-/hpagent-1.2.0.tgz#0ae417895430eb3770c03443456b8d90ca464903"
+  integrity sha512-A91dYTeIB6NoXG+PxTQpCCDDnfHsW9kc06Lvpu1TEe9gnd6ZFeiBoRO9JvzEv6xK7EX97/dUE8g/vBMTqTS3CA==
+
 html-dom-parser@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/html-dom-parser/-/html-dom-parser-3.0.1.tgz#09907c612c846865301cb3b1216462371021e256"
@@ -11143,6 +11165,11 @@ jsonpointer@^5.0.0:
     array-includes "^3.1.5"
     object.assign "^4.1.3"
 
+just-performance@4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/just-performance/-/just-performance-4.3.0.tgz#cc2bc8c9227f09e97b6b1df4cd0de2df7ae16db1"
+  integrity sha512-L7RjvtJsL0QO8xFs5wEoDDzzJwoiowRw6Rn/GnvldlchS2JQr9wFYPiwZcDfrbbujEKqKN0tvENdbjXdYhDp5Q==
+
 keyv@4.5.2, keyv@^4.5.2:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/keyv/-/keyv-4.5.2.tgz#0e310ce73bf7851ec702f2eaf46ec4e3805cce56"
@@ -11293,6 +11320,13 @@ lilconfig@^2.0.3, lilconfig@^2.0.5, lilconfig@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.0.6.tgz#32a384558bd58af3d4c6e077dd1ad1d397bc69d4"
   integrity sha512-9JROoBW7pobfsx+Sq2JsASvCo6Pfo6WWoUW79HuB1BCoBXD4PLWJPqDF6fNj67pqBYTbAHkE57M1kS/+L1neOg==
+
+limiter@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/limiter/-/limiter-2.1.0.tgz#d38d7c5b63729bb84fb0c4d8594b7e955a5182a2"
+  integrity sha512-361TYz6iay6n+9KvUUImqdLuFigK+K79qrUtBsXhJTLdH4rIt/r1y8r1iozwh8KbZNpujbFTSh74mJ7bwbAMOw==
+  dependencies:
+    just-performance "4.3.0"
 
 lines-and-columns@^1.1.6:
   version "1.2.4"
@@ -12909,7 +12943,7 @@ onetime@^6.0.0:
   dependencies:
     mimic-fn "^4.0.0"
 
-open-graph-scraper@^5.2.2:
+open-graph-scraper@5.2.3:
   version "5.2.3"
   resolved "https://registry.yarnpkg.com/open-graph-scraper/-/open-graph-scraper-5.2.3.tgz#8a84b4f48d42e18d9ec44453377499acf57cfe66"
   integrity sha512-OFKyI3Zv60onbwjUtwTdLwMB9P1O0+U2JV0HD4hHdwyKGwDhyM09udZVU5vEwe/PxI4MyPuVaxcdy1okc4SgWw==
@@ -16608,6 +16642,11 @@ tryer@^1.0.1:
   resolved "https://registry.yarnpkg.com/tryer/-/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
   integrity sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
 
+ts-custom-error@3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/ts-custom-error/-/ts-custom-error-3.3.1.tgz#8bd3c8fc6b8dc8e1cb329267c45200f1e17a65d1"
+  integrity sha512-5OX1tzOjxWEgsr/YEUWSuPrQ00deKLh6D7OTWcvNHm12/7QPyRh8SYpyWvA4IZv8H/+GQWQEh/kwo95Q9OVW1A==
+
 tsconfig-paths@^3.14.1:
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-3.14.1.tgz#ba0734599e8ea36c862798e920bcf163277b137a"
@@ -16642,7 +16681,7 @@ tunnel-agent@^0.6.0:
   dependencies:
     safe-buffer "^5.0.1"
 
-tunnel@0.0.6, tunnel@^0.0.6:
+tunnel@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/tunnel/-/tunnel-0.0.6.tgz#72f1314b34a5b192db012324df2cc587ca47f92c"
   integrity sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==
