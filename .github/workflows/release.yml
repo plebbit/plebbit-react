@@ -99,7 +99,7 @@ jobs:
       - run: sudo apt install -y apksigner zipalign
 
       # install correct version of gradle
-      - run: curl -s "https://get.sdkman.io" | bash && sdk install gradle 7.6 && sdk use gradle 7.6
+      - run: curl -s "https://get.sdkman.io" | bash && source "$HOME/.sdkman/bin/sdkman-init.sh" && sdk install gradle 7.6 && sdk use gradle 7.6
 
       # build react app
       - run: yarn install --frozen-lockfile
