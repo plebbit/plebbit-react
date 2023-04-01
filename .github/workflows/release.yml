@@ -21,7 +21,7 @@ jobs:
           node-version: 16
       - run: yarn install --frozen-lockfile
       # make sure the ipfs executable is executable (linux only)
-      - run: yarn electron:download-ipfs && sudo chmod +x bin/linux/ipfs
+      - run: node electron/downloadIpfs && sudo chmod +x bin/linux/ipfs
       - run: yarn build
       - run: yarn electron:build:linux
       - run: ls dist
