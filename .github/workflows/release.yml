@@ -9,79 +9,79 @@ on:
       - 'v*'
 
 jobs:
-  # linux:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: write
-  #   steps:
-  #     # electron build
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: 16
-  #     - run: yarn install --frozen-lockfile
-  #     # make sure the ipfs executable is executable (linux only)
-  #     - run: node electron/downloadIpfs && sudo chmod +x bin/linux/ipfs
-  #     - run: yarn build
-  #     - run: yarn electron:build:linux
-  #     - run: ls dist
+  linux:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      # electron build
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - run: yarn install --frozen-lockfile
+      # make sure the ipfs executable is executable (linux only)
+      - run: node electron/downloadIpfs && sudo chmod +x bin/linux/ipfs
+      - run: yarn build
+      - run: yarn electron:build:linux
+      - run: ls dist
 
-  #     # publish version release
-  #     - uses: ncipollo/release-action@v1
-  #       with:
-  #         artifacts: 'dist/plebbit*.AppImage,dist/plebbit-html*.zip'
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         replacesArtifacts: true
-  #         body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)\n\nCLI client:\n- https://github.com/plebbit/plebbit-cli/releases/latest"
-  #         allowUpdates: true
+      # publish version release
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: 'dist/plebbit*.AppImage,dist/plebbit-html*.zip'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          replacesArtifacts: true
+          body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)\n\nCLI client:\n- https://github.com/plebbit/plebbit-cli/releases/latest"
+          allowUpdates: true
 
-  # mac:
-  #   runs-on: macOS-latest
-  #   permissions:
-  #     contents: write
-  #   steps:
-  #     # electron build
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: 16
-  #     - run: yarn install --frozen-lockfile
-  #     - run: yarn build
-  #     - run: yarn electron:build:mac
-  #     - run: ls dist
+  mac:
+    runs-on: macOS-latest
+    permissions:
+      contents: write
+    steps:
+      # electron build
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - run: yarn electron:build:mac
+      - run: ls dist
 
-  #     # publish version release
-  #     - uses: ncipollo/release-action@v1
-  #       with:
-  #         artifacts: 'dist/plebbit*.dmg'
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         replacesArtifacts: true
-  #         body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)\n\nCLI client:\n- https://github.com/plebbit/plebbit-cli/releases/latest"
-  #         allowUpdates: true
+      # publish version release
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: 'dist/plebbit*.dmg'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          replacesArtifacts: true
+          body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)\n\nCLI client:\n- https://github.com/plebbit/plebbit-cli/releases/latest"
+          allowUpdates: true
 
-  # windows:
-  #   runs-on: windows-latest
-  #   permissions:
-  #     contents: write
-  #   steps:
-  #     # electron build
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: 16
-  #     - run: yarn install --frozen-lockfile
-  #     - run: yarn build
-  #     - run: yarn electron:build:windows
-  #     - run: dir dist
+  windows:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      # electron build
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - run: yarn electron:build:windows
+      - run: dir dist
 
-  #     # publish version release
-  #     - uses: ncipollo/release-action@v1
-  #       with:
-  #         artifacts: 'dist/plebbit*.exe'
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         replacesArtifacts: true
-  #         body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)\n\nCLI client:\n- https://github.com/plebbit/plebbit-cli/releases/latest"
-  #         allowUpdates: true
+      # publish version release
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: 'dist/plebbit*.exe'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          replacesArtifacts: true
+          body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)\n\nCLI client:\n- https://github.com/plebbit/plebbit-cli/releases/latest"
+          allowUpdates: true
 
   android:
     runs-on: ubuntu-latest
