@@ -32,7 +32,7 @@ jobs:
           artifacts: 'dist/plebbit*.AppImage,dist/plebbit-html*.zip'
           token: ${{ secrets.GITHUB_TOKEN }}
           replacesArtifacts: true
-          body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)"
+          body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)\n\nCLI client:\n- https://github.com/plebbit/plebbit-cli/releases/latest"
           allowUpdates: true
 
   mac:
@@ -56,7 +56,7 @@ jobs:
           artifacts: 'dist/plebbit*.dmg'
           token: ${{ secrets.GITHUB_TOKEN }}
           replacesArtifacts: true
-          body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)"
+          body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)\n\nCLI client:\n- https://github.com/plebbit/plebbit-cli/releases/latest"
           allowUpdates: true
 
   windows:
@@ -80,7 +80,7 @@ jobs:
           artifacts: 'dist/plebbit*.exe'
           token: ${{ secrets.GITHUB_TOKEN }}
           replacesArtifacts: true
-          body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)"
+          body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)\n\nCLI client:\n- https://github.com/plebbit/plebbit-cli/releases/latest"
           allowUpdates: true
 
   android:
@@ -124,5 +124,5 @@ jobs:
           artifacts: 'dist/plebbit*.apk'
           token: ${{ secrets.GITHUB_TOKEN }}
           replacesArtifacts: true
-          body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)"
+          body: "Progressive web app mirrors:\n- https://plebbitapp.eth.limo\n- https://plebbitapp.eth.link\n- https://cloudflare-ipfs.com/ipns/plebbitapp.eth (insecure, no subdomain isolation)\n\nCLI client:\n- https://github.com/plebbit/plebbit-cli/releases/latest"
           allowUpdates: true
