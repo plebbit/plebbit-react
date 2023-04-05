@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Flex, useColorModeValue, Icon, Image, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, useColorModeValue, Icon, useDisclosure } from '@chakra-ui/react';
 import { BsCamera } from 'react-icons/bs';
 import { AiOutlineSetting } from 'react-icons/ai';
 import { SiInformatica } from 'react-icons/si';
@@ -10,6 +10,7 @@ import numFormatter from '../../utils/numberFormater';
 import { useHistory } from 'react-router-dom';
 import AddAvatar from '../Settings/modal/addAvatar';
 import BottomSideBar from '../../components/sidebar/bottomSideBar';
+import Image from '../../components/Image';
 
 const SideBar = ({
   mt,
@@ -35,16 +36,16 @@ const SideBar = ({
 
   return (
     <Box
-      marginLeft={ml || '24px'}
-      marginTop={mt}
-      border={border}
-      borderColor={borderColor}
-      margin={margin}
-      width={width}
-      padding={padding}
-      borderRadius={borderRadius}
-      top={top}
-      right={right}
+      marginLeft={ ml || '24px' }
+      marginTop={ mt }
+      border={ border }
+      borderColor={ borderColor }
+      margin={ margin }
+      width={ width }
+      padding={ padding }
+      borderRadius={ borderRadius }
+      top={ top }
+      right={ right }
       sx={
         sx || {
           '@media (min-width: 960px)': {
@@ -65,7 +66,7 @@ const SideBar = ({
             borderRadius="5px 5px 4px 4px"
             overflow="visible"
             wordBreak="break-word"
-            bg={bg || Bg}
+            bg={ bg || Bg }
             padding="12px"
           >
             <Box
@@ -76,7 +77,7 @@ const SideBar = ({
               position="absolute"
               top="0"
               width="100%"
-              onClick={onOpen}
+              onClick={ onOpen }
             >
               <Box width="100%" height="100%" position="relative">
                 <Flex
@@ -90,24 +91,24 @@ const SideBar = ({
                   right="8px"
                   bottom="8px"
                 >
-                  <Icon as={BsCamera} height="20px" color="#33a8ff" width="20px" />
+                  <Icon as={ BsCamera } height="20px" color="#33a8ff" width="20px" />
                 </Flex>
               </Box>
             </Box>
             <Box height="160px" width="160px" textAlign="center" position="relative" margin="auto">
               <Image
-                fallbackSrc={require('../../assets/images/fallback.png')}
+                fallbackSrc={ require('../../assets/images/fallback.png') }
                 position="relative"
                 zIndex="1"
-                src={avatar}
+                src={ avatar }
                 width="100%"
                 height="100%"
               />
             </Box>
             <Box padding="4px" position="absolute" right="12px" mt="-76px">
               <Icon
-                onClick={() => history.push('/settings', [])}
-                as={AiOutlineSetting}
+                onClick={ () => history.push('/settings', []) }
+                as={ AiOutlineSetting }
                 height="20px"
                 color="#33a8ff"
                 width="20px"
@@ -122,8 +123,8 @@ const SideBar = ({
               alignItems="center"
               justifyContent="center"
             >
-              <Box> {profile?.author?.displayName || profile?.name}</Box>
-              <Icon as={SiInformatica} fill="#ff4500" ml="4px" />
+              <Box> { profile?.author?.displayName || profile?.name }</Box>
+              <Icon as={ SiInformatica } fill="#ff4500" ml="4px" />
             </Flex>
             <Box
               fontSize="12px"
@@ -133,7 +134,7 @@ const SideBar = ({
               color="#7c7c7c"
               my="4px"
             >
-              {`u/${profile?.author?.address}`}
+              { `u/${profile?.author?.address}` }
             </Box>
             <Button
               width="100%"
@@ -151,7 +152,7 @@ const SideBar = ({
                   alignItems="center"
                   lineHeight="17px"
                 >
-                  <Icon as={RiTShirtFill} ml="0" />
+                  <Icon as={ RiTShirtFill } ml="0" />
                   <Box flex="1" textAlign="center">
                     Style Avatar
                   </Box>
@@ -164,9 +165,9 @@ const SideBar = ({
                   Karma
                 </Box>
                 <Flex alignItems="center" mt="2px">
-                  <Icon width="12px" height="12px" color="#24a0ed" as={GiMoebiusStar} />
+                  <Icon width="12px" height="12px" color="#24a0ed" as={ GiMoebiusStar } />
                   <Box ml="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
-                    {numFormatter(profile?.karma?.score)}
+                    { numFormatter(profile?.karma?.score) }
                   </Box>
                 </Flex>
               </Flex>
@@ -190,9 +191,9 @@ const SideBar = ({
               bg="#0079d3"
               border="none"
               color="#fff"
-              onClick={() => history.push('/submit', [])}
+              onClick={ () => history.push('/submit', []) }
             />
-            {showMoreOptions && (
+            { showMoreOptions && (
               <Flex flexDir="column">
                 <Button
                   content="Profile Moderation"
@@ -201,12 +202,12 @@ const SideBar = ({
                   color="#0079d3"
                   mt="8px"
                   padding="4px 8px"
-                  sx={{
+                  sx={ {
                     fontSize: '12px',
                     fontWeight: '700',
                     lineHeight: '16px',
                     justifyContent: 'left',
-                  }}
+                  } }
                 />
                 <Button
                   content="Add to Custom Feed"
@@ -215,12 +216,12 @@ const SideBar = ({
                   color="#0079d3"
                   mt="8px"
                   padding="4px 8px"
-                  sx={{
+                  sx={ {
                     fontSize: '12px',
                     fontWeight: '700',
                     lineHeight: '16px',
                     justifyContent: 'left',
-                  }}
+                  } }
                 />
                 <Button
                   content="Invite Someone to Chat"
@@ -229,34 +230,34 @@ const SideBar = ({
                   color="#0079d3"
                   mt="8px"
                   padding="4px 8px"
-                  sx={{
+                  sx={ {
                     fontSize: '12px',
                     fontWeight: '700',
                     lineHeight: '16px',
                     justifyContent: 'left',
-                  }}
+                  } }
                 />
               </Flex>
-            )}
+            ) }
             <Flex justifyContent="flex-end" mt="12px">
               <Button
-                content={showMoreOptions ? 'Fewer Options' : 'More Options'}
+                content={ showMoreOptions ? 'Fewer Options' : 'More Options' }
                 border="none"
                 bg="transparent"
                 color="#0079d3"
-                onClick={() => setShowMoreOptions(!showMoreOptions)}
-                sx={{
+                onClick={ () => setShowMoreOptions(!showMoreOptions) }
+                sx={ {
                   fontSize: '14p',
                   fontWeight: '700',
                   lineHeight: '17px',
-                }}
+                } }
               />
             </Flex>
           </Box>
         </Box>
         <BottomSideBar />
       </Flex>
-      {isOpen ? <AddAvatar isOpen={isOpen} onClose={onClose} /> : ''}
+      { isOpen ? <AddAvatar isOpen={ isOpen } onClose={ onClose } /> : '' }
     </Box>
   );
 };

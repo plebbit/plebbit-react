@@ -11,13 +11,13 @@ import {
   Skeleton,
   useColorModeValue,
   Link,
-  Image,
   Tag,
   useToast,
   Button,
   Textarea,
   Tooltip,
 } from '@chakra-ui/react';
+import Image from '../../Image';
 import { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import {

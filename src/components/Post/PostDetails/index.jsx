@@ -7,7 +7,7 @@ import {
   Icon,
   IconButton,
   Link,
-  Image,
+
   Tag,
   useToast,
   Button,
@@ -16,6 +16,7 @@ import {
   useDisclosure,
   Tooltip,
 } from '@chakra-ui/react';
+import Image from '../../Image';
 import {
   useAccountComments,
   usePublishVote, usePublishComment, usePublishCommentEdit, useSubscribe,

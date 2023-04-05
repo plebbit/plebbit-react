@@ -4,7 +4,7 @@ import {
   Button,
   Flex,
   Icon,
-  Image,
+
   Link,
   Skeleton,
   Tag,
@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 // import { RiCopperCoinLine } from 'react-icons/ri';
+import Image from "../Image";
 import {
   BsChat,
   BsBookmark,
@@ -576,7 +577,7 @@ const CardPost = ({
                     {/* Post url */ }
 
                     <Flex mt="0">
-                      { post?.link && post?.thumbnailUrl && (
+                      { post?.thumbnailUrl && (
                         <Link
                           fontSize="12px"
                           fontWeight="400"
@@ -603,7 +604,7 @@ const CardPost = ({
                       ) }
                     </Flex>
 
-                    { mediaInfo?.type === "image" && (
+                    { !post?.thumbnailUrl && mediaInfo?.type === "image" && (
                       <Image
                         maxH="512px"
                         margin="0 auto"
@@ -617,7 +618,7 @@ const CardPost = ({
                       />
                     ) }
 
-                    { mediaInfo?.type === "video" && (
+                    { !post?.thumbnailUrl && mediaInfo?.type === "video" && (
                       <Box
                         bg="black"
                         maxHeight="512px"
@@ -646,7 +647,7 @@ const CardPost = ({
                       </Box>
                     ) }
 
-                    { mediaInfo?.type === "audio" && (
+                    { !post?.thumbnailUrl && mediaInfo?.type === "audio" && (
                       <Box maxW="100%" color="#fff" margin="4px 8px">
                         <audio
                           preload="auto"
