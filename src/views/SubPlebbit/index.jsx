@@ -61,7 +61,7 @@ const SubPlebbit = ({ match }) => {
         isClosable: true,
       });
 
-      logger('challengeSuccess', { publishedCid: challengeVerification.publication.cid });
+      logger('challengeSuccess', { challengeVerification });
     } else if (challengeVerification.challengeSuccess === false) {
       logger(
         'challengefailed',

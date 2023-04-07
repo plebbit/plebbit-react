@@ -6,7 +6,7 @@ import {
   Flex,
   Input,
   Textarea,
-  Image,
+
   Icon,
   Switch,
   Link,
@@ -31,6 +31,7 @@ import Swal from 'sweetalert2';
 import Layout from '../../components/layout';
 import { useHistory, useLocation } from 'react-router-dom';
 import { deleteCaches } from '@plebbit/plebbit-react-hooks';
+import Image from '../../components/Image';
 
 const Settings = () => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');

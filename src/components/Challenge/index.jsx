@@ -1,6 +1,7 @@
-import { Flex, Text, Image } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import swal from 'sweetalert';
+import Image from "../Image"
 
 const Challenge = (challenges) => {
   swal({
@@ -14,10 +15,10 @@ const Challenge = (challenges) => {
           Complete the challenge
         </Text>
         <Image
-          fallbackSrc={require('../../assets/images/fallback.png')}
+          fallbackSrc={ require('../../assets/images/fallback.png') }
           margin="auto"
           width="80%"
-          src={`data:image/png;base64, ${challenges?.challenges[0].challenge}`}
+          src={ `data:image/png;base64, ${challenges?.challenges[0].challenge}` }
           mb="20px"
         />
       </Flex>

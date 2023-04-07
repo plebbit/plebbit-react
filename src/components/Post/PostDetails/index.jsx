@@ -7,7 +7,7 @@ import {
   Icon,
   IconButton,
   Link,
-  Image,
+
   Tag,
   useToast,
   Button,
@@ -16,6 +16,7 @@ import {
   useDisclosure,
   Tooltip,
 } from '@chakra-ui/react';
+import Image from '../../Image';
 import {
   useAccountComments,
   usePublishVote, usePublishComment, usePublishCommentEdit, useSubscribe,
@@ -188,7 +189,7 @@ function PostDetail() {
       setContent('');
       setEdit(false);
       setEditorState(EditorState.createEmpty());
-      logger('challenge success', { publishedCid: challengeVerification.publication.cid }, 'trace');
+      logger('challenge success', { challengeVerification }, 'trace');
     } else if (challengeVerification.challengeSuccess === false) {
       logger(
         'challenge failed',
@@ -216,7 +217,6 @@ function PostDetail() {
 
     try {
       // ask the user to complete the challenges in a modal window
-      console.log({ challengeAnswers, comment })
 
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {

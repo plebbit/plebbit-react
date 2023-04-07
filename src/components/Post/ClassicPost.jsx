@@ -5,7 +5,7 @@ import {
   Button,
   Flex,
   Icon,
-  Image,
+
   Link,
   Skeleton,
   Tag,
@@ -45,6 +45,7 @@ import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { AiOutlineYoutube, AiTwotoneDelete } from 'react-icons/ai';
 import truncateString from '../../utils/truncateString';
+import Image from "../Image"
 
 const ClassicPost = ({
   loading,
@@ -1510,7 +1511,7 @@ const ClassicPost = ({
                       </Box>
                     </Box>
                     <Box margin="0 0 16px">
-                      { post?.thumbnailUrl && post?.link && <Box pointerEvents="none" position="relative" marginX="0">
+                      { post?.thumbnailUrl && <Box pointerEvents="none" position="relative" marginX="0">
                         <Link href={ post?.link }>
                           <Box width="70px" height="52px" pointerEvent="all">
                             <Image

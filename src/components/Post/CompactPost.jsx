@@ -3,7 +3,7 @@ import {
   Box,
   Flex,
   Icon,
-  Image,
+
   Link,
   Skeleton,
   Tag,
@@ -12,6 +12,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 // import { CopyToClipboard } from 'react-copy-to-clipboard';
+import Image from "../Image"
+
 import {
   // BsBookmark,
   BsChat,

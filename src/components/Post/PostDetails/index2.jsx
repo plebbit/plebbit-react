@@ -11,13 +11,13 @@ import {
   Skeleton,
   useColorModeValue,
   Link,
-  Image,
   Tag,
   useToast,
   Button,
   Textarea,
   Tooltip,
 } from '@chakra-ui/react';
+import Image from '../../Image';
 import { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import {
@@ -199,7 +199,7 @@ function PostDetailModal() {
       setContent('');
       setEdit(false);
       setEditorState(EditorState.createEmpty());
-      logger('challenge success', { publishedCid: challengeVerification.publication.cid }, 'trace');
+      logger('challenge success', { challengeVerification }, 'trace');
     } else if (challengeVerification.challengeSuccess === false) {
       logger(
         'challenge failed',
