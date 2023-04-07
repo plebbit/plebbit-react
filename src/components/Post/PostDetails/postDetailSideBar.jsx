@@ -28,13 +28,14 @@ const PostDetailSideBar = ({
   handleSubscribe,
   subLoading,
   subplebbit: subs,
-  subscribed
+  subscribed,
+  loading: detLoading
 }) => {
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '#1A1A1B');
   const sub = useSubplebbit({ subplebbitAddress: detail?.subplebbitAddress });
   const subPlebbit = sub || subs;
-  const loading = subPlebbit === undefined;
+  const loading = subPlebbit === undefined || detLoading;
 
   return (
     <Box
@@ -116,7 +117,7 @@ const PostDetailSideBar = ({
               padding="12px"
             >
               <Icon as={ BiCake } margin="-2px 8px 0 0" w={ 6 } h={ 6 } color="inherit" />
-              <Box>Created { dateFormater(subPlebbit?.createdAt * 1000) } </Box>
+              <Box>Created { subPlebbit?.createdAt && dateFormater(subPlebbit?.createdAt * 1000) } </Box>
             </Flex>
           </Box>
 
