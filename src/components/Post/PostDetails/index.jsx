@@ -217,7 +217,6 @@ function PostDetail() {
 
     try {
       // ask the user to complete the challenges in a modal window
-      console.log({ challengeAnswers, comment })
 
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
     } catch (error) {

@@ -199,7 +199,6 @@ function PostDetailModal() {
       setContent('');
       setEdit(false);
       setEditorState(EditorState.createEmpty());
-      console.log({ challengeVerification })
       logger('challenge success', { challengeVerification }, 'trace');
     } else if (challengeVerification.challengeSuccess === false) {
       logger(
@@ -260,7 +259,6 @@ function PostDetailModal() {
     onChallengeVerification,
     onError,
   }
-  console.log({ publishVoteOptions })
 
 
   const { publishVote } = usePublishVote(publishVoteOptions)
