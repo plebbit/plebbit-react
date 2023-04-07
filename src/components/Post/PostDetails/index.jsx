@@ -189,7 +189,7 @@ function PostDetail() {
       setContent('');
       setEdit(false);
       setEditorState(EditorState.createEmpty());
-      logger('challenge success', { publishedCid: challengeVerification.publication.cid }, 'trace');
+      logger('challenge success', { challengeVerification }, 'trace');
     } else if (challengeVerification.challengeSuccess === false) {
       logger(
         'challenge failed',
