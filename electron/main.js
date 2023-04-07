@@ -99,6 +99,7 @@ const createMainWindow = () => {
   mainWindow.webContents.userAgent =
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36';
 
+  // don't open new windows
   mainWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault();
     mainWindow.loadURL(url);
@@ -131,6 +132,48 @@ const createMainWindow = () => {
       }
     }
   });
+
+  // open links (with target="_blank") in external browser
+  // do not open links in plebbit-react or will lead to remote execution
+  mainWindow.webContents.setWindowOpenHandler(({url}) => {
+    const originalUrl = url
+    try {
+      // do not let the user open any url with shell.openExternal
+      // or it will lead to remote execution https://benjamin-altpeter.de/shell-openexternal-dangers/
+
+      // only open valid https urls to prevent remote execution
+      // will throw if url isn't valid
+      const validatedUrl = new URL(originalUrl);
+      if (validatedUrl.protocol !== 'https:') {
+        throw Error(`can't open url '${originalUrl}' not https`);
+      }
+
+      // do not open http protocol, not private
+      // do not open any other protocol, will lead to remote execution
+
+      // open serialized url to prevent remote execution
+      const serializedUrl = validatedUrl.toString();
+      shell.openExternal(serializedUrl);
+      setImmediate(() => {
+        shell.openExternal(serializedUrl)
+      })
+    } catch (e) {
+      console.warn(e);
+    }
+    return {action: 'deny'}
+  })
+
+  // deny permissions like location, notifications, etc https://www.electronjs.org/docs/latest/tutorial/security#5-handle-session-permission-requests-from-remote-content
+  mainWindow.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
+    // deny all permissions
+    return callback(false)
+  })
+
+  // deny attaching webview https://www.electronjs.org/docs/latest/tutorial/security#12-verify-webview-options-before-creation
+  mainWindow.webContents.on('will-attach-webview', (e, webPreferences, params) => {
+    // deny all
+    e.preventDefault()
+  })
 
   // tray
   const trayIconPath = path.join(
