@@ -120,7 +120,6 @@ function PostDetail() {
   const subplebbit =
     sub === undefined ? { ...detail?.subplebbit, address: detail?.subplebbitAddress } : sub;
 
-  console.log({ detail })
 
 
   const mediaInfo = getCommentMediaInfo(detail);

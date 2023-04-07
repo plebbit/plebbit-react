@@ -130,7 +130,7 @@ function PostDetailModal() {
   }
 
   const sub = useSubplebbit({ subplebbitAddress: detail?.subplebbitAddress });
-  const loading = detail === undefined;
+  const loading = detail?.state === "fetching-ipfs" || !detail?.timestamp;
   const detailPending = !detail?.cid;
   const subplebbit = sub === undefined ? { address: detail?.subplebbitAddress } : sub;
   const mediaInfo = getCommentMediaInfo(detail);
