@@ -52,6 +52,8 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const commentPending = !comment?.cid;
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(comment?.subplebbitAddress);
 
+  const [update, setUpdate] = useState({})
+
   const owner =
     profile?.author?.address === comment?.author?.address ||
     profile?.signer?.address === comment?.author?.address;
@@ -69,6 +71,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
       setContent('');
       setEditorState(EditorState.createEmpty());
       setLoader(false);
+
       logger('challenge-success', { challengeVerification }, 'trace');
     } else if (challengeVerification.challengeSuccess === false) {
       logger(
@@ -89,6 +92,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
         isClosable: true,
       });
       setLoader(false);
+
     }
   };
 
@@ -181,16 +185,15 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     }
   };
 
-  const [update, setUpdate] = useState({})
 
 
   const publishCommentEditOptions = {
     commentCid: comment?.cid,
     subplebbitAddress: comment?.subplebbitAddress,
+    ...update,
     onChallenge,
     onChallengeVerification,
     onError: onError,
-    ...update,
   }
   const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
 
@@ -199,7 +202,6 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     try {
       await publishCommentEdit();
       callBack ? callBack() : '';
-      setUpdate({})
     } catch (error) {
       logger('edit:comment:response:', error, 'error');
       toast({

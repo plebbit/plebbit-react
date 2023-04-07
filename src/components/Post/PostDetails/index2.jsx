@@ -353,7 +353,7 @@ function PostDetailModal() {
       setEditLoading(true);
       await publishCommentEdit();
       setEditLoading(false);
-      setUpdate({})
+
     } catch (error) {
       logger('delete:comment:response:', error, 'error');
       setSubLoading(false);

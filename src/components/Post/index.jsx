@@ -61,6 +61,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
         isClosable: true,
       });
       logger('challenge-success', challengeVerification, 'trace');
+
     } else if (challengeVerification.challengeSuccess === false) {
       logger(
         'challenge-failed',
@@ -79,6 +80,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
         duration: 5000,
         isClosable: true,
       });
+
     }
 
     logger('challenge-verified', { challengeVerification, comment }, 'trace');
@@ -176,11 +178,11 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
 
   const publishCommentEditOptions = {
     commentCid: post?.cid,
+    ...update,
     subplebbitAddress: post?.subplebbitAddress,
     onChallenge,
     onChallengeVerification,
     onError: onError,
-    ...update,
   }
   const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
 
@@ -189,7 +191,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     try {
       await publishCommentEdit();
       callBack ? callBack() : '';
-      setUpdate({})
+
     } catch (error) {
       logger('edit:comment:response:', error, 'error');
       toast({
