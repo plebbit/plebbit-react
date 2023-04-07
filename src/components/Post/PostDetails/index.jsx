@@ -115,10 +115,12 @@ function PostDetail() {
   }
 
   const sub = useSubplebbit({ subplebbitAddress: detail?.subplebbitAddress });
-  const loading = detail === undefined;
+  const loading = detail?.state === "fetching-ipfs" || !detail?.timestamp;
   const detailPending = !detail?.cid;
   const subplebbit =
     sub === undefined ? { ...detail?.subplebbit, address: detail?.subplebbitAddress } : sub;
+
+  console.log({ detail })
 
 
   const mediaInfo = getCommentMediaInfo(detail);
@@ -1740,7 +1742,7 @@ function PostDetail() {
                       setSubLoading={ setSubLoading }
                       subscribed={ subscribed }
                       detail={ detail }
-                      loading={ !loading }
+                      loading={ loading }
                       subplebbit={ subplebbit }
                     />
                   </Flex>

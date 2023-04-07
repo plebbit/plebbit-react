@@ -3320,6 +3320,21 @@
     uuid "8.3.2"
     zustand "4.0.0"
 
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#7f9f4286d2990575277afc9bd1ae3624272ddde4":
+  version "0.0.1"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#7f9f4286d2990575277afc9bd1ae3624272ddde4"
+  dependencies:
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#ef0f3c6dd5e72c58dab1dffc486addf2819bd638"
+    "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
+    assert "2.0.0"
+    ethers "5.6.9"
+    localforage "1.10.0"
+    lodash.isequal "4.5.0"
+    memoizee "0.4.15"
+    quick-lru "5.1.1"
+    uuid "8.3.2"
+    zustand "4.0.0"
+
 "@pmmmwh/react-refresh-webpack-plugin@^0.5.3":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.5.7.tgz#58f8217ba70069cc6a73f5d7e05e85b458c150e2"

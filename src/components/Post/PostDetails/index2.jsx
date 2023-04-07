@@ -1690,7 +1690,7 @@ function PostDetailModal() {
                 subLoading={ subLoading }
                 setSubLoading={ setSubLoading }
                 detail={ detail }
-                loading={ !loading }
+                loading={ loading }
                 subplebbit={ subplebbit }
                 subscribed={ subscribed }
               />
