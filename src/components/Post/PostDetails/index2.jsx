@@ -1903,7 +1903,7 @@ function PostDetailModal() {
                               verticalAlign="middle"
                               src={ authorAvatarImageUrl }
                               alt="user-icon"
-                              fallbackSrc={ require('../../../assets/images/fallback.png') }
+
                               color="transparent"
                               borderRadius="50%"
                               w="24px"
