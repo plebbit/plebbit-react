@@ -3,8 +3,8 @@ import { Image as Img } from "@chakra-ui/react"
 
 
 
-const Image = React.memo(function Image(props) {
+const Image = (props) => {
     return <Img { ...props } />;
-});
+};
 
-export default Image
+export default (Image)

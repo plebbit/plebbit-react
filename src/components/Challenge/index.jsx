@@ -15,7 +15,7 @@ const Challenge = (challenges) => {
           Complete the challenge
         </Text>
         <Image
-          fallbackSrc={ require('../../assets/images/fallback.png') }
+
           margin="auto"
           width="80%"
           src={ `data:image/png;base64, ${challenges?.challenges[0].challenge}` }

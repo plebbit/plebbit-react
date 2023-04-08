@@ -689,7 +689,7 @@ const CardPost = ({
                         { " " }
                         <Link href={ post?.link }>
                           <Image
-                            fallbackSrc={ require("../../assets/images/fallback.png") }
+
                             borderColor="mainBlue"
                             border="1px solid #0079d3;"
                             src={ post?.thumbnailUrl }
@@ -1519,7 +1519,7 @@ const CardPost = ({
                                         onError={ (event) =>
                                           (event.target.style.display = "none")
                                         }
-                                        fallbackSrc={ require("../../assets/images/fallback.png") }
+
 
 
                                       />
@@ -1616,7 +1616,7 @@ const CardPost = ({
                               onError={ (event) =>
                                 (event.target.style.display = "none")
                               }
-                              fallbackSrc={ require("../../assets/images/fallback.png") }
+
 
 
                             />

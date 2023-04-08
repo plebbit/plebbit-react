@@ -97,7 +97,7 @@ const SideBar = ({
             </Box>
             <Box height="160px" width="160px" textAlign="center" position="relative" margin="auto">
               <Image
-                fallbackSrc={ require('../../assets/images/fallback.png') }
+
                 position="relative"
                 zIndex="1"
                 src={ avatar }

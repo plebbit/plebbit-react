@@ -253,7 +253,7 @@ const ClassicPost = ({
                       <Image
                         borderColor={ border2 }
                         src={ post?.thumbnailUrl || post?.link }
-                        fallbackSrc={ require('../../assets/images/fallback.png') }
+
                         transition="filter .5s"
                         height="72px"
                         width="96px"
@@ -1515,7 +1515,7 @@ const ClassicPost = ({
                         <Link href={ post?.link }>
                           <Box width="70px" height="52px" pointerEvent="all">
                             <Image
-                              fallbackSrc={ require('../../assets/images/fallback.png') }
+
                               src={ post?.thumbnailUrl }
                               position="absolute"
                               height="100%"
@@ -1538,7 +1538,7 @@ const ClassicPost = ({
                             onError={ (event) =>
                               (event.target.style.display = "none")
                             }
-                            fallbackSrc={ require('../../assets/images/fallback.png') }
+
 
                           />
                         </Box>
@@ -1696,7 +1696,7 @@ const ClassicPost = ({
                       ) : (
                         <Skeleton isLoaded={ !loading }>
                           <Box display="flex" justifyContent="center">
-                            <Image fallbackSrc="https://via.placeholder.com/150" src={ post?.link } />
+                            <Image src={ post?.link } />
                           </Box>
 
                         </Skeleton>
