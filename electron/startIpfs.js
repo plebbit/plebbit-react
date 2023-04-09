@@ -75,7 +75,7 @@ const startIpfs = async () => {
   await new Promise((resolve, reject) => {
     const ipfsProcess = spawn(
       ipfsPath,
-      ['daemon', '--enable-pubsub-experiment', '--enable-namesys-pubsub'],
+      ['daemon', '--migrate', '--enable-pubsub-experiment', '--enable-namesys-pubsub'],
       { env, hideWindows: true }
     );
     console.log(`ipfs daemon process started with pid ${ipfsProcess.pid}`);
