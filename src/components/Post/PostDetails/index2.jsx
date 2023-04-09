@@ -471,6 +471,16 @@ function PostDetailModal() {
 
 
 
+  const label = detail?.title || subplebbit?.title || getSubName(subplebbit) || getAddress(params?.commentCid)
+  document.title = label
+  useEffect(() => {
+    document.title = label
+
+  }, [label])
+
+
+
+
   return (
     <>
       <Modal trapFocus={ false } scrollBehavior="outside" isOpen={ isOpen } onClose={ onClose }>

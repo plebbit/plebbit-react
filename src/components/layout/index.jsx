@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ProfileContext } from '../../store/profileContext';
 import { Box, Flex } from '@chakra-ui/layout';
 import { Icon, useColorModeValue } from '@chakra-ui/react';
 import NavBar from './Nav';
 import { PlebLogo } from '../svgs';
 import { BiAddToQueue } from 'react-icons/bi';
-import { MdAdd, MdClose, MdHome, MdOutlineMail } from 'react-icons/md';
+import { MdAdd, MdClose, Md, MdOutlineMail } from 'react-icons/md';
 import Avatar from '../Avatar';
 import { BsArrowUpRightCircle } from 'react-icons/bs';
 import { HiOutlineChartSquareBar, HiOutlineChat } from 'react-icons/hi';
@@ -25,7 +25,7 @@ const Layout = ({ children, name }) => {
         <Box
           width="200px"
           borderRadius="full"
-          sx={{
+          sx={ {
             transform: 'scale(1)',
             animation: 'pulse 1.5s infinite',
             '@keyframes pulse': {
@@ -42,7 +42,7 @@ const Layout = ({ children, name }) => {
                 boxShadow: '0 0 0 0 rgba(204,169,44, 0)',
               },
             },
-          }}
+          } }
           height="200xp"
         >
           <PlebLogo />
@@ -51,19 +51,26 @@ const Layout = ({ children, name }) => {
     );
   }
 
+  document.title = name?.label === 'Home' ? "Plebbit" : name?.label
+  useEffect(() => {
+    document.title = name?.label === 'Home' ? "Plebbit" : name?.label
+
+  }, [name?.label])
+
+
   return (
     <>
-      <Box bg={bg} minH="calc(100vh - 48px)">
+      <Box bg={ bg } minH="calc(100vh - 48px)">
         <Box tabIndex="-1" />
         <Box outline="none" />
-        <NavBar showStyleBar={showStyleBar} location={name} />
-        {device !== 'mobile' ? (
+        <NavBar showStyleBar={ showStyleBar } location={ name } />
+        { device !== 'mobile' ? (
           <Box
             transition="margin-top .3s ease"
             paddingTop="48px"
-            paddingLeft={showSide && name.label === 'Home' && '270px'}
+            paddingLeft={ showSide && name.label === 'Home' && '270px' }
           >
-            {showSide && name.label === 'Home' && (
+            { showSide && name.label === 'Home' && (
               <Flex
                 flexDir="column"
                 width="270px"
@@ -73,7 +80,7 @@ const Layout = ({ children, name }) => {
                 overflowX="hidden"
                 overflowY="scroll"
                 bottom="0"
-                bg={bg}
+                bg={ bg }
                 zIndex="4"
               >
                 <Flex
@@ -82,7 +89,7 @@ const Layout = ({ children, name }) => {
                   padding="20px"
                   overflowY="scroll"
                 >
-                  <Box cursor="pointer" px="10px" pas onClick={() => setShowSide(false)}>
+                  <Box cursor="pointer" px="10px" pas onClick={ () => setShowSide(false) }>
                     <MdClose />
                   </Box>
                 </Flex>
@@ -92,65 +99,65 @@ const Layout = ({ children, name }) => {
                   </Box>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Icon as={BiAddToQueue} boxSize={5} />
+                    <Icon as={ BiAddToQueue } boxSize={ 5 } />
 
                     <Box ml="8px">Mod Queue</Box>
                   </Flex>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Icon as={MdOutlineMail} boxSize={5} />
+                    <Icon as={ MdOutlineMail } boxSize={ 5 } />
 
                     <Box ml="8px">Modmail</Box>
                   </Flex>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Icon as={BiAddToQueue} boxSize={5} />
+                    <Icon as={ BiAddToQueue } boxSize={ 5 } />
 
                     <Box ml="8px">p/Mod</Box>
                   </Flex>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Avatar width={20} height={20} badge />
+                    <Avatar width={ 20 } height={ 20 } badge />
                     <Box ml="8px">Test</Box>
                   </Flex>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Avatar width={20} height={20} badge />
+                    <Avatar width={ 20 } height={ 20 } badge />
                     <Box ml="8px">Test 2</Box>
                   </Flex>
                 </Flex>
@@ -160,63 +167,63 @@ const Layout = ({ children, name }) => {
                   </Box>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Icon as={MdAdd} boxSize={5} />
+                    <Icon as={ MdAdd } boxSize={ 5 } />
 
                     <Box ml="8px">Create Community</Box>
                   </Flex>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Avatar width={20} height={20} badge />
+                    <Avatar width={ 20 } height={ 20 } badge />
                     <Box ml="8px">Test</Box>
                   </Flex>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Avatar width={20} height={20} badge />
+                    <Avatar width={ 20 } height={ 20 } badge />
                     <Box ml="8px">Test 2</Box>
                   </Flex>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Avatar width={20} height={20} badge />
+                    <Avatar width={ 20 } height={ 20 } badge />
                     <Box ml="8px">Test</Box>
                   </Flex>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Avatar width={20} height={20} badge />
+                    <Avatar width={ 20 } height={ 20 } badge />
                     <Box ml="8px">Test 2</Box>
                   </Flex>
                 </Flex>
@@ -226,39 +233,39 @@ const Layout = ({ children, name }) => {
                   </Box>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Icon as={MdHome} boxSize={5} />
+                    <Icon as={ MdHome } boxSize={ 5 } />
                     <Box ml="8px">Home</Box>
                   </Flex>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Icon as={BsArrowUpRightCircle} boxSize={5} />
+                    <Icon as={ BsArrowUpRightCircle } boxSize={ 5 } />
 
                     <Box ml="8px">Popular</Box>
                   </Flex>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Icon as={HiOutlineChartSquareBar} boxSize={5} />
+                    <Icon as={ HiOutlineChartSquareBar } boxSize={ 5 } />
 
                     <Box ml="8px">All</Box>
                   </Flex>
@@ -269,54 +276,54 @@ const Layout = ({ children, name }) => {
                   </Box>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Icon as={AiFillSetting} boxSize={5} />
+                    <Icon as={ AiFillSetting } boxSize={ 5 } />
                     <Box ml="8px">User Settings</Box>
                   </Flex>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Icon as={HiOutlineChat} boxSize={5} />
+                    <Icon as={ HiOutlineChat } boxSize={ 5 } />
 
                     <Box ml="8px">Messages</Box>
                   </Flex>
                   <Flex
                     alignItems="center"
-                    _hover={{
+                    _hover={ {
                       bg: '#DEEBFF',
-                    }}
+                    } }
                     padding="8px 24px"
                     fontWeight="400"
                     fontSize="14px"
                   >
-                    <Icon as={MdAdd} boxSize={5} />
+                    <Icon as={ MdAdd } boxSize={ 5 } />
 
                     <Box ml="8px">Create Post</Box>
                   </Flex>
                 </Flex>
               </Flex>
-            )}
-            {/* content */}
-            <Box position="relative" marginLeft={showStyleBar && '284px'}>
+            ) }
+            {/* content */ }
+            <Box position="relative" marginLeft={ showStyleBar && '284px' }>
               <Flex flexDir="column" minH="calc(100vh - 48px)">
                 <Box
                   minH="100%"
                   overflow="hidden"
                   position="relative"
                   flex="none"
-                  _before={{
+                  _before={ {
                     content: `""`,
                     position: 'fixed',
                     width: '100%',
@@ -325,19 +332,19 @@ const Layout = ({ children, name }) => {
                     willChange: 'transform',
                     height: '100%',
                     background: layoutBg,
-                  }}
+                  } }
                 />
-                <Box zIndex="3">{children}</Box>
+                <Box zIndex="3">{ children }</Box>
               </Flex>
             </Box>
           </Box>
         ) : (
           <Box>
             <Flex minH="100vh" flexDir="column" justifyContent="space-between" paddingTop="48px">
-              <Box>{children}</Box>
+              <Box>{ children }</Box>
             </Flex>
           </Box>
-        )}
+        ) }
       </Box>
     </>
   );

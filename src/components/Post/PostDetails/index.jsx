@@ -471,7 +471,7 @@ function PostDetail() {
   return (
     <Layout
       name={ {
-        label: subplebbit?.title || getSubName(subplebbit) || getAddress(params?.commentCid),
+        label: detail?.title || subplebbit?.title || getSubName(subplebbit) || getAddress(params?.commentCid),
         value: location?.pathname,
       } }
     >
