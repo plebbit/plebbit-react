@@ -226,7 +226,7 @@ const Settings = () => {
       isClosable: true,
     });
   };
-
+  console.log({ plebbitOptions: userProfile?.plebbitOptions })
   return (
     <Layout name={ { label: 'User Settings', value: location?.pathname } }>
       <Box
@@ -916,40 +916,43 @@ const Settings = () => {
                     IPFS Gateway Url (optional)
                   </Text>
                   <Text fontWeight="400" color={ metaColor } fontSize="12px" lineHeight="16px">
-                    Optional URL of an IPFS gateway
+                    Optional URL of an IPFS gateways
                   </Text>
                 </Flex>
-                <Flex
-                  alignItems="flex-start"
-                  marginTop="12px"
-                  flexDir="column"
-                  flexGrow="1"
-                  justifyContent="flex-end"
-                >
-                  <Input
-                    placeholder="ipfs Gateway Url"
-                    backgroundColor={ mainBg }
-                    color={ mainColor }
-                    boxSizing="border-box"
-                    marginBottom="8px"
-                    border={ `1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}` }
-                    borderColor={ colorMode === 'light' ? '#edeff1' : '#343456' }
-                    height="48px"
-                    borderRadius="4px"
-                    padding="12px 24px 4px 12px"
-                    width="100%"
-                    value={ userProfile?.plebbitOptions?.ipfsGatewayUrl }
-                    onChange={ (e) =>
-                      setUserProfile({
-                        ...userProfile,
-                        plebbitOptions: {
-                          ...userProfile?.plebbitOptions,
-                          ipfsGatewayUrl: e.target.value,
-                        },
-                      })
-                    }
-                  />
-                </Flex>
+                { (userProfile?.plebbitOptions?.ipfsGatewayUrls || [undefined])?.map((url) =>
+                  <Flex
+                    alignItems="flex-start"
+                    marginTop="12px"
+                    flexDir="column"
+                    flexGrow="1"
+                    justifyContent="flex-end"
+                  >
+                    <Input
+                      placeholder="ipfs Gateway Url"
+                      backgroundColor={ mainBg }
+                      color={ mainColor }
+                      boxSizing="border-box"
+                      marginBottom="8px"
+                      border={ `1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}` }
+                      borderColor={ colorMode === 'light' ? '#edeff1' : '#343456' }
+                      height="48px"
+                      borderRadius="4px"
+                      padding="12px 24px 4px 12px"
+                      width="100%"
+                      value={ url }
+                      onChange={ (e) =>
+                        setUserProfile({
+                          ...userProfile,
+                          plebbitOptions: {
+                            ...userProfile?.plebbitOptions,
+                            ipfsGatewayUrls: [...userProfile?.plebbitOptions?.ipfsGatewayUrls?.map((x) => x === url ? e.target.value : x)]
+
+                          },
+                        })
+                      }
+                    />
+                  </Flex>) }
+
               </Flex>
               <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
                 <Flex flexDir="column" marginRight="8px">
@@ -974,7 +977,7 @@ const Settings = () => {
                     to use a local IPFS node
                   </Text>
                 </Flex>
-                <Flex
+                { (userProfile?.plebbitOptions?.ipfsHttpClientsOptions || [undefined])?.map((url) => <Flex
                   alignItems="flex-start"
                   marginTop="12px"
                   flexDir="column"
@@ -993,18 +996,19 @@ const Settings = () => {
                     borderRadius="4px"
                     padding="12px 24px 4px 12px"
                     width="100%"
-                    value={ userProfile?.plebbitOptions?.ipfsHttpClientOptions }
+                    value={ url }
                     onChange={ (e) =>
                       setUserProfile({
                         ...userProfile,
                         plebbitOptions: {
                           ...userProfile?.plebbitOptions,
-                          ipfsHttpClientOptions: e.target.value,
+                          ipfsHttpClientsOptions: [...userProfile?.plebbitOptions?.ipfsHttpClientsOptions?.map((x) => x === url ? e.target.value : x)],
                         },
                       })
                     }
                   />
-                </Flex>
+                </Flex>) }
+
               </Flex>
               <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
                 <Flex flexDir="column" marginRight="8px">
@@ -1022,7 +1026,7 @@ const Settings = () => {
                     ipfsHttpClientOptions isn't available, like in the browser
                   </Text>
                 </Flex>
-                <Flex
+                { (userProfile?.plebbitOptions?.pubsubHttpClientsOptions || [undefined])?.map((url) => <Flex
                   alignItems="flex-start"
                   marginTop="12px"
                   flexDir="column"
@@ -1041,18 +1045,19 @@ const Settings = () => {
                     borderRadius="4px"
                     padding="12px 24px 4px 12px"
                     width="100%"
-                    value={ userProfile?.plebbitOptions?.pubsubHttpClientOptions }
+                    value={ url }
                     onChange={ (e) =>
                       setUserProfile({
                         ...userProfile,
                         plebbitOptions: {
                           ...userProfile?.plebbitOptions,
-                          pubsubHttpClientOptions: e.target.value,
+                          pubsubHttpClientsOptions: [...userProfile?.plebbitOptions?.pubsubHttpClientsOptions?.map((x) => x === url ? e.target.value : x)],
                         },
                       })
                     }
                   />
-                </Flex>
+                </Flex>) }
+
               </Flex>
               <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
                 <Flex flexDir="column" marginRight="8px">
@@ -1090,7 +1095,7 @@ const Settings = () => {
                     padding="12px 24px 4px 12px"
                     width="100%"
                     value={ userProfile?.plebbitOptions?.dataPath }
-                    disabled
+
                   />
                 </Flex>
               </Flex>
