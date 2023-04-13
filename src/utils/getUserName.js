@@ -1,3 +1,4 @@
+import truncateString from './truncateString';
 
 const getUserName = (author) => {
   let username = '';
@@ -9,9 +10,11 @@ const getUserName = (author) => {
     username += ' ';
   }
   username += 'u/';
-
-  username += author?.shortAddress;
-
+  if (author?.address?.includes('.')) {
+    username += author?.address ? author?.address : '';
+  } else {
+    username += author?.address ? author?.address?.substring(0, 14) : '';
+  }
   return username;
 };
 
@@ -27,14 +30,18 @@ export const getSubName = (sub) => {
     username += ' ';
   }
   username += 'p/';
-
-  username += sub?.shortAddress;
-
+  if (sub?.address?.includes('.')) {
+    username += sub?.address ? sub?.address : '';
+  } else {
+    username += sub?.address ? sub?.address?.substring(0, 14) : '';
+  }
   return username;
 };
 
 export const getAddress = (add) => {
-
-  return add?.shortAddress;
-
+  if (add?.includes('.')) {
+    return add;
+  } else {
+    return truncateString(add, 14);
+  }
 };
