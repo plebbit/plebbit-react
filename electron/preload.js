@@ -22,7 +22,7 @@ mock('native-fetch', {
 });
 
 const envPaths = require('env-paths').default('plebbit', { suffix: false });
-const {contextBridge} = require('electron')
+const { contextBridge } = require('electron')
 const path = require('path')
 
 // dev uses http://localhost, prod uses file://...index.html
@@ -31,11 +31,11 @@ const isDev = window.location.protocol === 'http:';
 const defaultPlebbitOptions = {
   // find the user's OS data path
   dataPath: !isDev ? envPaths.data : path.join(__dirname, '..', '.plebbit'),
-  ipfsHttpClientOptions: 'http://localhost:5001/api/v0',
+  ipfsHttpClientsOptions: ['http://localhost:5001/api/v0'] || undefined,
   // TODO: having to define pubsubHttpClientOptions and ipfsHttpClientOptions is a bug with plebbit-js
-  pubsubHttpClientOptions: 'http://localhost:5001/api/v0',
+  pubsubHttpClientsOptions: ['http://localhost:5001/api/v0'] || undefined,
   // electron starts the local ipfs gateway on port 11028 because 8080 is too common
-  ipfsGatewayUrl: 'http://localhost:11028',
+  ipfsGatewayUrls: ['http://localhost:11028'] || undefined,
   // ipfsGatewayUrl: 'https://cloudflare-ipfs.com',
   // pubsubHttpClientOptions: 'https://pubsubprovider.xyz/api/v0',
 };

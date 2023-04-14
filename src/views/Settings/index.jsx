@@ -226,7 +226,7 @@ const Settings = () => {
       isClosable: true,
     });
   };
-
+  console.log({ plebbitOptions: userProfile?.plebbitOptions })
   return (
     <Layout name={ { label: 'User Settings', value: location?.pathname } }>
       <Box
@@ -916,7 +916,7 @@ const Settings = () => {
                     IPFS Gateway Url (optional)
                   </Text>
                   <Text fontWeight="400" color={ metaColor } fontSize="12px" lineHeight="16px">
-                    Optional URL of an IPFS gateway
+                    Optional URL of an IPFS gateways
                   </Text>
                 </Flex>
                 <Flex
@@ -926,8 +926,8 @@ const Settings = () => {
                   flexGrow="1"
                   justifyContent="flex-end"
                 >
-                  <Input
-                    placeholder="ipfs Gateway Url"
+                  <Textarea
+                    placeholder="IPFS Gateway Url"
                     backgroundColor={ mainBg }
                     color={ mainColor }
                     boxSizing="border-box"
@@ -938,18 +938,23 @@ const Settings = () => {
                     borderRadius="4px"
                     padding="12px 24px 4px 12px"
                     width="100%"
-                    value={ userProfile?.plebbitOptions?.ipfsGatewayUrl }
+                    resize="both"
+                    value={ userProfile?.plebbitOptions?.ipfsGatewayUrls?.join('\r\n') }
                     onChange={ (e) =>
                       setUserProfile({
                         ...userProfile,
                         plebbitOptions: {
                           ...userProfile?.plebbitOptions,
-                          ipfsGatewayUrl: e.target.value,
+                          ipfsGatewayUrls: e.target.value.split(/\r?\n/)
+
                         },
                       })
+
                     }
                   />
                 </Flex>
+
+
               </Flex>
               <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
                 <Flex flexDir="column" marginRight="8px">
@@ -981,8 +986,8 @@ const Settings = () => {
                   flexGrow="1"
                   justifyContent="flex-end"
                 >
-                  <Input
-                    placeholder=" ipfsHttpClientOptions (optional)"
+                  <Textarea
+                    placeholder="IPFS Http Clients Options (optional)"
                     backgroundColor={ mainBg }
                     color={ mainColor }
                     boxSizing="border-box"
@@ -993,18 +998,20 @@ const Settings = () => {
                     borderRadius="4px"
                     padding="12px 24px 4px 12px"
                     width="100%"
-                    value={ userProfile?.plebbitOptions?.ipfsHttpClientOptions }
+                    resize="both"
+                    value={ userProfile?.plebbitOptions?.ipfsHttpClientsOptions?.join('\r\n') }
                     onChange={ (e) =>
                       setUserProfile({
                         ...userProfile,
                         plebbitOptions: {
                           ...userProfile?.plebbitOptions,
-                          ipfsHttpClientOptions: e.target.value,
+                          ipfsHttpClientsOptions: e.target.value.split(/\r?\n/)
                         },
                       })
                     }
                   />
                 </Flex>
+
               </Flex>
               <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
                 <Flex flexDir="column" marginRight="8px">
@@ -1029,8 +1036,8 @@ const Settings = () => {
                   flexGrow="1"
                   justifyContent="flex-end"
                 >
-                  <Input
-                    placeholder=" pubsubHttpClientOptions (optional)"
+                  <Textarea
+                    placeholder="Pub Sub HttpClientOptions (optional)"
                     backgroundColor={ mainBg }
                     color={ mainColor }
                     boxSizing="border-box"
@@ -1040,19 +1047,22 @@ const Settings = () => {
                     height="48px"
                     borderRadius="4px"
                     padding="12px 24px 4px 12px"
+                    resize="both"
                     width="100%"
-                    value={ userProfile?.plebbitOptions?.pubsubHttpClientOptions }
+                    value={ userProfile?.plebbitOptions?.pubsubHttpClientsOptions?.join('\r\n') }
                     onChange={ (e) =>
                       setUserProfile({
                         ...userProfile,
                         plebbitOptions: {
                           ...userProfile?.plebbitOptions,
-                          pubsubHttpClientOptions: e.target.value,
+                          pubsubHttpClientsOptions: e.target.value.split(/\r?\n/)
                         },
                       })
                     }
                   />
                 </Flex>
+
+
               </Flex>
               <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
                 <Flex flexDir="column" marginRight="8px">
@@ -1090,7 +1100,7 @@ const Settings = () => {
                     padding="12px 24px 4px 12px"
                     width="100%"
                     value={ userProfile?.plebbitOptions?.dataPath }
-                    disabled
+
                   />
                 </Flex>
               </Flex>
@@ -1131,7 +1141,7 @@ const Settings = () => {
                   paddingBottom="6px"
                   marginBottom="32px"
                 >
-                  chainProviders
+                  Chain Providers
                 </Text>
                 <Button
                   fontSize="10px"
@@ -1148,9 +1158,10 @@ const Settings = () => {
               </Flex>
               { Object?.keys(userProfile?.plebbitOptions?.chainProviders || {})?.map((val) => (
                 <Box key={ val }>
-                  <Flex flexDir="column" flexFlow="row-wrap" marginBottom="32px">
+                  <Flex flexDir="column" flexFlow="row-wrap" mt="10px" marginBottom="10px">
                     <Flex justifyContent="space-between">
                       <Flex flexDir="column" marginRight="8px">
+                        {/* name Title*/ }
                         <Text
                           fontSize="16px"
                           fontWeight="500"
@@ -1183,6 +1194,8 @@ const Settings = () => {
                       flexGrow="1"
                       justifyContent="flex-end"
                     >
+                      {/* name Input*/ }
+
                       <Input
                         placeholder="ChainProvider Chain Ticker"
                         backgroundColor={ mainBg }
@@ -1196,7 +1209,7 @@ const Settings = () => {
                         padding="12px 24px 4px 12px"
                         width="100%"
                         value={ val }
-                        disabled
+
                       />
                     </Flex>
                   </Flex>
@@ -1222,8 +1235,8 @@ const Settings = () => {
                       flexGrow="1"
                       justifyContent="flex-end"
                     >
-                      <Input
-                        placeholder="ChainProvider Url"
+                      <Textarea
+                        placeholder="ChainProvider Urls"
                         backgroundColor={ mainBg }
                         color={ mainColor }
                         boxSizing="border-box"
@@ -1234,7 +1247,8 @@ const Settings = () => {
                         borderRadius="4px"
                         padding="12px 24px 4px 12px"
                         width="100%"
-                        value={ userProfile?.plebbitOptions?.chainProviders[val]?.url }
+                        resize="both"
+                        value={ userProfile?.plebbitOptions?.chainProviders[val]?.urls?.join('\r\n') }
                         onChange={ (e) =>
                           setUserProfile({
                             ...userProfile,
@@ -1244,7 +1258,7 @@ const Settings = () => {
                                 ...userProfile?.plebbitOptions?.chainProviders,
                                 [val]: {
                                   ...userProfile?.plebbitOptions?.chainProviders[val],
-                                  url: e.target.value,
+                                  urls: e.target.value.split(/\r?\n/),
                                 },
                               },
                             },

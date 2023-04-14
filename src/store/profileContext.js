@@ -96,6 +96,7 @@ export const ProfileDataProvider = (props) => {
   const mode = window?.location?.protocol;
   const baseUrl = mode === 'https:' ? 'plebbitapp.eth.limo/#/' : `${window.origin}/#`;
 
+
   const handleResize = () => {
     if (window.innerWidth > 1200) {
       setDevice('pc');
@@ -113,6 +114,7 @@ export const ProfileDataProvider = (props) => {
     handleResize();
     window.addEventListener('resize', handleResize);
   }, [device]);
+
 
   useEffect(() => {
     setHomeAdd(
@@ -135,6 +137,9 @@ export const ProfileDataProvider = (props) => {
       setShowSplashcreen(false);
     }, 5000);
   }, [reloadUser]);
+
+
+  console.log({ profile, accountLists, defaultAccount })
 
   return (
     <ProfileContext.Provider
