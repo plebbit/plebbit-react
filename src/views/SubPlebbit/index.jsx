@@ -181,6 +181,8 @@ const SubPlebbit = ({ match }) => {
     }
   };
 
+  console.log({ subPlebbit })
+
   return (
     <Layout name={ { label: subPlebbit?.title || 'Subplebbit', value: location?.pathname } }>
       { showStyleBar && <SubStyleSide /> }

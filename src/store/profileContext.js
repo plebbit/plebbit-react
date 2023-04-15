@@ -139,7 +139,6 @@ export const ProfileDataProvider = (props) => {
   }, [reloadUser]);
 
 
-  console.log({ profile, accountLists, defaultAccount })
 
   return (
     <ProfileContext.Provider
