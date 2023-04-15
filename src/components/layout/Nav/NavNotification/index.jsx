@@ -36,9 +36,9 @@ const NavNotification = () => {
     <PopOver
       title={
         notifications?.notifications?.filter((x) => !x?.markedAsRead).length ? (
-          <Icon color={iconColor2} width={6} height={6} as={VscBellDot} />
+          <Icon color={ iconColor2 } width={ 6 } height={ 6 } as={ VscBellDot } />
         ) : (
-          <Icon color={iconColor2} width={6} height={6} as={BiBell} />
+          <Icon color={ iconColor2 } width={ 6 } height={ 6 } as={ BiBell } />
         )
       }
       header={
@@ -49,23 +49,23 @@ const NavNotification = () => {
           <Flex alignItems="center">
             <Icon
               mr="8px"
-              color={iconColor}
-              width={6}
-              height={6}
-              as={BsCheckAll}
-              onClick={handleReadAll}
+              color={ iconColor }
+              width={ 6 }
+              height={ 6 }
+              as={ BsCheckAll }
+              onClick={ handleReadAll }
             />
 
-            <Icon color={iconColor} width={6} height={6} as={MdSettings} />
+            <Icon color={ iconColor } width={ 6 } height={ 6 } as={ MdSettings } />
           </Flex>
         </Flex>
       }
       footer={
         <Flex justifyContent="center" alignItems="center">
           <Button
-            onClick={() => history.push('/notifications')}
+            onClick={ () => history.push('/notifications') }
             variant="unstyled"
-            color={linkColor}
+            color={ linkColor }
           >
             SEE ALL
           </Button>
@@ -73,9 +73,9 @@ const NavNotification = () => {
       }
       content={
         <Flex flexDirection="column">
-          {notifications?.notifications?.map((notifications, index) => (
-            <NotificationType key={index} notification={notifications} />
-          ))}
+          { notifications?.notifications?.map((notifications, index) => (
+            <NotificationType key={ index } notification={ notifications } />
+          )) }
         </Flex>
       }
     />
@@ -183,29 +183,29 @@ export const NotificationType = ({ notification }) => {
         </Flex>
       ) :  */
         !notification?.markedAsRead ? (
-          <Flex bg={cardBg} padding="16px">
+          <Flex bg={ cardBg } padding="16px" cursor="pointer" onClick={ () => history.push(`p/${notification?.subplebbitAddress}`) }>
             <Box mr="8px">
-              <Avatar height={32} width={32} avatar="" />
+              <Avatar height={ 32 } width={ 32 } avatar="" />
             </Box>
             <Flex flexDirection="column" width="100%">
               <Flex w="100%" mb="4px">
                 <Text wordBreak="break-all" fontSize="14px" lineHeight="21px" fontWeight="400">
-                  {getUserName(notification?.author)} replied to your post in{' '}
-                  {`p/${notification?.subplebbitAddress}`} ·{' '}
+                  { getUserName(notification?.author) } replied to your post in{ ' ' }
+                  { `p/${notification?.subplebbitAddress}` } ·{ ' ' }
                   <span
-                    style={{
+                    style={ {
                       lineHeight: '19px',
                       color: metaText,
-                    }}
+                    } }
                   >
-                    {getTimeVal(notification?.timestamp * 1000)}
+                    { getTimeVal(notification?.timestamp * 1000) }
                   </span>
                 </Text>
                 <Box ml="auto">
                   <DropDown
                     dropDownTitle={
                       <Box>
-                        <Icon as={FiMoreHorizontal} />
+                        <Icon as={ FiMoreHorizontal } />
                       </Box>
                     }
                   />
@@ -214,39 +214,39 @@ export const NotificationType = ({ notification }) => {
               <Box
                 fontSize="14px"
                 lineHeight="18px"
-                color={metaText}
+                color={ metaText }
                 wordBreak="break-all"
-                noOfLines={3}
+                noOfLines={ 3 }
                 overflow="hidden"
               >
-                {notification?.content}
+                { notification?.content }
               </Box>
             </Flex>
           </Flex>
         ) : notification?.markedAsRead ? (
-          <Flex padding="16px">
+          <Flex padding="16px" cursor="pointer" onClick={ () => history.push(`p/${notification?.subplebbitAddress}`) }>
             <Box mr="8px">
-              <Avatar height={32} width={32} avatar="" />
+              <Avatar height={ 32 } width={ 32 } avatar="" />
             </Box>
             <Flex flexDirection="column" width="100%">
               <Flex w="100%" mb="4px">
                 <Text wordBreak="break-all" fontSize="14px" lineHeight="21px" fontWeight="400">
-                  {getUserName(notification?.author)} replied to your post in{' '}
-                  {`p/${notification?.subplebbitAddress || ''}`} ·{' '}
+                  { getUserName(notification?.author) } replied to your post in{ ' ' }
+                  { `p/${notification?.subplebbitAddress || ''}` } ·{ ' ' }
                   <span
-                    style={{
+                    style={ {
                       lineHeight: '19px',
                       color: metaText,
-                    }}
+                    } }
                   >
-                    {getTimeVal(notification?.timestamp * 1000)}
+                    { getTimeVal(notification?.timestamp * 1000) }
                   </span>
                 </Text>
                 <Box ml="auto">
                   <DropDown
                     dropDownTitle={
                       <Box>
-                        <Icon as={FiMoreHorizontal} />
+                        <Icon as={ FiMoreHorizontal } />
                       </Box>
                     }
                   />
@@ -255,12 +255,12 @@ export const NotificationType = ({ notification }) => {
               <Box
                 fontSize="14px"
                 lineHeight="18px"
-                color={metaText}
+                color={ metaText }
                 wordBreak="break-all"
-                noOfLines={3}
+                noOfLines={ 3 }
                 overflow="hidden"
               >
-                {notification?.content}
+                { notification?.content }
               </Box>
             </Flex>
           </Flex>
