@@ -46,6 +46,7 @@ import {
 } from 'react-icons/md';
 import { VscLinkExternal } from 'react-icons/vsc';
 import { AiOutlineYoutube } from 'react-icons/ai';
+import PostMedia from './PostMedia';
 
 const CompactPost = ({
   loading,
@@ -68,6 +69,7 @@ const CompactPost = ({
   allowedSpecial,
   mediaInfo,
   owner,
+  hasThumbnail
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -218,7 +220,7 @@ const CompactPost = ({
           position="relative"
         >
           <Flex alignItems="center">
-            { !post?.thumbnailUrl && (
+            { !hasThumbnail && (
               <Link
                 display="flex"
                 flex="0 0 36px"
@@ -295,7 +297,8 @@ const CompactPost = ({
                 ) }
               </Link>
             ) }
-            { post?.thumbnailUrl && (
+
+            { hasThumbnail && (
               <Box
                 display="flex"
                 flex="0 0 36px"
@@ -360,7 +363,7 @@ const CompactPost = ({
                     mb="4px"
                   >
                     { post?.title }
-                    { !post?.content ? (
+                    { hasThumbnail ? (
                       <Link
                         fontSize="12px"
                         fontWeight="400"
@@ -585,83 +588,6 @@ const CompactPost = ({
             {/* Post Footer */ }
             { pending ? (
               !loading && (
-                /* <Flex
-                  alignItems="center"
-                  flex="0 0 72px"
-                  justifyContent="flex-end"
-                  height="100%"
-                  ml="4px"
-                  paddingRight="4px"
-                >
-                  <Flex
-                    width="max-content"
-                    borderRadius="2px"
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    padding="4px"
-                    boxSizing="border-box"
-                    _hover={{
-                      bg: inputBg,
-                    }}
-                    onClick={() => handleOption('Edit')}
-                    mr="4px"
-                  >
-                    <Icon
-                      as={BsPencil}
-                      width="20px"
-                      height="20px"
-                      verticalAlign="middle"
-                      fontWeight="400"
-                      mr="6px"
-                    />
-                  </Flex>
-                  <Flex
-                    width="max-content"
-                    borderRadius="2px"
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    padding="4px"
-                    boxSizing="border-box"
-                    _hover={{
-                      bg: inputBg,
-                    }}
-                    onClick={() => handleOption('Delete')}
-                    mr="4px"
-                  >
-                    <Icon
-                      as={TiDeleteOutline}
-                      width="20px"
-                      height="20px"
-                      verticalAlign="middle"
-                      fontWeight="400"
-                      mr="6px"
-                    />
-                  </Flex>
-                  <Flex
-                    width="max-content"
-                    borderRadius="2px"
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    padding="4px"
-                    boxSizing="border-box"
-                    _hover={{
-                      bg: inputBg,
-                    }}
-                    mr="4px"
-                  >
-                    <Icon
-                      as={BsBookmark}
-                      width="20px"
-                      height="20px"
-                      verticalAlign="middle"
-                      fontWeight="400"
-                      mr="6px"
-                    />
-                  </Flex>
-                </Flex> */
                 <Box />
               )
             ) : allowedSpecial ? (
@@ -915,54 +841,7 @@ const CompactPost = ({
               </Box>
             </Box>
           ) }
-          { mediaInfo?.type === 'image' && (
-            <Image
-              maxH="512px"
-              margin="0 auto"
-              maxW="100%"
-              overflow="hidden"
-              bg={ postBg }
-              src={ post?.link }
-              onError={ (event) => (event.target.style.display = 'none') }
-            />
-          ) }
-
-          { mediaInfo?.type === 'video' && (
-            <Box bg="black" maxHeight="512px" width="100%" maxW="100%" color="#fff">
-              <video
-                autoPlay
-                playsInline
-                preload="auto"
-                controls
-                style={ {
-                  objectFit: 'contain',
-                  width: '100% !important',
-                  overflowClipMargin: 'content-box',
-                  overflow: 'clip',
-                } }
-                onError={ (event) => (event.target.style.display = 'none') }
-                muted
-              >
-                <source src={ post?.link } />
-              </video>
-            </Box>
-          ) }
-
-          { mediaInfo?.type === 'audio' && (
-            <Box maxW="100%" color="#fff" margin="4px 8px">
-              <audio
-                preload="auto"
-                src={ post?.link }
-                onError={ (event) => (event.target.style.display = 'none') }
-                controls
-                style={ {
-                  width: '100%',
-                } }
-              >
-                <source src={ post?.link } />
-              </audio>
-            </Box>
-          ) }
+          <PostMedia post={ post } />
         </Box>
       ) }
     </Box>

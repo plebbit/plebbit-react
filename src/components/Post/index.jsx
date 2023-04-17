@@ -46,6 +46,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   } = useDisclosure();
 
   const mediaInfo = getCommentMediaInfo(post);
+  const hasThumbnail = post?.thumbnailUrl && !mediaInfo
+
+
   const [update, setUpdate] = useState({})
 
   const onChallengeVerification = (challengeVerification, comment) => {
@@ -267,6 +270,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             showSpoiler={ showSpoiler }
             setShowSpoiler={ setShowSpoiler }
             mediaInfo={ mediaInfo }
+            hasThumbnail={ hasThumbnail }
+
           />
         ) }
         {/* classic */ }
@@ -298,6 +303,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             showSpoiler={ showSpoiler }
             setShowSpoiler={ setShowSpoiler }
             mediaInfo={ mediaInfo }
+            hasThumbnail={ hasThumbnail }
           />
         ) }
         {/* compact */ }
@@ -330,6 +336,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               showSpoiler={ showSpoiler }
               setShowSpoiler={ setShowSpoiler }
               mediaInfo={ mediaInfo }
+              hasThumbnail={ hasThumbnail }
+
             />
           ) : (
             <ClassicPost
@@ -359,6 +367,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               showSpoiler={ showSpoiler }
               setShowSpoiler={ setShowSpoiler }
               mediaInfo={ mediaInfo }
+              hasThumbnail={ hasThumbnail }
+
             />
           )) }
       </Box>

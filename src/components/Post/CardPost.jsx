@@ -4,7 +4,6 @@ import {
   Button,
   Flex,
   Icon,
-
   Link,
   Skeleton,
   Tag,
@@ -46,6 +45,7 @@ import {
 } from "react-icons/md";
 import { TiDeleteOutline } from "react-icons/ti";
 import { HiLockClosed, HiOutlineCheckCircle } from "react-icons/hi";
+import PostMedia from './PostMedia'
 
 const CardPost = ({
   post,
@@ -68,7 +68,7 @@ const CardPost = ({
   owner,
   showSpoiler,
   setShowSpoiler,
-  mediaInfo,
+  hasThumbnail
 }) => {
   const mainBg = useColorModeValue("lightBody", "darkBody");
   const subPlebbitSubTitle = useColorModeValue("metaTextLight", "metaTextDark");
@@ -542,6 +542,7 @@ const CardPost = ({
                   </Box>
                   {/* Post Body */ }
                   <Box mt="8px">
+                    {/* text post */ }
                     { post?.content && (
                       <Box
                         maxH="250px"
@@ -574,10 +575,10 @@ const CardPost = ({
                         </Skeleton>
                       </Box>
                     ) }
-                    {/* Post url */ }
+                    {/*link post  without media  */ }
 
-                    <Flex mt="0">
-                      { post?.thumbnailUrl && (
+                    <Flex mt="0" >
+                      { hasThumbnail && (
                         <Link
                           fontSize="12px"
                           fontWeight="400"
@@ -603,71 +604,12 @@ const CardPost = ({
                         </Link>
                       ) }
                     </Flex>
-
-                    { !post?.thumbnailUrl && mediaInfo?.type === "image" && (
-                      <Image
-                        maxH="512px"
-                        margin="0 auto"
-                        maxW="100%"
-                        overflow="hidden"
-                        bg={ postBg }
-                        src={ post?.link }
-                        onError={ (event) =>
-                          (event.target.style.display = "none")
-                        }
-                      />
-                    ) }
-
-                    { !post?.thumbnailUrl && mediaInfo?.type === "video" && (
-                      <Box
-                        bg="black"
-                        maxHeight="512px"
-                        width="100%"
-                        maxW="100%"
-                        color="#fff"
-                      >
-                        <video
-                          autoPlay
-                          playsInline
-                          preload="auto"
-                          controls
-                          style={ {
-                            objectFit: "contain",
-                            width: "100% !important",
-                            overflowClipMargin: "content-box",
-                            overflow: "clip",
-                          } }
-                          onError={ (event) =>
-                            (event.target.style.display = "none")
-                          }
-                          muted
-                        >
-                          <source src={ post?.link } />
-                        </video>
-                      </Box>
-                    ) }
-
-                    { !post?.thumbnailUrl && mediaInfo?.type === "audio" && (
-                      <Box maxW="100%" color="#fff" margin="4px 8px">
-                        <audio
-                          preload="auto"
-                          src={ post?.link }
-                          onError={ (event) =>
-                            (event.target.style.display = "none")
-                          }
-                          controls
-                          style={ {
-                            width: "100%",
-                          } }
-                        >
-                          <source src={ post?.link } />
-                        </audio>
-                      </Box>
-                    ) }
+                    {/*link post  with media  */ }
+                    <PostMedia post={ post } />
                   </Box>
                 </Flex>
                 {/* Post thumbnail */ }
-                { post?.thumbnailUrl && (
+                { (hasThumbnail) && (
                   <Flex
                     flex="0 0 144px"
                     height="108px"
@@ -708,114 +650,7 @@ const CardPost = ({
             {/* Post Footer */ }
             { pending ? (
               !loading && <Flex />
-            ) : /* <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
-                  <Flex
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    alignItems="stretch"
-                    padding="0 8px 0 4px"
-                    flexGrow="1"
-                  >
-                    <Flex
-                      padding="8px"
-                      wordBreak="normal"
-                      mr="4px"
-                      alignItems="center"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      boxSizing="border-box"
-                      _hover={{
-                        backgroundColor: inputBg,
-                      }}
-                      onClick={() => handleOption('Edit')}
-                    >
-                      <Icon
-                        as={BsPencil}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                      <Text
-                        display="inline-block"
-                        lineHeight={1}
-                        textTransform="capitalize"
-                        verticalAlign="middle"
-                      >
-                        Edit
-                      </Text>
-                    </Flex>
-                    <Flex
-                      padding="8px"
-                      wordBreak="normal"
-                      mr="4px"
-                      alignItems="center"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      boxSizing="border-box"
-                      _hover={{
-                        backgroundColor: inputBg,
-                      }}
-                      onClick={() => handleOption('Delete')}
-                    >
-                      <Icon
-                        as={TiDeleteOutline}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                      <Text
-                        display="inline-block"
-                        lineHeight={1}
-                        textTransform="capitalize"
-                        verticalAlign="middle"
-                      >
-                        Delete
-                      </Text>
-                    </Flex>
-
-                    <Flex
-                      padding="8px"
-                      wordBreak="normal"
-                      mr="4px"
-                      alignItems="center"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      boxSizing="border-box"
-                      _hover={{
-                        backgroundColor: inputBg,
-                      }}
-                    >
-                      <Icon
-                        as={BsBookmark}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                      <Text
-                        display="inline-block"
-                        lineHeight={1}
-                        textTransform="capitalize"
-                        verticalAlign="middle"
-                      >
-                        Save
-                      </Text>
-                    </Flex>
-                  </Flex>
-                </Flex> */
-
+            ) :
               allowedSpecial ? (
                 <Flex
                   alignItems="center"
@@ -1495,13 +1330,14 @@ const CardPost = ({
                           wordBreak="break-word"
                           overflow="hidden"
                         >
+                          {/* post with text */ }
                           { post?.content ? (
                             <Marked content={ post?.content } />
                           ) : (
                             <Skeleton isLoaded={ !loading }>
                               <Box pt="10%" >
                                 {
-                                  post?.thumbnailUrl && post?.link &&
+                                  hasThumbnail &&
                                   <Box
                                     maxH="318px"
                                     margin="0 auto"
@@ -1530,66 +1366,7 @@ const CardPost = ({
 
                                   </Box>
                                 }
-                                { mediaInfo?.type === "image" && (
-                                  <Image
-                                    maxH="320px"
-                                    margin="0 auto"
-                                    maxW="100%"
-                                    overflow="hidden"
-                                    bg={ postBg }
-                                    src={ post?.link }
-                                    onError={ (event) =>
-                                      (event.target.style.display = "none")
-                                    }
-                                  />
-                                ) }
-
-                                { mediaInfo?.type === "video" && (
-                                  <Box
-                                    bg="black"
-                                    maxHeight="320px"
-                                    width="100%"
-                                    maxW="100%"
-                                    color="#fff"
-                                  >
-                                    <video
-                                      autoPlay
-                                      playsInline
-                                      preload="auto"
-                                      controls
-                                      style={ {
-                                        objectFit: "contain",
-                                        width: "100% !important",
-                                        overflowClipMargin: "content-box",
-                                        overflow: "clip",
-                                      } }
-                                      onError={ (event) =>
-                                        (event.target.style.display = "none")
-                                      }
-                                      muted
-                                    >
-                                      <source src={ post?.link } />
-                                    </video>
-                                  </Box>
-                                ) }
-
-                                { mediaInfo?.type === "audio" && (
-                                  <Box maxW="100%" color="#fff" margin="4px 8px">
-                                    <audio
-                                      preload="auto"
-                                      src={ post?.link }
-                                      onError={ (event) =>
-                                        (event.target.style.display = "none")
-                                      }
-                                      controls
-                                      style={ {
-                                        width: "100%",
-                                      } }
-                                    >
-                                      <source src={ post?.link } />
-                                    </audio>
-                                  </Box>
-                                ) }
+                                <PostMedia post={ post } />
                               </Box>
                             </Skeleton>
                           ) }
@@ -1599,7 +1376,7 @@ const CardPost = ({
                   </> : <>
                     <Box pt="10%" >
                       {
-                        post?.thumbnailUrl && post?.link &&
+                        hasThumbnail &&
                         <Box
                           maxH="318px"
                           margin="0 auto"
@@ -1627,66 +1404,7 @@ const CardPost = ({
 
                         </Box>
                       }
-                      { mediaInfo?.type === "image" && (
-                        <Image
-                          maxH="320px"
-                          margin="0 auto"
-                          maxW="100%"
-                          overflow="hidden"
-                          bg={ postBg }
-                          src={ post?.link }
-                          onError={ (event) =>
-                            (event.target.style.display = "none")
-                          }
-                        />
-                      ) }
-
-                      { mediaInfo?.type === "video" && (
-                        <Box
-                          bg="black"
-                          maxHeight="320px"
-                          width="100%"
-                          maxW="100%"
-                          color="#fff"
-                        >
-                          <video
-                            autoPlay
-                            playsInline
-                            preload="auto"
-                            controls
-                            style={ {
-                              objectFit: "contain",
-                              width: "100% !important",
-                              overflowClipMargin: "content-box",
-                              overflow: "clip",
-                            } }
-                            onError={ (event) =>
-                              (event.target.style.display = "none")
-                            }
-                            muted
-                          >
-                            <source src={ post?.link } />
-                          </video>
-                        </Box>
-                      ) }
-
-                      { mediaInfo?.type === "audio" && (
-                        <Box maxW="100%" color="#fff" margin="4px 8px">
-                          <audio
-                            preload="auto"
-                            src={ post?.link }
-                            onError={ (event) =>
-                              (event.target.style.display = "none")
-                            }
-                            controls
-                            style={ {
-                              width: "100%",
-                            } }
-                          >
-                            <source src={ post?.link } />
-                          </audio>
-                        </Box>
-                      ) }
+                      <PostMedia post={ post } />
                     </Box>
                   </>
                 }
