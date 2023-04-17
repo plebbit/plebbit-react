@@ -46,6 +46,7 @@ import { TiDeleteOutline } from 'react-icons/ti';
 import { AiOutlineYoutube, AiTwotoneDelete } from 'react-icons/ai';
 import truncateString from '../../utils/truncateString';
 import Image from "../Image"
+import PostMedia from './PostMedia';
 
 const ClassicPost = ({
   loading,
@@ -71,6 +72,7 @@ const ClassicPost = ({
   showSpoiler,
   setShowSpoiler,
   mediaInfo,
+  hasThumbnail
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -313,7 +315,7 @@ const ClassicPost = ({
                       mb="4px"
                     >
                       { post?.title }
-                      { post?.link && (
+                      { hasThumbnail && (
                         <Link
                           fontSize="12px"
                           fontWeight="400"
@@ -506,161 +508,6 @@ const ClassicPost = ({
                 <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
                   { pending ? (
                     !loading && (
-                      /* <Flex
-                        fontSize="12px"
-                        fontWeight="700"
-                        lineHeight="16px"
-                        alignItems="stretch"
-                        overflow="hidden"
-                        padding="0 8px 0 4px"
-                        flexGrow="1"
-                      >
-                        {post?.content ? (
-                          <Flex
-                            padding="8px"
-                            wordBreak="normal"
-                            mr="4px"
-                            alignItems="center"
-                            borderRadius="2px"
-                            fontSize="12px"
-                            fontWeight="700"
-                            lineHeight="16px"
-                            boxSizing="border-box"
-                            _hover={{
-                              backgroundColor: inputBg,
-                            }}
-                            onClick={() => setShowContent(!showContent)}
-                          >
-                            <Icon
-                              as={showContent ? CgCompressLeft : CgArrowsExpandLeft}
-                              width="20px"
-                              height="20px"
-                              verticalAlign="middle"
-                              fontWeight="400"
-                              mr="6px"
-                            />
-                          </Flex>
-                        ) : (
-                          <Flex
-                            padding="8px"
-                            wordBreak="normal"
-                            mr="4px"
-                            alignItems="center"
-                            borderRadius="2px"
-                            fontSize="12px"
-                            fontWeight="700"
-                            lineHeight="16px"
-                            boxSizing="border-box"
-                            _hover={{
-                              backgroundColor: inputBg,
-                            }}
-                          >
-                            <Icon
-                              as={VscLinkExternal}
-                              width="20px"
-                              height="20px"
-                              verticalAlign="middle"
-                              fontWeight="400"
-                              mr="6px"
-                            />
-                          </Flex>
-                        )}
-                        <Flex
-                          padding="8px"
-                          wordBreak="normal"
-                          mr="4px"
-                          alignItems="center"
-                          borderRadius="2px"
-                          fontSize="12px"
-                          fontWeight="700"
-                          lineHeight="16px"
-                          boxSizing="border-box"
-                          _hover={{
-                            backgroundColor: inputBg,
-                          }}
-                          onClick={() => handleOption('Edit')}
-                        >
-                          <Icon
-                            as={BsPencil}
-                            width="20px"
-                            height="20px"
-                            verticalAlign="middle"
-                            fontWeight="400"
-                            mr="6px"
-                          />
-                          <Text
-                            display="inline-block"
-                            lineHeight={1}
-                            textTransform="capitalize"
-                            verticalAlign="middle"
-                          >
-                            Edit
-                          </Text>
-                        </Flex>
-                        <Flex
-                          padding="8px"
-                          wordBreak="normal"
-                          mr="4px"
-                          alignItems="center"
-                          borderRadius="2px"
-                          fontSize="12px"
-                          fontWeight="700"
-                          lineHeight="16px"
-                          boxSizing="border-box"
-                          _hover={{
-                            backgroundColor: inputBg,
-                          }}
-                          onClick={() => handleOption('Delete')}
-                        >
-                          <Icon
-                            as={TiDeleteOutline}
-                            width="20px"
-                            height="20px"
-                            verticalAlign="middle"
-                            fontWeight="400"
-                            mr="6px"
-                          />
-                          <Text
-                            display="inline-block"
-                            lineHeight={1}
-                            textTransform="capitalize"
-                            verticalAlign="middle"
-                          >
-                            Delete
-                          </Text>
-                        </Flex>
-                        <Flex
-                          padding="8px"
-                          wordBreak="normal"
-                          mr="4px"
-                          alignItems="center"
-                          borderRadius="2px"
-                          fontSize="12px"
-                          fontWeight="700"
-                          lineHeight="16px"
-                          boxSizing="border-box"
-                          _hover={{
-                            backgroundColor: inputBg,
-                          }}
-                        >
-                          <Icon
-                            as={BsBookmark}
-                            width="20px"
-                            height="20px"
-                            verticalAlign="middle"
-                            fontWeight="400"
-                            mr="6px"
-                          />
-                          <Text
-                            display="inline-block"
-                            lineHeight={1}
-                            textTransform="capitalize"
-                            verticalAlign="middle"
-                          >
-                            Save
-                          </Text>
-                        </Flex>
-                      </Flex> */
                       <Box />
                     )
                   ) : allowedSpecial ? (
@@ -672,7 +519,7 @@ const ClassicPost = ({
                       padding="0 8px 0 4px"
                       flexGrow="1"
                     >
-                      { post?.content ? (
+                      { !hasThumbnail ? (
                         <Flex
                           padding="8px"
                           wordBreak="normal"
@@ -956,7 +803,7 @@ const ClassicPost = ({
                       padding="0 8px 0 4px"
                       flexGrow="1"
                     >
-                      { !post?.thumbnailUrl && (
+                      { !hasThumbnail ? (
                         <Flex
                           padding="8px"
                           wordBreak="normal"
@@ -981,9 +828,7 @@ const ClassicPost = ({
                             mr="6px"
                           />
                         </Flex>
-                      ) }
-
-                      { post?.thumbnailUrl && (
+                      ) : (
                         <Link href={ post?.link } isExternal>
                           <Flex
                             padding="8px"
@@ -1260,54 +1105,7 @@ const ClassicPost = ({
                     </Box>
                   </Box>
                 ) }
-                { mediaInfo?.type === 'image' && (
-                  <Image
-                    maxH="512px"
-                    margin="0 auto"
-                    maxW="100%"
-                    overflow="hidden"
-                    bg={ postBg }
-                    src={ post?.link }
-                    onError={ (event) => (event.target.style.display = 'none') }
-                  />
-                ) }
-
-                { mediaInfo?.type === 'video' && (
-                  <Box bg="black" maxHeight="512px" width="100%" maxW="100%" color="#fff">
-                    <video
-                      autoPlay
-                      playsInline
-                      preload="auto"
-                      controls
-                      style={ {
-                        objectFit: 'contain',
-                        width: '100% !important',
-                        overflowClipMargin: 'content-box',
-                        overflow: 'clip',
-                      } }
-                      onError={ (event) => (event.target.style.display = 'none') }
-                      muted
-                    >
-                      <source src={ post?.link } />
-                    </video>
-                  </Box>
-                ) }
-
-                { mediaInfo?.type === 'audio' && (
-                  <Box maxW="100%" color="#fff" margin="4px 8px">
-                    <audio
-                      preload="auto"
-                      src={ post?.link }
-                      onError={ (event) => (event.target.style.display = 'none') }
-                      controls
-                      style={ {
-                        width: '100%',
-                      } }
-                    >
-                      <source src={ post?.link } />
-                    </audio>
-                  </Box>
-                ) }
+                <PostMedia post={ post } />
               </Box>
             ) }
           </Box>
@@ -1511,7 +1309,7 @@ const ClassicPost = ({
                       </Box>
                     </Box>
                     <Box margin="0 0 16px">
-                      { post?.thumbnailUrl && <Box pointerEvents="none" position="relative" marginX="0">
+                      { hasThumbnail && <Box pointerEvents="none" position="relative" marginX="0">
                         <Link href={ post?.link }>
                           <Box width="70px" height="52px" pointerEvent="all">
                             <Image
@@ -1695,9 +1493,7 @@ const ClassicPost = ({
                         <Marked content={ post?.content } />
                       ) : (
                         <Skeleton isLoaded={ !loading }>
-                          <Box display="flex" justifyContent="center">
-                            <Image src={ post?.link } />
-                          </Box>
+                          <PostMedia />
 
                         </Skeleton>
                       ) }
@@ -1711,93 +1507,7 @@ const ClassicPost = ({
             {/* Footer */ }
             { pending ? (
               !loading && (
-                /* <Box
-                  paddingBottom="12px"
-                  paddingTop="8px"
-                  padding="8px 16px"
-                  borderBottom={`8px solid ${border2}`}
-                  pointerEvents="none"
-                  _before={{
-                    content: `" "`,
-                    display: 'table',
-                  }}
-                  _after={{
-                    clear: 'both',
-                    content: `" "`,
-                    display: 'table',
-                  }}
-                >
-                  <Flex flex="1" float="none" top="0" position="relative" pointerEvents="none">
-                    <Flex
-                      width="max-content"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      padding="4px"
-                      boxSizing="border-box"
-                      _hover={{
-                        bg: inputBg,
-                      }}
-                      onClick={() => handleOption('Edit')}
-                      mr="4px"
-                    >
-                      <Icon
-                        as={BsPencil}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                    </Flex>
-                    <Flex
-                      width="max-content"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      padding="4px"
-                      boxSizing="border-box"
-                      _hover={{
-                        bg: inputBg,
-                      }}
-                      onClick={() => handleOption('Delete')}
-                      mr="4px"
-                    >
-                      <Icon
-                        as={TiDeleteOutline}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                    </Flex>
-                    <Flex
-                      width="max-content"
-                      borderRadius="2px"
-                      fontSize="12px"
-                      fontWeight="700"
-                      lineHeight="16px"
-                      padding="4px"
-                      boxSizing="border-box"
-                      _hover={{
-                        bg: inputBg,
-                      }}
-                      mr="4px"
-                    >
-                      <Icon
-                        as={BsBookmark}
-                        width="20px"
-                        height="20px"
-                        verticalAlign="middle"
-                        fontWeight="400"
-                        mr="6px"
-                      />
-                    </Flex>
-                  </Flex>
-                </Box> */
+
                 <Box />
               )
             ) : allowedSpecial ? (
