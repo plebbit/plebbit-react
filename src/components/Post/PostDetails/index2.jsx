@@ -134,6 +134,7 @@ function PostDetailModal() {
   const detailPending = !detail?.cid;
   const subplebbit = sub === undefined ? { address: detail?.subplebbitAddress } : sub;
   const mediaInfo = getCommentMediaInfo(detail);
+  const hasThumbnail = detail?.thumbnailUrl && !mediaInfo
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
@@ -1066,10 +1067,10 @@ function PostDetailModal() {
                           </Box>
                         ) : (
                           <Box display="flex" justifyContent="center">
-                            <Skeleton isLoaded={ !loading }>
-                              <>
+                            <Skeleton width="100%" isLoaded={ !loading }>
+                              <Box w="100%">
                                 <Box w="100%" mt="0">
-                                  { detail?.link && (
+                                  { hasThumbnail && (
                                     <Link
                                       fontSize="12px"
                                       fontWeight="400"
@@ -1083,7 +1084,7 @@ function PostDetailModal() {
                                       isExternal={ !detail?.thumbnailUrl }
                                     >
                                       <Box>{ detail?.link?.substring(0, 20) + "..." }</Box>
-                                      { !detail?.thumbnailUrl && <Icon
+                                      <Icon
                                         as={ FiExternalLink }
                                         verticalAlign="middle"
                                         fontWeight="400"
@@ -1091,7 +1092,7 @@ function PostDetailModal() {
                                         height="20px"
                                         fontSize="12px"
                                         paddingLeft="4px"
-                                      /> }
+                                      />
                                     </Link>
                                   ) }
                                 </Box>
@@ -1156,7 +1157,7 @@ function PostDetailModal() {
                                     </audio>
                                   </Box>
                                 ) }
-                              </>
+                              </Box>
                             </Skeleton>
                           </Box>
                         ) }

@@ -123,6 +123,7 @@ function PostDetail() {
 
 
   const mediaInfo = getCommentMediaInfo(detail);
+  const hasThumbnail = detail?.thumbnailUrl && !mediaInfo
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
@@ -1105,11 +1106,11 @@ function PostDetail() {
                                   </Skeleton>
                                 </Box>
                               ) : (
-                                <Box display="flex" justifyContent="center">
-                                  <Skeleton isLoaded={ !loading }>
-                                    <>
-                                      <Box w="100%" mt="0">
-                                        { detail?.link && (
+                                <Box width="100%" display="flex" justifyContent="center">
+                                  <Skeleton width="100%" isLoaded={ !loading }>
+                                    <Box w="100%">
+                                      <Box w="100%" mt="0" textAlign="left">
+                                        { hasThumbnail && (
                                           <Link
                                             fontSize="12px"
                                             fontWeight="400"
@@ -1123,7 +1124,7 @@ function PostDetail() {
                                             isExternal={ !detail?.thumbnailUrl }
                                           >
                                             <Box>{ detail?.link?.substring(0, 20) + "..." }</Box>
-                                            { !detail?.thumbnailUrl && <Icon
+                                            <Icon
                                               as={ FiExternalLink }
                                               verticalAlign="middle"
                                               fontWeight="400"
@@ -1131,7 +1132,7 @@ function PostDetail() {
                                               height="20px"
                                               fontSize="12px"
                                               paddingLeft="4px"
-                                            /> }
+                                            />
                                           </Link>
                                         ) }
                                       </Box>
@@ -1196,7 +1197,7 @@ function PostDetail() {
                                           </audio>
                                         </Box>
                                       ) }
-                                    </>
+                                    </Box>
                                   </Skeleton>
                                 </Box>
                               ) }
