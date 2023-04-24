@@ -226,7 +226,7 @@ const Settings = () => {
       isClosable: true,
     });
   };
-  console.log({ plebbitOptions: userProfile?.plebbitOptions })
+
   return (
     <Layout name={ { label: 'User Settings', value: location?.pathname } }>
       <Box

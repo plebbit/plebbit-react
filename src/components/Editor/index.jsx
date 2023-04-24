@@ -40,16 +40,16 @@ const Editor = ({
   };
 
   return (
-    <Wrapper toolbarBg={toolbarBg} toolbarColor={toolbarColor} wrapperBorder={wrapperBorder}>
+    <Wrapper toolbarBg={ toolbarBg } toolbarColor={ toolbarColor } wrapperBorder={ wrapperBorder }>
       <MarkdownEditor
-        toolbarClassName={toolbarClassName || 'toolbarClassName'}
-        wrapperClassName={wrapperClassName || 'wrapperClassName'}
-        editorClassName={editorClassName || 'editorClassName'}
-        onEditorStateChange={handleChange}
-        editorState={editorState}
-        toolbarHidden={hideToolBar}
-        placeholder={placeholder}
-        toolbar={{
+        toolbarClassName={ toolbarClassName || 'toolbarClassName' }
+        wrapperClassName={ wrapperClassName || 'wrapperClassName' }
+        editorClassName={ editorClassName || 'editorClassName' }
+        onEditorStateChange={ handleChange }
+        editorState={ editorState }
+        toolbarHidden={ hideToolBar }
+        placeholder={ placeholder }
+        toolbar={ {
           options: [
             'inline',
             'blockType',
@@ -112,34 +112,34 @@ const Editor = ({
             undo: { className: 'button-class' },
             redo: { className: 'button-class' },
           },
-        }}
+        } }
       />
-      {showSubmit && (
+      { showSubmit && (
         <Flex
           width="100%"
-          bg={toolbarBg}
+          bg={ toolbarBg }
           borderRadius="0 0 4px 4px"
-          opacity={1}
+          opacity={ 1 }
           mb="25px"
           zIndex="1"
           alignItems="center"
         >
-          {otherBtn}
+          { otherBtn }
           <Button
-            content={submitBtnText || 'comment'}
+            content={ submitBtnText || 'comment' }
             cursor="pointer"
-            disabled={disabled}
+            disabled={ disabled }
             padding="4px 8px"
             minH="24px"
             margin="4px 8px"
             height=""
             marginLeft="auto"
-            sx={{ filter: 'grayscale(1)', ...submitBtnStyle }}
-            onClick={handleSubmit}
-            loading={loading}
+            sx={ { filter: 'grayscale(1)', ...submitBtnStyle } }
+            onClick={ handleSubmit }
+            loading={ loading }
           />
         </Flex>
-      )}
+      ) }
     </Wrapper>
   );
 };

@@ -466,6 +466,7 @@ function PostDetail() {
     profile?.author?.address === detail?.author?.address ||
     profile?.signer?.address === detail?.author?.address;
 
+  const detailCommentCount = detail?.replies?.pages?.topAll?.comments?.length || 0
 
 
 
@@ -1240,7 +1241,7 @@ function PostDetail() {
                                   } }
                                 >
                                   <Icon as={ BsChatSquare } height={ 5 } width={ 5 } mr="5px" />
-                                  <Box>{ detail?.replyCount }</Box>
+                                  <Box>{ detailCommentCount }</Box>
                                 </Link>
                                 <Flex
                                   alignItems="center"
@@ -1501,8 +1502,8 @@ function PostDetail() {
                                 >
                                   <Icon as={ BsChat } height={ 5 } width={ 5 } mr="5px" />
                                   <Box>
-                                    { detail?.replyCount } Comment
-                                    { detail?.replyCount === 1 ? '' : 's' }
+                                    { detailCommentCount } Comment
+                                    { detailCommentCount === 1 ? '' : 's' }
                                   </Box>
                                 </Link>
                                 <Link
@@ -1906,7 +1907,7 @@ function PostDetail() {
                   <Box w="100%" lineHeight="1.5" mr="0" maxW="100%" padding="4px 0">
                     <Flex alignItems="center" flexFlow="row nowrap">
                       <Box>
-                        { detail?.replyCount } comment{ detail?.replyCount === 1 ? '' : 's' }
+                        { detailCommentCount } comment{ detailCommentCount > 1 ? 's' : '' }
                       </Box>
                     </Flex>
                   </Box>

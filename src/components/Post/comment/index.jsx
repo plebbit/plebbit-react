@@ -10,7 +10,7 @@ import {
   useToast,
   Tag,
 } from '@chakra-ui/react';
-import { usePublishVote, usePublishComment, usePublishCommentEdit, useAuthorAvatar, useAccountVote } from '@plebbit/plebbit-react-hooks';
+import { usePublishVote, usePublishComment, useAccountComments, usePublishCommentEdit, useAuthorAvatar, useAccountVote } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -31,24 +31,24 @@ import { FiMoreHorizontal } from 'react-icons/fi';
 import { GoGift } from 'react-icons/go';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
 import Swal from 'sweetalert2';
+import useRepliesAndAccountReplies from '../../../hooks/useRepliesAndAccountReplies';
 
 const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
+  const replies = useRepliesAndAccountReplies(comment)
   const [vote, setVote] = useState(+comment?.upvoteCount - +comment?.downvoteCount);
   const { vote: postVote } = useAccountVote({ commentCid: comment?.cid });
   const [voteMode, setVoteMode] = useState(postVote === undefined ? 0 : postVote);
   const [reply, setShowReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const toast = useToast();
-
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: comment?.author });
   const { baseUrl, profile, accountSubplebbits } = useContext(ProfileContext);
   const [copied, setCopied] = useState(false);
-  const [loader, setLoader] = useState(false);
   const commentPending = !comment?.cid;
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(comment?.subplebbitAddress);
 
@@ -70,7 +70,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
       });
       setContent('');
       setEditorState(EditorState.createEmpty());
-      setLoader(false);
+
 
       logger('challenge-success', { challengeVerification }, 'trace');
     } else if (challengeVerification.challengeSuccess === false) {
@@ -91,7 +91,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
         duration: 5000,
         isClosable: true,
       });
-      setLoader(false);
+
 
     }
   };
@@ -171,7 +171,6 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
 
   const handlePublishPost = () => {
     try {
-      setLoader(true);
       publishComment();
     } catch (error) {
       logger('create:comment:response', error, 'error');
@@ -183,6 +182,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
         isClosable: true,
       });
     }
+    setContent('')
   };
 
 
@@ -241,16 +241,32 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     />
   );
 
-  const nestedComments = (comment?.replies?.pages?.topAll?.comments || []).map((data) => {
+
+
+
+
+  // comment replies
+
+  const repliesComponent = (replies || []).map((data) => {
     return (
       <Comment
         key={ data?.cid }
         comment={ data }
         type={ data?.cid === singleComment?.cid ? 'singleComment' : 'child' }
-        parentCid={ data?.cid }
+        parentCid={ data?.parentCid }
       />
     );
   });
+
+
+
+
+  const commentCount = comment?.replies?.pages?.topAll?.comments?.length
+
+
+
+
+
   return (
     <Flex marginTop="15px" bg={ type === 'singleComment' && commentBg } padding="8px 0 0 8px">
       <Flex marginRight="8px" flexDir="column" alignItems="center">
@@ -368,7 +384,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                 icon={ <Icon as={ voteMode === -1 ? ImArrowDown : BiDownvote } w="20px" h="20px" /> }
               />
             </Flex>
-            <Link
+            { !disableReplies && <Link
               display="flex"
               alignItems="center"
               borderRadius="2px"
@@ -394,7 +410,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
               >
                 Reply
               </Text>
-            </Link>
+            </Link> }
 
             <CopyToClipboard
               text={ `${baseUrl}p/${comment?.subplebbitAddress}/c/${comment?.cid}` }
@@ -547,35 +563,37 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
               setEditorState={ setEditorState }
               showSubmit
               handleSubmit={ handlePublishPost }
-              loading={ loader }
+
             />
           </Box>
         ) : (
           ''
         ) }
+        {/* when visiting a neested reply from link */ }
         { singleComment && oneComment }
-        { !disableReplies && showReplies ? (
-          nestedComments
-        ) : comment?.replies?.pages?.topAll?.comments.length > 0 ? (
-          <Box
-            onClick={ () => setShowReplies(true) }
-            fontSize="12px"
-            fontWeight="700"
-            lineHeight="16px"
-            color="#a4a4a4"
-            ml="4px"
-            pl="4px"
-            cursor="pointer"
-          >
-            { comment?.replyCount }
-            { comment?.replyCount > 0 ? ' more' : '' } repl{ comment?.replyCount === 1 ? 'y' : 'ies' }
-          </Box>
-        ) : (
-          ''
-        ) }
+        {/* show replies button */ }
+        { !showReplies && commentCount > 0 && <Box
+          onClick={ () => setShowReplies(true) }
+          fontSize="12px"
+          fontWeight="700"
+          lineHeight="16px"
+          color="#a4a4a4"
+          ml="4px"
+          pl="4px"
+          cursor="pointer"
+        >
+          { commentCount }
+          { commentCount > 0 ? ' more' : '' } repl{ commentCount > 1 ? 'ies' : 'y' }
+        </Box> }
+        {/* nested comments */ }
+        {
+          showReplies && repliesComponent
+        }
       </Flex>
     </Flex>
   );
 };
 
 export default Comment;
+
+
