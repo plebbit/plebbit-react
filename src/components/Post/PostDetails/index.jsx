@@ -65,6 +65,7 @@ import { TiDeleteOutline } from 'react-icons/ti';
 import AddRemovalReason from '../Modal/addRemovalReason';
 import { DeletedMessage, LockedMessage, RemovedMessage } from '../../Card/ModMessage';
 import getCommentMediaInfo from '../../../utils/getCommentMediaInfo';
+import useRepliesAndAccountReplies from '../../../hooks/useRepliesAndAccountReplies';
 
 function PostDetail() {
   const {
@@ -306,6 +307,8 @@ function PostDetail() {
       });
       logger('post:comment:response:', error);
     }
+    setContent('');
+
   };
 
   const [update, setUpdate] = useState({})
@@ -466,6 +469,11 @@ function PostDetail() {
     profile?.author?.address === detail?.author?.address ||
     profile?.signer?.address === detail?.author?.address;
 
+  const comments = useRepliesAndAccountReplies(detail)
+
+
+
+  const detailCommentCount = detail?.replies?.pages?.topAll?.comments?.length || 0
 
 
 
@@ -1240,7 +1248,7 @@ function PostDetail() {
                                   } }
                                 >
                                   <Icon as={ BsChatSquare } height={ 5 } width={ 5 } mr="5px" />
-                                  <Box>{ detail?.replyCount }</Box>
+                                  <Box>{ detailCommentCount }</Box>
                                 </Link>
                                 <Flex
                                   alignItems="center"
@@ -1501,8 +1509,8 @@ function PostDetail() {
                                 >
                                   <Icon as={ BsChat } height={ 5 } width={ 5 } mr="5px" />
                                   <Box>
-                                    { detail?.replyCount } Comment
-                                    { detail?.replyCount === 1 ? '' : 's' }
+                                    { detailCommentCount } Comment
+                                    { detailCommentCount === 1 ? '' : 's' }
                                   </Box>
                                 </Link>
                                 <Link
@@ -1719,7 +1727,7 @@ function PostDetail() {
                         </Box>
                         { isReply ? <Replies parent={ replyParent } reply={ reply } /> : null }
                         { showFullComments &&
-                          detail?.replies?.pages?.topAll?.comments.map((comment) => (
+                          comments?.map((comment) => (
                             <Comment comment={ comment } key={ comment.cid } parentCid={ detail?.cid } />
                           )) }
                       </Box>
@@ -1906,7 +1914,7 @@ function PostDetail() {
                   <Box w="100%" lineHeight="1.5" mr="0" maxW="100%" padding="4px 0">
                     <Flex alignItems="center" flexFlow="row nowrap">
                       <Box>
-                        { detail?.replyCount } comment{ detail?.replyCount === 1 ? '' : 's' }
+                        { detailCommentCount } comment{ detailCommentCount > 1 ? 's' : '' }
                       </Box>
                     </Flex>
                   </Box>
@@ -1996,7 +2004,7 @@ function PostDetail() {
                 ) : null }
                 { isReply ? <Replies parent={ replyParent } reply={ reply } /> : null }
                 { showFullComments &&
-                  detail?.replies?.pages?.topAll?.comments.map((comment) => (
+                  comments.map((comment) => (
                     <Comment comment={ comment } key={ comment.cid } />
                   )) }
               </Box>

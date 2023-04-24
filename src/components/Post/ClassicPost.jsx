@@ -72,7 +72,8 @@ const ClassicPost = ({
   showSpoiler,
   setShowSpoiler,
   mediaInfo,
-  hasThumbnail
+  hasThumbnail,
+  commentCount
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -600,7 +601,7 @@ const ClassicPost = ({
                           textTransform="capitalize"
                           verticalAlign="middle"
                         >
-                          { post?.replyCount }
+                          { commentCount }
                         </Text>
                       </Flex>
                       <Flex
@@ -885,7 +886,7 @@ const ClassicPost = ({
                           textTransform="capitalize"
                           verticalAlign="middle"
                         >
-                          { post?.replyCount } comment{ post?.replyCount === 1 ? '' : 's' }
+                          { commentCount } comment{ commentCount > 1 ? 's' : '' }
                         </Text>
                       </Flex>
                       <Flex
@@ -1665,7 +1666,7 @@ const ClassicPost = ({
                         mr="4px"
                         flex="0 0 16px"
                       />
-                      <Skeleton isLoaded={ !loading }>{ post?.replyCount }</Skeleton>
+                      <Skeleton isLoaded={ !loading }>{ commentCount }</Skeleton>
                     </Flex>
                   </Link>
                   {/* mod button */ }
@@ -1866,7 +1867,7 @@ const ClassicPost = ({
                         mr="4px"
                         flex="0 0 16px"
                       />
-                      <Skeleton isLoaded={ !loading }>{ post?.replyCount }</Skeleton>
+                      <Skeleton isLoaded={ !loading }>{ commentCount }</Skeleton>
                     </Flex>
                   </Link>
                   {/* share button */ }

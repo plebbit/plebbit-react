@@ -69,7 +69,8 @@ const CompactPost = ({
   allowedSpecial,
   mediaInfo,
   owner,
-  hasThumbnail
+  hasThumbnail,
+  commentCount
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -628,7 +629,7 @@ const CompactPost = ({
                       textTransform="capitalize"
                       verticalAlign="middle"
                     >
-                      { post?.replyCount }
+                      { commentCount }
                     </Text>
                   </Flex>
                 </ReactLink>
@@ -778,7 +779,7 @@ const CompactPost = ({
                     fontWeight="400"
                     mr="6px"
                   />
-                  <span>{ post?.replyCount }</span>
+                  <span>{ commentCount }</span>
                 </Link>
                 <Flex justifyContent="center">
                   <DropDown

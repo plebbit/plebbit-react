@@ -6,11 +6,10 @@ const Replies = ({ parent, reply }) => {
   return (
     <Flex flexDir="column">
       <Comment
-        comment={parent}
-        type={reply === undefined ? 'singleComment' : 'child'}
-        key={parent?.cid}
-        parentCid={parent?.parentCid}
-        singleComment={reply}
+        comment={ parent }
+        type={ reply === undefined ? 'singleComment' : 'child' }
+        key={ parent?.cid }
+        singleComment={ reply }
       />
     </Flex>
   );

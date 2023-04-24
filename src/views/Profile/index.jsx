@@ -30,7 +30,6 @@ const Profile = () => {
   const feeds = myPost ? [...myPost].reverse() : [];
 
 
-
   return (
     <Layout name={ { label: profile?.author?.title || 'Profile', value: location?.pathname } }>
       <>

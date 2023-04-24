@@ -45,6 +45,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     isOpen: isRemovalModalOpen,
   } = useDisclosure();
 
+
   const mediaInfo = getCommentMediaInfo(post);
   const hasThumbnail = post?.thumbnailUrl && !mediaInfo
 
@@ -238,6 +239,11 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     // } else handleEditPost({ [val?.id]: post[val?.id] ? false : true });
   };
 
+  const commentCount = post?.replies?.pages?.topAll?.comments?.length
+
+
+
+
 
 
   return (
@@ -271,6 +277,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             setShowSpoiler={ setShowSpoiler }
             mediaInfo={ mediaInfo }
             hasThumbnail={ hasThumbnail }
+            commentCount={ commentCount }
 
           />
         ) }
@@ -304,6 +311,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             setShowSpoiler={ setShowSpoiler }
             mediaInfo={ mediaInfo }
             hasThumbnail={ hasThumbnail }
+            commentCount={ commentCount }
+
           />
         ) }
         {/* compact */ }
@@ -337,6 +346,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               setShowSpoiler={ setShowSpoiler }
               mediaInfo={ mediaInfo }
               hasThumbnail={ hasThumbnail }
+              commentCount={ commentCount }
+
 
             />
           ) : (
@@ -368,6 +379,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               setShowSpoiler={ setShowSpoiler }
               mediaInfo={ mediaInfo }
               hasThumbnail={ hasThumbnail }
+              commentCount={ commentCount }
+
 
             />
           )) }

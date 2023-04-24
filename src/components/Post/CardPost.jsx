@@ -68,7 +68,9 @@ const CardPost = ({
   owner,
   showSpoiler,
   setShowSpoiler,
-  hasThumbnail
+  hasThumbnail,
+  commentCount
+
 }) => {
   const mainBg = useColorModeValue("lightBody", "darkBody");
   const subPlebbitSubTitle = useColorModeValue("metaTextLight", "metaTextDark");
@@ -695,7 +697,7 @@ const CardPost = ({
                           textTransform="capitalize"
                           verticalAlign="middle"
                         >
-                          { post?.replyCount }
+                          { commentCount }
                         </Text>
                       </Flex>
                     </ReactLink>
@@ -947,8 +949,8 @@ const CardPost = ({
                           textTransform="capitalize"
                           verticalAlign="middle"
                         >
-                          { post?.replyCount } comment
-                          { post?.replyCount === 1 ? "" : "s" }
+                          { commentCount } comment
+                          { commentCount > 1 ? "s" : "" }
                         </Text>
                       </Flex>
                     </ReactLink>
@@ -1598,7 +1600,7 @@ const CardPost = ({
                         flex="0 0 16px"
                       />
                       <Skeleton isLoaded={ !loading }>
-                        { post?.replyCount }
+                        { commentCount }
                       </Skeleton>
                     </Flex>
                   </Link>
@@ -1814,7 +1816,7 @@ const CardPost = ({
                         flex="0 0 16px"
                       />
                       <Skeleton isLoaded={ !loading }>
-                        { post?.replyCount }
+                        { commentCount }
                       </Skeleton>
                     </Flex>
                   </Link>
