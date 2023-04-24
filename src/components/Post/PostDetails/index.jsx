@@ -472,7 +472,6 @@ function PostDetail() {
   const comments = useRepliesAndAccountReplies(detail)
 
 
-  console.log({ comments })
 
   const detailCommentCount = detail?.replies?.pages?.topAll?.comments?.length || 0
 
@@ -2005,7 +2004,7 @@ function PostDetail() {
                 ) : null }
                 { isReply ? <Replies parent={ replyParent } reply={ reply } /> : null }
                 { showFullComments &&
-                  detail?.replies?.pages?.topAll?.comments.map((comment) => (
+                  comments.map((comment) => (
                     <Comment comment={ comment } key={ comment.cid } />
                   )) }
               </Box>

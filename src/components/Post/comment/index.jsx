@@ -49,7 +49,8 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: comment?.author });
   const { baseUrl, profile, accountSubplebbits } = useContext(ProfileContext);
   const [copied, setCopied] = useState(false);
-  const commentPending = !comment?.cid;
+  const commentPending = comment?.state === 'pending';
+  const commentFailed = comment?.state === 'failed';
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(comment?.subplebbitAddress);
 
   const [update, setUpdate] = useState({})
@@ -281,6 +282,16 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
             <Box maxW="50%" mr="5px">
               <Box isTruncated>{ getUserName(comment?.author) } </Box>
             </Box>
+            { commentPending && (
+              <Tag size="sm" colorScheme="yellow" variant="outline">
+                Pending
+              </Tag>
+            ) }
+            { commentFailed && (
+              <Tag size="sm" colorScheme="red" variant="outline">
+                Failed
+              </Tag>
+            ) }
 
             <Box
               as="span"
@@ -313,11 +324,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
         </Flex>
         <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>
           <Marked content={ comment?.content || '' } />
-          { commentPending && (
-            <Tag size="sm" colorScheme="yellow" variant="outline">
-              Pending
-            </Tag>
-          ) }
+
         </Box>
         {/* footer */ }
         { commentPending ? (
