@@ -238,7 +238,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
       key={ singleComment?.cid }
       comment={ singleComment }
       type="singleComment"
-      parentCid={ singleComment?.cid }
+
     />
   );
 
@@ -254,7 +254,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
         key={ data?.cid }
         comment={ data }
         type={ data?.cid === singleComment?.cid ? 'singleComment' : 'child' }
-        parentCid={ data?.parentCid }
+
       />
     );
   });
@@ -266,7 +266,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
 
 
 
-
+  console.log({ replies, commentCount, comment })
 
   return (
     <Flex marginTop="15px" bg={ type === 'singleComment' && commentBg } padding="8px 0 0 8px">
@@ -564,12 +564,14 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
             padding="8px 16px"
             resize="vertical"
           >
+
             <Editor
               setValue={ setContent }
               editorState={ editorState }
               setEditorState={ setEditorState }
               showSubmit
               handleSubmit={ handlePublishPost }
+
 
             />
           </Box>

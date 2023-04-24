@@ -39,6 +39,7 @@ const Editor = ({
     setValue(() => draftToMarkdown(convertToRaw(data.getCurrentContent())));
   };
 
+
   return (
     <Wrapper toolbarBg={ toolbarBg } toolbarColor={ toolbarColor } wrapperBorder={ wrapperBorder }>
       <MarkdownEditor

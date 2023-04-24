@@ -68,6 +68,7 @@ import { TiDeleteOutline } from 'react-icons/ti';
 import AddRemovalReason from '../Modal/addRemovalReason';
 import { DeletedMessage, LockedMessage, RemovedMessage } from '../../Card/ModMessage';
 import getCommentMediaInfo from '../../../utils/getCommentMediaInfo';
+import useRepliesAndAccountReplies from '../../../hooks/useRepliesAndAccountReplies';
 
 function PostDetailModal() {
   const [showModal, setShowModal] = useState(true);
@@ -479,7 +480,10 @@ function PostDetailModal() {
 
   }, [label])
 
+  const comments = useRepliesAndAccountReplies(detail)
+
   const detailCommentCount = detail?.replies?.pages?.topAll?.comments?.length || 0
+
 
   return (
     <>
@@ -1678,7 +1682,7 @@ function PostDetailModal() {
                   </Box>
                   { isReply ? <Replies parent={ replyParent } reply={ reply } /> : null }
                   { showFullComments &&
-                    detail?.replies?.pages?.topAll?.comments.map((comment) => (
+                    comments.map((comment) => (
                       <Comment comment={ comment } key={ comment.cid } parentCid={ detail?.cid } />
                     )) }
                 </Box>

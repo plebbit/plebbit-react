@@ -45,6 +45,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     isOpen: isRemovalModalOpen,
   } = useDisclosure();
 
+
   const mediaInfo = getCommentMediaInfo(post);
   const hasThumbnail = post?.thumbnailUrl && !mediaInfo
 
