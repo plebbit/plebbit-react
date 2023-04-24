@@ -65,6 +65,7 @@ import { TiDeleteOutline } from 'react-icons/ti';
 import AddRemovalReason from '../Modal/addRemovalReason';
 import { DeletedMessage, LockedMessage, RemovedMessage } from '../../Card/ModMessage';
 import getCommentMediaInfo from '../../../utils/getCommentMediaInfo';
+import useRepliesAndAccountReplies from '../../../hooks/useRepliesAndAccountReplies';
 
 function PostDetail() {
   const {
@@ -306,6 +307,8 @@ function PostDetail() {
       });
       logger('post:comment:response:', error);
     }
+    setContent('');
+
   };
 
   const [update, setUpdate] = useState({})
@@ -465,6 +468,11 @@ function PostDetail() {
   const owner =
     profile?.author?.address === detail?.author?.address ||
     profile?.signer?.address === detail?.author?.address;
+
+  const comments = useRepliesAndAccountReplies(detail)
+
+
+  console.log({ comments })
 
   const detailCommentCount = detail?.replies?.pages?.topAll?.comments?.length || 0
 
@@ -1720,7 +1728,7 @@ function PostDetail() {
                         </Box>
                         { isReply ? <Replies parent={ replyParent } reply={ reply } /> : null }
                         { showFullComments &&
-                          detail?.replies?.pages?.topAll?.comments.map((comment) => (
+                          comments?.map((comment) => (
                             <Comment comment={ comment } key={ comment.cid } parentCid={ detail?.cid } />
                           )) }
                       </Box>

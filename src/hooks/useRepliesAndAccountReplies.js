@@ -3,7 +3,8 @@ import { useMemo } from "react"
 
 const useRepliesAndAccountReplies = (comment) => {
     // filter only the parent cid
-    const { accountComments } = useAccountComments({ filter: { parentCids: comment?.cid ? [comment?.cid] : [] } })
+    const filter = useMemo(() => comment?.cid && { parentCids: [comment?.cid] }, [comment?.cid])
+    const { accountComments } = useAccountComments({ filter })
 
     // the account's replies have a delay before getting published, so get them locally from accountComments instead
     const accountRepliesNotYetPublished = useMemo(() => {
@@ -22,7 +23,7 @@ const useRepliesAndAccountReplies = (comment) => {
         ]
     }, [comment?.replies?.pages?.topAll?.comments, accountRepliesNotYetPublished])
 
-    return repliesAndNotYetPublishedReplies
+    return repliesAndNotYetPublishedReplies || []
 }
 
 export default useRepliesAndAccountReplies
