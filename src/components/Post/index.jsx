@@ -1,11 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, } from 'react';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
 import {
   useAccountVote,
   useAuthorAvatar,
   useSubplebbit,
-  usePublishVote,
   usePublishCommentEdit
 } from '@plebbit/plebbit-react-hooks';
 import CardPost from './CardPost';
@@ -20,13 +19,15 @@ import { useLocation } from 'react-router-dom';
 import AddRemovalReason from './Modal/addRemovalReason';
 import Swal from 'sweetalert2';
 import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
+import usePublishUpvote from '../../hooks/usePublishUpvote';
+import usePublishDownvote from '../../hooks/usePublishDownvote';
 
 const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
   const pending = !post?.cid;
-  const { vote: postVote } = useAccountVote({ commentCid: post?.cid });
-  const [vote, setVote] = useState(postVote === undefined ? 0 : postVote);
-  const [postVotes, setPostVotes] = useState(pending ? 0 : post?.upvoteCount || 0 - post?.downvoteCount || 0);
+  const accountVote = useAccountVote({ commentCid: post?.cid });
+  const vote = accountVote?.vote || 0
+  const [postVotes] = useState(pending ? 0 : post?.upvoteCount || 0 - post?.downvoteCount || 0);
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
   const toast = useToast();
@@ -124,45 +125,9 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     }
   };
 
-  const handleVoting = async (curr) => {
-    setPostVotes((prev) => prev + curr);
-    setVote(curr)
-    handleVote();
-  };
+  const upVote = usePublishUpvote(post)
+  const downVote = usePublishDownvote(post)
 
-  const publishVoteOptions = {
-    vote: vote,
-    commentCid: post?.cid,
-    subplebbitAddress: post?.subplebbitAddress,
-    onChallenge,
-    onChallengeVerification,
-    onError,
-  }
-
-
-
-  const { publishVote, } = usePublishVote(publishVoteOptions)
-
-
-
-  const handleVote = async () => {
-    try {
-      await publishVote();
-    } catch (error) {
-      logger('Voting-Declined', error, 'error');
-      toast({
-        title: 'Voting Declined.',
-        description: error?.stack.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-  };
-  useEffect(() => {
-    setPostVotes(pending ? 0 : post?.upvoteCount - post?.downvoteCount);
-    setVote(postVote === undefined ? 0 : postVote)
-  }, [postVote])
 
   const detailPath = !pending
     ? `/p/${post?.subplebbitAddress}/c/${post?.cid}`
@@ -254,7 +219,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
           <CardPost
             vote={ vote }
             postVotes={ postVotes }
-            handleVoting={ !pending ? handleVoting : '' }
+            upVote={ upVote }
+            downVote={ downVote }
             type={ type }
             post={ post }
             loading={ loading }
@@ -286,7 +252,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
           <ClassicPost
             vote={ vote }
             postVotes={ postVotes }
-            handleVoting={ !pending ? handleVoting : '' }
+            upVote={ upVote }
+            downVote={ downVote }
             showContent={ showContent }
             setShowContent={ setShowContent }
             type={ type }
@@ -321,7 +288,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             <CompactPost
               vote={ vote }
               postVotes={ postVotes }
-              handleVoting={ !pending ? handleVoting : '' }
+              upVote={ upVote }
+              downVote={ downVote }
               showContent={ showContent }
               setShowContent={ setShowContent }
               type={ type }
@@ -354,7 +322,8 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             <ClassicPost
               vote={ vote }
               postVotes={ postVotes }
-              handleVoting={ !pending ? handleVoting : '' }
+              upVote={ upVote }
+              downVote={ downVote }
               showContent={ showContent }
               setShowContent={ setShowContent }
               type={ type }

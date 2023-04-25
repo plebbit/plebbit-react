@@ -69,6 +69,8 @@ import AddRemovalReason from '../Modal/addRemovalReason';
 import { DeletedMessage, LockedMessage, RemovedMessage } from '../../Card/ModMessage';
 import getCommentMediaInfo from '../../../utils/getCommentMediaInfo';
 import useRepliesAndAccountReplies from '../../../hooks/useRepliesAndAccountReplies';
+import usePublishUpvote from '../../../hooks/usePublishUpvote';
+import usePublishDownvote from '../../../hooks/usePublishDownvote';
 
 function PostDetailModal() {
   const [showModal, setShowModal] = useState(true);
@@ -141,9 +143,9 @@ function PostDetailModal() {
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
-  const [postVotes, setPostVotes] = useState(detail?.upvoteCount || 0 - detail?.downvoteCount || 0);
-  const { vote: postVote } = useAccountVote({ commentCid: detail?.cid });
-  const [vote, setVote] = useState(postVote === undefined ? 0 : postVote);
+  const [postVotes] = useState(detail?.upvoteCount || 0 - detail?.downvoteCount || 0);
+  const accountVote = useAccountVote({ commentCid: detail?.cid });
+  const vote = accountVote?.vote || 0
   const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -247,44 +249,12 @@ function PostDetailModal() {
     }
   };
 
-  const handleVoting = async (curr) => {
-    setPostVotes((prev) => prev + curr);
-    setVote(curr)
-    handleVote();
-  };
-
-  const publishVoteOptions = {
-    vote,
-    commentCid: detail?.cid,
-    subplebbitAddress: detail?.subplebbitAddress,
-    onChallenge,
-    onChallengeVerification,
-    onError,
-  }
+  const upVote = usePublishUpvote(detail)
+  const downVote = usePublishDownvote(detail)
 
 
-  const { publishVote } = usePublishVote(publishVoteOptions)
 
-  const handleVote = async () => {
-    try {
-      await publishVote();
-    } catch (error) {
-      logger('post:detail:voting:', error, 'error');
 
-      toast({
-        title: 'Voting Declined.',
-        description: error?.stack.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-  };
-
-  useEffect(() => {
-    setPostVotes(detail?.upvoteCount - detail?.downvoteCount);
-    setVote(postVote === undefined ? 0 : postVote)
-  }, [postVote])
 
   const publishCommentOptions = {
     content,
@@ -550,9 +520,7 @@ function PostDetailModal() {
                         _focus={ {
                           outline: 'none',
                         } }
-                        onClick={ () => {
-                          handleVoting(vote === 1 ? 0 : 1);
-                        } }
+                        onClick={ upVote }
                         icon={ <Icon as={ vote === 1 ? ImArrowUp : BiUpvote } w={ 4 } h={ 4 } /> }
                       />
                       <Text
@@ -583,9 +551,7 @@ function PostDetailModal() {
                         _focus={ {
                           outline: 'none',
                         } }
-                        onClick={ () => {
-                          handleVoting(vote === -1 ? 0 : -1);
-                        } }
+                        onClick={ downVote }
                         icon={ <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } /> }
                       />
                       <Box
@@ -694,9 +660,7 @@ function PostDetailModal() {
                             _focus={ {
                               outline: 'none',
                             } }
-                            onClick={ () => {
-                              handleVoting(vote === 1 ? 0 : 1);
-                            } }
+                            onClick={ upVote }
                             icon={ <Icon as={ vote === 1 ? ImArrowUp : BiUpvote } w={ 4 } h={ 4 } /> }
                           />
                           <Text
@@ -726,9 +690,7 @@ function PostDetailModal() {
                             _focus={ {
                               outline: 'none',
                             } }
-                            onClick={ () => {
-                              handleVoting(vote === -1 ? 0 : -1);
-                            } }
+                            onClick={ downVote }
                             icon={ <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } /> }
                           />
                         </>
