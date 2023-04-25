@@ -49,7 +49,6 @@ import PostMedia from './PostMedia'
 
 const CardPost = ({
   post,
-  handleVoting,
   vote,
   postVotes,
   loading,
@@ -69,7 +68,9 @@ const CardPost = ({
   showSpoiler,
   setShowSpoiler,
   hasThumbnail,
-  commentCount
+  commentCount,
+  upVote,
+  downVote
 
 }) => {
   const mainBg = useColorModeValue("lightBody", "darkBody");
@@ -163,9 +164,7 @@ const CardPost = ({
                   _focus={ {
                     outline: "none",
                   } }
-                  onClick={ () => {
-                    handleVoting(vote === 1 ? 0 : 1);
-                  } }
+                  onClick={ upVote }
                   color={ vote === 1 ? "upvoteOrange" : iconColor }
                 >
                   <Icon
@@ -216,9 +215,7 @@ const CardPost = ({
                   _focus={ {
                     outline: "none",
                   } }
-                  onClick={ () => {
-                    handleVoting(vote === -1 ? 0 : -1);
-                  } }
+                  onClick={ downVote }
                 >
                   <Icon
                     width="20px"
@@ -1485,9 +1482,7 @@ const CardPost = ({
                       fill={ vote === 1 ? "upvoteOrange" : mobileIconColor }
                       color={ vote === 1 ? "upvoteOrange" : mobileIconColor }
                       lineHeight="24px"
-                      onClick={ () => {
-                        handleVoting(vote === 1 ? 0 : 1);
-                      } }
+                      onClick={ upVote }
                     >
                       <Icon
                         fill={ vote === 1 ? "upvoteOrange" : mobileIconColor }
@@ -1529,9 +1524,7 @@ const CardPost = ({
                       fill={ vote === -1 ? "downvoteBlue" : mobileIconColor }
                       color={ vote === -1 ? "downvoteBlue" : mobileIconColor }
                       lineHeight="24px"
-                      onClick={ () => {
-                        handleVoting(vote === -1 ? 0 : -1);
-                      } }
+                      onClick={ downVote }
                     >
                       <Icon
                         fill={ vote === -1 ? "downvoteBlue" : mobileIconColor }
@@ -1703,9 +1696,7 @@ const CardPost = ({
                       fill={ vote === 1 ? "upvoteOrange" : mobileIconColor }
                       color={ vote === 1 ? "upvoteOrange" : mobileIconColor }
                       lineHeight="24px"
-                      onClick={ () => {
-                        handleVoting(vote === 1 ? 0 : 1);
-                      } }
+                      onClick={ upVote }
                     >
                       <Icon
                         fill={ vote === 1 ? "upvoteOrange" : mobileIconColor }
@@ -1747,9 +1738,7 @@ const CardPost = ({
                       fill={ vote === -1 ? "downvoteBlue" : mobileIconColor }
                       color={ vote === -1 ? "downvoteBlue" : mobileIconColor }
                       lineHeight="24px"
-                      onClick={ () => {
-                        handleVoting(vote === -1 ? 0 : -1);
-                      } }
+                      onClick={ downVote }
                     >
                       <Icon
                         fill={ vote === -1 ? "downvoteBlue" : mobileIconColor }

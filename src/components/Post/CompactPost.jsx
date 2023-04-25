@@ -55,7 +55,6 @@ const CompactPost = ({
   vote,
   post,
   type,
-  handleVoting,
   isOnline,
   subPlebbit,
   postVotes,
@@ -70,7 +69,9 @@ const CompactPost = ({
   mediaInfo,
   owner,
   hasThumbnail,
-  commentCount
+  commentCount,
+  upVote,
+  downVote
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -140,9 +141,7 @@ const CompactPost = ({
                   _focus={ {
                     outline: 'none',
                   } }
-                  onClick={ () => {
-                    handleVoting(vote === 1 ? 0 : 1);
-                  } }
+                  onClick={ upVote }
                   color={ vote === 1 ? 'upvoteOrange' : iconColor }
                 >
                   <Icon
@@ -196,9 +195,7 @@ const CompactPost = ({
                   _focus={ {
                     outline: 'none',
                   } }
-                  onClick={ () => {
-                    handleVoting(vote === -1 ? 0 : -1);
-                  } }
+                  onClick={ downVote }
                 >
                   <Icon
                     width="20px"

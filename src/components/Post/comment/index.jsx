@@ -32,15 +32,17 @@ import { GoGift } from 'react-icons/go';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
 import Swal from 'sweetalert2';
 import useRepliesAndAccountReplies from '../../../hooks/useRepliesAndAccountReplies';
+import usePublishUpvote from '../../../hooks/usePublishUpvote';
+import usePublishDownvote from '../../../hooks/usePublishDownvote';
 
 const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
   const replies = useRepliesAndAccountReplies(comment)
-  const [vote, setVote] = useState(+comment?.upvoteCount - +comment?.downvoteCount);
-  const { vote: postVote } = useAccountVote({ commentCid: comment?.cid });
-  const [voteMode, setVoteMode] = useState(postVote === undefined ? 0 : postVote);
+  const [vote] = useState(+comment?.upvoteCount || 0 - +comment?.downvoteCount || 0);
+  const postVote = useAccountVote({ commentCid: comment?.cid });
+  const voteMode = postVote?.vote || 0;
   const [reply, setShowReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const toast = useToast();
@@ -124,39 +126,8 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     }
   };
 
-  const publishVoteOptions = {
-    vote: voteMode,
-    commentCid: comment?.cid,
-    subplebbitAddress: comment?.subplebbitAddress,
-    onChallenge,
-    onChallengeVerification,
-    onError: onError,
-  }
-  const { publishVote } = usePublishVote(publishVoteOptions)
-
-
-  const handleVote = (curr) => {
-    setVoteMode(curr)
-    try {
-      publishVote();
-    } catch (error) {
-      logger('voting-declined', error, 'error');
-      toast({
-        title: 'Voting Declined.',
-        description: error?.stack.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-  };
-
-
-  useEffect(() => {
-    setVote(+comment?.upvoteCount - +comment?.downvoteCount);
-    setVoteMode(comment?.vote)
-  }, [comment?.vote])
-
+  const upVote = usePublishUpvote(comment)
+  const downVote = usePublishDownvote(comment)
   //options needed to publish a comment
   const publishCommentOptions = {
     content,
@@ -266,7 +237,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
 
 
 
-  console.log({ comment })
+
 
   return (
     <Flex marginTop="15px" bg={ type === 'singleComment' && commentBg } padding="8px 0 0 8px">
@@ -358,10 +329,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                 _focus={ {
                   outline: 'none',
                 } }
-                onClick={ () => {
-                  setVoteMode(voteMode === 1 ? 0 : 1);
-                  handleVote(voteMode === 1 ? 0 : 1);
-                } }
+                onClick={ upVote }
                 icon={ <Icon as={ voteMode === 1 ? ImArrowUp : BiUpvote } w="20px" h="20px" /> }
               />
               <Box fontSize="14px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
@@ -384,10 +352,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
                 _focus={ {
                   outline: 'none',
                 } }
-                onClick={ () => {
-                  setVoteMode(voteMode === -1 ? 0 : -1);
-                  handleVote(voteMode === -1 ? 0 : -1);
-                } }
+                onClick={ downVote }
                 icon={ <Icon as={ voteMode === -1 ? ImArrowDown : BiDownvote } w="20px" h="20px" /> }
               />
             </Flex>

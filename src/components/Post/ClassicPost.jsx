@@ -50,7 +50,6 @@ import PostMedia from './PostMedia';
 
 const ClassicPost = ({
   loading,
-  handleVoting,
   vote,
   post,
   type,
@@ -73,7 +72,9 @@ const ClassicPost = ({
   setShowSpoiler,
   mediaInfo,
   hasThumbnail,
-  commentCount
+  commentCount,
+  upVote,
+  downVote
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -153,9 +154,7 @@ const ClassicPost = ({
                     _focus={ {
                       outline: 'none',
                     } }
-                    onClick={ () => {
-                      handleVoting(vote === 1 ? 0 : 1);
-                    } }
+                    onClick={ upVote }
                     color={ vote === 1 ? 'upvoteOrange' : iconColor }
                   >
                     <Icon
@@ -206,9 +205,7 @@ const ClassicPost = ({
                     _focus={ {
                       outline: 'none',
                     } }
-                    onClick={ () => {
-                      handleVoting(vote === -1 ? 0 : -1);
-                    } }
+                    onClick={ downVote }
                   >
                     <Icon
                       width="20px"
@@ -1558,9 +1555,7 @@ const ClassicPost = ({
                       fill={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
                       color={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
                       lineHeight="24px"
-                      onClick={ () => {
-                        handleVoting(vote === 1 ? 0 : 1);
-                      } }
+                      onClick={ upVote }
                     >
                       <Icon
                         fill={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
@@ -1598,9 +1593,7 @@ const ClassicPost = ({
                       fill={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
                       color={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
                       lineHeight="24px"
-                      onClick={ () => {
-                        handleVoting(vote === -1 ? 0 : -1);
-                      } }
+                      onClick={ downVote }
                     >
                       <Icon
                         fill={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
@@ -1759,9 +1752,7 @@ const ClassicPost = ({
                       fill={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
                       color={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
                       lineHeight="24px"
-                      onClick={ () => {
-                        handleVoting(vote === 1 ? 0 : 1);
-                      } }
+                      onClick={ upVote }
                     >
                       <Icon
                         fill={ vote === 1 ? 'upvoteOrange' : mobileIconColor }
@@ -1799,9 +1790,7 @@ const ClassicPost = ({
                       fill={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
                       color={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
                       lineHeight="24px"
-                      onClick={ () => {
-                        handleVoting(vote === -1 ? 0 : -1);
-                      } }
+                      onClick={ downVote }
                     >
                       <Icon
                         fill={ vote === -1 ? 'downvoteBlue' : mobileIconColor }
