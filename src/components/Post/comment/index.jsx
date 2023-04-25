@@ -262,11 +262,11 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
 
 
 
-  const commentCount = comment?.replies?.pages?.topAll?.comments?.length
+  const commentCount = replies?.length
 
 
 
-  console.log({ replies, commentCount, comment })
+  console.log({ comment })
 
   return (
     <Flex marginTop="15px" bg={ type === 'singleComment' && commentBg } padding="8px 0 0 8px">
@@ -327,7 +327,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
 
         </Box>
         {/* footer */ }
-        { commentPending ? (
+        { (commentPending || commentFailed) ? (
           <Flex />
         ) : (
           <Flex color={ iconColor }>

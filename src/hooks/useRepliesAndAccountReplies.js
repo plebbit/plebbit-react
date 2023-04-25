@@ -2,7 +2,6 @@ import { useAccountComments } from "@plebbit/plebbit-react-hooks"
 import { useMemo } from "react"
 
 const useRepliesAndAccountReplies = (comment) => {
-
     // filter only the parent cid
     const filter = useMemo(() => ({ parentCids: [comment?.cid || 'n/a'] }), [comment?.cid])
     const { accountComments } = useAccountComments({ filter })
@@ -23,7 +22,6 @@ const useRepliesAndAccountReplies = (comment) => {
             ...comment?.replies?.pages?.topAll?.comments || []
         ]
     }, [comment?.replies?.pages?.topAll?.comments, accountRepliesNotYetPublished])
-
 
     return repliesAndNotYetPublishedReplies || []
 }
