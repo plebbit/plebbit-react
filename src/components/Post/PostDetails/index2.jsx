@@ -311,6 +311,7 @@ function PostDetailModal() {
         isClosable: true,
       });
       logger('post:comment:response:', error);
+      setContent('');
     }
   };
   const handleEditPost = async (update, callBack, failedCallBack) => {
@@ -482,7 +483,7 @@ function PostDetailModal() {
 
   const comments = useRepliesAndAccountReplies(detail)
 
-  const detailCommentCount = detail?.replies?.pages?.topAll?.comments?.length || 0
+  const detailCommentCount = comments?.length || 0
 
 
   return (

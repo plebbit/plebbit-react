@@ -473,7 +473,7 @@ function PostDetail() {
 
 
 
-  const detailCommentCount = detail?.replies?.pages?.topAll?.comments?.length || 0
+  const detailCommentCount = comments?.length || 0
 
 
 
