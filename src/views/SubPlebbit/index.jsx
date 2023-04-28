@@ -354,12 +354,13 @@ const SubPlebbit = ({ match }) => {
                     <InfiniteScroll
                       hasMore={ hasMore }
                       loadMore={ loadMore }
-                      content={ (feed) => (
+                      content={ (index, feed) => (
                         <Post
                           allowedSpecial={ allowedSpecial }
                           type="subPlebbit"
                           post={ feed }
-                          key={ Math.random() }
+                          index={ index }
+                          key={ feed?.cid || index }
                           mode={ postStyle }
                         />
                       ) }
@@ -498,11 +499,12 @@ const SubPlebbit = ({ match }) => {
                 <InfiniteScroll
                   hasMore={ hasMore }
                   loadMore={ loadMore }
-                  content={ (feed) => (
+                  content={ (index, feed) => (
                     <Post
                       type="subPlebbit"
                       post={ feed }
-                      key={ feed?.cid }
+                      index={ index }
+                      key={ feed?.cid || index }
                       mode={ postStyle }
                       allowedSpecial={ allowedSpecial }
                     />
