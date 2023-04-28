@@ -35,6 +35,7 @@ const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
     //   {feeds?.map((feed) => content(feed))}
     // </Infs>
     <Virtuoso
+      increaseViewportBy={{bottom: 600, top: 200}}
       totalCount={ feeds ? feeds.length : 0 }
       data={ feeds }
       style={ { height: '100%', maxWidth: '100%' } }
