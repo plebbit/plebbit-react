@@ -47,7 +47,7 @@ const Home = () => {
               <InfiniteScroll
                 hasMore={ hasMore }
                 loadMore={ loadMore }
-                content={ (feed) => <Post post={ feed } key={ Math.random() } mode={ postStyle } /> }
+                content={ (index, feed) => <Post index={ index } post={ feed } key={ feed?.cid || index } mode={ postStyle } /> }
                 feeds={ feeds }
                 loader={ <Post loading={ true } mode={ postStyle } key={ Math.random() } /> }
               />
@@ -63,7 +63,7 @@ const Home = () => {
             <InfiniteScroll
               hasMore={ hasMore }
               loadMore={ loadMore }
-              content={ (feed) => <Post post={ feed } key={ Math.random() } mode={ postStyle } /> }
+              content={ (index, feed) => <Post post={ feed } key={ feed?.cid || index } index={ index } mode={ postStyle } /> }
               feeds={ feeds || [] }
               loader={ <Post loading={ true } mode={ postStyle } key={ Math.random() } /> }
             />
