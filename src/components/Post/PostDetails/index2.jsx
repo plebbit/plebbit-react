@@ -799,10 +799,10 @@ function PostDetailModal() {
                               cursor="pointer"
                               color={ removeColor }
                               alignItems="center"
-                              onClick={ () => (detail?.moderatorReason ? openRemovalModal() : {}) }
+                              onClick={ () => (detail?.reason ? openRemovalModal() : {}) }
                             >
                               <Icon as={ TiDeleteOutline } />
-                              { !detail?.moderatorReason ? (
+                              { !detail?.reason ? (
                                 isSpecial && <Box>Add A removal reason</Box>
                               ) : (
                                 <Tooltip
@@ -818,7 +818,7 @@ function PostDetailModal() {
                                     display="inline-block"
                                     flex="0 0 auto"
                                   >
-                                    { detail?.moderatorReason }
+                                    { detail?.reason }
                                   </Text>
                                 </Tooltip>
                               ) }

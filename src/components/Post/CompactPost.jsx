@@ -553,10 +553,10 @@ const CompactPost = ({
                           cursor="pointer"
                           color={ removeColor }
                           alignItems="center"
-                          onClick={ () => (post?.moderatorReason ? openRemovalModal() : {}) }
+                          onClick={ () => (post?.reason ? openRemovalModal() : {}) }
                         >
                           <Icon as={ TiDeleteOutline } />
-                          { !post?.moderatorReason ? (
+                          { !post?.reason ? (
                             allowedSpecial && <Box>Add A removal reason</Box>
                           ) : (
                             <Tooltip
@@ -572,7 +572,7 @@ const CompactPost = ({
                                 display="inline-block"
                                 flex="0 0 auto"
                               >
-                                { post?.moderatorReason }
+                                { post?.reason }
                               </Text>
                             </Tooltip>
                           ) }
