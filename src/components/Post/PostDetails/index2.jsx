@@ -458,7 +458,7 @@ function PostDetailModal() {
 
   return (
     <>
-      <Modal trapFocus={ false } scrollBehavior="outside" isOpen={ isOpen } onClose={ onClose }>
+      <Modal motionPreset='none' trapFocus={ false } scrollBehavior="outside" isOpen={ isOpen } onClose={ onClose }>
         <ModalOverlay backgroundColor="rgba(28,28,28,.9)" />
         { device !== 'mobile' ? (
           <ModalContent

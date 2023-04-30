@@ -37,7 +37,7 @@ const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
     <Virtuoso
       totalCount={ feeds ? feeds.length : 0 }
       data={ feeds }
-      style={ { height: '100%', maxWidth: '100%' } }
+      style={ { maxWidth: '100%' } }
       itemContent={ (index, feed) => content(index, feed) }
       useWindowScroll={ true }
       components={ {
@@ -45,6 +45,7 @@ const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
       } }
       endReached={ loadMore }
     />
+
 
   );
 };

@@ -14,13 +14,14 @@ import logger from '../../utils/logger';
 import { ProfileContext } from '../../store/profileContext';
 import getIsOnline from '../../utils/getIsOnline';
 import onError from '../../utils/onError';
-import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 import { useLocation } from 'react-router-dom';
 import AddRemovalReason from './Modal/addRemovalReason';
 import Swal from 'sweetalert2';
 import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
+import onChallengeVerification from '../../utils/onChallengeVerification';
+import onChallenge from '../../utils/onChallenge';
 
 const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -53,77 +54,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
 
   const [update, setUpdate] = useState({})
 
-  const onChallengeVerification = (challengeVerification, comment) => {
-    // if the challengeVerification fails, a new challenge request will be sent automatically
-    // to break the loop, the user must decline to send a challenge answer
-    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
-    if (challengeVerification.challengeSuccess === true) {
-      toast({
-        title: 'Accepted.',
-        description: 'Action accepted',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
-      logger('challenge-success', challengeVerification, 'trace');
 
-    } else if (challengeVerification.challengeSuccess === false) {
-      logger(
-        'challenge-failed',
-        {
-          reason: challengeVerification.reason,
-          errors: challengeVerification.challengeErrors,
-        },
-        'error'
-      );
-      toast({
-        title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
-        description: challengeVerification.challengeErrors
-          ? challengeVerification.challengeErrors.join(',')
-          : 'Challenge Verification Failed',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-
-    }
-
-    logger('challenge-verified', { challengeVerification, comment }, 'trace');
-  };
-  const onChallenge = async (challenges, comment) => {
-    let challengeAnswers = [];
-
-    try {
-      // ask the user to complete the challenges in a modal window
-      challengeAnswers = await getChallengeAnswersFromUser(challenges);
-      console.log({ challengeAnswers, comment })
-    } catch (error) {
-      // if  he declines, throw error and don't get a challenge answer
-      logger('vote:challeng', error, 'error');
-      toast({
-        title: 'Challenge Declined.',
-        description: error?.stack.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-    if (challengeAnswers) {
-
-      try {
-        await comment.publishChallengeAnswers(challengeAnswers);
-      } catch (error) {
-        logger('challenge-failed', error?.message, 'error');
-        toast({
-          title: 'Publish Challenge Declined.',
-          description: error?.stack.toString(),
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
-      }
-    }
-  };
 
   const upVote = usePublishUpvote(post)
   const downVote = usePublishDownvote(post)
@@ -151,7 +82,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     subplebbitAddress: post?.subplebbitAddress,
     onChallenge,
     onChallengeVerification,
-    onError: onError,
+    onError,
   }
   const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
 

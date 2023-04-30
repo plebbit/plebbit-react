@@ -5,7 +5,7 @@ import { Icon, useColorModeValue } from '@chakra-ui/react';
 import NavBar from './Nav';
 import { PlebLogo } from '../svgs';
 import { BiAddToQueue } from 'react-icons/bi';
-import { MdAdd, MdClose, Md, MdOutlineMail } from 'react-icons/md';
+import { MdAdd, MdClose, Md, MdOutlineMail, MdHome } from 'react-icons/md';
 import Avatar from '../Avatar';
 import { BsArrowUpRightCircle } from 'react-icons/bs';
 import { HiOutlineChartSquareBar, HiOutlineChat } from 'react-icons/hi';
@@ -66,7 +66,7 @@ const Layout = ({ children, name }) => {
         <NavBar showStyleBar={ showStyleBar } location={ name } />
         { device !== 'mobile' ? (
           <Box
-            transition="margin-top .3s ease"
+
             paddingTop="48px"
             paddingLeft={ showSide && name.label === 'Home' && '270px' }
           >
