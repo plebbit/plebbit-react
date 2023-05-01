@@ -453,7 +453,7 @@ function PostDetailModal() {
 
   const comments = useRepliesAndAccountReplies(detail)
 
-  const detailCommentCount = comments?.length || 0
+  const detailCommentCount = detail?.replyCount || 0
 
 
   return (

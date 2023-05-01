@@ -15,7 +15,7 @@ import { useLocation } from 'react-router-dom';
 const Layout = ({ children, name }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
-  const { showSplashcreen, device, showSide, setShowSide } = useContext(ProfileContext);
+  const { showSplashcreen, device, showSide, setShowSide, notifications } = useContext(ProfileContext);
   const location = useLocation();
   const showStyleBar = location?.search === '?styling=true';
 
@@ -51,9 +51,18 @@ const Layout = ({ children, name }) => {
     );
   }
 
-  document.title = name?.label === 'Home' ? "Plebbit" : name?.label
+  const label = () => {
+    const count = notifications?.notifications?.filter((x) => !x?.markedAsRead).length ? `(${notifications?.notifications?.filter((x) => !x?.markedAsRead).length})` : ''
+    if (name?.label) {
+      return `${count} Plebbit`
+    } else {
+      return `${count} ${name?.label}`
+    }
+  }
+
+  document.title = label()
   useEffect(() => {
-    document.title = name?.label === 'Home' ? "Plebbit" : name?.label
+    document.title = label()
 
   }, [name?.label])
 

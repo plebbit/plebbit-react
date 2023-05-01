@@ -135,7 +135,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     // } else handleEditPost({ [val?.id]: post[val?.id] ? false : true });
   };
 
-  const commentCount = post?.replies?.pages?.topAll?.comments?.length
+  const commentCount = post?.replyCount
 
 
 
