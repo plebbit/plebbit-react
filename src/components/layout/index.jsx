@@ -5,7 +5,7 @@ import { Icon, useColorModeValue } from '@chakra-ui/react';
 import NavBar from './Nav';
 import { PlebLogo } from '../svgs';
 import { BiAddToQueue } from 'react-icons/bi';
-import { MdAdd, MdClose, Md, MdOutlineMail } from 'react-icons/md';
+import { MdAdd, MdClose, Md, MdOutlineMail, MdHome } from 'react-icons/md';
 import Avatar from '../Avatar';
 import { BsArrowUpRightCircle } from 'react-icons/bs';
 import { HiOutlineChartSquareBar, HiOutlineChat } from 'react-icons/hi';
@@ -15,7 +15,7 @@ import { useLocation } from 'react-router-dom';
 const Layout = ({ children, name }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
-  const { showSplashcreen, device, showSide, setShowSide } = useContext(ProfileContext);
+  const { showSplashcreen, device, showSide, setShowSide, notifications } = useContext(ProfileContext);
   const location = useLocation();
   const showStyleBar = location?.search === '?styling=true';
 
@@ -51,9 +51,18 @@ const Layout = ({ children, name }) => {
     );
   }
 
-  document.title = name?.label === 'Home' ? "Plebbit" : name?.label
+  const label = () => {
+    const count = notifications?.notifications?.filter((x) => !x?.markedAsRead).length ? `(${notifications?.notifications?.filter((x) => !x?.markedAsRead).length})` : ''
+    if (name?.label) {
+      return `${count} Plebbit`
+    } else {
+      return `${count} ${name?.label}`
+    }
+  }
+
+  document.title = label()
   useEffect(() => {
-    document.title = name?.label === 'Home' ? "Plebbit" : name?.label
+    document.title = label()
 
   }, [name?.label])
 
@@ -66,7 +75,7 @@ const Layout = ({ children, name }) => {
         <NavBar showStyleBar={ showStyleBar } location={ name } />
         { device !== 'mobile' ? (
           <Box
-            transition="margin-top .3s ease"
+
             paddingTop="48px"
             paddingLeft={ showSide && name.label === 'Home' && '270px' }
           >

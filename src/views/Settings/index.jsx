@@ -913,10 +913,10 @@ const Settings = () => {
                     color={ mainColor }
                     marginBottom="4px"
                   >
-                    IPFS Gateway Url (optional)
+                    IPFS Gateway URLs (optional)
                   </Text>
                   <Text fontWeight="400" color={ metaColor } fontSize="12px" lineHeight="16px">
-                    Optional URL of an IPFS gateways
+                    Optional URLs of an IPFS gateways
                   </Text>
                 </Flex>
                 <Flex
@@ -927,7 +927,7 @@ const Settings = () => {
                   justifyContent="flex-end"
                 >
                   <Textarea
-                    placeholder="IPFS Gateway Url"
+                    placeholder="IPFS Gateway URLs"
                     backgroundColor={ mainBg }
                     color={ mainColor }
                     boxSizing="border-box"
@@ -965,10 +965,10 @@ const Settings = () => {
                     color={ mainColor }
                     marginBottom="4px"
                   >
-                    IPFS Http Client Options (optional)
+                    IPFS Http Clients Options (optional)
                   </Text>
                   <Text fontWeight="400" color={ metaColor } fontSize="12px" lineHeight="16px">
-                    Optional URL of an IPFS API or IpfsHttpClientOptions,{ ' ' }
+                    Optional URLs of an IPFS API or IPFS Http Clients Options,{ ' ' }
                     <strong
                       style={ {
                         color: 'blue',
@@ -1022,11 +1022,11 @@ const Settings = () => {
                     color={ mainColor }
                     marginBottom="4px"
                   >
-                    Pubsub Http Client Options (optional)
+                    Pubsub Http Clients Options (optional)
                   </Text>
                   <Text fontWeight="400" color={ metaColor } fontSize="12px" lineHeight="16px">
-                    Optional URL or IpfsHttpClientOptions used for pubsub publishing when
-                    ipfsHttpClientOptions isn't available, like in the browser
+                    Optional URLs or Ipfs Http Clients Options used for pubsub publishing when
+                    IPFS Http Clients Options isn't available, like in the browser
                   </Text>
                 </Flex>
                 <Flex
@@ -1037,7 +1037,7 @@ const Settings = () => {
                   justifyContent="flex-end"
                 >
                   <Textarea
-                    placeholder="Pub Sub HttpClientOptions (optional)"
+                    placeholder="Pub Sub Http Clients Options (optional)"
                     backgroundColor={ mainBg }
                     color={ mainColor }
                     boxSizing="border-box"
@@ -1222,10 +1222,10 @@ const Settings = () => {
                         color={ mainColor }
                         marginBottom="4px"
                       >
-                        url
+                        URLs
                       </Text>
                       <Text fontWeight="400" color={ metaColor } fontSize="12px" lineHeight="16px">
-                        URL of the provider RPC
+                        URLs of the provider RPC
                       </Text>
                     </Flex>
                     <Flex
@@ -1236,7 +1236,7 @@ const Settings = () => {
                       justifyContent="flex-end"
                     >
                       <Textarea
-                        placeholder="ChainProvider Urls"
+                        placeholder="ChainProvider URLs"
                         backgroundColor={ mainBg }
                         color={ mainColor }
                         boxSizing="border-box"

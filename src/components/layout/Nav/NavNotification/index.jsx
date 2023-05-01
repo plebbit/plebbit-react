@@ -4,7 +4,6 @@ import { BiBell } from 'react-icons/bi';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { BsCheckAll } from 'react-icons/bs';
 import { MdSettings } from 'react-icons/md';
-import { VscBellDot } from 'react-icons/vsc';
 import Avatar from '../../../Avatar';
 import DropDown from '../../../DropDown';
 import PopOver from '../../../PopOver';
@@ -36,7 +35,11 @@ const NavNotification = () => {
     <PopOver
       title={
         notifications?.notifications?.filter((x) => !x?.markedAsRead).length ? (
-          <Icon color={ iconColor2 } width={ 6 } height={ 6 } as={ VscBellDot } />
+          <Box width={ 6 } height={ 6 } position="relative">
+
+            <Icon color={ iconColor2 } width={ 6 } height={ 6 } as={ BiBell } />
+            <Box boxShadow="0 0 0 2px white" left="15px" top="-1" minW="16px" textAlign="center" bg="red" borderRadius="12px" width="auto" height="16px" position='absolute' color="white" fontSize="10px" padding="0 2px" fontWeight="700">{ notifications?.notifications?.filter((x) => !x?.markedAsRead).length }</Box>
+          </Box>
         ) : (
           <Icon color={ iconColor2 } width={ 6 } height={ 6 } as={ BiBell } />
         )
@@ -63,7 +66,7 @@ const NavNotification = () => {
       footer={
         <Flex justifyContent="center" alignItems="center">
           <Button
-            onClick={ () => history.push('/notifications') }
+            onClick={ () => { handleReadAll(); history.push('/notifications') } }
             variant="unstyled"
             color={ linkColor }
           >
@@ -87,6 +90,7 @@ export default NavNotification;
 export const NotificationType = ({ notification }) => {
   const cardBg = useColorModeValue('rgba(36,160,237,0.1)', 'rgba(36,160,237,0.5)');
   const metaText = useColorModeValue('#7c7c7c', '#818384');
+  const history = useHistory();
 
   return (
     <>
@@ -183,7 +187,7 @@ export const NotificationType = ({ notification }) => {
         </Flex>
       ) :  */
         !notification?.markedAsRead ? (
-          <Flex bg={ cardBg } padding="16px" cursor="pointer" onClick={ () => history.push(`p/${notification?.subplebbitAddress}`) }>
+          <Flex bg={ cardBg } padding="16px" cursor="pointer" onClick={ () => history.push(`/p/${notification?.subplebbitAddress}/c/${notification?.cid}`) }>
             <Box mr="8px">
               <Avatar height={ 32 } width={ 32 } avatar="" />
             </Box>
@@ -224,7 +228,7 @@ export const NotificationType = ({ notification }) => {
             </Flex>
           </Flex>
         ) : notification?.markedAsRead ? (
-          <Flex padding="16px" cursor="pointer" onClick={ () => history.push(`p/${notification?.subplebbitAddress}`) }>
+          <Flex padding="16px" cursor="pointer" onClick={ () => history.push(`/p/${notification?.subplebbitAddress}/c/${notification?.cid}`) }>
             <Box mr="8px">
               <Avatar height={ 32 } width={ 32 } avatar="" />
             </Box>

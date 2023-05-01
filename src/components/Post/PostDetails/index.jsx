@@ -444,7 +444,7 @@ function PostDetail() {
 
 
 
-  const detailCommentCount = comments?.length || 0
+  const detailCommentCount = detail?.replyCount || 0
 
 
 

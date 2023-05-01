@@ -1,36 +1,40 @@
+import logger from "./logger";
+import { toast } from 'react-toastify';
 
 
-
-const onChallengeVerification = (challengeVerification, onSuccess, onError) => {
+const onChallengeVerification = (challengeVerification, comment, onSuccess, onError) => {
+    // if the challengeVerification fails, a new challenge request will be sent automatically
+    // to break the loop, the user must decline to send a challenge answer
+    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
     if (challengeVerification.challengeSuccess === true) {
-        toast({
-            title: 'Accepted.',
-            description: 'Action accepted',
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-        });
-        onSuccess()
-        logger('challenge success', { challengeVerification }, 'trace');
+        if (typeof onSuccess === 'function') {
+            onSuccess()
+        }
+
+        logger('challenge success', { challengeVerification, comment }, 'trace');
     } else if (challengeVerification.challengeSuccess === false) {
         logger(
             'challenge failed',
-            {
-                reason: challengeVerification.reason,
-                errors: challengeVerification.challengeErrors,
-            },
+            { reason: challengeVerification.reason, errors: challengeVerification.errors, comment },
             'error'
         );
-        toast({
-            title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
-            description: challengeVerification.challengeErrors
-                ? challengeVerification.challengeErrors.join(',')
-                : 'Challenge Verification Failed',
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
+        toast.error(challengeVerification.challengeErrors
+            ? challengeVerification.challengeErrors.join(',')
+            : 'Challenge Verification Failed', {
+            position: 'bottom-center',
+            autoClose: false,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+            theme: 'light',
+            className: 'toast-message'
         });
-        onError()
+        if (typeof onError === 'function') {
+            onError()
+        }
+
     }
 };
 
