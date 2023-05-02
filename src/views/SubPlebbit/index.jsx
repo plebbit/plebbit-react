@@ -21,7 +21,7 @@ import logger from '../../utils/logger';
 import SubStyleSide from './subStyleSide';
 
 const SubPlebbit = ({ match }) => {
-  const { postStyle, feedSort, profile, subscriptions, device, accountSubplebbits } =
+  const { postStyle, feedSort, profile, device, accountSubplebbits } =
     useContext(ProfileContext);
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const pseuBg = useColorModeValue('#DAE0E6', '#030303');
@@ -144,7 +144,7 @@ const SubPlebbit = ({ match }) => {
     ...data,
     onChallenge,
     onChallengeVerification,
-    onError: onError,
+    onError,
   }
 
   const { publishSubplebbitEdit } = usePublishSubplebbitEdit(editSubplebbitOptions)
@@ -258,7 +258,7 @@ const SubPlebbit = ({ match }) => {
                           <Button
                             bg="transparent"
                             content={
-                              subscriptions?.map((x) => x?.address)?.includes(subPlebbit?.address)
+                              subscribed
                                 ? 'Joined'
                                 : 'Join'
                             }

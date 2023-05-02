@@ -32,6 +32,7 @@ import Layout from '../../components/layout';
 import { useHistory, useLocation } from 'react-router-dom';
 import { deleteCaches } from '@plebbit/plebbit-react-hooks';
 import Image from '../../components/Image';
+import placeholder from '../../assets/images/fallback.png'
 
 const Settings = () => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -226,7 +227,6 @@ const Settings = () => {
       isClosable: true,
     });
   };
-
   return (
     <Layout name={ { label: 'User Settings', value: location?.pathname } }>
       <Box
@@ -721,7 +721,7 @@ const Settings = () => {
                         top="0"
                         transformOrigin="bottom center"
                         clipPath="polygon(0 68.22%,12.12% 68.22%,12.85% 71.49%,13.86% 74.69%,15.14% 77.79%,16.69% 80.77%,18.49% 83.6%,20.54% 86.26%,22.8% 88.73%,25.28% 91%,27.94% 93.04%,30.77% 94.85%,33.75% 96.4%,36.85% 97.68%,40.05% 98.69%,43.32% 99.42%,46.65% 99.85%,50% 100%,53.35% 99.85%,56.68% 99.42%,59.95% 98.69%,63.15% 97.68%,66.25% 96.4%,69.23% 94.85%,72.06% 93.04%,74.72% 91%,77.2% 88.73%,79.46% 86.26%,81.51% 83.6%,83.31% 80.77%,84.86% 77.79%,86.14% 74.69%,87.15% 71.49%,87.88% 68.22%,100% 68.22%,100% 0,0 0)"
-                        src={ authorAvatarImageUrl }
+                        src={ authorAvatarImageUrl || placeholder }
                         onClick={ onOpen }
                       />
                     </Box>
