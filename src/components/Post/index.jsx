@@ -90,7 +90,10 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     setUpdate({ ...val })
     try {
       await publishCommentEdit();
-      callBack ? callBack() : '';
+      if (typeof callBack === 'function') {
+        callBack()
+      }
+
 
     } catch (error) {
       logger('edit:comment:response:', error, 'error');
@@ -101,7 +104,11 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
         duration: 5000,
         isClosable: true,
       });
-      failedCallBack ? failedCallBack() : '';
+      if (typeof failedCallBack === 'function') {
+        failedCallBack()
+      }
+
+
     }
   };
 
