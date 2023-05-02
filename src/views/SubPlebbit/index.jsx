@@ -21,7 +21,7 @@ import logger from '../../utils/logger';
 import SubStyleSide from './subStyleSide';
 
 const SubPlebbit = ({ match }) => {
-  const { postStyle, feedSort, profile, subscriptions, device, accountSubplebbits } =
+  const { postStyle, feedSort, profile, device, accountSubplebbits } =
     useContext(ProfileContext);
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const pseuBg = useColorModeValue('#DAE0E6', '#030303');
@@ -110,39 +110,24 @@ const SubPlebbit = ({ match }) => {
     setSubLoading(true);
     try {
       await subscribe();
-      toast({
-        title: 'Subscribed.',
-        description: 'Joined successfully',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      setSubLoading(false);
+
     } catch (error) {
       toast({
-        title: 'Subscribed.',
+        title: 'Subscription failed',
         description: error?.stack.toString(),
         status: 'error',
         duration: 3000,
         isClosable: true,
       });
-      setSubLoading(false);
+
     }
   };
   const handleUnSubscribe = async () => {
     try {
-      setSubLoading(true);
       await unsubscribe();
-      toast({
-        title: 'Unsubscribed.',
-        description: 'Unsubscribed successfully',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      setSubLoading(false);
+
     } catch (error) {
-      setSubLoading(false);
+
       toast({
         title: 'Unsubscribed.',
         description: error?.stack.toString(),
@@ -152,7 +137,6 @@ const SubPlebbit = ({ match }) => {
       });
     }
 
-    setSubLoading(false);
   };
 
 
@@ -160,7 +144,7 @@ const SubPlebbit = ({ match }) => {
     ...data,
     onChallenge,
     onChallengeVerification,
-    onError: onError,
+    onError,
   }
 
   const { publishSubplebbitEdit } = usePublishSubplebbitEdit(editSubplebbitOptions)
@@ -274,7 +258,7 @@ const SubPlebbit = ({ match }) => {
                           <Button
                             bg="transparent"
                             content={
-                              subscriptions?.map((x) => x?.address)?.includes(subPlebbit?.address)
+                              subscribed
                                 ? 'Joined'
                                 : 'Join'
                             }

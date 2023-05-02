@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import {
-    Box,
+    Box, Flex,
     useColorModeValue,
 } from "@chakra-ui/react";
 import Image from "../Image";
 import { ProfileContext } from '../../store/profileContext';
+import ReactPlayer from 'react-player';
 
 const PostMedia = ({ post, detail }) => {
     const mediaInfo = getCommentMediaInfo(post);
@@ -25,8 +26,8 @@ const PostMedia = ({ post, detail }) => {
             {
                 mediaInfo?.type === "image" && (
                     <Image
-                        maxH="320px"
-                        margin="0 auto"
+                        maxH="512px"
+                        margin="0px auto"
                         maxW="100%"
                         overflow="hidden"
                         bg={ postBg }
@@ -41,32 +42,20 @@ const PostMedia = ({ post, detail }) => {
 
             {
                 mediaInfo?.type === "video" && (
-                    <Box
+                    <Flex
                         bg="black"
-                        maxHeight="320px"
+                        height="320px"
                         width="100%"
-                        maxW="100%"
                         color="#fff"
+                        cursor="default"
+                        flex={ 1 }
                     >
-                        <video
-                            autoPlay
-                            playsInline
-                            preload="auto"
-                            controls
-                            style={ {
-                                objectFit: "contain",
-                                width: "100% !important",
-                                overflowClipMargin: "content-box",
-                                overflow: "clip",
-                            } }
-                            onError={ (event) =>
-                                (event.target.style.display = "none")
-                            }
-                            muted
-                        >
-                            <source src={ post?.link } />
-                        </video>
-                    </Box>
+
+                        <ReactPlayer onError={ (event) =>
+                            (event.target.style.display = "none")
+                        } preload playsInline url={ post?.link } width="100%" height="320px" controls playing />
+
+                    </Flex >
                 )
             }
 

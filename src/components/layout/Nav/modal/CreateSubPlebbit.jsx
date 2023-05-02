@@ -33,7 +33,6 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
 
   const { createdSubplebbit, createSubplebbit, error, errors } = useCreateSubplebbit({ value })
 
-  console.log({ createdSubplebbit, error, errors })
 
 
   useEffect(() => {

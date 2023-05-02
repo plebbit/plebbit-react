@@ -241,7 +241,7 @@ const CardPost = ({
                 <Flex
                   flexDir="column"
                   flex="1 1 100%"
-                  paddingBottom="22px"
+
                   position="relative"
                   wordBreak="break-word"
                 >
