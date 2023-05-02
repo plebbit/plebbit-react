@@ -679,7 +679,7 @@ const ClassicPost = ({
                           _hover={ {
                             backgroundColor: inputBg,
                           } }
-                          color={ approveColor }
+                          color={ iconColor }
                           onClick={ () => handleOption({ id: 'approved' }) }
                         >
                           <Icon
@@ -713,7 +713,7 @@ const ClassicPost = ({
                           _hover={ {
                             backgroundColor: inputBg,
                           } }
-                          color={ removeColor }
+                          color={ iconColor }
                           onClick={ () => handleOption({ id: 'removed' }) }
                         >
                           <Icon

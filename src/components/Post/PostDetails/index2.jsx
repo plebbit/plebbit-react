@@ -1152,7 +1152,7 @@ function PostDetailModal() {
                                 boxShadow: 'none',
                               } }
                               onClick={ () => handleOption({ id: 'approved' }) }
-                              color={ approveColor }
+                              color={ iconColor }
                             >
                               <Icon as={ HiOutlineCheckCircle } height={ 5 } width={ 5 } mr="5px" />
                               <Box>Approve</Box>
@@ -1171,7 +1171,7 @@ function PostDetailModal() {
                               _focus={ {
                                 boxShadow: 'none',
                               } }
-                              color={ removeColor }
+                              color={ iconColor }
                               onClick={ () => handleOption({ id: 'removed' }) }
                             >
                               <Icon as={ TiDeleteOutline } height={ 5 } width={ 5 } mr="5px" />

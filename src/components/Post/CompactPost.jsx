@@ -641,7 +641,7 @@ const CompactPost = ({
                     padding="4px"
                     borderRadius="2px"
                     cursor="pointer"
-                    color={ approveColor }
+                    color={ iconColor }
                     onClick={ () => handleOption({ id: 'approved' }) }
                   >
                     <Icon height="20px" width="20px" as={ HiOutlineCheckCircle } />
@@ -657,7 +657,7 @@ const CompactPost = ({
                     padding="4px"
                     borderRadius="2px"
                     cursor="pointer"
-                    color={ removeColor }
+                    color={ iconColor }
                     onClick={ () => handleOption({ id: 'removed' }) }
                   >
                     <Icon height="20px" width="20px" as={ TiDeleteOutline } />
