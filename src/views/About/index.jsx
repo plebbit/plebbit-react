@@ -54,7 +54,7 @@ const About = () => {
       logger('decline challenge', error, 'trace');
       toast({
         title: 'Declined.',
-        description: error?.stack.toString(),
+        description: error?.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -83,7 +83,7 @@ const About = () => {
       logger('editSubplebbit', error, 'error');
       toast({
         title: 'Declined.',
-        description: error?.stack.toString(),
+        description: error?.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,

@@ -23,20 +23,22 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const metaColor = useColorModeValue('metaTextLight', 'metaTextDark');
   const [data, setData] = useState({
-    pinned: post?.pinned || false,
-    removed: post?.removed || false,
-    locked: post?.locked || false,
-    spoiler: post?.spoiler || false,
+    pinned: post?.pinned,
+    removed: post?.removed,
+    locked: post?.locked,
+    spoiler: post?.spoiler,
     reason: post?.reason,
   });
+
+  console.log({ post })
 
   return (
     <Modal
       scrollBehavior="inside"
-      trapFocus={false}
-      onClose={onClose}
+      trapFocus={ false }
+      onClose={ onClose }
       size="xl"
-      isOpen={isOpen}
+      isOpen={ isOpen }
       isCentered
     >
       <ModalOverlay />
@@ -47,7 +49,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
           padding="16px"
           fontSize="14px"
           fontWeight="400"
-          color={mainColor}
+          color={ mainColor }
           lineHeight="21px"
         >
           <FormControl>
@@ -58,7 +60,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                     fontSize="18px"
                     fontWeight="500"
                     lineHeight="20px"
-                    color={mainColor}
+                    color={ mainColor }
                     marginBottom="4px"
                     htmlFor="pinned"
                   >
@@ -68,7 +70,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                 <Box>
                   <FormHelperText
                     fontWeight="400"
-                    color={metaColor}
+                    color={ metaColor }
                     fontSize="12px"
                     lineHeight="16px"
                   >
@@ -80,8 +82,8 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
               <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
                 <Switch
                   id="pinned"
-                  checked={data?.pinned}
-                  onChange={() => setData({ ...data, pinned: !data?.pinned })}
+                  isChecked={ data?.pinned }
+                  onChange={ () => setData({ ...data, pinned: !data?.pinned }) }
                 />
               </Flex>
             </Flex>
@@ -92,7 +94,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                     fontSize="18px"
                     fontWeight="500"
                     lineHeight="20px"
-                    color={mainColor}
+                    color={ mainColor }
                     marginBottom="4px"
                     htmlFor="removed"
                   >
@@ -102,7 +104,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                 <Box>
                   <FormHelperText
                     fontWeight="400"
-                    color={metaColor}
+                    color={ metaColor }
                     fontSize="12px"
                     lineHeight="16px"
                   >
@@ -114,8 +116,8 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
               <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
                 <Switch
                   id="removed"
-                  checked={data?.removed}
-                  onChange={() => setData({ ...data, removed: !data?.removed })}
+                  isChecked={ data?.removed }
+                  onChange={ () => setData({ ...data, removed: !data?.removed }) }
                 />
               </Flex>
             </Flex>
@@ -126,7 +128,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                     fontSize="18px"
                     fontWeight="500"
                     lineHeight="20px"
-                    color={mainColor}
+                    color={ mainColor }
                     marginBottom="4px"
                     htmlFor="locked"
                   >
@@ -136,7 +138,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                 <Box>
                   <FormHelperText
                     fontWeight="400"
-                    color={metaColor}
+                    color={ metaColor }
                     fontSize="12px"
                     lineHeight="16px"
                   >
@@ -148,8 +150,8 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
               <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
                 <Switch
                   id="locked"
-                  checked={data?.locked}
-                  onChange={() => setData({ ...data, locked: !data?.locked })}
+                  isChecked={ data?.locked }
+                  onChange={ () => setData({ ...data, locked: !data?.locked }) }
                 />
               </Flex>
             </Flex>
@@ -160,7 +162,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                     fontSize="18px"
                     fontWeight="500"
                     lineHeight="20px"
-                    color={mainColor}
+                    color={ mainColor }
                     marginBottom="4px"
                     htmlFor="spoiler"
                   >
@@ -170,7 +172,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                 <Box>
                   <FormHelperText
                     fontWeight="400"
-                    color={metaColor}
+                    color={ metaColor }
                     fontSize="12px"
                     lineHeight="16px"
                   >
@@ -182,8 +184,8 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
               <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
                 <Switch
                   id="spoiler"
-                  checked={data?.spoiler}
-                  onChange={() => setData({ ...data, spoiler: !data?.spoiler })}
+                  isChecked={ data?.spoiler }
+                  onChange={ () => setData({ ...data, spoiler: !data?.spoiler }) }
                 />
               </Flex>
             </Flex>
@@ -192,7 +194,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                 fontSize="18px"
                 fontWeight="500"
                 lineHeight="20px"
-                color={mainColor}
+                color={ mainColor }
                 marginBottom="4px"
                 htmlFor="spoiler"
               >
@@ -202,27 +204,27 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                 placeholder="Enter Reason"
                 h="36px"
                 padding="0 8px"
-                border={`1px solid ${border1}`}
-                borderColor={border1}
+                border={ `1px solid ${border1}` }
+                borderColor={ border1 }
                 fontSize="14px"
-                onChange={(e) => setData({ ...data, reason: e.targe.value })}
-                value={data?.reason}
+                onChange={ (e) => setData({ ...data, reason: e.targe.value }) }
+                value={ data?.reason }
                 id="reason"
               />
-              <FormHelperText fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
+              <FormHelperText fontWeight="400" color={ metaColor } fontSize="12px" lineHeight="16px">
                 Help people become better posters by giving a short reason why their post was
                 removed.
               </FormHelperText>
             </Box>
           </FormControl>
         </ModalBody>
-        <ModalFooter bg={border1}>
+        <ModalFooter bg={ border1 }>
           <Button
             borderRadius="999px"
             mr="8px"
             variant="outline"
             colorScheme="red"
-            onClick={onClose}
+            onClick={ onClose }
             h="32px"
           >
             Cancel
@@ -231,7 +233,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
             h="32px"
             borderRadius="999px"
             colorScheme="blackAlpha"
-            onClick={() => handleRemove(data, onClose())}
+            onClick={ () => handleRemove(data, onClose()) }
           >
             Save
           </Button>

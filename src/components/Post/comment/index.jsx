@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Box,
   Flex,
@@ -10,7 +10,7 @@ import {
   useToast,
   Tag,
 } from '@chakra-ui/react';
-import { usePublishVote, usePublishComment, useAccountComments, usePublishCommentEdit, useAuthorAvatar, useAccountVote } from '@plebbit/plebbit-react-hooks';
+import { usePublishComment, useAuthorAvatar, useAccountVote } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -34,6 +34,7 @@ import Swal from 'sweetalert2';
 import useRepliesAndAccountReplies from '../../../hooks/useRepliesAndAccountReplies';
 import usePublishUpvote from '../../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../../hooks/usePublishDownvote';
+import useCommentEdit from '../../../hooks/useCommentEdit';
 
 const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
@@ -55,7 +56,6 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const commentFailed = comment?.state === 'failed';
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(comment?.subplebbitAddress);
 
-  const [update, setUpdate] = useState({})
 
   const owner =
     profile?.author?.address === comment?.author?.address ||
@@ -112,7 +112,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
       logger('declined Challenge', error, 'trace');
       toast({
         title: 'Declined.',
-        description: error?.stack.toString(),
+        description: error?.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -148,7 +148,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
       logger('create:comment:response', error, 'error');
       toast({
         title: 'Comment Declined.',
-        description: error?.stack.toString(),
+        description: error?.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -159,32 +159,10 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
 
 
 
-  const publishCommentEditOptions = {
-    commentCid: comment?.cid,
-    subplebbitAddress: comment?.subplebbitAddress,
-    ...update,
-    onChallenge,
-    onChallengeVerification,
-    onError: onError,
-  }
-  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
 
+  const commentEdit = useCommentEdit(comment)
   const handleEditPost = async (val, callBack, failedCallBack) => {
-    setUpdate({ ...val })
-    try {
-      await publishCommentEdit();
-      callBack ? callBack() : '';
-    } catch (error) {
-      logger('edit:comment:response:', error, 'error');
-      toast({
-        title: 'Comment Edit Declined.',
-        description: error?.stack.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-      failedCallBack ? failedCallBack() : '';
-    }
+    await commentEdit(val, callBack, failedCallBack)
   };
   const handleOption = (val) => {
     if (val?.id === 'delete') {

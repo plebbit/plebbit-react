@@ -22,11 +22,11 @@ import { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import {
   useAccountComments,
-  usePublishComment, usePublishCommentEdit, useSubscribe,
+  usePublishComment, useSubscribe,
   useAccountVote,
   useComment,
   useSubplebbit,
-  usePublishVote,
+
 } from '@plebbit/plebbit-react-hooks';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Swal from 'sweetalert2';
@@ -71,6 +71,7 @@ import getCommentMediaInfo from '../../../utils/getCommentMediaInfo';
 import useRepliesAndAccountReplies from '../../../hooks/useRepliesAndAccountReplies';
 import usePublishUpvote from '../../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../../hooks/usePublishDownvote';
+import useCommentEdit from '../../../hooks/useCommentEdit';
 
 function PostDetailModal() {
   const [showModal, setShowModal] = useState(true);
@@ -99,10 +100,6 @@ function PostDetailModal() {
   // applicable if coming from feeds, if posts takes time to load uses feeds post props
   const comment = feedFromProfile
     ? profilePost
-    // : commentFromCid === undefined
-    //   ? commentFromFeed
-    //   : (commentFromFeed?.updatedAt || 0) > (commentFromCid?.updatedAt || 0)
-    //     ? commentFromFeed
     : commentFromCid;
 
 
@@ -268,14 +265,13 @@ function PostDetailModal() {
 
   const { publishComment } = usePublishComment(publishCommentOptions)
 
-
   const handlePublishPost = async () => {
     try {
       await publishComment();
     } catch (error) {
       toast({
         title: 'Comment Declined.',
-        description: error?.stack.toString(),
+        description: error?.toString(),
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -284,82 +280,25 @@ function PostDetailModal() {
       setContent('');
     }
   };
+
+  const commentEdit = useCommentEdit(detail)
   const handleEditPost = async (update, callBack, failedCallBack) => {
-    try {
-      setEditLoading(true);
-      await publishCommentEdit({
-        commentCid: detail?.cid,
-        subplebbitAddress: detail?.subplebbitAddress,
-        onChallenge,
-        onChallengeVerification,
-        onError: onError,
-        ...update,
-      });
-      callBack ? callBack() : '';
-      setEditLoading(false);
-    } catch (error) {
-      logger('edit:comment:response:', error, 'error');
-      failedCallBack ? failedCallBack() : '';
-      setEditLoading(false);
-      toast({
-        title: 'Comment Edit Declined.',
-        description: error?.stack.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
+    await commentEdit(update, callBack, failedCallBack)
+
   };
 
-  const [update, setUpdate] = useState({})
 
-  const publishCommentEditOptions = {
-    ...update,
-    onChallenge,
-    onChallengeVerification,
-    onError: onError,
-  }
-  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
-  const handleDeletePost = async (cid, address) => {
-    setUpdate({ commentCid: cid, subplebbitAddress: address, deleted: true })
-    try {
-      setEditLoading(true);
-      await publishCommentEdit();
-      setEditLoading(false);
-
-    } catch (error) {
-      logger('delete:comment:response:', error, 'error');
-      setSubLoading(false);
-      toast({
-        title: 'Deleting declined',
-        description: error?.stack.toString(),
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
-    }
-  };
 
   const { subscribe, unsubscribe, subscribed } = useSubscribe({ subplebbitAddress: detail?.subplebbitAddress })
 
   const handleSubscribe = async () => {
     try {
-      setSubLoading(true);
       await subscribe();
-      toast({
-        title: 'Subscription.',
-        description: 'Joined successfully',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      setSubLoading(false);
     } catch (error) {
       logger('subscribe:response:', error, 'error');
-      setSubLoading(false);
       toast({
         title: 'Subscription declined',
-        description: error?.stack.toString(),
+        description: error?.toString(),
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -368,29 +307,22 @@ function PostDetailModal() {
   };
   const handleUnSubscribe = async () => {
     try {
-      setSubLoading(true);
       await unsubscribe();
-      toast({
-        title: 'Unsubscribed.',
-        description: 'Unsubscribed successfully',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      setSubLoading(false);
     } catch (error) {
       logger('unsubscribe:response:', error, 'error');
-
-      setSubLoading(false);
       toast({
         title: 'UnSubscribe declined',
-        description: error?.stack.toString(),
+        description: error?.toString(),
         status: 'error',
         duration: 3000,
         isClosable: true,
       });
     }
   };
+
+
+
+
 
   const handleOption = (option) => {
     if (option?.id === 'edit') {
@@ -406,7 +338,7 @@ function PostDetailModal() {
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-          handleDeletePost(detail?.cid, detail?.subplebbitAddress);
+          handleEditPost({ deleted: true })
         }
       });
     } else if (option?.id === 'saveEdit') {
@@ -454,7 +386,6 @@ function PostDetailModal() {
   const comments = useRepliesAndAccountReplies(detail)
 
   const detailCommentCount = detail?.replyCount || 0
-
 
   return (
     <>

@@ -11,14 +11,25 @@ const useSubplebbitEdit = (subplebbitAddress) => {
         onChallengeVerification,
         onError,
     }
-    const publish = async (data) => {
+    const editSubplebbit = async (data, callBack, failedCallBack) => {
         const { publishSubplebbitEdit } = usePublishSubplebbitEdit({ ...data, ...options })
         await publishSubplebbitEdit()
+        try {
+            setLoading(true);
+            await publishSubplebbitEdit();
+            if (typeof callBack === 'function') {
+                callBack()
+            }
+        } catch (error) {
+            if (typeof failedCallBack === 'function') {
+                failedCallBack()
+            }
+        }
     }
 
 
 
-    return publish
+    return editSubplebbit
 }
 
 export default useSubplebbitEdit
