@@ -447,7 +447,7 @@ function PostDetail() {
   const detailCommentCount = detail?.replyCount || 0
 
 
-
+  console.log({ detail, mediaInfo })
 
   return (
     <Layout

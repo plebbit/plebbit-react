@@ -77,7 +77,7 @@ const NavNotification = () => {
       content={
         <Flex flexDirection="column">
           { notifications?.notifications?.map((notifications, index) => (
-            <NotificationType key={ index } notification={ notifications } />
+            <NotificationType handleReadAll={ handleReadAll } key={ index } notification={ notifications } />
           )) }
         </Flex>
       }
@@ -87,7 +87,7 @@ const NavNotification = () => {
 
 export default NavNotification;
 
-export const NotificationType = ({ notification }) => {
+export const NotificationType = ({ notification, handleReadAll }) => {
   const cardBg = useColorModeValue('rgba(36,160,237,0.1)', 'rgba(36,160,237,0.5)');
   const metaText = useColorModeValue('#7c7c7c', '#818384');
   const history = useHistory();
@@ -187,7 +187,7 @@ export const NotificationType = ({ notification }) => {
         </Flex>
       ) :  */
         !notification?.markedAsRead ? (
-          <Flex bg={ cardBg } padding="16px" cursor="pointer" onClick={ () => history.push(`/p/${notification?.subplebbitAddress}/c/${notification?.cid}`) }>
+          <Flex bg={ cardBg } padding="16px" cursor="pointer" onClick={ () => { handleReadAll(); history.push(`/p/${notification?.subplebbitAddress}/c/${notification?.cid}`) } }>
             <Box mr="8px">
               <Avatar height={ 32 } width={ 32 } avatar="" />
             </Box>
@@ -228,7 +228,7 @@ export const NotificationType = ({ notification }) => {
             </Flex>
           </Flex>
         ) : notification?.markedAsRead ? (
-          <Flex padding="16px" cursor="pointer" onClick={ () => history.push(`/p/${notification?.subplebbitAddress}/c/${notification?.cid}`) }>
+          <Flex padding="16px" cursor="pointer" onClick={ () => { handleReadAll(); history.push(`/p/${notification?.subplebbitAddress}/c/${notification?.cid}`) } }>
             <Box mr="8px">
               <Avatar height={ 32 } width={ 32 } avatar="" />
             </Box>

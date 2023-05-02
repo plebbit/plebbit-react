@@ -110,39 +110,24 @@ const SubPlebbit = ({ match }) => {
     setSubLoading(true);
     try {
       await subscribe();
-      toast({
-        title: 'Subscribed.',
-        description: 'Joined successfully',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      setSubLoading(false);
+
     } catch (error) {
       toast({
-        title: 'Subscribed.',
+        title: 'Subscription failed',
         description: error?.stack.toString(),
         status: 'error',
         duration: 3000,
         isClosable: true,
       });
-      setSubLoading(false);
+
     }
   };
   const handleUnSubscribe = async () => {
     try {
-      setSubLoading(true);
       await unsubscribe();
-      toast({
-        title: 'Unsubscribed.',
-        description: 'Unsubscribed successfully',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      setSubLoading(false);
+
     } catch (error) {
-      setSubLoading(false);
+
       toast({
         title: 'Unsubscribed.',
         description: error?.stack.toString(),
@@ -152,7 +137,6 @@ const SubPlebbit = ({ match }) => {
       });
     }
 
-    setSubLoading(false);
   };
 
 
