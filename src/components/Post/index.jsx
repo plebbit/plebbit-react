@@ -1,27 +1,22 @@
 import React, { useContext, useState, } from 'react';
 import { Box, useDisclosure } from '@chakra-ui/react';
-import { useToast } from '@chakra-ui/react';
 import {
   useAccountVote,
   useAuthorAvatar,
   useSubplebbit,
-  usePublishCommentEdit
 } from '@plebbit/plebbit-react-hooks';
 import CardPost from './CardPost';
 import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
-import logger from '../../utils/logger';
 import { ProfileContext } from '../../store/profileContext';
 import getIsOnline from '../../utils/getIsOnline';
-import onError from '../../utils/onError';
 import { useLocation } from 'react-router-dom';
 import AddRemovalReason from './Modal/addRemovalReason';
 import Swal from 'sweetalert2';
 import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
-import onChallengeVerification from '../../utils/onChallengeVerification';
-import onChallenge from '../../utils/onChallenge';
+import useCommentEdit from '../../hooks/useCommentEdit';
 
 const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -31,7 +26,6 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   const [postVotes] = useState(pending ? 0 : post?.upvoteCount || 0 - post?.downvoteCount || 0);
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
-  const toast = useToast();
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: post?.author });
   const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit({ subplebbitAddress: post?.subplebbitAddress });
@@ -50,10 +44,6 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
 
   const mediaInfo = getCommentMediaInfo(post);
   const hasThumbnail = post?.thumbnailUrl && !mediaInfo
-
-
-  const [update, setUpdate] = useState({})
-
 
 
   const upVote = usePublishUpvote(post)
@@ -75,34 +65,10 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
     },
   };
 
-
-  const publishCommentEditOptions = {
-    commentCid: post?.cid,
-    ...update,
-    subplebbitAddress: post?.subplebbitAddress,
-    onChallenge,
-    onChallengeVerification,
-    onError,
-  }
-  const { publishCommentEdit } = usePublishCommentEdit(publishCommentEditOptions)
-
+  const commentEdit = useCommentEdit(post)
   const handleEditPost = async (val, callBack, failedCallBack) => {
-    setUpdate({ ...val })
-    try {
-      await publishCommentEdit();
-      callBack ? callBack() : '';
+    await commentEdit(val, callBack, failedCallBack)
 
-    } catch (error) {
-      logger('edit:comment:response:', error, 'error');
-      toast({
-        title: 'Comment Edit Declined.',
-        description: error?.stack.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-      failedCallBack ? failedCallBack() : '';
-    }
   };
 
   const handleCopy = () => {
@@ -128,11 +94,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
         }
       });
     } else openRemovalModal();
-    //  else if (val?.id === 'approved') {
-    //   handleEditPost({ removed: false });
-    // } else if (val?.id === 'removed') {
-    //   handleEditPost({ removed: true });
-    // } else handleEditPost({ [val?.id]: post[val?.id] ? false : true });
+
   };
 
   const commentCount = post?.replyCount
