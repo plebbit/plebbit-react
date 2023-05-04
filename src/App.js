@@ -11,7 +11,7 @@ import CommunitySettings from './views/Community';
 import Moderators from './views/About/Moderator';
 import NotFound from './views/NotFound';
 import 'react-toastify/dist/ReactToastify.css';
-import PostDetailModal from './components/Post/PostDetails/index2';
+import PostDetailModal from './components/Post/PostDetails/PostDetailModal';
 import Notifications from './views/Notifications';
 
 const App = () => {
@@ -20,19 +20,19 @@ const App = () => {
 
   return (
     <div>
-      {location?.state?.modal && location?.state?.detail && (
+      { location?.state?.modal && location?.state?.detail && (
         <Route
           exact
-          path={['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index']}
-          component={PostDetailModal}
+          path={ ['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index'] }
+          component={ PostDetailModal }
         />
-      )}
-      <Switch location={modal || location}>
-        <Route exact path="/" component={Home} />
-        <Route exact path={['/submit', '/p/:subplebbitAddress/submit']} component={PostCreate} />
+      ) }
+      <Switch location={ modal || location }>
+        <Route exact path="/" component={ Home } />
+        <Route exact path={ ['/submit', '/p/:subplebbitAddress/submit'] } component={ PostCreate } />
         <Route
           exact
-          path={[
+          path={ [
             '/settings',
             '/settings/account',
             '/settings/profile',
@@ -41,23 +41,23 @@ const App = () => {
             '/settings/feed',
             '/settings/notifications',
             '/settings/messaging',
-          ]}
-          component={Settings}
+          ] }
+          component={ Settings }
           name="settings"
         />
-        <Route exact path="/profile" component={Profile} name="Profile" />
-        <Route exact path="/p/:subplebbitAddress" component={SubPlebbit} />
+        <Route exact path="/profile" component={ Profile } name="Profile" />
+        <Route exact path="/p/:subplebbitAddress" component={ SubPlebbit } />
         <Route
           exact
-          path={['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index']}
-          component={PostDetails}
+          path={ ['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index'] }
+          component={ PostDetails }
         />
-        <Route exact path="/p/:subplebbitAddress/about/edit" component={CommunitySettings} />
-        <Route exact path="/p/:subplebbitAddress/moderators" component={Moderators} />
-        <Route exact path="/notifications" component={Notifications} />
+        <Route exact path="/p/:subplebbitAddress/about/edit" component={ CommunitySettings } />
+        <Route exact path="/p/:subplebbitAddress/moderators" component={ Moderators } />
+        <Route exact path="/notifications" component={ Notifications } />
         <Route
           exact
-          path={[
+          path={ [
             '/p/:subplebbitAddress/about/',
             '/p/:subplebbitAddress/about/moderators',
             '/p/:subplebbitAddress/about/modqueue',
@@ -77,10 +77,10 @@ const App = () => {
             '/p/:subplebbitAddress/about/scheduledposts',
             '/p/:subplebbitAddress/about/eventposts',
             '/p/:subplebbitAddress/about/chat',
-          ]}
-          component={About}
+          ] }
+          component={ About }
         />
-        <Route exact path="*" component={NotFound} />
+        <Route exact path="*" component={ NotFound } />
       </Switch>
     </div>
   );
