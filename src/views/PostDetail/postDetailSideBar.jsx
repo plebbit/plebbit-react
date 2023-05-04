@@ -1,14 +1,14 @@
 import React from 'react';
 import { Box, Text, Flex, useColorModeValue, Icon, Skeleton } from '@chakra-ui/react';
 import { BiCake } from 'react-icons/bi';
-import Button from '../../Button';
-import BottomSideBar from '../../sidebar/bottomSideBar';
-import BacktoTopButton from '../../sidebar/backtoTopButton';
+import Button from '../../components/Button';
+import BottomSideBar from '../../components/sidebar/bottomSideBar';
+import BacktoTopButton from '../../components/sidebar/backtoTopButton';
 import { useSubplebbit } from '@plebbit/plebbit-react-hooks';
-import { dateFormater } from '../../../utils/formatDate';
-import getIsOnline from '../../../utils/getIsOnline';
-import Avatar from '../../Avatar';
-import { getSubName } from '../../../utils/getUserName';
+import { dateFormater } from '../../utils/formatDate';
+import getIsOnline from '../../utils/getIsOnline';
+import Avatar from '../../components/Avatar';
+import { getSubName } from '../../utils/getUserName';
 
 const PostDetailSideBar = ({
   mt,

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import Layout from '../../layout';
 import PostContent from './PostContent';
-import { getAddress, getSubName } from '../../../utils/getUserName';
 import { Box, useColorModeValue } from '@chakra-ui/react';
-import { ProfileContext } from '../../../store/profileContext';
+import Layout from '../../components/layout';
+import { getAddress, getSubName } from '../../utils/getUserName';
+import { ProfileContext } from '../../store/profileContext';
 
 
 const PostDetail = () => {

@@ -3,7 +3,6 @@ import { Route, Switch, useLocation } from 'react-router-dom';
 import Home from './views/Home';
 import PostCreate from './components/Post/CreatePost';
 import Profile from './views/Profile';
-import PostDetails from './components/Post/PostDetails';
 import SubPlebbit from './views/SubPlebbit';
 import Settings from './views/Settings';
 import About from './views/About';
@@ -11,8 +10,9 @@ import CommunitySettings from './views/Community';
 import Moderators from './views/About/Moderator';
 import NotFound from './views/NotFound';
 import 'react-toastify/dist/ReactToastify.css';
-import PostDetailModal from './components/Post/PostDetails/PostDetailModal';
 import Notifications from './views/Notifications';
+import PostDetail from './views/PostDetail';
+import PostDetailModal from './views/PostDetail/PostDetailModal';
 
 const App = () => {
   const location = useLocation();
@@ -50,7 +50,7 @@ const App = () => {
         <Route
           exact
           path={ ['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index'] }
-          component={ PostDetails }
+          component={ PostDetail }
         />
         <Route exact path="/p/:subplebbitAddress/about/edit" component={ CommunitySettings } />
         <Route exact path="/p/:subplebbitAddress/moderators" component={ Moderators } />

@@ -15,7 +15,6 @@ import {
   useDisclosure,
   Tooltip,
 } from '@chakra-ui/react';
-import Image from '../../Image';
 import {
   useAccountComments,
   usePublishComment, useSubscribe,
@@ -36,15 +35,13 @@ import { FaShare } from 'react-icons/fa';
 import { FiMoreHorizontal, FiBell, FiExternalLink } from 'react-icons/fi';
 import { CgNotes, CgClose } from 'react-icons/cg';
 import SideBar from './postDetailSideBar';
-import { dateToNow } from '../../../utils/formatDate';
-import Comment from '../comment';
-import Editor from '../../Editor';
-import { ProfileContext } from '../../../store/profileContext';
+import Comment from '../../components/Post/comment'
+import Editor from '../../components/Editor';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
-import getUserName, { getSubName } from '../../../utils/getUserName';
-import numFormatter from '../../../utils/numberFormater';
-import Post from '..';
-import DropDown from '../../DropDown';
+import getUserName, { getSubName } from '../../utils/getUserName';
+import numFormatter from '../../utils/numberFormater';
+import Post from '../../components/Post';
+import DropDown from '../../components/DropDown';
 import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
@@ -52,23 +49,28 @@ import {
   MdOutlineDeleteOutline,
   MdStickyNote2,
 } from 'react-icons/md';
-import logger from '../../../utils/logger';
-import Marked from '../../Editor/marked';
-import getIsOnline from '../../../utils/getIsOnline';
-import Avatar from '../../Avatar';
-import onError from '../../../utils/onError';
-import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
-import Replies from '../comment/replies';
+import logger from '../../utils/logger';
+import Marked from '../../components/Editor/marked';
+import getIsOnline from '../../utils/getIsOnline';
+import Avatar from '../../components/Avatar';
+import onError from '../../utils/onError';
+import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
+import Replies from '../../components/Post/comment/replies';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
-import AddRemovalReason from '../Modal/addRemovalReason';
-import { DeletedMessage, LockedMessage, RemovedMessage } from '../../Card/ModMessage';
-import getCommentMediaInfo from '../../../utils/getCommentMediaInfo';
-import useRepliesAndAccountReplies from '../../../hooks/useRepliesAndAccountReplies';
-import usePublishUpvote from '../../../hooks/usePublishUpvote';
-import usePublishDownvote from '../../../hooks/usePublishDownvote';
-import useCommentEdit from '../../../hooks/useCommentEdit';
-import Label from '../../Label/label';
+import AddRemovalReason from '../../components/Post/Modal/addRemovalReason';
+import { DeletedMessage, LockedMessage, RemovedMessage } from '../../components/Card/ModMessage';
+import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
+import useRepliesAndAccountReplies from '../../hooks/useRepliesAndAccountReplies';
+import usePublishUpvote from '../../hooks/usePublishUpvote';
+import usePublishDownvote from '../../hooks/usePublishDownvote';
+import useCommentEdit from '../../hooks/useCommentEdit';
+import Label from '../../components/Label/label';
+import Image from '../../components/Image';
+import { dateToNow } from '../../utils/formatDate';
+import { ProfileContext } from '../../store/profileContext';
+import onChallenge from '../../utils/onChallenge';
+import onChallengeVerification from '../../utils/onChallengeVerification';
 
 const PostContent = ({ setDetail, setSubplebbit }) => {
   const {
@@ -128,7 +130,6 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
-  const detBg = useColorModeValue('#bbbdbf', '#030303');
   const titleColor = useColorModeValue('lightText', 'darkText');
   const [postVotes] = useState(detail?.upvoteCount || 0 - detail?.downvoteCount || 0);
   const accountVote = useAccountVote({ commentCid: detail?.cid });
@@ -180,64 +181,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const [showMEditor, setShowMEditor] = useState(false);
   const [showFullComments, setShowFullComments] = useState(!isReply);
 
-  const onChallengeVerification = (challengeVerification) => {
-    if (challengeVerification.challengeSuccess === true) {
-      toast({
-        title: 'Accepted.',
-        description: 'Action accepted',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
-      setContent('');
-      setEdit(false);
-      setEditorState(EditorState.createEmpty());
-      logger('challenge success', { challengeVerification }, 'trace');
-    } else if (challengeVerification.challengeSuccess === false) {
-      logger(
-        'challenge failed',
-        {
-          reason: challengeVerification.reason,
-          errors: challengeVerification.challengeErrors,
-        },
-        'error'
-      );
-      toast({
-        title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
-        description: challengeVerification.challengeErrors
-          ? challengeVerification.challengeErrors.join(',')
-          : 'Challenge Verification Failed',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-      setEdit(false);
-    }
-  };
 
-  const onChallenge = async (challenges, comment) => {
-    let challengeAnswers = [];
 
-    try {
-      // ask the user to complete the challenges in a modal window
 
-      challengeAnswers = await getChallengeAnswersFromUser(challenges);
-    } catch (error) {
-      // if  he declines, throw error and don't get a challenge answer
-      logger('decline challenge', error, 'trace');
-      toast({
-        title: 'Declined.',
-        description: error?.stack.toString() || 'failed Challenge',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-
-    if (challengeAnswers) {
-      await comment.publishChallengeAnswers(challengeAnswers);
-    }
-  };
 
   const upVote = usePublishUpvote(detail)
   const downVote = usePublishDownvote(detail)
@@ -248,7 +194,11 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
     parentCid: detail?.cid, // if top level reply to a post, same as postCid
     subplebbitAddress: detail?.subplebbitAddress,
     onChallenge,
-    onChallengeVerification,
+    onChallengeVerification: (challengeVerification, comment) => onChallengeVerification(challengeVerification, comment, () => {
+      setContent('');
+      setEdit(false);
+      setEditorState(EditorState.createEmpty());
+    }, () => { setEdit(false); }),
     onError,
   }
 

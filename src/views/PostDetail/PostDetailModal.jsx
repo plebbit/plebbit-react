@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
 import PostContent from './PostContent';
-import { ProfileContext } from '../../../store/profileContext';
+import { ProfileContext } from '../../store/profileContext';
 
 function PostDetailModal() {
   const {
