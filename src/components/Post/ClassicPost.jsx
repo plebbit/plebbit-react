@@ -288,24 +288,7 @@ const ClassicPost = ({
                     { ' ' }
                     {/* flair */ }
                     { type === 'subPlebbit' && post?.flair?.text && (
-                      <Tag
-                        bg={ post?.flair?.color }
-                        borderRadius="20px"
-                        padding="2px 8px"
-                        size="sm"
-                        fontSize="12px"
-                        fontWeight="500"
-                        lineHeight="16px"
-                        mr="5px"
-                        ml="0"
-                        textOverflow="ellipsis"
-                        overflow="hidden"
-                        display="inline-block"
-                        verticalAlign="text-bottom"
-                        mb="4px"
-                      >
-                        { post?.flair?.text }
-                      </Tag>
+                      <FlairLabel flair={ post?.flair } />
                     ) }
                     <Text
                       display="inline"

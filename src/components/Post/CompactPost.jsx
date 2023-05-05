@@ -6,7 +6,6 @@ import {
 
   Link,
   Skeleton,
-  Tag,
   Text,
   Tooltip,
   useColorModeValue,

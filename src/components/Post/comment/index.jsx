@@ -42,7 +42,7 @@ import PendingLabel from '../../Label/pendingLabel';
 import FlairLabel from '../../Label/flairLabel';
 
 const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
-  let comment = val
+  let comment = data
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
