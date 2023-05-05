@@ -50,6 +50,7 @@ import Label from '../Label'
 import EditLabel from "../Label/editLabel";
 import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
+import FlairLabel from "../Label/flairLabel";
 
 const CardPost = ({
   post,
@@ -469,24 +470,7 @@ const CardPost = ({
                     <Skeleton isLoaded={ !loading }>
                       {/* flair */ }
                       { type === "subPlebbit" && post?.flair?.text.length ? (
-                        <Tag
-                          bg={ post?.flair?.backgroundColor }
-                          color={ post?.flair?.textColor }
-                          borderRadius="20px"
-                          padding="2px 8px"
-                          size="sm"
-                          fontSize="12px"
-                          fontWeight="500"
-                          lineHeight="16px"
-                          mr="5px"
-                          ml="0"
-                          textOverflow="ellipsis"
-                          overflow="hidden"
-                          display="inline-block"
-                          verticalAlign="text-bottom"
-                        >
-                          { post?.flair?.text }
-                        </Tag>
+                        <FlairLabel flair={ post?.flair } />
                       ) : (
                         ""
                       ) }
@@ -503,23 +487,8 @@ const CardPost = ({
                         { post?.title }
                       </Text>
                       { type !== "subPlebbit" && post?.flair?.text ? (
-                        <Tag
-                          bg={ post?.flair?.backgroundColor }
-                          color={ post?.flair?.textColor }
-                          borderRadius="20px"
-                          padding="2px 8px"
-                          size="sm"
-                          fontSize="12px"
-                          fontWeight="500"
-                          lineHeight="16px"
-                          ml="5px"
-                          textOverflow="ellipsis"
-                          overflow="hidden"
-                          display="inline-block"
-                          verticalAlign="text-bottom"
-                        >
-                          { post?.flair?.text }
-                        </Tag>
+                        <FlairLabel flair={ post?.flair } />
+
                       ) : (
                         ""
                       ) }
@@ -1090,7 +1059,7 @@ const CardPost = ({
                 </Flex>
               ) }
           </Box>
-        </Box>
+        </Box >
       ) : (
         <Box>
           <Box position="relative" bg={ mainMobileBg }>
@@ -1277,15 +1246,8 @@ const CardPost = ({
                 </Box>
                 { detail && <Box padding="0 16px 8px">
                   { post?.flair?.text ? (
-                    <Tag
-                      borderRadius="20px"
-                      p="2px 8px"
-                      mr="5px"
-                      background={ post?.flair?.backgroundColor }
-                      color={ post?.flair?.textColor }
-                    >
-                      { post?.flair.text }
-                    </Tag>
+                    <FlairLabel flair={ post?.flair } />
+
                   ) : null }
                 </Box> }
                 {/* edit status */ }

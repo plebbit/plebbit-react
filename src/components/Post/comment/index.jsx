@@ -39,6 +39,7 @@ import onChallenge from '../../../utils/onChallenge';
 import onChallengeVerification from '../../../utils/onChallengeVerification';
 import EditLabel from '../../Label/editLabel';
 import PendingLabel from '../../Label/pendingLabel';
+import FlairLabel from '../../Label/flairLabel';
 
 const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
   let comment = val
@@ -218,18 +219,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
             </Box>
           </Flex>
           { comment?.flair?.text && (
-            <Box
-              backgroundColor={ comment?.flair?.color }
-              color="#fff"
-              width="fit-content"
-              padding="0 4px"
-              fontWeight="400"
-              fontSize="12px"
-              mt="2px"
-              borderRadius="2px"
-            >
-              { comment?.flair?.text }
-            </Box>
+            <FlairLabel flair={ comment?.flair } />
           ) }
         </Flex>
         <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>

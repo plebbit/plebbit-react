@@ -15,6 +15,7 @@ import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import ColorPicker from '../ColorPicker';
 import { v4 as uuidv4 } from 'uuid';
+import FlairLabel from '../Label/flairLabel';
 
 const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -49,17 +50,16 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
         fontSize="12px"
         fontWeight="400"
         lineHeight="16px"
-        bg={mainBg}
-        borderBottom={`1px solid ${border1}`}
+        bg={ mainBg }
+        borderBottom={ `1px solid ${border1}` }
         boxSizing="border-box"
-        color={iconColor}
+        color={ iconColor }
         height="48px"
         padding="16px 42px 16px 24px"
       >
         <Td>
-          <Tag color={flair?.textColor} bg={flair?.backgroundColor}>
-            {flair?.text}
-          </Tag>
+          <FlairLabel flair={ flair } />
+
         </Td>
         <Td>Editable, Allows text and up to 10 emojis</Td>
         <Td display="flex" justifyContent="flex-end" alignItems="center">
@@ -68,45 +68,45 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
             overflow="hidden"
             textOverflow="ellipsis"
             whiteSpace="nowrap"
-            onClick={() => (mode === 'create' ? '' : setShowEdit(!showEdit))}
+            onClick={ () => (mode === 'create' ? '' : setShowEdit(!showEdit)) }
             cursor="pointer"
             fontWeight="bold"
-            _hover={{
+            _hover={ {
               background: metaColor,
               borderRadius: '3px',
-            }}
+            } }
           >
             EDIT
           </Box>
           <Icon
             ml="auto"
-            onClick={() =>
+            onClick={ () =>
               mode === 'create'
                 ? setShowAdd(false)
                 : handleSubPlebbitedit({
-                    flairs: {
-                      post: flairs?.post ? flairs?.post : [],
-                      author: flairs?.author ? flairs?.author : [],
-                      // eslint-disable-next-line no-unsafe-optional-chaining
-                      [type]: [...flairs[type]?.filter((x) => x?.id !== flair?.id)],
-                    },
-                  })
+                  flairs: {
+                    post: flairs?.post ? flairs?.post : [],
+                    author: flairs?.author ? flairs?.author : [],
+                    // eslint-disable-next-line no-unsafe-optional-chaining
+                    [type]: [...flairs[type]?.filter((x) => x?.id !== flair?.id)],
+                  },
+                })
             }
-            as={RiDeleteBin6Line}
+            as={ RiDeleteBin6Line }
             verticalAlign="text-top"
           />
         </Td>
       </Tr>
-      {(showEdit || mode === 'create') && (
+      { (showEdit || mode === 'create') && (
         <>
-          <Tr width="100%" bg={border1}>
+          <Tr width="100%" bg={ border1 }>
             <Td flexDir="column">
               <Box
                 fontSize="10px"
                 fontWeight="700"
                 lineHeight="12px"
                 letterSpacing=".5px"
-                color={metaColor}
+                color={ metaColor }
               >
                 FLAIR APPEARANCE
               </Box>
@@ -118,17 +118,17 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
                   fontSize="14px"
                   fontWeight="400"
                   lineHeight="21px"
-                  bg={mainBg}
-                  border={`1px solid ${border1}`}
-                  borderColor={border1}
+                  bg={ mainBg }
+                  border={ `1px solid ${border1}` }
+                  borderColor={ border1 }
                   borderRadius="4px"
                   padding="8px 30px 8px 8px"
-                  onChange={(e) => setFlair({ ...flair, text: e.target.value })}
-                  value={flair?.text}
-                  maxLength={15}
+                  onChange={ (e) => setFlair({ ...flair, text: e.target.value }) }
+                  value={ flair?.text }
+                  maxLength={ 15 }
                 />
-                <Box color={metaColor} mt="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
-                  {flair?.text?.length} characters remaining
+                <Box color={ metaColor } mt="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
+                  { flair?.text?.length } characters remaining
                 </Box>
               </Flex>
               <Flex flexDir="column" marginTop="16px">
@@ -139,14 +139,14 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
                   fontSize="14px"
                   fontWeight="400"
                   lineHeight="21px"
-                  bg={mainBg}
-                  border={`1px solid ${border1}`}
-                  borderColor={border1}
+                  bg={ mainBg }
+                  border={ `1px solid ${border1}` }
+                  borderColor={ border1 }
                   placeholder="none"
                   borderRadius="4px"
                   padding="8px 30px 8px 8px"
                 />
-                <Box color={metaColor} mt="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
+                <Box color={ metaColor } mt="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
                   optional
                 </Box>
               </Flex>
@@ -160,15 +160,15 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
                 >
                   <Box>Add flair background</Box>
                   <Switch
-                    isChecked={showBg}
-                    onChange={() => {
+                    isChecked={ showBg }
+                    onChange={ () => {
                       showBg && setFlair({ ...flair, backgroundColor: '#DADADA' });
                       setShowBg(!showBg);
-                    }}
+                    } }
                   />
                 </Flex>
               </Flex>
-              {showBg && (
+              { showBg && (
                 <>
                   <Flex flexDir="column" marginTop="16px">
                     <Flex
@@ -181,8 +181,8 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
                     >
                       <Box>Flair background color</Box>
                       <ColorPicker
-                        color={flair?.backgroundColor}
-                        onChange={(val) => setFlair({ ...flair, backgroundColor: val?.hex })}
+                        color={ flair?.backgroundColor }
+                        onChange={ (val) => setFlair({ ...flair, backgroundColor: val?.hex }) }
                       />
                     </Flex>
                   </Flex>
@@ -200,13 +200,13 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
                         width="24px"
                         height="24px"
                         borderRadius="2px"
-                        onClick={() =>
+                        onClick={ () =>
                           setFlair({
                             ...flair,
                             textColor: flair?.textColor === '#fff' ? '#000' : '#fff',
                           })
                         }
-                        color={flair?.textColor}
+                        color={ flair?.textColor }
                         background="#Dadada"
                         display="flex"
                         justifyContent="center"
@@ -218,7 +218,7 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
                     </Flex>
                   </Flex>
                 </>
-              )}
+              ) }
             </Td>
             <Td flexDir="column">
               <Box
@@ -226,7 +226,7 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
                 fontWeight="700"
                 lineHeight="12px"
                 letterSpacing=".5px"
-                color={metaColor}
+                color={ metaColor }
               >
                 FLAIR SETTINGS
               </Box>
@@ -240,7 +240,7 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
                 >
                   <Flex alignItems="center">
                     <Box>Mod only</Box>
-                    <Icon color={iconColor} as={AiOutlineInfoCircle} size={5} ml="4px" />
+                    <Icon color={ iconColor } as={ AiOutlineInfoCircle } size={ 5 } ml="4px" />
                   </Flex>
                   <Switch />
                 </Flex>
@@ -255,7 +255,7 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
                 >
                   <Flex alignItems="center">
                     <Box>Allow user edits</Box>
-                    <Icon color={iconColor} as={AiOutlineInfoCircle} size={5} ml="4px" />
+                    <Icon color={ iconColor } as={ AiOutlineInfoCircle } size={ 5 } ml="4px" />
                   </Flex>
                   <Switch />
                 </Flex>
@@ -263,12 +263,12 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
             </Td>
             <Td />
           </Tr>
-          <Tr width="100%" bg={border1}>
+          <Tr width="100%" bg={ border1 }>
             <Td />
             <Td />
             <Td flexDir="column">
               <Button
-                onClick={() => (mode === 'create' ? setShowAdd(false) : setShowEdit(false))}
+                onClick={ () => (mode === 'create' ? setShowAdd(false) : setShowEdit(false)) }
                 borderRadius="999px"
                 mr="8px"
                 variant="outline"
@@ -278,35 +278,35 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
                 Cancel
               </Button>
               <Button
-                onClick={() => {
+                onClick={ () => {
                   mode === 'create'
                     ? handleSubPlebbitedit({
-                        flairs: {
-                          post: flairs?.post ? flairs?.post : [],
-                          author: flairs?.author ? flairs?.author : [],
-                          [type]:
-                            type === 'post'
-                              ? flairs?.post
-                                ? // eslint-disable-next-line no-unsafe-optional-chaining
-                                  [...flairs?.post, flair]
-                                : [flair]
-                              : flairs?.author // eslint-disable-next-line no-unsafe-optional-chaining
+                      flairs: {
+                        post: flairs?.post ? flairs?.post : [],
+                        author: flairs?.author ? flairs?.author : [],
+                        [type]:
+                          type === 'post'
+                            ? flairs?.post
+                              ? // eslint-disable-next-line no-unsafe-optional-chaining
+                              [...flairs?.post, flair]
+                              : [flair]
+                            : flairs?.author // eslint-disable-next-line no-unsafe-optional-chaining
                               ? [...flairs?.author, flair]
                               : [flair],
-                        },
-                      })
+                      },
+                    })
                     : handleSubPlebbitedit({
-                        flairs: {
-                          post: flairs?.post ? flairs?.post : [],
-                          author: flairs?.author ? flairs?.author : [],
-                          // eslint-disable-next-line no-unsafe-optional-chaining
-                          [type]: [...flairs[type]?.filter((x) => x?.id !== flair?.id), flair],
-                        },
-                      });
+                      flairs: {
+                        post: flairs?.post ? flairs?.post : [],
+                        author: flairs?.author ? flairs?.author : [],
+                        // eslint-disable-next-line no-unsafe-optional-chaining
+                        [type]: [...flairs[type]?.filter((x) => x?.id !== flair?.id), flair],
+                      },
+                    });
 
                   setShowAdd(false);
                   setShowEdit(false);
-                }}
+                } }
                 h="32px"
                 borderRadius="999px"
                 colorScheme="blackAlpha"
@@ -316,7 +316,7 @@ const FlairList = ({ data, mode, setShowAdd, type, handleSubPlebbitedit, flairs 
             </Td>
           </Tr>
         </>
-      )}
+      ) }
     </>
   );
 };

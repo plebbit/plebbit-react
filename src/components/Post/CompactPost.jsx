@@ -51,6 +51,7 @@ import Label from '../Label'
 import EditLabel from "../Label/editLabel";
 import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
+import FlairLabel from "../Label/flairLabel";
 
 const CompactPost = ({
   loading,
@@ -333,24 +334,7 @@ const CompactPost = ({
                   { ' ' }
                   {/* flair */ }
                   { type === 'subPlebbit' && post?.flair?.text ? (
-                    <Tag
-                      bg={ post?.flair?.color }
-                      mb="4px"
-                      borderRadius="20px"
-                      padding="2px 8px"
-                      size="sm"
-                      fontSize="12px"
-                      fontWeight="500"
-                      lineHeight="16px"
-                      mr="5px"
-                      ml="0"
-                      textOverflow="ellipsis"
-                      overflow="hidden"
-                      display="inline-block"
-                      verticalAlign="text-bottom"
-                    >
-                      { post?.flair?.text }
-                    </Tag>
+                    <FlairLabel flair={ post?.flair } />
                   ) : (
                     ''
                   ) }
@@ -391,24 +375,7 @@ const CompactPost = ({
                     ) }
                   </Text>
                   { type !== 'subPlebbit' && post?.flair?.text ? (
-                    <Tag
-                      bg={ post?.flair?.backgroundColor }
-                      color="#fff"
-                      borderRadius="20px"
-                      padding="2px 8px"
-                      size="sm"
-                      fontSize="12px"
-                      fontWeight="500"
-                      lineHeight="16px"
-                      ml="5px"
-                      textOverflow="ellipsis"
-                      overflow="hidden"
-                      display="inline-block"
-                      verticalAlign="text-bottom"
-                      mb="4px"
-                    >
-                      { post?.flair?.text }
-                    </Tag>
+                    <FlairLabel flair={ post?.flair } />
                   ) : (
                     ''
                   ) }
