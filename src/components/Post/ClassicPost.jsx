@@ -50,6 +50,7 @@ import PostMedia from './PostMedia';
 import Label from '../Label'
 import EditLabel from "../Label/editLabel";
 import PendingLabel from "../Label/pendingLabel";
+import SpoilerLabel from "../Label/spoilerLabel";
 
 const ClassicPost = ({
   loading,
@@ -361,15 +362,7 @@ const ClassicPost = ({
                       ''
                     ) }
                     { post?.spoiler && (
-                      <Tag
-                        borderRadius="2px"
-                        p="1px 8px"
-                        mr="5px"
-                        variant="outline"
-                        colorScheme="blackAlpha"
-                      >
-                        SPOILER
-                      </Tag>
+                      <SpoilerLabel />
                     ) }
                     { pending && (
                       <PendingLabel />

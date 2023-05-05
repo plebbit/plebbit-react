@@ -72,6 +72,7 @@ import onChallenge from '../../utils/onChallenge';
 import onChallengeVerification from '../../utils/onChallengeVerification';
 import EditLabel from "../../components/Label/editLabel";
 import PendingLabel from "../../components/Label/pendingLabel";
+import SpoilerLabel from "../../components/Label/spoilerLabel";
 
 const PostContent = ({ setDetail, setSubplebbit }) => {
   const {
@@ -895,15 +896,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         </Tag>
                       ) : null }
                       { detail?.spoiler && (
-                        <Tag
-                          borderRadius="none"
-                          p="2px 8px"
-                          mr="5px"
-                          variant="outline"
-                          colorScheme="gray"
-                        >
-                          SPOILER
-                        </Tag>
+                        <SpoilerLabel />
                       ) }
                       { detailPending && (
                         <Skeleton isLoaded={ !loading } my="4px">
