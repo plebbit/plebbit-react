@@ -71,6 +71,7 @@ import { ProfileContext } from '../../store/profileContext';
 import onChallenge from '../../utils/onChallenge';
 import onChallengeVerification from '../../utils/onChallengeVerification';
 import EditLabel from "../../components/Label/editLabel";
+import PendingLabel from "../../components/Label/pendingLabel";
 
 const PostContent = ({ setDetail, setSubplebbit }) => {
   const {
@@ -906,9 +907,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                       ) }
                       { detailPending && (
                         <Skeleton isLoaded={ !loading } my="4px">
-                          <Tag size="sm" colorScheme="yellow" variant="outline">
-                            Pending
-                          </Tag>
+                          <PendingLabel />
                         </Skeleton>
                       ) }
                       {/* edit status */ }

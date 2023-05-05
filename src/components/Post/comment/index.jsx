@@ -38,6 +38,7 @@ import useCommentEdit from '../../../hooks/useCommentEdit';
 import onChallenge from '../../../utils/onChallenge';
 import onChallengeVerification from '../../../utils/onChallengeVerification';
 import EditLabel from '../../Label/editLabel';
+import PendingLabel from '../../Label/pendingLabel';
 
 const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
   let comment = val
@@ -192,9 +193,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
             </Box>
 
             { commentPending && (
-              <Tag size="sm" colorScheme="yellow" variant="outline">
-                Pending
-              </Tag>
+              <PendingLabel />
             ) }
             { commentFailed && (
               <Tag size="sm" colorScheme="red" variant="outline">

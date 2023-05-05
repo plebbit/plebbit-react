@@ -48,6 +48,7 @@ import { HiLockClosed, HiOutlineCheckCircle } from "react-icons/hi";
 import PostMedia from './PostMedia';
 import Label from '../Label'
 import EditLabel from "../Label/editLabel";
+import PendingLabel from "../Label/pendingLabel";
 
 const CardPost = ({
   post,
@@ -535,9 +536,7 @@ const CardPost = ({
 
                       { pending && (
                         <Skeleton isLoaded={ !loading }>
-                          <Tag size="sm" colorScheme="yellow" variant="outline">
-                            Pending
-                          </Tag>
+                          <PendingLabel />
                         </Skeleton>
                       ) }
                       {/* edit status */ }
@@ -1175,8 +1174,7 @@ const CardPost = ({
                         </Box>
                         { pending && (
                           <Skeleton isLoaded={ !loading }>
-                            <Label text="pending" colorScheme="yellow"
-                              variant="outline" />
+                            <PendingLabel />
                           </Skeleton>
                         ) }
                       </Flex>

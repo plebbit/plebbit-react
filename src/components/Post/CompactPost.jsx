@@ -49,6 +49,7 @@ import { AiOutlineYoutube } from 'react-icons/ai';
 import PostMedia from './PostMedia';
 import Label from '../Label'
 import EditLabel from "../Label/editLabel";
+import PendingLabel from "../Label/pendingLabel";
 
 const CompactPost = ({
   loading,
@@ -423,9 +424,7 @@ const CompactPost = ({
                   ) }
                   { pending && (
                     <Skeleton isLoaded={ !loading }>
-                      <Tag size="sm" colorScheme="yellow" variant="outline">
-                        Pending
-                      </Tag>
+                      <PendingLabel />
                     </Skeleton>
                   ) }
                   {/* edit status */ }

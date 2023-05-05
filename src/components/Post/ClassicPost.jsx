@@ -49,6 +49,7 @@ import Image from "../Image"
 import PostMedia from './PostMedia';
 import Label from '../Label'
 import EditLabel from "../Label/editLabel";
+import PendingLabel from "../Label/pendingLabel";
 
 const ClassicPost = ({
   loading,
@@ -371,9 +372,7 @@ const ClassicPost = ({
                       </Tag>
                     ) }
                     { pending && (
-                      <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
-                        Pending
-                      </Tag>
+                      <PendingLabel />
                     ) }
 
                     {/* edit status */ }
@@ -1195,9 +1194,7 @@ const ClassicPost = ({
                         </Box>
                         { pending && (
                           <Skeleton isLoaded={ !loading }>
-                            <Tag mb="4px" size="sm" colorScheme="yellow" variant="outline">
-                              Pending
-                            </Tag>
+                            <PendingLabel />
                           </Skeleton>
                         ) }
                       </Flex>
