@@ -71,6 +71,9 @@ import { ProfileContext } from '../../store/profileContext';
 import onChallenge from '../../utils/onChallenge';
 import onChallengeVerification from '../../utils/onChallengeVerification';
 import EditLabel from "../../components/Label/editLabel";
+import PendingLabel from "../../components/Label/pendingLabel";
+import SpoilerLabel from "../../components/Label/spoilerLabel";
+import FlairLabel from '../../components/Label/flairLabel';
 
 const PostContent = ({ setDetail, setSubplebbit }) => {
   const {
@@ -883,32 +886,15 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                       { detail?.title }{ ' ' }
 
                       { detail?.flair?.text ? (
-                        <Tag
-                          borderRadius="20px"
-                          p="2px 8px"
-                          mr="5px"
-                          background={ detail?.flair?.backgroundColor }
-                          color={ detail?.flair?.textColor }
-                        >
-                          { detail?.flair.text }
-                        </Tag>
+                        <FlairLabel flair={ detail?.flair } />
+
                       ) : null }
                       { detail?.spoiler && (
-                        <Tag
-                          borderRadius="none"
-                          p="2px 8px"
-                          mr="5px"
-                          variant="outline"
-                          colorScheme="gray"
-                        >
-                          SPOILER
-                        </Tag>
+                        <SpoilerLabel />
                       ) }
                       { detailPending && (
                         <Skeleton isLoaded={ !loading } my="4px">
-                          <Tag size="sm" colorScheme="yellow" variant="outline">
-                            Pending
-                          </Tag>
+                          <PendingLabel />
                         </Skeleton>
                       ) }
                       {/* edit status */ }

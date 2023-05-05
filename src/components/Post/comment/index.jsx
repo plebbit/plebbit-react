@@ -10,7 +10,7 @@ import {
   useToast,
   Tag,
 } from '@chakra-ui/react';
-import { usePublishComment, useAuthorAvatar, useAccountVote } from '@plebbit/plebbit-react-hooks';
+import { usePublishComment, useAuthorAvatar, useAccountVote, useEditedComment } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -35,8 +35,14 @@ import useRepliesAndAccountReplies from '../../../hooks/useRepliesAndAccountRepl
 import usePublishUpvote from '../../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../../hooks/usePublishDownvote';
 import useCommentEdit from '../../../hooks/useCommentEdit';
+import onChallenge from '../../../utils/onChallenge';
+import onChallengeVerification from '../../../utils/onChallengeVerification';
+import EditLabel from '../../Label/editLabel';
+import PendingLabel from '../../Label/pendingLabel';
+import FlairLabel from '../../Label/flairLabel';
 
-const Comment = ({ comment, disableReplies, singleComment, type }) => {
+const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
+  let comment = data
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
@@ -61,71 +67,6 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     profile?.author?.address === comment?.author?.address ||
     profile?.signer?.address === comment?.author?.address;
 
-  //function to verify challenge
-  const onChallengeVerification = (challengeVerification) => {
-    if (challengeVerification.challengeSuccess === true) {
-      toast({
-        title: 'Accepted.',
-        description: 'Action accepted',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
-      setContent('');
-      setEditorState(EditorState.createEmpty());
-
-
-      logger('challenge-success', { challengeVerification }, 'trace');
-    } else if (challengeVerification.challengeSuccess === false) {
-      logger(
-        'challenge-failed',
-        {
-          reason: challengeVerification.reason,
-          errors: challengeVerification.challengeErrors,
-        },
-        'trace'
-      );
-      toast({
-        title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
-        description: challengeVerification.challengeErrors
-          ? challengeVerification.challengeErrors.join(',')
-          : 'Challenge Verification Failed',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-
-
-    }
-  };
-
-
-  //challenge function for user
-  const onChallenge = async (challenges, comment) => {
-    let challengeAnswers = [];
-
-    try {
-      // ask the user to complete the challenges in a modal window
-      challengeAnswers = await getChallengeAnswersFromUser(challenges);
-    } catch (error) {
-      // if  he declines, throw error and don't get a challenge answer
-      logger('declined Challenge', error, 'trace');
-      toast({
-        title: 'Declined.',
-        description: error?.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-
-    logger('challenge-answer', { challengeAnswers, comment }, 'trace');
-    if (challengeAnswers) {
-      const res = await comment.publishChallengeAnswers(challengeAnswers);
-      logger('create:comment:response', res, 'trace');
-    }
-  };
-
   const upVote = usePublishUpvote(comment)
   const downVote = usePublishDownvote(comment)
   //options needed to publish a comment
@@ -134,8 +75,11 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
     parentCid: comment?.cid, // if top level reply to a post, same as postCid
     subplebbitAddress: comment?.subplebbitAddress,
     onChallenge,
-    onChallengeVerification,
-    onError: onError,
+    onChallengeVerification: (challengeVerification, comment) => onChallengeVerification(challengeVerification, comment, () => {
+      setContent('');
+      setEditorState(EditorState.createEmpty());
+    }),
+    onError,
   }
 
   const { publishComment } = usePublishComment(publishCommentOptions)
@@ -214,6 +158,23 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
   const commentCount = replies?.length
 
 
+  const { state: editedCommentState, editedComment } = useEditedComment({ comment: comment })
+
+  if (editedComment) {
+    comment = editedComment
+  }
+
+  let editLabel
+  if (editedCommentState === 'succeeded') {
+    editLabel = { text: 'edited', color: 'green' }
+  }
+  if (editedCommentState === 'pending') {
+    editLabel = { text: 'pending edit', color: 'orange' }
+  }
+  if (editedCommentState === 'failed') {
+    editLabel = { text: 'failed edit', color: 'red' }
+  }
+
 
 
 
@@ -231,16 +192,17 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
             <Box maxW="50%" mr="5px">
               <Box isTruncated>{ getUserName(comment?.author) } </Box>
             </Box>
+
             { commentPending && (
-              <Tag size="sm" colorScheme="yellow" variant="outline">
-                Pending
-              </Tag>
+              <PendingLabel />
             ) }
             { commentFailed && (
               <Tag size="sm" colorScheme="red" variant="outline">
                 Failed
               </Tag>
             ) }
+            {/* edit status */ }
+            <EditLabel editLabel={ editLabel } post={ comment } />
 
             <Box
               as="span"
@@ -257,18 +219,7 @@ const Comment = ({ comment, disableReplies, singleComment, type }) => {
             </Box>
           </Flex>
           { comment?.flair?.text && (
-            <Box
-              backgroundColor={ comment?.flair?.color }
-              color="#fff"
-              width="fit-content"
-              padding="0 4px"
-              fontWeight="400"
-              fontSize="12px"
-              mt="2px"
-              borderRadius="2px"
-            >
-              { comment?.flair?.text }
-            </Box>
+            <FlairLabel flair={ comment?.flair } />
           ) }
         </Flex>
         <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>

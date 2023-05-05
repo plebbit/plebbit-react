@@ -11,7 +11,6 @@ const EditLabel = (props) => {
     } = useDisclosure();
     const editedComment = useEditedComment({ comment: post })
 
-    console.log({ editedComment })
 
     return (
         <>

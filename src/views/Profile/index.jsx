@@ -23,7 +23,11 @@ const Profile = () => {
   const mobileLink = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
   const [selectedNav, setSelectedNav] = useState('Overview');
-  const { accountComments: myPost } = useAccountComments(
+  const { accountComments: myPost } = useAccountComments({
+    filter: {
+      hasParentCid: selectedNav === 'Comments' ? true : undefined
+    }
+  }
   );
 
   const navOptions = ['Overview', 'Posts', 'Comments', 'Moderation', 'Saved', 'Hidden'];

@@ -54,7 +54,7 @@ const Layout = ({ children, name }) => {
   const label = () => {
     const count = notifications?.notifications?.filter((x) => !x?.markedAsRead).length ? `(${notifications?.notifications?.filter((x) => !x?.markedAsRead).length})` : ''
     if (name?.label) {
-      return `${count} Plebbit`
+      return `${count} plebbit`
     } else {
       return `${count} ${name?.label}`
     }

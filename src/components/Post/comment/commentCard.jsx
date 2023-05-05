@@ -2,6 +2,7 @@ import React from 'react'
 import getUserName, { getSubName } from '../../../utils/getUserName'
 import { Link, Tag } from '@chakra-ui/react';
 import { dateToNow } from '../../../utils/formatDate';
+import FlairLabel from "../../../components/Label/flairLabel"
 
 const CommentCard = ({ comment }) => {
     const commentParent = useComment({ commentCid: comment?.parentCid })
@@ -39,15 +40,7 @@ const CommentCard = ({ comment }) => {
                         { dateToNow(parseInt(parent?.timestamp * 1000)) }
                     </Link>
                     { parent?.flair?.text ? (
-                        <Tag
-                            borderRadius="20px"
-                            p="2px 8px"
-                            mr="5px"
-                            background={ parent?.flair?.backgroundColor }
-                            color={ parent?.flair?.textColor }
-                        >
-                            { parent?.flair.text }
-                        </Tag>
+                        <FlairLabel flair={ parent?.flair } />
                     ) : null }
                     <Box mr="1" fontWeight="700" fontSize="12px" lineHeight="20px">
                         { getSubName(parent?.subplebbit) }

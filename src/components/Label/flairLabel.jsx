@@ -1,18 +1,18 @@
 import { Tag } from '@chakra-ui/react'
 import React from 'react'
 
-const Label = (props) => {
-    const { text } = props
+const FlairLabel = (props) => {
+    const { flair, text, bg, color } = props
     return (
         <Tag
-            borderRadius="2px"
+            borderRadius="20px"
             fontWeight='500'
-            p="0px 4px"
-            fontSize="10px"
-            lineHeight="12px"
+            p="2px 8px"
+            fontSize="12px"
+            lineHeight="16px"
             overflow="hidden"
             textOverflow='ellipsis'
-            verticalAlign="text-bottom"
+            verticalAlign="top"
             whiteSpace="pre"
             wordBreak="normal"
             boxSizing='border-box'
@@ -21,10 +21,12 @@ const Label = (props) => {
             cursor="pointer"
             minH='undefined'
             height="16px"
+            bg={ flair?.backgroundColor || bg }
+            color={ flair?.textColor || color }
         >
-            { text }
+            { flair?.text || text }
         </Tag>
     )
 }
 
-export default Label
+export default FlairLabel
