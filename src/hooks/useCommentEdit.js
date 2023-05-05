@@ -5,19 +5,24 @@ import { usePublishCommentEdit } from "@plebbit/plebbit-react-hooks";
 import { useState } from "react";
 
 const useCommentEdit = (post) => {
+    const val = post
     const [options, setOptions] = useState({
-        commentCid: post?.cid,
-        subplebbitAddress: post?.subplebbitAddress,
+        commentCid: val?.cid,
+        subplebbitAddress: val?.subplebbitAddress,
         onChallenge,
         onChallengeVerification,
         onError,
     })
 
-    const { publishCommentEdit } = usePublishCommentEdit(options)
+
+    const { publishCommentEdit } = usePublishCommentEdit({ ...options })
 
 
     const commentEdit = async (data, callBack, failedCallBack) => {
-        setOptions({ ...data, ...options })
+        await setOptions({
+            ...options, ...data, commentCid: val?.cid,
+            subplebbitAddress: val?.subplebbitAddress,
+        })
         try {
             await publishCommentEdit();
 
@@ -37,7 +42,6 @@ const useCommentEdit = (post) => {
 
         }
     }
-
 
     return commentEdit
 }

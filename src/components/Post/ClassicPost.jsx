@@ -47,6 +47,8 @@ import { AiOutlineYoutube, AiTwotoneDelete } from 'react-icons/ai';
 import truncateString from '../../utils/truncateString';
 import Image from "../Image"
 import PostMedia from './PostMedia';
+import Label from '../Label'
+import EditLabel from "../Label/editLabel";
 
 const ClassicPost = ({
   loading,
@@ -74,7 +76,8 @@ const ClassicPost = ({
   hasThumbnail,
   commentCount,
   upVote,
-  downVote
+  downVote,
+  editLabel
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -372,6 +375,9 @@ const ClassicPost = ({
                         Pending
                       </Tag>
                     ) }
+
+                    {/* edit status */ }
+                    <EditLabel editLabel={ editLabel } post={ post } />
                   </Skeleton>
                 </Flex>
                 {/* Post head */ }
@@ -1392,6 +1398,10 @@ const ClassicPost = ({
                     </Tag>
                   ) : null }
                 </Box> }
+                {/* edit status */ }
+                <Box padding="0 16px ">
+                  <EditLabel editLabel={ editLabel } post={ post } />
+                </Box>
                 { showContent && <Box pt="10%" >
 
                   { mediaInfo?.type === "image" && (
