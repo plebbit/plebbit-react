@@ -47,6 +47,8 @@ import {
 import { VscLinkExternal } from 'react-icons/vsc';
 import { AiOutlineYoutube } from 'react-icons/ai';
 import PostMedia from './PostMedia';
+import Label from '../Label'
+import EditLabel from "../Label/editLabel";
 
 const CompactPost = ({
   loading,
@@ -71,7 +73,8 @@ const CompactPost = ({
   hasThumbnail,
   commentCount,
   upVote,
-  downVote
+  downVote,
+  editLabel
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -425,6 +428,9 @@ const CompactPost = ({
                       </Tag>
                     </Skeleton>
                   ) }
+                  {/* edit status */ }
+                  <EditLabel editLabel={ editLabel } post={ post } />
+
                 </Skeleton>
               </Box>
               {/* Post head */ }

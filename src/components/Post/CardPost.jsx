@@ -45,7 +45,9 @@ import {
 } from "react-icons/md";
 import { TiDeleteOutline } from "react-icons/ti";
 import { HiLockClosed, HiOutlineCheckCircle } from "react-icons/hi";
-import PostMedia from './PostMedia'
+import PostMedia from './PostMedia';
+import Label from '../Label'
+import EditLabel from "../Label/editLabel";
 
 const CardPost = ({
   post,
@@ -70,7 +72,8 @@ const CardPost = ({
   hasThumbnail,
   commentCount,
   upVote,
-  downVote
+  downVote,
+  editLabel
 
 }) => {
   const mainBg = useColorModeValue("lightBody", "darkBody");
@@ -537,6 +540,8 @@ const CardPost = ({
                           </Tag>
                         </Skeleton>
                       ) }
+                      {/* edit status */ }
+                      <EditLabel editLabel={ editLabel } post={ post } />
                     </Skeleton>
                   </Box>
                   {/* Post Body */ }
@@ -1170,14 +1175,8 @@ const CardPost = ({
                         </Box>
                         { pending && (
                           <Skeleton isLoaded={ !loading }>
-                            <Tag
-                              mb="4px"
-                              size="sm"
-                              colorScheme="yellow"
-                              variant="outline"
-                            >
-                              Pending
-                            </Tag>
+                            <Label text="pending" colorScheme="yellow"
+                              variant="outline" />
                           </Skeleton>
                         ) }
                       </Flex>
@@ -1297,6 +1296,10 @@ const CardPost = ({
                     </Tag>
                   ) : null }
                 </Box> }
+                {/* edit status */ }
+                <Box padding="0 16px 8px">
+                  <EditLabel editLabel={ editLabel } post={ post } />
+                </Box>
               </Box>
             </Box>
             <Box marginTop="8px" >
@@ -1321,7 +1324,7 @@ const CardPost = ({
                       ) : (
                         <Box
                           color={ subPledditTextColor }
-                          padding="5px 8px 10px"
+                          padding="8px 16px"
                           fontFamily="Noto sans, Arial, sans-serif"
                           fontSize="14px"
                           fontWeight="400"

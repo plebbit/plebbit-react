@@ -54,7 +54,6 @@ import Marked from '../../components/Editor/marked';
 import getIsOnline from '../../utils/getIsOnline';
 import Avatar from '../../components/Avatar';
 import onError from '../../utils/onError';
-import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 import Replies from '../../components/Post/comment/replies';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
@@ -65,12 +64,13 @@ import useRepliesAndAccountReplies from '../../hooks/useRepliesAndAccountReplies
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
 import useCommentEdit from '../../hooks/useCommentEdit';
-import Label from '../../components/Label/label';
+import Label from '../../components/Label';
 import Image from '../../components/Image';
 import { dateToNow } from '../../utils/formatDate';
 import { ProfileContext } from '../../store/profileContext';
 import onChallenge from '../../utils/onChallenge';
 import onChallengeVerification from '../../utils/onChallengeVerification';
+import EditLabel from "../../components/Label/editLabel";
 
 const PostContent = ({ setDetail, setSubplebbit }) => {
   const {
@@ -911,10 +911,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           </Tag>
                         </Skeleton>
                       ) }
-                      { editLabel ? (
-                        <Label variant='outline' colorScheme={ editLabel?.color } text={ editLabel?.text } />
+                      {/* edit status */ }
+                      <EditLabel editLabel={ editLabel } post={ detail } />
 
-                      ) : null }
                     </Text>
                   </Flex>
                   {/* post Body */ }

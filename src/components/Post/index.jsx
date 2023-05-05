@@ -3,6 +3,7 @@ import { Box, useDisclosure } from '@chakra-ui/react';
 import {
   useAccountVote,
   useAuthorAvatar,
+  useEditedComment,
   useSubplebbit,
 } from '@plebbit/plebbit-react-hooks';
 import CardPost from './CardPost';
@@ -18,8 +19,9 @@ import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
 import useCommentEdit from '../../hooks/useCommentEdit';
 
-const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial }) => {
+const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSpecial }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
+  let post = data
   const pending = !post?.cid;
   const accountVote = useAccountVote({ commentCid: post?.cid });
   const vote = accountVote?.vote || 0
@@ -100,6 +102,24 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
   const commentCount = post?.replyCount
 
 
+  const { state: editedCommentState, editedComment } = useEditedComment({ comment: post })
+
+  if (editedComment) {
+    post = editedComment
+  }
+
+  let editLabel
+  if (editedCommentState === 'succeeded') {
+    editLabel = { text: 'edited', color: 'green' }
+  }
+  if (editedCommentState === 'pending') {
+    editLabel = { text: 'pending edit', color: 'orange' }
+  }
+  if (editedCommentState === 'failed') {
+    editLabel = { text: 'failed edit', color: 'red' }
+  }
+
+
 
 
 
@@ -137,6 +157,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             mediaInfo={ mediaInfo }
             hasThumbnail={ hasThumbnail }
             commentCount={ commentCount }
+            editLabel={ editLabel }
 
           />
         ) }
@@ -172,6 +193,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
             mediaInfo={ mediaInfo }
             hasThumbnail={ hasThumbnail }
             commentCount={ commentCount }
+            editLabel={ editLabel }
 
           />
         ) }
@@ -208,7 +230,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               mediaInfo={ mediaInfo }
               hasThumbnail={ hasThumbnail }
               commentCount={ commentCount }
-
+              editLabel={ editLabel }
 
             />
           ) : (
@@ -242,7 +264,7 @@ const Post = ({ type, post, mode, loading, detail, handleOption, allowedSpecial 
               mediaInfo={ mediaInfo }
               hasThumbnail={ hasThumbnail }
               commentCount={ commentCount }
-
+              editLabel={ editLabel }
 
             />
           )) }
