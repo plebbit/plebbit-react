@@ -8,8 +8,8 @@ const Label = (props) => {
             borderRadius="2px"
             fontWeight='500'
             p="0px 4px"
-            fontSize="12px"
-            lineHeight="14px"
+            fontSize="10px"
+            lineHeight="12px"
             overflow="hidden"
             textOverflow='ellipsis'
             verticalAlign="text-bottom"
@@ -19,8 +19,8 @@ const Label = (props) => {
             mr="5px"
             { ...props }
             cursor="pointer"
+            minH='undefined'
             height="16px"
-
         >
             { text }
         </Tag>
