@@ -30,7 +30,6 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
     reason: post?.reason,
   });
 
-  console.log({ post })
 
   return (
     <Modal

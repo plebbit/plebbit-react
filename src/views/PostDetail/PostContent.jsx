@@ -319,9 +319,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
   const { state: editedCommentState, editedComment } = useEditedComment({ comment: detail })
 
-  if (editedComment) {
-    detail = editedComment
-  }
+
 
   let editLabel
   if (editedCommentState === 'succeeded') {
@@ -335,11 +333,20 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   }
 
   useEffect(() => {
+    detail = editedComment
+
+
+  }, [editedComment])
+
+
+  useEffect(() => {
     setDetail({ ...detail })
     setSubplebbit({ ...subplebbit })
 
 
   }, [detail, subplebbit])
+
+
 
   return (
     <>
@@ -409,6 +416,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           lineHeight="16px"
                           pointerEvents="none"
                           color="#D7DADC"
+                          textAlign="center"
                         >
                           <Skeleton isLoaded={ !loading }>
                             { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
@@ -542,6 +550,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           lineHeight="16px"
                           pointerEvents="none"
                           color="#D7DADC"
+                          textAlign="center"
                         >
                           <Skeleton isLoaded={ !loading }>
                             { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
@@ -689,6 +698,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           lineHeight="16px"
                           pointerEvents="none"
                           color=""
+                          textAlign="center"
                         >
                           { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
                         </Text>
