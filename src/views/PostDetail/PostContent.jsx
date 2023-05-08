@@ -341,7 +341,6 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
   }, [detail, subplebbit])
 
-
   return (
     <>
 

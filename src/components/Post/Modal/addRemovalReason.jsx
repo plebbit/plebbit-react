@@ -207,7 +207,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                 border={ `1px solid ${border1}` }
                 borderColor={ border1 }
                 fontSize="14px"
-                onChange={ (e) => setData({ ...data, reason: e.targe.value }) }
+                onChange={ (e) => setData({ ...data, reason: e.target.value }) }
                 value={ data?.reason }
                 id="reason"
               />

@@ -19,7 +19,6 @@ import Button from '../../Button';
 import SideBar from './createPostSideBar';
 import Editor from '../../Editor';
 import DropDown2 from '../../DropDown/DropDown2';
-import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 import truncateString from '../../../utils/truncateString';
 import { ProfileContext } from '../../../store/profileContext';
 import logger from '../../../utils/logger';
@@ -156,6 +155,7 @@ const CreatePost = () => {
       });
     }
   };
+  console.log(location?.pathname.match(/p\/(.*)\/submit/))
 
 
 
