@@ -45,7 +45,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
 
 
   const mediaInfo = getCommentMediaInfo(post);
-  const hasThumbnail = post?.thumbnailUrl && !mediaInfo
+  const hasThumbnail = !post?.removed && post?.thumbnailUrl && !mediaInfo
 
 
   const upVote = usePublishUpvote(post)

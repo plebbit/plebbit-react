@@ -129,7 +129,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
 
   const mediaInfo = getCommentMediaInfo(detail);
-  const hasThumbnail = detail?.thumbnailUrl && !mediaInfo
+  const hasThumbnail = !post?.removed && detail?.thumbnailUrl && !mediaInfo
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');

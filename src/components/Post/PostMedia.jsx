@@ -22,7 +22,7 @@ const PostMedia = ({ post, detail }) => {
     return (
         <>
             {
-                !post?.content &&
+                !post?.content && !post?.removed &&
                 <>
 
 

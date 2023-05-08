@@ -571,6 +571,7 @@ const CardPost = ({
                       ) }
                     </Flex>
                     {/*link post  with media  */ }
+
                     <PostMedia post={ post } />
                   </Box>
                 </Flex>
@@ -1059,7 +1060,7 @@ const CardPost = ({
                 </Flex>
               ) }
           </Box>
-        </Box >
+        </Box>
       ) : (
         <Box>
           <Box position="relative" bg={ mainMobileBg }>
@@ -1258,8 +1259,8 @@ const CardPost = ({
             </Box>
             <Box marginTop="8px" >
               <>
-                { detail ?
-                  <>
+                { detail && !post?.removed ?
+                  <Skeleton isLoaded={ !loading }>
                     {
                       (showSpoiler ? (
                         <Flex alignItems="center" justifyContent="center">
@@ -1288,48 +1289,50 @@ const CardPost = ({
                         >
                           {/* post with text */ }
                           { post?.content ? (
+
                             <Marked content={ post?.content } />
+
                           ) : (
-                            <Skeleton isLoaded={ !loading }>
-                              <Box pt="10%" >
-                                {
-                                  hasThumbnail &&
-                                  <Box
-                                    maxH="318px"
-                                    margin="0 auto"
-                                    maxW="100%"
-                                    pos="relative"
-                                  >
-                                    <Box height="100%" width="100%">
-                                      <Image
-                                        maxH="318px"
-                                        objectFit="cover"
-                                        maxW="100%"
-                                        overflow="hidden"
-                                        bg={ postBg }
-                                        src={ post?.thumbnailUrl }
-                                        onError={ (event) =>
-                                          (event.target.style.display = "none")
-                                        }
+
+                            <Box pt="10%" >
+                              {
+                                hasThumbnail &&
+                                <Box
+                                  maxH="318px"
+                                  margin="0 auto"
+                                  maxW="100%"
+                                  pos="relative"
+                                >
+                                  <Box height="100%" width="100%">
+                                    <Image
+                                      maxH="318px"
+                                      objectFit="cover"
+                                      maxW="100%"
+                                      overflow="hidden"
+                                      bg={ postBg }
+                                      src={ post?.thumbnailUrl }
+                                      onError={ (event) =>
+                                        (event.target.style.display = "none")
+                                      }
 
 
 
-                                      />
-
-                                    </Box>
-
-                                    <Link href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ post?.link?.substring(0, 20) + "..." }</Link>
+                                    />
 
                                   </Box>
-                                }
-                                <PostMedia post={ post } />
-                              </Box>
-                            </Skeleton>
+
+                                  <Link href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ post?.link?.substring(0, 20) + "..." }</Link>
+
+                                </Box>
+                              }
+                              <PostMedia post={ post } />
+                            </Box>
+
                           ) }
                         </Box>
                       ))
                     }
-                  </> : <>
+                  </Skeleton> : <Skeleton isLoaded={ !loading }>
                     <Box pt="10%" >
                       {
                         hasThumbnail &&
@@ -1362,7 +1365,7 @@ const CardPost = ({
                       }
                       <PostMedia post={ post } />
                     </Box>
-                  </>
+                  </Skeleton>
                 }
               </>
             </Box>

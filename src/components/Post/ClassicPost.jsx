@@ -1051,7 +1051,7 @@ const ClassicPost = ({
                 </Flex>
               </Box>
             </Flex>
-            { showContent && (
+            { showContent && !post?.removed && (
               <Box bg={ postBg }>
                 { post?.content && (
                   <Box padding="5px 16px 5px 8px" maxWidth="100%">
@@ -1419,7 +1419,7 @@ const ClassicPost = ({
             </Box>
             <Box marginTop="8px" padding="0 8px">
               <>
-                { detail &&
+                { detail && !post?.removed &&
 
 
                   (showSpoiler ? (
@@ -1451,8 +1451,7 @@ const ClassicPost = ({
                         <Marked content={ post?.content } />
                       ) : (
                         <Skeleton isLoaded={ !loading }>
-                          <PostMedia />
-
+                          <PostMedia post={ post } />
                         </Skeleton>
                       ) }
                     </Box>
