@@ -319,9 +319,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
   const { state: editedCommentState, editedComment } = useEditedComment({ comment: detail })
 
-  if (editedComment) {
-    detail = editedComment
-  }
+
 
   let editLabel
   if (editedCommentState === 'succeeded') {
@@ -335,11 +333,20 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   }
 
   useEffect(() => {
+    detail = editedComment
+
+
+  }, [editedComment])
+
+
+  useEffect(() => {
     setDetail({ ...detail })
     setSubplebbit({ ...subplebbit })
 
 
   }, [detail, subplebbit])
+
+
 
   return (
     <>
