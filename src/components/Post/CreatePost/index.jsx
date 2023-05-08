@@ -19,7 +19,6 @@ import Button from '../../Button';
 import SideBar from './createPostSideBar';
 import Editor from '../../Editor';
 import DropDown2 from '../../DropDown/DropDown2';
-import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 import truncateString from '../../../utils/truncateString';
 import { ProfileContext } from '../../../store/profileContext';
 import logger from '../../../utils/logger';
@@ -32,6 +31,8 @@ import convertArrToObj from '../../../utils/convertArrToObj';
 import Sort from '../../../utils/sort';
 import AddFlair from './modal/addFlair';
 import { BsChevronDown } from 'react-icons/bs';
+import onChallenge from '../../../utils/onChallenge';
+import onChallengeVerification from '../../../utils/onChallengeVerification';
 
 const CreatePost = () => {
   const { accountSubplebbits, subPlebbitData, subscriptions, subPlebbitDefData } =
@@ -104,68 +105,7 @@ const CreatePost = () => {
     options.find((x) => x.address === potentialSubPlebbitAddress)
   );
 
-  const onChallenge = async (challenges, comment) => {
-    let challengeAnswers = [];
-    try {
-      // ask the user to complete the challenges in a modal window
-      challengeAnswers = await getChallengeAnswersFromUser(challenges);
-    } catch (error) {
-      // if  he declines, throw error and don't get a challenge answer
-      logger('challengeAnswer-error', error, 'error');
 
-      toast({
-        title: 'Declined.',
-        description: error?.toString(),
-        status: 'error',
-        duration: 10000,
-        isClosable: true,
-      });
-      setLoading(false);
-    }
-    logger('challengeAndcomment', { challengeAnswers, comment }, 'trace');
-    if (challengeAnswers) {
-      // history.push(`/p/${address?.value}`);
-      const res = await comment.publishChallengeAnswers(challengeAnswers);
-      logger('publish_challenge_answer', res, 'trace');
-    }
-  };
-
-  const onChallengeVerification = (challengeVerification) => {
-    if (challengeVerification.challengeSuccess === true) {
-      toast({
-        title: 'Accepted.',
-        description: 'Action accepted',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
-      setLoading(false);
-      setAddress(null);
-      setTitle('');
-      setContent('');
-      setEditorState(EditorState.createEmpty());
-      logger('challenge success', { challengeVerification }, 'trace');
-    } else if (challengeVerification.challengeSuccess === false) {
-      logger(
-        'challenge failed',
-        {
-          reason: challengeVerification.reason,
-          errors: challengeVerification.challengeErrors,
-        },
-        'error'
-      );
-      toast({
-        title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
-        description: challengeVerification.challengeErrors
-          ? challengeVerification.challengeErrors.join(',')
-          : 'Challenge Verification Failed',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-      setLoading(false);
-    }
-  };
 
   const publishCommentOptions = {
     content: content ? content : undefined,
@@ -174,8 +114,14 @@ const CreatePost = () => {
     spoiler: spoiler ? spoiler : undefined,
     subplebbitAddress: address?.value,
     onChallenge,
-    onChallengeVerification,
-    onError: onError,
+    onChallengeVerification: (challengeVerification, comment) => onChallengeVerification(challengeVerification, comment, () => {
+      setLoading(false);
+      setAddress(null);
+      setTitle('');
+      setContent('');
+      setEditorState(EditorState.createEmpty());
+    }, () => { setLoading(false); }),
+    onError,
   }
 
 
@@ -209,6 +155,7 @@ const CreatePost = () => {
       });
     }
   };
+  console.log(location?.pathname.match(/p\/(.*)\/submit/))
 
 
 
