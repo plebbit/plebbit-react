@@ -409,6 +409,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           lineHeight="16px"
                           pointerEvents="none"
                           color="#D7DADC"
+                          textAlign="center"
                         >
                           <Skeleton isLoaded={ !loading }>
                             { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
@@ -542,6 +543,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           lineHeight="16px"
                           pointerEvents="none"
                           color="#D7DADC"
+                          textAlign="center"
                         >
                           <Skeleton isLoaded={ !loading }>
                             { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
@@ -689,6 +691,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           lineHeight="16px"
                           pointerEvents="none"
                           color=""
+                          textAlign="center"
                         >
                           { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
                         </Text>
