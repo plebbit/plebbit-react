@@ -8,12 +8,14 @@ import {
 import { useContext, useState } from 'react';
 import PostContent from './PostContent';
 import { ProfileContext } from '../../store/profileContext';
+import { useHistory } from 'react-router-dom';
 
 function PostDetailModal() {
   const {
     device,
   } = useContext(ProfileContext);
   const [showModal, setShowModal] = useState(true);
+  const history = useHistory()
   const { isOpen, onClose } = useDisclosure({
     isOpen: showModal,
     onClose: () => {
