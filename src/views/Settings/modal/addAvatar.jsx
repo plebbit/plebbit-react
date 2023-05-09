@@ -224,9 +224,10 @@ const AddAvatar = ({ isOpen, onClose }) => {
                 setMessage(
                   JSON.stringify({
                     domainSeparator: data?.domainSeparator,
+                    authorAddress: data?.authorAddress,
+                    timestamp: Math.round(Date.now() / 1000),
                     tokenAddress: data?.tokenAddress,
                     tokenId: data?.tokenId,
-                    authorAddress: data?.authorAddress,
                   })
                 )
             }

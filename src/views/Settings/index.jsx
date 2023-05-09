@@ -227,6 +227,7 @@ const Settings = () => {
       isClosable: true,
     });
   };
+
   return (
     <Layout name={ { label: 'User Settings', value: location?.pathname } }>
       <Box
@@ -512,7 +513,7 @@ const Settings = () => {
                     lineHeight="16px"
                     paddingTop="5px"
                   >
-                    { 30 - +userProfile?.author?.displayName?.length } Characters remaining
+                    { 30 - (+userProfile?.author?.displayName?.length || 0) } Characters remaining
                   </Text>
                 </Flex>
               </Flex>
