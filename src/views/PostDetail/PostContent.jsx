@@ -44,7 +44,6 @@ import DropDown from '../../components/DropDown';
 import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
-  MdClose,
   MdOutlineDeleteOutline,
   MdStickyNote2,
 } from 'react-icons/md';
@@ -52,7 +51,6 @@ import logger from '../../utils/logger';
 import Marked from '../../components/Editor/marked';
 import getIsOnline from '../../utils/getIsOnline';
 import Avatar from '../../components/Avatar';
-import onError from '../../utils/onError';
 import Replies from '../../components/Post/comment/replies';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
@@ -66,8 +64,6 @@ import useCommentEdit from '../../hooks/useCommentEdit';
 import Image from '../../components/Image';
 import { dateToNow } from '../../utils/formatDate';
 import { ProfileContext } from '../../store/profileContext';
-import onChallenge from '../../utils/onChallenge';
-import onChallengeVerification from '../../utils/onChallengeVerification';
 import EditLabel from "../../components/Label/editLabel";
 import PendingLabel from "../../components/Label/pendingLabel";
 import SpoilerLabel from "../../components/Label/spoilerLabel";
@@ -161,11 +157,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const [subLoading, setSubLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [content, setContent] = useState('');
   const [editMode, setEditMode] = useState(detail?.content ? 'post' : 'link');
   const [editPost, setEditPost] = useState(editMode === 'post' ? detail?.content : detail?.link);
   const [copied, setCopied] = useState(false);
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [postEditorState, setPostEditorState] = useState(
     EditorState.createWithContent(
       ContentState.createFromBlockArray(convertFromHTML(`<p>${editPost}</p>`))
@@ -177,10 +171,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
     profile,
     accountSubplebbits,
     baseUrl,
-    authorAvatarImageUrl,
   } = useContext(ProfileContext);
   const history = useHistory();
-  const [showMEditor, setShowMEditor] = useState(false);
   const [showFullComments, setShowFullComments] = useState(!isReply);
 
 
@@ -190,38 +182,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const upVote = usePublishUpvote(detail)
   const downVote = usePublishDownvote(detail)
 
-  const publishCommentOptions = {
-    content,
-    postCid: detail?.cid, // the thread the comment is on
-    parentCid: detail?.cid, // if top level reply to a post, same as postCid
-    subplebbitAddress: detail?.subplebbitAddress,
-    onChallenge,
-    onChallengeVerification: (challengeVerification, comment) => onChallengeVerification(challengeVerification, comment, () => {
-      setContent('');
-      setEdit(false);
-      setEditorState(EditorState.createEmpty());
-    }, () => { setEdit(false); }),
-    onError,
-  }
 
-  const { publishComment } = usePublishComment(publishCommentOptions)
 
-  const handlePublishPost = async () => {
-    try {
-      await publishComment();
-    } catch (error) {
-      toast({
-        title: 'Comment Declined.',
-        description: error?.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-      logger('post:comment:response:', error);
-    }
-    setContent('');
-
-  };
 
   const commentEdit = useCommentEdit(detail)
   const handleEditPost = async (update, callBack, failedCallBack) => {
@@ -1810,73 +1772,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                   </Flex>
                 </Box>
 
-                { detail?.locked ? (
-                  <LockedMessage />
-                ) : (
-                  <>
-                    { showMEditor ? (
-                      <Box margin="0 12px">
-                        <Flex
-                          backgroundColor="inherit"
-                          color="inherit"
-                          margin="0"
-                          borderWidth="0"
-                        >
-                          <Box width="100%">
-                            <Editor
-                              setValue={ setContent }
-                              editorState={ editorState }
-                              setEditorState={ setEditorState }
-                              showSubmit
-                              handleSubmit={ handlePublishPost }
-                              submitBtnText="Add Comment"
-                              otherBtn={
-                                <Button mr="auto" onClick={ () => setShowMEditor(false) }>
-                                  <MdClose />
-                                </Button>
-                              }
-                            />
-                          </Box>
-                        </Flex>
-                      </Box>
-                    ) : (
-                      <Flex
-                        alignItems="center"
-                        flexFlow="row nowrap"
-                        paddingTop="8px"
-                        width="100%"
-                      >
-                        <Image
-                          h="24px"
-                          verticalAlign="middle"
-                          src={ authorAvatarImageUrl }
-                          alt="user-icon"
-                          color="transparent"
-                          borderRadius="50%"
-                          w="24px"
-                          mr="8px"
-                        />
-                        <Button
-                          border={ `1px solid ${borderColor2}` }
-                          color="#818384"
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          borderRadius="15px"
-                          flex="1"
-                          fontSize="14px"
-                          height="30px"
-                          lineHeight="17px"
-                          textAlign="left"
-                          padding="0 8px"
-                          justifyContent="flex-start"
-                          onClick={ () => setShowMEditor(true) }
-                        >
-                          Leave a comment
-                        </Button>
-                      </Flex>
-                    ) }
-                  </>
-                ) }
+                <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
+
               </Box>
             </Box>
             <Box padding="16px" maxW="100%">
