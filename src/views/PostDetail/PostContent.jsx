@@ -7,7 +7,6 @@ import {
   Icon,
   IconButton,
   Link,
-  Tag,
   useToast,
   Button,
   Skeleton,
@@ -64,7 +63,6 @@ import useRepliesAndAccountReplies from '../../hooks/useRepliesAndAccountReplies
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
 import useCommentEdit from '../../hooks/useCommentEdit';
-import Label from '../../components/Label';
 import Image from '../../components/Image';
 import { dateToNow } from '../../utils/formatDate';
 import { ProfileContext } from '../../store/profileContext';
@@ -74,6 +72,7 @@ import EditLabel from "../../components/Label/editLabel";
 import PendingLabel from "../../components/Label/pendingLabel";
 import SpoilerLabel from "../../components/Label/spoilerLabel";
 import FlairLabel from '../../components/Label/flairLabel';
+import AddComment from './addComment';
 
 const PostContent = ({ setDetail, setSubplebbit }) => {
   const {
@@ -129,7 +128,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
 
   const mediaInfo = getCommentMediaInfo(detail);
-  const hasThumbnail = !post?.removed && detail?.thumbnailUrl && !mediaInfo
+  const hasThumbnail = !detail?.removed && detail?.thumbnailUrl && !mediaInfo
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
@@ -345,7 +344,6 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
 
   }, [detail, subplebbit])
-
 
 
   return (
@@ -1619,56 +1617,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                 </Flex>
               </Flex>
               <Box maxW="100%" bg={ bg } mt="10px" padding="10px">
-                <Box padding="24px 40px">
-                  { detail?.locked ? (
-                    <LockedMessage subplebbit={ subplebbit } />
-                  ) : (
-                    <>
-                      <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                        Comment as { getUserName(profile?.author) }
-                      </Box>
-                      <Box
-                        borderRadius="4px"
-                        overflow="hidden auto"
-                        padding="8px 16px"
-                        resize="vertical"
-                        minH="200px"
-                      >
-                        <Editor
-                          setValue={ setContent }
-                          editorState={ editorState }
-                          setEditorState={ setEditorState }
-                          showSubmit
-                          handleSubmit={ handlePublishPost }
-                        />
-                      </Box>
-                    </>
-                  ) }
-
-                  <Box
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    marginTop="16px"
-                    marginBottom="4px "
-                  >
-                    Sort By: Best
-                  </Box>
-                  <hr />
-                  { isReply ? (
-                    <Box
-                      fontSize="12px"
-                      fontWeight="700"
-                      my="8px"
-                      _hover={ {
-                        textDecoration: 'underline',
-                      } }
-                      onClick={ () => setShowFullComments(!showFullComments) }
-                    >
-                      View all comments
-                    </Box>
-                  ) : null }
-                </Box>
+                <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
                 { isReply ? <Replies parent={ replyParent } reply={ reply } /> : null }
                 { showFullComments &&
                   comments?.map((comment) => (

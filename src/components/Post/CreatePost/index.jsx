@@ -155,7 +155,6 @@ const CreatePost = () => {
       });
     }
   };
-  console.log(location?.pathname.match(/p\/(.*)\/submit/))
 
 
 
