@@ -7,7 +7,7 @@ import FlairLabel from "../../../components/Label/flairLabel"
 const CommentCard = ({ comment }) => {
     const commentParent = useComment({ commentCid: comment?.parentCid })
     const parent = { ...commentParent, address: comment?.subplebbitAddress }
-    const parentLoading = commentParentm?.state === "fetching-ipfs" || !commentParent?.timestamp;
+    const parentLoading = commentParent?.state === "fetching-ipfs" || !commentParent?.timestamp;
     const commentPending = comment?.state === 'pending';
 
     return (

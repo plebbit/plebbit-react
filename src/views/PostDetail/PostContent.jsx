@@ -7,7 +7,6 @@ import {
   Icon,
   IconButton,
   Link,
-  Tag,
   useToast,
   Button,
   Skeleton,
@@ -45,7 +44,6 @@ import DropDown from '../../components/DropDown';
 import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
-  MdClose,
   MdOutlineDeleteOutline,
   MdStickyNote2,
 } from 'react-icons/md';
@@ -53,7 +51,6 @@ import logger from '../../utils/logger';
 import Marked from '../../components/Editor/marked';
 import getIsOnline from '../../utils/getIsOnline';
 import Avatar from '../../components/Avatar';
-import onError from '../../utils/onError';
 import Replies from '../../components/Post/comment/replies';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
@@ -64,16 +61,14 @@ import useRepliesAndAccountReplies from '../../hooks/useRepliesAndAccountReplies
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
 import useCommentEdit from '../../hooks/useCommentEdit';
-import Label from '../../components/Label';
 import Image from '../../components/Image';
 import { dateToNow } from '../../utils/formatDate';
 import { ProfileContext } from '../../store/profileContext';
-import onChallenge from '../../utils/onChallenge';
-import onChallengeVerification from '../../utils/onChallengeVerification';
 import EditLabel from "../../components/Label/editLabel";
 import PendingLabel from "../../components/Label/pendingLabel";
 import SpoilerLabel from "../../components/Label/spoilerLabel";
 import FlairLabel from '../../components/Label/flairLabel';
+import AddComment from './addComment';
 
 const PostContent = ({ setDetail, setSubplebbit }) => {
   const {
@@ -129,7 +124,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
 
   const mediaInfo = getCommentMediaInfo(detail);
-  const hasThumbnail = !post?.removed && detail?.thumbnailUrl && !mediaInfo
+  const hasThumbnail = !detail?.removed && detail?.thumbnailUrl && !mediaInfo
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
@@ -162,11 +157,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const [subLoading, setSubLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [content, setContent] = useState('');
   const [editMode, setEditMode] = useState(detail?.content ? 'post' : 'link');
   const [editPost, setEditPost] = useState(editMode === 'post' ? detail?.content : detail?.link);
   const [copied, setCopied] = useState(false);
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [postEditorState, setPostEditorState] = useState(
     EditorState.createWithContent(
       ContentState.createFromBlockArray(convertFromHTML(`<p>${editPost}</p>`))
@@ -178,10 +171,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
     profile,
     accountSubplebbits,
     baseUrl,
-    authorAvatarImageUrl,
   } = useContext(ProfileContext);
   const history = useHistory();
-  const [showMEditor, setShowMEditor] = useState(false);
   const [showFullComments, setShowFullComments] = useState(!isReply);
 
 
@@ -191,38 +182,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const upVote = usePublishUpvote(detail)
   const downVote = usePublishDownvote(detail)
 
-  const publishCommentOptions = {
-    content,
-    postCid: detail?.cid, // the thread the comment is on
-    parentCid: detail?.cid, // if top level reply to a post, same as postCid
-    subplebbitAddress: detail?.subplebbitAddress,
-    onChallenge,
-    onChallengeVerification: (challengeVerification, comment) => onChallengeVerification(challengeVerification, comment, () => {
-      setContent('');
-      setEdit(false);
-      setEditorState(EditorState.createEmpty());
-    }, () => { setEdit(false); }),
-    onError,
-  }
 
-  const { publishComment } = usePublishComment(publishCommentOptions)
 
-  const handlePublishPost = async () => {
-    try {
-      await publishComment();
-    } catch (error) {
-      toast({
-        title: 'Comment Declined.',
-        description: error?.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-      logger('post:comment:response:', error);
-    }
-    setContent('');
-
-  };
 
   const commentEdit = useCommentEdit(detail)
   const handleEditPost = async (update, callBack, failedCallBack) => {
@@ -345,7 +306,6 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
 
   }, [detail, subplebbit])
-
 
 
   return (
@@ -1619,56 +1579,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                 </Flex>
               </Flex>
               <Box maxW="100%" bg={ bg } mt="10px" padding="10px">
-                <Box padding="24px 40px">
-                  { detail?.locked ? (
-                    <LockedMessage subplebbit={ subplebbit } />
-                  ) : (
-                    <>
-                      <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                        Comment as { getUserName(profile?.author) }
-                      </Box>
-                      <Box
-                        borderRadius="4px"
-                        overflow="hidden auto"
-                        padding="8px 16px"
-                        resize="vertical"
-                        minH="200px"
-                      >
-                        <Editor
-                          setValue={ setContent }
-                          editorState={ editorState }
-                          setEditorState={ setEditorState }
-                          showSubmit
-                          handleSubmit={ handlePublishPost }
-                        />
-                      </Box>
-                    </>
-                  ) }
-
-                  <Box
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    marginTop="16px"
-                    marginBottom="4px "
-                  >
-                    Sort By: Best
-                  </Box>
-                  <hr />
-                  { isReply ? (
-                    <Box
-                      fontSize="12px"
-                      fontWeight="700"
-                      my="8px"
-                      _hover={ {
-                        textDecoration: 'underline',
-                      } }
-                      onClick={ () => setShowFullComments(!showFullComments) }
-                    >
-                      View all comments
-                    </Box>
-                  ) : null }
-                </Box>
+                <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
                 { isReply ? <Replies parent={ replyParent } reply={ reply } /> : null }
                 { showFullComments &&
                   comments?.map((comment) => (
@@ -1861,73 +1772,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                   </Flex>
                 </Box>
 
-                { detail?.locked ? (
-                  <LockedMessage />
-                ) : (
-                  <>
-                    { showMEditor ? (
-                      <Box margin="0 12px">
-                        <Flex
-                          backgroundColor="inherit"
-                          color="inherit"
-                          margin="0"
-                          borderWidth="0"
-                        >
-                          <Box width="100%">
-                            <Editor
-                              setValue={ setContent }
-                              editorState={ editorState }
-                              setEditorState={ setEditorState }
-                              showSubmit
-                              handleSubmit={ handlePublishPost }
-                              submitBtnText="Add Comment"
-                              otherBtn={
-                                <Button mr="auto" onClick={ () => setShowMEditor(false) }>
-                                  <MdClose />
-                                </Button>
-                              }
-                            />
-                          </Box>
-                        </Flex>
-                      </Box>
-                    ) : (
-                      <Flex
-                        alignItems="center"
-                        flexFlow="row nowrap"
-                        paddingTop="8px"
-                        width="100%"
-                      >
-                        <Image
-                          h="24px"
-                          verticalAlign="middle"
-                          src={ authorAvatarImageUrl }
-                          alt="user-icon"
-                          color="transparent"
-                          borderRadius="50%"
-                          w="24px"
-                          mr="8px"
-                        />
-                        <Button
-                          border={ `1px solid ${borderColor2}` }
-                          color="#818384"
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          borderRadius="15px"
-                          flex="1"
-                          fontSize="14px"
-                          height="30px"
-                          lineHeight="17px"
-                          textAlign="left"
-                          padding="0 8px"
-                          justifyContent="flex-start"
-                          onClick={ () => setShowMEditor(true) }
-                        >
-                          Leave a comment
-                        </Button>
-                      </Flex>
-                    ) }
-                  </>
-                ) }
+                <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
+
               </Box>
             </Box>
             <Box padding="16px" maxW="100%">
