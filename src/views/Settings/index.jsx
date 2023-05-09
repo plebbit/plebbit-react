@@ -33,6 +33,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { deleteCaches } from '@plebbit/plebbit-react-hooks';
 import Image from '../../components/Image';
 import placeholder from '../../assets/images/fallback.png'
+import onError from '../../utils/onError';
 
 const Settings = () => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -62,7 +63,7 @@ const Settings = () => {
   const toast = useToast();
   const history = useHistory();
 
-  const { resolvedAddress: resolvedAuthorAddress } = useResolvedAuthorAddress(
+  const { resolvedAddress: resolvedAuthorAddress, error } = useResolvedAuthorAddress(
     { author: userProfile ? userProfile?.author?.address : '', cache: false }
   );
   logger('resolvedAddress', resolvedAuthorAddress, 'trace');
@@ -70,6 +71,12 @@ const Settings = () => {
   useEffect(() => {
     setUserProfile({ ...profile });
   }, [profile]);
+
+  if (error) {
+    onError(error)
+  }
+
+
 
   const handleConfirm = (warning, callback) => {
     Swal.fire({

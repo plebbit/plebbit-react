@@ -225,7 +225,7 @@ const AddAvatar = ({ isOpen, onClose }) => {
                   JSON.stringify({
                     domainSeparator: data?.domainSeparator,
                     authorAddress: data?.authorAddress,
-                    timestamp: Math.round(Date.now() / 1000),
+                    timestamp: Number(Math.round(Date.now() / 1000)),
                     tokenAddress: data?.tokenAddress,
                     tokenId: data?.tokenId,
                   })
