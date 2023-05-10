@@ -235,6 +235,7 @@ const Settings = () => {
     });
   };
 
+
   return (
     <Layout name={ { label: 'User Settings', value: location?.pathname } }>
       <Box

@@ -37,6 +37,7 @@ const AddAvatar = ({ isOpen, onClose }) => {
     domainSeparator: 'plebbit-author-avatar',
     authorAddress: profile?.author?.address,
   });
+  const [timestamp, setTimeStamp] = useState("")
   const [message, setMessage] = useState('');
   const [signature, setSignature] = useState('');
   const [type, setType] = useState('eip191');
@@ -44,6 +45,19 @@ const AddAvatar = ({ isOpen, onClose }) => {
   const [userProfile, setUserProfile] = useState(profile);
   const [copied, setCopied] = useState(false);
   const toast = useToast();
+
+  const handleMessage = (val) => {
+    setTimeStamp(val)
+    setMessage(
+      JSON.stringify({
+        domainSeparator: data?.domainSeparator,
+        authorAddress: data?.authorAddress,
+        timestamp: val,
+        tokenAddress: data?.tokenAddress,
+        tokenId: data?.tokenId,
+      })
+    )
+  }
 
   return (
     <Modal trapFocus={ false } scrollBehavior="inside" isOpen={ isOpen } onClose={ onClose } isCentered>
@@ -163,6 +177,7 @@ const AddAvatar = ({ isOpen, onClose }) => {
                           chainTicker: chainTicker,
                           address: data?.tokenAddress,
                           id: data?.tokenId,
+                          timestamp,
                           signature: {
                             ...userProfile?.author?.avatar?.signature,
                             signature: e.target.value,
@@ -221,15 +236,7 @@ const AddAvatar = ({ isOpen, onClose }) => {
                 }, 300)
                 : data?.tokenId &&
                 data?.tokenAddress &&
-                setMessage(
-                  JSON.stringify({
-                    domainSeparator: data?.domainSeparator,
-                    authorAddress: data?.authorAddress,
-                    timestamp: Number(Math.round(Date.now() / 1000)),
-                    tokenAddress: data?.tokenAddress,
-                    tokenId: data?.tokenId,
-                  })
-                )
+                handleMessage(Number(Math.round(Date.now() / 1000)))
             }
           >
             { !message ? 'Create message' : message && signature ? 'Save' : '' }
