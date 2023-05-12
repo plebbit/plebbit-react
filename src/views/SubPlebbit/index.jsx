@@ -107,10 +107,8 @@ const SubPlebbit = ({ match }) => {
   const { subscribe, unsubscribe, subscribed } = useSubscribe({ subplebbitAddress: subPlebbit?.address })
 
   const handleSubscribe = async () => {
-    setSubLoading(true);
     try {
       await subscribe();
-
     } catch (error) {
       toast({
         title: 'Subscription failed',
