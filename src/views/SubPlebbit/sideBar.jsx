@@ -536,11 +536,18 @@ const SideBar = ({
               padding="0 12px 12px"
               alignItems="center"
             >
-              <Box padding="12px 0 0" fontSize="16px" fontWeight="500" lineHeight="20px">
-                <Text oOfLines={ 1 } fontSize="14px" fontWeight="700" lineHeight="18px" textTransform="none">
-                  { getSubName(subPlebbit) } rules
+              <Flex padding="12px 0 0" fontSize="16px" fontWeight="500" lineHeight="20px">
+                <Text noOfLines={ 1 } fontSize="14px" fontWeight="700" lineHeight="18px" textTransform="none">
+                  { getSubName(subPlebbit) }
+
                 </Text>
-              </Box>
+                <Box width="max-content">
+
+                  <Text noOfLines={ 1 } ml="3px" fontSize="14px" fontWeight="700" lineHeight="18px" textTransform="none">
+                    rules
+                  </Text>
+                </Box>
+              </Flex>
             </Flex>
             <Accordion maxHeight="none" allowToggle>
               { subPlebbit?.rules?.map((item, index) => (
@@ -575,8 +582,8 @@ const SideBar = ({
           <BottomSideBar />
           <BacktoTopButton />
         </Box>
-      </Flex>
-    </Box>
+      </Flex >
+    </Box >
   );
 };
 
