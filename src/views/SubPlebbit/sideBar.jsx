@@ -16,6 +16,7 @@ import {
   Tag,
   Textarea,
   Button,
+  Text,
 } from '@chakra-ui/react';
 import { FiMail, FiShield } from 'react-icons/fi';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
@@ -30,6 +31,7 @@ import { dateFormater } from '../../utils/formatDate';
 import BottomSideBar from '../../components/sidebar/bottomSideBar';
 import BacktoTopButton from '../../components/sidebar/backtoTopButton';
 import FlairLabel from "../../components/Label/flairLabel"
+import { getSubName } from '../../utils/getUserName';
 
 const SideBar = ({
   mt,
@@ -535,9 +537,9 @@ const SideBar = ({
               alignItems="center"
             >
               <Box padding="12px 0 0" fontSize="16px" fontWeight="500" lineHeight="20px">
-                <Box fontSize="14px" fontWeight="700" lineHeight="18px" textTransform="none">
-                  { `p/${truncateString(subPlebbit?.address, 14)} ` } rules
-                </Box>
+                <Text oOfLines={ 1 } fontSize="14px" fontWeight="700" lineHeight="18px" textTransform="none">
+                  { getSubName(subPlebbit) } rules
+                </Text>
               </Box>
             </Flex>
             <Accordion maxHeight="none" allowToggle>
@@ -545,16 +547,21 @@ const SideBar = ({
                 <AccordionItem key={ item }>
                   <Box>
                     <AccordionButton padding="12px">
-                      <Box
+                      <Text
                         flex="1"
                         textAlign="left"
                         fontSize="10px"
                         fontWeight="700"
                         lineHeight="12px"
                         textTransform="uppercase"
+                        noOfLines={ 2 }
+
                       >
-                        { `${index + 1}. ${truncateString(item, 20)}` }
-                      </Box>
+
+
+                        { `${index + 1}. ${item}` }
+
+                      </Text>
                       <AccordionIcon color="#a4a4a4" />
                     </AccordionButton>
                   </Box>
