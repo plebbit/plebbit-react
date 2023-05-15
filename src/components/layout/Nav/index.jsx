@@ -15,14 +15,13 @@ import { MdHome } from 'react-icons/md';
 import DropDown2 from '../../DropDown/DropDown2';
 import { RiCreativeCommonsByLine, RiSearchLine, RiSideBarFill } from 'react-icons/ri';
 import {
-  BsArrowUpRightCircle,
   BsBarChartFill,
   BsChevronDown,
   BsEye,
   BsPlusLg,
 } from 'react-icons/bs';
 import { HiOutlineChartSquareBar, HiOutlineChat, HiOutlineUserGroup } from 'react-icons/hi';
-import { BiBookmarks, BiHelpCircle, BiPencil, BiTrendingUp } from 'react-icons/bi';
+import { BiBookmarks, BiRightTopArrowCircle, BiHelpCircle, BiPencil, BiTrendingUp } from 'react-icons/bi';
 import {
   AiFillSetting,
   AiOutlineInfoCircle,
@@ -312,9 +311,9 @@ const NavBar = ({ location, showStyleBar }) => {
                 <Icon
                   borderRadius="2px"
                   color={ iconColor2 }
-                  width={ 5 }
-                  height={ 5 }
-                  as={ BsArrowUpRightCircle }
+                  width={ 6 }
+                  height={ 6 }
+                  as={ BiRightTopArrowCircle }
                 />
                 <Icon
                   marginLeft="8px"

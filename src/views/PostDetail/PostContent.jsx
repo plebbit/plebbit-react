@@ -148,7 +148,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
     "darkCommunityThemePost"
   );
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
-  const borderColor2 = useColorModeValue('#d3d6da', '#545452');
+  // const borderColor2 = useColorModeValue('#d3d6da', '#545452');
   const border2 = useColorModeValue('#edeff1', '#343536');
   const mainMobileBg = useColorModeValue('white', 'black');
   const mobileColor = useColorModeValue('lightMobileText2', 'darkMobileText');
