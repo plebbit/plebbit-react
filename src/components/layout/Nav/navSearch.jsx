@@ -23,7 +23,7 @@ const NavSearch = () => {
   const [searchVal, setSearchVal] = useState('');
   const history = useHistory();
 
-  const data = useSubplebbit(searchVal ? searchVal : undefined);
+  const data = useSubplebbit(searchVal ? { subplebbitAddress: searchVal } : undefined);
 
   return (
     <Flex

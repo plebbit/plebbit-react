@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Button, Flex, useColorModeValue } from '@chakra-ui/react'
 import React, { useContext, useState } from 'react'
 import { LockedMessage } from '../../components/Card/ModMessage'
 import getUserName from '../../utils/getUserName'
@@ -7,8 +7,11 @@ import Editor from '../../components/Editor'
 import { EditorState } from 'draft-js'
 import usePublishComment from '../../hooks/usePublishComment'
 import { MdClose } from 'react-icons/md'
+import Image from '../../components/Image'
 
 const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments, isReply }) => {
+    const borderColor2 = useColorModeValue('#d3d6da', '#545452');
+
     const {
         profile,
         device,

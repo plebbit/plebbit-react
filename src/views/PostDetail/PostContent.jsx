@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import {
   useAccountComments,
-  usePublishComment, useSubscribe,
+  useSubscribe,
   useAccountVote,
   useComment,
   useSubplebbit,
@@ -148,7 +148,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
     "darkCommunityThemePost"
   );
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
-  const borderColor2 = useColorModeValue('#d3d6da', '#545452');
+  // const borderColor2 = useColorModeValue('#d3d6da', '#545452');
   const border2 = useColorModeValue('#edeff1', '#343536');
   const mainMobileBg = useColorModeValue('white', 'black');
   const mobileColor = useColorModeValue('lightMobileText2', 'darkMobileText');
@@ -306,6 +306,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
 
   }, [detail, subplebbit])
+
+
+
 
 
   return (
@@ -591,6 +594,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
           }
           {/* head  End */ }
 
+
+
           {/* body */ }
           <Flex
             tabIndex="-1"
@@ -601,6 +606,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
             position="relative"
             width="calc(100% - 160px)"
           >
+
             <Box
               maxW="740px"
               flex="1"
@@ -611,6 +617,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
               width="100%"
               wordBreak="break-word"
             >
+
               {/* Main */ }
               <Flex width="100%" bg={ bg } borderRadius="4px">
                 {/* vote column */ }
@@ -871,6 +878,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
                     </Text>
                   </Flex>
+
                   {/* post Body */ }
                   { edit ? (
                     <Box marginTop="8px" padding="10px">
@@ -1608,7 +1616,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
               loading={ loading }
               subplebbit={ subplebbit }
             />
-          </Flex>
+          </Flex >
 
         </>
       ) : (
@@ -1646,7 +1654,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                     <Box
                       backgroundColor={ mainMobileBg }
                       borderRadius="20px 20px 0 0"
-                      position="relative"
+                      position="relative" pt="20px"
                     >
                       <Icon
                         onClick={ () => history.goBack() }
@@ -1802,14 +1810,16 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
       }
 
 
-      { isRemovalModalOpen && (
-        <AddRemovalReason
-          handleRemove={ handleEditPost }
-          isOpen={ isRemovalModalOpen }
-          onClose={ closeRemovalModal }
-          post={ detail }
-        />
-      ) }
+      {
+        isRemovalModalOpen && (
+          <AddRemovalReason
+            handleRemove={ handleEditPost }
+            isOpen={ isRemovalModalOpen }
+            onClose={ closeRemovalModal }
+            post={ detail }
+          />
+        )
+      }
     </>
   );
 }

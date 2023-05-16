@@ -16,6 +16,7 @@ import {
   Tag,
   Textarea,
   Button,
+  Text,
 } from '@chakra-ui/react';
 import { FiMail, FiShield } from 'react-icons/fi';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
@@ -30,6 +31,7 @@ import { dateFormater } from '../../utils/formatDate';
 import BottomSideBar from '../../components/sidebar/bottomSideBar';
 import BacktoTopButton from '../../components/sidebar/backtoTopButton';
 import FlairLabel from "../../components/Label/flairLabel"
+import { getSubName } from '../../utils/getUserName';
 
 const SideBar = ({
   mt,
@@ -534,27 +536,39 @@ const SideBar = ({
               padding="0 12px 12px"
               alignItems="center"
             >
-              <Box padding="12px 0 0" fontSize="16px" fontWeight="500" lineHeight="20px">
-                <Box fontSize="14px" fontWeight="700" lineHeight="18px" textTransform="none">
-                  { `p/${truncateString(subPlebbit?.address, 14)} ` } rules
+              <Flex padding="12px 0 0" fontSize="16px" fontWeight="500" lineHeight="20px">
+                <Text noOfLines={ 1 } fontSize="14px" fontWeight="700" lineHeight="18px" textTransform="none">
+                  { getSubName(subPlebbit) }
+
+                </Text>
+                <Box width="max-content">
+
+                  <Text noOfLines={ 1 } ml="3px" fontSize="14px" fontWeight="700" lineHeight="18px" textTransform="none">
+                    rules
+                  </Text>
                 </Box>
-              </Box>
+              </Flex>
             </Flex>
             <Accordion maxHeight="none" allowToggle>
               { subPlebbit?.rules?.map((item, index) => (
                 <AccordionItem key={ item }>
                   <Box>
                     <AccordionButton padding="12px">
-                      <Box
+                      <Text
                         flex="1"
                         textAlign="left"
                         fontSize="10px"
                         fontWeight="700"
                         lineHeight="12px"
                         textTransform="uppercase"
+                        noOfLines={ 2 }
+
                       >
-                        { `${index + 1}. ${truncateString(item, 20)}` }
-                      </Box>
+
+
+                        { `${index + 1}. ${item}` }
+
+                      </Text>
                       <AccordionIcon color="#a4a4a4" />
                     </AccordionButton>
                   </Box>
@@ -568,8 +582,8 @@ const SideBar = ({
           <BottomSideBar />
           <BacktoTopButton />
         </Box>
-      </Flex>
-    </Box>
+      </Flex >
+    </Box >
   );
 };
 
