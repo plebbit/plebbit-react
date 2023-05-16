@@ -19,6 +19,7 @@ import { getAddress } from '../../utils/getUserName';
 import onError from '../../utils/onError';
 import logger from '../../utils/logger';
 import SubStyleSide from './subStyleSide';
+import useStateString from '../../hooks/useStateString';
 
 const SubPlebbit = ({ match }) => {
   const { postStyle, feedSort, profile, device, accountSubplebbits } =
@@ -163,10 +164,11 @@ const SubPlebbit = ({ match }) => {
     }
   };
 
+  const stateString = useStateString(subPlebbit)
 
 
   return (
-    <Layout name={ { label: subPlebbit?.title || 'Subplebbit', value: location?.pathname } }>
+    <Layout stateString={ stateString } name={ { label: subPlebbit?.title || 'Subplebbit', value: location?.pathname } }>
       { showStyleBar && <SubStyleSide /> }
       <>
         { device !== 'mobile' ? (

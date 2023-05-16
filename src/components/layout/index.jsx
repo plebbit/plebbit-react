@@ -12,7 +12,7 @@ import { HiOutlineChartSquareBar, HiOutlineChat } from 'react-icons/hi';
 import { AiFillSetting } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
 
-const Layout = ({ children, name }) => {
+const Layout = ({ children, name, stateString }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const { showSplashcreen, device, showSide, setShowSide, notifications } = useContext(ProfileContext);
@@ -69,9 +69,10 @@ const Layout = ({ children, name }) => {
 
   return (
     <>
-      <Box bg={ bg } minH="calc(100vh - 48px)">
+      <Box bg={ bg } minH="calc(100vh - 48px)" >
         <Box tabIndex="-1" />
         <Box outline="none" />
+
         <NavBar showStyleBar={ showStyleBar } location={ name } />
         { device !== 'mobile' ? (
           <Box
@@ -354,6 +355,12 @@ const Layout = ({ children, name }) => {
             </Flex>
           </Box>
         ) }
+
+
+        { stateString && stateString !== 'Succeeded' && <Box width="100%" zIndex="2001" fontWeight="500" pos="fixed" bottom="0" p='5px 20px' fontSize="12px" color="white" bg="blackAlpha.800" >
+          { stateString }
+        </Box>
+        }
       </Box>
     </>
   );

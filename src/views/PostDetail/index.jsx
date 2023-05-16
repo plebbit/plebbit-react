@@ -4,6 +4,7 @@ import { Box, useColorModeValue } from '@chakra-ui/react';
 import Layout from '../../components/layout';
 import { getAddress, getSubName } from '../../utils/getUserName';
 import { ProfileContext } from '../../store/profileContext';
+import useStateString from '../../hooks/useStateString';
 
 
 const PostDetail = () => {
@@ -14,12 +15,18 @@ const PostDetail = () => {
     const [subplebbit, setSubplebbit] = useState({})
     const detBg = useColorModeValue('#bbbdbf', '#030303');
 
+
+
+    const stateString = useStateString(detail)
+
+
     return (
         <Layout
             name={ {
                 label: detail?.title || subplebbit?.title || getSubName(subplebbit) || getAddress(params?.commentCid),
                 value: location?.pathname,
             } }
+            stateString={ stateString }
         >
             <Box maxWidth="100%" >
 
