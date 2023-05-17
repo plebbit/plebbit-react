@@ -14,7 +14,7 @@ import { MdEdit } from 'react-icons/md';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 
-const Author = () => {
+const Profile = () => {
   const { profile, device, authorAvatarImageUrl } = useContext(ProfileContext);
   const [currentView, setCurrentView] = useState('overview');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -678,4 +678,4 @@ const Author = () => {
   );
 };
 
-export default Author;
+export default Profile;
