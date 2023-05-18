@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Flex,
   Box,
@@ -129,12 +129,12 @@ const CreatePost = () => {
 
   const { index, publishComment } = usePublishComment(publishCommentOptions)
 
-  useEffect(() => {
-    if (index) {
-      history.push(`/profile/c/${index}`, []);
-      console.log("here", index)
-    }
-  }, [index])
+
+  if (Boolean(index + 1)) {
+    history.push(`/profile/c/${index}`, []);
+    console.log("here", index)
+  }
+
 
 
 
@@ -162,6 +162,7 @@ const CreatePost = () => {
       });
     }
   };
+
 
 
 
