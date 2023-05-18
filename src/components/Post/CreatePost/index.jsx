@@ -132,7 +132,6 @@ const CreatePost = () => {
 
   if (Boolean(index + 1)) {
     history.push(`/profile/c/${index}`, []);
-    console.log("here", index)
   }
 
 
