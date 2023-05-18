@@ -131,14 +131,14 @@ const CreatePost = () => {
 
   useEffect(() => {
     if (index) {
-      history.push(`/profile/c/${index}`);
-
+      history.push(`/profile/c/${index}`, []);
+      console.log("here", index)
     }
   }, [index])
 
 
 
-  console.log("here", index)
+
 
 
 
