@@ -138,6 +138,10 @@ const CreatePost = () => {
 
 
 
+  console.log("here", index)
+
+
+
 
 
 
