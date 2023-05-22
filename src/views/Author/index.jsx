@@ -1,6 +1,6 @@
-import { Flex, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
+import { Flex, Link, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
-import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
+import { Link as ReactLink, useHistory, useLocation, useParams } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
 import Post from '../../components/Post';
@@ -15,30 +15,35 @@ import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 
 const Author = () => {
+  const location = useLocation();
   const params = useParams();
   const { device } = useContext(ProfileContext);
-  const [currentView, setCurrentView] = useState('overview');
+  const currentView = location.pathname.split('/').at(-1);
   const bg = useColorModeValue('white', 'darkNavBg');
   const mobileBg = useColorModeValue('white', 'black');
   const mobileBorder = useColorModeValue('lightMobileIcon', 'darkMobileIcon');
   const mobileLink = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
-  const [selectedNav, setSelectedNav] = useState('Overview');
   const author = useAuthor({ commentCid: params?.commentCid, authorAddress: params?.authorAddress })
   const { imageUrl } = useAuthorAvatar({ author: author?.author })
   const { authorComments, hasMore, loadMore } = useAuthorComments({
     commentCid: params?.commentCid, authorAddress: params?.authorAddress, filter: {
-      hasParentCid: selectedNav === 'Comments' ? true : undefined
+      hasParentCid: currentView === 'comments' ? true : undefined
     }
   })
 
-  const navOptions = ['Overview', 'Posts', 'Comments', ' Award Received'];
+  const navOptions = [
+    { label: 'overview', link: 'overview', optional: params?.commentCid },
+    { label: 'posts', link: 'posts', },
+    { label: 'comments', link: 'comments', },
+    { label: 'awards received', link: 'gilded', },
+
+  ];
   const history = useHistory();
-  const location = useLocation();
 
   const feeds = authorComments ? [...authorComments].reverse() : [];
-
-
+  const fullNav = !(currentView === 'overview' || currentView === params?.commentCid)
+  const address = `/u/${params?.authorAddress}/c/${params?.commentCid}`
 
   return (
     <Layout name={ { label: getUserName(author?.author) || 'Profile', value: location?.pathname } }>
@@ -46,7 +51,7 @@ const Author = () => {
         { device !== 'mobile' ? (
           <Flex flexDir="column">
             <Flex alignItems="center" bg={ bg } width="100%">
-              <Flex width={ currentView !== 'overview' ? '100%' : '70%' }
+              <Flex width={ fullNav ? '100%' : '70%' }
                 marginX="auto"
                 justifyContent="space-between" paddingX="15px">
 
@@ -55,84 +60,39 @@ const Author = () => {
                   height="39px"
                   textTransform="uppercase"
                   width="calc(100% - 312px)"
-
                 >
-                  <Link>
-                    <Box
-                      fontSize="14px"
-                      fontWeight="500"
-                      lineHeight="18px"
-                      cursor="default"
-                      margin="0 5px"
-                      padding="8px"
-                      height="100%"
-                      color={ currentView === 'overview' && '#0079d3' }
-                      onClick={ () => setCurrentView('overview') }
-                      borderBottom={ currentView === 'overview' && '2px solid #0079d3' }
-                      mb="-3px"
-                    >
-                      Overview
-                    </Box>
-                  </Link>
-                  <Link>
-                    <Box
-                      fontSize="14px"
-                      fontWeight="500"
-                      lineHeight="18px"
-                      cursor="default"
-                      margin="0 5px"
-                      padding="8px"
-                      height="100%"
-                      color={ currentView === 'post' && '#0079d3' }
-                      onClick={ () => setCurrentView('post') }
-                      borderBottom={ currentView === 'post' && '2px solid #0079d3' }
-                      mb="-3px"
-                    >
-                      Post
-                    </Box>
-                  </Link>
-                  <Link>
-                    <Box
-                      fontSize="14px"
-                      fontWeight="500"
-                      lineHeight="18px"
-                      cursor="default"
-                      margin="0 5px"
-                      padding="8px"
-                      height="100%"
-                      color={ currentView === 'comments' && '#0079d3' }
-                      onClick={ () => setCurrentView('comments') }
-                      borderBottom={ currentView === 'comments' && '2px solid #0079d3' }
-                      mb="-3px"
-                    >
-                      Comments
-                    </Box>
-                  </Link>
+                  {
+                    navOptions?.map((option) => <Link
+                      key={ option?.label }
+                      _hover={ {
+                        textDecoration: "none",
 
-                  <Link>
-                    <Box
-                      fontSize="14px"
-                      fontWeight="500"
-                      lineHeight="18px"
-                      cursor="not-allowed"
-                      margin="0 5px"
-                      padding="8px"
-                      height="100%"
-                      color={ currentView === 'awardRecieved' && '#0079d3' }
-                      // onClick={() => setCurrentView('awardRecieved')}
-                      borderBottom={ currentView === 'awardRecieved' && '2px solid #0079d3' }
-                      mb="-3px"
-                    >
-                      Award Received
-                    </Box>
-                  </Link>
+                      } }
+                      as={ ReactLink } to={ `${address}/${option?.link}` }>
+                      <Box
+                        fontSize="14px"
+                        fontWeight="500"
+                        lineHeight="18px"
+                        cursor="pointer"
+                        margin="0 5px"
+                        padding="8px"
+                        height="100%"
+                        color={ (currentView === option?.link || currentView === option?.optional) && '#0079d3' }
+                        borderBottom={ (currentView === option?.link || currentView === option?.optional) && '2px solid #0079d3' }
+                        mb="-3px"
+                        textTransform="uppercase"
+                      >
+                        { option?.label }
+                      </Box>
+                    </Link>)
+                  }
 
                 </Flex>
               </Flex>
             </Flex>
 
             <Flex
-              width={ currentView !== 'overview' ? '100%' : '70%' }
+              width={ fullNav ? '100%' : '70%' }
               marginX="auto"
               justifyContent="space-between"
               padding="15px"
@@ -140,7 +100,7 @@ const Author = () => {
               <Flex width="calc(100% - 312px)" flexDir="column">
                 <FeedSort hideControl />
 
-                { currentView === 'overview' && (
+                { (currentView === 'overview' || currentView === params?.commentCid) && (
                   <Flex width="100%" flexDir="column">
                     <InfiniteScroll
                       hasMore={ hasMore }
@@ -488,24 +448,31 @@ const Author = () => {
                       } }
                       justifyContent="space-between"
                     >
-                      { navOptions?.map((op) => (
-                        <Box
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          whiteSpace="nowrap"
-                          fontSize="14px"
-                          fontWeight="600"
-                          lineHeight="17px"
-                          padding="9px 8px"
-                          color={ selectedNav === op ? mobileLink : '#6a6d6f' }
-                          borderBottomWidth={ selectedNav === op ? '1px' : '0' }
-                          borderBottomColor={ selectedNav === op && mobileLink }
-                          borderBottomStyle="solid"
-                          key={ op }
-                          onClick={ () => setSelectedNav(op) }
-                        >
-                          { op }
-                        </Box>
+                      { navOptions?.map((option) => (
+                        <Link
+                          _hover={ {
+                            textDecoration: "none",
+
+                          } }
+                          as={ ReactLink } to={ `${address}/${option?.link}` } >
+                          <Box
+                            overflow="hidden"
+                            textOverflow="ellipsis"
+                            whiteSpace="nowrap"
+                            fontSize="14px"
+                            fontWeight="600"
+                            lineHeight="17px"
+                            padding="9px 8px"
+                            color={ (currentView === option?.link || currentView === option?.optional) ? mobileLink : '#6a6d6f' }
+                            borderBottomWidth={ (currentView === option?.link || currentView === option?.optional) ? '1px' : '0' }
+                            borderBottomColor={ (currentView === option?.link || currentView === option?.optional) && mobileLink }
+                            borderBottomStyle="solid"
+                            key={ option?.label }
+
+                          >
+                            { option?.label }
+                          </Box>
+                        </Link>
                       )) }
                     </Flex>
                   </Box>

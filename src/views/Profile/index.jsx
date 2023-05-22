@@ -1,6 +1,6 @@
-import { Flex, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
+import { Flex, Link, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link as ReactLink, useHistory, useLocation } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
 import Post from '../../components/Post';
@@ -16,24 +16,36 @@ import Avatar from '../../components/Avatar';
 
 const Profile = () => {
   const { profile, device, authorAvatarImageUrl } = useContext(ProfileContext);
-  const [currentView, setCurrentView] = useState('overview');
   const bg = useColorModeValue('white', 'darkNavBg');
   const mobileBg = useColorModeValue('white', 'black');
   const mobileBorder = useColorModeValue('lightMobileIcon', 'darkMobileIcon');
   const mobileLink = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
-  const [selectedNav, setSelectedNav] = useState('overview');
+  const location = useLocation();
+  const currentView = location.pathname.split('/').at(-1);
   const { accountComments: myPost } = useAccountComments({
     filter: {
-      hasParentCid: selectedNav === 'Comments' ? true : undefined
+      hasParentCid: currentView === 'comments' ? true : undefined
     }
   }
   );
 
-  const navOptions = ['overview', 'posts', 'comments', 'history', 'saved', "hidden", "upvoted", "downvoted", 'awards received', 'awards given'];
+  const navOptions = [
+    { label: 'overview', link: 'overview', optional: 'profile' },
+    { label: 'posts', link: 'posts', },
+    { label: 'comments', link: 'comments', },
+    { label: 'history', link: 'history', },
+    { label: 'saved', link: 'saved', },
+    { label: 'hidden', link: 'hidden', },
+    { label: 'upvoted', link: 'upvoted', },
+    { label: 'downvoted', link: 'downvoted', },
+    { label: 'awards received', link: 'gilded', },
+    { label: 'awards given', link: 'gilded/given', },
+
+  ];
   const history = useHistory();
-  const location = useLocation();
   const feeds = myPost ? [...myPost].reverse() : [];
+  const fullNav = !(currentView === 'overview' || currentView === 'profile')
 
 
   return (
@@ -41,39 +53,49 @@ const Profile = () => {
       <>
         { device !== 'mobile' ? (
           <Flex flexDir="column">
-            <Flex alignItems="center" justifyContent="center" bg={ bg }>
-              <Flex
-                alignItems="center"
-                justifyContent="center"
-                height="39px"
-                textTransform="uppercase"
-              >
-                {
-                  navOptions?.map((option) => <Link>
-                    <Box
-                      fontSize="14px"
-                      fontWeight="500"
-                      lineHeight="18px"
-                      cursor="default"
-                      margin="0 5px"
-                      padding="8px"
-                      height="100%"
-                      color={ currentView === option && '#0079d3' }
-                      onClick={ () => setCurrentView(option) }
-                      borderBottom={ currentView === option && '2px solid #0079d3' }
-                      mb="-3px"
-                      textTransform="uppercase"
-                    >
-                      { option }
-                    </Box>
-                  </Link>)
-                }
+            <Flex alignItems="center" bg={ bg } width="100%">
+              <Flex width={ fullNav ? '100%' : '70%' }
+                marginX="auto"
+                justifyContent="space-between" paddingX="15px">
 
+                <Flex
+                  alignItems="center"
+                  height="39px"
+                  textTransform="uppercase"
+                  width="calc(100% - 312px)"
+                >
+                  {
+                    navOptions?.map((option) => <Link
+                      key={ option?.label }
+                      _hover={ {
+                        textDecoration: "none",
+
+                      } }
+                      as={ ReactLink } to={ `/profile/${option?.link}` }>
+                      <Box
+                        fontSize="14px"
+                        fontWeight="500"
+                        lineHeight="18px"
+                        cursor="pointer"
+                        margin="0 5px"
+                        padding="8px"
+                        height="100%"
+                        color={ (currentView === option?.link || currentView === option?.optional) && '#0079d3' }
+                        borderBottom={ (currentView === option?.link || currentView === option?.optional) && '2px solid #0079d3' }
+                        mb="-3px"
+                        textTransform="uppercase"
+                      >
+                        { option?.label }
+                      </Box>
+                    </Link>)
+                  }
+
+                </Flex>
               </Flex>
             </Flex>
 
             <Flex
-              width={ currentView !== 'overview' ? '100%' : '70%' }
+              width={ fullNav ? '100%' : '70%' }
               marginX="auto"
               justifyContent="space-between"
               padding="15px"
@@ -81,7 +103,7 @@ const Profile = () => {
               <Flex width="calc(100% - 312px)" flexDir="column">
                 <FeedSort hideControl />
 
-                { currentView === 'overview' && (
+                { (currentView === 'overview' || currentView === 'profile') && (
                   <Flex width="100%" flexDir="column">
                     <InfiniteScroll
                       feeds={ feeds }
@@ -507,24 +529,31 @@ const Profile = () => {
                       } }
                       justifyContent="space-between"
                     >
-                      { navOptions?.map((op) => (
-                        <Box
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          whiteSpace="nowrap"
-                          fontSize="14px"
-                          fontWeight="600"
-                          lineHeight="17px"
-                          padding="9px 8px"
-                          color={ selectedNav === op ? mobileLink : '#6a6d6f' }
-                          borderBottomWidth={ selectedNav === op ? '1px' : '0' }
-                          borderBottomColor={ selectedNav === op && mobileLink }
-                          borderBottomStyle="solid"
-                          key={ op }
-                          onClick={ () => setSelectedNav(op) }
-                        >
-                          { op }
-                        </Box>
+                      { navOptions?.map((option) => (
+                        <Link
+                          _hover={ {
+                            textDecoration: "none",
+
+                          } }
+                          as={ ReactLink } to={ `/profile/${option?.link}` }>
+                          <Box
+                            overflow="hidden"
+                            textOverflow="ellipsis"
+                            whiteSpace="nowrap"
+                            fontSize="14px"
+                            fontWeight="600"
+                            lineHeight="17px"
+                            padding="9px 8px"
+                            color={ (currentView === option?.link || currentView === option?.optional) ? mobileLink : '#6a6d6f' }
+                            borderBottomWidth={ (currentView === option?.link || currentView === option?.optional) ? '1px' : '0' }
+                            borderBottomColor={ (currentView === option?.link || currentView === option?.optional) && mobileLink }
+                            borderBottomStyle="solid"
+                            key={ option?.label }
+
+                          >
+                            { option?.label }
+                          </Box>
+                        </Link>
                       )) }
                     </Flex>
                   </Box>
