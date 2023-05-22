@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Notifications from './views/Notifications';
 import PostDetail from './views/PostDetail';
 import PostDetailModal from './views/PostDetail/PostDetailModal';
+import Author from './views/Author';
 
 const App = () => {
   const location = useLocation();
@@ -46,6 +47,7 @@ const App = () => {
           name="settings"
         />
         <Route exact path="/profile" component={ Profile } name="Profile" />
+        <Route exact path="/u/:authorAddress/c/:commentCid" component={ Author } name="Author" />
         <Route exact path="/p/:subplebbitAddress" component={ SubPlebbit } />
         <Route
           exact

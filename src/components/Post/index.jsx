@@ -11,7 +11,7 @@ import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
 import { ProfileContext } from '../../store/profileContext';
 import getIsOnline from '../../utils/getIsOnline';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import AddRemovalReason from './Modal/addRemovalReason';
 import Swal from 'sweetalert2';
 import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
@@ -43,6 +43,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     isOpen: isRemovalModalOpen,
   } = useDisclosure();
 
+  const history = useHistory()
+
 
   const mediaInfo = getCommentMediaInfo(post);
   const hasThumbnail = !post?.removed && post?.thumbnailUrl && !mediaInfo
@@ -57,6 +59,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     : `/profile/c/${post?.index}`;
 
   const sharePath = `${baseUrl}p/${post?.subplebbitAddress}/c/${post?.cid}`;
+  const authorPath = owner ? "/profile" : `/u/${post?.author?.address}/c/${post?.cid}`
   const location = useLocation();
 
   const detailRoute = {
@@ -158,6 +161,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             hasThumbnail={ hasThumbnail }
             commentCount={ commentCount }
             editLabel={ editLabel }
+            authorPath={ authorPath }
 
           />
         ) }
@@ -194,6 +198,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             hasThumbnail={ hasThumbnail }
             commentCount={ commentCount }
             editLabel={ editLabel }
+            authorPath={ authorPath }
 
           />
         ) }
@@ -231,6 +236,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               hasThumbnail={ hasThumbnail }
               commentCount={ commentCount }
               editLabel={ editLabel }
+              authorPath={ authorPath }
 
             />
           ) : (
@@ -265,6 +271,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               hasThumbnail={ hasThumbnail }
               commentCount={ commentCount }
               editLabel={ editLabel }
+              authorPath={ authorPath }
 
             />
           )) }

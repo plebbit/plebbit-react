@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Flex, useColorModeValue, Icon, useDisclosure } from '@chakra-ui/react';
-import { BsCamera } from 'react-icons/bs';
-import { AiOutlineSetting } from 'react-icons/ai';
 import { SiInformatica } from 'react-icons/si';
-import { RiTShirtFill } from 'react-icons/ri';
-import { GiMoebiusStar } from 'react-icons/gi';
+import { GiCakeSlice, GiMoebiusStar } from 'react-icons/gi';
 import Button from '../../components/Button';
 import numFormatter from '../../utils/numberFormater';
 import { useHistory } from 'react-router-dom';
@@ -78,26 +75,11 @@ const SideBar = ({
               top="0"
               width="100%"
               onClick={ onOpen }
-            >
-              <Box width="100%" height="100%" position="relative">
-                <Flex
-                  alignItems="center"
-                  backgroundColor="#fff"
-                  borderRadius="50%"
-                  height="36px"
-                  width="36px"
-                  justifyContent="center"
-                  position="absolute"
-                  right="8px"
-                  bottom="8px"
-                >
-                  <Icon as={ BsCamera } height="20px" color="#33a8ff" width="20px" />
-                </Flex>
-              </Box>
-            </Box>
+            />
+
+
             <Box height="160px" width="160px" textAlign="center" position="relative" margin="auto">
               <Image
-
                 position="relative"
                 zIndex="1"
                 src={ avatar }
@@ -105,15 +87,7 @@ const SideBar = ({
                 height="100%"
               />
             </Box>
-            <Box padding="4px" position="absolute" right="12px" mt="-76px">
-              <Icon
-                onClick={ () => history.push('/settings', []) }
-                as={ AiOutlineSetting }
-                height="20px"
-                color="#33a8ff"
-                width="20px"
-              />
-            </Box>
+
             <Flex
               textAlign="center"
               margin="4px 0"
@@ -123,7 +97,7 @@ const SideBar = ({
               alignItems="center"
               justifyContent="center"
             >
-              <Box> { profile?.author?.displayName || profile?.name }</Box>
+              <Box> { profile?.author?.displayName || profile?.author?.shortAddress }</Box>
               <Icon as={ SiInformatica } fill="#ff4500" ml="4px" />
             </Flex>
             <Box
@@ -136,67 +110,37 @@ const SideBar = ({
             >
               { `u/${profile?.author?.address}` }
             </Box>
-            <Button
-              width="100%"
-              bg="linear-gradient(90deg,#ec0623,#ff8717)"
-              color="#fff"
-              padding="3px 16px"
-              mb="8px"
-              mt="8px"
-              content={
-                <Flex
-                  fontSize="14px"
-                  fontWeight="700"
-                  letterSpacing=".5px"
-                  width="100%"
-                  alignItems="center"
-                  lineHeight="17px"
-                >
-                  <Icon as={ RiTShirtFill } ml="0" />
-                  <Box flex="1" textAlign="center">
-                    Style Avatar
-                  </Box>
-                </Flex>
-              }
-            />
+
             <Flex flexWrap="wrap">
-              <Flex cursor="default" flex="1 1 50%" mb="12px">
+              <Flex flexDir="column" cursor="default" flex="1 1 50%" mb="12px">
                 <Box fontSize="14px" fontWeight="500" lineHeight="18px">
                   Karma
                 </Box>
                 <Flex alignItems="center" mt="2px">
                   <Icon width="12px" height="12px" color="#24a0ed" as={ GiMoebiusStar } />
                   <Box ml="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
-                    { numFormatter(profile?.karma?.score) }
+                    { numFormatter(profile?.karma?.score) || 0 }
                   </Box>
                 </Flex>
               </Flex>
-              {/* <Flex cursor="default" flex="1 1 50%" mb="12px" flexDir="column">
+              <Flex cursor="default" flex="1 1 50%" mb="12px" flexDir="column">
                 <Box fontSize="14px" fontWeight="500" lineHeight="18px">
                   Cake Day
                 </Box>
                 <Flex alignItems="center" mt="2px">
-                  <Icon width="12px" height="12px" color="#24a0ed" as={GiCakeSlice} />
+                  <Icon width="12px" height="12px" color="#24a0ed" as={ GiCakeSlice } />
                   <Box ml="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
                     June 29, 2021
                   </Box>
                 </Flex>
-              </Flex> */}
+              </Flex>
             </Flex>
-            <Button
-              content="New Post"
-              width="100%"
-              mt="10px"
-              padding="4px 15px"
-              bg="#0079d3"
-              border="none"
-              color="#fff"
-              onClick={ () => history.push('/submit', []) }
-            />
+
             { showMoreOptions && (
               <Flex flexDir="column">
+
                 <Button
-                  content="Profile Moderation"
+                  content="Block User"
                   border="none"
                   bg="transparent"
                   color="#0079d3"
@@ -210,21 +154,7 @@ const SideBar = ({
                   } }
                 />
                 <Button
-                  content="Add to Custom Feed"
-                  border="none"
-                  bg="transparent"
-                  color="#0079d3"
-                  mt="8px"
-                  padding="4px 8px"
-                  sx={ {
-                    fontSize: '12px',
-                    fontWeight: '700',
-                    lineHeight: '16px',
-                    justifyContent: 'left',
-                  } }
-                />
-                <Button
-                  content="Invite Someone to Chat"
+                  content="Report User"
                   border="none"
                   bg="transparent"
                   color="#0079d3"

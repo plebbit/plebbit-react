@@ -76,7 +76,8 @@ const CompactPost = ({
   commentCount,
   upVote,
   downVote,
-  editLabel
+  editLabel,
+  authorPath
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -469,6 +470,8 @@ const CompactPost = ({
                             textDecor="none"
                             fontSize="12px"
                             lineHeight="16px"
+                            as={ ReactLink }
+                            to={ authorPath }
                           >
                             { getUserName(post?.author) }
                           </Link>

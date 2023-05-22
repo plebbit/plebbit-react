@@ -76,7 +76,8 @@ const CardPost = ({
   commentCount,
   upVote,
   downVote,
-  editLabel
+  editLabel,
+  authorPath
 
 }) => {
   const mainBg = useColorModeValue("lightBody", "darkBody");
@@ -362,7 +363,7 @@ const CardPost = ({
                           </Text>
 
                           {/* User Name */ }
-                          <Text
+                          <Link
                             as={ ReactLink }
                             _hover={ {
                               textDecoration: "underline",
@@ -374,9 +375,10 @@ const CardPost = ({
                             fontSize="12px"
                             lineHeight="16px"
                             overflow="hidden"
+                            to={ authorPath }
                           >
                             { getUserName(post?.author) }
-                          </Text>
+                          </Link>
                           {/* status */ }
                           { post?.author?.flair && (
                             <Box display="inline" verticalAlign="text-top">

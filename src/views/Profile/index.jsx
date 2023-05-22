@@ -14,7 +14,7 @@ import { MdEdit } from 'react-icons/md';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 
-const Author = () => {
+const Profile = () => {
   const { profile, device, authorAvatarImageUrl } = useContext(ProfileContext);
   const [currentView, setCurrentView] = useState('overview');
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -22,7 +22,7 @@ const Author = () => {
   const mobileBorder = useColorModeValue('lightMobileIcon', 'darkMobileIcon');
   const mobileLink = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
-  const [selectedNav, setSelectedNav] = useState('Overview');
+  const [selectedNav, setSelectedNav] = useState('overview');
   const { accountComments: myPost } = useAccountComments({
     filter: {
       hasParentCid: selectedNav === 'Comments' ? true : undefined
@@ -30,14 +30,14 @@ const Author = () => {
   }
   );
 
-  const navOptions = ['Overview', 'Posts', 'Comments', 'Moderation', 'Saved', 'Hidden'];
+  const navOptions = ['overview', 'posts', 'comments', 'history', 'saved', "hidden", "upvoted", "downvoted", 'awards received', 'awards given'];
   const history = useHistory();
   const location = useLocation();
   const feeds = myPost ? [...myPost].reverse() : [];
 
 
   return (
-    <Layout name={ { label: profile?.author?.title || 'Profile', value: location?.pathname } }>
+    <Layout name={ { label: getUserName(profile?.author) || 'Profile', value: location?.pathname } }>
       <>
         { device !== 'mobile' ? (
           <Flex flexDir="column">
@@ -48,159 +48,27 @@ const Author = () => {
                 height="39px"
                 textTransform="uppercase"
               >
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="default"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'overview' && '#0079d3' }
-                    onClick={ () => setCurrentView('overview') }
-                    borderBottom={ currentView === 'overview' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Overview
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="default"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'post' && '#0079d3' }
-                    onClick={ () => setCurrentView('post') }
-                    borderBottom={ currentView === 'post' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Post
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="default"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'comments' && '#0079d3' }
-                    onClick={ () => setCurrentView('comments') }
-                    borderBottom={ currentView === 'comments' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Comments
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="not-allowed"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'saved' && '#0079d3' }
-                    // onClick={() => setCurrentView('saved')}
-                    borderBottom={ currentView === 'saved' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Saved
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="not-allowed"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'hidden' && '#0079d3' }
-                    // onClick={() => setCurrentView('hidden')}
-                    borderBottom={ currentView === 'hidden' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Hidden
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="not-allowed"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'upvoted' && '#0079d3' }
-                    // onClick={() => setCurrentView('upvoted')}
-                    borderBottom={ currentView === 'upvoted' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Upvoted
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="not-allowed"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'downvoted' && '#0079d3' }
-                    // onClick={() => setCurrentView('downvoted')}
-                    borderBottom={ currentView === 'downvoted' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Downvoted
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="not-allowed"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'awardRecieved' && '#0079d3' }
-                    // onClick={() => setCurrentView('awardRecieved')}
-                    borderBottom={ currentView === 'awardRecieved' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Award Received
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'awardGiven' && '#0079d3' }
-                    // onClick={() => setCurrentView('awardGiven')}
-                    cursor="not-allowed"
-                    borderBottom={ currentView === 'awardGiven' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Award Given
-                  </Box>
-                </Link>
+                {
+                  navOptions?.map((option) => <Link>
+                    <Box
+                      fontSize="14px"
+                      fontWeight="500"
+                      lineHeight="18px"
+                      cursor="default"
+                      margin="0 5px"
+                      padding="8px"
+                      height="100%"
+                      color={ currentView === option && '#0079d3' }
+                      onClick={ () => setCurrentView(option) }
+                      borderBottom={ currentView === option && '2px solid #0079d3' }
+                      mb="-3px"
+                      textTransform="uppercase"
+                    >
+                      { option }
+                    </Box>
+                  </Link>)
+                }
+
               </Flex>
             </Flex>
 
@@ -469,7 +337,7 @@ const Author = () => {
 
                   </Flex>
                 ) }
-                { currentView === 'post' && (
+                { currentView === 'posts' && (
                   <Flex width="100%" flexDir="column">
                     <InfiniteScroll
                       feeds={ feeds }
@@ -539,7 +407,7 @@ const Author = () => {
                     <Post hideContent /> */}
                   </Flex>
                 ) }
-                { currentView === 'awardGiven' && (
+                { currentView === 'awards given' && (
                   <Flex width="100%" flexDir="column">
                     {/* <Post hideContent />
 
@@ -559,7 +427,7 @@ const Author = () => {
                     <Post hideContent /> */}
                   </Flex>
                 ) }
-                { currentView === 'awardRecieved' && (
+                { currentView === 'awards recieved' && (
                   <Flex width="100%" flexDir="column">
                     {/* <Post hideContent />
 
@@ -678,4 +546,4 @@ const Author = () => {
   );
 };
 
-export default Author;
+export default Profile;

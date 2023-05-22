@@ -80,7 +80,8 @@ const ClassicPost = ({
   commentCount,
   upVote,
   downVote,
-  editLabel
+  editLabel,
+  authorPath
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -380,7 +381,8 @@ const ClassicPost = ({
                         {/* User Name */ }
                         <Box display="inline-block" flex="0 0 auto">
                           <Box>
-                            <Text
+                            <Link
+                              as={ ReactLink }
                               _hover={ {
                                 textDecoration: 'underline',
                               } }
@@ -390,9 +392,10 @@ const ClassicPost = ({
                               textDecor="none"
                               fontSize="12px"
                               lineHeight="16px"
+                              to={ authorPath }
                             >
                               { getUserName(post?.author) }
-                            </Text>
+                            </Link>
                           </Box>
                         </Box>
                         {/* status */ }

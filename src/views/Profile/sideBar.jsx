@@ -4,7 +4,7 @@ import { BsCamera } from 'react-icons/bs';
 import { AiOutlineSetting } from 'react-icons/ai';
 import { SiInformatica } from 'react-icons/si';
 import { RiTShirtFill } from 'react-icons/ri';
-import { GiMoebiusStar } from 'react-icons/gi';
+import { GiCakeSlice, GiMoebiusStar } from 'react-icons/gi';
 import Button from '../../components/Button';
 import numFormatter from '../../utils/numberFormater';
 import { useHistory } from 'react-router-dom';
@@ -33,6 +33,8 @@ const SideBar = ({
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+
 
   return (
     <Box
@@ -160,28 +162,28 @@ const SideBar = ({
               }
             />
             <Flex flexWrap="wrap">
-              <Flex cursor="default" flex="1 1 50%" mb="12px">
+              <Flex flexDirection="column" cursor="default" flex="1 1 50%" mb="12px">
                 <Box fontSize="14px" fontWeight="500" lineHeight="18px">
                   Karma
                 </Box>
                 <Flex alignItems="center" mt="2px">
                   <Icon width="12px" height="12px" color="#24a0ed" as={ GiMoebiusStar } />
                   <Box ml="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
-                    { numFormatter(profile?.karma?.score) }
+                    { numFormatter(profile?.karma?.score) || 0 }
                   </Box>
                 </Flex>
               </Flex>
-              {/* <Flex cursor="default" flex="1 1 50%" mb="12px" flexDir="column">
+              <Flex cursor="default" flex="1 1 50%" mb="12px" flexDir="column">
                 <Box fontSize="14px" fontWeight="500" lineHeight="18px">
                   Cake Day
                 </Box>
                 <Flex alignItems="center" mt="2px">
-                  <Icon width="12px" height="12px" color="#24a0ed" as={GiCakeSlice} />
+                  <Icon width="12px" height="12px" color="#24a0ed" as={ GiCakeSlice } />
                   <Box ml="4px" fontSize="12px" fontWeight="400" lineHeight="16px">
                     June 29, 2021
                   </Box>
                 </Flex>
-              </Flex> */}
+              </Flex>
             </Flex>
             <Button
               content="New Post"

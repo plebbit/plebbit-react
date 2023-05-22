@@ -1,10 +1,10 @@
 import { Flex, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
 import Post from '../../components/Post';
-import { useAccountComments } from '@plebbit/plebbit-react-hooks';
+import { useAuthor, useAuthorAvatar, useAuthorComments } from '@plebbit/plebbit-react-hooks';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import FeedSort from '../../components/Post/FeedSort';
 import { ProfileContext } from '../../store/profileContext';
@@ -14,8 +14,9 @@ import { MdEdit } from 'react-icons/md';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 
-const Profile = () => {
-  const { profile, device, authorAvatarImageUrl } = useContext(ProfileContext);
+const Author = () => {
+  const params = useParams();
+  const { device } = useContext(ProfileContext);
   const [currentView, setCurrentView] = useState('overview');
   const bg = useColorModeValue('white', 'darkNavBg');
   const mobileBg = useColorModeValue('white', 'black');
@@ -23,184 +24,110 @@ const Profile = () => {
   const mobileLink = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
   const [selectedNav, setSelectedNav] = useState('Overview');
-  const { accountComments: myPost } = useAccountComments({
-    filter: {
+  const author = useAuthor({ commentCid: params?.commentCid, authorAddress: params?.authorAddress })
+  const { imageUrl } = useAuthorAvatar({ author: author?.author })
+  const { authorComments, hasMore, loadMore } = useAuthorComments({
+    commentCid: params?.commentCid, authorAddress: params?.authorAddress, filter: {
       hasParentCid: selectedNav === 'Comments' ? true : undefined
     }
-  }
-  );
+  })
 
-  const navOptions = ['Overview', 'Posts', 'Comments', 'Moderation', 'Saved', 'Hidden'];
+  const navOptions = ['Overview', 'Posts', 'Comments', ' Award Received'];
   const history = useHistory();
   const location = useLocation();
-  const feeds = myPost ? [...myPost].reverse() : [];
+
+  const feeds = authorComments ? [...authorComments].reverse() : [];
+
 
 
   return (
-    <Layout name={ { label: profile?.author?.title || 'Profile', value: location?.pathname } }>
+    <Layout name={ { label: getUserName(author?.author) || 'Profile', value: location?.pathname } }>
       <>
         { device !== 'mobile' ? (
           <Flex flexDir="column">
-            <Flex alignItems="center" justifyContent="center" bg={ bg }>
-              <Flex
-                alignItems="center"
-                justifyContent="center"
-                height="39px"
-                textTransform="uppercase"
-              >
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="default"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'overview' && '#0079d3' }
-                    onClick={ () => setCurrentView('overview') }
-                    borderBottom={ currentView === 'overview' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Overview
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="default"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'post' && '#0079d3' }
-                    onClick={ () => setCurrentView('post') }
-                    borderBottom={ currentView === 'post' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Post
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="default"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'comments' && '#0079d3' }
-                    onClick={ () => setCurrentView('comments') }
-                    borderBottom={ currentView === 'comments' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Comments
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="not-allowed"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'saved' && '#0079d3' }
-                    // onClick={() => setCurrentView('saved')}
-                    borderBottom={ currentView === 'saved' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Saved
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="not-allowed"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'hidden' && '#0079d3' }
-                    // onClick={() => setCurrentView('hidden')}
-                    borderBottom={ currentView === 'hidden' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Hidden
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="not-allowed"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'upvoted' && '#0079d3' }
-                    // onClick={() => setCurrentView('upvoted')}
-                    borderBottom={ currentView === 'upvoted' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Upvoted
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="not-allowed"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'downvoted' && '#0079d3' }
-                    // onClick={() => setCurrentView('downvoted')}
-                    borderBottom={ currentView === 'downvoted' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Downvoted
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    cursor="not-allowed"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'awardRecieved' && '#0079d3' }
-                    // onClick={() => setCurrentView('awardRecieved')}
-                    borderBottom={ currentView === 'awardRecieved' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Award Received
-                  </Box>
-                </Link>
-                <Link>
-                  <Box
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    margin="0 5px"
-                    padding="8px"
-                    height="100%"
-                    color={ currentView === 'awardGiven' && '#0079d3' }
-                    // onClick={() => setCurrentView('awardGiven')}
-                    cursor="not-allowed"
-                    borderBottom={ currentView === 'awardGiven' && '2px solid #0079d3' }
-                    mb="-3px"
-                  >
-                    Award Given
-                  </Box>
-                </Link>
+            <Flex alignItems="center" bg={ bg } width="100%">
+              <Flex width={ currentView !== 'overview' ? '100%' : '70%' }
+                marginX="auto"
+                justifyContent="space-between" paddingX="15px">
+
+                <Flex
+                  alignItems="center"
+                  height="39px"
+                  textTransform="uppercase"
+                  width="calc(100% - 312px)"
+
+                >
+                  <Link>
+                    <Box
+                      fontSize="14px"
+                      fontWeight="500"
+                      lineHeight="18px"
+                      cursor="default"
+                      margin="0 5px"
+                      padding="8px"
+                      height="100%"
+                      color={ currentView === 'overview' && '#0079d3' }
+                      onClick={ () => setCurrentView('overview') }
+                      borderBottom={ currentView === 'overview' && '2px solid #0079d3' }
+                      mb="-3px"
+                    >
+                      Overview
+                    </Box>
+                  </Link>
+                  <Link>
+                    <Box
+                      fontSize="14px"
+                      fontWeight="500"
+                      lineHeight="18px"
+                      cursor="default"
+                      margin="0 5px"
+                      padding="8px"
+                      height="100%"
+                      color={ currentView === 'post' && '#0079d3' }
+                      onClick={ () => setCurrentView('post') }
+                      borderBottom={ currentView === 'post' && '2px solid #0079d3' }
+                      mb="-3px"
+                    >
+                      Post
+                    </Box>
+                  </Link>
+                  <Link>
+                    <Box
+                      fontSize="14px"
+                      fontWeight="500"
+                      lineHeight="18px"
+                      cursor="default"
+                      margin="0 5px"
+                      padding="8px"
+                      height="100%"
+                      color={ currentView === 'comments' && '#0079d3' }
+                      onClick={ () => setCurrentView('comments') }
+                      borderBottom={ currentView === 'comments' && '2px solid #0079d3' }
+                      mb="-3px"
+                    >
+                      Comments
+                    </Box>
+                  </Link>
+
+                  <Link>
+                    <Box
+                      fontSize="14px"
+                      fontWeight="500"
+                      lineHeight="18px"
+                      cursor="not-allowed"
+                      margin="0 5px"
+                      padding="8px"
+                      height="100%"
+                      color={ currentView === 'awardRecieved' && '#0079d3' }
+                      // onClick={() => setCurrentView('awardRecieved')}
+                      borderBottom={ currentView === 'awardRecieved' && '2px solid #0079d3' }
+                      mb="-3px"
+                    >
+                      Award Received
+                    </Box>
+                  </Link>
+
+                </Flex>
               </Flex>
             </Flex>
 
@@ -216,6 +143,8 @@ const Profile = () => {
                 { currentView === 'overview' && (
                   <Flex width="100%" flexDir="column">
                     <InfiniteScroll
+                      hasMore={ hasMore }
+                      loadMore={ loadMore }
                       feeds={ feeds }
                       loader={ <Post loading={ true } mode="card" key={ Math.random() } /> }
                       content={ (index, feed) => <Post post={ feed } index={ index } key={ feed?.cid || index } mode="card" /> }
@@ -473,92 +402,14 @@ const Profile = () => {
                   <Flex width="100%" flexDir="column">
                     <InfiniteScroll
                       feeds={ feeds }
+                      hasMore={ hasMore }
+                      loadMore={ loadMore }
                       loader={ <Post loading={ true } mode="classic" key={ Math.random() } /> }
                       content={ (index, feed) => <Post index={ index } post={ feed } key={ feed?.cid || index } mode="classic" /> }
                     />
                   </Flex>
                 ) }
-                { currentView === 'saved' && (
-                  <Flex width="100%" flexDir="column">
-                    {/* <Post mode />
 
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent /> */}
-                  </Flex>
-                ) }
-                { currentView === 'upvoted' && <Flex width="100%" flexDir="column"></Flex> }
-                { currentView === 'downvoted' && (
-                  <Flex width="100%" flexDir="column">
-                    {/* <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent /> */}
-                  </Flex>
-                ) }
-                { currentView === 'hidden' && (
-                  <Flex width="100%" flexDir="column">
-                    {/* <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent /> */}
-                  </Flex>
-                ) }
-                { currentView === 'awardGiven' && (
-                  <Flex width="100%" flexDir="column">
-                    {/* <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent /> */}
-                  </Flex>
-                ) }
                 { currentView === 'awardRecieved' && (
                   <Flex width="100%" flexDir="column">
                     {/* <Post hideContent />
@@ -581,7 +432,7 @@ const Profile = () => {
                 ) }
               </Flex>
 
-              <SideBar mt="0px" profile={ profile } avatar={ authorAvatarImageUrl } />
+              <SideBar mt="0px" profile={ author } avatar={ imageUrl } />
             </Flex>
           </Flex>
         ) : (
@@ -596,7 +447,7 @@ const Profile = () => {
                 <Box>
                   <Box padding="8px" textAlign="center">
                     <Avatar
-                      avatar={ authorAvatarImageUrl }
+                      avatar={ imageUrl }
                       height={ 64 }
                       width={ 64 }
                       sx={ {
@@ -611,7 +462,7 @@ const Profile = () => {
                       verticalAlign="middle"
                       margin="0"
                     >
-                      { getUserName(profile?.author) }
+                      { getUserName(author?.author) }
                     </Box>
                     <Flex
                       justifyContent="center"
@@ -624,12 +475,10 @@ const Profile = () => {
                       alignItems="center"
                     >
                       <Box>
-                        <strong>{ numFormatter(profile?.karma?.score) }</strong> karma
+                        <strong>{ numFormatter(author?.author?.karma?.score) || 0 }</strong> karma
                       </Box>
                     </Flex>
-                    <Box color={ mobileLink } onClick={ () => history.push('/settings', []) }>
-                      Edit profile <Icon marginLeft="4px" as={ MdEdit } verticalAlign="middle" />
-                    </Box>
+
                   </Box>
                   <Box position="relative">
                     <Flex
@@ -667,6 +516,8 @@ const Profile = () => {
             <Flex flexDir="column">
               <InfiniteScroll
                 feeds={ feeds }
+                hasMore={ hasMore }
+                loadMore={ loadMore }
                 loader={ <Post loading={ true } mode="card" key={ Math.random() } /> }
                 content={ (index, feed) => <Post index={ index } post={ feed } key={ feed?.cid || index } mode="card" /> }
               />
@@ -678,4 +529,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Author;
