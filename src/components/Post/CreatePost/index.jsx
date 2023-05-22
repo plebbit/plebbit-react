@@ -130,10 +130,16 @@ const CreatePost = () => {
   const { index, publishComment } = usePublishComment(publishCommentOptions)
 
 
-  if (index) {
-    history.push(`/profile/c/${index}`);
-
+  if (Boolean(index + 1)) {
+    history.push(`/profile/c/${index}`, []);
   }
+
+
+
+
+
+
+
 
 
 
@@ -155,6 +161,7 @@ const CreatePost = () => {
       });
     }
   };
+
 
 
 

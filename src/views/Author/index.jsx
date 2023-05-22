@@ -1,10 +1,10 @@
 import { Flex, Link, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
-import { Link as ReactLink, useHistory, useLocation } from 'react-router-dom';
+import { Link as ReactLink, useHistory, useLocation, useParams } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
 import Post from '../../components/Post';
-import { useAccountComments } from '@plebbit/plebbit-react-hooks';
+import { useAuthor, useAuthorAvatar, useAuthorComments } from '@plebbit/plebbit-react-hooks';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import FeedSort from '../../components/Post/FeedSort';
 import { ProfileContext } from '../../store/profileContext';
@@ -14,42 +14,39 @@ import { MdEdit } from 'react-icons/md';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 
-const Profile = () => {
-  const { profile, device, authorAvatarImageUrl } = useContext(ProfileContext);
+const Author = () => {
+  const location = useLocation();
+  const params = useParams();
+  const { device } = useContext(ProfileContext);
+  const currentView = location.pathname.split('/').at(-1);
   const bg = useColorModeValue('white', 'darkNavBg');
   const mobileBg = useColorModeValue('white', 'black');
   const mobileBorder = useColorModeValue('lightMobileIcon', 'darkMobileIcon');
   const mobileLink = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
-  const location = useLocation();
-  const currentView = location.pathname.split('/').at(-1);
-  const { accountComments: myPost } = useAccountComments({
-    filter: {
+  const author = useAuthor({ commentCid: params?.commentCid, authorAddress: params?.authorAddress })
+  const { imageUrl } = useAuthorAvatar({ author: author?.author })
+  const { authorComments, hasMore, loadMore } = useAuthorComments({
+    commentCid: params?.commentCid, authorAddress: params?.authorAddress, filter: {
       hasParentCid: currentView === 'comments' ? true : undefined
     }
-  }
-  );
+  })
 
   const navOptions = [
-    { label: 'overview', link: 'overview', optional: 'profile' },
+    { label: 'overview', link: 'overview', optional: params?.commentCid },
     { label: 'posts', link: 'posts', },
     { label: 'comments', link: 'comments', },
-    { label: 'history', link: 'history', },
-    { label: 'saved', link: 'saved', },
-    { label: 'hidden', link: 'hidden', },
-    { label: 'upvoted', link: 'upvoted', },
-    { label: 'downvoted', link: 'downvoted', },
     { label: 'awards received', link: 'gilded', },
-    { label: 'awards given', link: 'gilded/given', },
 
   ];
   const history = useHistory();
-  const feeds = myPost ? [...myPost].reverse() : [];
-  const fullNav = !(currentView === 'overview' || currentView === 'profile')
 
+  const feeds = authorComments ? [...authorComments].reverse() : [];
+  const fullNav = !(currentView === 'overview' || currentView === params?.commentCid)
+  const address = `/u/${params?.authorAddress}/c/${params?.commentCid}`
 
   return (
-    <Layout name={ { label: getUserName(profile?.author) || 'Profile', value: location?.pathname } }>
+    <Layout name={ { label: getUserName(author?.author) || 'Profile', value: location?.pathname } }>
       <>
         { device !== 'mobile' ? (
           <Flex flexDir="column">
@@ -71,7 +68,7 @@ const Profile = () => {
                         textDecoration: "none",
 
                       } }
-                      as={ ReactLink } to={ `/profile/${option?.link}` }>
+                      as={ ReactLink } to={ `${address}/${option?.link}` }>
                       <Box
                         fontSize="14px"
                         fontWeight="500"
@@ -103,9 +100,11 @@ const Profile = () => {
               <Flex width="calc(100% - 312px)" flexDir="column">
                 <FeedSort hideControl />
 
-                { (currentView === 'overview' || currentView === 'profile') && (
+                { (currentView === 'overview' || currentView === params?.commentCid) && (
                   <Flex width="100%" flexDir="column">
                     <InfiniteScroll
+                      hasMore={ hasMore }
+                      loadMore={ loadMore }
                       feeds={ feeds }
                       loader={ <Post loading={ true } mode="card" key={ Math.random() } /> }
                       content={ (index, feed) => <Post post={ feed } index={ index } key={ feed?.cid || index } mode="card" /> }
@@ -359,97 +358,19 @@ const Profile = () => {
 
                   </Flex>
                 ) }
-                { currentView === 'posts' && (
+                { currentView === 'post' && (
                   <Flex width="100%" flexDir="column">
                     <InfiniteScroll
                       feeds={ feeds }
+                      hasMore={ hasMore }
+                      loadMore={ loadMore }
                       loader={ <Post loading={ true } mode="classic" key={ Math.random() } /> }
                       content={ (index, feed) => <Post index={ index } post={ feed } key={ feed?.cid || index } mode="classic" /> }
                     />
                   </Flex>
                 ) }
-                { currentView === 'saved' && (
-                  <Flex width="100%" flexDir="column">
-                    {/* <Post mode />
 
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent /> */}
-                  </Flex>
-                ) }
-                { currentView === 'upvoted' && <Flex width="100%" flexDir="column"></Flex> }
-                { currentView === 'downvoted' && (
-                  <Flex width="100%" flexDir="column">
-                    {/* <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent /> */}
-                  </Flex>
-                ) }
-                { currentView === 'hidden' && (
-                  <Flex width="100%" flexDir="column">
-                    {/* <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent /> */}
-                  </Flex>
-                ) }
-                { currentView === 'awards given' && (
-                  <Flex width="100%" flexDir="column">
-                    {/* <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent /> */}
-                  </Flex>
-                ) }
-                { currentView === 'awards recieved' && (
+                { currentView === 'awardRecieved' && (
                   <Flex width="100%" flexDir="column">
                     {/* <Post hideContent />
 
@@ -471,7 +392,7 @@ const Profile = () => {
                 ) }
               </Flex>
 
-              <SideBar mt="0px" profile={ profile } avatar={ authorAvatarImageUrl } />
+              <SideBar mt="0px" profile={ author } avatar={ imageUrl } />
             </Flex>
           </Flex>
         ) : (
@@ -486,7 +407,7 @@ const Profile = () => {
                 <Box>
                   <Box padding="8px" textAlign="center">
                     <Avatar
-                      avatar={ authorAvatarImageUrl }
+                      avatar={ imageUrl }
                       height={ 64 }
                       width={ 64 }
                       sx={ {
@@ -501,7 +422,7 @@ const Profile = () => {
                       verticalAlign="middle"
                       margin="0"
                     >
-                      { getUserName(profile?.author) }
+                      { getUserName(author?.author) }
                     </Box>
                     <Flex
                       justifyContent="center"
@@ -514,12 +435,10 @@ const Profile = () => {
                       alignItems="center"
                     >
                       <Box>
-                        <strong>{ numFormatter(profile?.karma?.score) }</strong> karma
+                        <strong>{ numFormatter(author?.author?.karma?.score) || 0 }</strong> karma
                       </Box>
                     </Flex>
-                    <Box color={ mobileLink } onClick={ () => history.push('/settings', []) }>
-                      Edit profile <Icon marginLeft="4px" as={ MdEdit } verticalAlign="middle" />
-                    </Box>
+
                   </Box>
                   <Box position="relative">
                     <Flex
@@ -535,7 +454,7 @@ const Profile = () => {
                             textDecoration: "none",
 
                           } }
-                          as={ ReactLink } to={ `/profile/${option?.link}` }>
+                          as={ ReactLink } to={ `${address}/${option?.link}` } >
                           <Box
                             overflow="hidden"
                             textOverflow="ellipsis"
@@ -564,6 +483,8 @@ const Profile = () => {
             <Flex flexDir="column">
               <InfiniteScroll
                 feeds={ feeds }
+                hasMore={ hasMore }
+                loadMore={ loadMore }
                 loader={ <Post loading={ true } mode="card" key={ Math.random() } /> }
                 content={ (index, feed) => <Post index={ index } post={ feed } key={ feed?.cid || index } mode="card" /> }
               />
@@ -575,4 +496,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Author;

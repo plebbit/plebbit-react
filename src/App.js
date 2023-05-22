@@ -13,10 +13,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import Notifications from './views/Notifications';
 import PostDetail from './views/PostDetail';
 import PostDetailModal from './views/PostDetail/PostDetailModal';
+import Author from './views/Author';
 
 const App = () => {
   const location = useLocation();
   const modal = location?.state?.location;
+
+
 
   return (
     <div>
@@ -45,7 +48,8 @@ const App = () => {
           component={ Settings }
           name="settings"
         />
-        <Route exact path="/profile" component={ Profile } name="Profile" />
+        <Route exact path={ ["/profile", '/profile/overview', '/profile/posts', '/profile/comments', '/profile/history', '/profile/saved', "/profile/hidden", "/profile/upvoted", "/profile/downvoted", '/profile/gilded', '/profile/gilded/given'] } component={ Profile } name="Profile" />
+        <Route exact path={ ["/u/:authorAddress/c/:commentCid", '/u/:authorAddress/c/:commentCid/overview', '/u/:authorAddress/c/:commentCid/posts', '/u/:authorAddress/c/:commentCid/comments', '/u/:authorAddress/c/:commentCid/gilded'] } component={ Author } name="Author" />
         <Route exact path="/p/:subplebbitAddress" component={ SubPlebbit } />
         <Route
           exact

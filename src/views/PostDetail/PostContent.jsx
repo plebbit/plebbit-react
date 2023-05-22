@@ -36,7 +36,7 @@ import { CgNotes, CgClose } from 'react-icons/cg';
 import SideBar from './postDetailSideBar';
 import Comment from '../../components/Post/comment'
 import Editor from '../../components/Editor';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { Link as ReactLink, useHistory, useLocation, useParams } from 'react-router-dom';
 import getUserName, { getSubName } from '../../utils/getUserName';
 import numFormatter from '../../utils/numberFormater';
 import Post from '../../components/Post';
@@ -270,6 +270,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const owner =
     profile?.author?.address === detail?.author?.address ||
     profile?.signer?.address === detail?.author?.address;
+
+  const authorPath = owner ? "/profile" : `/u/${detail?.author?.address}/c/${detail?.cid}`
 
   const comments = useRepliesAndAccountReplies(detail)
 
@@ -769,6 +771,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                             lineHeight="16px"
                             color={ misCol }
                             marginRight="3px"
+                            to={ authorPath }
+                            as={ ReactLink }
                           >
                             { getUserName(detail?.author) }
                           </Link>
