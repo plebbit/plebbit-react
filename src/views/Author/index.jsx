@@ -41,7 +41,7 @@ const Author = () => {
   ];
   const history = useHistory();
 
-  const feeds = authorComments ? [...authorComments].reverse() : [];
+  const feeds = authorComments;
   const fullNav = !(currentView === 'overview' || currentView === params?.commentCid)
   const address = `/u/${params?.authorAddress}/c/${params?.commentCid}`
 
