@@ -25,12 +25,12 @@ import { BiChevronDown } from 'react-icons/bi';
 import { MdAdd } from 'react-icons/md';
 import { BsEye } from 'react-icons/bs';
 import CreatableMulti from '../../components/DropDown/creatableMulti';
-import { Link, useHistory } from 'react-router-dom';
 import truncateString from '../../utils/truncateString';
 import { dateFormater } from '../../utils/formatDate';
 import BottomSideBar from '../../components/sidebar/bottomSideBar';
 import BacktoTopButton from '../../components/sidebar/backtoTopButton';
 import FlairLabel from "../../components/Label/flairLabel"
+import Link from "../../components/Link"
 import { getSubName } from '../../utils/getUserName';
 
 const SideBar = ({
@@ -67,7 +67,7 @@ const SideBar = ({
   const [showAddSubtopic, hideSubTopic] = useState(false);
   const [showAddDescription, hideAddDescription] = useState(false);
   const [showComOptions, hideComOptions] = useState(false);
-  const history = useHistory();
+
 
   return (
     <Box
@@ -350,7 +350,8 @@ const SideBar = ({
                 width="100%"
                 bg={ headerBg }
                 color={ headerColor }
-                onClick={ () => history.push(`/p/${subPlebbit?.address}/submit`) }
+                as={ Link }
+                to={ `/p/${subPlebbit?.address}/submit` }
               >
                 Create Post
               </Button>

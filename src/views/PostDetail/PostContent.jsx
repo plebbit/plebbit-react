@@ -6,7 +6,6 @@ import {
   useColorModeValue,
   Icon,
   IconButton,
-  Link,
   useToast,
   Button,
   Skeleton,
@@ -36,7 +35,7 @@ import { CgNotes, CgClose } from 'react-icons/cg';
 import SideBar from './postDetailSideBar';
 import Comment from '../../components/Post/comment'
 import Editor from '../../components/Editor';
-import { Link as ReactLink, useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import getUserName, { getSubName } from '../../utils/getUserName';
 import numFormatter from '../../utils/numberFormater';
 import Post from '../../components/Post';
@@ -62,6 +61,7 @@ import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
 import useCommentEdit from '../../hooks/useCommentEdit';
 import Image from '../../components/Image';
+import Link from '../../components/Link';
 import { dateToNow } from '../../utils/formatDate';
 import { ProfileContext } from '../../store/profileContext';
 import EditLabel from "../../components/Label/editLabel";
@@ -69,6 +69,7 @@ import PendingLabel from "../../components/Label/pendingLabel";
 import SpoilerLabel from "../../components/Label/spoilerLabel";
 import FlairLabel from '../../components/Label/flairLabel';
 import AddComment from './addComment';
+import useStateString from '../../hooks/useStateString';
 
 const PostContent = ({ setDetail, setSubplebbit }) => {
   const {
@@ -309,7 +310,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
   }, [detail, subplebbit])
 
-
+  const stateString = useStateString(detail)
 
 
 
@@ -742,9 +743,10 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                               display="inline"
                               lineHeight="20px"
                               textDecoration="none"
-                              onClick={ () =>
-                                history.push(`/p/${detail?.subplebbitAddress}`, [])
-                              }
+
+                              cursor="pointer"
+                              as={ Link }
+                              to={ `/p/${detail?.subplebbitAddress}` }
                             >
                               { getSubName(subplebbit) }
                             </Box>
@@ -772,7 +774,6 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                             color={ misCol }
                             marginRight="3px"
                             to={ authorPath }
-                            as={ ReactLink }
                           >
                             { getUserName(detail?.author) }
                           </Link>
@@ -799,6 +800,30 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           <Link color={ misCol }>
                             { dateToNow(parseInt(detail?.timestamp * 1000)) } ago
                           </Link>
+                          { stateString && stateString !== 'Succeeded' && <>
+
+                            <Text
+                              color={ separatorColor }
+                              as="span"
+                              verticalAlign="middle"
+                              fontSize="6px"
+                              lineHeight="20px"
+                              margin="0 4px"
+                            >
+                              •
+                            </Text>
+                            <Text
+                              color={ separatorColor }
+                              as="span"
+                              verticalAlign="middle"
+                              fontSize="10px"
+                              lineHeight="20px"
+                              margin="0 4px"
+                            >
+                              { stateString }
+                            </Text>
+                          </> }
+
                         </Box>
                         { detail?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
                         { detail?.removed && (
@@ -1653,7 +1678,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                       pos="absolute"
                       right="0"
                       top="0"
-                      onClick={ () => history.push(`/p/${detail?.subplebbitAddress}`, []) }
+
+                      as={ Link }
+                      to={ `/p/${detail?.subplebbitAddress}` }
                     />
                     <Box
                       backgroundColor={ mainMobileBg }
@@ -1698,11 +1725,13 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         </Skeleton>
                         <Skeleton margin="5px" isLoaded={ !loading }>
                           <Box
-                            onClick={ () => history.push(`/p/${detail?.subplebbitAddress}`, []) }
                             fontWeight="700"
                             lineHeight="18px"
                             margin="5px"
                             textAlign="center"
+                            cursor="pointer"
+                            as={ Link }
+                            to={ `/p/${detail?.subplebbitAddress}` }
                           >
                             { getSubName(subplebbit) }
                           </Box>

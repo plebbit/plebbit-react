@@ -9,7 +9,7 @@ import {
 
   Icon,
   Switch,
-  Link,
+
   useDisclosure,
   useToast,
   UnorderedList,
@@ -29,9 +29,10 @@ import logger from '../../utils/logger';
 import AddBlockProvide from './modal/addBlockProvider';
 import Swal from 'sweetalert2';
 import Layout from '../../components/layout';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { deleteCaches } from '@plebbit/plebbit-react-hooks';
 import Image from '../../components/Image';
+import Link from '../../components/Link';
 import placeholder from '../../assets/images/fallback.png'
 import onError from '../../utils/onError';
 
@@ -61,7 +62,7 @@ const Settings = () => {
   ];
   const [userProfile, setUserProfile] = useState(profile);
   const toast = useToast();
-  const history = useHistory();
+
 
   const { resolvedAddress: resolvedAuthorAddress, error } = useResolvedAuthorAddress(
     { author: userProfile ? userProfile?.author?.address : '', cache: false }
@@ -320,7 +321,8 @@ const Settings = () => {
                   _hover={ {
                     color: mainColor,
                   } }
-                  onClick={ () => history.push(`/settings/${tab?.link}`) }
+                  as={ Link }
+                  to={ `/settings/${tab?.link}` }
                 >
                   { tab?.label }
                 </Box>

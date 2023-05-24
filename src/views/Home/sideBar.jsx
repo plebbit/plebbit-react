@@ -18,7 +18,8 @@ import BacktoTopButton from '../../components/sidebar/backtoTopButton';
 import { ProfileContext } from '../../store/profileContext';
 import { useSubplebbits } from '@plebbit/plebbit-react-hooks';
 import Avatar from '../../components/Avatar';
-import { useHistory } from 'react-router-dom';
+import Link from '../../components/Link';
+
 import getIsOnline from '../../utils/getIsOnline';
 import { getSubName } from '../../utils/getUserName';
 import convertArrToObj from '../../utils/convertArrToObj';
@@ -41,7 +42,6 @@ const SideBar = ({
   const { subPlebbitData } = useContext(ProfileContext);
   const Bg = useColorModeValue('#F8F9FA', '');
   const { subplebbits } = useSubplebbits({ subplebbitAddresses: subPlebbitData?.map((x) => x?.address) });
-  const history = useHistory();
   const subs = Sort(
     convertArrToObj(
       subplebbits?.includes(undefined)
@@ -120,7 +120,8 @@ const SideBar = ({
                 justifyContent="space-between"
                 borderBottom="thin solid #edeff1"
                 cursor="pointer"
-                onClick={ () => history.push(`/p/${sub?.address}`, []) }
+                as={ Link }
+                to={ `/p/${sub?.address}` }
               >
                 <Flex alignItems="center">
                   <Box

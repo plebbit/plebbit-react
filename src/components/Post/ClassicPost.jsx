@@ -6,7 +6,6 @@ import {
   Flex,
   Icon,
 
-  Link,
   Skeleton,
   Tag,
   Text,
@@ -32,7 +31,6 @@ import { VscLinkExternal } from 'react-icons/vsc';
 import { FiExternalLink, FiMoreHorizontal, FiShare } from 'react-icons/fi';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
-import { Link as ReactLink, useHistory } from 'react-router-dom';
 import fromNow from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import getUserName, { getSubName } from '../../utils/getUserName';
@@ -46,6 +44,7 @@ import { TiDeleteOutline } from 'react-icons/ti';
 import { AiOutlineYoutube, AiTwotoneDelete } from 'react-icons/ai';
 import truncateString from '../../utils/truncateString';
 import Image from "../Image"
+import Link from "../Link"
 import PostMedia from './PostMedia';
 import Label from '../Label'
 import EditLabel from "../Label/editLabel";
@@ -107,7 +106,6 @@ const ClassicPost = ({
   const { device } = useContext(ProfileContext);
   const subPlebbit = sub || { address: post?.subplebbitAddress };
   const postBg = useColorModeValue('lightCommunityThemePost', 'darkCommunityThemePost');
-  const history = useHistory();
 
   return (
     <>
@@ -122,6 +120,7 @@ const ClassicPost = ({
           bg={ postTransBg }
           _hover={ { border: '1px solid #898989' } }
         >
+
           {/* Vote Bar */ }
           <Skeleton isLoaded={ !loading }>
             <Flex
@@ -230,11 +229,13 @@ const ClassicPost = ({
           <Box bg={ mainBg } position="relative">
             <Flex position="relative" padding="8px 8px 0">
               {/* Post image */ }
+
               <Flex
                 flex="0 0 96px"
                 height="72px"
                 borderRadius="4px"
-                onClick={ () => history.push(detailRoute, []) }
+                as={ Link }
+                to={ detailRoute }
               >
                 <Flex flex="0 0 96px" height="72px" borderRadius="4px" backgroundColor={ shadow }>
                   <Box
@@ -283,7 +284,8 @@ const ClassicPost = ({
                   alignItems="center"
                   flexWrap="wrap"
                   margin="0 8px"
-                  onClick={ () => history.push(detailRoute, []) }
+                  as={ Link }
+                  to={ detailRoute }
                 >
                   <Skeleton display="flex" flexWrap="wrap" isLoaded={ !loading }>
                     { ' ' }
@@ -362,7 +364,7 @@ const ClassicPost = ({
                       >
                         {/* <Avatar width={24} height={24} mr="8px" badge isOnline={isOnline} /> */ }
                         <Link
-                          as={ ReactLink }
+
                           to={ detailRoute }
                           color={ subPledditTextColor }
                           fontSize="12px"
@@ -382,7 +384,7 @@ const ClassicPost = ({
                         <Box display="inline-block" flex="0 0 auto">
                           <Box>
                             <Link
-                              as={ ReactLink }
+
                               _hover={ {
                                 textDecoration: 'underline',
                               } }
@@ -551,7 +553,8 @@ const ClassicPost = ({
                         _hover={ {
                           backgroundColor: inputBg,
                         } }
-                        onClick={ () => history.push(detailRoute, []) }
+                        as={ Link }
+                        to={ detailRoute }
                       >
                         <Icon
                           as={ BsChatSquare }
@@ -836,7 +839,8 @@ const ClassicPost = ({
                         _hover={ {
                           backgroundColor: inputBg,
                         } }
-                        onClick={ () => history.push(detailRoute, []) }
+                        to={ detailRoute }
+                        as={ Link }
                       >
                         <Icon
                           as={ BsChat }
@@ -1082,7 +1086,7 @@ const ClassicPost = ({
           <Box position="relative" bg={ mainMobileBg }>
             {/* Background link */ }
             <Link
-              as={ ReactLink }
+
               to={ detailRoute }
               bottom="0"
               left="0"
@@ -1596,7 +1600,7 @@ const ClassicPost = ({
                     </Flex>
                   </Flex>
                   {/* comment button */ }
-                  <Link as={ ReactLink } to={ detailRoute }>
+                  <Link to={ detailRoute }>
                     <Flex
                       color={ mobileIconColor }
                       fill={ mobileIconColor }
@@ -1793,7 +1797,7 @@ const ClassicPost = ({
                     </Flex>
                   </Flex>
                   {/* comment button */ }
-                  <Link as={ ReactLink } to={ detailRoute }>
+                  <Link to={ detailRoute }>
                     <Flex
                       color={ mobileIconColor }
                       fill={ mobileIconColor }

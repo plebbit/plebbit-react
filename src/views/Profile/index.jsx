@@ -1,6 +1,6 @@
-import { Flex, Link, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
+import { Flex, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
-import { Link as ReactLink, useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
 import Post from '../../components/Post';
@@ -13,6 +13,7 @@ import numFormatter from '../../utils/numberFormater';
 import { MdEdit } from 'react-icons/md';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
+import Link from '../../components/Link';
 
 const Profile = () => {
   const { profile, device, authorAvatarImageUrl } = useContext(ProfileContext);
@@ -43,7 +44,6 @@ const Profile = () => {
     { label: 'awards given', link: 'gilded/given', },
 
   ];
-  const history = useHistory();
   const feeds = myPost ? [...myPost].reverse() : [];
   const fullNav = !(currentView === 'overview' || currentView === 'profile')
 
@@ -65,13 +65,7 @@ const Profile = () => {
                   width="calc(100% - 312px)"
                 >
                   {
-                    navOptions?.map((option) => <Link
-                      key={ option?.label }
-                      _hover={ {
-                        textDecoration: "none",
-
-                      } }
-                      as={ ReactLink } to={ `/profile/${option?.link}` }>
+                    navOptions?.map((option) =>
                       <Box
                         fontSize="14px"
                         fontWeight="500"
@@ -84,10 +78,17 @@ const Profile = () => {
                         borderBottom={ (currentView === option?.link || currentView === option?.optional) && '2px solid #0079d3' }
                         mb="-3px"
                         textTransform="uppercase"
+                        key={ option?.label }
+                        _hover={ {
+                          textDecoration: "none",
+
+                        } }
+                        to={ `/profile/${option?.link}` }
+                        as={ Link }
                       >
                         { option?.label }
                       </Box>
-                    </Link>)
+                    )
                   }
 
                 </Flex>
@@ -517,7 +518,7 @@ const Profile = () => {
                         <strong>{ numFormatter(profile?.karma?.score) }</strong> karma
                       </Box>
                     </Flex>
-                    <Box color={ mobileLink } onClick={ () => history.push('/settings', []) }>
+                    <Box as={ Link } to='/settings' color={ mobileLink } >
                       Edit profile <Icon marginLeft="4px" as={ MdEdit } verticalAlign="middle" />
                     </Box>
                   </Box>
@@ -530,30 +531,31 @@ const Profile = () => {
                       justifyContent="space-between"
                     >
                       { navOptions?.map((option) => (
-                        <Link
+
+                        <Box
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                          fontSize="14px"
+                          fontWeight="600"
+                          lineHeight="17px"
+                          padding="9px 8px"
+                          color={ (currentView === option?.link || currentView === option?.optional) ? mobileLink : '#6a6d6f' }
+                          borderBottomWidth={ (currentView === option?.link || currentView === option?.optional) ? '1px' : '0' }
+                          borderBottomColor={ (currentView === option?.link || currentView === option?.optional) && mobileLink }
+                          borderBottomStyle="solid"
+                          key={ option?.label }
                           _hover={ {
                             textDecoration: "none",
 
                           } }
-                          as={ ReactLink } to={ `/profile/${option?.link}` }>
-                          <Box
-                            overflow="hidden"
-                            textOverflow="ellipsis"
-                            whiteSpace="nowrap"
-                            fontSize="14px"
-                            fontWeight="600"
-                            lineHeight="17px"
-                            padding="9px 8px"
-                            color={ (currentView === option?.link || currentView === option?.optional) ? mobileLink : '#6a6d6f' }
-                            borderBottomWidth={ (currentView === option?.link || currentView === option?.optional) ? '1px' : '0' }
-                            borderBottomColor={ (currentView === option?.link || currentView === option?.optional) && mobileLink }
-                            borderBottomStyle="solid"
-                            key={ option?.label }
+                          to={ `/profile/${option?.link}` }
+                          as={ Link }
 
-                          >
-                            { option?.label }
-                          </Box>
-                        </Link>
+                        >
+                          { option?.label }
+                        </Box>
+
                       )) }
                     </Flex>
                   </Box>

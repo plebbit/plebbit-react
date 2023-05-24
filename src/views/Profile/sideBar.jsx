@@ -7,10 +7,10 @@ import { RiTShirtFill } from 'react-icons/ri';
 import { GiCakeSlice, GiMoebiusStar } from 'react-icons/gi';
 import Button from '../../components/Button';
 import numFormatter from '../../utils/numberFormater';
-import { useHistory } from 'react-router-dom';
 import AddAvatar from '../Settings/modal/addAvatar';
 import BottomSideBar from '../../components/sidebar/bottomSideBar';
 import Image from '../../components/Image';
+import Link from '../../components/Link';
 
 const SideBar = ({
   mt,
@@ -31,7 +31,6 @@ const SideBar = ({
   const Bg = useColorModeValue('#F8F9FA', '');
 
   const [showMoreOptions, setShowMoreOptions] = useState(false);
-  const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
 
@@ -107,9 +106,8 @@ const SideBar = ({
                 height="100%"
               />
             </Box>
-            <Box padding="4px" position="absolute" right="12px" mt="-76px">
+            <Box as={ Link } to='/settings' padding="4px" position="absolute" right="12px" mt="-76px">
               <Icon
-                onClick={ () => history.push('/settings', []) }
                 as={ AiOutlineSetting }
                 height="20px"
                 color="#33a8ff"
@@ -193,7 +191,8 @@ const SideBar = ({
               bg="#0079d3"
               border="none"
               color="#fff"
-              onClick={ () => history.push('/submit', []) }
+              as={ Link }
+              to='/submit'
             />
             { showMoreOptions && (
               <Flex flexDir="column">

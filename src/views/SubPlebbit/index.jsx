@@ -7,13 +7,14 @@ import Post from '../../components/Post';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
 import { useSubscribe, useFeed, useSubplebbit, usePublishSubplebbitEdit } from '@plebbit/plebbit-react-hooks';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import SideBar from './sideBar';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import Layout from '../../components/layout';
 import getIsOnline from '../../utils/getIsOnline';
 import Avatar from '../../components/Avatar';
+import Link from '../../components/Link';
 import { PlebLogo } from '../../components/svgs';
 import { getAddress } from '../../utils/getUserName';
 import onError from '../../utils/onError';
@@ -39,7 +40,6 @@ const SubPlebbit = ({ match }) => {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [subLoading, setSubLoading] = useState(false);
-  const history = useHistory();
   const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
   const location = useLocation();
   const isOnline = getIsOnline(subPlebbit?.updatedAt);
@@ -467,7 +467,8 @@ const SubPlebbit = ({ match }) => {
                       flex="1 1 1%"
                       textAlign="center"
                       padding="0 8px"
-                      onClick={ () => history.push(`/p/${subPlebbit?.address}/about/`) }
+                      as={ Link }
+                      to={ `/p/${subPlebbit?.address}/about/` }
                     >
                       ABOUT
                     </Box>

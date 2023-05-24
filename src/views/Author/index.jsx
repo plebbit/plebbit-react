@@ -1,6 +1,6 @@
-import { Flex, Link, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
+import { Flex, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
-import { Link as ReactLink, useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
 import Post from '../../components/Post';
@@ -10,9 +10,9 @@ import FeedSort from '../../components/Post/FeedSort';
 import { ProfileContext } from '../../store/profileContext';
 import getUserName from '../../utils/getUserName';
 import numFormatter from '../../utils/numberFormater';
-import { MdEdit } from 'react-icons/md';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
+import Link from '../../components/Link';
 
 const Author = () => {
   const location = useLocation();
@@ -39,7 +39,7 @@ const Author = () => {
     { label: 'awards received', link: 'gilded', },
 
   ];
-  const history = useHistory();
+
 
   const feeds = authorComments;
   const fullNav = !(currentView === 'overview' || currentView === params?.commentCid)
@@ -62,13 +62,7 @@ const Author = () => {
                   width="calc(100% - 312px)"
                 >
                   {
-                    navOptions?.map((option) => <Link
-                      key={ option?.label }
-                      _hover={ {
-                        textDecoration: "none",
-
-                      } }
-                      as={ ReactLink } to={ `${address}/${option?.link}` }>
+                    navOptions?.map((option) =>
                       <Box
                         fontSize="14px"
                         fontWeight="500"
@@ -81,10 +75,18 @@ const Author = () => {
                         borderBottom={ (currentView === option?.link || currentView === option?.optional) && '2px solid #0079d3' }
                         mb="-3px"
                         textTransform="uppercase"
+                        _hover={ {
+                          textDecoration: "none",
+
+                        } }
+                        key={ option?.label }
+
+                        to={ `${address}/${option?.link}` }
+                        as={ Link }
                       >
                         { option?.label }
                       </Box>
-                    </Link>)
+                    )
                   }
 
                 </Flex>
@@ -454,7 +456,7 @@ const Author = () => {
                             textDecoration: "none",
 
                           } }
-                          as={ ReactLink } to={ `${address}/${option?.link}` } >
+                          to={ `${address}/${option?.link}` } >
                           <Box
                             overflow="hidden"
                             textOverflow="ellipsis"

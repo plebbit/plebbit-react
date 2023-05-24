@@ -4,7 +4,6 @@ import {
   Button,
   Flex,
   Icon,
-  Link,
   Skeleton,
   Tag,
   Text,
@@ -31,13 +30,13 @@ import DropDown from "../../components/DropDown";
 import { BiUpvote, BiDownvote } from "react-icons/bi";
 import { ImArrowUp, ImArrowDown } from "react-icons/im";
 import { FiShare } from "react-icons/fi";
-import { Link as ReactLink, useHistory } from "react-router-dom";
 import dateToFromNowDaily from "../../utils/formatDate";
 import numFormatter from "../../utils/numberFormater";
 import { ProfileContext } from "../../store/profileContext";
 import getUserName, { getSubName } from "../../utils/getUserName";
 import Marked from "../Editor/marked";
 import Avatar from "../Avatar";
+import Link from "../Link";
 import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
@@ -114,7 +113,7 @@ const CardPost = ({
     "lightCommunityThemePost",
     "darkCommunityThemePost"
   );
-  const history = useHistory();
+
   const subPlebbit = sub || { address: post?.subplebbitAddress };
 
   const { device } = useContext(ProfileContext);
@@ -237,7 +236,7 @@ const CardPost = ({
           </Flex>
 
           <Box bg={ mainBg } position="relative" paddingTop="8px">
-            <ReactLink
+            <Link
               textDecoration="none"
               sx={ {
                 textDecoration: "none !important",
@@ -336,7 +335,6 @@ const CardPost = ({
                               />
 
                               <Link
-                                as={ ReactLink }
                                 to={ `p/${post?.subplebbitAddress}` }
                                 color={ subPledditTextColor }
                                 fontSize="12px"
@@ -364,7 +362,7 @@ const CardPost = ({
 
                           {/* User Name */ }
                           <Link
-                            as={ ReactLink }
+
                             _hover={ {
                               textDecoration: "underline",
                             } }
@@ -465,49 +463,50 @@ const CardPost = ({
                     </Skeleton>
                   </Flex>{ " " }
                   {/* Post Title */ }
-                  <Box
-                    margin="0 8px"
-                    onClick={ () => history.push(detailRoute, []) }
-                  >
-                    <Skeleton isLoaded={ !loading }>
-                      {/* flair */ }
-                      { type === "subPlebbit" && post?.flair?.text.length ? (
-                        <FlairLabel flair={ post?.flair } />
-                      ) : (
-                        ""
-                      ) }
-                      <Text
-                        display="inline"
-                        color={ inactiveSubTitle }
-                        fontSize="18px"
-                        fontWeight="500"
-                        lineHeight="22px"
-                        paddingRight="5px"
-                        textDecor="none"
-                        wordBreak="break-word"
-                      >
-                        { post?.title }
-                      </Text>
-                      { type !== "subPlebbit" && post?.flair?.text ? (
-                        <FlairLabel flair={ post?.flair } />
+                  <Link to={ detailRoute }>
+                    <Box
+                      margin="0 8px"
+                    >
+                      <Skeleton isLoaded={ !loading }>
+                        {/* flair */ }
+                        { type === "subPlebbit" && post?.flair?.text.length ? (
+                          <FlairLabel flair={ post?.flair } />
+                        ) : (
+                          ""
+                        ) }
+                        <Text
+                          display="inline"
+                          color={ inactiveSubTitle }
+                          fontSize="18px"
+                          fontWeight="500"
+                          lineHeight="22px"
+                          paddingRight="5px"
+                          textDecor="none"
+                          wordBreak="break-word"
+                        >
+                          { post?.title }
+                        </Text>
+                        { type !== "subPlebbit" && post?.flair?.text ? (
+                          <FlairLabel flair={ post?.flair } />
 
-                      ) : (
-                        ""
-                      ) }
-                      { post?.spoiler && (
+                        ) : (
+                          ""
+                        ) }
+                        { post?.spoiler && (
 
-                        <SpoilerLabel />
-                      ) }
+                          <SpoilerLabel />
+                        ) }
 
-                      { pending && (
-                        <Skeleton isLoaded={ !loading }>
-                          <PendingLabel />
-                        </Skeleton>
-                      ) }
-                      {/* edit status */ }
-                      <EditLabel editLabel={ editLabel } post={ post } />
-                    </Skeleton>
-                  </Box>
+                        { pending && (
+                          <Skeleton isLoaded={ !loading }>
+                            <PendingLabel />
+                          </Skeleton>
+                        ) }
+                        {/* edit status */ }
+                        <EditLabel editLabel={ editLabel } post={ post } />
+                      </Skeleton>
+                    </Box>
+                  </Link>
                   {/* Post Body */ }
                   <Box mt="8px">
                     {/* text post */ }
@@ -614,7 +613,7 @@ const CardPost = ({
                   </Flex>
                 ) }
               </Flex>
-            </ReactLink>
+            </Link>
 
             {/* Post Footer */ }
             { pending ? (
@@ -635,7 +634,7 @@ const CardPost = ({
                     padding="0 8px 0 4px"
                     flexGrow="1"
                   >
-                    <ReactLink to={ detailRoute }>
+                    <Link to={ detailRoute }>
                       <Flex
                         padding="8px"
                         wordBreak="normal"
@@ -667,7 +666,7 @@ const CardPost = ({
                           { commentCount }
                         </Text>
                       </Flex>
-                    </ReactLink>
+                    </Link>
                     <Flex
                       padding="8px"
                       wordBreak="normal"
@@ -887,7 +886,7 @@ const CardPost = ({
                     padding="0 8px 0 4px"
                     flexGrow="1"
                   >
-                    <ReactLink to={ detailRoute }>
+                    <Link to={ detailRoute }>
                       <Flex
                         padding="8px"
                         wordBreak="normal"
@@ -920,7 +919,7 @@ const CardPost = ({
                           { commentCount > 1 ? "s" : "" }
                         </Text>
                       </Flex>
-                    </ReactLink>
+                    </Link>
                     <Flex
                       padding="8px"
                       wordBreak="normal"
@@ -1068,7 +1067,7 @@ const CardPost = ({
           <Box position="relative" bg={ mainMobileBg }>
             {/* Background link */ }
             <Link
-              as={ ReactLink }
+
               to={ detailRoute }
               bottom="0"
               left="0"
@@ -1528,7 +1527,7 @@ const CardPost = ({
                     </Flex>
                   </Flex>
                   {/* comment button */ }
-                  <Link as={ ReactLink } to={ detailRoute }>
+                  <Link to={ detailRoute }>
                     <Flex
                       color={ mobileIconColor }
                       fill={ mobileIconColor }
@@ -1741,7 +1740,7 @@ const CardPost = ({
                     </Flex>
                   </Flex>
                   {/* comment button */ }
-                  <Link as={ ReactLink } to={ detailRoute }>
+                  <Link to={ detailRoute }>
                     <Flex
                       color={ mobileIconColor }
                       fill={ mobileIconColor }

@@ -11,7 +11,7 @@ import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
 import { ProfileContext } from '../../store/profileContext';
 import getIsOnline from '../../utils/getIsOnline';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import AddRemovalReason from './Modal/addRemovalReason';
 import Swal from 'sweetalert2';
 import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
@@ -42,8 +42,6 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     onClose: closeRemovalModal,
     isOpen: isRemovalModalOpen,
   } = useDisclosure();
-
-  const history = useHistory()
 
 
   const mediaInfo = getCommentMediaInfo(post);
