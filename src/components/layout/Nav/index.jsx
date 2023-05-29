@@ -28,7 +28,7 @@ import {
   AiOutlinePlus,
   AiOutlineThunderbolt,
 } from 'react-icons/ai';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import NDDown from './nDDown';
 import { GiHamburgerMenu, GiTwoCoins } from 'react-icons/gi';
 import { CgNotes, CgProfile } from 'react-icons/cg';
@@ -46,6 +46,7 @@ import NavSearch from './navSearch';
 import convertArrToObj from '../../../utils/convertArrToObj';
 import Sort from '../../../utils/sort';
 import NavNotification from './NavNotification';
+import Link from "../../Link"
 
 const NavBar = ({ location, showStyleBar }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -130,28 +131,30 @@ const NavBar = ({ location, showStyleBar }) => {
             height="100%"
           >
             <Flex alignItems="center" flexGrow="1">
-              <Flex display="flex" alignItems="center" onClick={ () => history.push('/', []) }>
-                <Box
-                  mr="8px"
-                  cursor="pointer"
-                  borderRadius="full"
-                  width="32px"
-                  height="32px"
-                  maxWidth="32px"
-                >
-                  <PlebLogo />
-                </Box>
-                <PlebbitTextLogo
-                  style={ {
-                    height: '20px',
-                    border: 'none',
-                    marginRight: '10px',
-                    cursor: 'pointer',
-                    overflow: 'hidden',
-                  } }
-                  color={ colorMode === 'light' ? '#000' : '#fff' }
-                />
-              </Flex>
+              <Link to="/">
+                <Flex display="flex" alignItems="center">
+                  <Box
+                    mr="8px"
+                    cursor="pointer"
+                    borderRadius="full"
+                    width="32px"
+                    height="32px"
+                    maxWidth="32px"
+                  >
+                    <PlebLogo />
+                  </Box>
+                  <PlebbitTextLogo
+                    style={ {
+                      height: '20px',
+                      border: 'none',
+                      marginRight: '10px',
+                      cursor: 'pointer',
+                      overflow: 'hidden',
+                    } }
+                    color={ colorMode === 'light' ? '#000' : '#fff' }
+                  />
+                </Flex>
+              </Link>
               <Box>
                 <DropDown2
                   onChange={ (x) => {
@@ -335,15 +338,16 @@ const NavBar = ({ location, showStyleBar }) => {
                       as={ HiOutlineChat }
                     />
                     <NavNotification />
+                    <Link t0="/submit">
+                      <Icon
+                        ml="8px"
+                        color={ iconColor2 }
+                        width={ 6 }
+                        height={ 6 }
+                        as={ AiOutlinePlus }
 
-                    <Icon
-                      ml="8px"
-                      color={ iconColor2 }
-                      width={ 6 }
-                      height={ 6 }
-                      as={ AiOutlinePlus }
-                      onClick={ () => history.push('/submit') }
-                    />
+                      />
+                    </Link>
                   </Flex>
 
                   <NDDown
@@ -372,23 +376,27 @@ const NavBar = ({ location, showStyleBar }) => {
               flex="1 0 130px"
               mr="auto"
               alignItems="center"
-              onClick={ () => {
-                history.push('/', []);
-              } }
+
             >
-              <Box mr="4px" cursor="pointer" borderRadius="full" width="30px" height="30px">
-                <PlebLogo />
-              </Box>
-              <PlebbitTextLogo
-                style={ {
-                  height: '20px',
-                  border: 'none',
-                  marginRight: '10px',
-                  cursor: 'pointer',
-                  overflow: 'hidden',
-                } }
-                color="#fff"
-              />
+              <Link to="/" >
+                <Box mr="4px" cursor="pointer" borderRadius="full" width="30px" height="30px">
+                  <PlebLogo />
+                </Box>
+              </Link>
+
+              <Link>
+                <PlebbitTextLogo
+                  style={ {
+                    height: '20px',
+                    border: 'none',
+                    marginRight: '10px',
+                    cursor: 'pointer',
+                    overflow: 'hidden',
+                  } }
+                  color="#fff"
+                />
+              </Link>
+
             </Flex>
             <Flex
               mr="8px"
@@ -397,9 +405,10 @@ const NavBar = ({ location, showStyleBar }) => {
               width="36px"
               alignItems="center"
               justifyContent="center"
-              onClick={ () => history.push('/submit', []) }
             >
-              <Icon as={ BiPencil } width={ 6 } height={ 6 } color="#fff" />
+              <Link to="/submit">
+                <Icon as={ BiPencil } width={ 6 } height={ 6 } color="#fff" />
+              </Link>
             </Flex>
             <Flex
               onClick={ () => {
@@ -543,26 +552,28 @@ const NavBar = ({ location, showStyleBar }) => {
                   <Box>Online Status</Box>
                   <Switch size="md" />
                 </Flex>
-                <Flex
-                  boxSizing="border-box"
-                  height="40px"
-                  width="100%"
-                  cursor="pointer"
-                  fontSize="14px"
-                  fontWeight="500"
-                  lineHeight="18px"
-                  alignItems="center"
-                  color={ mainColor }
-                  paddingRight="16px"
-                  _hover={ {
-                    bg: inputBg,
-                  } }
-                  paddingLeft="52px"
-                  justifyContent="space-between"
-                  onClick={ () => history.push(`/profile`, []) }
-                >
-                  <Box>Profile</Box>
-                </Flex>
+                <Link to="/profile">
+
+                  <Flex
+                    boxSizing="border-box"
+                    height="40px"
+                    width="100%"
+                    cursor="pointer"
+                    fontSize="14px"
+                    fontWeight="500"
+                    lineHeight="18px"
+                    alignItems="center"
+                    color={ mainColor }
+                    paddingRight="16px"
+                    _hover={ {
+                      bg: inputBg,
+                    } }
+                    paddingLeft="52px"
+                    justifyContent="space-between"
+                  >
+                    <Box>Profile</Box>
+                  </Flex>
+                </Link>
                 <Flex
                   boxSizing="border-box"
                   height="40px"
@@ -582,26 +593,28 @@ const NavBar = ({ location, showStyleBar }) => {
                 >
                   <Box>Style Avatar</Box>
                 </Flex>
-                <Flex
-                  _hover={ {
-                    bg: inputBg,
-                  } }
-                  boxSizing="border-box"
-                  height="40px"
-                  width="100%"
-                  cursor="pointer"
-                  fontSize="14px"
-                  fontWeight="500"
-                  lineHeight="18px"
-                  alignItems="center"
-                  color={ mainColor }
-                  paddingRight="16px"
-                  paddingLeft="52px"
-                  justifyContent="space-between"
-                  onClick={ () => history.push(`/settings`, []) }
-                >
-                  <Box>User Settings</Box>
-                </Flex>
+                <Link to="/settings">
+                  <Flex
+                    _hover={ {
+                      bg: inputBg,
+                    } }
+                    boxSizing="border-box"
+                    height="40px"
+                    width="100%"
+                    cursor="pointer"
+                    fontSize="14px"
+                    fontWeight="500"
+                    lineHeight="18px"
+                    alignItems="center"
+                    color={ mainColor }
+                    paddingRight="16px"
+                    paddingLeft="52px"
+                    justifyContent="space-between"
+
+                  >
+                    <Box>User Settings</Box>
+                  </Flex>
+                </Link>
               </Box>
               <Box width="100%" height="40px" color="#787c7e">
                 <Flex alignItems="center" height="100%" padding="0 20px">
@@ -845,20 +858,21 @@ const NavBar = ({ location, showStyleBar }) => {
                   marginLeft="-4px"
                   paddingLeft="2px"
                 >
-                  <Flex
-                    alignItems="center"
-                    flexFlow="row nowrap"
-                    onClick={ () => {
-                      history.push('/profile', []);
-                      setShowDropDown(!showDropDown);
-                      setShowComponent(!showDropDown);
-                    } }
-                  >
-                    <Avatar width={ 24 } height={ 24 } mr="8px" avatar={ authorAvatarImageUrl } />
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      { getUserName(profile?.author) }
-                    </Box>
-                  </Flex>
+                  <Link to="/profile">
+                    <Flex
+                      alignItems="center"
+                      flexFlow="row nowrap"
+                      onClick={ () => {
+                        setShowDropDown(!showDropDown);
+                        setShowComponent(!showDropDown);
+                      } }
+                    >
+                      <Avatar width={ 24 } height={ 24 } mr="8px" avatar={ authorAvatarImageUrl } />
+                      <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
+                        { getUserName(profile?.author) }
+                      </Box>
+                    </Flex>
+                  </Link>
                 </Flex>
                 <Flex
                   alignItems="center"

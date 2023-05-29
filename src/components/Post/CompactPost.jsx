@@ -3,8 +3,6 @@ import {
   Box,
   Flex,
   Icon,
-
-  Link,
   Skeleton,
   Text,
   Tooltip,
@@ -27,12 +25,12 @@ import { CgArrowsExpandLeft, CgCompressLeft, CgImage } from 'react-icons/cg';
 import { FiMoreHorizontal, FiExternalLink } from 'react-icons/fi';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
-import { Link as ReactLink, useHistory } from 'react-router-dom';
 import fromNow from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import getUserName, { getSubName } from '../../utils/getUserName';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
+import Link from '../Link';
 import DropDown from '../DropDown';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
@@ -96,7 +94,6 @@ const CompactPost = ({
   const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
   const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
   const postBg = useColorModeValue('lightCommunityThemePost', 'darkCommunityThemePost');
-  const history = useHistory();
   const [showExpand, setShowExpand] = useState(false);
 
   return (
@@ -329,7 +326,7 @@ const CompactPost = ({
 
             <Box flex="1 1 100%" mt="2px" minW="150px" overflow="hidden" wordWrap="break-word">
               {/* post title */ }
-              <Box margin="0 8px" onClick={ () => history.push(detailRoute, []) }>
+              <Box margin="0 8px" as={ Link } to={ detailRoute }>
                 <Skeleton display="flex" alignItems="center" flexWrap="wrap" isLoaded={ !loading }>
                   { ' ' }
                   {/* flair */ }
@@ -441,7 +438,6 @@ const CompactPost = ({
                         </>
                       ) : (
                         <Link
-                          as={ ReactLink }
                           to={ `/p/${post?.subplebbitAddress}` }
                           color={ subPledditTextColor }
                           fontSize="12px"
@@ -470,7 +466,6 @@ const CompactPost = ({
                             textDecor="none"
                             fontSize="12px"
                             lineHeight="16px"
-                            as={ ReactLink }
                             to={ authorPath }
                           >
                             { getUserName(post?.author) }
@@ -564,39 +559,39 @@ const CompactPost = ({
                 ml="4px"
                 paddingRight="4px"
               >
-                <ReactLink to={ detailRoute }>
-                  <Flex
-                    padding="8px"
-                    wordBreak="normal"
-                    mr="4px"
-                    alignItems="center"
-                    borderRadius="2px"
-                    fontSize="12px"
-                    fontWeight="700"
-                    lineHeight="16px"
-                    boxSizing="border-box"
-                    _hover={ {
-                      backgroundColor: inputBg,
-                    } }
+                <Flex
+                  padding="8px"
+                  wordBreak="normal"
+                  mr="4px"
+                  alignItems="center"
+                  borderRadius="2px"
+                  fontSize="12px"
+                  fontWeight="700"
+                  lineHeight="16px"
+                  boxSizing="border-box"
+                  _hover={ {
+                    backgroundColor: inputBg,
+                  } }
+                  as={ Link }
+                  to={ detailRoute }
+                >
+                  <Icon
+                    as={ BsChatSquare }
+                    width="20px"
+                    height="20px"
+                    verticalAlign="middle"
+                    fontWeight="400"
+                    mr="6px"
+                  />
+                  <Text
+                    display="inline-block"
+                    lineHeight={ 1 }
+                    textTransform="capitalize"
+                    verticalAlign="middle"
                   >
-                    <Icon
-                      as={ BsChatSquare }
-                      width="20px"
-                      height="20px"
-                      verticalAlign="middle"
-                      fontWeight="400"
-                      mr="6px"
-                    />
-                    <Text
-                      display="inline-block"
-                      lineHeight={ 1 }
-                      textTransform="capitalize"
-                      verticalAlign="middle"
-                    >
-                      { commentCount }
-                    </Text>
-                  </Flex>
-                </ReactLink>
+                    { commentCount }
+                  </Text>
+                </Flex>
                 { post?.removed ? (
                   <Flex
                     _hover={ {
@@ -733,7 +728,8 @@ const CompactPost = ({
                   _hover={ {
                     bg: inputBg,
                   } }
-                  onClick={ () => history.push(detailRoute, []) }
+                  as={ Link }
+                  to={ detailRoute }
                 >
                   <Icon
                     as={ BsChat }

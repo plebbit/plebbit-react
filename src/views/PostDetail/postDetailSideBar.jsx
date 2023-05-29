@@ -8,6 +8,7 @@ import { useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import { dateFormater } from '../../utils/formatDate';
 import getIsOnline from '../../utils/getIsOnline';
 import Avatar from '../../components/Avatar';
+import Link from '../../components/Link';
 import { getSubName } from '../../utils/getUserName';
 
 const PostDetailSideBar = ({
@@ -95,7 +96,9 @@ const PostDetailSideBar = ({
               />
             </Skeleton>
             <Skeleton isLoaded={ !loading }>
-              <Box fontSize="16px" fontWeight="500" lineHeight="20px" text-overflow="ellipsis">
+
+
+              <Box cursor="pointer" as={ Link } to={ `/p/${detail?.subplebbitAddress}` } fontSize="16px" fontWeight="500" lineHeight="20px" text-overflow="ellipsis">
                 { getSubName(subPlebbit) }
               </Box>
             </Skeleton>

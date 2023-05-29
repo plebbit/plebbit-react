@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
-import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import { ProfileContext } from '../../store/profileContext';
 import SideBar from './sideBar';
-import { useFeed } from '@plebbit/plebbit-react-hooks';
+import { useFeed, useSubplebbits } from '@plebbit/plebbit-react-hooks';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import Post from '../../components/Post';
 import Layout from '../../components/layout';
+import useFeedStateString from '../../hooks/useFeedStateString';
 
 const Home = () => {
   const { postStyle, feedSort, device, postView, homeAdd, subPlebbitData } =
@@ -23,12 +24,18 @@ const Home = () => {
       sortType: feedSort
     }
   );
+  const { subplebbits } = useSubplebbits({
+    subplebbitAddresses: postView?.length
+      ? postView?.filter((x) => x !== null)
+      : subPlebbitData?.map((x) => x?.address)?.filter((x) => x !== null)
+  })
+  const stateString = useFeedStateString(subplebbits)
 
   const feeds = feed;
 
 
   return (
-    <Layout name={ { label: 'Home', value: homeAdd } }>
+    <Layout name={ { label: 'Home', value: homeAdd } } stateString={ stateString }>
       { device !== 'mobile' ? (
         <Flex
           maxW="100%"
@@ -41,7 +48,16 @@ const Home = () => {
             {/* Create Post Bar */ }
             <CreatePostBar />
             {/* feed sorter bar */ }
-            <FeedSort />
+            <FeedSort stateString={ stateString } />
+            { stateString && stateString !== 'Succeeded' && <Text
+              as="span"
+              verticalAlign="middle"
+              fontSize="12px"
+              lineHeight="16px"
+              className='loading-ellipsis'
+            >
+              { stateString }
+            </Text> }
 
             <Box minHeight="1000px" width="100%">
               <InfiniteScroll

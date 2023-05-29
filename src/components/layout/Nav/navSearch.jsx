@@ -10,9 +10,9 @@ import {
 import { useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import React, { useState } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
-import { useHistory } from 'react-router-dom';
 import getIsOnline from '../../../utils/getIsOnline';
 import Avatar from '../../Avatar';
+import Link from '../../Link';
 
 const NavSearch = () => {
   const metaColor = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -21,7 +21,6 @@ const NavSearch = () => {
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const [searchVal, setSearchVal] = useState('');
-  const history = useHistory();
 
   const data = useSubplebbit(searchVal ? { subplebbitAddress: searchVal } : undefined);
 
@@ -67,43 +66,45 @@ const NavSearch = () => {
           position="absolute"
           background={ bg }
         >
-          <Flex
-            flexDirection="row"
-            alignItems="center"
-            width="100%"
-            cursor="pointer"
-            onClick={ () => history.push(`/p/${searchVal}`, []) }
-          >
-            <Avatar
-              avatar={ data?.avatar }
-              width={ 24 }
-              height={ 24 }
-              sx={ {
-                marginRight: '8px',
-              } }
-              badge={ data !== undefined ? true : false }
-              isOnline={ getIsOnline(data?.updateAt) }
-            />
-            <Flex flexDir="column" overflow="hidden">
-              { data?.title && (
-                <Box flex={ 1 } overflow="hidden" fontSize="14px" fontWeight="500" lineHeight="18px">
-                  { data?.title }
-                </Box>
-              ) }
+          <Link to={ `/p/${searchVal}` }>
 
-              <Box
-                wordBreak="break-all"
-                color={ metaColor }
-                fontSize="12px"
-                fontWeight="400"
-                lineHeight="16px"
-                noOfLines={ 1 }
-                isTruncated
-              >
-                { searchVal }
-              </Box>
+            <Flex
+              flexDirection="row"
+              alignItems="center"
+              width="100%"
+              cursor="pointer"
+            >
+              <Avatar
+                avatar={ data?.avatar }
+                width={ 24 }
+                height={ 24 }
+                sx={ {
+                  marginRight: '8px',
+                } }
+                badge={ data !== undefined ? true : false }
+                isOnline={ getIsOnline(data?.updateAt) }
+              />
+              <Flex flexDir="column" overflow="hidden">
+                { data?.title && (
+                  <Box flex={ 1 } overflow="hidden" fontSize="14px" fontWeight="500" lineHeight="18px">
+                    { data?.title }
+                  </Box>
+                ) }
+
+                <Box
+                  wordBreak="break-all"
+                  color={ metaColor }
+                  fontSize="12px"
+                  fontWeight="400"
+                  lineHeight="16px"
+                  noOfLines={ 1 }
+                  isTruncated
+                >
+                  { searchVal }
+                </Box>
+              </Flex>
             </Flex>
-          </Flex>
+          </Link>
         </Flex>
       ) }
     </Flex>

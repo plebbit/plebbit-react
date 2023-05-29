@@ -11,13 +11,14 @@ import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
 import { ProfileContext } from '../../store/profileContext';
 import getIsOnline from '../../utils/getIsOnline';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import AddRemovalReason from './Modal/addRemovalReason';
 import Swal from 'sweetalert2';
 import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
 import useCommentEdit from '../../hooks/useCommentEdit';
+import useStateString from '../../hooks/useStateString';
 
 const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSpecial }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -42,8 +43,6 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     onClose: closeRemovalModal,
     isOpen: isRemovalModalOpen,
   } = useDisclosure();
-
-  const history = useHistory()
 
 
   const mediaInfo = getCommentMediaInfo(post);
@@ -122,6 +121,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     editLabel = { text: 'failed edit', color: 'red' }
   }
 
+  const stateString = useStateString(detail)
+
 
 
 
@@ -162,6 +163,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             commentCount={ commentCount }
             editLabel={ editLabel }
             authorPath={ authorPath }
+            stateString={ stateString }
 
           />
         ) }
@@ -199,6 +201,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             commentCount={ commentCount }
             editLabel={ editLabel }
             authorPath={ authorPath }
+            stateString={ stateString }
 
           />
         ) }
@@ -237,6 +240,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               commentCount={ commentCount }
               editLabel={ editLabel }
               authorPath={ authorPath }
+              stateString={ stateString }
 
             />
           ) : (
@@ -272,6 +276,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               commentCount={ commentCount }
               editLabel={ editLabel }
               authorPath={ authorPath }
+              stateString={ stateString }
 
             />
           )) }

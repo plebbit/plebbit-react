@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { Box, Flex, Icon, useColorModeValue } from '@chakra-ui/react';
-// import { useHistory } from 'react-router';
 import { RiFireFill } from 'react-icons/ri';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { TiStarburstOutline } from 'react-icons/ti';
@@ -17,9 +16,8 @@ import { ProfileContext } from '../../../store/profileContext';
 import DropDown from '../../DropDown';
 import useVisible from '../../../hooks/useVisible';
 
-const FeedSort = ({ hideControl }) => {
+const FeedSort = ({ hideControl, stateString }) => {
   const { postStyle, setPostStyle, feedSort, setFeedSort, device } = useContext(ProfileContext);
-  // const history = useHistory();
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
 
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -40,247 +38,254 @@ const FeedSort = ({ hideControl }) => {
 
   return (
     <>
-      {device !== 'mobile' ? (
-        <Flex
-          alignItems="center"
-          bg={mainBg}
-          border={`1px solid ${border2}`}
-          borderRadius="4px"
-          flexFlow="nowrap"
-          justifyContent="flex-start"
-          mb="16px"
-          padding="10px 12px"
-        >
-          <Flex alignItems="center" cursor="pointer">
-            <Box
-              bg={feedSort === 'hot' ? inputBg : 'transparent'}
-              color={feedSort === 'hot' ? activeFilterText : iconColor}
-              cursor="default"
-              fill={feedSort === 'hot' ? activeFilterText : iconColor}
-              mr="8px"
-              textTransform="capitalize"
-              position="relative"
-              border="1px solid transparent"
-              minH="unset"
-              minW="unset"
-              padding="6px 8px"
-              borderRadius="20px"
-              fontSize="14px"
-              fontWeight="700"
-              letterSpacing="unset"
-              lineHeight="17px"
-              width="auto"
-              display="flex"
-              alignItems="center"
-              _hover={{
-                background: feedSort === 'hot' ? '' : inputBg,
-              }}
-              onClick={() => setFeedSort('hot')}
-            >
-              <Icon width="20px" mr="8px" height="20px" as={RiFireFill} />
-              Hot
-            </Box>
-            <Box
-              bg={feedSort === 'new' ? inputBg : 'transparent'}
-              color={feedSort === 'new' ? activeFilterText : iconColor}
-              cursor="default"
-              fill={feedSort === 'new' ? activeFilterText : iconColor}
-              mr="8px"
-              textTransform="capitalize"
-              position="relative"
-              border="1px solid transparent"
-              minH="unset"
-              minW="unset"
-              padding="6px 8px"
-              borderRadius="20px"
-              fontSize="14px"
-              fontWeight="700"
-              letterSpacing="unset"
-              lineHeight="17px"
-              width="auto"
-              display="flex"
-              alignItems="center"
-              _hover={{
-                background: feedSort === 'new' ? '' : inputBg,
-              }}
-              onClick={() => setFeedSort('new')}
-            >
-              <Icon width="20px" mr="8px" height="20px" as={TiStarburstOutline} />
-              New
-            </Box>
-            <Box
-              bg={feedSort === 'topAll' ? inputBg : 'transparent'}
-              color={feedSort === 'topAll' ? activeFilterText : iconColor}
-              cursor="default"
-              fill={feedSort === 'topAll' ? activeFilterText : iconColor}
-              mr="8px"
-              textTransform="capitalize"
-              position="relative"
-              border="1px solid transparent"
-              minH="unset"
-              minW="unset"
-              padding="6px 8px"
-              borderRadius="20px"
-              fontSize="14px"
-              fontWeight="700"
-              letterSpacing="unset"
-              lineHeight="17px"
-              width="auto"
-              display="flex"
-              alignItems="center"
-              _hover={{
-                background: feedSort === 'topAll' ? '' : inputBg,
-              }}
-              onClick={() => setFeedSort('topAll')}
-            >
-              <Icon width="20px" mr="8px" height="20px" as={BsBoxArrowUp} />
-              Top
-            </Box>
-          </Flex>
-          <Flex alignItems="center" cursor="pointer" display="flex">
-            <Flex alignItems="center" borderRadius="4px">
+      { device !== 'mobile' ? (
+        <>
+
+          <Flex
+            alignItems="center"
+            bg={ mainBg }
+            border={ `1px solid ${border2}` }
+            borderRadius="4px"
+            flexFlow="nowrap"
+            justifyContent="flex-start"
+            mb={ stateString && stateString !== 'Succeeded' ? '' : '16px' }
+            padding="10px 12px"
+
+          >
+            <Flex alignItems="center" cursor="pointer">
               <Box
+                bg={ feedSort === 'hot' ? inputBg : 'transparent' }
+                color={ feedSort === 'hot' ? activeFilterText : iconColor }
+                cursor="default"
+                fill={ feedSort === 'hot' ? activeFilterText : iconColor }
+                mr="8px"
+                textTransform="capitalize"
+                position="relative"
+                border="1px solid transparent"
+                minH="unset"
+                minW="unset"
+                padding="6px 8px"
                 borderRadius="20px"
-                color={iconColor}
-                outline="none"
-                padding="8px"
-                bg="transparent"
-                cursor="pointer"
+                fontSize="14px"
+                fontWeight="700"
+                letterSpacing="unset"
+                lineHeight="17px"
+                width="auto"
                 display="flex"
                 alignItems="center"
-                _hover={{
-                  background: inputBg,
-                }}
+                _hover={ {
+                  background: feedSort === 'hot' ? '' : inputBg,
+                } }
+                onClick={ () => setFeedSort('hot') }
               >
-                <Icon as={FiMoreHorizontal} width="20px" height="20px" />
+                <Icon width="20px" mr="8px" height="20px" as={ RiFireFill } />
+                Hot
+              </Box>
+              <Box
+                bg={ feedSort === 'new' ? inputBg : 'transparent' }
+                color={ feedSort === 'new' ? activeFilterText : iconColor }
+                cursor="default"
+                fill={ feedSort === 'new' ? activeFilterText : iconColor }
+                mr="8px"
+                textTransform="capitalize"
+                position="relative"
+                border="1px solid transparent"
+                minH="unset"
+                minW="unset"
+                padding="6px 8px"
+                borderRadius="20px"
+                fontSize="14px"
+                fontWeight="700"
+                letterSpacing="unset"
+                lineHeight="17px"
+                width="auto"
+                display="flex"
+                alignItems="center"
+                _hover={ {
+                  background: feedSort === 'new' ? '' : inputBg,
+                } }
+                onClick={ () => setFeedSort('new') }
+              >
+                <Icon width="20px" mr="8px" height="20px" as={ TiStarburstOutline } />
+                New
+              </Box>
+              <Box
+                bg={ feedSort === 'topAll' ? inputBg : 'transparent' }
+                color={ feedSort === 'topAll' ? activeFilterText : iconColor }
+                cursor="default"
+                fill={ feedSort === 'topAll' ? activeFilterText : iconColor }
+                mr="8px"
+                textTransform="capitalize"
+                position="relative"
+                border="1px solid transparent"
+                minH="unset"
+                minW="unset"
+                padding="6px 8px"
+                borderRadius="20px"
+                fontSize="14px"
+                fontWeight="700"
+                letterSpacing="unset"
+                lineHeight="17px"
+                width="auto"
+                display="flex"
+                alignItems="center"
+                _hover={ {
+                  background: feedSort === 'topAll' ? '' : inputBg,
+                } }
+                onClick={ () => setFeedSort('topAll') }
+              >
+                <Icon width="20px" mr="8px" height="20px" as={ BsBoxArrowUp } />
+                Top
               </Box>
             </Flex>
+            <Flex alignItems="center" cursor="pointer" display="flex">
+              <Flex alignItems="center" borderRadius="4px">
+                <Box
+                  borderRadius="20px"
+                  color={ iconColor }
+                  outline="none"
+                  padding="8px"
+                  bg="transparent"
+                  cursor="pointer"
+                  display="flex"
+                  alignItems="center"
+                  _hover={ {
+                    background: inputBg,
+                  } }
+                >
+                  <Icon as={ FiMoreHorizontal } width="20px" height="20px" />
+                </Box>
+              </Flex>
+            </Flex>
+            { !hideControl && (
+              <DropDown
+                caret
+                inputBg={ inputBg }
+                dropDownTitle={
+                  <>
+                    { ' ' }
+                    <Flex color={ iconColor } alignItems="center">
+                      <Icon
+                        as={
+                          postStyle === 'card'
+                            ? MdOutlineViewStream
+                            : postStyle === 'classic'
+                              ? MdOutlineTableRows
+                              : MdOutlineViewHeadline
+                        }
+                        height={ 6 }
+                        width={ 6 }
+                      />
+                    </Flex>
+                  </>
+                }
+                content={
+                  <>
+                    { ' ' }
+                    <Flex
+                      color={ postStyle === 'card' && activeFilterText }
+                      fill={ postStyle === 'card' && activeFilterText }
+                      alignItems="center"
+                      position="relative"
+                      outline="none"
+                      fontSize="14px"
+                      fontWeight="500"
+                      lineHeight="18px"
+                      padding="8px"
+                      textTransform="capitalize"
+                      whiteSpace="nowrap"
+                      _hover={ {
+                        background: inputBg,
+                      } }
+                      onClick={ () => setPostStyle('card') }
+                      cursor="pointer"
+                    >
+                      <Icon
+                        mr="4px"
+                        as={ postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream }
+                        width={ 6 }
+                        height={ 6 }
+                      />
+                      <Box>Card</Box>
+                    </Flex>
+                    <Flex
+                      color={ postStyle === 'classic' && activeFilterText }
+                      fill={ postStyle === 'classic' && activeFilterText }
+                      alignItems="center"
+                      position="relative"
+                      outline="none"
+                      fontSize="14px"
+                      fontWeight="500"
+                      lineHeight="18px"
+                      padding="8px"
+                      textTransform="capitalize"
+                      whiteSpace="nowrap"
+                      _hover={ {
+                        background: inputBg,
+                      } }
+                      borderTop={ `1px solid ${border2}` }
+                      onClick={ () => setPostStyle('classic') }
+                      cursor="pointer"
+                    >
+                      <Icon
+                        mr="4px"
+                        as={ postStyle === 'classic' ? MdTableRows : MdOutlineTableRows }
+                        width={ 6 }
+                        height={ 6 }
+                      />
+                      <Box>Classic</Box>
+                    </Flex>
+                    <Flex
+                      color={ postStyle === 'compact' && activeFilterText }
+                      fill={ postStyle === 'compact' && activeFilterText }
+                      alignItems="center"
+                      position="relative"
+                      outline="none"
+                      fontSize="14px"
+                      fontWeight="500"
+                      lineHeight="18px"
+                      padding="8px"
+                      textTransform="capitalize"
+                      whiteSpace="nowrap"
+                      _hover={ {
+                        background: inputBg,
+                      } }
+                      borderTop={ `1px solid ${border2}` }
+                      onClick={ () => setPostStyle('compact') }
+                      cursor="pointer"
+                    >
+                      <Icon
+                        mr="4px"
+                        as={ postStyle === 'compact' ? MdViewHeadline : MdOutlineViewHeadline }
+                        width={ 6 }
+                        height={ 6 }
+                      />
+                      <Box>Compact</Box>
+                    </Flex>
+                  </>
+                }
+              />
+            ) }
           </Flex>
-          {!hideControl && (
-            <DropDown
-              caret
-              inputBg={inputBg}
-              dropDownTitle={
-                <>
-                  {' '}
-                  <Flex color={iconColor} alignItems="center">
-                    <Icon
-                      as={
-                        postStyle === 'card'
-                          ? MdOutlineViewStream
-                          : postStyle === 'classic'
-                          ? MdOutlineTableRows
-                          : MdOutlineViewHeadline
-                      }
-                      height={6}
-                      width={6}
-                    />
-                  </Flex>
-                </>
-              }
-              content={
-                <>
-                  {' '}
-                  <Flex
-                    color={postStyle === 'card' && activeFilterText}
-                    fill={postStyle === 'card' && activeFilterText}
-                    alignItems="center"
-                    position="relative"
-                    outline="none"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    padding="8px"
-                    textTransform="capitalize"
-                    whiteSpace="nowrap"
-                    _hover={{
-                      background: inputBg,
-                    }}
-                    onClick={() => setPostStyle('card')}
-                    cursor="pointer"
-                  >
-                    <Icon
-                      mr="4px"
-                      as={postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream}
-                      width={6}
-                      height={6}
-                    />
-                    <Box>Card</Box>
-                  </Flex>
-                  <Flex
-                    color={postStyle === 'classic' && activeFilterText}
-                    fill={postStyle === 'classic' && activeFilterText}
-                    alignItems="center"
-                    position="relative"
-                    outline="none"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    padding="8px"
-                    textTransform="capitalize"
-                    whiteSpace="nowrap"
-                    _hover={{
-                      background: inputBg,
-                    }}
-                    borderTop={`1px solid ${border2}`}
-                    onClick={() => setPostStyle('classic')}
-                    cursor="pointer"
-                  >
-                    <Icon
-                      mr="4px"
-                      as={postStyle === 'classic' ? MdTableRows : MdOutlineTableRows}
-                      width={6}
-                      height={6}
-                    />
-                    <Box>Classic</Box>
-                  </Flex>
-                  <Flex
-                    color={postStyle === 'compact' && activeFilterText}
-                    fill={postStyle === 'compact' && activeFilterText}
-                    alignItems="center"
-                    position="relative"
-                    outline="none"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    padding="8px"
-                    textTransform="capitalize"
-                    whiteSpace="nowrap"
-                    _hover={{
-                      background: inputBg,
-                    }}
-                    borderTop={`1px solid ${border2}`}
-                    onClick={() => setPostStyle('compact')}
-                    cursor="pointer"
-                  >
-                    <Icon
-                      mr="4px"
-                      as={postStyle === 'compact' ? MdViewHeadline : MdOutlineViewHeadline}
-                      width={6}
-                      height={6}
-                    />
-                    <Box>Compact</Box>
-                  </Flex>
-                </>
-              }
-            />
-          )}
-        </Flex>
+
+
+
+        </>
       ) : (
         <Flex
-          borderBottom={`1px solid ${border2}`}
+          borderBottom={ `1px solid ${border2}` }
           borderBottomWidth="4px"
           minH="52px"
-          bg={mainMobileBg}
+          bg={ mainMobileBg }
           justifyContent="space-between"
           lineHeight="32px"
           padding="8px 16px"
           maxWidth="1000px"
           margin="0 auto"
           position="relative"
-          sx={{
+          sx={ {
             touchAction: 'manipulation',
-          }}
+          } }
         >
           <Flex flex="1" justifyContent="space-between" overflow="hidden" lineHeight="32px">
             <Box flex="1" overflow="hidden">
@@ -288,14 +293,14 @@ const FeedSort = ({ hideControl }) => {
                 <Flex
                   alignItems="center"
                   flexFlow="row nowrap"
-                  onClick={() => {
+                  onClick={ () => {
                     setMobileSort(!mobileSort);
                     setShowComponent(!mobileSort);
-                  }}
+                  } }
                 >
                   <Icon
-                    as={RiFireFill}
-                    color={iconMobileColor}
+                    as={ RiFireFill }
+                    color={ iconMobileColor }
                     w="24px"
                     h="24px"
                     flex="0 0 24px"
@@ -309,11 +314,11 @@ const FeedSort = ({ hideControl }) => {
                     marginRight="8px"
                     textTransform="capitalize"
                   >
-                    {feedSort}
+                    { feedSort }
                   </Box>
                   <Icon
-                    as={BsChevronDown}
-                    color={iconMobileColor}
+                    as={ BsChevronDown }
+                    color={ iconMobileColor }
                     width="16px"
                     height="16px"
                     flex="0 0 16px"
@@ -321,8 +326,8 @@ const FeedSort = ({ hideControl }) => {
                   />
                 </Flex>
 
-                {mobileSort && showComponent ? (
-                  <Box position="fixed" zIndex="20" ref={ref}>
+                { mobileSort && showComponent ? (
+                  <Box position="fixed" zIndex="20" ref={ ref }>
                     <Box
                       position="fixed"
                       borderWidth="1px"
@@ -333,7 +338,7 @@ const FeedSort = ({ hideControl }) => {
                       left="8px"
                       right="8px"
                       width="auto"
-                      borderColor={border2}
+                      borderColor={ border2 }
                     >
                       <Box
                         position="fixed"
@@ -362,7 +367,7 @@ const FeedSort = ({ hideControl }) => {
                       />
                       <Box width="100%" height="100%" overflow="auto">
                         <Box
-                          bg={mainMobileBg}
+                          bg={ mainMobileBg }
                           color="#a5a4a4"
                           overflow="hidden"
                           textOverflow="ellipsis"
@@ -376,28 +381,28 @@ const FeedSort = ({ hideControl }) => {
                         >
                           Sort post by:
                           <Box
-                            borderTopColor={iconMobileColor}
+                            borderTopColor={ iconMobileColor }
                             borderTopStyle="solid"
                             borderTopWidth="1px"
                             marginTop="8px"
                           />
                         </Box>
                         <Flex
-                          bg={mainMobileBg}
+                          bg={ mainMobileBg }
                           alignItems="flex-start"
                           minH="50px"
                           padding="14px 0"
-                          onClick={() => {
+                          onClick={ () => {
                             setMobileSort(false);
                             setShowComponent(false);
                             setFeedSort('hot');
-                          }}
+                          } }
                         >
                           <Icon
-                            as={RiFireFill}
+                            as={ RiFireFill }
                             w="50px"
                             flex="0 0 5opx"
-                            color={feedSort === 'hot' ? activeFilterText : iconMobileColor}
+                            color={ feedSort === 'hot' ? activeFilterText : iconMobileColor }
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -413,21 +418,21 @@ const FeedSort = ({ hideControl }) => {
                           </Box>
                         </Flex>
                         <Flex
-                          bg={mainMobileBg}
+                          bg={ mainMobileBg }
                           alignItems="flex-start"
                           minH="50px"
                           padding="14px 0"
-                          onClick={() => {
+                          onClick={ () => {
                             setMobileSort(false);
                             setShowComponent(false);
                             setFeedSort('new');
-                          }}
+                          } }
                         >
                           <Icon
-                            as={RiFireFill}
+                            as={ RiFireFill }
                             w="50px"
                             flex="0 0 5opx"
-                            color={feedSort === 'new' ? activeFilterText : iconMobileColor}
+                            color={ feedSort === 'new' ? activeFilterText : iconMobileColor }
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -447,41 +452,41 @@ const FeedSort = ({ hideControl }) => {
                   </Box>
                 ) : (
                   ''
-                )}
+                ) }
               </Box>
             </Box>
-            {!hideControl && (
+            { !hideControl && (
               <Box>
                 <Flex
                   alignItems="center"
                   color="#a5a4a4"
                   fill="#a5a4a4"
                   height="32px"
-                  onClick={() => {
+                  onClick={ () => {
                     setViewSelect(!viewSelect);
                     setShowComponent2(!viewSelect);
-                  }}
+                  } }
                 >
                   <Icon
-                    as={postStyle === 'card' ? MdViewAgenda : MdTableRows}
+                    as={ postStyle === 'card' ? MdViewAgenda : MdTableRows }
                     width="24px"
                     height="24px"
                     verticalAlign="middle"
-                    color={iconMobileColor}
-                    fill={iconMobileColor}
+                    color={ iconMobileColor }
+                    fill={ iconMobileColor }
                   />
                   <Icon
-                    as={BsChevronDown}
+                    as={ BsChevronDown }
                     width="24px"
                     height="24px"
                     verticalAlign="middle"
-                    color={iconMobileColor}
-                    fill={iconMobileColor}
+                    color={ iconMobileColor }
+                    fill={ iconMobileColor }
                     marginLeft="8px"
                   />
                 </Flex>
-                {viewSelect && showComponent2 ? (
-                  <Box position="fixed" zIndex="20" ref={ref2}>
+                { viewSelect && showComponent2 ? (
+                  <Box position="fixed" zIndex="20" ref={ ref2 }>
                     <Box
                       position="fixed"
                       borderWidth="1px"
@@ -492,7 +497,7 @@ const FeedSort = ({ hideControl }) => {
                       left="0"
                       right="8px"
                       width="auto"
-                      borderColor={border2}
+                      borderColor={ border2 }
                     >
                       <Box
                         position="fixed"
@@ -521,7 +526,7 @@ const FeedSort = ({ hideControl }) => {
                       />
                       <Box width="100%" height="100%" overflow="auto">
                         <Box
-                          bg={mainMobileBg}
+                          bg={ mainMobileBg }
                           color="#a5a4a4"
                           overflow="hidden"
                           textOverflow="ellipsis"
@@ -535,28 +540,28 @@ const FeedSort = ({ hideControl }) => {
                         >
                           View post in:
                           <Box
-                            borderTopColor={iconMobileColor}
+                            borderTopColor={ iconMobileColor }
                             borderTopStyle="solid"
                             borderTopWidth="1px"
                             marginTop="8px"
                           />
                         </Box>
                         <Flex
-                          bg={mainMobileBg}
+                          bg={ mainMobileBg }
                           alignItems="flex-start"
                           minH="50px"
                           padding="14px 0"
-                          onClick={() => {
+                          onClick={ () => {
                             setViewSelect(false);
                             setShowComponent2(false);
                             setPostStyle('classic');
-                          }}
+                          } }
                         >
                           <Icon
-                            as={postStyle === 'classic' ? MdTableRows : MdOutlineTableRows}
+                            as={ postStyle === 'classic' ? MdTableRows : MdOutlineTableRows }
                             w="50px"
                             flex="0 0 5opx"
-                            color={postStyle === 'classic' ? activeFilterText : iconMobileColor}
+                            color={ postStyle === 'classic' ? activeFilterText : iconMobileColor }
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -572,21 +577,21 @@ const FeedSort = ({ hideControl }) => {
                           </Box>
                         </Flex>
                         <Flex
-                          bg={mainMobileBg}
+                          bg={ mainMobileBg }
                           alignItems="flex-start"
                           minH="50px"
                           padding="14px 0"
-                          onClick={() => {
+                          onClick={ () => {
                             setViewSelect(false);
                             setShowComponent2(false);
                             setPostStyle('card');
-                          }}
+                          } }
                         >
                           <Icon
-                            as={postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream}
+                            as={ postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream }
                             w="50px"
                             flex="0 0 5opx"
-                            color={postStyle === 'card' ? activeFilterText : iconMobileColor}
+                            color={ postStyle === 'card' ? activeFilterText : iconMobileColor }
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -606,11 +611,11 @@ const FeedSort = ({ hideControl }) => {
                   </Box>
                 ) : (
                   ''
-                )}
+                ) }
               </Box>
-            )}
+            ) }
           </Flex>
-          {(mobileSort && showComponent) || (viewSelect && showComponent2) ? (
+          { (mobileSort && showComponent) || (viewSelect && showComponent2) ? (
             <Box
               background="rgba(0,0,0,.4)"
               position="fixed"
@@ -623,9 +628,9 @@ const FeedSort = ({ hideControl }) => {
             />
           ) : (
             ''
-          )}
+          ) }
         </Flex>
-      )}
+      ) }
     </>
   );
 };

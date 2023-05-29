@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Flex, Icon, useColorModeValue, useToast } from '@chakra-ui/react';
+import { Box, Flex, Icon, Text, useColorModeValue, useToast } from '@chakra-ui/react';
 import Button from '../../components/Button';
 import { FaBell } from 'react-icons/fa';
 import { ProfileContext } from '../../store/profileContext';
@@ -7,13 +7,14 @@ import Post from '../../components/Post';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
 import { useSubscribe, useFeed, useSubplebbit, usePublishSubplebbitEdit } from '@plebbit/plebbit-react-hooks';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import SideBar from './sideBar';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import Layout from '../../components/layout';
 import getIsOnline from '../../utils/getIsOnline';
 import Avatar from '../../components/Avatar';
+import Link from '../../components/Link';
 import { PlebLogo } from '../../components/svgs';
 import { getAddress } from '../../utils/getUserName';
 import onError from '../../utils/onError';
@@ -32,6 +33,8 @@ const SubPlebbit = ({ match }) => {
   // const inactiveSubTitle = useColorModeValue('lightText1', 'darkText1');
   const mobileMainColor = useColorModeValue('lightMobileText', 'darkMobileText');
   const mainMobileBg = useColorModeValue('white', 'black');
+  const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
+
   const { feed, loadMore, hasMore } = useFeed({ subplebbitAddresses: [match?.params?.subplebbitAddress], sortType: feedSort });
   const subPlebbit = useSubplebbit({ subplebbitAddress: match?.params?.subplebbitAddress });
   const feeds = feed;
@@ -39,7 +42,6 @@ const SubPlebbit = ({ match }) => {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [subLoading, setSubLoading] = useState(false);
-  const history = useHistory();
   const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
   const location = useLocation();
   const isOnline = getIsOnline(subPlebbit?.updatedAt);
@@ -331,8 +333,17 @@ const SubPlebbit = ({ match }) => {
                   {/* Create Post Bar */ }
                   <CreatePostBar address={ subPlebbit?.address } />
                   {/* feed sort bar */ }
-                  <FeedSort />
+                  <FeedSort stateString={ stateString } />
                   {/* feed list */ }
+                  { stateString && stateString !== 'Succeeded' && <Text
+                    as="span"
+                    verticalAlign="middle"
+                    fontSize="12px"
+                    lineHeight="16px"
+                    className='loading-ellipsis'
+                  >
+                    { stateString }
+                  </Text> }
 
                   <Box minHeight="1000px" width="100%">
                     <InfiniteScroll
@@ -467,7 +478,8 @@ const SubPlebbit = ({ match }) => {
                       flex="1 1 1%"
                       textAlign="center"
                       padding="0 8px"
-                      onClick={ () => history.push(`/p/${subPlebbit?.address}/about/`) }
+                      as={ Link }
+                      to={ `/p/${subPlebbit?.address}/about/` }
                     >
                       ABOUT
                     </Box>

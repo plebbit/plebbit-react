@@ -5,10 +5,10 @@ import { FiMoreHorizontal } from 'react-icons/fi';
 import { BsCheckAll } from 'react-icons/bs';
 import { MdSettings } from 'react-icons/md';
 import Avatar from '../../../Avatar';
+import Link from '../../../Link';
 import DropDown from '../../../DropDown';
 import PopOver from '../../../PopOver';
 import { getTimeVal } from '../../../../utils/formatDate';
-import { useHistory } from 'react-router-dom';
 import getUserName from '../../../../utils/getUserName';
 import { ProfileContext } from '../../../../store/profileContext';
 import { toast } from 'react-toastify';
@@ -17,7 +17,6 @@ const NavNotification = () => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconColor2 = useColorModeValue('lightIcon2', 'darkText1');
   const linkColor = useColorModeValue('lightLink', 'darkLink');
-  const history = useHistory();
   const { notifications } = useContext(ProfileContext);
 
   const handleReadAll = async () => {
@@ -65,17 +64,22 @@ const NavNotification = () => {
       }
       footer={
         <Flex justifyContent="center" alignItems="center">
-          <Button
-            onClick={ () => { handleReadAll(); history.push('/notifications') } }
-            variant="unstyled"
-            color={ linkColor }
-          >
-            SEE ALL
-          </Button>
+          <Link to="/notifications">
+            <Button
+              onClick={ () => { handleReadAll(); } }
+              variant="unstyled"
+              color={ linkColor }
+            >
+              SEE ALL
+            </Button>
+          </Link>
         </Flex>
       }
       content={
-        <Flex flexDirection="column">
+
+        <Flex flexDirection="column"
+          zIndex="2001"
+        >
           { notifications?.notifications?.map((notifications, index) => (
             <NotificationType handleReadAll={ handleReadAll } key={ index } notification={ notifications } />
           )) }
@@ -90,7 +94,6 @@ export default NavNotification;
 export const NotificationType = ({ notification, handleReadAll }) => {
   const cardBg = useColorModeValue('rgba(36,160,237,0.1)', 'rgba(36,160,237,0.5)');
   const metaText = useColorModeValue('#7c7c7c', '#818384');
-  const history = useHistory();
 
   return (
     <>
@@ -187,87 +190,92 @@ export const NotificationType = ({ notification, handleReadAll }) => {
         </Flex>
       ) :  */
         !notification?.markedAsRead ? (
-          <Flex bg={ cardBg } padding="16px" cursor="pointer" onClick={ () => { handleReadAll(); history.push(`/p/${notification?.subplebbitAddress}/c/${notification?.cid}`) } }>
-            <Box mr="8px">
-              <Avatar height={ 32 } width={ 32 } avatar="" />
-            </Box>
-            <Flex flexDirection="column" width="100%">
-              <Flex w="100%" mb="4px">
-                <Text wordBreak="break-all" fontSize="14px" lineHeight="21px" fontWeight="400">
-                  { getUserName(notification?.author) } replied to your post in{ ' ' }
-                  { `p/${notification?.subplebbitAddress}` } ·{ ' ' }
-                  <span
-                    style={ {
-                      lineHeight: '19px',
-                      color: metaText,
-                    } }
-                  >
-                    { getTimeVal(notification?.timestamp * 1000) }
-                  </span>
-                </Text>
-                <Box ml="auto">
-                  <DropDown
-                    dropDownTitle={
-                      <Box>
-                        <Icon as={ FiMoreHorizontal } />
-                      </Box>
-                    }
-                  />
+          <Link to={ `/p/${notification?.subplebbitAddress}/c/${notification?.cid}` }>
+
+            <Flex bg={ cardBg } padding="16px" cursor="pointer" onClick={ () => { handleReadAll(); } }>
+              <Box mr="8px">
+                <Avatar height={ 32 } width={ 32 } avatar="" />
+              </Box>
+              <Flex flexDirection="column" width="100%">
+                <Flex w="100%" mb="4px">
+                  <Text wordBreak="break-all" fontSize="14px" lineHeight="21px" fontWeight="400">
+                    { getUserName(notification?.author) } replied to your post in{ ' ' }
+                    { `p/${notification?.subplebbitAddress}` } ·{ ' ' }
+                    <span
+                      style={ {
+                        lineHeight: '19px',
+                        color: metaText,
+                      } }
+                    >
+                      { getTimeVal(notification?.timestamp * 1000) }
+                    </span>
+                  </Text>
+                  <Box ml="auto">
+                    <DropDown
+                      dropDownTitle={
+                        <Box>
+                          <Icon as={ FiMoreHorizontal } />
+                        </Box>
+                      }
+                    />
+                  </Box>
+                </Flex>
+                <Box
+                  fontSize="14px"
+                  lineHeight="18px"
+                  color={ metaText }
+                  wordBreak="break-all"
+                  noOfLines={ 3 }
+                  overflow="hidden"
+                >
+                  { notification?.content }
                 </Box>
               </Flex>
-              <Box
-                fontSize="14px"
-                lineHeight="18px"
-                color={ metaText }
-                wordBreak="break-all"
-                noOfLines={ 3 }
-                overflow="hidden"
-              >
-                { notification?.content }
-              </Box>
             </Flex>
-          </Flex>
+          </Link>
         ) : notification?.markedAsRead ? (
-          <Flex padding="16px" cursor="pointer" onClick={ () => { handleReadAll(); history.push(`/p/${notification?.subplebbitAddress}/c/${notification?.cid}`) } }>
-            <Box mr="8px">
-              <Avatar height={ 32 } width={ 32 } avatar="" />
-            </Box>
-            <Flex flexDirection="column" width="100%">
-              <Flex w="100%" mb="4px">
-                <Text wordBreak="break-all" fontSize="14px" lineHeight="21px" fontWeight="400">
-                  { getUserName(notification?.author) } replied to your post in{ ' ' }
-                  { `p/${notification?.subplebbitAddress || ''}` } ·{ ' ' }
-                  <span
-                    style={ {
-                      lineHeight: '19px',
-                      color: metaText,
-                    } }
-                  >
-                    { getTimeVal(notification?.timestamp * 1000) }
-                  </span>
-                </Text>
-                <Box ml="auto">
-                  <DropDown
-                    dropDownTitle={
-                      <Box>
-                        <Icon as={ FiMoreHorizontal } />
-                      </Box>
-                    }
-                  />
+          <Link to={ `/p/${notification?.subplebbitAddress}/c/${notification?.cid}` }>
+            <Flex padding="16px" cursor="pointer" onClick={ () => { handleReadAll(); } }>
+              <Box mr="8px">
+                <Avatar height={ 32 } width={ 32 } avatar="" />
+              </Box>
+              <Flex flexDirection="column" width="100%">
+                <Flex w="100%" mb="4px">
+                  <Text wordBreak="break-all" fontSize="14px" lineHeight="21px" fontWeight="400">
+                    { getUserName(notification?.author) } replied to your post in{ ' ' }
+                    { `p/${notification?.subplebbitAddress || ''}` } ·{ ' ' }
+                    <span
+                      style={ {
+                        lineHeight: '19px',
+                        color: metaText,
+                      } }
+                    >
+                      { getTimeVal(notification?.timestamp * 1000) }
+                    </span>
+                  </Text>
+                  <Box ml="auto">
+                    <DropDown
+                      dropDownTitle={
+                        <Box>
+                          <Icon as={ FiMoreHorizontal } />
+                        </Box>
+                      }
+                    />
+                  </Box>
+                </Flex>
+                <Box
+                  fontSize="14px"
+                  lineHeight="18px"
+                  color={ metaText }
+                  wordBreak="break-all"
+                  noOfLines={ 3 }
+                  overflow="hidden"
+                >
+                  { notification?.content }
                 </Box>
               </Flex>
-              <Box
-                fontSize="14px"
-                lineHeight="18px"
-                color={ metaText }
-                wordBreak="break-all"
-                noOfLines={ 3 }
-                overflow="hidden"
-              >
-                { notification?.content }
-              </Box>
             </Flex>
-          </Flex>
+          </Link>
         ) : (
           ''
         )

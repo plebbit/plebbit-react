@@ -4,7 +4,6 @@ import { SiInformatica } from 'react-icons/si';
 import { GiCakeSlice, GiMoebiusStar } from 'react-icons/gi';
 import Button from '../../components/Button';
 import numFormatter from '../../utils/numberFormater';
-import { useHistory } from 'react-router-dom';
 import AddAvatar from '../Settings/modal/addAvatar';
 import BottomSideBar from '../../components/sidebar/bottomSideBar';
 import Image from '../../components/Image';
@@ -28,7 +27,6 @@ const SideBar = ({
   const Bg = useColorModeValue('#F8F9FA', '');
 
   const [showMoreOptions, setShowMoreOptions] = useState(false);
-  const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
