@@ -18,6 +18,7 @@ import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
 import useCommentEdit from '../../hooks/useCommentEdit';
+import useStateString from '../../hooks/useStateString';
 
 const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSpecial }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -120,6 +121,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     editLabel = { text: 'failed edit', color: 'red' }
   }
 
+  const stateString = useStateString(detail)
+
 
 
 
@@ -160,6 +163,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             commentCount={ commentCount }
             editLabel={ editLabel }
             authorPath={ authorPath }
+            stateString={ stateString }
 
           />
         ) }
@@ -197,6 +201,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             commentCount={ commentCount }
             editLabel={ editLabel }
             authorPath={ authorPath }
+            stateString={ stateString }
 
           />
         ) }
@@ -235,6 +240,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               commentCount={ commentCount }
               editLabel={ editLabel }
               authorPath={ authorPath }
+              stateString={ stateString }
 
             />
           ) : (
@@ -270,6 +276,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               commentCount={ commentCount }
               editLabel={ editLabel }
               authorPath={ authorPath }
+              stateString={ stateString }
 
             />
           )) }

@@ -50,6 +50,7 @@ import EditLabel from "../Label/editLabel";
 import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
 import FlairLabel from "../Label/flairLabel";
+import StateString from "../Label/stateString";
 
 const CardPost = ({
   post,
@@ -76,7 +77,7 @@ const CardPost = ({
   upVote,
   downVote,
   editLabel,
-  authorPath
+  authorPath,
 
 }) => {
   const mainBg = useColorModeValue("lightBody", "darkBody");
@@ -1137,6 +1138,7 @@ const CardPost = ({
                             { dateToFromNowDaily(post?.timestamp * 1000) }
                           </Skeleton>
                         </Box>
+
                         { pending && (
                           <Skeleton isLoaded={ !loading }>
                             <PendingLabel />

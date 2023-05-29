@@ -357,7 +357,7 @@ const Layout = ({ children, name, stateString }) => {
         ) }
 
 
-        { device === 'mobile' && stateString && stateString !== 'Succeeded' && <Box width="100%" zIndex="2001" fontWeight="500" pos="fixed" top="48px" p='5px 20px' fontSize="12px" color="white" bg="#212a3b" >
+        { device === 'mobile' && stateString && stateString !== 'Succeeded' && <Box width="100%" zIndex="2001" fontWeight="500" pos="fixed" top="48px" p='5px 20px' fontSize="12px" color="white" bg="#212a3b" className='loading-ellipsis'>
           { stateString }
         </Box>
         }

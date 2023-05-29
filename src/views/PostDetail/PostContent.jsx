@@ -70,6 +70,7 @@ import SpoilerLabel from "../../components/Label/spoilerLabel";
 import FlairLabel from '../../components/Label/flairLabel';
 import AddComment from './addComment';
 import useStateString from '../../hooks/useStateString';
+import StateString from '../../components/Label/stateString';
 
 const PostContent = ({ setDetail, setSubplebbit }) => {
   const {
@@ -800,29 +801,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           <Link color={ misCol }>
                             { dateToNow(parseInt(detail?.timestamp * 1000)) } ago
                           </Link>
-                          { stateString && stateString !== 'Succeeded' && <>
-
-                            <Text
-                              color={ separatorColor }
-                              as="span"
-                              verticalAlign="middle"
-                              fontSize="6px"
-                              lineHeight="20px"
-                              margin="0 4px"
-                            >
-                              •
-                            </Text>
-                            <Text
-                              color={ separatorColor }
-                              as="span"
-                              verticalAlign="middle"
-                              fontSize="10px"
-                              lineHeight="20px"
-                              margin="0 4px"
-                            >
-                              { stateString }
-                            </Text>
-                          </> }
+                          <StateString stateString={ stateString } />
 
                         </Box>
                         { detail?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }

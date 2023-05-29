@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Flex, Icon, useColorModeValue, useToast } from '@chakra-ui/react';
+import { Box, Flex, Icon, Text, useColorModeValue, useToast } from '@chakra-ui/react';
 import Button from '../../components/Button';
 import { FaBell } from 'react-icons/fa';
 import { ProfileContext } from '../../store/profileContext';
@@ -33,6 +33,8 @@ const SubPlebbit = ({ match }) => {
   // const inactiveSubTitle = useColorModeValue('lightText1', 'darkText1');
   const mobileMainColor = useColorModeValue('lightMobileText', 'darkMobileText');
   const mainMobileBg = useColorModeValue('white', 'black');
+  const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
+
   const { feed, loadMore, hasMore } = useFeed({ subplebbitAddresses: [match?.params?.subplebbitAddress], sortType: feedSort });
   const subPlebbit = useSubplebbit({ subplebbitAddress: match?.params?.subplebbitAddress });
   const feeds = feed;
@@ -331,8 +333,17 @@ const SubPlebbit = ({ match }) => {
                   {/* Create Post Bar */ }
                   <CreatePostBar address={ subPlebbit?.address } />
                   {/* feed sort bar */ }
-                  <FeedSort />
+                  <FeedSort stateString={ stateString } />
                   {/* feed list */ }
+                  { stateString && stateString !== 'Succeeded' && <Text
+                    as="span"
+                    verticalAlign="middle"
+                    fontSize="12px"
+                    lineHeight="16px"
+                    className='loading-ellipsis'
+                  >
+                    { stateString }
+                  </Text> }
 
                   <Box minHeight="1000px" width="100%">
                     <InfiniteScroll
