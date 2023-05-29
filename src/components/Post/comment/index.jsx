@@ -140,8 +140,14 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
 
 
   // comment replies
+  const firstComment = (<Comment
+    key={ replies[0]?.cid }
+    comment={ replies[0] }
+    type={ replies[0]?.cid === singleComment?.cid ? 'singleComment' : 'child' }
 
-  const repliesComponent = (replies || []).map((data) => {
+  />)
+
+  const repliesComponent = (replies?.slice(1) || []).map((data) => {
     return (
       <Comment
         key={ data?.cid }
@@ -475,7 +481,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
         {/* when visiting a neested reply from link */ }
         { singleComment && oneComment }
         {/* show replies button */ }
-        { !showReplies && commentCount > 0 && <Box
+        { !showReplies && (commentCount - 1) > 0 && <Box
           onClick={ () => setShowReplies(true) }
           fontSize="12px"
           fontWeight="700"
@@ -485,10 +491,12 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
           pl="4px"
           cursor="pointer"
         >
-          { commentCount }
-          { commentCount > 0 ? ' more' : '' } repl{ commentCount > 1 ? 'ies' : 'y' }
+          { commentCount - 1 }
+          { (commentCount - 1) > 0 ? ' more' : '' } repl{ (commentCount - 1) > 1 ? 'ies' : 'y' }
         </Box> }
+
         {/* nested comments */ }
+        { replies[0] && firstComment }
         {
           showReplies && repliesComponent
         }
