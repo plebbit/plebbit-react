@@ -167,7 +167,7 @@ const SubPlebbit = ({ match }) => {
   };
 
   const stateString = useStateString(subPlebbit)
-
+  console.log((hasMore))
 
   return (
     <Layout stateString={ stateString } name={ { label: subPlebbit?.title || 'Subplebbit', value: location?.pathname } }>
