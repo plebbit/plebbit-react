@@ -70,7 +70,7 @@ const SideBar = ({
   const stats = useSubplebbitStats({ subplebbitAddress: subPlebbit?.address })
   const loading = subPlebbit === undefined || stats.state === 'fetching-ipfs';
 
-  console.log({ stats })
+
   return (
     <Box
       marginLeft={ ml || '24px' }
