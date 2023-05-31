@@ -3,7 +3,7 @@ import {
   Box,
   Flex,
   Text,
-  Link,
+
   useColorModeValue,
   IconButton,
   Icon,
@@ -40,6 +40,7 @@ import onChallengeVerification from '../../../utils/onChallengeVerification';
 import EditLabel from '../../Label/editLabel';
 import PendingLabel from '../../Label/pendingLabel';
 import FlairLabel from '../../Label/flairLabel';
+import Link from '../../Link';
 
 const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
   let comment = data
@@ -180,6 +181,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
   if (editedCommentState === 'failed') {
     editLabel = { text: 'failed edit', color: 'red' }
   }
+  const authorPath = owner ? "/profile" : `/u/${comment?.author?.address}/c/${comment?.cid}`
 
 
 
@@ -196,7 +198,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
         <Flex flexDir="column" mb="6px">
           <Flex alignItems="center" fontWeight="400" fontSize="12px">
             <Box maxW="50%" mr="5px">
-              <Box isTruncated>{ getUserName(comment?.author) } </Box>
+              <Box isTruncated as={ Link } to={ authorPath }>{ getUserName(comment?.author) } </Box>
             </Box>
 
             { commentPending && (
