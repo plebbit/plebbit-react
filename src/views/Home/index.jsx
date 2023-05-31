@@ -35,7 +35,7 @@ const Home = () => {
 
 
   return (
-    <Layout name={ { label: 'Home', value: homeAdd } } stateString={ stateString }>
+    <Layout name={ { label: 'Home', value: homeAdd } } stateString={ feeds?.length ? "" : stateString }>
       { device !== 'mobile' ? (
         <Flex
           maxW="100%"

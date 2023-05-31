@@ -170,7 +170,7 @@ const SubPlebbit = ({ match }) => {
 
 
   return (
-    <Layout stateString={ stateString } name={ { label: subPlebbit?.title || 'Subplebbit', value: location?.pathname } }>
+    <Layout stateString={ feeds?.length ? '' : stateString } name={ { label: subPlebbit?.title || 'Subplebbit', value: location?.pathname } }>
       { showStyleBar && <SubStyleSide /> }
       <>
         { device !== 'mobile' ? (

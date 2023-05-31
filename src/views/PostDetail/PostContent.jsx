@@ -12,6 +12,7 @@ import {
   Textarea,
   useDisclosure,
   Tooltip,
+  SkeletonText,
 } from '@chakra-ui/react';
 import {
   useAccountComments,
@@ -119,6 +120,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
   const sub = useSubplebbit({ subplebbitAddress: detail?.subplebbitAddress });
   const loading = detail?.state === "fetching-ipfs" || !detail?.timestamp;
+  const commentLoading = detail?.state === "fetching-ipfs" || !detail?.updatedAt
   const detailPending = !detail?.cid;
   const subplebbit =
     sub === undefined ? { ...detail?.subplebbit, address: detail?.subplebbitAddress } : sub;
@@ -347,99 +349,99 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                   padding="0 32px"
                 >
                   <Flex alignItems="center" flex="1" maxW="calc(100% - 324px)" width="100%">
-                    <Skeleton mr="4px" isLoaded={ !loading }>
-                      <Flex mr="4px" alignItems="center" margin="0" padding="0 2px">
-                        <Box
-                          borderRight="1px solid #a4a4a4"
-                          height="16px"
-                          mr="8px"
-                          content=""
-                          verticalAlign="text-bottom"
-                          width="0"
-                        />
-                        <IconButton
-                          aria-label="Upvote Post"
-                          color={ vote === 1 ? 'upvoteOrange' : iconColor }
-                          w="24px"
-                          h="24px"
-                          bg="none"
-                          minW="24px"
-                          minH="24px"
-                          border="none"
-                          borderRadius="2px"
-                          _hover={ {
-                            bg: iconBg,
-                            color: 'upvoteOrange',
-                          } }
-                          _focus={ {
-                            outline: 'none',
-                          } }
-                          onClick={ upVote }
-                          icon={ <Icon as={ vote === 1 ? ImArrowUp : BiUpvote } w={ 4 } h={ 4 } /> }
-                        />
-                        <Text
-                          fontSize="12px"
-                          fontWeight="700"
-                          lineHeight="16px"
-                          pointerEvents="none"
-                          color="#D7DADC"
-                          textAlign="center"
-                        >
-                          <Skeleton isLoaded={ !loading }>
-                            { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
-                          </Skeleton>
-                        </Text>
-                        <IconButton
-                          aria-label="Downvote Post"
-                          color={ vote === -1 ? 'downvoteBlue' : iconColor }
-                          w="24px"
-                          h="24px"
-                          minW="24px"
-                          minH="24px"
-                          border="none"
-                          bg="none"
-                          borderRadius="2px"
-                          _hover={ {
-                            bg: iconBg,
-                            color: 'downvoteBlue',
-                          } }
-                          _focus={ {
-                            outline: 'none',
-                          } }
-                          onClick={ downVote }
-                          icon={ <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } /> }
-                        />
-                        <Box
-                          borderRight="1px solid #a4a4a4"
-                          height="16px"
-                          margin="0 8px"
-                          verticalAlign="text-bottom"
-                          content=""
-                          width="0"
-                        />
-                      </Flex>
+                    <Flex as={ loading && Skeleton } mr="4px" alignItems="center" margin="0" padding="0 2px">
+                      <Box
+                        borderRight="1px solid #a4a4a4"
+                        height="16px"
+                        mr="8px"
+                        content=""
+                        verticalAlign="text-bottom"
+                        width="0"
+                      />
+                      <IconButton
+                        aria-label="Upvote Post"
+                        color={ vote === 1 ? 'upvoteOrange' : iconColor }
+                        w="24px"
+                        h="24px"
+                        bg="none"
+                        minW="24px"
+                        minH="24px"
+                        border="none"
+                        borderRadius="2px"
+                        _hover={ {
+                          bg: iconBg,
+                          color: 'upvoteOrange',
+                        } }
+                        _focus={ {
+                          outline: 'none',
+                        } }
+                        onClick={ upVote }
+                        icon={ <Icon as={ vote === 1 ? ImArrowUp : BiUpvote } w={ 4 } h={ 4 } /> }
+                      />
+                      <Text
+                        fontSize="12px"
+                        fontWeight="700"
+                        lineHeight="16px"
+                        pointerEvents="none"
+                        color="#D7DADC"
+                        textAlign="center"
+                      >
+                        <Skeleton isLoaded={ !loading }>
+                          { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
+                        </Skeleton>
+                      </Text>
+                      <IconButton
+                        aria-label="Downvote Post"
+                        color={ vote === -1 ? 'downvoteBlue' : iconColor }
+                        w="24px"
+                        h="24px"
+                        minW="24px"
+                        minH="24px"
+                        border="none"
+                        bg="none"
+                        borderRadius="2px"
+                        _hover={ {
+                          bg: iconBg,
+                          color: 'downvoteBlue',
+                        } }
+                        _focus={ {
+                          outline: 'none',
+                        } }
+                        onClick={ downVote }
+                        icon={ <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } /> }
+                      />
+                      <Box
+                        borderRight="1px solid #a4a4a4"
+                        height="16px"
+                        margin="0 8px"
+                        verticalAlign="text-bottom"
+                        content=""
+                        width="0"
+                      />
+                    </Flex>
+
+                    <Skeleton isLoaded={ !loading }>
+                      <Icon as={ loading && Skeleton } as={ CgNotes } mr="8px" color="#D7DADC" />
                     </Skeleton>
                     <Skeleton isLoaded={ !loading }>
-                      <Icon as={ CgNotes } mr="8px" color="#D7DADC" />
+                      <Text
+                        color="#D7DADC"
+                        fontSize="14px"
+                        fontWeight="500"
+                        lineHeight="18px"
+                        minWidth="0"
+                        ml="2px"
+                        paddingRight="5px"
+                        sx={ {
+                          '@media (max-width: 768px)': {
+                            display: 'none',
+                          },
+                        } }
+                        isTruncated
+                      >
+                        { detail?.title }
+                      </Text>
                     </Skeleton>
-
-                    <Text
-                      color="#D7DADC"
-                      fontSize="14px"
-                      fontWeight="500"
-                      lineHeight="18px"
-                      minWidth="0"
-                      ml="2px"
-                      paddingRight="5px"
-                      sx={ {
-                        '@media (max-width: 768px)': {
-                          display: 'none',
-                        },
-                      } }
-                      isTruncated
-                    >
-                      { detail?.title }
-                    </Text>
                   </Flex>
                   <Flex
                     alignItems="center"
@@ -559,24 +561,25 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                     <Skeleton isLoaded={ !loading }>
                       <Icon as={ CgNotes } mr="8px" color="#D7DADC" />
                     </Skeleton>
-
-                    <Text
-                      color="#D7DADC"
-                      fontSize="14px"
-                      fontWeight="500"
-                      lineHeight="18px"
-                      minWidth="0"
-                      ml="2px"
-                      paddingRight="5px"
-                      sx={ {
-                        '@media (max-width: 768px)': {
-                          display: 'none',
-                        },
-                      } }
-                      isTruncated
-                    >
-                      { detail?.title }
-                    </Text>
+                    <Skeleton isLoaded={ !loading }>
+                      <Text
+                        color="#D7DADC"
+                        fontSize="14px"
+                        fontWeight="500"
+                        lineHeight="18px"
+                        minWidth="0"
+                        ml="2px"
+                        paddingRight="5px"
+                        sx={ {
+                          '@media (max-width: 768px)': {
+                            display: 'none',
+                          },
+                        } }
+                        isTruncated
+                      >
+                        { detail?.title }
+                      </Text>
+                    </Skeleton>
                   </Flex>
                   <Flex
                     alignItems="center"
@@ -712,21 +715,16 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                     lineHeight="16px"
                     margin="0 8px 8px"
                   >
-                    <Skeleton
-                      isLoaded={ !loading }
+
+                    <Avatar
+                      width={ 20 }
+                      height={ 20 }
                       mr="8px"
-                      width="20px"
-                      height="20px"
-                      borderRadius="50%"
-                    >
-                      <Avatar
-                        width={ 20 }
-                        height={ 20 }
-                        mr="8px"
-                        badge
-                        isOnline={ getIsOnline(subplebbit?.updatedAt) }
-                      />
-                    </Skeleton>
+                      badge
+                      isOnline={ getIsOnline(subplebbit?.updatedAt) }
+                      loading={ loading }
+                    />
+
                     <Skeleton isLoaded={ !loading }>
                       <Flex
                         alignItems="center"
@@ -858,33 +856,37 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                     </Flex>
                   </Flex>
                   {/* post Title */ }
+
                   <Flex margin="0 8px" display="flex" alignItems="center">
-                    <Text
-                      color={ titleColor }
-                      fontSize="18px"
-                      fontWeight="500"
-                      lineHeight="22px"
-                      paddingRight="5px"
-                      wordBreak="break-word"
-                    >
-                      { detail?.title }{ ' ' }
+                    <Skeleton isLoaded={ !loading }>
 
-                      { detail?.flair?.text ? (
-                        <FlairLabel flair={ detail?.flair } />
+                      <Text
+                        color={ titleColor }
+                        fontSize="18px"
+                        fontWeight="500"
+                        lineHeight="22px"
+                        paddingRight="5px"
+                        wordBreak="break-word"
+                      >
+                        { detail?.title }{ ' ' }
 
-                      ) : null }
-                      { detail?.spoiler && (
-                        <SpoilerLabel />
-                      ) }
-                      { detailPending && (
-                        <Skeleton isLoaded={ !loading } my="4px">
-                          <PendingLabel />
-                        </Skeleton>
-                      ) }
-                      {/* edit status */ }
-                      <EditLabel editLabel={ editLabel } post={ detail } />
+                        { detail?.flair?.text ? (
+                          <FlairLabel flair={ detail?.flair } />
 
-                    </Text>
+                        ) : null }
+                        { detail?.spoiler && (
+                          <SpoilerLabel />
+                        ) }
+                        { detailPending && (
+                          <Skeleton isLoaded={ !loading } my="4px">
+                            <PendingLabel />
+                          </Skeleton>
+                        ) }
+                        {/* edit status */ }
+                        <EditLabel editLabel={ editLabel } post={ detail } />
+
+                      </Text>
+                    </Skeleton>
                   </Flex>
 
                   {/* post Body */ }
@@ -1029,9 +1031,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           wordBreak="break-word"
                           overflow="hidden"
                         >
-                          <Skeleton isLoaded={ !loading }>
+                          <SkeletonText noOfLines={ 4 } isLoaded={ !loading }>
                             <Marked content={ detail?.content } />
-                          </Skeleton>
+                          </SkeletonText>
                         </Box>
                       ) : (
                         <Box width="100%" display="flex" justifyContent="center">
@@ -1168,7 +1170,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           } }
                         >
                           <Icon as={ BsChatSquare } height={ 5 } width={ 5 } mr="5px" />
-                          <Box>{ detailCommentCount }</Box>
+                          <Box as={ loading && Skeleton }>{ detailCommentCount }</Box>
                         </Link>
                         <Flex
                           alignItems="center"
@@ -1596,10 +1598,10 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
               </Flex>
               <Box maxW="100%" bg={ bg } mt="10px" padding="10px">
                 <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
-                { isReply ? <Replies parent={ replyParent } reply={ reply } /> : null }
+                { isReply ? <Replies loading={ loading } parent={ replyParent } reply={ reply } /> : null }
                 { showFullComments &&
                   comments?.map((comment) => (
-                    <Comment comment={ comment } key={ comment.cid } parentCid={ detail?.cid } />
+                    <Comment loading={ commentLoading } comment={ comment } key={ comment.cid } parentCid={ detail?.cid } />
                   )) }
               </Box>
             </Box>
@@ -1797,19 +1799,6 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
               </Box>
             </Box>
             <Box padding="16px" maxW="100%">
-              { isReply ? (
-                <Box
-                  fontSize="12px"
-                  fontWeight="700"
-                  my="8px"
-                  _hover={ {
-                    textDecoration: 'underline',
-                  } }
-                  onClick={ () => setShowFullComments(!showFullComments) }
-                >
-                  View all comments
-                </Box>
-              ) : null }
               { isReply ? <Replies parent={ replyParent } reply={ reply } /> : null }
               { showFullComments &&
                 comments.map((comment) => (
