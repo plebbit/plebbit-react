@@ -16,7 +16,7 @@ import { ProfileContext } from '../../../store/profileContext';
 import DropDown from '../../DropDown';
 import useVisible from '../../../hooks/useVisible';
 
-const FeedSort = ({ hideControl, stateString }) => {
+const FeedSort = ({ hideControl }) => {
   const { postStyle, setPostStyle, feedSort, setFeedSort, device } = useContext(ProfileContext);
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
 
@@ -48,7 +48,7 @@ const FeedSort = ({ hideControl, stateString }) => {
             borderRadius="4px"
             flexFlow="nowrap"
             justifyContent="flex-start"
-            mb={ stateString && stateString !== 'Succeeded' ? '' : '16px' }
+            mb='16px'
             padding="10px 12px"
 
           >

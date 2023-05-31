@@ -20,7 +20,7 @@ import usePublishDownvote from '../../hooks/usePublishDownvote';
 import useCommentEdit from '../../hooks/useCommentEdit';
 import useStateString from '../../hooks/useStateString';
 
-const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSpecial }) => {
+const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSpecial, stateString }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
   let post = data
   const pending = !post?.cid;
@@ -121,7 +121,6 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     editLabel = { text: 'failed edit', color: 'red' }
   }
 
-  const stateString = useStateString(detail)
 
 
 

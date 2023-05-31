@@ -75,13 +75,14 @@ const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments,
                         Sort By: Best
                     </Box>
                     <hr />
-                    { isReply ? (
+                    { !showFullComments && isReply ? (
                         <Box
                             fontSize="12px"
                             fontWeight="700"
                             my="8px"
                             _hover={ {
                                 textDecoration: 'underline',
+                                cursor: 'pointer'
                             } }
                             onClick={ () => setShowFullComments(!showFullComments) }
                         >

@@ -30,6 +30,7 @@ const Editor = ({
   const [disabled, setDisabled] = useState(true);
 
   const handleChange = (data) => {
+
     if (draftToMarkdown(convertToRaw(data.getCurrentContent())).length) {
       setDisabled(false);
     } else {

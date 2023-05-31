@@ -3,12 +3,12 @@ import {
   Box,
   Flex,
   Text,
-
   useColorModeValue,
   IconButton,
   Icon,
   useToast,
   Tag,
+  Skeleton,
 } from '@chakra-ui/react';
 import { usePublishComment, useAuthorAvatar, useAccountVote, useEditedComment } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
@@ -21,7 +21,6 @@ import dateToNow from '../../../utils/formatDate';
 import numFormatter from '../../../utils/numberFormater';
 import getUserName from '../../../utils/getUserName';
 import logger from '../../../utils/logger';
-import getChallengeAnswersFromUser from '../../../utils/getChallengeAnswersFromUser';
 import Avatar from '../../Avatar';
 import onError from '../../../utils/onError';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -41,8 +40,9 @@ import EditLabel from '../../Label/editLabel';
 import PendingLabel from '../../Label/pendingLabel';
 import FlairLabel from '../../Label/flairLabel';
 import Link from '../../Link';
+import useStateString from '../../../hooks/useStateString';
 
-const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
+const Comment = ({ comment: data, disableReplies, singleComment, loading = true, type }) => {
   let comment = data
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
@@ -132,7 +132,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
       key={ singleComment?.cid }
       comment={ singleComment }
       type="singleComment"
-
+      loading={ loading }
     />
   );
 
@@ -145,7 +145,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
     key={ replies[0]?.cid }
     comment={ replies[0] }
     type={ replies[0]?.cid === singleComment?.cid ? 'singleComment' : 'child' }
-
+    loading={ loading }
   />)
 
   const repliesComponent = (replies?.slice(1) || []).map((data) => {
@@ -154,7 +154,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
         key={ data?.cid }
         comment={ data }
         type={ data?.cid === singleComment?.cid ? 'singleComment' : 'child' }
-
+        loading={ loading }
       />
     );
   });
@@ -183,59 +183,63 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
   }
   const authorPath = owner ? "/profile" : `/u/${comment?.author?.address}/c/${comment?.cid}`
 
-
+  const stateString = useStateString(comment)
 
 
   return (
     <Flex marginTop="15px" bg={ type === 'singleComment' && commentBg } padding="8px 0 0 8px">
       <Flex marginRight="8px" flexDir="column" alignItems="center">
-        <Avatar width={ 28 } height={ 28 } avatar={ authorAvatarImageUrl } mb="10px" />
+        <Avatar loading={ loading } width={ 28 } height={ 28 } avatar={ authorAvatarImageUrl } mb="10px" />
 
-        <Box borderRight="2px solid #edeff1" width="0" height="100%" />
+        { !loading && <Box borderRight="2px solid #edeff1" width="0" height="100%" /> }
       </Flex>
 
       <Flex flexDir="column" flexGrow={ 1 }>
         <Flex flexDir="column" mb="6px">
-          <Flex alignItems="center" fontWeight="400" fontSize="12px">
-            <Box maxW="50%" mr="5px">
-              <Box isTruncated as={ Link } to={ authorPath }>{ getUserName(comment?.author) } </Box>
-            </Box>
+          <Skeleton height={ loading && '20px' } width={ loading && "50%" } isLoaded={ !loading }>
+            <Flex alignItems="center" fontWeight="400" fontSize="12px">
+              <Box maxW="50%" mr="5px">
+                <Box isTruncated as={ Link } to={ authorPath }>{ getUserName(comment?.author) } </Box>
+              </Box>
 
-            { commentPending && (
-              <PendingLabel />
-            ) }
-            { commentFailed && (
-              <Tag size="sm" colorScheme="red" variant="outline">
-                Failed
-              </Tag>
-            ) }
-            {/* edit status */ }
-            <EditLabel editLabel={ editLabel } post={ comment } />
+              { commentPending && (
+                <PendingLabel />
+              ) }
+              { commentFailed && (
+                <Tag size="sm" colorScheme="red" variant="outline">
+                  Failed
+                </Tag>
+              ) }
+              {/* edit status */ }
+              <EditLabel editLabel={ editLabel } post={ comment } />
 
-            <Box
-              as="span"
-              verticalAlign="middle"
-              fontWeight="800"
-              fontSize="10px"
-              lineHeight="20px"
-              margin="0 4px"
-            >
-              •
-            </Box>
-            <Box color={ iconColor }>
-              <i> { dateToNow(comment?.timestamp * 1000) }</i>
-            </Box>
-          </Flex>
+              <Box
+                as="span"
+                verticalAlign="middle"
+                fontWeight="800"
+                fontSize="10px"
+                lineHeight="20px"
+                margin="0 4px"
+              >
+                •
+              </Box>
+              <Box color={ iconColor }>
+                <i> { dateToNow(comment?.timestamp * 1000) }</i>
+              </Box>
+              <stateString stateString={ stateString } />
+            </Flex>
+          </Skeleton>
           { comment?.flair?.text && (
             <FlairLabel flair={ comment?.flair } />
           ) }
         </Flex>
-        <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>
-          <Marked content={ comment?.content || '' } />
-
-        </Box>
+        <Skeleton height={ loading && "120px" } isLoaded={ !loading }>
+          <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>
+            <Marked content={ comment?.content || '' } />
+          </Box>
+        </Skeleton>
         {/* footer */ }
-        { (commentPending || commentFailed) ? (
+        { (loading || commentPending || commentFailed) ? (
           <Flex />
         ) : (
           <Flex color={ iconColor }>
@@ -483,7 +487,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
         {/* when visiting a neested reply from link */ }
         { singleComment && oneComment }
         {/* show replies button */ }
-        { !showReplies && (commentCount - 1) > 0 && <Box
+        { !loading && !showReplies && (commentCount - 1) > 0 && <Box
           onClick={ () => setShowReplies(true) }
           fontSize="12px"
           fontWeight="700"

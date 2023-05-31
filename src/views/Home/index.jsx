@@ -35,7 +35,7 @@ const Home = () => {
 
 
   return (
-    <Layout name={ { label: 'Home', value: homeAdd } } stateString={ stateString }>
+    <Layout name={ { label: 'Home', value: homeAdd } } stateString={ feeds?.length ? "" : stateString }>
       { device !== 'mobile' ? (
         <Flex
           maxW="100%"
@@ -48,16 +48,7 @@ const Home = () => {
             {/* Create Post Bar */ }
             <CreatePostBar />
             {/* feed sorter bar */ }
-            <FeedSort stateString={ stateString } />
-            { stateString && stateString !== 'Succeeded' && <Text
-              as="span"
-              verticalAlign="middle"
-              fontSize="12px"
-              lineHeight="16px"
-              className='loading-ellipsis'
-            >
-              { stateString }
-            </Text> }
+            <FeedSort />
 
             <Box minHeight="1000px" width="100%">
               <InfiniteScroll
@@ -65,7 +56,7 @@ const Home = () => {
                 loadMore={ loadMore }
                 content={ (index, feed) => <Post index={ index } post={ feed } key={ feed?.cid || index } mode={ postStyle } /> }
                 feeds={ feeds }
-                loader={ <Post loading={ true } mode={ postStyle } key={ Math.random() } /> }
+                loader={ <Post loading={ true } mode={ postStyle } stateString={ stateString } key={ Math.random() } /> }
               />
             </Box>
           </Box>

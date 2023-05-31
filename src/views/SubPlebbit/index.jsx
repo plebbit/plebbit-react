@@ -167,10 +167,10 @@ const SubPlebbit = ({ match }) => {
   };
 
   const stateString = useStateString(subPlebbit)
-  console.log((hasMore))
+
 
   return (
-    <Layout stateString={ stateString } name={ { label: subPlebbit?.title || 'Subplebbit', value: location?.pathname } }>
+    <Layout stateString={ feeds?.length ? '' : stateString } name={ { label: subPlebbit?.title || 'Subplebbit', value: location?.pathname } }>
       { showStyleBar && <SubStyleSide /> }
       <>
         { device !== 'mobile' ? (
@@ -335,15 +335,6 @@ const SubPlebbit = ({ match }) => {
                   {/* feed sort bar */ }
                   <FeedSort stateString={ stateString } />
                   {/* feed list */ }
-                  { stateString && stateString !== 'Succeeded' && <Text
-                    as="span"
-                    verticalAlign="middle"
-                    fontSize="12px"
-                    lineHeight="16px"
-                    className='loading-ellipsis'
-                  >
-                    { stateString }
-                  </Text> }
 
                   <Box minHeight="1000px" width="100%">
                     <InfiniteScroll
@@ -362,6 +353,7 @@ const SubPlebbit = ({ match }) => {
                       feeds={ feeds }
                       loader={
                         <Post
+                          stateString={ stateString }
                           type="subPlebbit"
                           loading={ true }
                           mode={ postStyle }

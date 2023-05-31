@@ -50,7 +50,6 @@ import EditLabel from "../Label/editLabel";
 import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
 import FlairLabel from "../Label/flairLabel";
-import StateString from "../Label/stateString";
 
 const CardPost = ({
   post,
@@ -78,7 +77,7 @@ const CardPost = ({
   downVote,
   editLabel,
   authorPath,
-
+  stateString
 }) => {
   const mainBg = useColorModeValue("lightBody", "darkBody");
   const subPlebbitSubTitle = useColorModeValue("metaTextLight", "metaTextDark");
@@ -462,6 +461,16 @@ const CardPost = ({
                         </Flex>
                       </Flex>
                     </Skeleton>
+                    { loading && stateString && stateString !== 'Succeeded' && <Text
+                      as="span"
+                      verticalAlign="middle"
+                      fontSize="12px"
+                      lineHeight="16px"
+                      className='loading-ellipsis'
+                      ml="4px"
+                    >
+                      { stateString }
+                    </Text> }
                   </Flex>{ " " }
                   {/* Post Title */ }
                   <Link to={ detailRoute }>
