@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box, Text, Flex, useColorModeValue, Icon, Skeleton } from '@chakra-ui/react';
+import { Box, Text, Flex, useColorModeValue, Icon, Skeleton, Grid, GridItem } from '@chakra-ui/react';
 import { BiCake } from 'react-icons/bi';
 import Button from '../../components/Button';
 import BottomSideBar from '../../components/sidebar/bottomSideBar';
 import BacktoTopButton from '../../components/sidebar/backtoTopButton';
-import { useSubplebbit } from '@plebbit/plebbit-react-hooks';
+import { useSubplebbit, useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
 import { dateFormater } from '../../utils/formatDate';
 import getIsOnline from '../../utils/getIsOnline';
 import Avatar from '../../components/Avatar';
@@ -30,13 +30,14 @@ const PostDetailSideBar = ({
   subLoading,
   subplebbit: subs,
   subscribed,
-  loading: detLoading
 }) => {
   const color = useColorModeValue('darkText', 'lightText');
   const Bg = useColorModeValue('#F8F9FA', '#1A1A1B');
   const sub = useSubplebbit({ subplebbitAddress: detail?.subplebbitAddress });
   const subPlebbit = sub || subs;
-  const loading = subPlebbit === undefined || detLoading;
+  const stats = useSubplebbitStats({ subplebbitAddress: detail?.subplebbitAddress })
+  const loading = subPlebbit === undefined || stats.state === 'fetching-ipfs';
+
 
   return (
     <Box
@@ -105,6 +106,29 @@ const PostDetailSideBar = ({
           </Flex>
           <Box marginBottom="8px" position="relative" padding="12px">
             { subPlebbit?.about }
+          </Box>
+
+          <Box padding="12px">
+
+            <Grid gap="12px" templateColumns="auto auto 42px" >
+              <GridItem w="100%">
+                <Box fontSize="16px" fontWeight="500" lineHeight="20px">
+                  { stats?.allActiveUserCount || 0 }
+                </Box>
+                <Box fontSize="12px" lineHeight="16px" fontWeight="500" wordBreak="break-word">
+                  Members
+                </Box>
+              </GridItem>
+              <GridItem w="100%">
+                <Box fontSize="16px" fontWeight="500" lineHeight="20px">
+                  { stats?.hourActiveUserCount || 0 }
+                </Box>
+                <Box fontSize="12px" lineHeight="16px" fontWeight="500" wordBreak="break-word">
+                  Online
+                </Box>
+              </GridItem>
+              <GridItem w="100%" />
+            </Grid>
           </Box>
 
           <Box padding="12px">

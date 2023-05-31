@@ -32,6 +32,7 @@ import BacktoTopButton from '../../components/sidebar/backtoTopButton';
 import FlairLabel from "../../components/Label/flairLabel"
 import Link from "../../components/Link"
 import { getSubName } from '../../utils/getUserName';
+import { useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
 
 const SideBar = ({
   mt,
@@ -50,7 +51,6 @@ const SideBar = ({
   setData,
   data,
   profile,
-  loading,
   handleSaveChanges,
   allowedSpecial,
 }) => {
@@ -67,8 +67,10 @@ const SideBar = ({
   const [showAddSubtopic, hideSubTopic] = useState(false);
   const [showAddDescription, hideAddDescription] = useState(false);
   const [showComOptions, hideComOptions] = useState(false);
+  const stats = useSubplebbitStats({ subplebbitAddress: subPlebbit?.address })
+  const loading = subPlebbit === undefined || stats.state === 'fetching-ipfs';
 
-
+  console.log({ stats })
   return (
     <Box
       marginLeft={ ml || '24px' }
@@ -171,6 +173,7 @@ const SideBar = ({
                     noOfLines={ 1 }
                     value={ data?.description }
                     onChange={ (e) => setData({ ...data, description: e.target.value }) }
+
                   />
                   <Flex alignItems="center" justifyContent="space-between">
                     <Box fontSize="12px" lineHeight="14px">
@@ -229,7 +232,7 @@ const SideBar = ({
             <Grid gap="12px" templateColumns="auto auto 42px">
               <GridItem w="100%">
                 <Box fontSize="16px" fontWeight="500" lineHeight="20px">
-                  1
+                  { stats?.allActiveUserCount || 0 }
                 </Box>
                 <Box fontSize="12px" lineHeight="16px" fontWeight="500" wordBreak="break-word">
                   Members
@@ -237,7 +240,7 @@ const SideBar = ({
               </GridItem>
               <GridItem w="100%">
                 <Box fontSize="16px" fontWeight="500" lineHeight="20px">
-                  3
+                  { stats?.hourActiveUserCount || 0 }
                 </Box>
                 <Box fontSize="12px" lineHeight="16px" fontWeight="500" wordBreak="break-word">
                   Online

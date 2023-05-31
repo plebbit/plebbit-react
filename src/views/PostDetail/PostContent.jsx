@@ -421,7 +421,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                     </Flex>
 
                     <Skeleton isLoaded={ !loading }>
-                      <Icon as={ loading && Skeleton } as={ CgNotes } mr="8px" color="#D7DADC" />
+                      <Icon as={ CgNotes } mr="8px" color="#D7DADC" />
                     </Skeleton>
                     <Skeleton isLoaded={ !loading }>
                       <Text
