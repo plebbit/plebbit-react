@@ -1,4 +1,4 @@
-import { Avatar as Av, AvatarBadge } from '@chakra-ui/react';
+import { Avatar as Av, AvatarBadge, SkeletonCircle } from '@chakra-ui/react';
 import React from 'react';
 import { PlebLogo } from '../svgs';
 
@@ -36,52 +36,54 @@ const getAvatarBadgeProps = (avatarWidth) => {
 };
 
 const Avatar = (props) => {
-  const { badge, avatar, width, height, isOnline, bg, sx, ...rest } = props;
+  const { badge, avatar, width, height, isOnline, bg, sx, loading, ...rest } = props;
   const { badgeBorderWidth, badgeWidth, badgeBottom } = getAvatarBadgeProps(width);
 
   return (
-    <>
-      {badge ? (
+    <SkeletonCircle width={ `${width}px` }
+      height={ `${height}px` } sx={ sx }
+      { ...rest } isLoaded={ !loading } >
+      { badge ? (
         <Av
           icon={
             <PlebLogo
-              style={{
+              style={ {
                 width: width,
                 height: height,
-              }}
+              } }
             />
           }
-          {...props}
-          width={`${width}px`}
-          height={`${height}px`}
-          src={avatar}
-          sx={sx}
-          {...rest}
-          bg={bg}
+          { ...props }
+          width={ `${width}px` }
+          height={ `${height}px` }
+          src={ avatar }
+          sx={ sx }
+          { ...rest }
+          bg={ bg }
         >
           <AvatarBadge
-            borderWidth={badgeBorderWidth}
+            borderWidth={ badgeBorderWidth }
             borderColor="#fff"
-            bg={isOnline ? '#46d160' : 'red'}
-            height={badgeWidth + 'px'}
-            width={badgeWidth + 'px'}
-            bottom={badgeBottom + 'px'}
-            right={badgeBottom + 'px'}
+            bg={ isOnline ? '#46d160' : 'red' }
+            height={ badgeWidth + 'px' }
+            width={ badgeWidth + 'px' }
+            bottom={ badgeBottom + 'px' }
+            right={ badgeBottom + 'px' }
             // overwrite the default transform value of AvatarBadge
             transform="translate(0px, 0px)"
           />
         </Av>
       ) : (
         <Av
-          icon={<PlebLogo />}
-          width={`${width}px`}
-          height={`${height}px`}
-          src={avatar}
-          bg={bg || 'transparent'}
-          sx={sx}
+          icon={ <PlebLogo /> }
+          width={ `${width}px` }
+          height={ `${height}px` }
+          src={ avatar }
+          bg={ bg || 'transparent' }
+          sx={ sx }
         />
-      )}
-    </>
+      ) }
+    </SkeletonCircle>
   );
 };
 

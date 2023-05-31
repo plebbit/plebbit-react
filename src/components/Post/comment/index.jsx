@@ -3,12 +3,13 @@ import {
   Box,
   Flex,
   Text,
-
   useColorModeValue,
   IconButton,
   Icon,
   useToast,
   Tag,
+  Skeleton,
+  SkeletonCircle,
 } from '@chakra-ui/react';
 import { usePublishComment, useAuthorAvatar, useAccountVote, useEditedComment } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
@@ -41,8 +42,9 @@ import EditLabel from '../../Label/editLabel';
 import PendingLabel from '../../Label/pendingLabel';
 import FlairLabel from '../../Label/flairLabel';
 import Link from '../../Link';
+import useStateString from '../../../hooks/useStateString';
 
-const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
+const Comment = ({ comment: data, disableReplies, singleComment, loading, type }) => {
   let comment = data
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
@@ -132,7 +134,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
       key={ singleComment?.cid }
       comment={ singleComment }
       type="singleComment"
-
+      loading={ loading }
     />
   );
 
@@ -145,7 +147,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
     key={ replies[0]?.cid }
     comment={ replies[0] }
     type={ replies[0]?.cid === singleComment?.cid ? 'singleComment' : 'child' }
-
+    loading={ loading }
   />)
 
   const repliesComponent = (replies?.slice(1) || []).map((data) => {
@@ -154,7 +156,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
         key={ data?.cid }
         comment={ data }
         type={ data?.cid === singleComment?.cid ? 'singleComment' : 'child' }
-
+        loading={ loading }
       />
     );
   });
@@ -183,13 +185,13 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
   }
   const authorPath = owner ? "/profile" : `/u/${comment?.author?.address}/c/${comment?.cid}`
 
-
+  const stateString = useStateString(comment)
 
 
   return (
     <Flex marginTop="15px" bg={ type === 'singleComment' && commentBg } padding="8px 0 0 8px">
       <Flex marginRight="8px" flexDir="column" alignItems="center">
-        <Avatar width={ 28 } height={ 28 } avatar={ authorAvatarImageUrl } mb="10px" />
+        <Avatar loading={ loading } width={ 28 } height={ 28 } avatar={ authorAvatarImageUrl } mb="10px" />
 
         <Box borderRight="2px solid #edeff1" width="0" height="100%" />
       </Flex>
@@ -225,6 +227,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, type }) => {
             <Box color={ iconColor }>
               <i> { dateToNow(comment?.timestamp * 1000) }</i>
             </Box>
+            <stateString stateString={ stateString } />
           </Flex>
           { comment?.flair?.text && (
             <FlairLabel flair={ comment?.flair } />
