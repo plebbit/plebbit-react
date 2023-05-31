@@ -78,7 +78,7 @@ const NavNotification = () => {
       content={
 
         <Flex flexDirection="column"
-          zIndex="2001"
+
         >
           { notifications?.notifications?.map((notifications, index) => (
             <NotificationType handleReadAll={ handleReadAll } key={ index } notification={ notifications } />
