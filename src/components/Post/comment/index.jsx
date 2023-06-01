@@ -65,6 +65,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(comment?.subplebbitAddress);
 
 
+
   const owner =
     profile?.author?.address === comment?.author?.address ||
     profile?.signer?.address === comment?.author?.address;
@@ -185,6 +186,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
   const authorPath = owner ? "/profile" : `/u/${comment?.author?.address}/c/${comment?.cid}`
 
   const stateString = useStateString(comment)
+
 
 
   return (
