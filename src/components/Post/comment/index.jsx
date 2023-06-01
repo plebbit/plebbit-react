@@ -10,7 +10,7 @@ import {
   Tag,
   Skeleton,
 } from '@chakra-ui/react';
-import { usePublishComment, useAuthorAvatar, useAccountVote, useEditedComment, useAccountComment } from '@plebbit/plebbit-react-hooks';
+import { useAuthorAvatar, useAccountVote, useEditedComment, useAccountComment } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -42,6 +42,7 @@ import FlairLabel from '../../Label/flairLabel';
 import Link from '../../Link';
 import useStateString from '../../../hooks/useStateString';
 import StateString from '../../Label/stateString';
+import usePublishComment from '../../../hooks/usePublishComment';
 
 const Comment = ({ comment: data, disableReplies, singleComment, loading = true, type }) => {
   let comment = data
@@ -74,36 +75,20 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
   const upVote = usePublishUpvote(comment)
   const downVote = usePublishDownvote(comment)
   //options needed to publish a comment
-  const publishCommentOptions = {
-    content,
-    parentCid: comment?.cid, // if top level reply to a post, same as postCid
-    subplebbitAddress: comment?.subplebbitAddress,
-    onChallenge,
-    onChallengeVerification: (challengeVerification, comment) => onChallengeVerification(challengeVerification, comment, () => {
-      setContent('');
-      setEditorState(EditorState.createEmpty());
-    }),
-    onError,
-  }
 
-  const { publishComment } = usePublishComment(publishCommentOptions)
+
+  const { publishComment } = usePublishComment(content, comment)
+
   const accountComment = useAccountComment({ commentIndex: comment?.index })
 
 
-  const handlePublishPost = () => {
-    try {
-      publishComment();
-    } catch (error) {
-      logger('create:comment:response', error, 'error');
-      toast({
-        title: 'Comment Declined.',
-        description: error?.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-    setContent('')
+  const handlePublishPost = async () => {
+    await publishComment(() => {
+      setContent('');
+      setEditorState(EditorState.createEmpty());
+    }, () => {
+
+    });
   };
 
 
