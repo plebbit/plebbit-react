@@ -41,6 +41,7 @@ import PendingLabel from '../../Label/pendingLabel';
 import FlairLabel from '../../Label/flairLabel';
 import Link from '../../Link';
 import useStateString from '../../../hooks/useStateString';
+import StateString from '../../Label/stateString';
 
 const Comment = ({ comment: data, disableReplies, singleComment, loading = true, type }) => {
   let comment = data
@@ -226,7 +227,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
               <Box color={ iconColor }>
                 <i> { dateToNow(comment?.timestamp * 1000) }</i>
               </Box>
-              <stateString stateString={ stateString } />
+              <StateString stateString={ stateString } />
             </Flex>
           </Skeleton>
           { comment?.flair?.text && (
