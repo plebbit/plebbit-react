@@ -474,10 +474,11 @@ const CardPost = ({
                   </Flex>{ " " }
                   {/* Post Title */ }
                   <Link to={ detailRoute }>
-                    <Box
-                      margin="0 8px"
-                    >
-                      <Skeleton isLoaded={ !loading }>
+                    <Skeleton isLoaded={ !loading }>
+                      <Flex
+                        margin="0 8px"
+                        alignItems="center"
+                      >
                         {/* flair */ }
                         { type === "subPlebbit" && post?.flair?.text.length ? (
                           <FlairLabel flair={ post?.flair } />
@@ -514,8 +515,8 @@ const CardPost = ({
                         ) }
                         {/* edit status */ }
                         <EditLabel editLabel={ editLabel } post={ post } />
-                      </Skeleton>
-                    </Box>
+                      </Flex>
+                    </Skeleton>
                   </Link>
                   {/* Post Body */ }
                   <Box mt="8px">

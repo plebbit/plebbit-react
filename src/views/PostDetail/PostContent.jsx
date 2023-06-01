@@ -856,9 +856,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                   </Flex>
                   {/* post Title */ }
 
-                  <Flex margin="0 8px" display="flex" alignItems="center">
-                    <Skeleton isLoaded={ !loading }>
-
+                  <Skeleton isLoaded={ !loading }>
+                    <Flex margin="0 8px" display="flex" alignItems="center">
                       <Text
                         color={ titleColor }
                         fontSize="18px"
@@ -868,25 +867,23 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         wordBreak="break-word"
                       >
                         { detail?.title }{ ' ' }
-
-                        { detail?.flair?.text ? (
-                          <FlairLabel flair={ detail?.flair } />
-
-                        ) : null }
-                        { detail?.spoiler && (
-                          <SpoilerLabel />
-                        ) }
-                        { detailPending && (
-                          <Skeleton isLoaded={ !loading } my="4px">
-                            <PendingLabel />
-                          </Skeleton>
-                        ) }
-                        {/* edit status */ }
-                        <EditLabel editLabel={ editLabel } post={ detail } />
-
                       </Text>
-                    </Skeleton>
-                  </Flex>
+                      { detail?.flair?.text ? (
+                        <FlairLabel flair={ detail?.flair } />
+
+                      ) : null }
+                      { detail?.spoiler && (
+                        <SpoilerLabel />
+                      ) }
+                      { detailPending && (
+                        <Skeleton isLoaded={ !loading } my="4px">
+                          <PendingLabel />
+                        </Skeleton>
+                      ) }
+                      {/* edit status */ }
+                      <EditLabel editLabel={ editLabel } post={ detail } />
+                    </Flex>
+                  </Skeleton>
 
                   {/* post Body */ }
                   { edit ? (

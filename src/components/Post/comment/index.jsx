@@ -185,7 +185,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
 
       <Flex flexDir="column" flexGrow={ 1 }>
         <Flex flexDir="column" mb="6px">
-          <Skeleton height={ loading && '20px' } width={ loading && "50%" } isLoaded={ !loading }>
+          <Skeleton mr="4px" height={ loading && '20px' } width={ loading && "50%" } isLoaded={ !loading }>
             <Flex alignItems="center" fontWeight="400" fontSize="12px">
               <Box maxW="50%" mr="5px">
                 <Box isTruncated as={ Link } to={ authorPath }>{ getUserName(comment?.author) } </Box>
@@ -212,7 +212,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
               >
                 •
               </Box>
-              <Box color={ iconColor }>
+              <Box color={ iconColor } >
                 <i> { dateToNow(comment?.timestamp * 1000) }</i>
               </Box>
               { commentPending && <StateString stateString={ stateString } /> }
