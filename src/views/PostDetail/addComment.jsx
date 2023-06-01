@@ -21,7 +21,7 @@ const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments,
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [showMEditor, setShowMEditor] = useState(false);
 
-    const publishComment = usePublishComment(content, detail)
+    const { publishComment } = usePublishComment(content, detail)
 
 
     const handlePublishPost = async () => {

@@ -316,7 +316,6 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const stateString = useStateString(detail)
 
 
-
   return (
     <>
 

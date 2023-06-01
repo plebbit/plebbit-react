@@ -3,7 +3,6 @@ import onError from "../utils/onError";
 import onChallenge from "../utils/onChallenge";
 import onChallengeVerification from "../utils/onChallengeVerification";
 import { usePublishComment as usePublish } from "@plebbit/plebbit-react-hooks";
-import { useState } from "react";
 import logger from "../utils/logger";
 
 const usePublishComment = (content, post) => {
@@ -14,7 +13,7 @@ const usePublishComment = (content, post) => {
         onChallengeVerification,
         onError,
     }
-    const { publishComment: publish } = usePublish({ ...options, content })
+    const { publishComment: publish, ...rest } = usePublish({ ...options, content })
 
 
     const publishComment = async (callBack, failedCallBack) => {
@@ -36,7 +35,7 @@ const usePublishComment = (content, post) => {
         }
     }
 
-    return publishComment
+    return { publishComment, rest }
 }
 
 

@@ -10,7 +10,7 @@ import {
   Tag,
   Skeleton,
 } from '@chakra-ui/react';
-import { usePublishComment, useAuthorAvatar, useAccountVote, useEditedComment } from '@plebbit/plebbit-react-hooks';
+import { usePublishComment, useAuthorAvatar, useAccountVote, useEditedComment, useAccountComment } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -45,6 +45,7 @@ import StateString from '../../Label/stateString';
 
 const Comment = ({ comment: data, disableReplies, singleComment, loading = true, type }) => {
   let comment = data
+
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
@@ -86,6 +87,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
   }
 
   const { publishComment } = usePublishComment(publishCommentOptions)
+  const accountComment = useAccountComment({ commentIndex: comment?.index })
 
 
   const handlePublishPost = () => {
@@ -185,8 +187,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
   }
   const authorPath = owner ? "/profile" : `/u/${comment?.author?.address}/c/${comment?.cid}`
 
-  const stateString = useStateString(comment)
-
+  const stateString = useStateString(accountComment)
 
 
   return (
@@ -229,7 +230,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
               <Box color={ iconColor }>
                 <i> { dateToNow(comment?.timestamp * 1000) }</i>
               </Box>
-              <StateString stateString={ stateString } />
+              { commentPending && <StateString stateString={ stateString } /> }
             </Flex>
           </Skeleton>
           { comment?.flair?.text && (
