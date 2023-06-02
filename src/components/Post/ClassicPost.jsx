@@ -1140,6 +1140,7 @@ const ClassicPost = ({
                             mr="8px"
                             badge
                             isOnline={ isOnline }
+                            loading={ loading }
                           />
                           <Skeleton isLoaded={ !loading }>{ getSubName(subPlebbit) }</Skeleton>
                         </Flex>

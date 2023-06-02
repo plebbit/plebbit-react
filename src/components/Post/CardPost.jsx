@@ -5,6 +5,7 @@ import {
   Flex,
   Icon,
   Skeleton,
+  SkeletonCircle,
   Tag,
   Text,
   Tooltip,
@@ -1113,39 +1114,44 @@ const CardPost = ({
                       padding="8px 16px"
                     >
                       <Flex alignItems="center" flexWrap="wrap">
-                        <Flex
-                          alignItems="center"
-                          fontSize="14px"
-                          fontWeight="500"
-                          lineHeight="18px"
-                          color={ postHeadColor }
-                          mb="4px"
-                        >
-                          <Avatar
-                            avatar={ subPlebbit?.avatar }
-                            width={ 24 }
-                            height={ 24 }
-                            mr="8px"
-                            badge
-                            isOnline={ isOnline }
-                          />
-                          <Skeleton isLoaded={ !loading }>
-                            { getSubName(
-                              subPlebbit || { address: post?.subplebbitAddress }
-                            ) }
-                          </Skeleton>
-                        </Flex>
+                        {
+                          loading ? <SkeletonCircle /> :
+                            <Flex
+                              alignItems="center"
+                              fontSize="14px"
+                              fontWeight="500"
+                              lineHeight="18px"
+                              color={ postHeadColor }
+                              mb="4px"
 
-                        <Box mx="4px" mb="4px">
-                          <Skeleton isLoaded={ !loading }>
-                            { dateToFromNowDaily(post?.timestamp * 1000) }
-                          </Skeleton>
+                            >
+                              <Avatar
+                                avatar={ subPlebbit?.avatar }
+                                width={ 24 }
+                                height={ 24 }
+                                mr="8px"
+                                badge
+                                isOnline={ isOnline }
+
+                              />
+
+                              { getSubName(
+                                subPlebbit || { address: post?.subplebbitAddress }
+                              ) }
+
+                            </Flex>
+                        }
+
+                        <Box as={ loading && Skeleton } flex={ loading && 1 } mx="4px" mb="4px">
+
+                          { dateToFromNowDaily(post?.timestamp * 1000) }
+
                         </Box>
 
-                        { pending && (
-                          <Skeleton isLoaded={ !loading }>
-                            <PendingLabel />
-                          </Skeleton>
+                        { pending && !loading && (
+
+                          <PendingLabel />
+
                         ) }
                       </Flex>
                     </Box>
@@ -1340,8 +1346,8 @@ const CardPost = ({
                     ))
                   }
                 </Skeleton> :
-                <Skeleton isLoaded={ !loading }>
-                  <Box pt={ !post?.content && "10%" } mt={ !post?.content && '8px' }>
+                <Skeleton isLoaded={ !loading } mx={ loading && '16px' }>
+                  <Box pt={ hasThumbnail && "10%" } mt={ hasThumbnail && '8px' }>
                     {
                       hasThumbnail &&
 
@@ -1350,6 +1356,7 @@ const CardPost = ({
                         margin="0 auto"
                         maxW="100%"
                         pos="relative"
+
 
                       >
                         <Box height="100%" width="100%">

@@ -45,7 +45,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   } = useDisclosure();
 
 
-  const mediaInfo = getCommentMediaInfo(post);
+  const mediaInfo = post && getCommentMediaInfo(post);
   const hasThumbnail = !post?.removed && post?.thumbnailUrl && !mediaInfo
 
 
