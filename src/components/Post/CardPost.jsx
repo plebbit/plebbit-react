@@ -469,115 +469,115 @@ const CardPost = ({
                       margin="0 8px"
                       alignItems="center"
                     >
-                    <Skeleton height='20px' width='100%' mb="8px" isLoaded={ !loading }>
-                      {/* flair */ }
-                      { type === "subPlebbit" && post?.flair?.text.length ? (
-                        <FlairLabel flair={ post?.flair } />
-                      ) : (
-                        ""
-                      ) }
-                      <Text
-                        display="inline"
-                        color={ inactiveSubTitle }
-                        fontSize="18px"
-                        fontWeight="500"
-                        lineHeight="22px"
-                        paddingRight="5px"
-                        textDecor="none"
-                        wordBreak="break-word"
-                      >
-                        { post?.title }
-                      </Text>
-                      { type !== "subPlebbit" && post?.flair?.text ? (
-                        <FlairLabel flair={ post?.flair } />
+                      <Skeleton height='20px' width='100%' mb="8px" isLoaded={ !loading }>
+                        {/* flair */ }
+                        { type === "subPlebbit" && post?.flair?.text.length ? (
+                          <FlairLabel flair={ post?.flair } />
+                        ) : (
+                          ""
+                        ) }
+                        <Text
+                          display="inline"
+                          color={ inactiveSubTitle }
+                          fontSize="18px"
+                          fontWeight="500"
+                          lineHeight="22px"
+                          paddingRight="5px"
+                          textDecor="none"
+                          wordBreak="break-word"
+                        >
+                          { post?.title }
+                        </Text>
+                        { type !== "subPlebbit" && post?.flair?.text ? (
+                          <FlairLabel flair={ post?.flair } />
 
-                      ) : (
-                        ""
-                      ) }
-                      { post?.spoiler && (
+                        ) : (
+                          ""
+                        ) }
+                        { post?.spoiler && (
 
-                        <SpoilerLabel />
-                      ) }
+                          <SpoilerLabel />
+                        ) }
 
-                      { pending && (
-                        <Skeleton isLoaded={ !loading }>
-                          <PendingLabel />
-                        </Skeleton>
-                      ) }
-                      {/* edit status */ }
-                      <EditLabel editLabel={ editLabel } post={ post } />
-                  </Skeleton>
+                        { pending && (
+                          <Skeleton isLoaded={ !loading }>
+                            <PendingLabel />
+                          </Skeleton>
+                        ) }
+                        {/* edit status */ }
+                        <EditLabel editLabel={ editLabel } post={ post } />
+                      </Skeleton>
                     </Flex>
 
                   </Link>
                   {/* Post Body */ }
-                   <Skeleton height={loading && '240px'} mx={loading &&'8px'} mb={loading &&"8px"} isLoaded={ !loading }>
-                  <Box mt="8px">
-                    {/* text post */ }
-                    { post?.content && (
-                      <Box
-                        maxH="250px"
-                        overflow="hidden"
-                        padding="5px 8px 10px"
-                        sx={ {
-                          maskImage:
-                            "linear-gradient(180deg, #000 60%, transparent)",
-                        } }
-                      >
+                  <Skeleton height={ loading && '240px' } mx={ loading && '8px' } mb={ loading && "8px" } isLoaded={ !loading }>
+                    <Box mt="8px">
+                      {/* text post */ }
+                      { post?.content && (
                         <Box
-                          color={ voteColor }
-                          fontFamily="Noto sans, Arial, sans-serif"
-                          fontSize="14px"
-                          fontWeight="400"
-                          lineHeight="21px"
-                          wordBreak="break-word"
-                          paddingBottom="1px"
-                          marginBottom="-1px"
+                          maxH="250px"
+                          overflow="hidden"
+                          padding="5px 8px 10px"
+                          sx={ {
+                            maskImage:
+                              "linear-gradient(180deg, #000 60%, transparent)",
+                          } }
                         >
-                          { post?.spoiler ? (
-                            ""
-                          ) : post?.removed ? (
-                            "[removed]"
-                          ) : (
-                            <Marked content={ post?.content } />
-                          ) }
-                        </Box>
-
-                      </Box>
-                    ) }
-                    {/*link post  without media  */ }
-
-                    <Flex mt="0" >
-                      { hasThumbnail && (
-                        <Link
-                          fontSize="12px"
-                          fontWeight="400"
-                          lineHeight="16px"
-                          margin="4px 8px"
-                          whiteSpace="nowrap"
-                          color="mainBlue"
-                          display="flex"
-                          href={ post?.link }
-                          alignItems="flex-end"
-                          isExternal
-                        >
-                          <Box>{ post?.link?.substring(0, 20) + "..." }</Box>
-                          <Icon
-                            as={ FiExternalLink }
-                            verticalAlign="middle"
+                          <Box
+                            color={ voteColor }
+                            fontFamily="Noto sans, Arial, sans-serif"
+                            fontSize="14px"
                             fontWeight="400"
-                            width="20px"
-                            height="20px"
-                            fontSize="12px"
-                            paddingLeft="4px"
-                          />
-                        </Link>
-                      ) }
-                    </Flex>
-                    {/*link post  with media  */ }
+                            lineHeight="21px"
+                            wordBreak="break-word"
+                            paddingBottom="1px"
+                            marginBottom="-1px"
+                          >
+                            { post?.spoiler ? (
+                              ""
+                            ) : post?.removed ? (
+                              "[removed]"
+                            ) : (
+                              <Marked content={ post?.content } />
+                            ) }
+                          </Box>
 
-                    <PostMedia post={ post } />
-                  </Box>
+                        </Box>
+                      ) }
+                      {/*link post  without media  */ }
+
+                      <Flex mt="0" >
+                        { hasThumbnail && (
+                          <Link
+                            fontSize="12px"
+                            fontWeight="400"
+                            lineHeight="16px"
+                            margin="4px 8px"
+                            whiteSpace="nowrap"
+                            color="mainBlue"
+                            display="flex"
+                            href={ post?.link }
+                            alignItems="flex-end"
+                            isExternal
+                          >
+                            <Box>{ post?.link?.substring(0, 20) + "..." }</Box>
+                            <Icon
+                              as={ FiExternalLink }
+                              verticalAlign="middle"
+                              fontWeight="400"
+                              width="20px"
+                              height="20px"
+                              fontSize="12px"
+                              paddingLeft="4px"
+                            />
+                          </Link>
+                        ) }
+                      </Flex>
+                      {/*link post  with media  */ }
+
+                      <PostMedia post={ post } />
+                    </Box>
                   </Skeleton>
 
                 </Flex>
@@ -1228,8 +1228,8 @@ const CardPost = ({
                     ) }
                   </Flex>
                 </Flex>
-                <Box padding="0 16px 8px">
-                  { post?.spoiler && (
+                { post?.spoiler && (
+                  <Box padding="0 16px 8px">
                     <Tag
                       borderRadius="2px"
                       p="1px 8px"
@@ -1239,8 +1239,8 @@ const CardPost = ({
                     >
                       SPOILER
                     </Tag>
-                  ) }
-                </Box>
+                  </Box>
+                ) }
                 <Box
                   color={ mobileMainColor }
                   fontSize="16px"
@@ -1258,123 +1258,128 @@ const CardPost = ({
                   ) : null }
                 </Box> }
                 {/* edit status */ }
-                <Box padding="0 16px 8px">
+                { editLabel && <Box padding="0 16px 8px">
                   <EditLabel editLabel={ editLabel } post={ post } />
-                </Box>
+                </Box> }
               </Box>
             </Box>
-            <Box marginTop="8px" >
-              <>
-                { detail && !post?.removed ?
-                  <Skeleton isLoaded={ !loading }>
-                    {
-                      (showSpoiler ? (
-                        <Flex alignItems="center" justifyContent="center">
-                          <Button
-                            variant="outline"
-                            colorScheme="blackAlpha"
-                            padding="10px 20px"
-                            onClick={ () => setShowSpoiler(false) }
-                            borderRadius="none"
-                            fontWeight="400"
-                            my="10px"
-                          >
-                            CLICK TO SEE SPOILER
-                          </Button>
-                        </Flex>
-                      ) : (
-                        <Box
-                          color={ subPledditTextColor }
-                          padding="8px 16px"
-                          fontFamily="Noto sans, Arial, sans-serif"
-                          fontSize="14px"
+
+            <>
+              { detail && !post?.removed ?
+                <Skeleton isLoaded={ !loading }>
+                  {
+                    (showSpoiler ? (
+                      <Flex alignItems="center" mt='8px' justifyContent="center">
+                        <Button
+                          variant="outline"
+                          colorScheme="blackAlpha"
+                          padding="10px 20px"
+                          onClick={ () => setShowSpoiler(false) }
+                          borderRadius="none"
                           fontWeight="400"
-                          lineHeight="21px"
-                          wordBreak="break-word"
-                          overflow="hidden"
+                          my="10px"
                         >
-                          {/* post with text */ }
-                          { post?.content ? (
+                          CLICK TO SEE SPOILER
+                        </Button>
+                      </Flex>
+                    ) : (
+                      <Box
+                        color={ subPledditTextColor }
+                        padding="8px 16px"
+                        fontFamily="Noto sans, Arial, sans-serif"
+                        fontSize="14px"
+                        fontWeight="400"
+                        lineHeight="21px"
+                        wordBreak="break-word"
+                        overflow="hidden"
+                        marginTop="8px"
+                      >
+                        {/* post with text */ }
+                        { post?.content ? (
 
-                            <Marked content={ post?.content } />
+                          <Marked content={ post?.content } />
 
-                          ) : (
+                        ) : (
 
-                            <Box pt="10%" >
-                              {
-                                hasThumbnail &&
-                                <Box
-                                  maxH="318px"
-                                  margin="0 auto"
-                                  maxW="100%"
-                                  pos="relative"
-                                >
-                                  <Box height="100%" width="100%">
-                                    <Image
-                                      maxH="318px"
-                                      objectFit="cover"
-                                      maxW="100%"
-                                      overflow="hidden"
-                                      bg={ postBg }
-                                      src={ post?.thumbnailUrl }
-                                      onError={ (event) =>
-                                        (event.target.style.display = "none")
-                                      }
+                          <Box pt="10%" >
+                            {
+                              hasThumbnail &&
+                              <Box
+                                maxH="318px"
+                                margin="0 auto"
+                                maxW="100%"
+                                pos="relative"
+                              >
+                                <Box height="100%" width="100%">
+                                  <Image
+                                    maxH="318px"
+                                    objectFit="cover"
+                                    maxW="100%"
+                                    overflow="hidden"
+                                    bg={ postBg }
+                                    src={ post?.thumbnailUrl }
+                                    onError={ (event) =>
+                                      (event.target.style.display = "none")
+                                    }
 
 
 
-                                    />
-
-                                  </Box>
-
-                                  <Link href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ post?.link?.substring(0, 20) + "..." }</Link>
+                                  />
 
                                 </Box>
-                              }
-                              <PostMedia post={ post } />
-                            </Box>
 
-                          ) }
-                        </Box>
-                      ))
-                    }
-                  </Skeleton> : <Skeleton isLoaded={ !loading }>
-                    <Box pt="10%" >
-                      {
-                        hasThumbnail &&
-                        <Box
-                          maxH="318px"
-                          margin="0 auto"
-                          maxW="100%"
-                          pos="relative"
-                        >
-                          <Box height="100%" width="100%">
-                            <Image
-                              maxH="318px"
-                              objectFit="cover"
-                              width="100%"
-                              bg={ postBg }
-                              src={ post?.thumbnailUrl }
-                              onError={ (event) =>
-                                (event.target.style.display = "none")
-                              }
+                                <Link href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ post?.link?.substring(0, 20) + "..." }</Link>
 
-
-
-                            />
-
+                              </Box>
+                            }
+                            <PostMedia post={ post } />
                           </Box>
 
-                          <Link href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ post?.link?.substring(0, 20) + "..." }</Link>
+                        ) }
+                      </Box>
+                    ))
+                  }
+                </Skeleton> :
+                <Skeleton isLoaded={ !loading }>
+                  <Box pt={ !post?.content && "10%" } mt={ !post?.content && '8px' }>
+                    {
+                      hasThumbnail &&
+
+                      <Box
+                        maxH="318px"
+                        margin="0 auto"
+                        maxW="100%"
+                        pos="relative"
+
+                      >
+                        <Box height="100%" width="100%">
+                          <Image
+                            maxH="318px"
+                            objectFit="cover"
+                            width="100%"
+                            bg={ postBg }
+                            src={ post?.thumbnailUrl }
+                            onError={ (event) =>
+                              (event.target.style.display = "none")
+                            }
+
+
+
+                          />
 
                         </Box>
-                      }
-                      <PostMedia post={ post } />
-                    </Box>
-                  </Skeleton>
-                }
-              </>
-            </Box>
+
+                        <Link href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ post?.link?.substring(0, 20) + "..." }</Link>
+
+                      </Box>
+
+                    }
+                    <PostMedia post={ post } />
+                  </Box>
+                </Skeleton>
+              }
+            </>
+
             {/* Footer */ }
             { pending ? (
               !loading && (
