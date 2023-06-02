@@ -45,11 +45,11 @@ import {
 import { TiDeleteOutline } from "react-icons/ti";
 import { HiLockClosed, HiOutlineCheckCircle } from "react-icons/hi";
 import PostMedia from './PostMedia';
-import Label from '../Label'
 import EditLabel from "../Label/editLabel";
 import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
 import FlairLabel from "../Label/flairLabel";
+import StateString from "../Label/stateString";
 
 const CardPost = ({
   post,
@@ -262,40 +262,39 @@ const CardPost = ({
                       margin="0 8px 8px"
                       position="relative"
                     >
-                      <Skeleton mb="8px" isLoaded={ !loading }>
+                      <Flex
+                        alignItems="center"
+                        flexWrap="wrap"
+                        flex="1 1 auto"
+                        overflow="hidden"
+                      >
                         <Flex
+                          fontSize="12px"
+                          fontWeight="400"
+                          lineHeight="16px"
                           alignItems="center"
-                          flexWrap="wrap"
-                          flex="1 1 auto"
-                          overflow="hidden"
+                          flexFlow="row wrap"
                         >
-                          <Flex
-                            fontSize="12px"
-                            fontWeight="400"
-                            lineHeight="16px"
-                            alignItems="center"
-                            flexFlow="row wrap"
+                          <Icon
+                            width="20px"
+                            height="20px"
+                            as={ BsPinAngleFill }
+                            mr="4px"
+                          />
+                          <Text
+                            fontWeight="700"
+                            fontSize="10px"
+                            lineHeight="12px"
+                            letterSpacing=".5px"
+                            color={ misCol }
+                            flex="0 0 auto"
+                            mr="3px"
                           >
-                            <Icon
-                              width="20px"
-                              height="20px"
-                              as={ BsPinAngleFill }
-                              mr="4px"
-                            />
-                            <Text
-                              fontWeight="700"
-                              fontSize="10px"
-                              lineHeight="12px"
-                              letterSpacing=".5px"
-                              color={ misCol }
-                              flex="0 0 auto"
-                              mr="3px"
-                            >
-                              PINNED BY MODERATORS
-                            </Text>{ " " }
-                          </Flex>
+                            PINNED BY MODERATORS
+                          </Text>{ " " }
                         </Flex>
-                      </Skeleton>
+                      </Flex>
+
                     </Flex>
                   ) }{ " " }
                   {/* Post Head */ }
@@ -461,64 +460,58 @@ const CardPost = ({
                         </Flex>
                       </Flex>
                     </Skeleton>
-                    { loading && stateString && stateString !== 'Succeeded' && <Text
-                      as="span"
-                      verticalAlign="middle"
-                      fontSize="12px"
-                      lineHeight="16px"
-                      className='loading-ellipsis'
-                      ml="4px"
-                    >
-                      { stateString }
-                    </Text> }
+                    { loading && <StateString stateString={ stateString } /> }
                   </Flex>{ " " }
+
                   {/* Post Title */ }
                   <Link to={ detailRoute }>
-                    <Skeleton isLoaded={ !loading }>
-                      <Flex
-                        margin="0 8px"
-                        alignItems="center"
+                    <Flex
+                      margin="0 8px"
+                      alignItems="center"
+                    >
+                    <Skeleton height='20px' width='100%' mb="8px" isLoaded={ !loading }>
+                      {/* flair */ }
+                      { type === "subPlebbit" && post?.flair?.text.length ? (
+                        <FlairLabel flair={ post?.flair } />
+                      ) : (
+                        ""
+                      ) }
+                      <Text
+                        display="inline"
+                        color={ inactiveSubTitle }
+                        fontSize="18px"
+                        fontWeight="500"
+                        lineHeight="22px"
+                        paddingRight="5px"
+                        textDecor="none"
+                        wordBreak="break-word"
                       >
-                        {/* flair */ }
-                        { type === "subPlebbit" && post?.flair?.text.length ? (
-                          <FlairLabel flair={ post?.flair } />
-                        ) : (
-                          ""
-                        ) }
-                        <Text
-                          display="inline"
-                          color={ inactiveSubTitle }
-                          fontSize="18px"
-                          fontWeight="500"
-                          lineHeight="22px"
-                          paddingRight="5px"
-                          textDecor="none"
-                          wordBreak="break-word"
-                        >
-                          { post?.title }
-                        </Text>
-                        { type !== "subPlebbit" && post?.flair?.text ? (
-                          <FlairLabel flair={ post?.flair } />
+                        { post?.title }
+                      </Text>
+                      { type !== "subPlebbit" && post?.flair?.text ? (
+                        <FlairLabel flair={ post?.flair } />
 
-                        ) : (
-                          ""
-                        ) }
-                        { post?.spoiler && (
+                      ) : (
+                        ""
+                      ) }
+                      { post?.spoiler && (
 
-                          <SpoilerLabel />
-                        ) }
+                        <SpoilerLabel />
+                      ) }
 
-                        { pending && (
-                          <Skeleton isLoaded={ !loading }>
-                            <PendingLabel />
-                          </Skeleton>
-                        ) }
-                        {/* edit status */ }
-                        <EditLabel editLabel={ editLabel } post={ post } />
-                      </Flex>
-                    </Skeleton>
+                      { pending && (
+                        <Skeleton isLoaded={ !loading }>
+                          <PendingLabel />
+                        </Skeleton>
+                      ) }
+                      {/* edit status */ }
+                      <EditLabel editLabel={ editLabel } post={ post } />
+                  </Skeleton>
+                    </Flex>
+
                   </Link>
                   {/* Post Body */ }
+                   <Skeleton height={loading && '240px'} mx={loading &&'8px'} mb={loading &&"8px"} isLoaded={ !loading }>
                   <Box mt="8px">
                     {/* text post */ }
                     { post?.content && (
@@ -531,26 +524,25 @@ const CardPost = ({
                             "linear-gradient(180deg, #000 60%, transparent)",
                         } }
                       >
-                        <Skeleton mt="20px" isLoaded={ !loading }>
-                          <Box
-                            color={ voteColor }
-                            fontFamily="Noto sans, Arial, sans-serif"
-                            fontSize="14px"
-                            fontWeight="400"
-                            lineHeight="21px"
-                            wordBreak="break-word"
-                            paddingBottom="1px"
-                            marginBottom="-1px"
-                          >
-                            { post?.spoiler ? (
-                              ""
-                            ) : post?.removed ? (
-                              "[removed]"
-                            ) : (
-                              <Marked content={ post?.content } />
-                            ) }
-                          </Box>
-                        </Skeleton>
+                        <Box
+                          color={ voteColor }
+                          fontFamily="Noto sans, Arial, sans-serif"
+                          fontSize="14px"
+                          fontWeight="400"
+                          lineHeight="21px"
+                          wordBreak="break-word"
+                          paddingBottom="1px"
+                          marginBottom="-1px"
+                        >
+                          { post?.spoiler ? (
+                            ""
+                          ) : post?.removed ? (
+                            "[removed]"
+                          ) : (
+                            <Marked content={ post?.content } />
+                          ) }
+                        </Box>
+
                       </Box>
                     ) }
                     {/*link post  without media  */ }
@@ -586,6 +578,8 @@ const CardPost = ({
 
                     <PostMedia post={ post } />
                   </Box>
+                  </Skeleton>
+
                 </Flex>
                 {/* Post thumbnail */ }
                 { (hasThumbnail) && (
@@ -606,20 +600,19 @@ const CardPost = ({
                       position="relative"
                       verticalAlign="bottom"
                     >
-                      <Skeleton isLoaded={ !loading }>
-                        { " " }
-                        <Link href={ post?.link }>
-                          <Image
+                      { " " }
+                      <Link href={ post?.link }>
+                        <Image
 
-                            borderColor="mainBlue"
-                            border="1px solid #0079d3;"
-                            src={ post?.thumbnailUrl }
-                            width="100%"
-                            height="100%"
+                          borderColor="mainBlue"
+                          border="1px solid #0079d3;"
+                          src={ post?.thumbnailUrl }
+                          width="100%"
+                          height="100%"
 
-                          />
-                        </Link>
-                      </Skeleton>
+                        />
+                      </Link>
+
                     </Box>
                   </Flex>
                 ) }

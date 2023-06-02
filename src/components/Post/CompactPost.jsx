@@ -4,6 +4,8 @@ import {
   Flex,
   Icon,
   Skeleton,
+  SkeletonCircle,
+  SkeletonText,
   Text,
   Tooltip,
   useColorModeValue,
@@ -49,6 +51,7 @@ import EditLabel from "../Label/editLabel";
 import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
 import FlairLabel from "../Label/flairLabel";
+import StateString from '../Label/stateString';
 
 const CompactPost = ({
   loading,
@@ -75,7 +78,8 @@ const CompactPost = ({
   upVote,
   downVote,
   editLabel,
-  authorPath
+  authorPath,
+  stateString
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -221,6 +225,7 @@ const CompactPost = ({
           position="relative"
         >
           <Flex alignItems="center">
+
             { !hasThumbnail && (
               <Link
                 display="flex"
@@ -228,13 +233,14 @@ const CompactPost = ({
                 margin="0 8px"
                 alignSelf="center"
                 alignItems="center"
-                borderRadius="2px"
+                borderRadius={ loading ? '50%' : "2px" }
                 justifyContent="center"
                 height="36px"
                 width="36px"
                 _hover={ {
                   bg: iconBg,
                 } }
+                as={ loading && SkeletonCircle }
                 onClick={ () => setShowContent(!showContent) }
                 onMouseEnter={ () => setShowExpand(true) }
                 onMouseLeave={ () => setShowExpand(false) }
@@ -306,13 +312,14 @@ const CompactPost = ({
                 margin="0 8px"
                 alignSelf="center"
                 alignItems="center"
-                borderRadius="2px"
+                borderRadius={ loading ? '50%' : "2px" }
                 justifyContent="center"
                 height="36px"
                 width="36px"
                 _hover={ {
                   bg: iconBg,
                 } }
+                as={ loading && SkeletonCircle }
               >
                 <Icon
                   as={ VscLinkExternal }
@@ -324,70 +331,71 @@ const CompactPost = ({
               </Box>
             ) }
 
-            <Box flex="1 1 100%" mt="2px" minW="150px" overflow="hidden" wordWrap="break-word">
-              {/* post title */ }
-              <Box margin="0 8px" as={ Link } to={ detailRoute }>
-                <Skeleton display="flex" alignItems="center" flexWrap="wrap" isLoaded={ !loading }>
-                  { ' ' }
-                  {/* flair */ }
-                  { type === 'subPlebbit' && post?.flair?.text ? (
-                    <FlairLabel flair={ post?.flair } />
-                  ) : (
-                    ''
-                  ) }
-                  <Text
-                    display="inline"
-                    color={ inactiveSubTitle }
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    paddingRight="5px"
-                    textDecor="none"
-                    wordBreak="break-word"
-                    mb="4px"
-                  >
-                    { post?.title }
-                    { hasThumbnail ? (
-                      <Link
-                        fontSize="12px"
-                        fontWeight="400"
-                        lineHeight="16px"
-                        margin="4px 8px"
-                        color="mainBlue"
-                        href={ post?.link }
-                      >
-                        <span>{ post?.link.substring(0, 20) + '...' }</span>
-                        <Icon
-                          as={ FiExternalLink }
-                          verticalAlign="middle"
-                          fontWeight="400"
-                          width="20px"
-                          height="20px"
-                          fontSize="12px"
-                          paddingLeft="4px"
-                        />
-                      </Link>
-                    ) : (
-                      ''
-                    ) }
-                  </Text>
-                  { type !== 'subPlebbit' && post?.flair?.text ? (
-                    <FlairLabel flair={ post?.flair } />
-                  ) : (
-                    ''
-                  ) }
-                  { post?.spoiler && (
-                    <SpoilerLabel />
-                  ) }
-                  { pending && (
-                    <Skeleton isLoaded={ !loading }>
-                      <PendingLabel />
-                    </Skeleton>
-                  ) }
-                  {/* edit status */ }
-                  <EditLabel editLabel={ editLabel } post={ post } />
 
-                </Skeleton>
+            <Box as={ loading && Skeleton } w={ loading && '50%' } h={ loading && '20px' } mr={ loading && '8px' } flex={ !loading && "1 1 100%" } mt="2px" minW="150px" overflow="hidden" wordWrap="break-word">
+              {/* post title */ }
+
+              <Box margin="0 8px" as={ Link } to={ detailRoute }>
+                { ' ' }
+                {/* flair */ }
+                { type === 'subPlebbit' && post?.flair?.text ? (
+                  <FlairLabel flair={ post?.flair } />
+                ) : (
+                  ''
+                ) }
+                <Text
+                  display="inline"
+                  color={ inactiveSubTitle }
+                  fontSize="14px"
+                  fontWeight="500"
+                  lineHeight="18px"
+                  paddingRight="5px"
+                  textDecor="none"
+                  wordBreak="break-word"
+                  mb="4px"
+                >
+                  { post?.title }
+                  { hasThumbnail ? (
+                    <Link
+                      fontSize="12px"
+                      fontWeight="400"
+                      lineHeight="16px"
+                      margin="4px 8px"
+                      color="mainBlue"
+                      href={ post?.link }
+                    >
+                      <span>{ post?.link.substring(0, 20) + '...' }</span>
+                      <Icon
+                        as={ FiExternalLink }
+                        verticalAlign="middle"
+                        fontWeight="400"
+                        width="20px"
+                        height="20px"
+                        fontSize="12px"
+                        paddingLeft="4px"
+                      />
+                    </Link>
+                  ) : (
+                    ''
+                  ) }
+                </Text>
+                { type !== 'subPlebbit' && post?.flair?.text ? (
+                  <FlairLabel flair={ post?.flair } />
+                ) : (
+                  ''
+                ) }
+                { post?.spoiler && (
+                  <SpoilerLabel />
+                ) }
+                { pending && (
+
+                  <PendingLabel />
+
+                ) }
+                {/* edit status */ }
+                <EditLabel editLabel={ editLabel } post={ post } />
+
+
               </Box>
               {/* Post head */ }
               <Flex
@@ -397,154 +405,158 @@ const CompactPost = ({
                 flexFlow="row nowrap"
                 alignItems="start"
                 margin="0 8px 8px"
+
                 position="relative"
+
               >
-                <Skeleton mb="8px" isLoaded={ !loading }>
-                  <Flex alignItems="center" flexWrap="wrap" flex="1 1 auto" overflow="hidden">
-                    <Flex
-                      fontSize="12px"
-                      fontWeight="400"
-                      lineHeight="16px"
-                      alignItems="center"
-                      flexFlow="row wrap"
-                    >
-                      { type !== 'subPlebbit' ? (
-                        <>
-                          <Avatar
-                            avatar={ subPlebbit?.avatar }
-                            width={ 24 }
-                            height={ 24 }
-                            mr="8px"
-                            badge
-                            isOnline={ isOnline }
-                          />
-                          <Link
-                            color={ subPledditTextColor }
-                            fontSize="12px"
-                            fontWeight="700"
-                            display="inline"
-                            lineHeight="20px"
-                            textDecoration="none"
-                          >
-                            { getSubName(subPlebbit) }
-                          </Link>
-                          <Box
-                            verticalAlign="middle"
-                            color={ subPlebbitSubTitle }
-                            fontSize="6px"
-                            lineHeight="20px"
-                            margin="0 4px"
-                          />
-                        </>
-                      ) : (
+
+                <Flex alignItems="center" flexWrap="wrap" flex="1 1 auto" overflow="hidden">
+                  <Flex
+                    fontSize="12px"
+                    fontWeight="400"
+                    lineHeight="16px"
+                    alignItems="center"
+                    flexFlow="row wrap"
+                  >
+                    { type !== 'subPlebbit' ? (
+                      <>
+                        <Avatar
+                          avatar={ subPlebbit?.avatar }
+                          width={ 24 }
+                          height={ 24 }
+                          mr="8px"
+                          badge
+                          isOnline={ isOnline }
+                        />
                         <Link
-                          to={ `/p/${post?.subplebbitAddress}` }
                           color={ subPledditTextColor }
                           fontSize="12px"
                           fontWeight="700"
                           display="inline"
                           lineHeight="20px"
                           textDecoration="none"
-                          mr="3px"
                         >
-                          { getSubName(subPlebbit) }{ ' ' }
+                          { getSubName(subPlebbit) }
                         </Link>
-                      ) }
-                      <Text color={ misCol } flex="0 0 auto" mr="3px">
-                        Posted by
-                      </Text>
-                      {/* User Name */ }
-                      <Box display="inline-block" flex="0 0 auto">
-                        <Box>
-                          <Link
-                            _hover={ {
-                              textDecoration: 'underline',
-                            } }
-                            color={ misCol }
-                            fontWeight="400"
-                            mr="3px"
-                            textDecor="none"
-                            fontSize="12px"
-                            lineHeight="16px"
-                            to={ authorPath }
-                          >
-                            { getUserName(post?.author) }
-                          </Link>
-                        </Box>
-                      </Box>
-                      { post?.author?.flair && (
-                        <Box display="inline" verticalAlign="text-top">
-                          <Text
-                            bg={ statusBg }
-                            color={ statusColor }
-                            fontSize="12px"
-                            fontWeight="500"
-                            lineHeight="16px"
-                            borderRadius="2px"
-                            display="inline-block"
-                            mr="5px"
-                            overflow="hidden"
-                            isTruncated
-                            padding="0 4px"
-                          >
-                            { post?.author?.flair?.text }
-                          </Text>
-                        </Box>
-                      ) }
-                      {/* date/time */ }
-                      <Tooltip
-                        fontSize="10px"
-                        label={ post?.timestamp * 1000 }
-                        aria-label="date tooltip"
-                        placement="top"
+                        <Box
+                          verticalAlign="middle"
+                          color={ subPlebbitSubTitle }
+                          fontSize="6px"
+                          lineHeight="20px"
+                          margin="0 4px"
+                        />
+                      </>
+                    ) : (
+                      <Link
+                        to={ `/p/${post?.subplebbitAddress}` }
+                        color={ subPledditTextColor }
+                        fontSize="12px"
+                        fontWeight="700"
+                        display="inline"
+                        lineHeight="20px"
+                        textDecoration="none"
+                        mr="3px"
                       >
-                        <Text
+                        { getSubName(subPlebbit) }{ ' ' }
+                      </Link>
+                    ) }
+                    <Text color={ misCol } flex="0 0 auto" mr="3px">
+                      Posted by
+                    </Text>
+                    {/* User Name */ }
+                    <Box display="inline-block" flex="0 0 auto">
+                      <Box>
+                        <Link
+                          _hover={ {
+                            textDecoration: 'underline',
+                          } }
                           color={ misCol }
+                          fontWeight="400"
                           mr="3px"
                           textDecor="none"
+                          fontSize="12px"
+                          lineHeight="16px"
+                          to={ authorPath }
+                        >
+                          { getUserName(post?.author) }
+                        </Link>
+                      </Box>
+                    </Box>
+                    { post?.author?.flair && (
+                      <Box display="inline" verticalAlign="text-top">
+                        <Text
+                          bg={ statusBg }
+                          color={ statusColor }
+                          fontSize="12px"
+                          fontWeight="500"
+                          lineHeight="16px"
+                          borderRadius="2px"
                           display="inline-block"
-                          flex="0 0 auto"
+                          mr="5px"
+                          overflow="hidden"
+                          isTruncated
+                          padding="0 4px"
                         >
-                          { fromNow(parseInt(post?.timestamp * 1000)) }
+                          { post?.author?.flair?.text }
                         </Text>
-                      </Tooltip>
-                      { post?.pinned && <Icon as={ BsPinAngleFill } color={ approveColor } /> }
-                      { post?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
-                      { post?.removed && (
-                        <Flex
-                          cursor="pointer"
-                          color={ removeColor }
-                          alignItems="center"
-                          onClick={ () => (post?.reason ? openRemovalModal() : {}) }
-                        >
-                          <Icon as={ TiDeleteOutline } />
-                          { !post?.reason ? (
-                            allowedSpecial && <Box>Add A removal reason</Box>
-                          ) : (
-                            <Tooltip
-                              fontSize="10px"
-                              label="removal reason"
-                              aria-label="removal reason"
-                              placement="top"
+                      </Box>
+                    ) }
+                    {/* date/time */ }
+                    <Tooltip
+                      fontSize="10px"
+                      label={ post?.timestamp * 1000 }
+                      aria-label="date tooltip"
+                      placement="top"
+                    >
+                      <Text
+                        color={ misCol }
+                        mr="3px"
+                        textDecor="none"
+                        display="inline-block"
+                        flex="0 0 auto"
+                      >
+                        { fromNow(parseInt(post?.timestamp * 1000)) }
+                      </Text>
+                    </Tooltip>
+                    { post?.pinned && <Icon as={ BsPinAngleFill } color={ approveColor } /> }
+                    { post?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
+                    { post?.removed && (
+                      <Flex
+                        cursor="pointer"
+                        color={ removeColor }
+                        alignItems="center"
+                        onClick={ () => (post?.reason ? openRemovalModal() : {}) }
+                      >
+                        <Icon as={ TiDeleteOutline } />
+                        { !post?.reason ? (
+                          allowedSpecial && <Box>Add A removal reason</Box>
+                        ) : (
+                          <Tooltip
+                            fontSize="10px"
+                            label="removal reason"
+                            aria-label="removal reason"
+                            placement="top"
+                          >
+                            <Text
+                              color={ misCol }
+                              mr="3px"
+                              textDecor="none"
+                              display="inline-block"
+                              flex="0 0 auto"
                             >
-                              <Text
-                                color={ misCol }
-                                mr="3px"
-                                textDecor="none"
-                                display="inline-block"
-                                flex="0 0 auto"
-                              >
-                                { post?.reason }
-                              </Text>
-                            </Tooltip>
-                          ) }
-                        </Flex>
-                      ) }
-                    </Flex>
+                              { post?.reason }
+                            </Text>
+                          </Tooltip>
+                        ) }
+                      </Flex>
+                    ) }
                   </Flex>
-                </Skeleton>
+                </Flex>
+
               </Flex>
             </Box>
+            { loading && <StateString stateString={ stateString } /> }
+
             {/* Post Footer */ }
             { pending ? (
               !loading && (
