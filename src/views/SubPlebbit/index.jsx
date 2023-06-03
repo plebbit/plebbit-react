@@ -6,7 +6,7 @@ import { ProfileContext } from '../../store/profileContext';
 import Post from '../../components/Post';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
-import { useSubscribe, useFeed, useSubplebbit, usePublishSubplebbitEdit } from '@plebbit/plebbit-react-hooks';
+import { useSubscribe, useFeed, useSubplebbit, usePublishSubplebbitEdit, useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
 import { useLocation } from 'react-router-dom';
 import SideBar from './sideBar';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
@@ -47,6 +47,8 @@ const SubPlebbit = ({ match }) => {
   const isOnline = getIsOnline(subPlebbit?.updatedAt);
   const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';
   const showStyleBar = location?.search === '?styling=true';
+  const stats = useSubplebbitStats({ subplebbitAddress: subPlebbit?.address })
+
 
 
 
@@ -420,7 +422,7 @@ const SubPlebbit = ({ match }) => {
                 </Box>
                 <Box color="#a5a4a4">p/{ subPlebbit?.address }</Box>
                 <Box mt="10px" fontSize="14px" padding="0 12px">
-                  <Box>1 member • 4 online</Box>
+                  <Box> { stats?.allActiveUserCount || 0 } member{ `${stats?.allActiveUserCount > 0 ? 's' : ''}` } • { stats?.hourActiveUserCount || 0 } online</Box>
                   <Flex justifyContent="center" mt="8px" mb="10px">
                     <Button
                       bg="transparent"

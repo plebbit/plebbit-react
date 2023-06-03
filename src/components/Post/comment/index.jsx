@@ -10,7 +10,7 @@ import {
   Tag,
   Skeleton,
 } from '@chakra-ui/react';
-import { usePublishComment, useAuthorAvatar, useAccountVote, useEditedComment } from '@plebbit/plebbit-react-hooks';
+import { useAuthorAvatar, useAccountVote, useEditedComment, useAccountComment } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -41,9 +41,12 @@ import PendingLabel from '../../Label/pendingLabel';
 import FlairLabel from '../../Label/flairLabel';
 import Link from '../../Link';
 import useStateString from '../../../hooks/useStateString';
+import StateString from '../../Label/stateString';
+import usePublishComment from '../../../hooks/usePublishComment';
 
 const Comment = ({ comment: data, disableReplies, singleComment, loading = true, type }) => {
   let comment = data
+
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
@@ -64,6 +67,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(comment?.subplebbitAddress);
 
 
+
   const owner =
     profile?.author?.address === comment?.author?.address ||
     profile?.signer?.address === comment?.author?.address;
@@ -71,35 +75,20 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
   const upVote = usePublishUpvote(comment)
   const downVote = usePublishDownvote(comment)
   //options needed to publish a comment
-  const publishCommentOptions = {
-    content,
-    parentCid: comment?.cid, // if top level reply to a post, same as postCid
-    subplebbitAddress: comment?.subplebbitAddress,
-    onChallenge,
-    onChallengeVerification: (challengeVerification, comment) => onChallengeVerification(challengeVerification, comment, () => {
+
+
+  const { publishComment } = usePublishComment(content, comment)
+
+  const accountComment = useAccountComment({ commentIndex: comment?.index })
+
+
+  const handlePublishPost = async () => {
+    await publishComment(() => {
       setContent('');
       setEditorState(EditorState.createEmpty());
-    }),
-    onError,
-  }
+    }, () => {
 
-  const { publishComment } = usePublishComment(publishCommentOptions)
-
-
-  const handlePublishPost = () => {
-    try {
-      publishComment();
-    } catch (error) {
-      logger('create:comment:response', error, 'error');
-      toast({
-        title: 'Comment Declined.',
-        description: error?.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-    setContent('')
+    });
   };
 
 
@@ -183,7 +172,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
   }
   const authorPath = owner ? "/profile" : `/u/${comment?.author?.address}/c/${comment?.cid}`
 
-  const stateString = useStateString(comment)
+  const stateString = useStateString(accountComment)
 
 
   return (
@@ -196,7 +185,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
 
       <Flex flexDir="column" flexGrow={ 1 }>
         <Flex flexDir="column" mb="6px">
-          <Skeleton height={ loading && '20px' } width={ loading && "50%" } isLoaded={ !loading }>
+          <Skeleton mr="4px" height={ loading && '20px' } width={ loading && "50%" } isLoaded={ !loading }>
             <Flex alignItems="center" fontWeight="400" fontSize="12px">
               <Box maxW="50%" mr="5px">
                 <Box isTruncated as={ Link } to={ authorPath }>{ getUserName(comment?.author) } </Box>
@@ -223,10 +212,10 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading = true,
               >
                 •
               </Box>
-              <Box color={ iconColor }>
+              <Box color={ iconColor } >
                 <i> { dateToNow(comment?.timestamp * 1000) }</i>
               </Box>
-              <stateString stateString={ stateString } />
+              { commentPending && <StateString stateString={ stateString } /> }
             </Flex>
           </Skeleton>
           { comment?.flair?.text && (

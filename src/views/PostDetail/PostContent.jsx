@@ -316,7 +316,6 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const stateString = useStateString(detail)
 
 
-
   return (
     <>
 
@@ -857,9 +856,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                   </Flex>
                   {/* post Title */ }
 
-                  <Flex margin="0 8px" display="flex" alignItems="center">
-                    <Skeleton isLoaded={ !loading }>
-
+                  <Skeleton isLoaded={ !loading }>
+                    <Flex margin="0 8px" display="flex" alignItems="center">
                       <Text
                         color={ titleColor }
                         fontSize="18px"
@@ -869,25 +867,23 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         wordBreak="break-word"
                       >
                         { detail?.title }{ ' ' }
-
-                        { detail?.flair?.text ? (
-                          <FlairLabel flair={ detail?.flair } />
-
-                        ) : null }
-                        { detail?.spoiler && (
-                          <SpoilerLabel />
-                        ) }
-                        { detailPending && (
-                          <Skeleton isLoaded={ !loading } my="4px">
-                            <PendingLabel />
-                          </Skeleton>
-                        ) }
-                        {/* edit status */ }
-                        <EditLabel editLabel={ editLabel } post={ detail } />
-
                       </Text>
-                    </Skeleton>
-                  </Flex>
+                      { detail?.flair?.text ? (
+                        <FlairLabel flair={ detail?.flair } />
+
+                      ) : null }
+                      { detail?.spoiler && (
+                        <SpoilerLabel />
+                      ) }
+                      { detailPending && (
+                        <Skeleton isLoaded={ !loading } my="4px">
+                          <PendingLabel />
+                        </Skeleton>
+                      ) }
+                      {/* edit status */ }
+                      <EditLabel editLabel={ editLabel } post={ detail } />
+                    </Flex>
+                  </Skeleton>
 
                   {/* post Body */ }
                   { edit ? (
@@ -1598,10 +1594,10 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
               </Flex>
               <Box maxW="100%" bg={ bg } mt="10px" padding="10px">
                 <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
-                { isReply ? <Replies loading={ loading } parent={ replyParent } reply={ reply } /> : null }
+                { isReply ? <Replies loading={ loading } parent={ replyParent } reply={ reply } disableReplies={ detail?.locked } /> : null }
                 { showFullComments &&
                   comments?.map((comment) => (
-                    <Comment loading={ commentLoading } comment={ comment } key={ comment.cid } parentCid={ detail?.cid } />
+                    <Comment loading={ commentLoading } comment={ comment } key={ comment.cid } parentCid={ detail?.cid } disableReplies={ detail?.locked } />
                   )) }
               </Box>
             </Box>
@@ -1799,10 +1795,10 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
               </Box>
             </Box>
             <Box padding="16px" maxW="100%">
-              { isReply ? <Replies parent={ replyParent } reply={ reply } /> : null }
+              { isReply ? <Replies parent={ replyParent } reply={ reply } disableReplies={ detail?.locked } /> : null }
               { showFullComments &&
                 comments.map((comment) => (
-                  <Comment comment={ comment } key={ comment.cid } />
+                  <Comment comment={ comment } key={ comment.cid } disableReplies={ detail?.locked } />
                 )) }
             </Box>
           </Box>

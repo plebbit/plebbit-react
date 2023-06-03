@@ -7,6 +7,7 @@ import {
   Icon,
 
   Skeleton,
+  SkeletonText,
   Tag,
   Text,
   Tooltip,
@@ -51,6 +52,7 @@ import EditLabel from "../Label/editLabel";
 import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
 import FlairLabel from "../Label/flairLabel";
+import StateString from '../Label/stateString';
 
 const ClassicPost = ({
   loading,
@@ -80,7 +82,8 @@ const ClassicPost = ({
   upVote,
   downVote,
   editLabel,
-  authorPath
+  authorPath,
+  stateString
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -287,7 +290,7 @@ const ClassicPost = ({
                   as={ Link }
                   to={ detailRoute }
                 >
-                  <Skeleton display="flex" flexWrap="wrap" isLoaded={ !loading }>
+                  <Skeleton display="flex" flexWrap="wrap" isLoaded={ !loading } w={ loading && '50%' } height='20px' mb='4px'>
                     { ' ' }
                     {/* flair */ }
                     { type === 'subPlebbit' && post?.flair?.text && (
@@ -342,6 +345,7 @@ const ClassicPost = ({
                     {/* edit status */ }
                     <EditLabel editLabel={ editLabel } post={ post } />
                   </Skeleton>
+                  { loading && <StateString stateString={ stateString } /> }
                 </Flex>
                 {/* Post head */ }
                 <Flex
@@ -353,7 +357,7 @@ const ClassicPost = ({
                   margin="0 8px 8px"
                   position="relative"
                 >
-                  <Skeleton mb="8px" isLoaded={ !loading }>
+                  <SkeletonText width='100%' noOfLines={ 3 } mb="8px" isLoaded={ !loading }>
                     <Flex alignItems="center" flexWrap="wrap" flex="1 1 auto" overflow="hidden">
                       <Flex
                         fontSize="12px"
@@ -471,15 +475,11 @@ const ClassicPost = ({
                         ) }
                       </Flex>
                     </Flex>
-                  </Skeleton>
+                  </SkeletonText>
                 </Flex>
                 {/* Post footer */ }
-                <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
-                  { pending ? (
-                    !loading && (
-                      <Box />
-                    )
-                  ) : allowedSpecial ? (
+                { !pending && <Flex alignItems="center" height="40px" paddingRight="10px" overflowY="visible">
+                  { allowedSpecial ? (
                     <Flex
                       fontSize="12px"
                       fontWeight="700"
@@ -1055,7 +1055,7 @@ const ClassicPost = ({
                       ) }
                     </Flex>
                   ) }
-                </Flex>
+                </Flex> }
               </Box>
             </Flex>
             { showContent && !post?.removed && (
@@ -1140,6 +1140,7 @@ const ClassicPost = ({
                             mr="8px"
                             badge
                             isOnline={ isOnline }
+                            loading={ loading }
                           />
                           <Skeleton isLoaded={ !loading }>{ getSubName(subPlebbit) }</Skeleton>
                         </Flex>

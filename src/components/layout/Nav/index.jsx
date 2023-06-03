@@ -376,26 +376,26 @@ const NavBar = ({ location, showStyleBar }) => {
               flex="1 0 130px"
               mr="auto"
               alignItems="center"
-
+              as={ Link } to='/'
             >
-              <Link to="/" >
-                <Box mr="4px" cursor="pointer" borderRadius="full" width="30px" height="30px">
-                  <PlebLogo />
-                </Box>
-              </Link>
 
-              <Link>
-                <PlebbitTextLogo
-                  style={ {
-                    height: '20px',
-                    border: 'none',
-                    marginRight: '10px',
-                    cursor: 'pointer',
-                    overflow: 'hidden',
-                  } }
-                  color="#fff"
-                />
-              </Link>
+              <Box mr="4px" cursor="pointer" borderRadius="full" width="30px" height="30px">
+                <PlebLogo />
+              </Box>
+
+
+
+              <PlebbitTextLogo
+                style={ {
+                  height: '20px',
+                  border: 'none',
+                  marginRight: '10px',
+                  cursor: 'pointer',
+                  overflow: 'hidden',
+                } }
+                color="#fff"
+              />
+
 
             </Flex>
             <Flex
@@ -405,10 +405,12 @@ const NavBar = ({ location, showStyleBar }) => {
               width="36px"
               alignItems="center"
               justifyContent="center"
+              as={ Link }
+              to="/submit"
             >
-              <Link to="/submit">
-                <Icon as={ BiPencil } width={ 6 } height={ 6 } color="#fff" />
-              </Link>
+
+              <Icon as={ BiPencil } width={ 6 } height={ 6 } color="#fff" />
+
             </Flex>
             <Flex
               onClick={ () => {
@@ -858,21 +860,23 @@ const NavBar = ({ location, showStyleBar }) => {
                   marginLeft="-4px"
                   paddingLeft="2px"
                 >
-                  <Link to="/profile">
-                    <Flex
-                      alignItems="center"
-                      flexFlow="row nowrap"
-                      onClick={ () => {
-                        setShowDropDown(!showDropDown);
-                        setShowComponent(!showDropDown);
-                      } }
-                    >
-                      <Avatar width={ 24 } height={ 24 } mr="8px" avatar={ authorAvatarImageUrl } />
-                      <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                        { getUserName(profile?.author) }
-                      </Box>
-                    </Flex>
-                  </Link>
+
+                  <Flex
+                    alignItems="center"
+                    flexFlow="row nowrap"
+                    onClick={ () => {
+                      setShowDropDown(!showDropDown);
+                      setShowComponent(!showDropDown);
+                    } }
+                    as={ Link }
+                    to="/profile"
+                  >
+                    <Avatar width={ 24 } height={ 24 } mr="8px" avatar={ authorAvatarImageUrl } />
+                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
+                      { getUserName(profile?.author) }
+                    </Box>
+                  </Flex>
+
                 </Flex>
                 <Flex
                   alignItems="center"
@@ -997,31 +1001,7 @@ const NavBar = ({ location, showStyleBar }) => {
                     </Flex>
                   </Flex>
                 </Flex>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer">
-                    <Flex
-                      alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
-                    >
-                      <Icon as={ AiOutlineThunderbolt } w={ 5 } h={ 5 } opacity=".5" />
-                    </Flex>
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      Powerups
-                    </Box>
-                  </Flex>
-                </Flex>
+
                 <NavItem
                   head={
                     <Flex
@@ -1107,31 +1087,33 @@ const NavBar = ({ location, showStyleBar }) => {
                       ]
                         .flat()
                         ?.map((pages, index) => (
-                          <Link key={ index } to={ `/p/${pages?.value}/` }>
-                            <Flex
-                              key={ index }
-                              alignItems="center"
-                              flexFlow="row nowrap"
-                              cursor="pointer"
-                              onClick={ () => {
-                                setShowDropDown(!showDropDown);
-                                setShowComponent(!showDropDown);
-                              } }
-                            >
-                              <Avatar
-                                badge
-                                avatar={ pages?.avatar }
-                                width={ 24 }
-                                height={ 24 }
-                                mr="8px"
-                                isOnline={ getIsOnline(pages?.updatedAt) }
-                              />
 
-                              <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                                { getSubName(pages) }
-                              </Box>
-                            </Flex>
-                          </Link>
+                          <Flex
+                            key={ index }
+                            alignItems="center"
+                            flexFlow="row nowrap"
+                            cursor="pointer"
+                            onClick={ () => {
+                              setShowDropDown(!showDropDown);
+                              setShowComponent(!showDropDown);
+                            } }
+                            as={ Link }
+                            to={ `/p/${pages?.value}/` }
+                          >
+                            <Avatar
+                              badge
+                              avatar={ pages?.avatar }
+                              width={ 24 }
+                              height={ 24 }
+                              mr="8px"
+                              isOnline={ getIsOnline(pages?.updatedAt) }
+                            />
+
+                            <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
+                              { getSubName(pages) }
+                            </Box>
+                          </Flex>
+
                         )) }
                     </Flex>
                   }
@@ -1188,7 +1170,7 @@ const NavBar = ({ location, showStyleBar }) => {
                           onOpenCreate();
                         } }
                       >
-                        <Flex alignItems="center" height="100%" padding="0 20px">
+                        <Flex alignItems="center" height="100%" padding="0 20px" color="#fff">
                           <Flex
                             justifyContent="center"
                             alignItems="center"
@@ -1216,60 +1198,37 @@ const NavBar = ({ location, showStyleBar }) => {
                         </Flex>
                       </Box>
                       { Object.keys(accountSubplebbits)?.map((pages, index) => (
-                        <Link key={ index } to={ `/p/${pages}/` }>
-                          <Flex
-                            alignItems="center"
-                            flexFlow="row nowrap"
-                            cursor="pointer"
-                            onClick={ () => {
-                              setShowDropDown(!showDropDown);
-                              setShowComponent(!showDropDown);
-                            } }
-                          >
-                            <Avatar
-                              badge
-                              avatar={ accountSubplebbits[pages]?.avatar }
-                              width={ 24 }
-                              height={ 24 }
-                              mr="8px"
-                              isOnline={ getIsOnline(accountSubplebbits[pages]?.updatedAt) }
-                            />
+                        <Flex
+                          alignItems="center"
+                          flexFlow="row nowrap"
+                          cursor="pointer"
+                          onClick={ () => {
+                            setShowDropDown(!showDropDown);
+                            setShowComponent(!showDropDown);
+                          } }
+                          as={ Link }
+                          to={ `/p/${pages}/` }
+                          key={ index }
+                        >
+                          <Avatar
+                            badge
+                            avatar={ accountSubplebbits[pages]?.avatar }
+                            width={ 24 }
+                            height={ 24 }
+                            mr="8px"
+                            isOnline={ getIsOnline(accountSubplebbits[pages]?.updatedAt) }
+                          />
 
-                            <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                              { getSubName(accountSubplebbits[pages]) }
-                            </Box>
-                          </Flex>
-                        </Link>
+                          <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
+                            { getSubName(accountSubplebbits[pages]) }
+                          </Box>
+                        </Flex>
                       )) }
                     </Flex>
                   }
                 />
 
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer">
-                    <Flex
-                      alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
-                    >
-                      <Icon as={ HiOutlineChat } w={ 5 } h={ 5 } opacity=".5" />
-                    </Flex>
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      Chat
-                    </Box>
-                  </Flex>
-                </Flex>
+
                 <Flex
                   alignItems="center"
                   flexFlow="row nowrap"
@@ -1303,10 +1262,11 @@ const NavBar = ({ location, showStyleBar }) => {
                   marginLeft="-4px"
                   paddingLeft="2px"
                   onClick={ () => {
-                    history.push('/settings', []);
                     setShowDropDown(!showDropDown);
                     setShowComponent(!showDropDown);
                   } }
+                  as={ Link }
+                  to='/settings'
                 >
                   <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
                     <Flex
@@ -1383,31 +1343,6 @@ const NavBar = ({ location, showStyleBar }) => {
                     </Flex>
                     <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
                       p/all
-                    </Box>
-                  </Flex>
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer">
-                    <Flex
-                      alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
-                    >
-                      <Icon as={ BiHelpCircle } w={ 5 } h={ 5 } opacity=".5" />
-                    </Flex>
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      Help Center
                     </Box>
                   </Flex>
                 </Flex>

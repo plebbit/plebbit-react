@@ -2,7 +2,7 @@ import { Flex } from '@chakra-ui/react';
 import React from 'react';
 import Comment from '.';
 
-const Replies = ({ parent, reply, loading }) => {
+const Replies = ({ parent, reply, loading, disableReplies }) => {
   return (
     <Flex flexDir="column">
       <Comment
@@ -11,6 +11,7 @@ const Replies = ({ parent, reply, loading }) => {
         key={ parent?.cid }
         singleComment={ reply }
         loading={ loading }
+        disableReplies={ disableReplies }
       />
     </Flex>
   );
