@@ -469,45 +469,46 @@ const CardPost = ({
                     <Flex
                       margin="0 8px"
                       alignItems="center"
+                      height={ loading && '20px' } flex={ loading && 1 } mb={ loading && "8px" }
+                      as={ loading && Skeleton }
                     >
-                      <Skeleton height='20px' width='100%' mb="8px" isLoaded={ !loading }>
-                        {/* flair */ }
-                        { type === "subPlebbit" && post?.flair?.text.length ? (
-                          <FlairLabel flair={ post?.flair } />
-                        ) : (
-                          ""
-                        ) }
-                        <Text
-                          display="inline"
-                          color={ inactiveSubTitle }
-                          fontSize="18px"
-                          fontWeight="500"
-                          lineHeight="22px"
-                          paddingRight="5px"
-                          textDecor="none"
-                          wordBreak="break-word"
-                        >
-                          { post?.title }
-                        </Text>
-                        { type !== "subPlebbit" && post?.flair?.text ? (
-                          <FlairLabel flair={ post?.flair } />
+                      {/* flair */ }
+                      { type === "subPlebbit" && post?.flair?.text.length ? (
+                        <FlairLabel flair={ post?.flair } />
+                      ) : (
+                        ""
+                      ) }
+                      <Text
+                        display="inline"
+                        color={ inactiveSubTitle }
+                        fontSize="18px"
+                        fontWeight="500"
+                        lineHeight="22px"
+                        paddingRight="5px"
+                        textDecor="none"
+                        wordBreak="break-word"
+                      >
+                        { post?.title }
+                      </Text>
+                      { type !== "subPlebbit" && post?.flair?.text ? (
+                        <FlairLabel flair={ post?.flair } />
 
-                        ) : (
-                          ""
-                        ) }
-                        { post?.spoiler && (
+                      ) : (
+                        ""
+                      ) }
+                      { post?.spoiler && (
 
-                          <SpoilerLabel />
-                        ) }
+                        <SpoilerLabel />
+                      ) }
 
-                        { pending && (
-                          <Skeleton isLoaded={ !loading }>
-                            <PendingLabel />
-                          </Skeleton>
-                        ) }
-                        {/* edit status */ }
-                        <EditLabel editLabel={ editLabel } post={ post } />
-                      </Skeleton>
+                      { pending && (
+                        <Skeleton isLoaded={ !loading }>
+                          <PendingLabel />
+                        </Skeleton>
+                      ) }
+                      {/* edit status */ }
+                      <EditLabel editLabel={ editLabel } post={ post } />
+
                     </Flex>
 
                   </Link>

@@ -1,10 +1,15 @@
 import extName from 'ext-name';
 
 const getCommentMediaInfo = (post) => {
+  let mime
   if (!post?.link) {
     return;
   }
-  const mime = extName(new URL(post?.link).pathname.replace('/', ''))[0]?.mime;
+  try {
+    mime = extName(new URL(post?.link).pathname.replace('/', ''))[0]?.mime;
+  } catch (error) {
+
+  }
   if (mime?.startsWith('image')) {
     return {
       url: post?.link,
