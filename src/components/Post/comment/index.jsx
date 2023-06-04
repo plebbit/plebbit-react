@@ -44,7 +44,7 @@ import useStateString from '../../../hooks/useStateString';
 import StateString from '../../Label/stateString';
 import usePublishComment from '../../../hooks/usePublishComment';
 
-const Comment = ({ comment: data, disableReplies, singleComment, loading = true, type }) => {
+const Comment = ({ comment: data, disableReplies, singleComment, loading, type }) => {
   let comment = data
 
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
