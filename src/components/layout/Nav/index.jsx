@@ -45,7 +45,7 @@ import convertArrToObj from '../../../utils/convertArrToObj';
 import Sort from '../../../utils/sort';
 import NavNotification from './NavNotification';
 import Link from "../../Link"
-import { bottomData1, bottomData2 } from '../../sidebar/linksData';
+import { bottomData1, bottomData2 } from '../../sidebar/projectLinks';
 import plebbitReactPackageJson from '../../../../package.json';
 
 

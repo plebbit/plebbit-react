@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
 import plebbitReactPackageJson from '../../../package.json';
-import { bottomData1, bottomData2 } from './linksData';
+import { bottomData1, bottomData2 } from './projectLinks';
 
 const BottomSideBar = ({ bg }) => {
   const Bg = useColorModeValue('lightBody', 'darkBody');
