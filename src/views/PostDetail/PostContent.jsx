@@ -1795,10 +1795,10 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
               </Box>
             </Box>
             <Box padding="16px" maxW="100%">
-              { isReply ? <Replies parent={ replyParent } reply={ reply } disableReplies={ detail?.locked } /> : null }
+              { isReply ? <Replies loading={ loading } parent={ replyParent } reply={ reply } disableReplies={ detail?.locked } /> : null }
               { showFullComments &&
                 comments.map((comment) => (
-                  <Comment comment={ comment } key={ comment.cid } disableReplies={ detail?.locked } />
+                  <Comment loading={ commentLoading } comment={ comment } key={ comment.cid } disableReplies={ detail?.locked } />
                 )) }
             </Box>
           </Box>
