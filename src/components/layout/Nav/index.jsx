@@ -6,7 +6,6 @@ import {
   Icon,
   Input,
   Switch,
-  Button,
   useToast,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -26,7 +25,6 @@ import {
   AiFillSetting,
   AiOutlineInfoCircle,
   AiOutlinePlus,
-  AiOutlineThunderbolt,
 } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 import NDDown from './nDDown';
@@ -47,6 +45,9 @@ import convertArrToObj from '../../../utils/convertArrToObj';
 import Sort from '../../../utils/sort';
 import NavNotification from './NavNotification';
 import Link from "../../Link"
+import { bottomData1, bottomData2 } from '../../sidebar/projectLinks';
+import plebbitReactPackageJson from '../../../../package.json';
+
 
 const NavBar = ({ location, showStyleBar }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -1346,33 +1347,76 @@ const NavBar = ({ location, showStyleBar }) => {
                     </Box>
                   </Flex>
                 </Flex>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
+                <NavItem
+                  head={
                     <Flex
                       alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
+                      flexFlow="row nowrap"
+                      color="#fff"
+                      marginBottom="20px"
+                      marginLeft="-4px"
+                      paddingLeft="2px"
                     >
-                      <Icon as={ AiOutlineInfoCircle } w={ 5 } h={ 5 } opacity=".5" />
-                    </Flex>
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      More
-                    </Box>
+                      <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
+                        <Flex
+                          alignItems="center"
+                          flex="0 0 24px"
+                          height="24px"
+                          justifyContent="center"
+                          mr="8px"
+                          position="8px"
+                          width="24px"
+                        >
+                          <Icon as={ AiOutlineInfoCircle } w={ 5 } h={ 5 } opacity=".5" />
+                        </Flex>
+                        <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
+                          More
+                        </Box>
 
-                    <Icon as={ BsChevronDown } color="#787c7e" ml="auto" w={ 6 } h={ 5 } />
-                  </Flex>
-                </Flex>
+                        <Icon as={ BsChevronDown } color="#787c7e" ml="auto" w={ 6 } h={ 5 } />
+                      </Flex>
+                    </Flex>
+                  }
+                  body={
+                    <Flex
+                      flexDirection="column"
+                      color="#fff"
+                      marginBottom="20px"
+                      marginLeft="-4px"
+                      paddingLeft="20px"
+                    >
+                      { bottomData1?.map((item, index) => (
+                        <a target="_blank" rel="noreferrer" href={ item?.link } key={ index }>
+                          <Box
+                            fontSize="12px"
+                            fontWeight="400"
+                            lineHeight="16px"
+                            marginTop="3px"
+                            marginBottom="3px"
+                            display="inline-block"
+                          >
+                            { item?.label }
+                          </Box>
+                        </a>
+                      )) }
+                      { bottomData2?.map((item, index) => (
+                        <a target="_blank" rel="noreferrer" href={ item?.link } key={ index }>
+                          <Box
+                            fontSize="12px"
+                            fontWeight="400"
+                            lineHeight="16px"
+                            marginTop="3px"
+                            marginBottom="3px"
+                            display="inline-block"
+                          >
+                            { item?.label }
+                          </Box>
+                        </a>
+                      )) }
+                    </Flex>
+                  }
+                />
+
                 <Flex
                   alignItems="center"
                   flexFlow="row nowrap"
@@ -1403,24 +1447,21 @@ const NavBar = ({ location, showStyleBar }) => {
                 <Flex
                   alignItems="center"
                   flexFlow="row nowrap"
+                  color="#fff"
                   marginBottom="20px"
                   marginLeft="-4px"
                   paddingLeft="2px"
-                  justifyContent="center"
                 >
-                  <Button
-                    borderRadius="32px"
-                    fontSize="14px"
-                    fontWeight="700"
-                    height="32px"
-                    width="100%"
-                    lineHeight="17px"
-                    marginBottom="20px"
-                    padding="0 8px"
-                  >
-                    Log out
-                  </Button>
+                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
+
+                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
+                      Plebbit v{ plebbitReactPackageJson.version }. GPL-2.0
+                    </Box>
+
+                    <Icon as={ BsChevronDown } color="#787c7e" ml="auto" w={ 6 } h={ 5 } />
+                  </Flex>
                 </Flex>
+
               </Flex>
             </Box>
           ) }
