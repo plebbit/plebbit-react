@@ -3252,48 +3252,6 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#2e33610eeb278f35ce841e2c9a38fbc224e1ace2":
-  version "0.0.3"
-  resolved "https://github.com/plebbit/plebbit-js.git#2e33610eeb278f35ce841e2c9a38fbc224e1ace2"
-  dependencies:
-    "@keyv/sqlite" "3.6.2"
-    "@plebbit/plebbit-logger" "github:plebbit/plebbit-logger"
-    "@types/node-fetch" "2.6.2"
-    "@types/proper-lockfile" "4.1.2"
-    "@types/uuid" "8.3.4"
-    assert "2.0.0"
-    async-wait-until "2.0.12"
-    buffer "6.0.3"
-    captcha-canvas "3.2.1"
-    err-code "3.0.1"
-    ethers "5.7.2"
-    file-type "16.5.4"
-    form-data "4.0.0"
-    hpagent "1.2.0"
-    ipfs-http-client "56.0.3"
-    ipfs-only-hash "4.0.0"
-    is-ipfs "6.0.2"
-    jose "4.11.0"
-    js-sha256 "0.9.0"
-    keyv "4.5.2"
-    knex "2.3.0"
-    libp2p-crypto "0.21.2"
-    limiter "2.1.0"
-    localforage "1.10.0"
-    lodash-es "4.17.21"
-    open-graph-scraper "5.2.3"
-    p-limit "3.1.0"
-    peer-id "0.16.0"
-    proper-lockfile "github:plebbit/node-proper-lockfile"
-    retry "0.13.1"
-    safe-stable-stringify "2.4.1"
-    skia-canvas "1.0.0"
-    sqlite3 "5.1.2"
-    tiny-typed-emitter "2.1.0"
-    tinycache "1.1.2"
-    ts-custom-error "3.3.1"
-    uuid "9.0.0"
-
 "@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#c0e9428e6e8c44876bd5165961d9ee2dabba7397":
   version "0.0.3"
   resolved "https://github.com/plebbit/plebbit-js.git#c0e9428e6e8c44876bd5165961d9ee2dabba7397"
@@ -3354,21 +3312,6 @@
   resolved "https://github.com/plebbit/plebbit-react-hooks.git#55208efb8a62fc1106ba03b4f2d18dc0068412b3"
   dependencies:
     "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#c0e9428e6e8c44876bd5165961d9ee2dabba7397"
-    "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
-    assert "2.0.0"
-    ethers "5.6.9"
-    localforage "1.10.0"
-    lodash.isequal "4.5.0"
-    memoizee "0.4.15"
-    quick-lru "5.1.1"
-    uuid "8.3.2"
-    zustand "4.0.0"
-
-"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#86158796e8d5d4e03d388e83195510d66ba14fa8":
-  version "0.0.1"
-  resolved "https://github.com/plebbit/plebbit-react-hooks.git#86158796e8d5d4e03d388e83195510d66ba14fa8"
-  dependencies:
-    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#2e33610eeb278f35ce841e2c9a38fbc224e1ace2"
     "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
     assert "2.0.0"
     ethers "5.6.9"
@@ -11253,26 +11196,6 @@ klona@^2.0.4, klona@^2.0.5:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.5.tgz#d166574d90076395d9963aa7a928fabb8d76afbc"
   integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
 
-knex@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/knex/-/knex-2.3.0.tgz#87fa2a9553d7cafb125d7a0645256fbe29ef5967"
-  integrity sha512-WMizPaq9wRMkfnwKXKXgBZeZFOSHGdtoSz5SaLAVNs3WRDfawt9O89T4XyH52PETxjV8/kRk0Yf+8WBEP/zbYw==
-  dependencies:
-    colorette "2.0.19"
-    commander "^9.1.0"
-    debug "4.3.4"
-    escalade "^3.1.1"
-    esm "^3.2.25"
-    get-package-type "^0.1.0"
-    getopts "2.3.0"
-    interpret "^2.2.0"
-    lodash "^4.17.21"
-    pg-connection-string "2.5.0"
-    rechoir "^0.8.0"
-    resolve-from "^5.0.0"
-    tarn "^3.0.2"
-    tildify "2.0.0"
-
 knex@2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/knex/-/knex-2.4.2.tgz#a34a289d38406dc19a0447a78eeaf2d16ebedd61"
@@ -15934,17 +15857,6 @@ sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==
-
-sqlite3@5.1.2:
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-5.1.2.tgz#f50d5b1482b6972fb650daf6f718e6507c6cfb0f"
-  integrity sha512-D0Reg6pRWAFXFUnZKsszCI67tthFD8fGPewRddDCX6w4cYwz3MbvuwRICbL+YQjBAh9zbw+lJ/V9oC8nG5j6eg==
-  dependencies:
-    "@mapbox/node-pre-gyp" "^1.0.0"
-    node-addon-api "^4.2.0"
-    tar "^6.1.11"
-  optionalDependencies:
-    node-gyp "8.x"
 
 sqlite3@5.1.6, sqlite3@^5.1.2:
   version "5.1.6"
