@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import useCommentEdit from '../../../hooks/useCommentEdit';
 
-const EditStatus = ({ onClose, isOpen, post }) => {
+const ConfirmDelete = ({ onClose, isOpen, post, title, message, cancelText, confirmText }) => {
     const border1 = useColorModeValue('#edeff1', '#343536');
     const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
     const data = {
@@ -35,13 +35,13 @@ const EditStatus = ({ onClose, isOpen, post }) => {
             scrollBehavior="inside"
             trapFocus={ false }
             onClose={ onClose }
-            size="sm"
+            size='md'
             isOpen={ isOpen }
             isCentered
         >
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader> Delete comment?</ModalHeader>
+                <ModalHeader fontSize="16px" fontWeight="500" lineHeight='20px'> { title || 'Delete Post?' }</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody
                     padding="16px"
@@ -51,7 +51,7 @@ const EditStatus = ({ onClose, isOpen, post }) => {
                     lineHeight="21px"
                 >
                     <Box>
-                        Are you sure you want to delete your post? You can't undo this.                    </Box>
+                        { message || `Are you sure you want to delete your post? You can't undo this.` }                    </Box>
 
                 </ModalBody>
                 <ModalFooter bg={ border1 }>
@@ -62,8 +62,10 @@ const EditStatus = ({ onClose, isOpen, post }) => {
                         colorScheme="blue"
                         onClick={ onClose }
                         h="32px"
+                        fontSize="14px"
+                        fontWeight='700'
                     >
-                        Cancel
+                        { cancelText || 'Cancel' }
                     </Button>
                     <Button
                         borderRadius="999px"
@@ -72,8 +74,9 @@ const EditStatus = ({ onClose, isOpen, post }) => {
                         colorScheme="blue"
                         onClick={ handleEditComment }
                         h="32px"
+                        fontSize="14px"
                     >
-                        Delete
+                        { confirmText || 'Delete' }
                     </Button>
 
                 </ModalFooter>
@@ -82,4 +85,4 @@ const EditStatus = ({ onClose, isOpen, post }) => {
     );
 };
 
-export default EditStatus;
+export default ConfirmDelete;

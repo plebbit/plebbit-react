@@ -72,12 +72,18 @@ import FlairLabel from '../../components/Label/flairLabel';
 import AddComment from './addComment';
 import useStateString from '../../hooks/useStateString';
 import StateString from '../../components/Label/stateString';
+import ConfirmDelete from '../../components/Post/Modal/confirmDelete';
 
 const PostContent = ({ setDetail, setSubplebbit }) => {
   const {
     onOpen: openRemovalModal,
     onClose: closeRemovalModal,
     isOpen: isRemovalModalOpen,
+  } = useDisclosure();
+  const {
+    onOpen: openDeleteModal,
+    onClose: closeDeleteModal,
+    isOpen: isDeleteModalOpen,
   } = useDisclosure();
   const location = useLocation();
   const postDetailModal = location?.state?.modal && location?.state?.detail;
@@ -231,19 +237,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
     if (option?.id === 'edit') {
       setEdit(true);
     } else if (option?.id === 'delete') {
-      Swal.fire({
-        title: 'Do you want to delete this post?',
-        showCancelButton: true,
-        confirmButtonText: 'Delete',
-        cancelButtonColor: '#d33',
-        confirmButtonColor: '#3085d6',
-        icon: 'warning',
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          handleEditPost({ deleted: true })
-        }
-      });
+      openDeleteModal()
     } else if (option?.id === 'saveEdit') {
       handleEditPost({
         link: editMode === 'link' ? editPost : undefined,
@@ -252,10 +246,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
     } else openRemovalModal();
   };
 
-  logger('feed:detail', {
-    address: params?.commentCid,
-    detail,
-  });
+
 
   const sharePath = `${baseUrl}p/${detail?.subplebbitAddress}/c/${detail?.cid}`;
   const handleCopy = () => {
@@ -868,21 +859,22 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         wordBreak="break-word"
                       >
                         { detail?.title }{ ' ' }
-                      </Text>
-                      { detail?.flair?.text ? (
-                        <FlairLabel flair={ detail?.flair } />
+                        { detail?.flair?.text ? (
+                          <FlairLabel flair={ detail?.flair } />
 
-                      ) : null }
-                      { detail?.spoiler && (
-                        <SpoilerLabel />
-                      ) }
-                      { detailPending && (
-                        <Skeleton isLoaded={ !loading } my="4px">
-                          <PendingLabel />
-                        </Skeleton>
-                      ) }
-                      {/* edit status */ }
-                      <EditLabel editLabel={ editLabel } post={ detail } />
+                        ) : null }
+                        { detail?.spoiler && (
+                          <SpoilerLabel />
+                        ) }
+                        { detailPending && (
+                          <Skeleton isLoaded={ !loading } my="4px">
+                            <PendingLabel />
+                          </Skeleton>
+                        ) }
+                        {/* edit status */ }
+                        <EditLabel editLabel={ editLabel } post={ detail } />
+                      </Text>
+
                     </Flex>
                   </Skeleton>
 
@@ -1811,12 +1803,19 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
       {
         isRemovalModalOpen && (
           <AddRemovalReason
-            handleRemove={ handleEditPost }
+
             isOpen={ isRemovalModalOpen }
             onClose={ closeRemovalModal }
             post={ detail }
           />
         )
+      }
+      {
+        isDeleteModalOpen && <ConfirmDelete
+          isOpen={ isDeleteModalOpen }
+          onClose={ closeDeleteModal }
+          post={ detail }
+        />
       }
     </>
   );
