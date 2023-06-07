@@ -2,48 +2,46 @@ import onError from "../utils/onError";
 import onChallenge from "../utils/onChallenge";
 import onChallengeVerification from "../utils/onChallengeVerification";
 import { usePublishCommentEdit } from "@plebbit/plebbit-react-hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const useCommentEdit = (post) => {
-    const val = post
+const useCommentEdit = (update, post) => {
     const [options, setOptions] = useState({
-        commentCid: val?.cid,
-        subplebbitAddress: val?.subplebbitAddress,
+        ...update,
+        commentCid: post?.cid,
+        subplebbitAddress: post?.subplebbitAddress,
         onChallenge,
         onChallengeVerification,
         onError,
-    })
+    });
 
+    const { publishCommentEdit, ...rest } = usePublishCommentEdit(options);
 
-    const { publishCommentEdit } = usePublishCommentEdit({ ...options })
+    useEffect(() => {
+        setOptions({
+            ...update,
+            commentCid: post?.cid,
+            subplebbitAddress: post?.subplebbitAddress,
+            onChallenge,
+            onChallengeVerification,
+            onError,
+        });
+    }, [update, post]);
 
-
-    const commentEdit = async (data, callBack, failedCallBack) => {
-        await setOptions({
-            ...options, ...data, commentCid: val?.cid,
-            subplebbitAddress: val?.subplebbitAddress,
-        })
+    const commentEdit = async (callBack, failedCallBack) => {
+        if (typeof callBack === "function") {
+            callBack();
+        }
         try {
             await publishCommentEdit();
-
-            if (typeof callBack === 'function') {
-                callBack()
-            }
-
-
         } catch (error) {
-            logger('edit:comment:response:', error, 'error');
-
-
-            if (typeof failedCallBack === 'function') {
-                failedCallBack()
+            logger("edit:comment:response:", error, "error");
+            if (typeof failedCallBack === "function") {
+                failedCallBack();
             }
-
-
         }
-    }
+    };
 
-    return commentEdit
-}
+    return { commentEdit, ...rest };
+};
 
-export default useCommentEdit
+export default useCommentEdit;

@@ -18,6 +18,7 @@ const onChallengeVerification = (challengeVerification, comment, onSuccess, onEr
             { reason: challengeVerification.reason, errors: challengeVerification.errors, comment },
             'error'
         );
+        console.log('error', challengeVerification)
         toast.error(challengeVerification.challengeErrors
             ? challengeVerification.challengeErrors.join(',')
             : 'Challenge Verification Failed', {

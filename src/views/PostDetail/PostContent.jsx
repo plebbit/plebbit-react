@@ -187,12 +187,13 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const downVote = usePublishDownvote(detail)
 
 
+  const [update, setUpdate] = useState({})
 
 
-  const commentEdit = useCommentEdit(detail)
-  const handleEditPost = async (update, callBack, failedCallBack) => {
-    await commentEdit(update, callBack, failedCallBack)
-
+  const { commentEdit } = useCommentEdit(update, detail)
+  const handleEditPost = async (val, callBack, failedCallBack) => {
+    setUpdate({ ...val })
+    await commentEdit(callBack, failedCallBack)
   };
 
   const { subscribe, unsubscribe, subscribed } = useSubscribe({ subplebbitAddress: detail?.subplebbitAddress })

@@ -17,8 +17,9 @@ import {
   Flex,
   FormHelperText,
 } from '@chakra-ui/react';
+import useCommentEdit from '../../../hooks/useCommentEdit';
 
-const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
+const AddRemovalReason = ({ onClose, isOpen, post }) => {
   const border1 = useColorModeValue('#edeff1', '#343536');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const metaColor = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -29,6 +30,14 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
     spoiler: post?.spoiler,
     reason: post?.reason,
   });
+
+  const { commentEdit } = useCommentEdit((data), post);
+
+
+  const handleEditComment = async () => {
+    await commentEdit(() => onClose());
+  };
+
 
 
   return (
@@ -232,7 +241,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
             h="32px"
             borderRadius="999px"
             colorScheme="blackAlpha"
-            onClick={ () => handleRemove(data, onClose()) }
+            onClick={ handleEditComment }
           >
             Save
           </Button>

@@ -34,8 +34,6 @@ import useRepliesAndAccountReplies from '../../../hooks/useRepliesAndAccountRepl
 import usePublishUpvote from '../../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../../hooks/usePublishDownvote';
 import useCommentEdit from '../../../hooks/useCommentEdit';
-import onChallenge from '../../../utils/onChallenge';
-import onChallengeVerification from '../../../utils/onChallengeVerification';
 import EditLabel from '../../Label/editLabel';
 import PendingLabel from '../../Label/pendingLabel';
 import FlairLabel from '../../Label/flairLabel';

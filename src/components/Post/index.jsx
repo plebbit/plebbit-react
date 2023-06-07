@@ -18,7 +18,6 @@ import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
 import useCommentEdit from '../../hooks/useCommentEdit';
-import useStateString from '../../hooks/useStateString';
 
 const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSpecial, stateString }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -69,9 +68,12 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     },
   };
 
-  const commentEdit = useCommentEdit(post)
+  const [update, setUpdate] = useState({})
+
+  const commentEdit = useCommentEdit(update, post)
   const handleEditPost = async (val, callBack, failedCallBack) => {
-    await commentEdit(val, callBack, failedCallBack)
+    setUpdate({ ...val })
+    await commentEdit(callBack, failedCallBack)
 
   };
 
