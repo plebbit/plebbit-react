@@ -3,29 +3,30 @@ import onChallenge from "../utils/onChallenge";
 import onChallengeVerification from "../utils/onChallengeVerification";
 import { usePublishCommentEdit } from "@plebbit/plebbit-react-hooks";
 import { useEffect, useState } from "react";
+import logger from "../utils/logger";
 
 const useCommentEdit = (update, post) => {
-    const [options, setOptions] = useState({
-        ...update,
+    let options = {
         commentCid: post?.cid,
         subplebbitAddress: post?.subplebbitAddress,
         onChallenge,
         onChallengeVerification,
         onError,
-    });
+        ...update,
+    };
 
     const { publishCommentEdit, ...rest } = usePublishCommentEdit(options);
 
     useEffect(() => {
-        setOptions({
-            ...update,
-            commentCid: post?.cid,
-            subplebbitAddress: post?.subplebbitAddress,
-            onChallenge,
-            onChallengeVerification,
-            onError,
-        });
-    }, [update, post]);
+        if (Object.keys(update)) {
+            options = {
+                ...update,
+                ...options,
+                commentCid: post?.cid,
+                subplebbitAddress: post?.subplebbitAddress,
+            };
+        }
+    }, [update]);
 
     const commentEdit = async (callBack, failedCallBack) => {
         if (typeof callBack === "function") {

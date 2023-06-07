@@ -489,6 +489,10 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
           isOpen={ isDeleteModalOpen }
           onClose={ closeDeleteModal }
           post={ comment }
+          title="Delete comment"
+          message="Are you sure you want to delete your comment?"
+          cancelText="Keep"
+
         />
       }
 

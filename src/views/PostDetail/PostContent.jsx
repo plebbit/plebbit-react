@@ -9,7 +9,6 @@ import {
   useToast,
   Button,
   Skeleton,
-  Textarea,
   useDisclosure,
   Tooltip,
   SkeletonText,
@@ -23,9 +22,8 @@ import {
   useEditedComment,
 } from '@plebbit/plebbit-react-hooks';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Swal from 'sweetalert2';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
-import { CloseIcon, LinkIcon } from '@chakra-ui/icons';
+import { CloseIcon } from '@chakra-ui/icons';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { BsChat, BsBookmark, BsEyeSlash, BsPencil, BsChatSquare, BsShield } from 'react-icons/bs';
@@ -35,7 +33,6 @@ import { FiMoreHorizontal, FiBell, FiExternalLink } from 'react-icons/fi';
 import { CgNotes, CgClose } from 'react-icons/cg';
 import SideBar from './postDetailSideBar';
 import Comment from '../../components/Post/comment'
-import Editor from '../../components/Editor';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import getUserName, { getSubName } from '../../utils/getUserName';
 import numFormatter from '../../utils/numberFormater';
@@ -45,7 +42,6 @@ import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
   MdOutlineDeleteOutline,
-  MdStickyNote2,
 } from 'react-icons/md';
 import logger from '../../utils/logger';
 import Marked from '../../components/Editor/marked';
@@ -60,7 +56,6 @@ import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import useRepliesAndAccountReplies from '../../hooks/useRepliesAndAccountReplies';
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
-import useCommentEdit from '../../hooks/useCommentEdit';
 import Image from '../../components/Image';
 import Link from '../../components/Link';
 import { dateToNow } from '../../utils/formatDate';
@@ -70,6 +65,7 @@ import PendingLabel from "../../components/Label/pendingLabel";
 import SpoilerLabel from "../../components/Label/spoilerLabel";
 import FlairLabel from '../../components/Label/flairLabel';
 import AddComment from './addComment';
+import EditComment from './editComment';
 import useStateString from '../../hooks/useStateString';
 import StateString from '../../components/Label/stateString';
 import ConfirmDelete from '../../components/Post/Modal/confirmDelete';
@@ -193,14 +189,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const downVote = usePublishDownvote(detail)
 
 
-  const [update, setUpdate] = useState({})
 
-
-  const { commentEdit } = useCommentEdit(update, detail)
-  const handleEditPost = async (val, callBack, failedCallBack) => {
-    setUpdate({ ...val })
-    await commentEdit(callBack, failedCallBack)
-  };
 
   const { subscribe, unsubscribe, subscribed } = useSubscribe({ subplebbitAddress: detail?.subplebbitAddress })
 
@@ -238,11 +227,6 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
       setEdit(true);
     } else if (option?.id === 'delete') {
       openDeleteModal()
-    } else if (option?.id === 'saveEdit') {
-      handleEditPost({
-        link: editMode === 'link' ? editPost : undefined,
-        content: editMode === 'post' ? editPost : undefined,
-      });
     } else openRemovalModal();
   };
 
@@ -877,118 +861,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
                     </Flex>
                   </Skeleton>
-
                   {/* post Body */ }
                   { edit ? (
-                    <Box marginTop="8px" padding="10px">
-                      <Flex alignItems="stretch">
-                        <Flex
-                          color={ color }
-                          fontSize="14px"
-                          fontWeight="700"
-                          lineHeight="18px"
-                          cursor="pointer"
-                          outline="none"
-                          zIndex="1"
-                          width="25%"
-                          position="relative"
-                          textAlign="center"
-                          borderColor="#a4a4a4"
-                          borderStyle="solid"
-                          borderWidth="0 1px 1px 0"
-                          borderRadius="0"
-                          justifyContent="center"
-                          alignItems="center"
-                          whiteSpace="nowrap"
-                          padding="15px 17px"
-                          borderBottom={ editMode === 'post' && '3px solid #a4a4a4' }
-                          onClick={ () => {
-                            setEditMode('post');
-                          } }
-                        >
-                          <Icon
-                            as={ MdStickyNote2 }
-                            fontSize="20px"
-                            fontWeight="400"
-                            height="20px"
-                            lineHeight="20px"
-                            verticalAlign="middle"
-                            width="20px"
-                            marginRight="8px"
-                          />
-                          Post
-                        </Flex>
-                        <Flex
-                          color={ color }
-                          fontSize="14px"
-                          fontWeight="700"
-                          lineHeight="18px"
-                          cursor="pointer"
-                          outline="none"
-                          zIndex="1"
-                          width="25%"
-                          position="relative"
-                          textAlign="center"
-                          borderColor="#a4a4a4"
-                          borderStyle="solid"
-                          borderWidth="0 1px 1px 0"
-                          borderBottom={ editMode === 'link' && '3px solid #a4a4a4' }
-                          borderRadius="0"
-                          justifyContent="center"
-                          alignItems="center"
-                          whiteSpace="nowrap"
-                          padding="15px 17px"
-                          onClick={ () => {
-                            setEditMode('link');
-                          } }
-                        >
-                          <LinkIcon
-                            fontSize="20px"
-                            fontWeight="400"
-                            height="20px"
-                            lineHeight="20px"
-                            verticalAlign="middle"
-                            width="20px"
-                            marginRight="8px"
-                          />
-                          Link
-                        </Flex>
-                      </Flex>
-                      { editMode === 'post' ? (
-                        <Editor
-                          editorState={ postEditorState }
-                          setEditorState={ setPostEditorState }
-                          setValue={ setEditPost }
-                        />
-                      ) : (
-                        <Textarea
-                          placeholder="Url"
-                          onChange={ (e) => setEditPost(e.target.value) }
-                          value={ editPost }
-                          color={ color }
-                        />
-                      ) }
-                      <Flex alignItems="center" mt="8px" justifyContent="flex-end">
-                        <Button
-                          borderRadius="999px"
-                          border="transparent"
-                          bg="transparent"
-                          onClick={ () => setEdit(false) }
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          borderRadius="999px"
-                          padding="5px 10px"
-                          minW="90px"
-                          minH="27px"
-                          onClick={ () => handleOption({ id: 'saveEdit' }) }
-                          isLoading={ editLoading }
-                        >
-                          Save
-                        </Button>
-                      </Flex>
-                    </Box>
+                    <EditComment detail={ detail } setEdit={ setEdit } />
                   ) : detail?.removed ? (
                     <RemovedMessage subplebbit={ subplebbit } />
                   ) : detail?.deleted ? (
@@ -1589,8 +1464,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                 <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
                 { isReply ? <Replies loading={ loading } parent={ replyParent } reply={ reply } disableReplies={ detail?.locked } /> : null }
                 { showFullComments &&
-                  comments?.map((comment) => (
-                    <Comment loading={ commentLoading } comment={ comment } key={ comment.cid } parentCid={ detail?.cid } disableReplies={ detail?.locked } />
+                  comments?.map((comment, index) => (
+                    <Comment loading={ commentLoading } comment={ comment } key={ index || comment.cid } parentCid={ detail?.cid } disableReplies={ detail?.locked } />
                   )) }
               </Box>
             </Box>
@@ -1710,42 +1585,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                     </Box>
                   </Box>
                   { edit ? (
-                    <Box marginTop="8px" padding="10px">
-                      { editMode === 'post' ? (
-                        <Editor
-                          editorState={ postEditorState }
-                          setEditorState={ setPostEditorState }
-                          setValue={ setEditPost }
-                        />
-                      ) : (
-                        <Textarea
-                          placeholder="Url"
-                          onChange={ (e) => setEditPost(e.target.value) }
-                          value={ editPost }
-                          color={ color }
-                        />
-                      ) }
-                      <Flex alignItems="center" mt="8px" justifyContent="flex-end">
-                        <Button
-                          borderRadius="999px"
-                          border="transparent"
-                          bg="transparent"
-                          onClick={ () => setEdit(false) }
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          borderRadius="999px"
-                          padding="5px 10px"
-                          minW="90px"
-                          minH="27px"
-                          onClick={ () => handleOption({ id: 'saveEdit' }) }
-                          isLoading={ editLoading }
-                        >
-                          Save
-                        </Button>
-                      </Flex>
-                    </Box>
+                    <EditComment detail={ detail } setEdit={ setEdit } />
                   ) : (
                     <Flex flexDir="column">
                       <Post
