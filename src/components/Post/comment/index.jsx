@@ -6,9 +6,9 @@ import {
   useColorModeValue,
   IconButton,
   Icon,
-  useToast,
   Tag,
   Skeleton,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useAuthorAvatar, useAccountVote, useEditedComment, useAccountComment } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
@@ -20,22 +20,16 @@ import Marked from '../../Editor/marked';
 import dateToNow from '../../../utils/formatDate';
 import numFormatter from '../../../utils/numberFormater';
 import getUserName from '../../../utils/getUserName';
-import logger from '../../../utils/logger';
 import Avatar from '../../Avatar';
-import onError from '../../../utils/onError';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ProfileContext } from '../../../store/profileContext';
 import DropDown from '../../DropDown';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { GoGift } from 'react-icons/go';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
-import Swal from 'sweetalert2';
 import useRepliesAndAccountReplies from '../../../hooks/useRepliesAndAccountReplies';
 import usePublishUpvote from '../../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../../hooks/usePublishDownvote';
-import useCommentEdit from '../../../hooks/useCommentEdit';
-import onChallenge from '../../../utils/onChallenge';
-import onChallengeVerification from '../../../utils/onChallengeVerification';
 import EditLabel from '../../Label/editLabel';
 import PendingLabel from '../../Label/pendingLabel';
 import FlairLabel from '../../Label/flairLabel';
@@ -43,10 +37,11 @@ import Link from '../../Link';
 import useStateString from '../../../hooks/useStateString';
 import StateString from '../../Label/stateString';
 import usePublishComment from '../../../hooks/usePublishComment';
+import ConfirmDelete from '../Modal/confirmDelete';
+import AddRemovalReason from '../Modal/addRemovalReason';
 
 const Comment = ({ comment: data, disableReplies, singleComment, loading, type }) => {
   let comment = data
-
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
   const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
@@ -56,7 +51,6 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
   const voteMode = postVote?.vote || 0;
   const [reply, setShowReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
-  const toast = useToast();
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: comment?.author });
@@ -65,7 +59,16 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
   const commentPending = comment?.state === 'pending';
   const commentFailed = comment?.state === 'failed';
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(comment?.subplebbitAddress);
-
+  const {
+    onOpen: openDeleteModal,
+    onClose: closeDeleteModal,
+    isOpen: isDeleteModalOpen,
+  } = useDisclosure();
+  const {
+    onOpen: openRemovalModal,
+    onClose: closeRemovalModal,
+    isOpen: isRemovalModalOpen,
+  } = useDisclosure();
 
 
   const owner =
@@ -92,27 +95,11 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
   };
 
 
-
-
-  const commentEdit = useCommentEdit(comment)
-  const handleEditPost = async (val, callBack, failedCallBack) => {
-    await commentEdit(val, callBack, failedCallBack)
-  };
   const handleOption = (val) => {
     if (val?.id === 'delete') {
-      Swal.fire({
-        title: 'Do you want to delete this post?',
-        showCancelButton: true,
-        confirmButtonText: 'Delete',
-        cancelButtonColor: '#d33',
-        confirmButtonColor: 'grey',
-        icon: 'warning',
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          handleEditPost({ deleted: true });
-        }
-      });
+      openDeleteModal()
+    } else {
+      openRemovalModal()
     }
   };
 
@@ -357,7 +344,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
             </CopyToClipboard>
             <Flex justifyContent="center">
               <DropDown
-                onChange={ handleOption }
+                onChange={ () => { } }
                 dropDownTitle={
                   <Flex
                     borderRadius="2px"
@@ -409,7 +396,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
             { isSpecial && (
               <Flex justifyContent="center">
                 <DropDown
-                  onChange={ (val) => handleEditPost({ [val?.id]: comment[val?.id] ? false : true }) }
+                  onChange={ (val) => handleOption(val?.id) }
                   dropDownTitle={
                     <Flex
                       borderRadius="2px"
@@ -496,6 +483,27 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
           showReplies && repliesComponent
         }
       </Flex>
+
+      {
+        isDeleteModalOpen && <ConfirmDelete
+          isOpen={ isDeleteModalOpen }
+          onClose={ closeDeleteModal }
+          post={ comment }
+          title="Delete comment"
+          message="Are you sure you want to delete your comment?"
+          cancelText="Keep"
+
+        />
+      }
+
+      { isRemovalModalOpen && (
+        <AddRemovalReason
+          isOpen={ isRemovalModalOpen }
+          onClose={ closeRemovalModal }
+          post={ comment }
+          hideList={ ['pinned', 'reason'] }
+        />
+      ) }
     </Flex>
   );
 };

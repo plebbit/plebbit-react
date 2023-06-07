@@ -13,12 +13,10 @@ import { ProfileContext } from '../../store/profileContext';
 import getIsOnline from '../../utils/getIsOnline';
 import { useLocation } from 'react-router-dom';
 import AddRemovalReason from './Modal/addRemovalReason';
-import Swal from 'sweetalert2';
 import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
-import useCommentEdit from '../../hooks/useCommentEdit';
-import useStateString from '../../hooks/useStateString';
+import ConfirmDelete from './Modal/confirmDelete';
 
 const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSpecial, stateString }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -42,6 +40,11 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     onOpen: openRemovalModal,
     onClose: closeRemovalModal,
     isOpen: isRemovalModalOpen,
+  } = useDisclosure();
+  const {
+    onOpen: openDeleteModal,
+    onClose: closeDeleteModal,
+    isOpen: isDeleteModalOpen,
   } = useDisclosure();
 
 
@@ -69,11 +72,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     },
   };
 
-  const commentEdit = useCommentEdit(post)
-  const handleEditPost = async (val, callBack, failedCallBack) => {
-    await commentEdit(val, callBack, failedCallBack)
 
-  };
+
 
   const handleCopy = () => {
     setCopied(true);
@@ -84,19 +84,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
 
   const handleModOption = (val) => {
     if (val?.id === 'delete') {
-      Swal.fire({
-        title: 'Do you want to delete this post?',
-        showCancelButton: true,
-        confirmButtonText: 'Delete',
-        cancelButtonColor: '#d33',
-        confirmButtonColor: 'grey',
-        icon: 'warning',
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          handleEditPost({ deleted: true });
-        }
-      });
+      openDeleteModal()
     } else openRemovalModal();
 
   };
@@ -152,7 +140,6 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             pending={ pending }
             detailRoute={ detailRoute }
             allowedSpecial={ isSpecial || allowedSpecial }
-            handleEditPost={ handleEditPost }
             openRemovalModal={ openRemovalModal }
             owner={ owner }
             showSpoiler={ showSpoiler }
@@ -190,7 +177,6 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             pending={ pending }
             detailRoute={ detailRoute }
             allowedSpecial={ isSpecial || allowedSpecial }
-            handleEditPost={ handleEditPost }
             openRemovalModal={ openRemovalModal }
             owner={ owner }
             showSpoiler={ showSpoiler }
@@ -229,7 +215,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               detailRoute={ detailRoute }
               pending={ pending }
               allowedSpecial={ isSpecial || allowedSpecial }
-              handleEditPost={ handleEditPost }
+
               openRemovalModal={ openRemovalModal }
               owner={ owner }
               showSpoiler={ showSpoiler }
@@ -265,7 +251,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               pending={ pending }
               detailRoute={ detailRoute }
               allowedSpecial={ isSpecial || allowedSpecial }
-              handleEditPost={ handleEditPost }
+
               openRemovalModal={ openRemovalModal }
               owner={ owner }
               showSpoiler={ showSpoiler }
@@ -282,12 +268,18 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
       </Box>
       { isRemovalModalOpen && (
         <AddRemovalReason
-          handleRemove={ handleEditPost }
           isOpen={ isRemovalModalOpen }
           onClose={ closeRemovalModal }
           post={ post }
         />
       ) }
+      {
+        isDeleteModalOpen && <ConfirmDelete
+          isOpen={ isDeleteModalOpen }
+          onClose={ closeDeleteModal }
+          post={ post }
+        />
+      }
     </>
   );
 };

@@ -18,8 +18,9 @@ const onChallengeVerification = (challengeVerification, comment, onSuccess, onEr
             { reason: challengeVerification.reason, errors: challengeVerification.errors, comment },
             'error'
         );
-        toast.error(challengeVerification.challengeErrors
-            ? challengeVerification.challengeErrors.join(',')
+        console.log('error', challengeVerification)
+        toast.error(challengeVerification.reason ? challengeVerification.reason : challengeVerification.challengeErrors
+            ? (challengeVerification.challengeErrors.join(','))
             : 'Challenge Verification Failed', {
             position: 'bottom-center',
             autoClose: false,

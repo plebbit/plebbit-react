@@ -17,8 +17,9 @@ import {
   Flex,
   FormHelperText,
 } from '@chakra-ui/react';
+import useCommentEdit from '../../../hooks/useCommentEdit';
 
-const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
+const AddRemovalReason = ({ onClose, isOpen, post, hideList }) => {
   const border1 = useColorModeValue('#edeff1', '#343536');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const metaColor = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -29,6 +30,14 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
     spoiler: post?.spoiler,
     reason: post?.reason,
   });
+
+  const { commentEdit } = useCommentEdit((data), post);
+
+
+  const handleEditComment = async () => {
+    await commentEdit(() => onClose());
+  };
+
 
 
   return (
@@ -52,7 +61,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
           lineHeight="21px"
         >
           <FormControl>
-            <Flex flexFlow="row wrap" marginBottom="32px">
+            { !hideList?.includes('pinned') && <Flex flexFlow="row wrap" marginBottom="32px">
               <Flex flexDir="column" marginRight="8px" maxWidth="80%">
                 <Box>
                   <FormLabel
@@ -85,8 +94,8 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                   onChange={ () => setData({ ...data, pinned: !data?.pinned }) }
                 />
               </Flex>
-            </Flex>
-            <Flex flexFlow="row wrap" marginBottom="32px">
+            </Flex> }
+            { !hideList?.includes('removed') && <Flex flexFlow="row wrap" marginBottom="32px">
               <Flex flexDir="column" marginRight="8px" maxWidth="80%">
                 <Box>
                   <FormLabel
@@ -119,8 +128,8 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                   onChange={ () => setData({ ...data, removed: !data?.removed }) }
                 />
               </Flex>
-            </Flex>
-            <Flex flexFlow="row wrap" marginBottom="32px">
+            </Flex> }
+            { !hideList?.includes('locked') && <Flex flexFlow="row wrap" marginBottom="32px">
               <Flex flexDir="column" marginRight="8px" maxWidth="80%">
                 <Box>
                   <FormLabel
@@ -153,8 +162,8 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                   onChange={ () => setData({ ...data, locked: !data?.locked }) }
                 />
               </Flex>
-            </Flex>
-            <Flex flexFlow="row wrap" marginBottom="32px">
+            </Flex> }
+            { !hideList?.includes('spoiler') && <Flex flexFlow="row wrap" marginBottom="32px">
               <Flex flexDir="column" marginRight="8px" maxWidth="80%">
                 <Box>
                   <FormLabel
@@ -187,8 +196,8 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                   onChange={ () => setData({ ...data, spoiler: !data?.spoiler }) }
                 />
               </Flex>
-            </Flex>
-            <Box mb="16px">
+            </Flex> }
+            { !hideList?.includes('reason') && <Box mb="16px">
               <FormLabel
                 fontSize="18px"
                 fontWeight="500"
@@ -214,7 +223,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
                 Help people become better posters by giving a short reason why their post was
                 removed.
               </FormHelperText>
-            </Box>
+            </Box> }
           </FormControl>
         </ModalBody>
         <ModalFooter bg={ border1 }>
@@ -232,7 +241,7 @@ const AddRemovalReason = ({ onClose, isOpen, handleRemove, post }) => {
             h="32px"
             borderRadius="999px"
             colorScheme="blackAlpha"
-            onClick={ () => handleRemove(data, onClose()) }
+            onClick={ handleEditComment }
           >
             Save
           </Button>
