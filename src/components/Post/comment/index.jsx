@@ -196,11 +196,12 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
                 fontSize="10px"
                 lineHeight="20px"
                 margin="0 4px"
+                color={ iconColor }
               >
                 •
               </Box>
               <Box color={ iconColor } >
-                <i> { dateToNow(comment?.timestamp * 1000) }</i>
+                { dateToNow(comment?.timestamp * 1000) }
               </Box>
               { commentPending && <StateString stateString={ stateString } /> }
             </Flex>
