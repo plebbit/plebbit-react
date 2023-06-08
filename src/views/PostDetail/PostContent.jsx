@@ -398,25 +398,26 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                     <Skeleton isLoaded={ !loading }>
                       <Icon as={ CgNotes } mr="8px" color="#D7DADC" />
                     </Skeleton>
-                    <Skeleton isLoaded={ !loading }>
-                      <Text
-                        color="#D7DADC"
-                        fontSize="14px"
-                        fontWeight="500"
-                        lineHeight="18px"
-                        minWidth="0"
-                        ml="2px"
-                        paddingRight="5px"
-                        sx={ {
-                          '@media (max-width: 768px)': {
-                            display: 'none',
-                          },
-                        } }
-                        isTruncated
-                      >
-                        { detail?.title }
-                      </Text>
-                    </Skeleton>
+
+                    <Text
+                      color="#D7DADC"
+                      fontSize="14px"
+                      fontWeight="500"
+                      lineHeight="18px"
+                      minWidth="0"
+                      ml="2px"
+                      paddingRight="5px"
+                      sx={ {
+                        '@media (max-width: 768px)': {
+                          display: 'none',
+                        },
+                      } }
+                      isTruncated
+                      as={ loading && Skeleton }
+                    >
+                      { detail?.title }
+                    </Text>
+
                   </Flex>
                   <Flex
                     alignItems="center"
@@ -536,25 +537,26 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                     <Skeleton isLoaded={ !loading }>
                       <Icon as={ CgNotes } mr="8px" color="#D7DADC" />
                     </Skeleton>
-                    <Skeleton isLoaded={ !loading }>
-                      <Text
-                        color="#D7DADC"
-                        fontSize="14px"
-                        fontWeight="500"
-                        lineHeight="18px"
-                        minWidth="0"
-                        ml="2px"
-                        paddingRight="5px"
-                        sx={ {
-                          '@media (max-width: 768px)': {
-                            display: 'none',
-                          },
-                        } }
-                        isTruncated
-                      >
-                        { detail?.title }
-                      </Text>
-                    </Skeleton>
+
+                    <Text
+                      color="#D7DADC"
+                      fontSize="14px"
+                      fontWeight="500"
+                      lineHeight="18px"
+                      minWidth="0"
+                      ml="2px"
+                      paddingRight="5px"
+                      sx={ {
+                        '@media (max-width: 768px)': {
+                          display: 'none',
+                        },
+                      } }
+                      isTruncated
+                      as={ loading && Skeleton }
+                    >
+                      { detail?.title }
+                    </Text>
+
                   </Flex>
                   <Flex
                     alignItems="center"
