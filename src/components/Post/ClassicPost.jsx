@@ -47,7 +47,6 @@ import truncateString from '../../utils/truncateString';
 import Image from "../Image"
 import Link from "../Link"
 import PostMedia from './PostMedia';
-import Label from '../Label'
 import EditLabel from "../Label/editLabel";
 import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
@@ -290,12 +289,9 @@ const ClassicPost = ({
                   as={ Link }
                   to={ detailRoute }
                 >
-                  <Skeleton display="flex" flexWrap="wrap" isLoaded={ !loading } w={ loading && '50%' } height='20px' mb='4px'>
+                  <Flex flexWrap="wrap" as={ loading && Skeleton } w={ loading && '50%' } height={ loading && '20px' } mb='4px'>
                     { ' ' }
-                    {/* flair */ }
-                    { type === 'subPlebbit' && post?.flair?.text && (
-                      <FlairLabel flair={ post?.flair } />
-                    ) }
+
                     <Text
                       display="inline"
                       color={ inactiveSubTitle }
@@ -307,6 +303,10 @@ const ClassicPost = ({
                       wordBreak="break-word"
                       mb="4px"
                     >
+                      {/* flair */ }
+                      { type === 'subPlebbit' && post?.flair?.text && (
+                        <FlairLabel flair={ post?.flair } />
+                      ) }
                       { post?.title }
                       { hasThumbnail && (
                         <Link
@@ -329,22 +329,22 @@ const ClassicPost = ({
                           />
                         </Link>
                       ) }
-                    </Text>
-                    { type !== 'subPlebbit' && post?.flair?.text ? (
-                      <FlairLabel flair={ post?.flair } />
-                    ) : (
-                      ''
-                    ) }
-                    { post?.spoiler && (
-                      <SpoilerLabel />
-                    ) }
-                    { pending && (
-                      <PendingLabel />
-                    ) }
+                      { type !== 'subPlebbit' && post?.flair?.text ? (
+                        <FlairLabel flair={ post?.flair } />
+                      ) : (
+                        ''
+                      ) }
+                      { post?.spoiler && (
+                        <SpoilerLabel />
+                      ) }
+                      { pending && (
+                        <PendingLabel />
+                      ) }
 
-                    {/* edit status */ }
-                    <EditLabel editLabel={ editLabel } post={ post } />
-                  </Skeleton>
+                      {/* edit status */ }
+                      <EditLabel editLabel={ editLabel } post={ post } />
+                    </Text>
+                  </Flex>
                   { loading && <StateString stateString={ stateString } /> }
                 </Flex>
                 {/* Post head */ }
@@ -1225,7 +1225,7 @@ const ClassicPost = ({
                               color: removeColor,
                             },
                             {
-                              label: 'Block Author',
+                              label: 'Hide',
                               icon: BsEyeSlash,
                               id: 'block',
                               disabled: owner,

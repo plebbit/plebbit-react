@@ -1,7 +1,7 @@
 import { Text, useColorModeValue } from '@chakra-ui/react'
 import React from 'react'
 
-const StateString = ({ stateString }) => {
+const StateString = ({ stateString, textSx }) => {
     const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
 
     return (
@@ -25,6 +25,7 @@ const StateString = ({ stateString }) => {
                     fontSize="12px"
                     lineHeight="16px"
                     className='loading-ellipsis'
+                    sx={ textSx }
                 >
                     { stateString }
                 </Text>

@@ -172,39 +172,38 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
 
       <Flex flexDir="column" flexGrow={ 1 }>
         <Flex flexDir="column" mb="6px">
-          <Skeleton mr="4px" height={ loading && '20px' } width={ loading && "50%" } isLoaded={ !loading }>
-            <Flex alignItems="center" fontWeight="400" fontSize="12px">
-              <Box maxW="50%" mr="5px">
-                <Box isTruncated as={ Link } to={ authorPath }>{ getUserName(comment?.author) } </Box>
-              </Box>
+          <Flex mr="4px" height={ loading && '20px' } width={ loading && "50%" } as={ loading && Skeleton } fontWeight="400" fontSize="12px">
+            <Box mr='5px' isTruncated as={ Link } to={ authorPath }>{ getUserName(comment?.author) } </Box>
+            { commentPending && (
+              <PendingLabel />
+            ) }
+            { commentFailed && (
+              <Tag size="sm" colorScheme="red" variant="outline">
+                Failed
+              </Tag>
+            ) }
+            {/* edit status */ }
+            <EditLabel editLabel={ editLabel } post={ comment } />
 
-              { commentPending && (
-                <PendingLabel />
-              ) }
-              { commentFailed && (
-                <Tag size="sm" colorScheme="red" variant="outline">
-                  Failed
-                </Tag>
-              ) }
-              {/* edit status */ }
-              <EditLabel editLabel={ editLabel } post={ comment } />
+            <Box
+              as="span"
+              verticalAlign="middle"
+              fontSize="6px"
+              lineHeight="20px"
+              margin="0 4px"
+              color={ iconColor }
+            >
+              •
+            </Box>
+            <Box color={ iconColor } >
+              { dateToNow(comment?.timestamp * 1000) }
+            </Box>
+            { commentPending && <StateString stateString={ stateString } textSx={ {
+              fontWeight: "400 !important",
+              fontSize: "12px !important",
+            } } /> }
+          </Flex>
 
-              <Box
-                as="span"
-                verticalAlign="middle"
-                fontWeight="800"
-                fontSize="10px"
-                lineHeight="20px"
-                margin="0 4px"
-              >
-                •
-              </Box>
-              <Box color={ iconColor } >
-                <i> { dateToNow(comment?.timestamp * 1000) }</i>
-              </Box>
-              { commentPending && <StateString stateString={ stateString } /> }
-            </Flex>
-          </Skeleton>
           { comment?.flair?.text && (
             <FlairLabel flair={ comment?.flair } />
           ) }

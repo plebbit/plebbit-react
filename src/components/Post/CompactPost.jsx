@@ -702,7 +702,7 @@ const CompactPost = ({
                     }
                     options={ [
                       {
-                        label: 'Block Author',
+                        label: 'Hide',
                         icon: BsEyeSlash,
                         id: 'block',
                         disabled: owner,
@@ -777,7 +777,7 @@ const CompactPost = ({
                     }
                     options={ [
                       {
-                        label: 'Block Author',
+                        label: 'Hide',
                         icon: BsEyeSlash,
                         id: 'block',
                         disabled: owner,

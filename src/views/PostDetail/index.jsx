@@ -30,59 +30,60 @@ const PostDetail = () => {
         >
             <Box maxWidth="100%" >
 
-                { device !== 'mobile' ? <Box>
-                    <Box
-                        top="48px"
-                        backgroundColor="rgba(28,28,28,.9)"
-                        zIndex="50"
-                        bottom="0"
-                        height="100%"
-                        left="0"
-                        position="fixed"
-                        right="0"
-                        width="100%"
-                        _after={ {
-                            background: detBg,
-                            bottom: '0',
-                            height: '100%',
-                            content: `" "`,
-                            left: '0',
-                            margin: '0 auto',
-                            maxWidth: '1280px',
-                            position: 'fixed',
-                            right: '0',
-                            width: 'calc(100% - 160px)',
-                            top: '0',
-                        } }
-                    >
+                { device !== 'mobile' ?
+                    <Box>
                         <Box
                             top="48px"
+                            backgroundColor="rgba(28,28,28,.9)"
+                            zIndex="50"
                             bottom="0"
                             height="100%"
                             left="0"
                             position="fixed"
                             right="0"
                             width="100%"
-                            zIndex="50"
-                            sx={ {
-                                backfaceVisibility: 'hidden',
+                            _after={ {
+                                background: detBg,
+                                bottom: '0',
+                                height: '100%',
+                                content: `" "`,
+                                left: '0',
+                                margin: '0 auto',
+                                maxWidth: '1280px',
+                                position: 'fixed',
+                                right: '0',
+                                width: 'calc(100% - 160px)',
+                                top: '0',
                             } }
                         >
                             <Box
+                                top="48px"
+                                bottom="0"
                                 height="100%"
-                                overflowY="auto"
-                                position="relative"
+                                left="0"
+                                position="fixed"
+                                right="0"
                                 width="100%"
-                                willChange="transform"
+                                zIndex="50"
                                 sx={ {
-                                    contain: 'layout style size',
+                                    backfaceVisibility: 'hidden',
                                 } }
                             >
-                                <PostContent setDetail={ setDetail } setSubplebbit={ setSubplebbit } />
+                                <Box
+                                    height="100%"
+                                    overflowY="auto"
+                                    position="relative"
+                                    width="100%"
+                                    willChange="transform"
+                                    sx={ {
+                                        contain: 'layout style size',
+                                    } }
+                                >
+                                    <PostContent setDetail={ setDetail } setSubplebbit={ setSubplebbit } />
+                                </Box>
                             </Box>
                         </Box>
-                    </Box>
-                </Box> : <PostContent setDetail={ setDetail } setSubplebbit={ setSubplebbit } /> }
+                    </Box> : <PostContent setDetail={ setDetail } setSubplebbit={ setSubplebbit } /> }
 
             </Box>
         </Layout>

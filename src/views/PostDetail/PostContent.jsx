@@ -398,25 +398,26 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                     <Skeleton isLoaded={ !loading }>
                       <Icon as={ CgNotes } mr="8px" color="#D7DADC" />
                     </Skeleton>
-                    <Skeleton isLoaded={ !loading }>
-                      <Text
-                        color="#D7DADC"
-                        fontSize="14px"
-                        fontWeight="500"
-                        lineHeight="18px"
-                        minWidth="0"
-                        ml="2px"
-                        paddingRight="5px"
-                        sx={ {
-                          '@media (max-width: 768px)': {
-                            display: 'none',
-                          },
-                        } }
-                        isTruncated
-                      >
-                        { detail?.title }
-                      </Text>
-                    </Skeleton>
+
+                    <Text
+                      color="#D7DADC"
+                      fontSize="14px"
+                      fontWeight="500"
+                      lineHeight="18px"
+                      minWidth="0"
+                      ml="2px"
+                      paddingRight="5px"
+                      sx={ {
+                        '@media (max-width: 768px)': {
+                          display: 'none',
+                        },
+                      } }
+                      isTruncated
+                      as={ loading && Skeleton }
+                    >
+                      { detail?.title }
+                    </Text>
+
                   </Flex>
                   <Flex
                     alignItems="center"
@@ -536,25 +537,26 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                     <Skeleton isLoaded={ !loading }>
                       <Icon as={ CgNotes } mr="8px" color="#D7DADC" />
                     </Skeleton>
-                    <Skeleton isLoaded={ !loading }>
-                      <Text
-                        color="#D7DADC"
-                        fontSize="14px"
-                        fontWeight="500"
-                        lineHeight="18px"
-                        minWidth="0"
-                        ml="2px"
-                        paddingRight="5px"
-                        sx={ {
-                          '@media (max-width: 768px)': {
-                            display: 'none',
-                          },
-                        } }
-                        isTruncated
-                      >
-                        { detail?.title }
-                      </Text>
-                    </Skeleton>
+
+                    <Text
+                      color="#D7DADC"
+                      fontSize="14px"
+                      fontWeight="500"
+                      lineHeight="18px"
+                      minWidth="0"
+                      ml="2px"
+                      paddingRight="5px"
+                      sx={ {
+                        '@media (max-width: 768px)': {
+                          display: 'none',
+                        },
+                      } }
+                      isTruncated
+                      as={ loading && Skeleton }
+                    >
+                      { detail?.title }
+                    </Text>
+
                   </Flex>
                   <Flex
                     alignItems="center"
@@ -1254,7 +1256,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                               } }
                             >
                               <Icon as={ BsEyeSlash } height={ 5 } width={ 5 } mr="5px" />
-                              <Box>Block Author</Box>
+                              <Box>Hide</Box>
                             </Link>
                           </>
                         ) }
@@ -1451,7 +1453,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                               } }
                             >
                               <Icon as={ BsEyeSlash } height={ 5 } width={ 5 } mr="5px" />
-                              <Box>Block Author</Box>
+                              <Box>Hide</Box>
                             </Link>
                           </>
                         ) }
@@ -1494,8 +1496,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
         </>
       ) : (
-        <Box>
-          <Box>
+        <Box >
+          <Box >
             <Box position="relative" bg={ mainMobileBg }>
               <Box position="relative">
                 <Box paddingTop="0">
@@ -1602,7 +1604,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
               </Box>
             </Box>
           </Box>
-          <Box minH="calc(100vh - 48px)">
+          <Box width='100%' minH="calc(100vh - 48px)">
             <Box padding="8px 16px 4px">
               <Box
                 _before={ {

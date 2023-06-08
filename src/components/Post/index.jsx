@@ -3,6 +3,7 @@ import { Box, useDisclosure } from '@chakra-ui/react';
 import {
   useAccountVote,
   useAuthorAvatar,
+  useBlock,
   useEditedComment,
   useSubplebbit,
 } from '@plebbit/plebbit-react-hooks';
@@ -36,6 +37,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     profile?.author?.address === post?.author?.address ||
     profile?.signer?.address === post?.author?.address;
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(post?.subplebbitAddress);
+  const { blocked, unblock, block } = useBlock({ address: post?.cid })
   const {
     onOpen: openRemovalModal,
     onClose: closeRemovalModal,
@@ -85,6 +87,9 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   const handleModOption = (val) => {
     if (val?.id === 'delete') {
       openDeleteModal()
+    }
+    if (val?.id === 'block') {
+      blocked ? block() : unBlock()
     } else openRemovalModal();
 
   };

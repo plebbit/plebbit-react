@@ -487,27 +487,30 @@ const CardPost = ({
                         paddingRight="5px"
                         textDecor="none"
                         wordBreak="break-word"
+                        verticalAlign='middle'
                       >
                         { post?.title }
+                        { ` ` }
+                        { type !== "subPlebbit" && post?.flair?.text ? (
+                          <FlairLabel flair={ post?.flair } />
+
+                        ) : (
+                          ""
+                        ) }
+                        { post?.spoiler && (
+
+                          <SpoilerLabel />
+                        ) }
+
+                        { pending && (
+                          <Skeleton isLoaded={ !loading }>
+                            <PendingLabel />
+                          </Skeleton>
+                        ) }
+                        {/* edit status */ }
+                        <EditLabel editLabel={ editLabel } post={ post } />
                       </Text>
-                      { type !== "subPlebbit" && post?.flair?.text ? (
-                        <FlairLabel flair={ post?.flair } />
 
-                      ) : (
-                        ""
-                      ) }
-                      { post?.spoiler && (
-
-                        <SpoilerLabel />
-                      ) }
-
-                      { pending && (
-                        <Skeleton isLoaded={ !loading }>
-                          <PendingLabel />
-                        </Skeleton>
-                      ) }
-                      {/* edit status */ }
-                      <EditLabel editLabel={ editLabel } post={ post } />
 
                     </Flex>
 
@@ -858,7 +861,7 @@ const CardPost = ({
                         }
                         options={ [
                           {
-                            label: "Block author",
+                            label: "Hide",
                             icon: BsEyeSlash,
                             id: "block",
                             disabled: owner,
@@ -1049,7 +1052,7 @@ const CardPost = ({
                         }
                         options={ [
                           {
-                            label: "Block author",
+                            label: "Hide",
                             icon: BsEyeSlash,
                             id: "block",
                             disabled: owner,
@@ -1218,7 +1221,7 @@ const CardPost = ({
                               color: removeColor,
                             },
                             {
-                              label: "Block Author",
+                              label: "Hide",
                               icon: BsEyeSlash,
                               id: "block",
                               disabled: owner,
