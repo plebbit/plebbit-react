@@ -1496,8 +1496,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
         </>
       ) : (
-        <Box>
-          <Box>
+        <Box >
+          <Box >
             <Box position="relative" bg={ mainMobileBg }>
               <Box position="relative">
                 <Box paddingTop="0">
@@ -1604,7 +1604,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
               </Box>
             </Box>
           </Box>
-          <Box minH="calc(100vh - 48px)">
+          <Box width='100%' minH="calc(100vh - 48px)">
             <Box padding="8px 16px 4px">
               <Box
                 _before={ {
