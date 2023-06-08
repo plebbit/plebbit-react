@@ -8,26 +8,33 @@ const useStateString = (commentOrSubplebbit) => {
         const clients = commentOrSubplebbit?.clients
 
         const states = {}
-        for (const clientType in clients) {
-            for (const clientUrl in clients[clientType]) {
-                const state = clients[clientType][clientUrl].state
-                if (state === 'stopped') {
-                    continue
-                }
-                if (!states[state]) {
-                    states[state] = []
-                }
-                states[state].push(clientUrl)
+        const addState = (state, clientUrl) => {
+            if (!state || state === 'stopped') {
+                return
+            }
+            if (!states[state]) {
+                states[state] = []
+            }
+            states[state].push(clientUrl)
+        }
+        for (const clientUrl in clients?.ipfsGateways) {
+            addState(clients.ipfsGateways[clientUrl]?.state, clientUrl)
+        }
+        for (const clientUrl in clients?.ipfsClients) {
+            addState(clients.ipfsClients[clientUrl]?.state, clientUrl)
+        }
+        for (const chainTicker in clients?.chainProviders) {
+            for (const clientUrl in clients.chainProviders[chainTicker]) {
+                addState(clients.chainProviders[chainTicker][clientUrl]?.state, clientUrl)
             }
         }
 
         const getClientHost = (clientUrl) => {
             try {
-                return new URL(clientUrl).hostname || clientUrl
+                clientUrl = new URL(clientUrl).hostname || clientUrl
             }
-            catch (e) {
-                return clientUrl
-            }
+            catch (e) {}
+            return clientUrl
         }
 
         let stateString = ''
