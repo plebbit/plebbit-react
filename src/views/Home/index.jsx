@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
 import { ProfileContext } from '../../store/profileContext';
 import SideBar from './sideBar';
 import { useFeed, useSubplebbits } from '@plebbit/plebbit-react-hooks';
@@ -32,6 +32,7 @@ const Home = () => {
   const stateString = useFeedStateString(subplebbits)
 
   const feeds = feed;
+
 
 
   return (

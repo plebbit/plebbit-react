@@ -1254,7 +1254,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                               } }
                             >
                               <Icon as={ BsEyeSlash } height={ 5 } width={ 5 } mr="5px" />
-                              <Box>Block Author</Box>
+                              <Box>Hide</Box>
                             </Link>
                           </>
                         ) }
@@ -1451,7 +1451,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                               } }
                             >
                               <Icon as={ BsEyeSlash } height={ 5 } width={ 5 } mr="5px" />
-                              <Box>Block Author</Box>
+                              <Box>Hide</Box>
                             </Link>
                           </>
                         ) }
