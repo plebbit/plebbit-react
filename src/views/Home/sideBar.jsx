@@ -132,15 +132,18 @@ const SideBar = ({
                     display="flex"
                     alignItems="center"
                     justifyContent="flex-end"
+                    mr='8px'
                   >
                     { index + 1 }
                   </Box>
                   <Avatar
                     width={ 20 }
                     height={ 20 }
-                    mx="8px"
+                    mr="8px"
+
                     badge
                     isOnline={ getIsOnline(sub?.updatedAt) }
+
                   />
                   <Box alignSelf="center" fontSize="14px" fontWeight="500" lineHeight="18px">
                     { getSubName(sub) }
