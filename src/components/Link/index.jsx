@@ -4,7 +4,7 @@ import { Link as ReactLink } from 'react-router-dom';
 
 
 const Link = (props) => {
-    const { children, isExternal } = props
+    const { children, isExternal, to, isDisabled } = props
     return (
         <Lk
             as={ !isExternal && ReactLink }
@@ -13,6 +13,7 @@ const Link = (props) => {
             _hover={ {
                 textDecoration: "none"
             } }
+            to={ isDisabled ? '' : to }
         >
             { children }
         </Lk>

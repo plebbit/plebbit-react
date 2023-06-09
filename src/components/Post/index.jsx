@@ -58,7 +58,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   const downVote = usePublishDownvote(post)
 
 
-  const detailPath = !pending
+  const detailPath = loading ? '' : !pending
     ? `/p/${post?.subplebbitAddress}/c/${post?.cid}`
     : `/profile/c/${post?.index}`;
 

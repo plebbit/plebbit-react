@@ -834,35 +834,34 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                   </Flex>
                   {/* post Title */ }
 
-                  <Skeleton isLoaded={ !loading }>
-                    <Flex margin="0 8px" display="flex" alignItems="center">
-                      <Text
-                        color={ titleColor }
-                        fontSize="18px"
-                        fontWeight="500"
-                        lineHeight="22px"
-                        paddingRight="5px"
-                        wordBreak="break-word"
-                      >
-                        { detail?.title }{ ' ' }
-                        { detail?.flair?.text ? (
-                          <FlairLabel flair={ detail?.flair } />
 
-                        ) : null }
-                        { detail?.spoiler && (
-                          <SpoilerLabel />
-                        ) }
-                        { detailPending && (
-                          <Skeleton isLoaded={ !loading } my="4px">
-                            <PendingLabel />
-                          </Skeleton>
-                        ) }
-                        {/* edit status */ }
-                        <EditLabel editLabel={ editLabel } post={ detail } />
-                      </Text>
+                  <Flex as={ loading && Skeleton } margin="0 8px" display="flex" alignItems="center">
+                    <Text
+                      color={ titleColor }
+                      fontSize="18px"
+                      fontWeight="500"
+                      lineHeight="22px"
+                      paddingRight="5px"
+                      wordBreak="break-word"
+                    >
+                      { detail?.title }{ ' ' }
+                      { detail?.flair?.text ? (
+                        <FlairLabel flair={ detail?.flair } />
 
-                    </Flex>
-                  </Skeleton>
+                      ) : null }
+                      { detail?.spoiler && (
+                        <SpoilerLabel />
+                      ) }
+                      { detailPending && (
+                        <PendingLabel />
+
+                      ) }
+                      {/* edit status */ }
+                      <EditLabel editLabel={ editLabel } post={ detail } />
+                    </Text>
+
+                  </Flex>
+
                   {/* post Body */ }
                   { edit ? (
                     <EditComment detail={ detail } setEdit={ setEdit } />

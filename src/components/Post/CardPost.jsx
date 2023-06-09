@@ -243,6 +243,7 @@ const CardPost = ({
                 textDecoration: "none !important",
               } }
               to={ detailRoute }
+
             >
               <Flex paddingBottom="8px">
                 <Flex
