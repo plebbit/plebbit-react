@@ -2,13 +2,26 @@ import { useMemo } from "react"
 
 const useFeedStateString = (subplebbits) => {
     return useMemo(() => {
+        const getClientHost = (clientUrl) => {
+            try {
+                clientUrl = new URL(clientUrl).hostname || clientUrl
+            }
+            catch (e) {}
+            return clientUrl
+        }
         const getClientUrls = (regex) => {
             const clientUrls = new Set()
-            for (const clientType in subplebbits.clients) {
-                for (const clientUrl in subplebbits.clients[clientType]) {
-                    const client = subplebbits.clients[clientType][clientUrl]
-                    if (client.state.match(regex)) {
-                        clientUrls.add(clientUrl)
+            const addClientUrl = (client, clientUrl) => client?.state?.match?.(regex) && clientUrls.add(getClientHost(clientUrl))
+            for (const subplebbit of subplebbits) {
+                for (const clientUrl in subplebbit?.clients?.ipfsGateways) {
+                    addClientUrl(subplebbit.clients.ipfsGateways[clientUrl], clientUrl)
+                }
+                for (const clientUrl in subplebbit?.clients?.ipfsClients) {
+                    addClientUrl(subplebbit.clients.ipfsClients[clientUrl], clientUrl)
+                }
+                for (const chainTicker in subplebbit?.clients?.chainProviders) {
+                    for (const clientUrl in subplebbit.clients.chainProviders[chainTicker]) {
+                        addClientUrl(subplebbit.clients.chainProviders[chainTicker][clientUrl], clientUrl)
                     }
                 }
             }
