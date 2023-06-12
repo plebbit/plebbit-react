@@ -845,23 +845,25 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                       wordBreak="break-word"
                     >
                       { detail?.title }{ ' ' }
-                      { detail?.flair?.text ? (
-                        <FlairLabel flair={ detail?.flair } />
 
-                      ) : null }
-                      { detail?.spoiler && (
-                        <SpoilerLabel />
-                      ) }
-                      { detailPending && (
-                        <PendingLabel />
-
-                      ) }
-                      {/* edit status */ }
-                      <EditLabel editLabel={ editLabel } post={ detail } />
                     </Text>
 
                   </Flex>
+                  <Flex as={ loading && Skeleton } margin="2px 8px" display="flex" alignItems="center">
+                    { detail?.flair?.text ? (
+                      <FlairLabel flair={ detail?.flair } />
 
+                    ) : null }
+                    { detail?.spoiler && (
+                      <SpoilerLabel />
+                    ) }
+                    { detailPending && (
+                      <PendingLabel />
+
+                    ) }
+                    {/* edit status */ }
+                    <EditLabel editLabel={ editLabel } post={ detail } />
+                  </Flex>
                   {/* post Body */ }
                   { edit ? (
                     <EditComment detail={ detail } setEdit={ setEdit } />
