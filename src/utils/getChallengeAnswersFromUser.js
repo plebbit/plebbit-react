@@ -2,6 +2,7 @@ import Swal from 'sweetalert2';
 import logger from './logger';
 
 const getChallengeAnswersFromUser = async (challenges) => {
+  console.log({ challenges })
   const { value } = await Swal.fire({
     background: '#eff4f7',
     input: 'text',

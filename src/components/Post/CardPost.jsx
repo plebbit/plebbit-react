@@ -1312,7 +1312,7 @@ const CardPost = ({
 
                         ) : (
 
-                          <Box pt="10%" >
+                          <Box >
                             {
                               hasThumbnail &&
                               <Box
@@ -1522,31 +1522,23 @@ const CardPost = ({
                   {/* award button */ }
                   <Flex
                     color={ mobileIconColor }
+                    fill={ mobileIconColor }
                     border={ `1px solid ${border2}` }
                     alignItems="center"
+                    borderRadius="16px"
+                    flexShrink="0"
                     fontWeight="500"
                     height="32px"
                     justifyContent="center"
                     minW="32px"
-                    width="auto"
-                    fontSize="12px"
-                    flexShrink="1"
                     marginRight="10px"
-                    overflowX="scroll"
-                    padding="0"
-                    borderRadius="16px"
+                    padding="2px 8px 0"
+                    maxW="100px"
                     pointerEvents="all"
                   >
-                    <Flex
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      whiteSpace="nowrap"
-                      alignItems="center"
-                      justifyContent="center"
-                      padding="1px 7px"
-                    >
-                      <Icon as={ GoGift } height="16px" width="16px" />
-                    </Flex>
+
+                    <Icon as={ GoGift } height="16px" width="16px" />
+
                   </Flex>
                   {/* comment button */ }
                   <Link to={ detailRoute }>
@@ -1733,33 +1725,27 @@ const CardPost = ({
                       />
                     </Flex>
                   </Flex>
+
                   {/* award button */ }
                   <Flex
                     color={ mobileIconColor }
+                    fill={ mobileIconColor }
                     border={ `1px solid ${border2}` }
                     alignItems="center"
+                    borderRadius="16px"
+                    flexShrink="0"
                     fontWeight="500"
                     height="32px"
                     justifyContent="center"
                     minW="32px"
-                    width="auto"
-                    fontSize="12px"
-                    flexShrink="1"
                     marginRight="10px"
-                    overflowX="scroll"
-                    padding="0"
-                    borderRadius="16px"
+                    padding="2px 8px 0"
+                    maxW="100px"
+                    pointerEvents="all"
                   >
-                    <Flex
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      whiteSpace="nowrap"
-                      alignItems="center"
-                      justifyContent="center"
-                      padding="1px 7px"
-                    >
-                      <Icon as={ GoGift } height="16px" width="16px" />
-                    </Flex>
+
+                    <Icon as={ GoGift } height="16px" width="16px" />
+
                   </Flex>
                   {/* comment button */ }
                   <Link to={ detailRoute }>
