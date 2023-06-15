@@ -816,20 +816,18 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         {/* <PdMenu /> */ }
                       </Flex>
                     </Skeleton>
-                    <Flex ml="auto">
-                      <Skeleton isLoaded={ !loading }>
-                        <Icon
-                          sx={ {
-                            '@media (min-width: 1280px)': {},
-                            '@media (max-width: 1120px)': {
-                              display: 'none',
-                            },
-                          } }
-                          as={ FiBell }
-                          height="16px"
-                          width="16px"
-                        />
-                      </Skeleton>
+                    <Flex as={ loading && Skeleton } ml="auto">
+                      <Icon
+                        sx={ {
+                          '@media (min-width: 1280px)': {},
+                          '@media (max-width: 1120px)': {
+                            display: 'none',
+                          },
+                        } }
+                        as={ FiBell }
+                        height="16px"
+                        width="16px"
+                      />
                     </Flex>
                   </Flex>
                   {/* post Title */ }
@@ -1037,7 +1035,10 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           } }
                         >
                           <Icon as={ BsChatSquare } height={ 5 } width={ 5 } mr="5px" />
-                          <Box as={ loading && Skeleton }>{ detailCommentCount }</Box>
+                          <Box as={ loading && Skeleton }>
+                            { detailCommentCount } Comment
+                            { detailCommentCount === 1 ? '' : 's' }
+                          </Box>
                         </Link>
                         <Flex
                           alignItems="center"
@@ -1297,7 +1298,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           } }
                         >
                           <Icon as={ BsChat } height={ 5 } width={ 5 } mr="5px" />
-                          <Box>
+                          <Box as={ loading && Skeleton }>
                             { detailCommentCount } Comment
                             { detailCommentCount === 1 ? '' : 's' }
                           </Box>
