@@ -118,6 +118,16 @@ const CardPost = ({
   const subPlebbit = sub || { address: post?.subplebbitAddress };
 
   const { device } = useContext(ProfileContext);
+  const getLink = (link) => {
+    let val
+
+    try {
+      val = link?.startsWith('https://') ? link?.replace(/(^\w+:|^)\/\//, '') : link
+      return val
+    } catch (error) {
+
+    }
+  }
   return (
     <>
       { device !== "mobile" ? (
@@ -1277,7 +1287,7 @@ const CardPost = ({
 
             <>
               { detail && !post?.removed ?
-                <Skeleton isLoaded={ !loading }>
+                <Box as={ loading && Skeleton }>
                   {
                     (showSpoiler ? (
                       <Flex alignItems="center" mt='8px' justifyContent="center">
@@ -1339,7 +1349,7 @@ const CardPost = ({
 
                                 </Box>
 
-                                <Link href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ post?.link?.substring(0, 20) + "..." }</Link>
+                                <Box isTruncated href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ getLink(post?.link) }</Box>
 
                               </Box>
                             }
@@ -1350,45 +1360,44 @@ const CardPost = ({
                       </Box>
                     ))
                   }
-                </Skeleton> :
-                <Skeleton isLoaded={ !loading } mx={ loading && '16px' }>
-                  <Box pt={ hasThumbnail && "10%" } mt={ hasThumbnail && '8px' }>
-                    {
-                      hasThumbnail &&
+                </Box> :
+                <Box as={ loading && Skeleton } mx={ loading && '16px' } pt={ hasThumbnail && "10%" } mt={ hasThumbnail && '8px' }>
+                  {
+                    hasThumbnail &&
 
-                      <Box
-                        maxH="318px"
-                        margin="0 auto"
-                        maxW="100%"
-                        pos="relative"
-
-
-                      >
-                        <Box height="100%" width="100%">
-                          <Image
-                            maxH="318px"
-                            objectFit="cover"
-                            width="100%"
-                            bg={ postBg }
-                            src={ post?.thumbnailUrl }
-                            onError={ (event) =>
-                              (event.target.style.display = "none")
-                            }
+                    <Box
+                      maxH="318px"
+                      margin="0 auto"
+                      maxW="100%"
+                      pos="relative"
 
 
+                    >
+                      <Box height="100%" width="100%">
+                        <Image
+                          maxH="318px"
+                          objectFit="cover"
+                          width="100%"
+                          bg={ postBg }
+                          src={ post?.thumbnailUrl }
+                          onError={ (event) =>
+                            (event.target.style.display = "none")
+                          }
 
-                          />
 
-                        </Box>
 
-                        <Link href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ post?.link?.substring(0, 20) + "..." }</Link>
+                        />
 
                       </Box>
 
-                    }
-                    <PostMedia post={ post } />
-                  </Box>
-                </Skeleton>
+                      <Box as={ Link } isTruncated href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ getLink(post?.link) }</Box>
+
+                    </Box>
+
+                  }
+                  <PostMedia post={ post } />
+                </Box>
+
               }
             </>
 
