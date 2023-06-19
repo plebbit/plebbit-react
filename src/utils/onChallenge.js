@@ -1,23 +1,70 @@
-
-import getChallengeAnswersFromUser from "./getChallengeAnswersFromUser";
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+import GetChallengeAnswersFromUser from "./getChallengeAnswersFromUser";
 import logger from "./logger";
-import { toast } from 'react-toastify';
+import { ChakraProvider } from "@chakra-ui/react";
+import theme from "../assets/style/theme";
+
+const ModalContainer = ({ challenges, comment, onComplete }) => {
+    const [isMounted, setIsMounted] = useState(true);
+
+    const handleCloseModal = () => {
+        setIsMounted(false);
+    };
+
+    return (
+        <>
+            { isMounted && (
+                <ChakraProvider theme={ theme }>
+                    <GetChallengeAnswersFromUser
+                        challenges={ challenges }
+                        comment={ comment }
+                        onComplete={ (answers) => {
+                            handleCloseModal();
+                            onComplete(answers);
+                        } }
+                    />
+                </ChakraProvider>
+            ) }
+        </>
+    );
+};
 
 const onChallenge = async (challenges, comment) => {
-    let challengeAnswers = [];
-
+    console.log("here", comment);
     try {
-        // ask the user to complete the challenges in a modal window
-        challengeAnswers = await getChallengeAnswersFromUser(challenges);
-    } catch (error) {
-        // if  he declines, throw error and don't get a challenge answer
-        logger('decline challenge', error, 'trace');
+        const challengeAnswers = await new Promise((resolve, reject) => {
+            const handleComplete = (answers) => {
+                resolve(answers);
+            };
 
-    }
-    if (challengeAnswers) {
+            // Create a container element
+            const modalRoot = document.createElement("div");
+            modalRoot.id = "modal-root";
+            document.body.appendChild(modalRoot);
+
+            // Render the modal container
+            ReactDOM.render(
+                <ModalContainer
+                    challenges={ challenges }
+                    comment={ comment }
+                    onComplete={ handleComplete }
+                />,
+                modalRoot
+            );
+        });
+
+        // Publish the challenge answers
         await comment.publishChallengeAnswers(challengeAnswers);
+    } catch (error) {
+        // Handle any errors during the challenge process
+        logger("challenge error", error, "error");
+    } finally {
+        // Clean up the modal container
+        const modalRoot = document.getElementById("modal-root");
+        ReactDOM.unmountComponentAtNode(modalRoot);
+        modalRoot.remove();
     }
 };
 
-
-export default onChallenge
+export default onChallenge;

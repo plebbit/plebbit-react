@@ -670,9 +670,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           _focus={ {
                             outline: 'none',
                           } }
-                          onClick={ () => {
+                          onClick={
                             downVote
-                          } }
+                          }
                           icon={
                             <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } />
                           }
@@ -1494,7 +1494,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
               loading={ loading }
               subplebbit={ subplebbit }
             />
-          </Flex >
+          </Flex>
 
         </>
       ) : (
@@ -1661,6 +1661,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
           post={ detail }
         />
       }
+
+
     </>
   );
 }
