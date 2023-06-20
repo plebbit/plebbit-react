@@ -112,7 +112,7 @@ const SideBar = ({
             letterSpacing=".5px"
             lineHeight="12px"
             textTransform="uppercase"
-            backgroundColor={ headerBg }
+            backgroundColor={ subPlebbit?.suggested?.primaryColor || headerBg }
             borderRadius="3px 3px 0 0"
             color={ headerColor }
             padding="0 12px 12px"
@@ -158,7 +158,7 @@ const SideBar = ({
                 <Flex
                   flexDir="column"
                   border={ `1px solid ` }
-                  borderColor={ linkColor }
+                  borderColor={ subPlebbit?.suggested?.secondaryColor || linkColor }
                   borderRadius="4px"
                   padding="8px"
                 >
@@ -177,7 +177,7 @@ const SideBar = ({
                   />
                   <Flex alignItems="center" justifyContent="space-between">
                     <Box fontSize="12px" lineHeight="14px">
-                      0/25
+                      { 500 - data?.description?.length } Characters remaining
                     </Box>
 
                     <Flex>
@@ -196,7 +196,7 @@ const SideBar = ({
                           handleSaveChanges();
                           hideAddDescription(false);
                         } }
-                        color="#0079D3"
+                        color={ subPlebbit?.suggested?.secondaryColor || "#0079D3" }
                         fontSize="14px"
                         fontWeight="500"
                         cursor="pointer"
@@ -224,7 +224,7 @@ const SideBar = ({
                 justifyContent="flex-start"
                 isLoading={ loading }
               >
-                <Box fontSize="12px" fontWeight="700" lineHeight="16px">
+                <Box fontSize="12px" fontWeight="700" lineHeight="16px" color={ subPlebbit?.suggested?.secondaryColor }>
                   Add description
                 </Box>
               </Button>
@@ -283,7 +283,13 @@ const SideBar = ({
                   variant="flushed"
                   border="none"
                   defaultValue={ subPlebbit?.pubsubTopic }
+                  color={ subPlebbit?.suggested?.secondaryColor }
+                  fontWeight="500"
+                  fontSize="16px"
+                  lineHeight="20px"
+
                 >
+                  <option value="">Add Primary Topic</option>
                   <option value="activism">Activism</option>
                   <option value="addictionSupport">Addiction Support</option>
                   <option value="animals">Animals And Pet</option>
@@ -313,6 +319,7 @@ const SideBar = ({
                     alignItems="center"
                     width="max-content"
                     onClick={ () => hideSubTopic(true) }
+                    color={ subPlebbit?.suggested?.secondaryColor }
                   >
                     <Icon as={ MdAdd } height="22px" width="22px" mr="4px" />
                     <Box> Add Subtopics</Box>
@@ -351,7 +358,7 @@ const SideBar = ({
                 padding="4px 16px"
                 borderRadius="999px"
                 width="100%"
-                bg={ headerBg }
+                bg={ subPlebbit?.suggested?.secondaryColor || headerBg }
                 color={ headerColor }
                 as={ Link }
                 to={ `/p/${subPlebbit?.address}/submit` }
@@ -371,6 +378,7 @@ const SideBar = ({
                 background="transparent"
                 padding="0 12px"
                 onClick={ () => hideComOptions(!showComOptions) }
+                color={ subPlebbit?.suggested?.secondaryColor }
               >
                 <Flex width="100%" alignItems="center" justifyContent="space-between">
                   <Box>Community options</Box>
@@ -384,7 +392,7 @@ const SideBar = ({
                       <Icon as={ BsEye } mr="4px" />
                       <Box>Community theme</Box>
                     </Flex>
-                    <Switch colorScheme="gray" size="sm" />
+                    <Switch colorScheme='gray' size="sm" />
                   </Flex>
                 </Box>
               ) }
@@ -407,7 +415,7 @@ const SideBar = ({
               letterSpacing=".5px"
               lineHeight="12px"
               textTransform="uppercase"
-              backgroundColor={ headerBg }
+              backgroundColor={ subPlebbit?.suggested?.primaryColor || headerBg }
               borderRadius="3px 3px 0 0"
               color={ headerColor }
               padding="0 12px 12px"
@@ -423,7 +431,9 @@ const SideBar = ({
               <Flex flexFlow="row wrap" paddingTop="4px" w="100%">
                 { subPlebbit
                   ? subPlebbit?.flairs?.post?.map((flair, index) => (
-                    <FlairLabel flair={ flair } />
+                    <Box key={ index }>
+                      <FlairLabel flair={ flair } />
+                    </Box>
                   ))
                   : '' }
               </Flex>
@@ -445,7 +455,7 @@ const SideBar = ({
               letterSpacing=".5px"
               lineHeight="12px"
               textTransform="uppercase"
-              backgroundColor={ headerBg }
+              backgroundColor={ subPlebbit?.suggested?.primaryColor || headerBg }
               borderRadius="3px 3px 0 0"
               color={ headerColor }
               padding="0 12px 12px"
@@ -457,7 +467,7 @@ const SideBar = ({
                 </Box>
               </Box>
             </Flex>
-            <Box maxH="none" padding="12px">
+            <Box maxH="none" padding="12px" >
               <Flex
                 alignItems="center"
                 marginBottom="20px"
@@ -472,6 +482,8 @@ const SideBar = ({
                 border={ `1px solid` }
                 width="auto"
                 cursor="pointer"
+                borderColor={ subPlebbit?.suggested?.secondaryColor }
+                color={ subPlebbit?.suggested?.secondaryColor }
               >
                 <Icon as={ FiMail } mr="4px" width="20px" height="20px" />
                 <Box>Message the mods</Box>
@@ -486,9 +498,10 @@ const SideBar = ({
                     width="100%"
                     key={ index }
                     alignItems="center"
+                    color={ subPlebbit?.suggested?.secondaryColor || linkColor }
                   >
-                    <Link>
-                      <Box maxWidth="100%" color={ linkColor }>{ `u/${truncateString(item, 25)}` }</Box>
+                    <Link mr='4px'>
+                      <Box maxWidth="100%" >{ `u/${truncateString(item, 25)}` }</Box>
                     </Link>
                     <Tag
                       textOverflow="ellipsis"
@@ -501,7 +514,7 @@ const SideBar = ({
                     </Tag>
                   </Flex>
                 )) }
-              <Flex padding="0 12px 12px" overflow="hidden" justifyContent="flex-end">
+              <Flex color={ subPlebbit?.suggested?.secondaryColor } padding="0 12px 12px" overflow="hidden" justifyContent="flex-end">
                 <Link
                   to={
                     subPlebbit?.roles &&
@@ -516,7 +529,7 @@ const SideBar = ({
                     lineHeight="16px"
                     letterSpacing=".5px"
                     textTransform="uppercase"
-                    color={ linkColor }
+                    color={ subPlebbit?.suggested?.secondaryColor || linkColor }
                   >
                     View All Moderators
                   </Box>
@@ -534,7 +547,7 @@ const SideBar = ({
               letterSpacing=".5px"
               lineHeight="12px"
               textTransform="uppercase"
-              backgroundColor={ headerBg }
+              backgroundColor={ subPlebbit?.suggested?.primaryColor || headerBg }
               borderRadius="3px 3px 0 0"
               color={ headerColor }
               padding="0 12px 12px"
@@ -555,7 +568,7 @@ const SideBar = ({
             </Flex>
             <Accordion maxHeight="none" allowToggle>
               { subPlebbit?.rules?.map((item, index) => (
-                <AccordionItem key={ item }>
+                <AccordionItem key={ item } color={ subPlebbit?.suggested?.secondaryColor }>
                   <Box>
                     <AccordionButton padding="12px">
                       <Text
@@ -573,7 +586,7 @@ const SideBar = ({
                         { `${index + 1}. ${item}` }
 
                       </Text>
-                      <AccordionIcon color="#a4a4a4" />
+                      <AccordionIcon color={ subPlebbit?.suggested?.secondaryColor || "#a4a4a4" } />
                     </AccordionButton>
                   </Box>
                   <AccordionPanel padding="12px">{ item }</AccordionPanel>
@@ -584,10 +597,10 @@ const SideBar = ({
         </Box>
         <Box flex="1 1 auto" width="inherit" position="relative">
           <BottomSideBar />
-          <BacktoTopButton />
+          <BacktoTopButton bg={ subPlebbit?.suggested?.secondaryColor } />
         </Box>
-      </Flex >
-    </Box >
+      </Flex>
+    </Box>
   );
 };
 

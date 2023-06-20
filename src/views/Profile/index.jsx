@@ -53,7 +53,7 @@ const Profile = () => {
       <>
         { device !== 'mobile' ? (
           <Flex flexDir="column">
-            <Flex alignItems="center" bg={ bg } width="100%">
+            <Flex alignItems="center" bg={ bg } width="100%" maxWidth={ !fullNav && "984px" }>
               <Flex width={ fullNav ? '100%' : '70%' }
                 marginX="auto"
                 justifyContent="space-between" paddingX="15px">
@@ -100,8 +100,9 @@ const Profile = () => {
               marginX="auto"
               justifyContent="space-between"
               padding="15px"
+              maxWidth={ !fullNav && "984px" }
             >
-              <Flex width="calc(100% - 312px)" flexDir="column">
+              <Flex width="calc(100% - 312px)" flexDir="column" >
                 <FeedSort hideControl />
 
                 { (currentView === 'overview' || currentView === 'profile') && (

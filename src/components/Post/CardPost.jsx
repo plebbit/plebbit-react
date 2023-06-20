@@ -118,6 +118,16 @@ const CardPost = ({
   const subPlebbit = sub || { address: post?.subplebbitAddress };
 
   const { device } = useContext(ProfileContext);
+  const getLink = (link) => {
+    let val
+
+    try {
+      val = link?.startsWith('https://') ? link?.replace(/(^\w+:|^)\/\//, '') : link
+      return val
+    } catch (error) {
+
+    }
+  }
   return (
     <>
       { device !== "mobile" ? (
@@ -254,7 +264,7 @@ const CardPost = ({
                   wordBreak="break-word"
                 >
                   {/* Pin Head */ }
-                  { post?.pinned && (
+                  { post?.pinned && type === "subPlebbit" && (
                     <Flex
                       fontSize="12px"
                       fontWeight="400"
@@ -326,7 +336,7 @@ const CardPost = ({
                           { type !== "subPlebbit" ? (
                             <>
                               <Avatar
-                                avatar={ subPlebbit?.avatar }
+                                avatar={ subPlebbit?.suggested?.avatarUrl }
                                 width={ 24 }
                                 height={ 24 }
                                 mr="8px"
@@ -1131,7 +1141,7 @@ const CardPost = ({
 
                             >
                               <Avatar
-                                avatar={ subPlebbit?.avatar }
+                                avatar={ subPlebbit?.suggested?.avatarUrl }
                                 width={ 24 }
                                 height={ 24 }
                                 mr="8px"
@@ -1169,7 +1179,7 @@ const CardPost = ({
                       whiteSpace="nowrap"
                       ml="auto"
                     >
-                      { post?.pinned && (
+                      { (detail || type === "subPlebbit") && post?.pinned && (
                         <Icon as={ BsPinAngleFill } color={ approveColor } />
                       ) }
                       { post?.locked && (
@@ -1277,7 +1287,7 @@ const CardPost = ({
 
             <>
               { detail && !post?.removed ?
-                <Skeleton isLoaded={ !loading }>
+                <Box as={ loading && Skeleton }>
                   {
                     (showSpoiler ? (
                       <Flex alignItems="center" mt='8px' justifyContent="center">
@@ -1312,7 +1322,7 @@ const CardPost = ({
 
                         ) : (
 
-                          <Box pt="10%" >
+                          <Box >
                             {
                               hasThumbnail &&
                               <Box
@@ -1339,7 +1349,7 @@ const CardPost = ({
 
                                 </Box>
 
-                                <Link href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ post?.link?.substring(0, 20) + "..." }</Link>
+                                <Box isTruncated href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ getLink(post?.link) }</Box>
 
                               </Box>
                             }
@@ -1350,45 +1360,44 @@ const CardPost = ({
                       </Box>
                     ))
                   }
-                </Skeleton> :
-                <Skeleton isLoaded={ !loading } mx={ loading && '16px' }>
-                  <Box pt={ hasThumbnail && "10%" } mt={ hasThumbnail && '8px' }>
-                    {
-                      hasThumbnail &&
+                </Box> :
+                <Box as={ loading && Skeleton } mx={ loading && '16px' } pt={ hasThumbnail && "10%" } mt={ hasThumbnail && '8px' }>
+                  {
+                    hasThumbnail &&
 
-                      <Box
-                        maxH="318px"
-                        margin="0 auto"
-                        maxW="100%"
-                        pos="relative"
-
-
-                      >
-                        <Box height="100%" width="100%">
-                          <Image
-                            maxH="318px"
-                            objectFit="cover"
-                            width="100%"
-                            bg={ postBg }
-                            src={ post?.thumbnailUrl }
-                            onError={ (event) =>
-                              (event.target.style.display = "none")
-                            }
+                    <Box
+                      maxH="318px"
+                      margin="0 auto"
+                      maxW="100%"
+                      pos="relative"
 
 
+                    >
+                      <Box height="100%" width="100%">
+                        <Image
+                          maxH="318px"
+                          objectFit="cover"
+                          width="100%"
+                          bg={ postBg }
+                          src={ post?.thumbnailUrl }
+                          onError={ (event) =>
+                            (event.target.style.display = "none")
+                          }
 
-                          />
 
-                        </Box>
 
-                        <Link href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ post?.link?.substring(0, 20) + "..." }</Link>
+                        />
 
                       </Box>
 
-                    }
-                    <PostMedia post={ post } />
-                  </Box>
-                </Skeleton>
+                      <Box as={ Link } isTruncated href={ post?.link } isExternal color="#fff" padding="5px 12px" fontSize="12px" left="0" bottom="0" right="0" background="rgba(0,0,0,.7)" position="absolute" >{ getLink(post?.link) }</Box>
+
+                    </Box>
+
+                  }
+                  <PostMedia post={ post } />
+                </Box>
+
               }
             </>
 
@@ -1522,31 +1531,23 @@ const CardPost = ({
                   {/* award button */ }
                   <Flex
                     color={ mobileIconColor }
+                    fill={ mobileIconColor }
                     border={ `1px solid ${border2}` }
                     alignItems="center"
+                    borderRadius="16px"
+                    flexShrink="0"
                     fontWeight="500"
                     height="32px"
                     justifyContent="center"
                     minW="32px"
-                    width="auto"
-                    fontSize="12px"
-                    flexShrink="1"
                     marginRight="10px"
-                    overflowX="scroll"
-                    padding="0"
-                    borderRadius="16px"
+                    padding="2px 8px 0"
+                    maxW="100px"
                     pointerEvents="all"
                   >
-                    <Flex
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      whiteSpace="nowrap"
-                      alignItems="center"
-                      justifyContent="center"
-                      padding="1px 7px"
-                    >
-                      <Icon as={ GoGift } height="16px" width="16px" />
-                    </Flex>
+
+                    <Icon as={ GoGift } height="16px" width="16px" />
+
                   </Flex>
                   {/* comment button */ }
                   <Link to={ detailRoute }>
@@ -1733,33 +1734,27 @@ const CardPost = ({
                       />
                     </Flex>
                   </Flex>
+
                   {/* award button */ }
                   <Flex
                     color={ mobileIconColor }
+                    fill={ mobileIconColor }
                     border={ `1px solid ${border2}` }
                     alignItems="center"
+                    borderRadius="16px"
+                    flexShrink="0"
                     fontWeight="500"
                     height="32px"
                     justifyContent="center"
                     minW="32px"
-                    width="auto"
-                    fontSize="12px"
-                    flexShrink="1"
                     marginRight="10px"
-                    overflowX="scroll"
-                    padding="0"
-                    borderRadius="16px"
+                    padding="2px 8px 0"
+                    maxW="100px"
+                    pointerEvents="all"
                   >
-                    <Flex
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      whiteSpace="nowrap"
-                      alignItems="center"
-                      justifyContent="center"
-                      padding="1px 7px"
-                    >
-                      <Icon as={ GoGift } height="16px" width="16px" />
-                    </Flex>
+
+                    <Icon as={ GoGift } height="16px" width="16px" />
+
                   </Flex>
                   {/* comment button */ }
                   <Link to={ detailRoute }>

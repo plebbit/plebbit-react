@@ -88,7 +88,7 @@ const PostDetailSideBar = ({
           <Flex width="100" padding="12px" alignItems="center" mb="8px">
             <Skeleton borderRadius="50%" width="54px" height="54px" mr="8px" isLoaded={ !loading }>
               <Avatar
-                avatar={ subPlebbit?.avatar }
+                avatar={ subPlebbit?.suggested?.avatarUrl }
                 width={ 54 }
                 height={ 54 }
                 badge

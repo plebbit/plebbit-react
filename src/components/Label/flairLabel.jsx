@@ -23,6 +23,7 @@ const FlairLabel = (props) => {
             height="16px"
             bg={ flair?.backgroundColor || bg }
             color={ flair?.textColor || color }
+            isTruncated
         >
             { flair?.text || text }
         </Tag>

@@ -670,9 +670,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           _focus={ {
                             outline: 'none',
                           } }
-                          onClick={ () => {
+                          onClick={
                             downVote
-                          } }
+                          }
                           icon={
                             <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } />
                           }
@@ -816,20 +816,18 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         {/* <PdMenu /> */ }
                       </Flex>
                     </Skeleton>
-                    <Flex ml="auto">
-                      <Skeleton isLoaded={ !loading }>
-                        <Icon
-                          sx={ {
-                            '@media (min-width: 1280px)': {},
-                            '@media (max-width: 1120px)': {
-                              display: 'none',
-                            },
-                          } }
-                          as={ FiBell }
-                          height="16px"
-                          width="16px"
-                        />
-                      </Skeleton>
+                    <Flex as={ loading && Skeleton } ml="auto">
+                      <Icon
+                        sx={ {
+                          '@media (min-width: 1280px)': {},
+                          '@media (max-width: 1120px)': {
+                            display: 'none',
+                          },
+                        } }
+                        as={ FiBell }
+                        height="16px"
+                        width="16px"
+                      />
                     </Flex>
                   </Flex>
                   {/* post Title */ }
@@ -845,23 +843,25 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                       wordBreak="break-word"
                     >
                       { detail?.title }{ ' ' }
-                      { detail?.flair?.text ? (
-                        <FlairLabel flair={ detail?.flair } />
 
-                      ) : null }
-                      { detail?.spoiler && (
-                        <SpoilerLabel />
-                      ) }
-                      { detailPending && (
-                        <PendingLabel />
-
-                      ) }
-                      {/* edit status */ }
-                      <EditLabel editLabel={ editLabel } post={ detail } />
                     </Text>
 
                   </Flex>
+                  <Flex as={ loading && Skeleton } margin="2px 8px" display="flex" alignItems="center">
+                    { detail?.flair?.text ? (
+                      <FlairLabel flair={ detail?.flair } />
 
+                    ) : null }
+                    { detail?.spoiler && (
+                      <SpoilerLabel />
+                    ) }
+                    { detailPending && (
+                      <PendingLabel />
+
+                    ) }
+                    {/* edit status */ }
+                    <EditLabel editLabel={ editLabel } post={ detail } />
+                  </Flex>
                   {/* post Body */ }
                   { edit ? (
                     <EditComment detail={ detail } setEdit={ setEdit } />
@@ -1035,7 +1035,10 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           } }
                         >
                           <Icon as={ BsChatSquare } height={ 5 } width={ 5 } mr="5px" />
-                          <Box as={ loading && Skeleton }>{ detailCommentCount }</Box>
+                          <Box as={ loading && Skeleton }>
+                            { detailCommentCount } Comment
+                            { detailCommentCount === 1 ? '' : 's' }
+                          </Box>
                         </Link>
                         <Flex
                           alignItems="center"
@@ -1295,7 +1298,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           } }
                         >
                           <Icon as={ BsChat } height={ 5 } width={ 5 } mr="5px" />
-                          <Box>
+                          <Box as={ loading && Skeleton }>
                             { detailCommentCount } Comment
                             { detailCommentCount === 1 ? '' : 's' }
                           </Box>
@@ -1491,7 +1494,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
               loading={ loading }
               subplebbit={ subplebbit }
             />
-          </Flex >
+          </Flex>
 
         </>
       ) : (
@@ -1563,7 +1566,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           <Avatar
                             width={ 72 }
                             height={ 72 }
-                            avatar={ subplebbit?.avatar }
+                            avatar={ subplebbit?.suggested?.avatarUrl }
                             badge
                             isOnline={ getIsOnline(subplebbit?.updatedAt) }
                             mb="8px"
@@ -1658,6 +1661,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
           post={ detail }
         />
       }
+
+
     </>
   );
 }

@@ -53,7 +53,7 @@ const Author = () => {
             <Flex alignItems="center" bg={ bg } width="100%">
               <Flex width={ fullNav ? '100%' : '70%' }
                 marginX="auto"
-                justifyContent="space-between" paddingX="15px">
+                justifyContent="space-between" paddingX="15px" maxWidth={ !fullNav && "984px" }>
 
                 <Flex
                   alignItems="center"
@@ -98,8 +98,9 @@ const Author = () => {
               marginX="auto"
               justifyContent="space-between"
               padding="15px"
+              maxWidth={ !fullNav && "984px" }
             >
-              <Flex width="calc(100% - 312px)" flexDir="column">
+              <Flex width="calc(100% - 312px)" flexDir="column" >
                 <FeedSort hideControl />
 
                 { (currentView === 'overview' || currentView === params?.commentCid) && (

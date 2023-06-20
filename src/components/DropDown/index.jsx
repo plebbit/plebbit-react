@@ -34,7 +34,7 @@ const DropDown = ({
   const linkColor = useColorModeValue('lightLink', 'darkLink');
 
   return (
-    <Flex ml="auto" sx={wrapSx} alignItems="center" flexFlow="row nowrap" position="relative">
+    <Flex ml="auto" sx={ wrapSx } alignItems="center" flexFlow="row nowrap" position="relative">
       <Flex
         alignItems="center"
         borderRadius="20px"
@@ -47,82 +47,83 @@ const DropDown = ({
             bg: inputBg,
           }
         }
-        onClick={() => !disableTitleClick && hide(!show)}
-        sx={menuSx}
+        onClick={ () => !disableTitleClick && hide(!show) }
+        sx={ menuSx }
       >
-        <Box sx={labelStyle}>{dropDownTitle}</Box>
-        {caret
+        <Box sx={ labelStyle }>{ dropDownTitle }</Box>
+        { caret
           ? customCaret || (
-              <Flex onClick={() => hide(!show)} color={iconColor} alignItems="center">
-                <Icon sx={caretStyle} as={MdOutlineKeyboardArrowDown} />
-              </Flex>
-            )
-          : ''}
+            <Flex onClick={ () => hide(!show) } color={ iconColor } alignItems="center">
+              <Icon sx={ caretStyle } as={ MdOutlineKeyboardArrowDown } />
+            </Flex>
+          )
+          : '' }
       </Flex>
-      {show ? (
+      { show ? (
         <Box
-          onMouseLeave={() => (stopAutoHide ? {} : hide(false))}
+          onMouseLeave={ () => (stopAutoHide ? {} : hide(false)) }
           ml="-9px"
           minW="99px"
-          border={`1px solid ${border2}`}
+          border={ `1px solid ${border2}` }
           borderRadius="4px"
-          boxShadow={`0 2px 4px 0 ${shadow}`}
-          bg={mainBg}
+          boxShadow={ `0 2px 4px 0 ${shadow}` }
+          bg={ mainBg }
           position="absolute"
           zIndex="10"
-          color={iconColor}
-          fill={iconColor}
-          sx={{
+          color={ iconColor }
+          fill={ iconColor }
+          sx={ {
             top: topOffset || '24px',
             left: leftOffset || '10px',
             right: rightOffset,
-          }}
-          width={width}
+          } }
+          width={ width }
         >
-          {options
+          { options
             ? options?.map((option) =>
-                render && option.disabled !== true ? (
-                  render(option)
-                ) : option.disabled !== true ? (
-                  <Flex
-                    key={option?.id}
-                    alignItems="center"
-                    position="relative"
-                    outline="none"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    padding="8px"
-                    textTransform="capitalize"
-                    whiteSpace="nowrap"
-                    _hover={{
-                      background: inputBg,
-                      color: linkColor,
-                    }}
-                    color={selected && getSelected && selected === getSelected(option) && linkColor}
-                    onClick={() => onChange(option)}
-                    borderTop={`1px solid ${border2}`}
-                  >
-                    {option?.icon && (
-                      <Icon
-                        mr="4px"
-                        color={option?.IconColor || option?.color}
-                        as={option?.icon}
-                        width={6}
-                        height={6}
-                      />
-                    )}
-                    <Box color={option?.color}>{option?.label}</Box>
-                  </Flex>
-                ) : (
-                  ''
-                )
+              render && option.disabled !== true ? (
+                render(option)
+              ) : option.disabled !== true ? (
+                <Flex
+                  key={ option?.id }
+                  alignItems="center"
+                  position="relative"
+                  outline="none"
+                  fontSize="14px"
+                  fontWeight="500"
+                  lineHeight="18px"
+                  padding="8px"
+                  textTransform="capitalize"
+                  whiteSpace="nowrap"
+                  _hover={ {
+                    background: inputBg,
+                    color: linkColor,
+                  } }
+                  cursor="pointer"
+                  color={ selected && getSelected && selected === getSelected(option) && linkColor }
+                  onClick={ () => onChange(option) }
+                  borderTop={ `1px solid ${border2}` }
+                >
+                  { option?.icon && (
+                    <Icon
+                      mr="4px"
+                      color={ option?.IconColor || option?.color }
+                      as={ option?.icon }
+                      width={ 6 }
+                      height={ 6 }
+                    />
+                  ) }
+                  <Box color={ option?.color }>{ option?.label }</Box>
+                </Flex>
+              ) : (
+                ''
               )
-            : content}
+            )
+            : content }
         </Box>
       ) : (
         ''
-      )}
+      ) }
     </Flex>
   );
 };

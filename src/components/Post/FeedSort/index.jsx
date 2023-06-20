@@ -16,14 +16,14 @@ import { ProfileContext } from '../../../store/profileContext';
 import DropDown from '../../DropDown';
 import useVisible from '../../../hooks/useVisible';
 
-const FeedSort = ({ hideControl }) => {
+const FeedSort = ({ hideControl, subplebbitColor }) => {
   const { postStyle, setPostStyle, feedSort, setFeedSort, device } = useContext(ProfileContext);
-  const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
+  const inputBg = useColorModeValue(('lightInputBg'), 'darkInputBg');
 
-  const mainBg = useColorModeValue('lightBody', 'darkBody');
+  const mainBg = useColorModeValue(('lightBody'), 'darkBody');
   // const border1 = useColorModeValue('#ccc', '#343536');
   const border2 = useColorModeValue('#edeff1', '#343536');
-  const activeFilterText = useColorModeValue('lightText', 'bodyTextDark');
+  const activeFilterText = useColorModeValue((subplebbitColor || 'lightText'), (subplebbitColor || 'bodyTextDark'));
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const mainMobileBg = useColorModeValue('white', 'black');
   const iconMobileColor = useColorModeValue('lightMobileIcon', 'darkMobileIcon');
