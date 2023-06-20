@@ -29,6 +29,25 @@ const useStateString = (commentOrSubplebbit) => {
             }
         }
 
+        // find subplebbit pages states
+        if (commentOrSubplebbit?.posts?.clients) {
+            for (const clientType in commentOrSubplebbit.posts.clients) {
+                for (const sortType in commentOrSubplebbit.posts.clients[clientType]) {
+                    for (const clientUrl in commentOrSubplebbit.posts.clients[clientType][sortType]) {
+                        let state = commentOrSubplebbit.posts.clients[clientType][sortType][clientUrl].state
+                        if (state === 'stopped') {
+                            continue
+                        }
+                        state += `-page-${sortType}`
+                        if (!states[state]) {
+                            states[state] = []
+                        }
+                        states[state].push(clientUrl)
+                    }
+                }
+            }
+        }
+
         const getClientHost = (clientUrl) => {
             try {
                 clientUrl = new URL(clientUrl).hostname || clientUrl
