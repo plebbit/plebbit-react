@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Flex, Icon, Text, useColorModeValue, useToast } from '@chakra-ui/react';
-import Button from '../../components/Button';
+import { Box, Flex, Icon, Text, useColorModeValue, useToast, Button } from '@chakra-ui/react';
 import { FaBell } from 'react-icons/fa';
 import { ProfileContext } from '../../store/profileContext';
 import Post from '../../components/Post';
@@ -196,7 +195,7 @@ const SubPlebbit = ({ match }) => {
             <Box zIndex="3">
               <Link to={ `/p/${subPlebbit?.address}` }>
                 <Flex
-                  backgroundColor="rgb(51, 168, 255)"
+                  backgroundColor={ subPlebbit?.suggested?.primaryColor || "rgb(51, 168, 255)" }
                   backgroundImage={ subPlebbit?.suggested?.bannerUrl }
                   filter="none"
                   height="64px"
@@ -262,34 +261,45 @@ const SubPlebbit = ({ match }) => {
                       <Flex alignItems="center" mt="10px">
                         <Box width="96px">
                           <Button
-                            bg="transparent"
-                            content={
-                              subscribed
-                                ? 'Joined'
-                                : 'Join'
-                            }
+                            variant="outline"
+                            borderRadius='9999px'
                             padding="4px 16px"
                             minW="32px"
                             minH="32px"
+                            height='auto'
+                            width='100%'
+                            lineHeight='17px'
+                            fontWeight='700'
+                            fontSize='14px'
                             loading={ subLoading }
                             onClick={
                               subscribed
                                 ? handleUnSubscribe
                                 : handleSubscribe
                             }
-                          />
+                            borderColor={ subPlebbit?.suggested?.secondaryColor }
+                            color={ subPlebbit?.suggested?.secondaryColor }
+
+                          >{
+                              subscribed
+                                ? 'Joined'
+                                : 'Join'
+                            }</Button>
                         </Box>
-                        <Box>
+                        <Box ml='8px'>
                           <Button
-                            content={
-                              <Icon verticalAlign="middle" width="20px" height="20px" as={ FaBell } />
-                            }
+                            variant="outline"
                             padding="5px"
-                            borderRadius="100%"
-                            height="32px"
+                            height="33px"
                             width="33px"
                             bg="transparent"
-                          />
+                            borderColor={ subPlebbit?.suggested?.secondaryColor }
+                            borderRadius="100%"
+                          >
+                            {
+                              <Icon color={ subPlebbit?.suggested?.secondaryColor } verticalAlign="middle" width="20px" height="20px" as={ FaBell } />
+                            }
+                          </Button>
                         </Box>
                       </Flex>
                     </Flex>
@@ -337,7 +347,7 @@ const SubPlebbit = ({ match }) => {
                   {/* Create Post Bar */ }
                   <CreatePostBar address={ subPlebbit?.address } />
                   {/* feed sort bar */ }
-                  <FeedSort stateString={ stateString } />
+                  <FeedSort subplebbitColor={ subPlebbit?.suggested?.secondaryColor } />
                   {/* feed list */ }
 
                   <Box minHeight="1000px" width="100%">
@@ -384,7 +394,8 @@ const SubPlebbit = ({ match }) => {
           <Flex>
             <Box bg={ mainMobileBg } borderBottom={ `1px solid ${border1}` } width="100%">
               <Box
-                background="#24a0ed"
+                backgroundColor={ subPlebbit?.suggested?.primaryColor || "rgb(51, 168, 255)" }
+                backgroundImage={ subPlebbit?.suggested?.bannerUrl }
                 pos="relative"
                 width="100%"
                 paddingBottom="20%"
@@ -405,14 +416,14 @@ const SubPlebbit = ({ match }) => {
                   border="2px solid #fff"
                 >
                   <Box
-                    backgroundColor="#24a0ed"
+                    backgroundColor={ subPlebbit?.suggested?.primaryColor || "#24a0ed" }
                     backgroundRepeat="no-repeat"
                     borderRadius="50%"
                     height="100%"
                     pos="relative"
                     width="100%"
                   >
-                    <Box height="80%" width="80%" left="10%" position="relative" top="10%">
+                    <Box height="100%" width="100%" >
                       <PlebLogo />
                     </Box>
                   </Box>
