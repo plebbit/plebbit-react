@@ -421,7 +421,7 @@ const CompactPost = ({
                     { type !== 'subPlebbit' ? (
                       <>
                         <Avatar
-                          avatar={ subPlebbit?.avatar }
+                          avatar={ subPlebbit?.suggested?.avatarUrl }
                           width={ 24 }
                           height={ 24 }
                           mr="8px"

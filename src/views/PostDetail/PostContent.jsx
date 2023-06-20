@@ -1566,7 +1566,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           <Avatar
                             width={ 72 }
                             height={ 72 }
-                            avatar={ subplebbit?.avatar }
+                            avatar={ subPlebbit?.suggested?.avatarUrl }
                             badge
                             isOnline={ getIsOnline(subplebbit?.updatedAt) }
                             mb="8px"

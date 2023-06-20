@@ -170,6 +170,7 @@ const SubPlebbit = ({ match }) => {
 
   const stateString = useStateString(subPlebbit)
 
+  console.log({ subPlebbit })
 
   return (
     <Layout stateString={ feeds?.length ? '' : stateString } name={ { label: subPlebbit?.title || 'Subplebbit', value: location?.pathname } }>
@@ -196,6 +197,7 @@ const SubPlebbit = ({ match }) => {
               <Link to={ `/p/${subPlebbit?.address}` }>
                 <Flex
                   backgroundColor="rgb(51, 168, 255)"
+                  backgroundImage={ subPlebbit?.suggested?.bannerUrl }
                   filter="none"
                   height="64px"
                   padding="8px 16px"
@@ -224,7 +226,7 @@ const SubPlebbit = ({ match }) => {
                       border="1px solid #fff"
                       badge
                       isOnline={ isOnline }
-                      avatar={ subPlebbit?.avatar }
+                      avatar={ subPlebbit?.suggested?.avatarUrl }
                     />
 
                     <Flex

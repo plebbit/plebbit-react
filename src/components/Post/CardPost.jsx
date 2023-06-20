@@ -264,7 +264,7 @@ const CardPost = ({
                   wordBreak="break-word"
                 >
                   {/* Pin Head */ }
-                  { post?.pinned && (
+                  { post?.pinned && type === "subPlebbit" && (
                     <Flex
                       fontSize="12px"
                       fontWeight="400"
@@ -336,7 +336,7 @@ const CardPost = ({
                           { type !== "subPlebbit" ? (
                             <>
                               <Avatar
-                                avatar={ subPlebbit?.avatar }
+                                avatar={ subPlebbit?.suggested?.avatarUrl }
                                 width={ 24 }
                                 height={ 24 }
                                 mr="8px"
@@ -1141,7 +1141,7 @@ const CardPost = ({
 
                             >
                               <Avatar
-                                avatar={ subPlebbit?.avatar }
+                                avatar={ subPlebbit?.suggested?.avatarUrl }
                                 width={ 24 }
                                 height={ 24 }
                                 mr="8px"

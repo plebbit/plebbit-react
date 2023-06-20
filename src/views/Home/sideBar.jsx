@@ -140,7 +140,7 @@ const SideBar = ({
                     width={ 20 }
                     height={ 20 }
                     mr="8px"
-
+                    avatar={ sub?.suggested?.avatarUrl }
                     badge
                     isOnline={ getIsOnline(sub?.updatedAt) }
 
