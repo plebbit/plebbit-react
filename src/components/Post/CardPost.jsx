@@ -1179,7 +1179,7 @@ const CardPost = ({
                       whiteSpace="nowrap"
                       ml="auto"
                     >
-                      { post?.pinned && (
+                      { (detail || type === "subPlebbit") && post?.pinned && (
                         <Icon as={ BsPinAngleFill } color={ approveColor } />
                       ) }
                       { post?.locked && (
