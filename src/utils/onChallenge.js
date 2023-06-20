@@ -31,7 +31,6 @@ const ModalContainer = ({ challenges, comment, onComplete }) => {
 };
 
 const onChallenge = async (challenges, comment) => {
-    console.log("here", comment);
     try {
         const challengeAnswers = await new Promise((resolve, reject) => {
             const handleComplete = (answers) => {

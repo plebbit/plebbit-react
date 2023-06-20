@@ -201,12 +201,17 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
             { commentPending && <StateString stateString={ stateString } textSx={ {
               fontWeight: "400 !important",
               fontSize: "12px !important",
+
             } } /> }
+            { comment?.flair?.text && (
+              <Box ml='4px'>
+
+                <FlairLabel flair={ comment?.flair } />
+              </Box>
+            ) }
           </Flex>
 
-          { comment?.flair?.text && (
-            <FlairLabel flair={ comment?.flair } />
-          ) }
+
         </Flex>
         <Skeleton height={ loading && "120px" } isLoaded={ !loading }>
           <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>
@@ -343,7 +348,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
             </CopyToClipboard>
             <Flex justifyContent="center">
               <DropDown
-                onChange={ () => { } }
+                onChange={ (val) => handleOption(val?.id) }
                 dropDownTitle={
                   <Flex
                     borderRadius="2px"

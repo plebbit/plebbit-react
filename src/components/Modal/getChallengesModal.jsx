@@ -27,13 +27,19 @@ const GetChallengesModal = ({ handleSubmit, post, challenges, isOpen, onClose })
     const noOfChallenges = challenges.length
 
 
-
+    // const isVote = (post.vote !== undefined) && post.cid
+    const isVote = post?.constructor.name === "Vote"
+    const isReply = post?.parentCid && !post.cid
+    const isPost = !post?.parentCid && !post?.cid
+    const isCommentEdit = post?.cid && post?.vote === undefined
 
 
     const handleClose = () => {
         onClose()
         setData({});
     }
+
+
 
 
 
@@ -49,7 +55,7 @@ const GetChallengesModal = ({ handleSubmit, post, challenges, isOpen, onClose })
         >
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader width="90%" fontSize="16px" fontWeight="500" lineHeight='20px'> Challenge for  - { post?.title || post?.shortCid || post?.parentCid } </ModalHeader>
+                <ModalHeader width="90%" fontSize="16px" fontWeight="500" lineHeight='20px'> Challenge for { isVote ? 'Vote' : isReply ? 'Reply' : isPost ? "Comment" : isCommentEdit ? 'Comment Edit' : '' } { ` ` }{ post?.title || post?.shortCid || post?.parentCid || post?.commentCid } </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody
                     padding="16px"
