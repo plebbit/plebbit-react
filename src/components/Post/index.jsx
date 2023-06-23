@@ -37,7 +37,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     profile?.author?.address === post?.author?.address ||
     profile?.signer?.address === post?.author?.address;
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(post?.subplebbitAddress);
-  const { blocked, unblock, block } = useBlock({ address: post?.cid })
+  const { blocked, unblock, block } = useBlock({ cid: post?.cid })
   const {
     onOpen: openRemovalModal,
     onClose: closeRemovalModal,
@@ -89,7 +89,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
       openDeleteModal()
     }
     if (val?.id === 'block') {
-      blocked ? block() : unBlock()
+      blocked ? unblock() : block()
     } else openRemovalModal();
 
   };

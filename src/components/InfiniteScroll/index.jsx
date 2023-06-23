@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso'
+import { ProfileContext } from '../../store/profileContext';
 
-const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
+const InfiniteScroll = ({ feeds: feed, loader, hasMore, loadMore, content }) => {
 
+
+  const { profile } = useContext(ProfileContext);
+
+  const blockedCids = useMemo(() => Object.keys(profile?.blockedCids || {}) || [], [profile?.blockedCids]);
+  const [feeds, setFeeds] = useState([...feed])
+
+
+
+
+  useEffect(() => {
+    const filterFeeds = (feed) => {
+      return feed.filter(item => !blockedCids.includes(item.cid));
+    };
+
+    setFeeds(filterFeeds(feed));
+  }, [blockedCids]);
 
 
   let Loading
@@ -10,6 +27,8 @@ const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
     Loading = () =>
       loader
   }
+
+
   return (
 
     <Virtuoso

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
 import { ProfileContext } from '../../store/profileContext';
 import SideBar from './sideBar';
@@ -11,7 +11,7 @@ import Layout from '../../components/layout';
 import useFeedStateString from '../../hooks/useFeedStateString';
 
 const Home = () => {
-  const { postStyle, feedSort, device, postView, homeAdd, subPlebbitData } =
+  const { postStyle, feedSort, device, postView, homeAdd, subPlebbitData, profile } =
     useContext(ProfileContext);
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mainMobileBg = useColorModeValue('white', 'black');
@@ -32,6 +32,10 @@ const Home = () => {
   const stateString = useFeedStateString(subplebbits)
 
   const feeds = feed;
+
+
+
+
 
 
 
@@ -58,6 +62,7 @@ const Home = () => {
                 content={ (index, feed) => <Post index={ index } post={ feed } key={ feed?.cid || index } mode={ postStyle } /> }
                 feeds={ feeds }
                 loader={ <Post loading={ true } mode={ postStyle } stateString={ stateString } key={ Math.random() } /> }
+
               />
             </Box>
           </Box>
@@ -74,6 +79,7 @@ const Home = () => {
               content={ (index, feed) => <Post post={ feed } key={ feed?.cid || index } index={ index } mode={ postStyle } /> }
               feeds={ feeds || [] }
               loader={ <Post loading={ true } mode={ postStyle } key={ Math.random() } /> }
+
             />
           </Box>
         </Box>

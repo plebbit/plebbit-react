@@ -483,12 +483,7 @@ const CardPost = ({
                       height={ loading && '20px' } flex={ loading && 1 } mb={ loading && "8px" }
                       as={ loading && Skeleton }
                     >
-                      {/* flair */ }
-                      { type === "subPlebbit" && post?.flair?.text.length ? (
-                        <FlairLabel flair={ post?.flair } />
-                      ) : (
-                        ""
-                      ) }
+
                       <Text
                         display="inline"
                         color={ inactiveSubTitle }
@@ -500,6 +495,12 @@ const CardPost = ({
                         wordBreak="break-word"
                         verticalAlign='middle'
                       >
+                        {/* flair */ }
+                        { type === "subPlebbit" && post?.flair?.text.length ? (
+                          <FlairLabel flair={ post?.flair } />
+                        ) : (
+                          ""
+                        ) }
                         { post?.title }
                         { ` ` }
                         { type !== "subPlebbit" && post?.flair?.text ? (
