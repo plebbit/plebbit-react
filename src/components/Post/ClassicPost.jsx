@@ -144,12 +144,12 @@ const ClassicPost = ({
                   bg="transparent"
                   border="none"
                   color="inherit"
-                  cursor="pointer"
+                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
                   padding="inherit"
                 >
                   <Box
                     border="2px solid transparent"
-                    cursor="pointer"
+                    cursor={ post?.locked ? 'not-allowed' : "pointer" }
                     display="inline-block"
                     overflow="hidden"
                     h="24px"
@@ -194,12 +194,12 @@ const ClassicPost = ({
                   bg="transparent"
                   border="none"
                   color="inherit"
-                  cursor="pointer"
+                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
                   padding="inherit"
                 >
                   <Box
                     border="2px solid transparent"
-                    cursor="pointer"
+                    cursor={ post?.locked ? 'not-allowed' : "pointer" }
                     color={ vote === -1 ? 'downvoteBlue' : iconColor }
                     display="inline-block"
                     overflow="hidden"

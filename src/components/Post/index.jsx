@@ -134,8 +134,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
           <CardPost
             vote={ vote }
             postVotes={ postVotes }
-            upVote={ upVote }
-            downVote={ downVote }
+            upVote={ post?.locked ? null : upVote }
+            downVote={ post?.locked ? null : downVote }
             type={ type }
             post={ post }
             loading={ loading }
@@ -172,8 +172,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
           <ClassicPost
             vote={ vote }
             postVotes={ postVotes }
-            upVote={ upVote }
-            downVote={ downVote }
+            upVote={ post?.locked ? null : upVote }
+            downVote={ post?.locked ? null : downVote }
             showContent={ showContent }
             setShowContent={ setShowContent }
             type={ type }
@@ -213,8 +213,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             <CompactPost
               vote={ vote }
               postVotes={ postVotes }
-              upVote={ upVote }
-              downVote={ downVote }
+              upVote={ post?.locked ? null : upVote }
+              downVote={ post?.locked ? null : downVote }
               showContent={ showContent }
               setShowContent={ setShowContent }
               type={ type }
@@ -251,8 +251,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             <ClassicPost
               vote={ vote }
               postVotes={ postVotes }
-              upVote={ upVote }
-              downVote={ downVote }
+              upVote={ post?.locked ? null : upVote }
+              downVote={ post?.locked ? null : downVote }
               showContent={ showContent }
               setShowContent={ setShowContent }
               type={ type }

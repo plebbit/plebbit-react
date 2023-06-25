@@ -131,13 +131,13 @@ const CompactPost = ({
                 bg="transparent"
                 border="none"
                 color="inherit"
-                cursor="pointer"
+                cursor={ post?.locked ? 'not-allowed' : "pointer" }
                 padding="initial"
                 textAlign="center"
               >
                 <Box
                   borderRadius="2px"
-                  cursor="pointer"
+                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
                   display="inline-block"
                   overflow="hidden"
                   h="24px"
@@ -185,12 +185,12 @@ const CompactPost = ({
                 bg="transparent"
                 border="none"
                 color="inherit"
-                cursor="pointer"
+                cursor={ post?.locked ? 'not-allowed' : "pointer" }
                 padding="initial"
               >
                 <Box
                   borderRadius="2px"
-                  cursor="pointer"
+                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
                   color={ vote === -1 ? 'downvoteBlue' : iconColor }
                   display="inline-block"
                   overflow="hidden"

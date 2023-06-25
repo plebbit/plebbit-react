@@ -165,12 +165,12 @@ const CardPost = ({
                 bg="transparent"
                 border="none"
                 color="inherit"
-                cursor="pointer"
+                cursor={ post?.locked ? 'not-allowed' : "pointer" }
                 padding="inherit"
               >
                 <Box
                   border="2px solid transparent"
-                  cursor="pointer"
+                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
                   display="inline-block"
                   overflow="hidden"
                   h="24px"
@@ -215,12 +215,12 @@ const CardPost = ({
                 bg="transparent"
                 border="none"
                 color="inherit"
-                cursor="pointer"
+                cursor={ post?.locked ? 'not-allowed' : "pointer" }
                 padding="inherit"
               >
                 <Box
                   border="2px solid transparent"
-                  cursor="pointer"
+                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
                   color={ vote === -1 ? "downvoteBlue" : iconColor }
                   display="inline-block"
                   overflow="hidden"
@@ -1344,7 +1344,7 @@ const CardPost = ({
 
                         ) : (
 
-                          <Box >
+                          <Box>
                             {
                               hasThumbnail &&
                               <Box
@@ -1358,6 +1358,7 @@ const CardPost = ({
                                     maxH="318px"
                                     objectFit="cover"
                                     maxW="100%"
+                                    width='100%'
                                     overflow="hidden"
                                     bg={ postBg }
                                     src={ post?.thumbnailUrl }

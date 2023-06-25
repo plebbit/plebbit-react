@@ -250,7 +250,8 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
                 _focus={ {
                   outline: 'none',
                 } }
-                onClick={ upVote }
+                onClick={ disableReplies ? null : upVote }
+                disabled={ disableReplies }
                 icon={ <Icon as={ voteMode === 1 ? ImArrowUp : BiUpvote } w="20px" h="20px" /> }
               />
               <Box fontSize="14px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
@@ -273,8 +274,9 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
                 _focus={ {
                   outline: 'none',
                 } }
-                onClick={ downVote }
+                onClick={ disableReplies ? null : downVote }
                 icon={ <Icon as={ voteMode === -1 ? ImArrowDown : BiDownvote } w="20px" h="20px" /> }
+                disabled={ disableReplies }
               />
             </Flex>
             { !disableReplies && <Link

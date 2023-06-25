@@ -358,8 +358,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         _focus={ {
                           outline: 'none',
                         } }
-                        onClick={ upVote }
+                        onClick={ detail?.locked ? null : upVote }
                         icon={ <Icon as={ vote === 1 ? ImArrowUp : BiUpvote } w={ 4 } h={ 4 } /> }
+                        disabled={ detail?.locked }
                       />
                       <Text
                         fontSize="12px"
@@ -390,8 +391,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         _focus={ {
                           outline: 'none',
                         } }
-                        onClick={ downVote }
+                        onClick={ detail?.locked ? null : downVote }
                         icon={ <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } /> }
+                        disabled={ detail?.locked }
                       />
                       <Box
                         borderRight="1px solid #a4a4a4"
@@ -494,8 +496,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           _focus={ {
                             outline: 'none',
                           } }
-                          onClick={ upVote }
+                          onClick={ detail?.locked ? null : upVote }
                           icon={ <Icon as={ vote === 1 ? ImArrowUp : BiUpvote } w={ 4 } h={ 4 } /> }
+                          disabled={ detail?.locked }
                         />
                         <Text
                           fontSize="12px"
@@ -526,11 +529,12 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           _focus={ {
                             outline: 'none',
                           } }
-                          onClick={ downVote
+                          onClick={ detail?.locked ? null : downVote
                           }
                           icon={
                             <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } />
                           }
+                          disabled={ detail?.locked }
                         />
                         <Box
                           borderRight="1px solid #a4a4a4"
@@ -648,8 +652,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           _focus={ {
                             outline: 'none',
                           } }
-                          onClick={ upVote }
+                          onClick={ detail?.locked ? null : upVote }
                           icon={ <Icon as={ vote === 1 ? ImArrowUp : BiUpvote } w={ 4 } h={ 4 } /> }
+                          disabled={ detail?.locked }
                         />
                         <Text
                           fontSize="12px"
@@ -679,11 +684,12 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                             outline: 'none',
                           } }
                           onClick={
-                            downVote
+                            detail?.locked ? null : downVote
                           }
                           icon={
                             <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } />
                           }
+                          disabled={ detail?.locked }
                         />
                       </>
                     </Skeleton>
