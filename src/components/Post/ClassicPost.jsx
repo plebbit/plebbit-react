@@ -1264,6 +1264,12 @@ const ClassicPost = ({
                           }
                           options={ [
                             {
+                              label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                              icon: GoMute,
+                              id: "mute",
+                              disabled: type === "subPlebbit"
+                            },
+                            {
                               label: 'Edit',
                               icon: BsPencil,
                               id: 'edit',
@@ -1287,7 +1293,7 @@ const ClassicPost = ({
                               label: 'Hide',
                               icon: BsEyeSlash,
                               id: 'block',
-                              disabled: owner,
+
                             },
                             {
                               label: 'Delete',

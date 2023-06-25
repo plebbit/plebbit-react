@@ -1248,6 +1248,12 @@ const CardPost = ({
                               color: removeColor,
                             },
                             {
+                              label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                              icon: GoMute,
+                              id: "mute",
+                              disabled: type === "subPlebbit"
+                            },
+                            {
                               label: "Hide",
                               icon: BsEyeSlash,
                               id: "block",
