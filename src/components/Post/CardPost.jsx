@@ -31,6 +31,7 @@ import DropDown from "../../components/DropDown";
 import { BiUpvote, BiDownvote } from "react-icons/bi";
 import { ImArrowUp, ImArrowDown } from "react-icons/im";
 import { FiShare } from "react-icons/fi";
+import { FcCancel } from "react-icons/fc";
 import dateToFromNowDaily from "../../utils/formatDate";
 import numFormatter from "../../utils/numberFormater";
 import { ProfileContext } from "../../store/profileContext";
@@ -440,6 +441,7 @@ const CardPost = ({
                           ) }
                           { post?.removed && (
                             <Flex
+                              ml='4px'
                               cursor="pointer"
                               color={ removeColor }
                               alignItems="center"
@@ -447,10 +449,10 @@ const CardPost = ({
                                 post?.reason ? openRemovalModal() : {}
                               }
                             >
-                              <Icon as={ TiDeleteOutline } />
+                              <Icon as={ FcCancel } />
                               { !post?.reason ? (
                                 allowedSpecial && (
-                                  <Box>Add A removal reason</Box>
+                                  <Box>Add a removal reason</Box>
                                 )
                               ) : (
                                 <Tooltip

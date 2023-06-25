@@ -32,6 +32,7 @@ import { VscLinkExternal } from 'react-icons/vsc';
 import { FiExternalLink, FiMoreHorizontal, FiShare } from 'react-icons/fi';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
+import { FcCancel } from 'react-icons/fc';
 import fromNow from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import getUserName, { getSubName } from '../../utils/getUserName';
@@ -446,14 +447,15 @@ const ClassicPost = ({
                         { post?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
                         { post?.removed && (
                           <Flex
+                            ml='4px'
                             cursor="pointer"
                             color={ removeColor }
                             alignItems="center"
                             onClick={ () => (post?.reason ? openRemovalModal() : {}) }
                           >
-                            <Icon as={ TiDeleteOutline } />
+                            <Icon as={ FcCancel } />
                             { !post?.reason ? (
-                              allowedSpecial && <Box>Add A removal reason</Box>
+                              allowedSpecial && <Box>Add a removal reason</Box>
                             ) : (
                               <Tooltip
                                 fontSize="10px"

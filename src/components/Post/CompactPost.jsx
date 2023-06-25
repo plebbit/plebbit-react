@@ -36,6 +36,7 @@ import Link from '../Link';
 import DropDown from '../DropDown';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
+import { FcCancel } from 'react-icons/fc';
 
 import {
   MdCheckBox,
@@ -525,14 +526,15 @@ const CompactPost = ({
                     { post?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
                     { post?.removed && (
                       <Flex
+                        ml='4px'
                         cursor="pointer"
                         color={ removeColor }
                         alignItems="center"
                         onClick={ () => (post?.reason ? openRemovalModal() : {}) }
                       >
-                        <Icon as={ TiDeleteOutline } />
+                        <Icon as={ FcCancel } />
                         { !post?.reason ? (
-                          allowedSpecial && <Box>Add A removal reason</Box>
+                          allowedSpecial && <Box>Add a removal reason</Box>
                         ) : (
                           <Tooltip
                             fontSize="10px"

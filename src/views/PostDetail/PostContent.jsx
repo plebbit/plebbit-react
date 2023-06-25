@@ -30,6 +30,7 @@ import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { BsChat, BsBookmark, BsEyeSlash, BsPencil, BsChatSquare, BsShield } from 'react-icons/bs';
 import { GoGift, GoMute } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
+import { FcCancel } from 'react-icons/fc';
 import { FiMoreHorizontal, FiBell, FiExternalLink } from 'react-icons/fi';
 import { CgNotes, CgClose } from 'react-icons/cg';
 import SideBar from './postDetailSideBar';
@@ -796,6 +797,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         { detail?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
                         { detail?.removed && (
                           <Flex
+                            ml='4px'
                             cursor="pointer"
                             color={ removeColor }
                             alignItems="center"
@@ -803,9 +805,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                               !detail?.reason ? openRemovalModal() : {}
                             }
                           >
-                            <Icon as={ TiDeleteOutline } color={ removeColor } />
+                            <Icon as={ FcCancel } color={ removeColor } />
                             { !detail?.reason ? (
-                              isSpecial && <Box mx="3px">Add A removal reason</Box>
+                              isSpecial && <Box mx="3px">Add a removal reason</Box>
                             ) : (
                               <Tooltip
                                 fontSize="10px"
