@@ -52,6 +52,7 @@ import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
 import FlairLabel from "../Label/flairLabel";
 import StateString from '../Label/stateString';
+import { GoMute } from 'react-icons/go';
 
 const CompactPost = ({
   loading,
@@ -79,7 +80,9 @@ const CompactPost = ({
   downVote,
   editLabel,
   authorPath,
-  stateString
+  stateString,
+  blocked,
+  muted
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -702,10 +705,15 @@ const CompactPost = ({
                     }
                     options={ [
                       {
-                        label: 'Hide',
+                        label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                        icon: GoMute,
+                        id: "mute",
+                      },
+                      {
+                        label: blocked ? 'Unhide' : "Hide",
                         icon: BsEyeSlash,
-                        id: 'block',
-                        disabled: owner,
+                        id: "block",
+
                       },
                       {
                         label: 'Delete',
@@ -777,10 +785,15 @@ const CompactPost = ({
                     }
                     options={ [
                       {
-                        label: 'Hide',
+                        label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                        icon: GoMute,
+                        id: "mute",
+                      },
+                      {
+                        label: blocked ? 'Unhide' : "Hide",
                         icon: BsEyeSlash,
-                        id: 'block',
-                        disabled: owner,
+                        id: "block",
+
                       },
                       {
                         label: 'Delete',

@@ -23,7 +23,7 @@ import {
   BsShield,
   BsPinAngleFill,
 } from "react-icons/bs";
-import { GoGift } from "react-icons/go";
+import { GoGift, GoMute } from "react-icons/go";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { FaShare } from "react-icons/fa";
 import { FiMoreHorizontal, FiExternalLink } from "react-icons/fi";
@@ -78,7 +78,10 @@ const CardPost = ({
   downVote,
   editLabel,
   authorPath,
-  stateString
+  stateString,
+  blocked,
+  muted
+
 }) => {
   const mainBg = useColorModeValue("lightBody", "darkBody");
   const subPlebbitSubTitle = useColorModeValue("metaTextLight", "metaTextDark");
@@ -873,10 +876,15 @@ const CardPost = ({
                         }
                         options={ [
                           {
-                            label: "Hide",
+                            label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                            icon: GoMute,
+                            id: "mute",
+                          },
+                          {
+                            label: blocked ? 'Unhide' : "Hide",
                             icon: BsEyeSlash,
                             id: "block",
-                            disabled: owner,
+
                           },
                           {
                             label: "Delete",
@@ -1064,10 +1072,15 @@ const CardPost = ({
                         }
                         options={ [
                           {
-                            label: "Hide",
+                            label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                            icon: GoMute,
+                            id: "mute",
+                          },
+                          {
+                            label: blocked ? 'Unhide' : "Hide",
                             icon: BsEyeSlash,
                             id: "block",
-                            disabled: owner,
+
                           },
                           {
                             label: "Delete",
@@ -1236,7 +1249,7 @@ const CardPost = ({
                               label: "Hide",
                               icon: BsEyeSlash,
                               id: "block",
-                              disabled: owner,
+
                             },
                             {
                               label: "Delete",

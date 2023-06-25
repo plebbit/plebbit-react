@@ -25,7 +25,7 @@ import {
   BsShield,
   BsPinAngleFill,
 } from 'react-icons/bs';
-import { GoGift } from 'react-icons/go';
+import { GoGift, GoMute } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg';
 import { VscLinkExternal } from 'react-icons/vsc';
@@ -82,7 +82,8 @@ const ClassicPost = ({
   downVote,
   editLabel,
   authorPath,
-  stateString
+  stateString,
+  blocked, muted
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -742,19 +743,74 @@ const ClassicPost = ({
                           }
                           options={ [
                             {
-                              label: 'Sticky Post',
-                              icon: post?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
-                              id: 'pinned',
+                              label: "Sticky Post",
+                              icon: post?.pinned
+                                ? MdCheckBox
+                                : MdCheckBoxOutlineBlank,
+                              id: "pinned",
                             },
                             {
-                              label: 'Lock Comments',
-                              icon: post?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
-                              id: 'locked',
+                              label: "Lock Comments",
+                              icon: post?.locked
+                                ? MdCheckBox
+                                : MdCheckBoxOutlineBlank,
+                              id: "locked",
                             },
                             {
-                              label: 'Mark As Spoiler',
-                              icon: post?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
-                              id: 'spoiler',
+                              label: "Mark As Spoiler",
+                              icon: post?.spoiler
+                                ? MdCheckBox
+                                : MdCheckBoxOutlineBlank,
+                              id: "spoiler",
+                            },
+                          ] }
+                          rightOffset={ 0 }
+                          leftOffset="none"
+                          topOffset="34px"
+                        />
+                      </Flex>
+                      <Flex justifyContent="center">
+                        <DropDown
+                          onChange={ handleOption }
+                          dropDownTitle={
+                            <Flex
+                              borderRadius="2px"
+                              height="24px"
+                              verticalAlign="middle"
+                              padding="0 4px"
+                              width="100%"
+                              bg="transparent"
+                              border="none"
+                              alignItems="center"
+                              _hover={ {
+                                backgroundColor: inputBg,
+                              } }
+                            >
+                              <Icon
+                                as={ FiMoreHorizontal }
+                                color={ iconColor }
+                                h="20px"
+                                w="20px"
+                              />
+                            </Flex>
+                          }
+                          options={ [
+                            {
+                              label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                              icon: GoMute,
+                              id: "mute",
+                            },
+                            {
+                              label: blocked ? 'Unhide' : "Hide",
+                              icon: BsEyeSlash,
+                              id: "block",
+
+                            },
+                            {
+                              label: "Delete",
+                              icon: MdOutlineDeleteOutline,
+                              id: "delete",
+                              disabled: !owner,
                             },
                           ] }
                           rightOffset={ 0 }
@@ -969,6 +1025,8 @@ const ClassicPost = ({
                             _hover={ {
                               backgroundColor: inputBg,
                             } }
+                            onClick={ () => handleOption({ label: 'Hide', id: 'block' }) }
+
                           >
                             <Icon
                               as={ BsEyeSlash }
@@ -984,7 +1042,7 @@ const ClassicPost = ({
                               textTransform="capitalize"
                               verticalAlign="middle"
                             >
-                              Hide
+                              { blocked ? 'Unhide' : 'Hide' }
                             </Text>
                           </Flex>
                           <Flex

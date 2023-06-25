@@ -38,6 +38,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     profile?.signer?.address === post?.author?.address;
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(post?.subplebbitAddress);
   const { blocked, unblock, block } = useBlock({ cid: post?.cid })
+  const { blocked: muted, unblock: unMute, block: mute } = useBlock({ address: post?.subplebbitAddress })
   const {
     onOpen: openRemovalModal,
     onClose: closeRemovalModal,
@@ -85,11 +86,15 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   };
 
   const handleModOption = (val) => {
+    console.log(val)
     if (val?.id === 'delete') {
       openDeleteModal()
     }
-    if (val?.id === 'block') {
+    else if (val?.id === 'block') {
       blocked ? unblock() : block()
+    }
+    else if (val?.id === 'mute') {
+      muted ? unMute() : mute()
     } else openRemovalModal();
 
   };
@@ -113,6 +118,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   if (editedCommentState === 'failed') {
     editLabel = { text: 'failed edit', color: 'red' }
   }
+
 
 
 
@@ -155,6 +161,9 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             editLabel={ editLabel }
             authorPath={ authorPath }
             stateString={ stateString }
+            blocked={ blocked }
+            muted={ muted }
+
 
           />
         ) }
@@ -192,6 +201,9 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             editLabel={ editLabel }
             authorPath={ authorPath }
             stateString={ stateString }
+            blocked={ blocked }
+            muted={ muted }
+
 
           />
         ) }
@@ -220,7 +232,6 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               detailRoute={ detailRoute }
               pending={ pending }
               allowedSpecial={ isSpecial || allowedSpecial }
-
               openRemovalModal={ openRemovalModal }
               owner={ owner }
               showSpoiler={ showSpoiler }
@@ -231,6 +242,9 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               editLabel={ editLabel }
               authorPath={ authorPath }
               stateString={ stateString }
+              blocked={ blocked }
+              muted={ muted }
+
 
             />
           ) : (
@@ -256,7 +270,6 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               pending={ pending }
               detailRoute={ detailRoute }
               allowedSpecial={ isSpecial || allowedSpecial }
-
               openRemovalModal={ openRemovalModal }
               owner={ owner }
               showSpoiler={ showSpoiler }
@@ -267,6 +280,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               editLabel={ editLabel }
               authorPath={ authorPath }
               stateString={ stateString }
+              blocked={ blocked }
+              muted={ muted }
 
             />
           )) }
