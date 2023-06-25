@@ -56,7 +56,7 @@ const PostMedia = ({ post, detail }) => {
 
                                 <ReactPlayer onError={ (event) =>
                                     (event.target.style.display = "none")
-                                } preload playsInline url={ post?.link } width="100%" height="320px" controls playing />
+                                } preload playsInline url={ post?.link } width="100%" height="320px" controls playing={ false } />
 
                             </Flex>
                         )

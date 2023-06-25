@@ -5,7 +5,7 @@ import { ProfileContext } from '../../store/profileContext';
 import Post from '../../components/Post';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
-import { useSubscribe, useFeed, useSubplebbit, usePublishSubplebbitEdit, useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
+import { useSubscribe, useFeed, useSubplebbit, usePublishSubplebbitEdit, useSubplebbitStats, useBlock } from '@plebbit/plebbit-react-hooks';
 import { useLocation } from 'react-router-dom';
 import SideBar from './sideBar';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
@@ -20,6 +20,7 @@ import onError from '../../utils/onError';
 import logger from '../../utils/logger';
 import SubStyleSide from './subStyleSide';
 import useStateString from '../../hooks/useStateString';
+import { GoMute } from 'react-icons/go';
 
 const SubPlebbit = ({ match }) => {
   const { postStyle, feedSort, profile, device, accountSubplebbits } =
@@ -47,6 +48,7 @@ const SubPlebbit = ({ match }) => {
   const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';
   const showStyleBar = location?.search === '?styling=true';
   const stats = useSubplebbitStats({ subplebbitAddress: subPlebbit?.address })
+  const { blocked, unblock, block } = useBlock({ address: subPlebbit?.address })
 
 
 
@@ -167,9 +169,15 @@ const SubPlebbit = ({ match }) => {
     }
   };
 
+  const handleOption = (val) => {
+    if (val?.id === 'mute') {
+      blocked ? unblock() : block()
+    }
+
+  }
+
   const stateString = useStateString(subPlebbit)
 
-  console.log({ subPlebbit })
 
   return (
     <Layout stateString={ feeds?.length ? '' : stateString } name={ { label: subPlebbit?.title || 'Subplebbit', value: location?.pathname } }>
@@ -287,19 +295,44 @@ const SubPlebbit = ({ match }) => {
                             }</Button>
                         </Box>
                         <Box ml='8px'>
-                          <Button
-                            variant="outline"
-                            padding="5px"
-                            height="33px"
-                            width="33px"
-                            bg="transparent"
-                            borderColor={ subPlebbit?.suggested?.secondaryColor }
-                            borderRadius="100%"
-                          >
-                            {
+                          { blocked ?
+
+                            <Button
+                              borderRadius='9999px'
+                              padding="4px 16px"
+                              minW="32px"
+                              minH="32px"
+                              height='auto'
+                              width='100%'
+                              lineHeight='17px'
+                              fontWeight='700'
+                              fontSize='14px'
+                              bg="transparent"
+                              borderColor={ subPlebbit?.suggested?.secondaryColor }
+
+                              onClick={ () => blocked ? unblock() : block() }
+
+                            >
+
+                              <Icon mr='8px' color={ subPlebbit?.suggested?.secondaryColor } verticalAlign="middle" width="20px" height="20px" as={ GoMute } />
+                              Muted
+
+                            </Button>
+
+
+                            : <Button
+                              variant="outline"
+                              padding="5px"
+                              height="33px"
+                              width="33px"
+                              bg="transparent"
+                              borderColor={ subPlebbit?.suggested?.secondaryColor }
+                              borderRadius="100%"
+                            >
+
                               <Icon color={ subPlebbit?.suggested?.secondaryColor } verticalAlign="middle" width="20px" height="20px" as={ FaBell } />
-                            }
-                          </Button>
+
+                            </Button> }
                         </Box>
                       </Flex>
                     </Flex>
@@ -386,6 +419,8 @@ const SubPlebbit = ({ match }) => {
                   setData={ setData }
                   subPlebbit={ subPlebbit }
                   allowedSpecial={ allowedSpecial }
+                  blocked={ blocked }
+                  handleOption={ handleOption }
                 />
               </Flex>
             </Box>

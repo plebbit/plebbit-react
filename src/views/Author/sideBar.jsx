@@ -23,6 +23,8 @@ const SideBar = ({
   bg,
   profile,
   avatar,
+  handleOption,
+  blocked
 }) => {
   const Bg = useColorModeValue('#F8F9FA', '');
 
@@ -134,7 +136,7 @@ const SideBar = ({
               </Flex>
             </Flex>
 
-            { showMoreOptions && (
+            { showMoreOptions && !blocked && (
               <Flex flexDir="column">
 
                 <Button
@@ -150,6 +152,7 @@ const SideBar = ({
                     lineHeight: '16px',
                     justifyContent: 'left',
                   } }
+                  onClick={ () => handleOption({ id: 'mute' }) }
                 />
                 <Button
                   content="Report User"
@@ -164,22 +167,25 @@ const SideBar = ({
                     lineHeight: '16px',
                     justifyContent: 'left',
                   } }
+                  disabled
                 />
               </Flex>
             ) }
             <Flex justifyContent="flex-end" mt="12px">
-              <Button
-                content={ showMoreOptions ? 'Fewer Options' : 'More Options' }
-                border="none"
-                bg="transparent"
-                color="#0079d3"
-                onClick={ () => setShowMoreOptions(!showMoreOptions) }
-                sx={ {
-                  fontSize: '14p',
-                  fontWeight: '700',
-                  lineHeight: '17px',
-                } }
-              />
+              { blocked ?
+                <Button width='100%' variant='solid' onClick={ () => handleOption({ id: 'mute' }) }>Unblock User</Button>
+                : <Button
+                  content={ showMoreOptions ? 'Fewer Options' : 'More Options' }
+                  border="none"
+                  bg="transparent"
+                  color="#0079d3"
+                  onClick={ () => setShowMoreOptions(!showMoreOptions) }
+                  sx={ {
+                    fontSize: '14px',
+                    fontWeight: '700',
+                    lineHeight: '17px',
+                  } }
+                /> }
             </Flex>
           </Box>
         </Box>

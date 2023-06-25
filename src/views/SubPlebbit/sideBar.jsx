@@ -18,7 +18,7 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react';
-import { FiMail, FiShield } from 'react-icons/fi';
+import { FiMail, FiMoreHorizontal, FiShield } from 'react-icons/fi';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { GiCakeSlice } from 'react-icons/gi';
 import { BiChevronDown } from 'react-icons/bi';
@@ -33,6 +33,7 @@ import FlairLabel from "../../components/Label/flairLabel"
 import Link from "../../components/Link"
 import { getSubName } from '../../utils/getUserName';
 import { useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
+import DropDown from '../../components/DropDown';
 
 const SideBar = ({
   mt,
@@ -53,6 +54,8 @@ const SideBar = ({
   profile,
   handleSaveChanges,
   allowedSpecial,
+  blocked,
+  handleOption
 }) => {
   const color = useColorModeValue('lightText3', 'darkText1');
   const Bg = useColorModeValue('#F8F9FA', '');
@@ -64,11 +67,15 @@ const SideBar = ({
   const headerColor = useColorModeValue('white', 'darkIcon');
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
+  const iconColor = useColorModeValue("lightIcon", "darkIcon");
   const [showAddSubtopic, hideSubTopic] = useState(false);
   const [showAddDescription, hideAddDescription] = useState(false);
   const [showComOptions, hideComOptions] = useState(false);
   const stats = useSubplebbitStats({ subplebbitAddress: subPlebbit?.address })
-  const loading = subPlebbit === undefined || stats.state === 'fetching-ipfs';
+  const loading = stats.state === 'fetching-ipfs' || subPlebbit === undefined;
+
+
+
 
 
   return (
@@ -139,6 +146,42 @@ const SideBar = ({
                 </Link>
               </Box>
             ) }
+            <Flex justifyContent="center" alignItems='center' margin="10px 0 auto auto" >
+              <DropDown
+                onChange={ handleOption }
+                dropDownTitle={
+                  <Flex
+                    borderRadius="2px"
+                    height="24px"
+                    padding="4px"
+                    width="100%"
+                    bg="transparent"
+                    border="none"
+                    alignItems="center"
+                    _hover={ {
+                      backgroundColor: inputBg,
+                      color: color
+                    } }
+                  >
+                    <Icon
+                      as={ FiMoreHorizontal }
+                      h="20px"
+                      w="20px"
+                    />
+                  </Flex>
+                }
+                options={ [
+                  {
+                    label: `${blocked ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                    id: "mute",
+                  },
+
+                ] }
+                rightOffset={ 0 }
+                leftOffset="none"
+                topOffset="34px"
+              />
+            </Flex>
           </Flex>
           <Box maxH="none" padding="12px">
             <Box mb="8px" pos="relative">

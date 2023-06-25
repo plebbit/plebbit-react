@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso'
 import { ProfileContext } from '../../store/profileContext';
 
-const InfiniteScroll = ({ feeds: feed, loader, hasMore, loadMore, content, disableBlocked }) => {
+const InfiniteScroll = ({ feeds: feed, loader, hasMore, loadMore, content, disableBlocked, enableSubBlock }) => {
 
 
   const { profile } = useContext(ProfileContext);
@@ -27,7 +27,7 @@ const InfiniteScroll = ({ feeds: feed, loader, hasMore, loadMore, content, disab
       return feed.filter(item => (!blockedAddress.includes(item?.subplebbitAddress)));
     };
 
-    setFeeds(disableBlocked ? feed : filterCids(feed));
+    setFeeds(enableSubBlock ? filterCids(feed) : feed);
   }, [blockedAddress]);
 
 
