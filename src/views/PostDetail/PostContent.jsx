@@ -20,7 +20,8 @@ import {
   useComment,
   useSubplebbit,
   useEditedComment,
-  useBlock
+  useBlock,
+  useAuthorAddress
 } from '@plebbit/plebbit-react-hooks';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
@@ -250,9 +251,10 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
     }
   }, [comment?.cid]);
 
+  const { authorAddress, shortAuthorAddress } = useAuthorAddress({ comment: detail })
   const owner =
-    profile?.author?.address === detail?.author?.address ||
-    profile?.signer?.address === detail?.author?.address;
+    profile?.author?.address === authorAddress ||
+    profile?.signer?.address === authorAddress;
 
   const authorPath = owner ? "/profile" : `/u/${detail?.author?.address}/c/${detail?.cid}`
 

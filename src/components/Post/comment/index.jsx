@@ -10,7 +10,7 @@ import {
   Skeleton,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useAuthorAvatar, useAccountVote, useEditedComment, useAccountComment } from '@plebbit/plebbit-react-hooks';
+import { useAuthorAvatar, useAccountVote, useEditedComment, useAccountComment, useAuthorAddress } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -69,11 +69,12 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
     onClose: closeRemovalModal,
     isOpen: isRemovalModalOpen,
   } = useDisclosure();
+  const { authorAddress, shortAuthorAddress } = useAuthorAddress({ comment })
 
 
   const owner =
-    profile?.author?.address === comment?.author?.address ||
-    profile?.signer?.address === comment?.author?.address;
+    profile?.author?.address === authorAddress ||
+    profile?.signer?.address === authorAddress;
 
   const upVote = usePublishUpvote(comment)
   const downVote = usePublishDownvote(comment)

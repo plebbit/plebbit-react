@@ -12,7 +12,7 @@
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",
     "@plebbit/plebbit-logger": "https://github.com/plebbit/plebbit-logger.git",
-    "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#efa802a1af8c75362e0d9a9afe1bc769f54e34cd",
+    "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#53226863a4041953f46f920b578c9eac71663572",
     "@sweetalert/with-react": "0.1.1",
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/react": "12.1.2",

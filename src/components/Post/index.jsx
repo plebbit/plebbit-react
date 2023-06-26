@@ -6,6 +6,7 @@ import {
   useBlock,
   useEditedComment,
   useSubplebbit,
+  useAuthorAddress
 } from '@plebbit/plebbit-react-hooks';
 import CardPost from './CardPost';
 import ClassicPost from './ClassicPost';
@@ -31,11 +32,13 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: post?.author });
   const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit({ subplebbitAddress: post?.subplebbitAddress });
+  const { authorAddress, shortAuthorAddress } = useAuthorAddress({ comment: post })
   const isOnline = getIsOnline(getSub?.updatedAt);
   const [showSpoiler, setShowSpoiler] = useState(post?.spoiler);
   const owner =
-    profile?.author?.address === post?.author?.address ||
-    profile?.signer?.address === post?.author?.address;
+    profile?.author?.address === authorAddress ||
+    profile?.signer?.address === authorAddress;
+
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(post?.subplebbitAddress);
   const { blocked, unblock, block } = useBlock({ cid: post?.cid })
   const { blocked: muted, unblock: unMute, block: mute } = useBlock({ address: post?.subplebbitAddress })
