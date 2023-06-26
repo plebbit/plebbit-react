@@ -34,6 +34,6 @@ const useSubPlebbitDefaultData = () => {
     await subplebbits();
   }, []);
 
-  return value === [] ? [] : value;
+  return value;
 };
 export default useSubPlebbitDefaultData;

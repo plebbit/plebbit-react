@@ -38,7 +38,6 @@ const Home = () => {
 
 
 
-
   return (
     <Layout name={ { label: 'Home', value: homeAdd } } stateString={ feeds?.length ? "" : stateString }>
       { device !== 'mobile' ? (

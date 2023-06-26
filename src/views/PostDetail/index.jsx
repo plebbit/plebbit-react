@@ -43,7 +43,7 @@ const PostDetail = () => {
                             right="0"
                             width="100%"
                             _after={ {
-                                background: detBg,
+                                background: subplebbit?.suggested?.backgroundUrl ? `url(${subplebbit?.suggested?.backgroundUrl}) repeat center top` : detBg,
                                 bottom: '0',
                                 height: '100%',
                                 content: `" "`,

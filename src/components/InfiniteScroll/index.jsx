@@ -14,21 +14,21 @@ const InfiniteScroll = ({ feeds: feed, loader, hasMore, loadMore, content, disab
 
 
 
-  useEffect(() => {
+  useMemo(() => {
     const filterCids = (feed) => {
       return feed.filter(item => (!blockedCids.includes(item.cid)));
     };
 
     setFeeds(disableBlocked ? feed : filterCids(feed));
-  }, [blockedCids]);
+  }, [blockedCids, feed]);
 
-  useEffect(() => {
+  useMemo(() => {
     const filterCids = (feed) => {
       return feed.filter(item => (!blockedAddress.includes(item?.subplebbitAddress)));
     };
 
     setFeeds(enableSubBlock ? filterCids(feed) : feed);
-  }, [blockedAddress]);
+  }, [blockedAddress, feed]);
 
 
 

@@ -179,8 +179,16 @@ const SubPlebbit = ({ match }) => {
   const stateString = useStateString(subPlebbit)
 
 
+
+
   return (
-    <Layout stateString={ feeds?.length ? '' : stateString } name={ { label: subPlebbit?.title || 'Subplebbit', value: location?.pathname } }>
+    <Layout background=
+      { subPlebbit?.suggested?.backgroundUrl && `url(${subPlebbit?.suggested?.backgroundUrl}) repeat center top` }
+
+
+
+
+      stateString={ feeds?.length ? '' : stateString } name={ { label: subPlebbit?.title || 'Subplebbit', value: location?.pathname } }>
       { showStyleBar && <SubStyleSide /> }
       <>
         { device !== 'mobile' ? (
@@ -203,10 +211,10 @@ const SubPlebbit = ({ match }) => {
             <Box zIndex="3">
               <Link to={ `/p/${subPlebbit?.address}` }>
                 <Flex
-                  backgroundColor={ subPlebbit?.suggested?.primaryColor || "rgb(51, 168, 255)" }
-                  backgroundImage={ subPlebbit?.suggested?.bannerUrl }
+                  background={ `${subPlebbit?.suggested?.primaryColor || "rgb(51, 168, 255)"} url(${subPlebbit?.suggested?.bannerUrl}) no-repeat center / cover` }
+
                   filter="none"
-                  height="64px"
+                  height="128px"
                   padding="8px 16px"
                   margin="0 auto"
                   minW="260px"

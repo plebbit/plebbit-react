@@ -163,16 +163,10 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const toast = useToast();
 
   const [subLoading, setSubLoading] = useState(false);
-  const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editMode, setEditMode] = useState(detail?.content ? 'post' : 'link');
-  const [editPost, setEditPost] = useState(editMode === 'post' ? detail?.content : detail?.link);
   const [copied, setCopied] = useState(false);
-  const [postEditorState, setPostEditorState] = useState(
-    EditorState.createWithContent(
-      ContentState.createFromBlockArray(convertFromHTML(`<p>${editPost}</p>`))
-    )
-  );
+
   const [showSpoiler, setShowSpoiler] = useState(detail?.spoiler);
   const {
     device,
