@@ -51,7 +51,7 @@ const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments,
                                 borderRadius="4px"
                                 overflow="hidden auto"
                                 padding="8px 0px"
-                                resize="vertical"
+                                resize='none'
                                 minH="200px"
                             >
                                 <Editor
@@ -60,6 +60,7 @@ const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments,
                                     setEditorState={ setEditorState }
                                     showSubmit
                                     handleSubmit={ handlePublishPost }
+                                    value={ content }
                                 />
                             </Box>
                         </>
@@ -111,6 +112,7 @@ const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments,
                                                 showSubmit
                                                 handleSubmit={ handlePublishPost }
                                                 submitBtnText="Add Comment"
+                                                value={ content }
                                                 otherBtn={
                                                     <Button mr="auto" onClick={ () => setShowMEditor(false) }>
                                                         <MdClose />

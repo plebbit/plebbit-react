@@ -47,8 +47,10 @@ const CreatePost = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [mode, setMode] = useState('post');
+  const [type, setType] = useState('markup')
   const [spoiler, setSpoiler] = useState(false);
   const toast = useToast();
+
 
   const mySubplebbits = Object.keys(accountSubplebbits)?.length
     ? Object.keys(accountSubplebbits)?.map((pages) => ({
@@ -364,15 +366,26 @@ const CreatePost = () => {
                       borderRadius="4px"
                       minH={ mode === 'post' && '300px' }
                       overflow="hidden auto"
-                      resize="vertical"
                     >
                       { mode === 'post' ? (
-                        <Editor
-                          setValue={ setContent }
-                          editorState={ editorState }
-                          setEditorState={ setEditorState }
-                          placeholder="Text (Optional)"
-                        />
+                        type === 'markup' ?
+                          <Textarea
+                            placeholder="Text"
+                            onChange={ (e) => setContent(e.target.value) }
+                            value={ content }
+                            color={ color }
+                            minHeight='300px'
+                            resize='none'
+
+                          />
+                          :
+                          <Editor
+                            setValue={ setContent }
+                            editorState={ editorState }
+                            setEditorState={ setEditorState }
+                            placeholder="Text"
+                            value={ content }
+                          />
                       ) : (
                         <Textarea
                           placeholder="Url"
@@ -381,12 +394,7 @@ const CreatePost = () => {
                           color={ color }
                         />
                       ) }
-                      {/* <Editor
-                          setValue={setLink}
-                          editorState={editorState}
-                          setEditorState={setEditorState}
-                          placeholder="Url"
-                        /> */}
+
                     </Box>
                   </Box>
                 </Box>

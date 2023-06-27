@@ -123,6 +123,7 @@ const EditComment = ({ detail, setEdit }) => {
                             editorState={ postEditorState }
                             setEditorState={ setPostEditorState }
                             setValue={ setEditPost }
+                            value={ editPost }
                         />
                     ) : (
                         <Textarea
@@ -159,6 +160,7 @@ const EditComment = ({ detail, setEdit }) => {
                             editorState={ postEditorState }
                             setEditorState={ setPostEditorState }
                             setValue={ setEditPost }
+                            value={ editPost }
                         />
                     ) : (
                         <Textarea

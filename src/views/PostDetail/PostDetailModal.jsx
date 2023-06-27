@@ -27,7 +27,7 @@ function PostDetailModal() {
   const [subplebbit, setSubplebbit] = useState({})
   const detBg = useColorModeValue('#bbbdbf', '#030303');
 
-  console.log({ subplebbit })
+
 
 
   return (

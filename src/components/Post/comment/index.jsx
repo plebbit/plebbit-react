@@ -451,7 +451,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
             borderRadius="4px"
             overflow="hidden auto"
             padding="8px 16px"
-            resize="vertical"
+            resize='none'
           >
 
             <Editor
@@ -460,8 +460,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
               setEditorState={ setEditorState }
               showSubmit
               handleSubmit={ handlePublishPost }
-
-
+              value={ content }
             />
           </Box>
         ) : (
