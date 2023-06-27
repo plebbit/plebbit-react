@@ -14,7 +14,7 @@ const Marked = ({ content }) => {
     html: true,
     xhtmlOut: true,
     typographer: true,
-
+    linkify: false
 
   });
   return (parse(sanitize(md.render(content))));
