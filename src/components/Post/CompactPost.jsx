@@ -36,6 +36,7 @@ import Link from '../Link';
 import DropDown from '../DropDown';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
 import { TiDeleteOutline } from 'react-icons/ti';
+import { FcCancel } from 'react-icons/fc';
 
 import {
   MdCheckBox,
@@ -52,6 +53,7 @@ import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
 import FlairLabel from "../Label/flairLabel";
 import StateString from '../Label/stateString';
+import { GoMute } from 'react-icons/go';
 
 const CompactPost = ({
   loading,
@@ -79,7 +81,9 @@ const CompactPost = ({
   downVote,
   editLabel,
   authorPath,
-  stateString
+  stateString,
+  blocked,
+  muted
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -128,13 +132,13 @@ const CompactPost = ({
                 bg="transparent"
                 border="none"
                 color="inherit"
-                cursor="pointer"
+                cursor={ post?.locked ? 'not-allowed' : "pointer" }
                 padding="initial"
                 textAlign="center"
               >
                 <Box
                   borderRadius="2px"
-                  cursor="pointer"
+                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
                   display="inline-block"
                   overflow="hidden"
                   h="24px"
@@ -182,12 +186,12 @@ const CompactPost = ({
                 bg="transparent"
                 border="none"
                 color="inherit"
-                cursor="pointer"
+                cursor={ post?.locked ? 'not-allowed' : "pointer" }
                 padding="initial"
               >
                 <Box
                   borderRadius="2px"
-                  cursor="pointer"
+                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
                   color={ vote === -1 ? 'downvoteBlue' : iconColor }
                   display="inline-block"
                   overflow="hidden"
@@ -522,14 +526,15 @@ const CompactPost = ({
                     { post?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
                     { post?.removed && (
                       <Flex
+                        ml='4px'
                         cursor="pointer"
                         color={ removeColor }
                         alignItems="center"
                         onClick={ () => (post?.reason ? openRemovalModal() : {}) }
                       >
-                        <Icon as={ TiDeleteOutline } />
+                        <Icon as={ FcCancel } />
                         { !post?.reason ? (
-                          allowedSpecial && <Box>Add A removal reason</Box>
+                          allowedSpecial && <Box>Add a removal reason</Box>
                         ) : (
                           <Tooltip
                             fontSize="10px"
@@ -702,10 +707,16 @@ const CompactPost = ({
                     }
                     options={ [
                       {
-                        label: 'Hide',
+                        label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                        icon: GoMute,
+                        id: "mute",
+                        disabled: type === "subPlebbit"
+                      },
+                      {
+                        label: blocked ? 'Unhide' : "Hide",
                         icon: BsEyeSlash,
-                        id: 'block',
-                        disabled: owner,
+                        id: "block",
+
                       },
                       {
                         label: 'Delete',
@@ -777,10 +788,16 @@ const CompactPost = ({
                     }
                     options={ [
                       {
-                        label: 'Hide',
+                        label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                        icon: GoMute,
+                        id: "mute",
+                        disabled: type === "subPlebbit"
+                      },
+                      {
+                        label: blocked ? 'Unhide' : "Hide",
                         icon: BsEyeSlash,
-                        id: 'block',
-                        disabled: owner,
+                        id: "block",
+
                       },
                       {
                         label: 'Delete',

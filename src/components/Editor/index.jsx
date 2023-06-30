@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { convertToRaw } from 'draft-js';
-import { Flex, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Textarea, useColorModeValue } from '@chakra-ui/react';
 import { Editor as MarkdownEditor } from 'react-draft-wysiwyg';
 import draftToMarkdown from 'draftjs-to-markdown';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -23,6 +23,7 @@ const Editor = ({
   otherBtn,
   loading,
   placeholder,
+  value
 }) => {
   const toolbarBg = useColorModeValue('#F6F7F8', '#272729');
   const toolbarColor = useColorModeValue('#818384', '#818384');
@@ -43,7 +44,17 @@ const Editor = ({
 
   return (
     <Wrapper toolbarBg={ toolbarBg } toolbarColor={ toolbarColor } wrapperBorder={ wrapperBorder }>
-      <MarkdownEditor
+      <Box className='wrapperClassName'>
+        <Textarea
+          placeholder="Text"
+          onChange={ (e) => setValue(e.target.value) }
+          value={ value }
+          className='editorClassName'
+          outline='none'
+        />
+      </Box>
+
+      { 1 == 2 && <MarkdownEditor
         toolbarClassName={ toolbarClassName || 'toolbarClassName' }
         wrapperClassName={ wrapperClassName || 'wrapperClassName' }
         editorClassName={ editorClassName || 'editorClassName' }
@@ -115,7 +126,7 @@ const Editor = ({
             redo: { className: 'button-class' },
           },
         } }
-      />
+      /> }
       { showSubmit && (
         <Flex
           width="100%"
@@ -130,7 +141,7 @@ const Editor = ({
           <Button
             content={ submitBtnText || 'comment' }
             cursor="pointer"
-            disabled={ disabled }
+            disabled={ !value?.length }
             padding="4px 8px"
             minH="24px"
             margin="4px 8px"

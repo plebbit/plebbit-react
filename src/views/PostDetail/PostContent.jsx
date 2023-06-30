@@ -20,6 +20,8 @@ import {
   useComment,
   useSubplebbit,
   useEditedComment,
+  useBlock,
+  useAuthorAddress
 } from '@plebbit/plebbit-react-hooks';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
@@ -27,8 +29,9 @@ import { CloseIcon } from '@chakra-ui/icons';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { BsChat, BsBookmark, BsEyeSlash, BsPencil, BsChatSquare, BsShield } from 'react-icons/bs';
-import { GoGift } from 'react-icons/go';
+import { GoGift, GoMute } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
+import { FcCancel } from 'react-icons/fc';
 import { FiMoreHorizontal, FiBell, FiExternalLink } from 'react-icons/fi';
 import { CgNotes, CgClose } from 'react-icons/cg';
 import SideBar from './postDetailSideBar';
@@ -161,16 +164,10 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const toast = useToast();
 
   const [subLoading, setSubLoading] = useState(false);
-  const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editMode, setEditMode] = useState(detail?.content ? 'post' : 'link');
-  const [editPost, setEditPost] = useState(editMode === 'post' ? detail?.content : detail?.link);
   const [copied, setCopied] = useState(false);
-  const [postEditorState, setPostEditorState] = useState(
-    EditorState.createWithContent(
-      ContentState.createFromBlockArray(convertFromHTML(`<p>${editPost}</p>`))
-    )
-  );
+
   const [showSpoiler, setShowSpoiler] = useState(detail?.spoiler);
   const {
     device,
@@ -181,7 +178,8 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const history = useHistory();
   const [showFullComments, setShowFullComments] = useState(!isReply);
 
-
+  const { blocked, unblock, block } = useBlock({ cid: detail?.cid })
+  const { muted, unblock: unMute, block: mute } = useBlock({ address: detail?.subplebbitAddress })
 
 
 
@@ -227,6 +225,11 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
       setEdit(true);
     } else if (option?.id === 'delete') {
       openDeleteModal()
+    } if (option?.id === 'block') {
+      blocked ? unblock() : block()
+    }
+    if (option?.id === 'mute') {
+      muted ? unMute() : mute()
     } else openRemovalModal();
   };
 
@@ -241,15 +244,17 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   };
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(detail?.subplebbitAddress);
 
+
   useEffect(() => {
     if (feedFromProfile && comment?.cid) {
       history.push(`/p/${comment?.subplebbitAddress}/c/${comment?.cid}`);
     }
   }, [comment?.cid]);
 
+  const { authorAddress, shortAuthorAddress } = useAuthorAddress({ comment: detail })
   const owner =
-    profile?.author?.address === detail?.author?.address ||
-    profile?.signer?.address === detail?.author?.address;
+    profile?.author?.address === authorAddress ||
+    profile?.signer?.address === authorAddress;
 
   const authorPath = owner ? "/profile" : `/u/${detail?.author?.address}/c/${detail?.cid}`
 
@@ -350,8 +355,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         _focus={ {
                           outline: 'none',
                         } }
-                        onClick={ upVote }
+                        onClick={ detail?.locked ? null : upVote }
                         icon={ <Icon as={ vote === 1 ? ImArrowUp : BiUpvote } w={ 4 } h={ 4 } /> }
+                        disabled={ detail?.locked }
                       />
                       <Text
                         fontSize="12px"
@@ -382,8 +388,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         _focus={ {
                           outline: 'none',
                         } }
-                        onClick={ downVote }
+                        onClick={ detail?.locked ? null : downVote }
                         icon={ <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } /> }
+                        disabled={ detail?.locked }
                       />
                       <Box
                         borderRight="1px solid #a4a4a4"
@@ -486,8 +493,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           _focus={ {
                             outline: 'none',
                           } }
-                          onClick={ upVote }
+                          onClick={ detail?.locked ? null : upVote }
                           icon={ <Icon as={ vote === 1 ? ImArrowUp : BiUpvote } w={ 4 } h={ 4 } /> }
+                          disabled={ detail?.locked }
                         />
                         <Text
                           fontSize="12px"
@@ -518,11 +526,12 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           _focus={ {
                             outline: 'none',
                           } }
-                          onClick={ downVote
+                          onClick={ detail?.locked ? null : downVote
                           }
                           icon={
                             <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } />
                           }
+                          disabled={ detail?.locked }
                         />
                         <Box
                           borderRight="1px solid #a4a4a4"
@@ -640,8 +649,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           _focus={ {
                             outline: 'none',
                           } }
-                          onClick={ upVote }
+                          onClick={ detail?.locked ? null : upVote }
                           icon={ <Icon as={ vote === 1 ? ImArrowUp : BiUpvote } w={ 4 } h={ 4 } /> }
+                          disabled={ detail?.locked }
                         />
                         <Text
                           fontSize="12px"
@@ -671,11 +681,12 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                             outline: 'none',
                           } }
                           onClick={
-                            downVote
+                            detail?.locked ? null : downVote
                           }
                           icon={
                             <Icon as={ vote === -1 ? ImArrowDown : BiDownvote } w={ 4 } h={ 4 } />
                           }
+                          disabled={ detail?.locked }
                         />
                       </>
                     </Skeleton>
@@ -782,6 +793,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                         { detail?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
                         { detail?.removed && (
                           <Flex
+                            ml='4px'
                             cursor="pointer"
                             color={ removeColor }
                             alignItems="center"
@@ -789,9 +801,9 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                               !detail?.reason ? openRemovalModal() : {}
                             }
                           >
-                            <Icon as={ TiDeleteOutline } color={ removeColor } />
+                            <Icon as={ FcCancel } color={ removeColor } />
                             { !detail?.reason ? (
-                              isSpecial && <Box mx="3px">Add A removal reason</Box>
+                              isSpecial && <Box mx="3px">Add a removal reason</Box>
                             ) : (
                               <Tooltip
                                 fontSize="10px"
@@ -1163,105 +1175,98 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           />
                         </Flex>
 
-                        { owner ? (
-                          <Link
-                            display="flex"
-                            alignItems="center"
-                            borderRadius="2px"
-                            padding="8px"
-                            marginRight="4px"
-                            _hover={ {
-                              textDecor: 'none',
-                              outline: 'none',
-                              bg: bottomButtonHover,
-                            } }
-                            _focus={ {
-                              boxShadow: 'none',
-                            } }
-                          >
-                            <DropDown
-                              topOffset="30px"
-                              width="215px"
-                              dropDownTitle={
-                                <Flex
-                                  borderRadius="2px"
-                                  height="24px"
-                                  verticalAlign="middle"
-                                  padding="0 4px"
-                                  width="100%"
-                                  bg="transparent"
-                                  border="none"
-                                  alignItems="center"
-                                >
-                                  <Icon
-                                    as={ FiMoreHorizontal }
-                                    color={ iconColor }
-                                    h="20px"
-                                    w="20px"
-                                  />
-                                </Flex>
-                              }
-                              options={ [
-                                {
-                                  label: 'Edit Post',
-                                  icon: BsPencil,
-                                  id: 'edit',
-                                },
-                                {
-                                  label: 'Save',
-                                  icon: BsBookmark,
-                                  id: 'save',
-                                },
 
-                                {
-                                  label: 'Delete',
-                                  icon: MdOutlineDeleteOutline,
-                                  id: 'delete',
-                                },
-                              ] }
-                              render={ (item) => (
-                                <Flex
-                                  alignItems="center"
-                                  padding="8px"
-                                  fontSize="14px"
-                                  lineHeight="18px"
-                                  fontWeight="500"
+                        <Link
+                          display="flex"
+                          alignItems="center"
+                          borderRadius="2px"
+                          padding="8px"
+                          marginRight="4px"
+                          _hover={ {
+                            textDecor: 'none',
+                            outline: 'none',
+                            bg: bottomButtonHover,
+                          } }
+                          _focus={ {
+                            boxShadow: 'none',
+                          } }
+                        >
+                          <DropDown
+                            topOffset="30px"
+                            width="215px"
+                            dropDownTitle={
+                              <Flex
+                                borderRadius="2px"
+                                height="24px"
+                                verticalAlign="middle"
+                                padding="0 4px"
+                                width="100%"
+                                bg="transparent"
+                                border="none"
+                                alignItems="center"
+                              >
+                                <Icon
+                                  as={ FiMoreHorizontal }
                                   color={ iconColor }
-                                  borderTop={ `1px solid ${border2}` }
-                                  textTransform="capitalize"
-                                  _hover={ {
-                                    bg: bottomButtonHover,
-                                  } }
-                                  onClick={ () => handleOption(item) }
-                                >
-                                  <Icon as={ item?.icon } w="20px" h="20px" mr="6px" />
-                                  <Box>{ item?.label }</Box>
-                                </Flex>
-                              ) }
-                            />
-                          </Link>
-                        ) : (
-                          <>
-                            <Link
-                              display="flex"
-                              alignItems="center"
-                              borderRadius="2px"
-                              padding="8px"
-                              marginRight="4px"
-                              _hover={ {
-                                textDecor: 'none',
-                                outline: 'none',
-                                bg: bottomButtonHover,
-                              } }
-                              _focus={ {
-                                boxShadow: 'none',
-                              } }
-                            >
-                              <Icon as={ BsEyeSlash } height={ 5 } width={ 5 } mr="5px" />
-                              <Box>Hide</Box>
-                            </Link>
-                          </>
-                        ) }
+                                  h="20px"
+                                  w="20px"
+                                />
+                              </Flex>
+                            }
+                            options={ [
+                              {
+                                label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subplebbit)}`,
+                                icon: GoMute,
+                                id: "mute",
+                              },
+                              {
+                                label: blocked ? 'Unhide' : "Hide",
+                                icon: BsEyeSlash,
+                                id: "block",
+
+                              },
+                              {
+                                label: 'Edit Post',
+                                icon: BsPencil,
+                                id: 'edit',
+                                disabled: !owner,
+                              },
+                              {
+                                label: 'Save',
+                                icon: BsBookmark,
+                                id: 'save',
+
+                              },
+
+                              {
+                                label: 'Delete',
+                                icon: MdOutlineDeleteOutline,
+                                id: 'delete',
+                                disabled: !owner,
+                              },
+                            ] }
+                            render={ (item) => (
+                              <Flex
+                                alignItems="center"
+                                padding="8px"
+                                fontSize="14px"
+                                lineHeight="18px"
+                                fontWeight="500"
+                                color={ iconColor }
+                                borderTop={ `1px solid ${border2}` }
+                                textTransform="capitalize"
+                                _hover={ {
+                                  bg: bottomButtonHover,
+                                } }
+                                onClick={ () => handleOption(item) }
+                              >
+                                <Icon as={ item?.icon } w="20px" h="20px" mr="6px" />
+                                <Box>{ item?.label }</Box>
+                              </Flex>
+                            ) }
+                          />
+                        </Link>
+
                       </Flex>
                     </Flex>
                   ) : (
@@ -1361,104 +1366,91 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
                           <Box>save</Box>
                         </Link>
 
-                        { owner ? (
-                          <Link
-                            display="flex"
-                            alignItems="center"
-                            borderRadius="2px"
-                            padding="8px"
-                            marginRight="4px"
-                            _hover={ {
-                              textDecor: 'none',
-                              outline: 'none',
-                              bg: bottomButtonHover,
-                            } }
-                            _focus={ {
-                              boxShadow: 'none',
-                            } }
-                          >
-                            <DropDown
-                              topOffset="30px"
-                              width="215px"
-                              dropDownTitle={
-                                <Flex
-                                  borderRadius="2px"
-                                  height="24px"
-                                  verticalAlign="middle"
-                                  padding="0 4px"
-                                  width="100%"
-                                  bg="transparent"
-                                  border="none"
-                                  alignItems="center"
-                                >
-                                  <Icon
-                                    as={ FiMoreHorizontal }
-                                    color={ iconColor }
-                                    h="20px"
-                                    w="20px"
-                                  />
-                                </Flex>
-                              }
-                              options={ [
-                                {
-                                  label: 'Edit Post',
-                                  icon: BsPencil,
-                                  id: 'edit',
-                                },
-                                {
-                                  label: 'Save',
-                                  icon: BsBookmark,
-                                  id: 'save',
-                                },
-                                {
-                                  label: 'Delete',
-                                  icon: MdOutlineDeleteOutline,
-                                  id: 'delete',
-                                },
-                              ] }
-                              render={ (item) => (
-                                <Flex
-                                  alignItems="center"
-                                  padding="8px"
-                                  fontSize="14px"
-                                  lineHeight="18px"
-                                  fontWeight="500"
+                        <Link
+                          display="flex"
+                          alignItems="center"
+                          borderRadius="2px"
+                          padding="8px"
+                          marginRight="4px"
+                          _hover={ {
+                            textDecor: 'none',
+                            outline: 'none',
+                            bg: bottomButtonHover,
+                          } }
+                          _focus={ {
+                            boxShadow: 'none',
+                          } }
+                        >
+                          <DropDown
+                            topOffset="30px"
+                            width="215px"
+                            dropDownTitle={
+                              <Flex
+                                borderRadius="2px"
+                                height="24px"
+                                verticalAlign="middle"
+                                padding="0 4px"
+                                width="100%"
+                                bg="transparent"
+                                border="none"
+                                alignItems="center"
+                              >
+                                <Icon
+                                  as={ FiMoreHorizontal }
                                   color={ iconColor }
-                                  borderTop={ `1px solid ${border2}` }
-                                  textTransform="capitalize"
-                                  _hover={ {
-                                    bg: bottomButtonHover,
-                                  } }
-                                  onClick={ () => handleOption(item) }
-                                >
-                                  <Icon as={ item?.icon } w="20px" h="20px" mr="6px" />
-                                  <Box>{ item?.label }</Box>
-                                </Flex>
-                              ) }
-                            />
-                          </Link>
-                        ) : (
-                          <>
-                            <Link
-                              display="flex"
-                              alignItems="center"
-                              borderRadius="2px"
-                              padding="8px"
-                              marginRight="4px"
-                              _hover={ {
-                                textDecor: 'none',
-                                outline: 'none',
-                                bg: bottomButtonHover,
-                              } }
-                              _focus={ {
-                                boxShadow: 'none',
-                              } }
-                            >
-                              <Icon as={ BsEyeSlash } height={ 5 } width={ 5 } mr="5px" />
-                              <Box>Hide</Box>
-                            </Link>
-                          </>
-                        ) }
+                                  h="20px"
+                                  w="20px"
+                                />
+                              </Flex>
+                            }
+                            options={ [
+                              {
+                                label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subplebbit)}`,
+                                icon: GoMute,
+                                id: "mute",
+                              },
+                              {
+                                label: blocked ? 'Unhide' : "Hide",
+                                icon: BsEyeSlash,
+                                id: "block",
+
+                              },
+                              {
+                                label: 'Edit Post',
+                                icon: BsPencil,
+                                id: 'edit',
+                                disabled: !owner,
+                              },
+
+                              {
+                                label: 'Delete',
+                                icon: MdOutlineDeleteOutline,
+                                id: 'delete',
+                                disabled: !owner,
+                              },
+                            ] }
+                            render={ (item) => (
+                              <Flex
+                                alignItems="center"
+                                padding="8px"
+                                fontSize="14px"
+                                lineHeight="18px"
+                                fontWeight="500"
+                                color={ iconColor }
+                                borderTop={ `1px solid ${border2}` }
+                                textTransform="capitalize"
+                                _hover={ {
+                                  bg: bottomButtonHover,
+                                } }
+                                onClick={ () => handleOption(item) }
+                              >
+                                <Icon as={ item?.icon } w="20px" h="20px" mr="6px" />
+                                <Box>{ item?.label }</Box>
+                              </Flex>
+                            ) }
+                          />
+                        </Link>
+
                       </Flex>
                     </Flex>
                   ) }

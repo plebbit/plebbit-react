@@ -4,7 +4,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
 import Post from '../../components/Post';
-import { useAuthor, useAuthorAvatar, useAuthorComments } from '@plebbit/plebbit-react-hooks';
+import { useAuthor, useAuthorAvatar, useAuthorComments, useBlock } from '@plebbit/plebbit-react-hooks';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import FeedSort from '../../components/Post/FeedSort';
 import { ProfileContext } from '../../store/profileContext';
@@ -31,6 +31,15 @@ const Author = () => {
       hasParentCid: currentView === 'comments' ? true : undefined
     }
   })
+  const { blocked, unblock, block } = useBlock({ address: params?.authorAddress })
+
+  const handleOption = (val) => {
+    if (val?.id === 'mute') {
+      blocked ? unblock() : block()
+    }
+
+  }
+
 
   const navOptions = [
     { label: 'overview', link: 'overview', optional: params?.commentCid },
@@ -395,7 +404,7 @@ const Author = () => {
                 ) }
               </Flex>
 
-              <SideBar mt="0px" profile={ author } avatar={ imageUrl } />
+              <SideBar mt="0px" profile={ author } avatar={ imageUrl } handleOption={ handleOption } blocked={ blocked } />
             </Flex>
           </Flex>
         ) : (

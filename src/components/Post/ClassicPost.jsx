@@ -25,13 +25,14 @@ import {
   BsShield,
   BsPinAngleFill,
 } from 'react-icons/bs';
-import { GoGift } from 'react-icons/go';
+import { GoGift, GoMute } from 'react-icons/go';
 import { FaShare } from 'react-icons/fa';
 import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg';
 import { VscLinkExternal } from 'react-icons/vsc';
 import { FiExternalLink, FiMoreHorizontal, FiShare } from 'react-icons/fi';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
+import { FcCancel } from 'react-icons/fc';
 import fromNow from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import getUserName, { getSubName } from '../../utils/getUserName';
@@ -82,7 +83,8 @@ const ClassicPost = ({
   downVote,
   editLabel,
   authorPath,
-  stateString
+  stateString,
+  blocked, muted
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const inactiveSubTitle = useColorModeValue('lightText', 'darkText1');
@@ -143,12 +145,12 @@ const ClassicPost = ({
                   bg="transparent"
                   border="none"
                   color="inherit"
-                  cursor="pointer"
+                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
                   padding="inherit"
                 >
                   <Box
                     border="2px solid transparent"
-                    cursor="pointer"
+                    cursor={ post?.locked ? 'not-allowed' : "pointer" }
                     display="inline-block"
                     overflow="hidden"
                     h="24px"
@@ -193,12 +195,12 @@ const ClassicPost = ({
                   bg="transparent"
                   border="none"
                   color="inherit"
-                  cursor="pointer"
+                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
                   padding="inherit"
                 >
                   <Box
                     border="2px solid transparent"
-                    cursor="pointer"
+                    cursor={ post?.locked ? 'not-allowed' : "pointer" }
                     color={ vote === -1 ? 'downvoteBlue' : iconColor }
                     display="inline-block"
                     overflow="hidden"
@@ -445,14 +447,15 @@ const ClassicPost = ({
                         { post?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
                         { post?.removed && (
                           <Flex
+                            ml='4px'
                             cursor="pointer"
                             color={ removeColor }
                             alignItems="center"
                             onClick={ () => (post?.reason ? openRemovalModal() : {}) }
                           >
-                            <Icon as={ TiDeleteOutline } />
+                            <Icon as={ FcCancel } />
                             { !post?.reason ? (
-                              allowedSpecial && <Box>Add A removal reason</Box>
+                              allowedSpecial && <Box>Add a removal reason</Box>
                             ) : (
                               <Tooltip
                                 fontSize="10px"
@@ -742,19 +745,75 @@ const ClassicPost = ({
                           }
                           options={ [
                             {
-                              label: 'Sticky Post',
-                              icon: post?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
-                              id: 'pinned',
+                              label: "Sticky Post",
+                              icon: post?.pinned
+                                ? MdCheckBox
+                                : MdCheckBoxOutlineBlank,
+                              id: "pinned",
                             },
                             {
-                              label: 'Lock Comments',
-                              icon: post?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
-                              id: 'locked',
+                              label: "Lock Comments",
+                              icon: post?.locked
+                                ? MdCheckBox
+                                : MdCheckBoxOutlineBlank,
+                              id: "locked",
                             },
                             {
-                              label: 'Mark As Spoiler',
-                              icon: post?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
-                              id: 'spoiler',
+                              label: "Mark As Spoiler",
+                              icon: post?.spoiler
+                                ? MdCheckBox
+                                : MdCheckBoxOutlineBlank,
+                              id: "spoiler",
+                            },
+                          ] }
+                          rightOffset={ 0 }
+                          leftOffset="none"
+                          topOffset="34px"
+                        />
+                      </Flex>
+                      <Flex justifyContent="center">
+                        <DropDown
+                          onChange={ handleOption }
+                          dropDownTitle={
+                            <Flex
+                              borderRadius="2px"
+                              height="24px"
+                              verticalAlign="middle"
+                              padding="0 4px"
+                              width="100%"
+                              bg="transparent"
+                              border="none"
+                              alignItems="center"
+                              _hover={ {
+                                backgroundColor: inputBg,
+                              } }
+                            >
+                              <Icon
+                                as={ FiMoreHorizontal }
+                                color={ iconColor }
+                                h="20px"
+                                w="20px"
+                              />
+                            </Flex>
+                          }
+                          options={ [
+                            {
+                              label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                              icon: GoMute,
+                              id: "mute",
+                              disabled: type === "subPlebbit"
+                            },
+                            {
+                              label: blocked ? 'Unhide' : "Hide",
+                              icon: BsEyeSlash,
+                              id: "block",
+
+                            },
+                            {
+                              label: "Delete",
+                              icon: MdOutlineDeleteOutline,
+                              id: "delete",
+                              disabled: !owner,
                             },
                           ] }
                           rightOffset={ 0 }
@@ -969,6 +1028,8 @@ const ClassicPost = ({
                             _hover={ {
                               backgroundColor: inputBg,
                             } }
+                            onClick={ () => handleOption({ label: 'Hide', id: 'block' }) }
+
                           >
                             <Icon
                               as={ BsEyeSlash }
@@ -984,7 +1045,7 @@ const ClassicPost = ({
                               textTransform="capitalize"
                               verticalAlign="middle"
                             >
-                              Hide
+                              { blocked ? 'Unhide' : 'Hide' }
                             </Text>
                           </Flex>
                           <Flex
@@ -1205,6 +1266,12 @@ const ClassicPost = ({
                           }
                           options={ [
                             {
+                              label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                              icon: GoMute,
+                              id: "mute",
+                              disabled: type === "subPlebbit"
+                            },
+                            {
                               label: 'Edit',
                               icon: BsPencil,
                               id: 'edit',
@@ -1228,7 +1295,7 @@ const ClassicPost = ({
                               label: 'Hide',
                               icon: BsEyeSlash,
                               id: 'block',
-                              disabled: owner,
+
                             },
                             {
                               label: 'Delete',

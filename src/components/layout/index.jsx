@@ -12,7 +12,7 @@ import { HiOutlineChartSquareBar, HiOutlineChat } from 'react-icons/hi';
 import { AiFillSetting } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
 
-const Layout = ({ children, name, stateString }) => {
+const Layout = ({ children, name, stateString, background }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const { showSplashcreen, device, showSide, setShowSide, notifications } = useContext(ProfileContext);
@@ -341,7 +341,9 @@ const Layout = ({ children, name, stateString }) => {
                     left: '0',
                     willChange: 'transform',
                     height: '100%',
-                    background: layoutBg,
+                    background: background || layoutBg,
+
+
                   } }
                 />
                 <Box zIndex="3">{ children }</Box>

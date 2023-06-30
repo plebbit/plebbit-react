@@ -28,6 +28,8 @@ function PostDetailModal() {
   const detBg = useColorModeValue('#bbbdbf', '#030303');
 
 
+
+
   return (
     <>
       <Modal size='full' motionPreset='none' trapFocus={ false } scrollBehavior="outside" isOpen={ isOpen } onClose={ onClose }>
@@ -39,7 +41,7 @@ function PostDetailModal() {
             marginBottom="0"
             borderRadius="none"
             minHeight="calc(100vh - 48px)"
-            background={ detBg }
+            background={ subplebbit?.suggested?.backgroundUrl ? `url(${subplebbit?.suggested?.backgroundUrl}) repeat center top` : detBg }
           >
             <PostContent setDetail={ setDetail } setSubplebbit={ setSubplebbit } />
           </ModalContent>

@@ -6,6 +6,7 @@ import {
   useBlock,
   useEditedComment,
   useSubplebbit,
+  useAuthorAddress
 } from '@plebbit/plebbit-react-hooks';
 import CardPost from './CardPost';
 import ClassicPost from './ClassicPost';
@@ -31,13 +32,16 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: post?.author });
   const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit({ subplebbitAddress: post?.subplebbitAddress });
+  const { authorAddress, shortAuthorAddress } = useAuthorAddress({ comment: post })
   const isOnline = getIsOnline(getSub?.updatedAt);
   const [showSpoiler, setShowSpoiler] = useState(post?.spoiler);
   const owner =
-    profile?.author?.address === post?.author?.address ||
-    profile?.signer?.address === post?.author?.address;
+    profile?.author?.address === authorAddress ||
+    profile?.signer?.address === authorAddress;
+
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(post?.subplebbitAddress);
   const { blocked, unblock, block } = useBlock({ cid: post?.cid })
+  const { blocked: muted, unblock: unMute, block: mute } = useBlock({ address: post?.subplebbitAddress })
   const {
     onOpen: openRemovalModal,
     onClose: closeRemovalModal,
@@ -85,11 +89,15 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   };
 
   const handleModOption = (val) => {
+    console.log(val)
     if (val?.id === 'delete') {
       openDeleteModal()
     }
-    if (val?.id === 'block') {
+    else if (val?.id === 'block') {
       blocked ? unblock() : block()
+    }
+    else if (val?.id === 'mute') {
+      muted ? unMute() : mute()
     } else openRemovalModal();
 
   };
@@ -120,6 +128,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
 
 
 
+
   return (
     <>
       <Box>
@@ -128,8 +137,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
           <CardPost
             vote={ vote }
             postVotes={ postVotes }
-            upVote={ upVote }
-            downVote={ downVote }
+            upVote={ post?.locked ? null : upVote }
+            downVote={ post?.locked ? null : downVote }
             type={ type }
             post={ post }
             loading={ loading }
@@ -155,6 +164,9 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             editLabel={ editLabel }
             authorPath={ authorPath }
             stateString={ stateString }
+            blocked={ blocked }
+            muted={ muted }
+
 
           />
         ) }
@@ -163,8 +175,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
           <ClassicPost
             vote={ vote }
             postVotes={ postVotes }
-            upVote={ upVote }
-            downVote={ downVote }
+            upVote={ post?.locked ? null : upVote }
+            downVote={ post?.locked ? null : downVote }
             showContent={ showContent }
             setShowContent={ setShowContent }
             type={ type }
@@ -192,6 +204,9 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             editLabel={ editLabel }
             authorPath={ authorPath }
             stateString={ stateString }
+            blocked={ blocked }
+            muted={ muted }
+
 
           />
         ) }
@@ -201,8 +216,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
             <CompactPost
               vote={ vote }
               postVotes={ postVotes }
-              upVote={ upVote }
-              downVote={ downVote }
+              upVote={ post?.locked ? null : upVote }
+              downVote={ post?.locked ? null : downVote }
               showContent={ showContent }
               setShowContent={ setShowContent }
               type={ type }
@@ -220,7 +235,6 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               detailRoute={ detailRoute }
               pending={ pending }
               allowedSpecial={ isSpecial || allowedSpecial }
-
               openRemovalModal={ openRemovalModal }
               owner={ owner }
               showSpoiler={ showSpoiler }
@@ -231,14 +245,17 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               editLabel={ editLabel }
               authorPath={ authorPath }
               stateString={ stateString }
+              blocked={ blocked }
+              muted={ muted }
+
 
             />
           ) : (
             <ClassicPost
               vote={ vote }
               postVotes={ postVotes }
-              upVote={ upVote }
-              downVote={ downVote }
+              upVote={ post?.locked ? null : upVote }
+              downVote={ post?.locked ? null : downVote }
               showContent={ showContent }
               setShowContent={ setShowContent }
               type={ type }
@@ -256,7 +273,6 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               pending={ pending }
               detailRoute={ detailRoute }
               allowedSpecial={ isSpecial || allowedSpecial }
-
               openRemovalModal={ openRemovalModal }
               owner={ owner }
               showSpoiler={ showSpoiler }
@@ -267,6 +283,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               editLabel={ editLabel }
               authorPath={ authorPath }
               stateString={ stateString }
+              blocked={ blocked }
+              muted={ muted }
 
             />
           )) }

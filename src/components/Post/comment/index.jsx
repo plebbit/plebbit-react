@@ -10,7 +10,7 @@ import {
   Skeleton,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useAuthorAvatar, useAccountVote, useEditedComment, useAccountComment } from '@plebbit/plebbit-react-hooks';
+import { useAuthorAvatar, useAccountVote, useEditedComment, useAccountComment, useAuthorAddress } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -69,11 +69,12 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
     onClose: closeRemovalModal,
     isOpen: isRemovalModalOpen,
   } = useDisclosure();
+  const { authorAddress, shortAuthorAddress } = useAuthorAddress({ comment })
 
 
   const owner =
-    profile?.author?.address === comment?.author?.address ||
-    profile?.signer?.address === comment?.author?.address;
+    profile?.author?.address === authorAddress ||
+    profile?.signer?.address === authorAddress;
 
   const upVote = usePublishUpvote(comment)
   const downVote = usePublishDownvote(comment)
@@ -250,7 +251,8 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
                 _focus={ {
                   outline: 'none',
                 } }
-                onClick={ upVote }
+                onClick={ disableReplies ? null : upVote }
+                disabled={ disableReplies }
                 icon={ <Icon as={ voteMode === 1 ? ImArrowUp : BiUpvote } w="20px" h="20px" /> }
               />
               <Box fontSize="14px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
@@ -273,8 +275,9 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
                 _focus={ {
                   outline: 'none',
                 } }
-                onClick={ downVote }
+                onClick={ disableReplies ? null : downVote }
                 icon={ <Icon as={ voteMode === -1 ? ImArrowDown : BiDownvote } w="20px" h="20px" /> }
+                disabled={ disableReplies }
               />
             </Flex>
             { !disableReplies && <Link
@@ -448,7 +451,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
             borderRadius="4px"
             overflow="hidden auto"
             padding="8px 16px"
-            resize="vertical"
+            resize='none'
           >
 
             <Editor
@@ -457,8 +460,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
               setEditorState={ setEditorState }
               showSubmit
               handleSubmit={ handlePublishPost }
-
-
+              value={ content }
             />
           </Box>
         ) : (

@@ -23,7 +23,7 @@ import {
   BsShield,
   BsPinAngleFill,
 } from "react-icons/bs";
-import { GoGift } from "react-icons/go";
+import { GoGift, GoMute } from "react-icons/go";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { FaShare } from "react-icons/fa";
 import { FiMoreHorizontal, FiExternalLink } from "react-icons/fi";
@@ -31,6 +31,7 @@ import DropDown from "../../components/DropDown";
 import { BiUpvote, BiDownvote } from "react-icons/bi";
 import { ImArrowUp, ImArrowDown } from "react-icons/im";
 import { FiShare } from "react-icons/fi";
+import { FcCancel } from "react-icons/fc";
 import dateToFromNowDaily from "../../utils/formatDate";
 import numFormatter from "../../utils/numberFormater";
 import { ProfileContext } from "../../store/profileContext";
@@ -78,7 +79,10 @@ const CardPost = ({
   downVote,
   editLabel,
   authorPath,
-  stateString
+  stateString,
+  blocked,
+  muted
+
 }) => {
   const mainBg = useColorModeValue("lightBody", "darkBody");
   const subPlebbitSubTitle = useColorModeValue("metaTextLight", "metaTextDark");
@@ -122,7 +126,7 @@ const CardPost = ({
     let val
 
     try {
-      val = link?.startsWith('https://') ? link?.replace(/(^\w+:|^)\/\//, '') : link
+      val = (link?.startsWith('https://') || link?.startsWith('https://www.')) ? link.replace(/^https:\/\/(www.)?/, '') : link
       return val
     } catch (error) {
 
@@ -162,12 +166,12 @@ const CardPost = ({
                 bg="transparent"
                 border="none"
                 color="inherit"
-                cursor="pointer"
+                cursor={ post?.locked ? 'not-allowed' : "pointer" }
                 padding="inherit"
               >
                 <Box
                   border="2px solid transparent"
-                  cursor="pointer"
+                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
                   display="inline-block"
                   overflow="hidden"
                   h="24px"
@@ -212,12 +216,12 @@ const CardPost = ({
                 bg="transparent"
                 border="none"
                 color="inherit"
-                cursor="pointer"
+                cursor={ post?.locked ? 'not-allowed' : "pointer" }
                 padding="inherit"
               >
                 <Box
                   border="2px solid transparent"
-                  cursor="pointer"
+                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
                   color={ vote === -1 ? "downvoteBlue" : iconColor }
                   display="inline-block"
                   overflow="hidden"
@@ -437,6 +441,7 @@ const CardPost = ({
                           ) }
                           { post?.removed && (
                             <Flex
+                              ml='4px'
                               cursor="pointer"
                               color={ removeColor }
                               alignItems="center"
@@ -444,10 +449,10 @@ const CardPost = ({
                                 post?.reason ? openRemovalModal() : {}
                               }
                             >
-                              <Icon as={ TiDeleteOutline } />
+                              <Icon as={ FcCancel } />
                               { !post?.reason ? (
                                 allowedSpecial && (
-                                  <Box>Add A removal reason</Box>
+                                  <Box>Add a removal reason</Box>
                                 )
                               ) : (
                                 <Tooltip
@@ -873,10 +878,16 @@ const CardPost = ({
                         }
                         options={ [
                           {
-                            label: "Hide",
+                            label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                            icon: GoMute,
+                            id: "mute",
+                            disabled: type === "subPlebbit"
+                          },
+                          {
+                            label: blocked ? 'Unhide' : "Hide",
                             icon: BsEyeSlash,
                             id: "block",
-                            disabled: owner,
+
                           },
                           {
                             label: "Delete",
@@ -1064,10 +1075,16 @@ const CardPost = ({
                         }
                         options={ [
                           {
-                            label: "Hide",
+                            label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                            icon: GoMute,
+                            id: "mute",
+                            disabled: type === "subPlebbit"
+                          },
+                          {
+                            label: blocked ? 'Unhide' : "Hide",
                             icon: BsEyeSlash,
                             id: "block",
-                            disabled: owner,
+
                           },
                           {
                             label: "Delete",
@@ -1233,10 +1250,16 @@ const CardPost = ({
                               color: removeColor,
                             },
                             {
+                              label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                              icon: GoMute,
+                              id: "mute",
+                              disabled: type === "subPlebbit"
+                            },
+                            {
                               label: "Hide",
                               icon: BsEyeSlash,
                               id: "block",
-                              disabled: owner,
+
                             },
                             {
                               label: "Delete",
@@ -1323,7 +1346,7 @@ const CardPost = ({
 
                         ) : (
 
-                          <Box >
+                          <Box>
                             {
                               hasThumbnail &&
                               <Box
@@ -1337,6 +1360,7 @@ const CardPost = ({
                                     maxH="318px"
                                     objectFit="cover"
                                     maxW="100%"
+                                    width='100%'
                                     overflow="hidden"
                                     bg={ postBg }
                                     src={ post?.thumbnailUrl }

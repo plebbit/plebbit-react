@@ -1,10 +1,10 @@
 import { Flex, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
 import Post from '../../components/Post';
-import { useAccountComments } from '@plebbit/plebbit-react-hooks';
+import { useAccountComments, useComments } from '@plebbit/plebbit-react-hooks';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import FeedSort from '../../components/Post/FeedSort';
 import { ProfileContext } from '../../store/profileContext';
@@ -30,7 +30,13 @@ const Profile = () => {
     }
   }
   );
+  const blockedCids = useMemo(() => Object.keys(profile?.blockedCids || {}) || [], [profile?.blockedCids]);
+  const { comments: blockedFeeds, } = useComments(
+    {
+      commentCids: blockedCids,
 
+    }
+  );
   const navOptions = [
     { label: 'overview', link: 'overview', optional: 'profile' },
     { label: 'posts', link: 'posts', },
@@ -53,10 +59,10 @@ const Profile = () => {
       <>
         { device !== 'mobile' ? (
           <Flex flexDir="column">
-            <Flex alignItems="center" bg={ bg } width="100%" maxWidth={ !fullNav && "984px" }>
+            <Flex alignItems="center" bg={ bg } width="100%">
               <Flex width={ fullNav ? '100%' : '70%' }
                 marginX="auto"
-                justifyContent="space-between" paddingX="15px">
+                justifyContent="space-between" paddingX="15px" maxWidth={ !fullNav && "984px" }>
 
                 <Flex
                   alignItems="center"
@@ -413,22 +419,14 @@ const Profile = () => {
                 ) }
                 { currentView === 'hidden' && (
                   <Flex width="100%" flexDir="column">
-                    {/* <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-                    <Post hideContent />
-
-                    <Post hideContent />
-
-                    <Post hideContent /> */}
+                    <Flex width="100%" flexDir="column">
+                      <InfiniteScroll
+                        feeds={ blockedFeeds }
+                        loader={ <Post loading={ true } mode="classic" key={ Math.random() } /> }
+                        content={ (index, feed) => <Post index={ index } post={ feed } key={ feed?.cid || index } mode="classic" /> }
+                        disableBlocked
+                      />
+                    </Flex>
                   </Flex>
                 ) }
                 { currentView === 'awards given' && (

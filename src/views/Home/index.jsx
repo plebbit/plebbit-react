@@ -38,7 +38,6 @@ const Home = () => {
 
 
 
-
   return (
     <Layout name={ { label: 'Home', value: homeAdd } } stateString={ feeds?.length ? "" : stateString }>
       { device !== 'mobile' ? (
@@ -62,6 +61,7 @@ const Home = () => {
                 content={ (index, feed) => <Post index={ index } post={ feed } key={ feed?.cid || index } mode={ postStyle } /> }
                 feeds={ feeds }
                 loader={ <Post loading={ true } mode={ postStyle } stateString={ stateString } key={ Math.random() } /> }
+                enableSubBlock
 
               />
             </Box>
@@ -79,6 +79,7 @@ const Home = () => {
               content={ (index, feed) => <Post post={ feed } key={ feed?.cid || index } index={ index } mode={ postStyle } /> }
               feeds={ feeds || [] }
               loader={ <Post loading={ true } mode={ postStyle } key={ Math.random() } /> }
+              enableSubBlock
 
             />
           </Box>
