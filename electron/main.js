@@ -106,7 +106,7 @@ const createMainWindow = () => {
   });
 
   // open links in external browser
-  // do not open links in plebbit-react or will lead to remote execution
+  // do not open links in plebbit or will lead to remote execution
   mainWindow.webContents.on('will-navigate', (e, originalUrl) => {
     if (originalUrl != mainWindow.webContents.getURL()) {
       e.preventDefault();
@@ -175,57 +175,71 @@ const createMainWindow = () => {
     e.preventDefault()
   })
 
-  // tray
-  const trayIconPath = path.join(
-    __dirname,
-    '..',
-    isDev ? 'public' : 'build',
-    'electron-tray-icon.png'
-  );
-  const tray = new Tray(trayIconPath);
-  tray.setToolTip('plebbit');
-  const trayMenu = Menu.buildFromTemplate([
-    {
-      label: 'Open plebbit',
-      click: () => {
-        mainWindow.show();
+  if (process.platform !== 'darwin') {
+    // tray
+    const trayIconPath = path.join(
+      __dirname,
+      '..',
+      isDev ? 'public' : 'build',
+      'electron-tray-icon.png'
+    );
+    const tray = new Tray(trayIconPath);
+    tray.setToolTip('plebbit');
+    const trayMenu = Menu.buildFromTemplate([
+      {
+        label: 'Open plebbit',
+        click: () => {
+          mainWindow.show();
+        },
       },
-    },
-    {
-      label: 'Quit plebbit',
-      click: () => {
-        mainWindow.destroy();
-        app.quit();
+      {
+        label: 'Quit plebbit',
+        click: () => {
+          mainWindow.destroy();
+          app.quit();
+        },
       },
-    },
-  ]);
-  tray.setContextMenu(trayMenu);
+    ]);
+    tray.setContextMenu(trayMenu);
 
-  // show/hide on tray right click
-  tray.on('right-click', () => {
-    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
-  });
+    // show/hide on tray right click
+    tray.on('right-click', () => {
+      mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+    });
 
-  // close to tray
-  if (!isDev) {
-    let isQuiting = false;
-    app.on('before-quit', () => {
-      isQuiting = true;
-    });
-    mainWindow.on('close', (event) => {
-      if (!isQuiting) {
-        event.preventDefault();
-        mainWindow.hide();
-        event.returnValue = false;
-      }
-    });
+    // close to tray
+    if (!isDev) {
+      let isQuiting = false;
+      app.on('before-quit', () => {
+        isQuiting = true;
+      });
+      mainWindow.on('close', (event) => {
+        if (!isQuiting) {
+          event.preventDefault();
+          mainWindow.hide();
+          event.returnValue = false;
+        }
+      });
+    }
   }
 
   // application menu
   // hide useless electron help menu
-  const originalAppMenuWithoutHelp = Menu.getApplicationMenu()?.items.filter(
-    (item) => item.role !== 'help'
-  );
+  if (process.platform === 'darwin') {
+    const appMenu = Menu.getApplicationMenu();
+    appMenu.insert(1, appMenuBack);
+    appMenu.insert(2, appMenuForward);
+    appMenu.insert(3, appMenuReload);
+    Menu.setApplicationMenu(appMenu);
+  } else {
+    // Other platforms
+    const originalAppMenuWithoutHelp = Menu.getApplicationMenu()?.items.filter(
+      (item) => item.role !== 'help'
+    );
+    const appMenu = [appMenuBack, appMenuForward, appMenuReload, ...originalAppMenuWithoutHelp];
+    Menu.setApplicationMenu(Menu.buildFromTemplate(appMenu));
+  }
+  
   const appMenuBack = new MenuItem({
     label: '←',
     enabled: mainWindow?.webContents?.canGoBack(),
@@ -241,9 +255,9 @@ const createMainWindow = () => {
     role: 'reload',
     click: () => mainWindow?.webContents?.reload(),
   });
-  const appMenu = [appMenuBack, appMenuForward, appMenuReload, ...originalAppMenuWithoutHelp];
-  Menu.setApplicationMenu(Menu.buildFromTemplate(appMenu));
 };
+
+
 
 app.whenReady().then(() => {
   createMainWindow();
