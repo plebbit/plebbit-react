@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
 import { ProfileContext } from '../../store/profileContext';
 import SideBar from './sideBar';
@@ -11,7 +11,7 @@ import Layout from '../../components/layout';
 import useFeedStateString from '../../hooks/useFeedStateString';
 
 const Home = () => {
-  const { postStyle, feedSort, device, postView, homeAdd, subPlebbitData, profile } =
+  const { postStyle, feedSort, device, postView, homeAdd, subPlebbitData } =
     useContext(ProfileContext);
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mainMobileBg = useColorModeValue('white', 'black');
@@ -38,6 +38,7 @@ const Home = () => {
 
 
 
+
   return (
     <Layout name={ { label: 'Home', value: homeAdd } } stateString={ feeds?.length ? "" : stateString }>
       { device !== 'mobile' ? (
@@ -55,6 +56,8 @@ const Home = () => {
             <FeedSort />
 
             <Box minHeight="1000px" width="100%">
+
+
               <InfiniteScroll
                 hasMore={ hasMore }
                 loadMore={ loadMore }
@@ -64,10 +67,12 @@ const Home = () => {
                 enableSubBlock
 
               />
+
+
             </Box>
           </Box>
-
           <SideBar bg={ bg } width="312px" />
+
         </Flex>
       ) : (
         <Box bg={ mainMobileBg }>
@@ -85,7 +90,9 @@ const Home = () => {
           </Box>
         </Box>
       ) }
+
     </Layout>
+
   );
 };
 

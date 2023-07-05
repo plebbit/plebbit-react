@@ -91,6 +91,7 @@ const NavBar = ({ location, showStyleBar }) => {
     true
   );
 
+
   const toast = useToast();
 
   const handleCreateAccount = async () => {
@@ -132,6 +133,7 @@ const NavBar = ({ location, showStyleBar }) => {
             height="100%"
           >
             <Flex alignItems="center" flexGrow="1">
+              {/* logo */ }
               <Link to="/">
                 <Flex display="flex" alignItems="center">
                   <Box

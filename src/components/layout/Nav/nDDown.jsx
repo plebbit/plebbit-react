@@ -13,7 +13,7 @@ const NDDown = ({ onClick }) => {
   const { profile, authorAvatarImageUrl } = useContext(ProfileContext);
 
   return (
-    <Box onClick={onClick}>
+    <Box onClick={ onClick }>
       <Box
         alignItems="center"
         textAlign="left"
@@ -24,38 +24,38 @@ const NDDown = ({ onClick }) => {
         minH="32px"
         marginLeft="8px"
         background="transparent"
-        _hover={{
+        _hover={ {
           background: 'transparent',
           border: `1px solid ${navBorder}`,
-        }}
+        } }
       >
         <Flex>
           <Flex width="175px" alignItems="center" ml="8px" textAlign="left">
-            <Avatar avatar={authorAvatarImageUrl} width={24} height={24} mr="5px" />
+            <Avatar avatar={ authorAvatarImageUrl } width={ 24 } height={ 24 } mr="5px" />
             <Box>
               <Box
                 fontSize="12px"
                 fontWeight="500"
                 lineHeight="16px"
-                color={mainColor}
+                color={ mainColor }
                 whiteSpace="nowrap"
               >
-                {profile?.author?.displayName || profile?.name}
+                { profile?.author?.displayName || profile?.name }
               </Box>
               <Box fontSize="12px" fontWeight="500" lineHeight="16px" color="#a8aaab">
-                <Icon as={GiBlackHoleBolas} mr="1px" />
-                {`${numFormatter(profile?.karma?.score)} karma`}
+                <Icon as={ GiBlackHoleBolas } mr="1px" />
+                { `${numFormatter(profile?.karma?.score || 0)} karma` }
               </Box>
             </Box>
           </Flex>
           <ChevronDownIcon
-            h={6}
-            w={6}
+            h={ 6 }
+            w={ 6 }
             fontSize="20px"
             fontWeight="400"
             verticalAlign="middle"
             lineHeight="20px"
-            color={iconColor}
+            color={ iconColor }
           />
         </Flex>
       </Box>

@@ -31,33 +31,33 @@ function PostDetailModal() {
 
 
   return (
-    <>
-      <Modal size='full' motionPreset='none' trapFocus={ false } scrollBehavior="outside" isOpen={ isOpen } onClose={ onClose }>
-        <ModalOverlay backgroundColor="rgba(28,28,28,.9)" />
-        { device !== 'mobile' ? (
-          <ModalContent
-            maxW="1280px"
-            marginTop="48px"
-            marginBottom="0"
-            borderRadius="none"
-            minHeight="calc(100vh - 48px)"
-            background={ subplebbit?.suggested?.backgroundUrl ? `url(${subplebbit?.suggested?.backgroundUrl}) repeat center top` : detBg }
-          >
-            <PostContent setDetail={ setDetail } setSubplebbit={ setSubplebbit } />
-          </ModalContent>
-        ) : (
-          <ModalContent
-            marginTop="48px"
-            marginBottom="0"
-            borderRadius="none"
-            minHeight="calc(100vh - 48px)"
-          >
-            <PostContent setDetail={ setDetail } setSubplebbit={ setSubplebbit } />
-          </ModalContent>
-        ) }
 
-      </Modal>
-    </>
+    <Modal size='full' motionPreset='none' trapFocus={ false } scrollBehavior="outside" isOpen={ isOpen } onClose={ onClose }>
+      <ModalOverlay backgroundColor="rgba(28,28,28,.9)" />
+      { device !== 'mobile' ? (
+        <ModalContent
+          maxW="1280px"
+          marginTop="48px"
+          marginBottom="0"
+          borderRadius="none"
+          minHeight="calc(100vh - 48px)"
+          background={ subplebbit?.suggested?.backgroundUrl ? `url(${subplebbit?.suggested?.backgroundUrl}) repeat center top` : detBg }
+        >
+          <PostContent setDetail={ setDetail } setSubplebbit={ setSubplebbit } />
+        </ModalContent>
+      ) : (
+        <ModalContent
+          marginTop="48px"
+          marginBottom="0"
+          borderRadius="none"
+          minHeight="calc(100vh - 48px)"
+        >
+          <PostContent setDetail={ setDetail } setSubplebbit={ setSubplebbit } />
+        </ModalContent>
+      ) }
+
+    </Modal>
+
   );
 }
 

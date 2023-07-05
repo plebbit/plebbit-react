@@ -10,7 +10,7 @@ if (window.plebbitJsNativeFunctions) {
 // util for manual debugging
 window.PlebbitJs = PlebbitJs;
 
-import React from 'react';
+import React, { Profiler } from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -20,12 +20,17 @@ import reportWebVitals from './reportWebVitals';
 import theme from './assets/style/theme';
 import { HashRouter as Router } from 'react-router-dom';
 
+
+
 ReactDOM.render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={ theme }>
       <ProfileDataProvider>
         <Router>
-          <App />
+          <Profiler id='app'>
+
+            <App />
+          </Profiler>
         </Router>
       </ProfileDataProvider>
     </ChakraProvider>
