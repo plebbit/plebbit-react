@@ -238,9 +238,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const sharePath = `${baseUrl}p/${detail?.subplebbitAddress}/c/${detail?.cid}`;
   const handleCopy = () => {
     setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 3000);
+    setTimeout(() => setCopied(false), 3000);
   };
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(detail?.subplebbitAddress);
 
@@ -296,6 +294,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
   const stateString = useStateString(detail)
 
+  console.log({ location, params })
 
   return (
     <>

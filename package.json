@@ -32,6 +32,7 @@
     "interweave": "13.0.0",
     "interweave-autolink": "5.1.0",
     "interweave-emoji": "7.0.0",
+    "lodash": "^4.17.21",
     "markdown-it": "13.0.1",
     "mock-require": "3.0.3",
     "moment": "2.29.1",

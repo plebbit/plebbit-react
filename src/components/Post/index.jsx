@@ -74,7 +74,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     pathname: detailPath,
     state: {
       detail: true,
-      modal: true, location
+      modal: true,
+      location
     },
   };
 
@@ -121,10 +122,6 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   if (editedCommentState === 'failed') {
     editLabel = { text: 'failed edit', color: 'red' }
   }
-
-
-
-
 
 
 

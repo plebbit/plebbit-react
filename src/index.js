@@ -20,11 +20,14 @@ import reportWebVitals from './reportWebVitals';
 import theme from './assets/style/theme';
 import { HashRouter as Router } from 'react-router-dom';
 
+
+
 ReactDOM.render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={ theme }>
       <ProfileDataProvider>
         <Router>
+
           <App />
         </Router>
       </ProfileDataProvider>

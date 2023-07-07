@@ -1,5 +1,7 @@
-const convertArrToObj = (arr, key, reArr) =>
-  reArr
-    ? Object.values(arr?.reduce((a, v) => ({ ...a, [v[key]]: v }), {}))
-    : arr?.reduce((a, v) => ({ ...a, [v[key]]: v }), {});
+const convertArrToObj = (arr, key, reArr) => {
+  return reArr
+    ? Object.values(arr.reduce((obj, item) => ({ ...obj, [item[key]]: item }), {}))
+    : arr.reduce((obj, item) => ({ ...obj, [item[key]]: item }), {});
+};
+
 export default convertArrToObj;

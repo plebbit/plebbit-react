@@ -11,7 +11,7 @@ const getUserName = (author) => {
   }
   username += 'u/';
 
-  username += author?.shortAddress ? author?.shortAddress : author?.address?.substring(0, 12);
+  username += author?.shortAddress ? author?.shortAddress : author?.address?.substring(0, 20);
 
   return username;
 };
@@ -29,7 +29,7 @@ export const getSubName = (sub) => {
   }
   username += 'p/';
 
-  username += sub?.shortAddress ? sub?.shortAddress : sub?.address?.substring(0, 12);
+  username += sub?.shortAddress ? sub?.shortAddress : sub?.address?.substring(0, 20);
 
   return username;
 };
@@ -38,6 +38,6 @@ export const getAddress = (add) => {
   if (add?.includes('.')) {
     return add;
   } else {
-    return truncateString(add, 12);
+    return truncateString(add, 20);
   }
 };

@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { ProfileContext } from '../../store/profileContext';
 import { Box, Flex } from '@chakra-ui/layout';
 import { Icon, useColorModeValue } from '@chakra-ui/react';
 import NavBar from './Nav';
 import { PlebLogo } from '../svgs';
 import { BiAddToQueue } from 'react-icons/bi';
-import { MdAdd, MdClose, Md, MdOutlineMail, MdHome } from 'react-icons/md';
+import { MdAdd, MdClose, MdOutlineMail, MdHome } from 'react-icons/md';
 import Avatar from '../Avatar';
 import { BsArrowUpRightCircle } from 'react-icons/bs';
 import { HiOutlineChartSquareBar, HiOutlineChat } from 'react-icons/hi';
@@ -51,23 +51,27 @@ const Layout = ({ children, name, stateString, background }) => {
     );
   }
 
-  const label = () => {
-    const count = notifications?.notifications?.filter((x) => !x?.markedAsRead).length ? `(${notifications?.notifications?.filter((x) => !x?.markedAsRead).length})` : ''
-    if (name?.label) {
-      return `${count} plebbit`
+  const label = useMemo(() => {
+    const unreadNotificationsCount = notifications?.notifications?.filter((x) => !x?.markedAsRead).length || 0;
+    const labelName = name?.label || '';
+
+    if (labelName) {
+      return `${unreadNotificationsCount ? `(${unreadNotificationsCount}) ` : ''}plebbit`;
     } else {
-      return `${count} ${name?.label}`
+      return `${unreadNotificationsCount ? `(${unreadNotificationsCount}) ` : ''}${labelName}`;
     }
-  }
+  }, [name?.label, notifications?.notifications]);
 
-  document.title = label()
-  useEffect(() => {
-    document.title = label()
+  const updateDocumentTitle = () => {
+    document.title = label;
+  };
 
-  }, [name?.label])
+
+  useEffect(updateDocumentTitle, [name?.label]);
 
 
   return (
+
     <>
       <Box bg={ bg } minH="calc(100vh - 48px)" >
         <Box tabIndex="-1" />
@@ -99,7 +103,7 @@ const Layout = ({ children, name, stateString, background }) => {
                   padding="20px"
                   overflowY="scroll"
                 >
-                  <Box cursor="pointer" px="10px" pas onClick={ () => setShowSide(false) }>
+                  <Box cursor="pointer" px="10px" onClick={ () => setShowSide(false) }>
                     <MdClose />
                   </Box>
                 </Flex>
@@ -365,6 +369,7 @@ const Layout = ({ children, name, stateString, background }) => {
         }
       </Box>
     </>
+
   );
 };
 

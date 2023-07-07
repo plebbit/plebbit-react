@@ -1,44 +1,35 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso'
 import { ProfileContext } from '../../store/profileContext';
 
 const InfiniteScroll = ({ feeds: feed, loader, hasMore, loadMore, content, disableBlocked, enableSubBlock }) => {
 
-
   const { profile } = useContext(ProfileContext);
 
-  const blockedCids = useMemo(() => Object.keys(profile?.blockedCids || {}) || [], [profile?.blockedCids]);
-  const blockedAddress = useMemo(() => Object.keys(profile?.blockedAddresses || {}) || [], [profile?.blockedAddresses]);
-  const [feeds, setFeeds] = useState([...feed])
-
-
-
+  const blockedCids = useMemo(() => Object.keys(profile?.blockedCids || []), [profile?.blockedCids]);
+  const blockedAddress = useMemo(() => Object.keys(profile?.blockedAddresses || []), [profile?.blockedAddresses]);
+  const [feeds, setFeeds] = useState([...feed]);
 
   useMemo(() => {
     const filterCids = (feed) => {
-      return feed.filter(item => (!blockedCids.includes(item.cid)));
+      return feed.filter(item => !blockedCids.includes(item.cid));
     };
 
-    setFeeds(disableBlocked ? feed : filterCids(feed));
-  }, [blockedCids, feed]);
+    const filteredFeeds = disableBlocked ? feed : filterCids(feed);
+    setFeeds(prevFeeds => filteredFeeds);
+  }, [blockedCids, disableBlocked, feed]);
 
   useMemo(() => {
     const filterCids = (feed) => {
-      return feed.filter(item => (!blockedAddress.includes(item?.subplebbitAddress)));
+      return feed.filter(item => !blockedAddress.includes(item?.subplebbitAddress));
     };
 
-    setFeeds(enableSubBlock ? filterCids(feed) : feed);
-  }, [blockedAddress, feed]);
+    const filteredFeeds = enableSubBlock ? filterCids(feed) : feed;
+    setFeeds(prevFeeds => filteredFeeds);
+  }, [blockedAddress, enableSubBlock, feed]);
 
+  const Loading = () => (hasMore ? loader : null);
 
-
-
-
-  let Loading
-  if (hasMore) {
-    Loading = () =>
-      loader
-  }
 
 
 
@@ -57,6 +48,7 @@ const InfiniteScroll = ({ feeds: feed, loader, hasMore, loadMore, content, disab
       } }
       endReached={ loadMore }
     />
+
 
 
   );
