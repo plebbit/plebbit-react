@@ -14,8 +14,9 @@ import {
   deleteAccount,
 } from '@plebbit/plebbit-react-hooks';
 import { setAccount } from "@plebbit/plebbit-react-hooks/dist/stores/accounts/accounts-actions"
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
 import useSubPlebbitDefaultData from '../hooks/useSubPlebbitDefaultData';
+import getAddressFromArray from '../utils/getAddressFromArray';
 
 export const ProfileContext = createContext();
 
@@ -48,39 +49,41 @@ export const ProfileDataProvider = (props) => {
 
 
 
-  // account subscriptions &&  created subs === address[]
-  const [homeAdd, setHomeAdd] = useState(
-    [
-      subscriptions
-        ?.flatMap((x) => x?.address ?? ''),
-      ...Object.keys(accountSubplebbits),
-    ]
-      .flat()
-      .filter((x) => x !== '')
-  );
+  const homeAdd = useMemo(() => {
+    const subscriptionsAddresses = getAddressFromArray(subscriptions);
+    const accountSubplebbitsAddresses = Object.keys(accountSubplebbits);
+    return [...subscriptionsAddresses, ...accountSubplebbitsAddresses];
+  }, [subscriptions, accountSubplebbits]);
 
   //git default subs === {...obj}
   const subPlebbitData = useSubPlebbitDefaultData();
   // account subscriptions &&  created subs && git default subs === obj[]
   const { subplebbits: subPlebbitDefData } = useSubplebbits({
     subplebbitAddresses: [
-      subscriptions
-        ?.flatMap((x) => x?.address ?? ''),
-      ...Object.keys(accountSubplebbits),
-      ...(subPlebbitData?.map((x) => x?.address) ?? []),
-    ]
-      .flat()
-      .filter(Boolean)
+      getAddressFromArray(subscriptions),
+      Object.keys(accountSubplebbits),
+      getAddressFromArray(subPlebbitData),
+    ].flat().filter(Boolean)
   });
 
 
   const { version } = require('../../package.json');
   const [postView, setPostView] = useState(
-    homeAdd ? homeAdd : [homeAdd, subPlebbitDefData?.map((x) => x?.address)].flat()
+    homeAdd || getAddressFromArray(subPlebbitDefData)
   );
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
   const mode = window?.location?.protocol;
   const baseUrl = mode === 'https:' ? 'plebbitapp.eth.limo/#/' : `${window.origin}/#`;
+
+
+
+  useEffect(() => {
+    if (!postView?.length) {
+      setPostView(homeAdd || getAddressFromArray(subPlebbitDefData))
+    }
+
+  }, [homeAdd])
+
 
 
   const handleResize = useCallback(() => {
@@ -107,26 +110,16 @@ export const ProfileDataProvider = (props) => {
   }, [userTheme]);
 
 
-  useEffect(() => {
-    setHomeAdd(
-      [
-        subscriptions?.flatMap((x) => x?.address ?? ''),
-        ...Object.keys(accountSubplebbits),
-      ].flat()
-    );
-  }, [subscriptions]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplashcreen(false);
-    }, 3000);
+    }, 5000);
 
     return () => {
       clearTimeout(timer);
     };
   }, []);
-
-
 
   return (
     <ProfileContext.Provider

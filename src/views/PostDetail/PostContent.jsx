@@ -294,6 +294,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
   const stateString = useStateString(detail)
 
+  console.log({ location, params })
 
   return (
     <>

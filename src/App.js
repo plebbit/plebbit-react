@@ -17,20 +17,22 @@ import Author from './views/Author';
 
 const App = () => {
   const location = useLocation();
-  const modal = location?.state?.location;
+  const modal = location?.state?.modal;
+  const detail = location?.state?.detail;
+  const position = location?.state?.location;
 
 
 
   return (
     <div>
-      { location?.state?.modal && location?.state?.detail && (
+      { modal && detail && (
         <Route
           exact
           path={ ['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index'] }
           component={ PostDetailModal }
         />
       ) }
-      <Switch location={ modal || location }>
+      <Switch location={ position || location }>
         <Route exact path="/" component={ Home } />
         <Route exact path={ ['/submit', '/p/:subplebbitAddress/submit'] } component={ PostCreate } />
         <Route

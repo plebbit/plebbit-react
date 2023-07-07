@@ -10,7 +10,7 @@ if (window.plebbitJsNativeFunctions) {
 // util for manual debugging
 window.PlebbitJs = PlebbitJs;
 
-import React, { Profiler } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -27,10 +27,8 @@ ReactDOM.render(
     <ChakraProvider theme={ theme }>
       <ProfileDataProvider>
         <Router>
-          <Profiler id='app'>
 
-            <App />
-          </Profiler>
+          <App />
         </Router>
       </ProfileDataProvider>
     </ChakraProvider>
