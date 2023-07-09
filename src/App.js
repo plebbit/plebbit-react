@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Switch, } from 'react-router-dom';
 import Home from './views/Home';
 import PostCreate from './components/Post/CreatePost';
 import Profile from './views/Profile';
@@ -12,27 +12,14 @@ import NotFound from './views/NotFound';
 import 'react-toastify/dist/ReactToastify.css';
 import Notifications from './views/Notifications';
 import PostDetail from './views/PostDetail';
-import PostDetailModal from './views/PostDetail/PostDetailModal';
 import Author from './views/Author';
 
 const App = () => {
-  const location = useLocation();
-  const modal = location?.state?.modal;
-  const detail = location?.state?.detail;
-  const position = location?.state?.location;
-
-
 
   return (
     <div>
-      { modal && detail && (
-        <Route
-          exact
-          path={ ['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index'] }
-          component={ PostDetailModal }
-        />
-      ) }
-      <Switch location={ position || location }>
+
+      <Switch >
         <Route exact path="/" component={ Home } />
         <Route exact path={ ['/submit', '/p/:subplebbitAddress/submit'] } component={ PostCreate } />
         <Route

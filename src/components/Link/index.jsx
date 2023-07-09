@@ -7,7 +7,7 @@ const Link = (props) => {
     const { children, isExternal, to, isDisabled } = props
     return (
         <Lk
-            as={ !isExternal && ReactLink }
+            as={ ReactLink }
             { ...props }
             cursor="pointer"
             _hover={ {

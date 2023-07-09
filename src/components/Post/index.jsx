@@ -32,7 +32,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: post?.author });
   const { baseUrl } = useContext(ProfileContext);
   const getSub = useSubplebbit({ subplebbitAddress: post?.subplebbitAddress });
-  const { authorAddress, shortAuthorAddress } = useAuthorAddress({ comment: post })
+  const { authorAddress } = useAuthorAddress({ comment: post })
   const isOnline = getIsOnline(getSub?.updatedAt);
   const [showSpoiler, setShowSpoiler] = useState(post?.spoiler);
   const owner =
@@ -68,16 +68,8 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
 
   const sharePath = `${baseUrl}p/${post?.subplebbitAddress}/c/${post?.cid}`;
   const authorPath = owner ? "/profile" : `/u/${post?.author?.address}/c/${post?.cid}`
-  const location = useLocation();
 
-  const detailRoute = {
-    pathname: detailPath,
-    state: {
-      detail: true,
-      modal: true,
-      location
-    },
-  };
+  const detailRoute = detailPath
 
 
 
@@ -90,7 +82,6 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   };
 
   const handleModOption = (val) => {
-    console.log(val)
     if (val?.id === 'delete') {
       openDeleteModal()
     }
@@ -122,7 +113,6 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   if (editedCommentState === 'failed') {
     editLabel = { text: 'failed edit', color: 'red' }
   }
-
 
 
 

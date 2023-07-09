@@ -32,8 +32,6 @@ const InfiniteScroll = ({ feeds: feed, loader, hasMore, loadMore, content, disab
 
 
 
-
-
   return (
 
     <Virtuoso
