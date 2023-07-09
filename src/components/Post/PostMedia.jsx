@@ -79,4 +79,4 @@ const PostMedia = ({ post }) => {
     return null;
 }
 
-export default PostMedia;
+export default React.memo(PostMedia);

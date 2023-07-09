@@ -73,7 +73,7 @@ import useStateString from '../../hooks/useStateString';
 import StateString from '../../components/Label/stateString';
 import ConfirmDelete from '../../components/Post/Modal/confirmDelete';
 
-const PostContent = ({ setDetail, setSubplebbit }) => {
+const PostContent = ({ setDetail, setSubplebbit, state }) => {
   const {
     onOpen: openRemovalModal,
     onClose: closeRemovalModal,
@@ -87,6 +87,7 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
   const location = useLocation();
   const postDetailModal = location?.state?.modal && location?.state?.detail;
   const params = useParams();
+
   const feedFromProfile = location?.pathname.includes('/profile/c');
   const myPostLocation = params?.index;
   const { accountComments: myPost } = useAccountComments();
@@ -294,7 +295,6 @@ const PostContent = ({ setDetail, setSubplebbit }) => {
 
   const stateString = useStateString(detail)
 
-  console.log({ location, params })
 
   return (
     <>

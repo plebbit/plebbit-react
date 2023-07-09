@@ -10,7 +10,7 @@ import PostContent from './PostContent';
 import { ProfileContext } from '../../store/profileContext';
 import { useHistory } from 'react-router-dom';
 
-function PostDetailModal() {
+const PostDetailModal = ({ params }) => {
   const {
     device,
   } = useContext(ProfileContext);
@@ -43,7 +43,7 @@ function PostDetailModal() {
           minHeight="calc(100vh - 48px)"
           background={ subplebbit?.suggested?.backgroundUrl ? `url(${subplebbit?.suggested?.backgroundUrl}) repeat center top` : detBg }
         >
-          <PostContent setDetail={ setDetail } setSubplebbit={ setSubplebbit } />
+          <PostContent setDetail={ setDetail } setSubplebbit={ setSubplebbit } state={ params } />
         </ModalContent>
       ) : (
         <ModalContent
