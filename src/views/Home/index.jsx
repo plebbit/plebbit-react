@@ -16,7 +16,7 @@ const Home = () => {
     useContext(ProfileContext);
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mainMobileBg = useColorModeValue('white', 'black');
-  const subplebbitAddresses = postView?.filter(Boolean) || getAddressFromArray(subPlebbitData);
+  const subplebbitAddresses = postView?.filter(Boolean)?.length ? postView?.filter(Boolean) : getAddressFromArray(subPlebbitData);
   const { feed, loadMore, hasMore } = useFeed({
     subplebbitAddresses: subplebbitAddresses.length ? subplebbitAddresses : undefined,
     sortType: feedSort
