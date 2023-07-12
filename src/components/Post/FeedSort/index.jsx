@@ -407,6 +407,8 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                             setShowComponent(false);
                             setFeedSort('hot');
                           } }
+                          as={ Link }
+                          to='hot'
                         >
                           <Icon
                             as={ RiFireFill }
@@ -437,6 +439,8 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                             setShowComponent(false);
                             setFeedSort('new');
                           } }
+                          as={ Link }
+                          to='new'
                         >
                           <Icon
                             as={ RiFireFill }
@@ -455,6 +459,38 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                             fontSize="16px"
                           >
                             New
+                          </Box>
+                        </Flex>
+                        <Flex
+                          bg={ mainMobileBg }
+                          alignItems="flex-start"
+                          minH="50px"
+                          padding="14px 0"
+                          onClick={ () => {
+                            setMobileSort(false);
+                            setShowComponent(false);
+                            setFeedSort('top');
+                          } }
+                          as={ Link }
+                          to='top'
+                        >
+                          <Icon
+                            as={ RiFireFill }
+                            w="50px"
+                            flex="0 0 5opx"
+                            color={ feedSort === 'top' ? activeFilterText : iconMobileColor }
+                            textAlign="center"
+                            lineHeight="22px"
+                          />
+                          <Box
+                            overflow="hidden"
+                            textOverflow="ellipsis"
+                            lineHeight="22px"
+                            maxHeight="44px"
+                            whiteSpace="normal"
+                            fontSize="16px"
+                          >
+                            Top
                           </Box>
                         </Flex>
                       </Box>
