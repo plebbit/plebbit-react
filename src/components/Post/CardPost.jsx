@@ -1240,14 +1240,12 @@ const CardPost = ({
                               icon: HiOutlineCheckCircle,
                               id: "approved",
                               disabled: !(allowedSpecial && post?.removed),
-                              color: approveColor,
                             },
                             {
                               label: "Remove",
                               icon: TiDeleteOutline,
                               id: "removed",
                               disabled: !(allowedSpecial && !post?.removed),
-                              color: removeColor,
                             },
                             {
                               label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
