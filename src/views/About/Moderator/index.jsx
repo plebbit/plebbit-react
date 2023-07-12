@@ -41,7 +41,7 @@ const Moderators = ({ match }) => {
           zIndex="30"
         >
           <Avatar width={ 20 } height={ 20 } mr="8px" />
-          <Link to={ `/p/${subPlebbit?.address}` }>
+          <Link to={ `/p/${subPlebbit?.address}/` }>
             <Flex alignItems="center" color={ linkColor } mr="4px">
               { subPlebbit?.title || getAddress(subPlebbit?.address) } { '  ' }
               <Box color={ mainColor }>/ MODERATORS</Box>
@@ -121,7 +121,7 @@ const Moderators = ({ match }) => {
                     flex="0 0 220px"
                     minW="220px"
                   >
-                    <Link>
+                    <Box>
                       <Flex flex="0 0 auto" alignItems="center">
                         <Box h="32px" width="32px" mr="6px" verticalAlign="middle">
                           <Box height="100%" position="relative">
@@ -141,7 +141,7 @@ const Moderators = ({ match }) => {
                         </Box>
                         <Box>{ getAddress(user) }</Box>
                       </Flex>
-                    </Link>
+                    </Box>
                   </Box>
                   <Box
                     overflow="hidden"

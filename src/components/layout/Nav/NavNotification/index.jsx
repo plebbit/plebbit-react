@@ -190,7 +190,7 @@ export const NotificationType = ({ notification, handleReadAll }) => {
         </Flex>
       ) :  */
         !notification?.markedAsRead ? (
-          <Link to={ `/p/${notification?.subplebbitAddress}/c/${notification?.cid}` }>
+          <Link to={ `/p/${notification?.subplebbitAddress}/c/${notification?.cid}/` }>
 
             <Flex bg={ cardBg } padding="16px" cursor="pointer" onClick={ () => { handleReadAll(); } }>
               <Box mr="8px">
@@ -234,7 +234,7 @@ export const NotificationType = ({ notification, handleReadAll }) => {
             </Flex>
           </Link>
         ) : notification?.markedAsRead ? (
-          <Link to={ `/p/${notification?.subplebbitAddress}/c/${notification?.cid}` }>
+          <Link to={ `/p/${notification?.subplebbitAddress}/c/${notification?.cid}/` }>
             <Flex padding="16px" cursor="pointer" onClick={ () => { handleReadAll(); } }>
               <Box mr="8px">
                 <Avatar height={ 32 } width={ 32 } avatar="" />

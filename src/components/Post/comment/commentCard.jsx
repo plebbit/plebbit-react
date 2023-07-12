@@ -36,9 +36,9 @@ const CommentCard = ({ comment }) => {
                     <Box mr="1">{ getUserName(comment?.author) }</Box>
                     <Box mr="1">commented on</Box>
                     <Box mr="1"> { parent?.title } </Box>
-                    <Link color={ misCol }>
+                    <Box color={ misCol }>
                         { dateToNow(parseInt(parent?.timestamp * 1000)) }
-                    </Link>
+                    </Box>
                     { parent?.flair?.text ? (
                         <FlairLabel flair={ parent?.flair } />
                     ) : null }

@@ -19,7 +19,7 @@ const NotFound = () => {
       <Box fontWeight="700" mt="10px">
         <h3>Something went wrong</h3>
       </Box>
-      <Link to="">
+      <Link to="/">
         <Box textDecor="underline" color="blue">
           Go Home
         </Box>

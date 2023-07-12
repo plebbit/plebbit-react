@@ -247,7 +247,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
 
   useEffect(() => {
     if (feedFromProfile && comment?.cid) {
-      history.push(`/p/${comment?.subplebbitAddress}/c/${comment?.cid}`);
+      history.push(`/p/${comment?.subplebbitAddress}/c/${comment?.cid}/`);
     }
   }, [comment?.cid]);
 
@@ -256,7 +256,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
     profile?.author?.address === authorAddress ||
     profile?.signer?.address === authorAddress;
 
-  const authorPath = owner ? "/profile" : `/u/${detail?.author?.address}/c/${detail?.cid}`
+  const authorPath = owner ? "/profile" : `/u/${detail?.author?.address}/c/${detail?.cid}/`
 
   const comments = useRepliesAndAccountReplies(detail)
 
@@ -296,7 +296,6 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
 
   const stateString = useStateString(detail)
 
-  console.log({ detail })
 
   return (
     <>
@@ -734,7 +733,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
 
                               cursor="pointer"
                               as={ Link }
-                              to={ `/p/${detail?.subplebbitAddress}` }
+                              to={ `/p/${detail?.subplebbitAddress}/` }
                             >
                               { getSubName(subplebbit) }
                             </Box>
@@ -1012,7 +1011,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
                           <Box>Award</Box>
                         </Flex>
                         <CopyToClipboard text={ sharePath } onCopy={ handleCopy }>
-                          <Link
+                          <Box
                             display="flex"
                             alignItems="center"
                             borderRadius="2px"
@@ -1029,7 +1028,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
                           >
                             <Icon as={ FaShare } height={ 5 } width={ 5 } mr="5px" />
                             <Box>{ copied ? 'Copied' : 'Share' }</Box>
-                          </Link>
+                          </Box>
                         </CopyToClipboard>
 
                         { detail?.removed ? (
@@ -1269,7 +1268,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
                           <Box>Award</Box>
                         </Link>
                         <CopyToClipboard text={ sharePath } onCopy={ handleCopy }>
-                          <Link
+                          <Box
                             display="flex"
                             alignItems="center"
                             borderRadius="2px"
@@ -1286,7 +1285,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
                           >
                             <Icon as={ FaShare } height={ 5 } width={ 5 } mr="5px" />
                             <Box>{ copied ? 'Copied' : 'Share' }</Box>
-                          </Link>
+                          </Box>
                         </CopyToClipboard>
 
                         <Link
@@ -1463,7 +1462,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
                       top="0"
 
                       as={ Link }
-                      to={ `/p/${detail?.subplebbitAddress}` }
+                      to={ `/p/${detail?.subplebbitAddress}/` }
                     />
                     <Box
                       backgroundColor={ mainMobileBg }
@@ -1514,7 +1513,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
                             textAlign="center"
                             cursor="pointer"
                             as={ Link }
-                            to={ `/p/${detail?.subplebbitAddress}` }
+                            to={ `/p/${detail?.subplebbitAddress}/` }
                           >
                             { getSubName(subplebbit) }
                           </Box>

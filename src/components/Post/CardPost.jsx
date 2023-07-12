@@ -350,7 +350,7 @@ const CardPost = ({
                               />
 
                               <Link
-                                to={ `p/${post?.subplebbitAddress}` }
+                                to={ `p/${post?.subplebbitAddress}/` }
                                 color={ subPledditTextColor }
                                 fontSize="12px"
                                 fontWeight="700"
@@ -623,7 +623,7 @@ const CardPost = ({
                       verticalAlign="bottom"
                     >
                       { " " }
-                      <Link href={ post?.link }>
+                      <Link href={ post?.link } isExternal>
                         <Image
 
                           borderColor="mainBlue"

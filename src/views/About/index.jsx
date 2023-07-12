@@ -21,7 +21,7 @@ const About = () => {
   const location = useLocation();
   const { subplebbitAddress } = useParams();
   const subPlebbit = useSubplebbit({ subplebbitAddress: subplebbitAddress });
-  const page = location.pathname.split('/').at(-1);
+  const page = location.pathname.split('/').at(-2);
   const [showSidebar, setShowSideBar] = useState(false);
   const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
   const toast = useToast();
@@ -118,7 +118,7 @@ const About = () => {
             >
               <Avatar width={ 20 } height={ 20 } mr="8px" />
 
-              <Link to={ `/p/${subPlebbit?.address}` }>
+              <Link to={ `/p/${subPlebbit?.address}/` }>
                 <Flex alignItems="center" color={ linkColor } mr="4px">
                   { subPlebbit?.title || getAddress(subPlebbit?.address) } { '  ' }
                   <Box color={ mainColor }>
@@ -178,7 +178,7 @@ const About = () => {
                 mr="10px"
               />
               <Avatar width={ 20 } height={ 20 } mr="8px" />
-              <Link to={ `/p/${subPlebbit?.address}` }>
+              <Link to={ `/p/${subPlebbit?.address}/` }>
                 <Flex alignItems="center" color={ linkColor } mr="4px">
                   { subPlebbit?.title || getAddress(subPlebbit?.address) } { '  ' }
                   <Box color={ mainColor }>

@@ -341,7 +341,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       as={ HiOutlineChat }
                     />
                     <NavNotification />
-                    <Link t0="/submit">
+                    <Link to="/submit">
                       <Icon
                         ml="8px"
                         color={ iconColor2 }
@@ -557,7 +557,7 @@ const NavBar = ({ location, showStyleBar }) => {
                   <Box>Online Status</Box>
                   <Switch size="md" />
                 </Flex>
-                <Link to="/profile">
+                <Link to="/profile/">
 
                   <Flex
                     boxSizing="border-box"
@@ -598,7 +598,7 @@ const NavBar = ({ location, showStyleBar }) => {
                 >
                   <Box>Style Avatar</Box>
                 </Flex>
-                <Link to="/settings">
+                <Link to="/settings/">
                   <Flex
                     _hover={ {
                       bg: inputBg,

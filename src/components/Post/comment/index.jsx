@@ -280,7 +280,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
                 disabled={ disableReplies }
               />
             </Flex>
-            { !disableReplies && <Link
+            { !disableReplies && <Box
               display="flex"
               alignItems="center"
               borderRadius="2px"
@@ -306,10 +306,10 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
               >
                 Reply
               </Text>
-            </Link> }
+            </Box> }
 
             <CopyToClipboard
-              text={ `${baseUrl}p/${comment?.subplebbitAddress}/c/${comment?.cid}` }
+              text={ `${baseUrl}p/${comment?.subplebbitAddress}/c/${comment?.cid}/` }
               onCopy={ () => {
                 setCopied(true);
                 setTimeout(() => {
@@ -317,7 +317,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
                 }, 3000);
               } }
             >
-              <Link
+              <Box
                 display="flex"
                 alignItems="center"
                 borderRadius="2px"
@@ -347,7 +347,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
                 >
                   { copied ? 'Copied' : 'share' }
                 </Text>
-              </Link>
+              </Box>
             </CopyToClipboard>
             <Flex justifyContent="center">
               <DropDown

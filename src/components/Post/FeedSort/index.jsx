@@ -15,6 +15,7 @@ import {
 import { ProfileContext } from '../../../store/profileContext';
 import DropDown from '../../DropDown';
 import useVisible from '../../../hooks/useVisible';
+import Link from '../../Link';
 
 const FeedSort = ({ hideControl, subplebbitColor }) => {
   const { postStyle, setPostStyle, feedSort, setFeedSort, device } = useContext(ProfileContext);
@@ -35,6 +36,9 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
     showComponent: showComponent2,
     setShowComponent: setShowComponent2,
   } = useVisible(false);
+
+
+
 
   return (
     <>
@@ -77,6 +81,8 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                   background: feedSort === 'hot' ? '' : inputBg,
                 } }
                 onClick={ () => setFeedSort('hot') }
+                as={ Link }
+                to='hot'
               >
                 <Icon width="20px" mr="8px" height="20px" as={ RiFireFill } />
                 Hot
@@ -105,6 +111,8 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                   background: feedSort === 'new' ? '' : inputBg,
                 } }
                 onClick={ () => setFeedSort('new') }
+                as={ Link }
+                to='new'
               >
                 <Icon width="20px" mr="8px" height="20px" as={ TiStarburstOutline } />
                 New
@@ -133,6 +141,8 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                   background: feedSort === 'topAll' ? '' : inputBg,
                 } }
                 onClick={ () => setFeedSort('topAll') }
+                as={ Link }
+                to='top'
               >
                 <Icon width="20px" mr="8px" height="20px" as={ BsBoxArrowUp } />
                 Top
