@@ -40,6 +40,7 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import getUserName, { getSubName } from '../../utils/getUserName';
 import numFormatter from '../../utils/numberFormater';
 import Post from '../../components/Post';
+import PostMedia from '../../components/Post/PostMedia';
 import DropDown from '../../components/DropDown';
 import {
   MdCheckBox,
@@ -295,6 +296,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
 
   const stateString = useStateString(detail)
 
+  console.log({ detail })
 
   return (
     <>
@@ -942,67 +944,8 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
                                   </Link>
                                 ) }
                               </Box>
+                              <PostMedia post={ detail } />
 
-                              { mediaInfo?.type === "image" && (
-                                <Image
-                                  maxH="512px"
-                                  margin="0 auto"
-                                  maxW="100%"
-                                  overflow="hidden"
-                                  bg={ postBg }
-                                  src={ detail?.link }
-                                  onError={ (event) =>
-                                    (event.target.style.display = "none")
-                                  }
-                                />
-                              ) }
-
-                              { mediaInfo?.type === "video" && (
-                                <Box
-                                  bg="black"
-                                  maxHeight="512px"
-                                  width="100%"
-                                  maxW="100%"
-                                  color="#fff"
-                                >
-                                  <video
-                                    autoPlay
-                                    playsInline
-                                    preload="auto"
-                                    controls
-                                    style={ {
-                                      objectFit: "contain",
-                                      width: "100% !important",
-                                      overflowClipMargin: "content-box",
-                                      overflow: "clip",
-                                    } }
-                                    onError={ (event) =>
-                                      (event.target.style.display = "none")
-                                    }
-                                    muted
-                                  >
-                                    <source src={ detail?.link } />
-                                  </video>
-                                </Box>
-                              ) }
-
-                              { mediaInfo?.type === "audio" && (
-                                <Box maxW="100%" color="#fff" margin="4px 8px">
-                                  <audio
-                                    preload="auto"
-                                    src={ detail?.link }
-                                    onError={ (event) =>
-                                      (event.target.style.display = "none")
-                                    }
-                                    controls
-                                    style={ {
-                                      width: "100%",
-                                    } }
-                                  >
-                                    <source src={ detail?.link } />
-                                  </audio>
-                                </Box>
-                              ) }
                             </Box>
                           </Skeleton>
                         </Box>
@@ -1011,7 +954,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
                   ) }
                   {/* Post Bottom Bar */ }
                   { detailPending ? (
-                    !loading && <Flex />
+                    !loading && <Flex padding='15px' />
                   ) : isSpecial ? (
                     <Flex
                       flexDirection="row"

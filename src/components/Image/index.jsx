@@ -5,6 +5,8 @@ import { Image as Img } from "@chakra-ui/react"
 
 
 const Image = (props) => {
+
+
     const { noPlaceholder, ...rest } = props
     return <Img { ...rest } fallbackSrc={ !noPlaceholder ? undefined : undefined } />;
 };
