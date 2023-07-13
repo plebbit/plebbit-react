@@ -367,6 +367,7 @@ const CompactPost = ({
                       margin="4px 8px"
                       color="mainBlue"
                       href={ post?.link }
+                      isExternal
                     >
                       <span>{ post?.link.substring(0, 20) + '...' }</span>
                       <Icon
@@ -439,6 +440,7 @@ const CompactPost = ({
                           display="inline"
                           lineHeight="20px"
                           textDecoration="none"
+                          to={ `/p/${post?.subplebbitAddress}/` }
                         >
                           { getSubName(subPlebbit) }
                         </Link>
@@ -452,7 +454,7 @@ const CompactPost = ({
                       </>
                     ) : (
                       <Link
-                        to={ `/p/${post?.subplebbitAddress}` }
+                        to={ `/p/${post?.subplebbitAddress}/` }
                         color={ subPledditTextColor }
                         fontSize="12px"
                         fontWeight="700"

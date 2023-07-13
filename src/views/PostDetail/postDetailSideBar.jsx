@@ -99,7 +99,7 @@ const PostDetailSideBar = ({
             <Skeleton isLoaded={ !loading }>
 
 
-              <Box cursor="pointer" as={ Link } to={ `/p/${detail?.subplebbitAddress}` } fontSize="16px" fontWeight="500" lineHeight="20px" text-overflow="ellipsis">
+              <Box cursor="pointer" as={ Link } to={ `/p/${detail?.subplebbitAddress}/` } fontSize="16px" fontWeight="500" lineHeight="20px" text-overflow="ellipsis">
                 { getSubName(subPlebbit) }
               </Box>
             </Skeleton>

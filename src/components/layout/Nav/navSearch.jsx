@@ -66,7 +66,7 @@ const NavSearch = () => {
           position="absolute"
           background={ bg }
         >
-          <Link to={ `/p/${searchVal}` }>
+          <Link to={ `/p/${searchVal}/` }>
 
             <Flex
               flexDirection="row"

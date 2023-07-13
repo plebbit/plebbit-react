@@ -23,11 +23,11 @@ const Profile = () => {
   const mobileLink = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
   const location = useLocation();
-  const currentView = location.pathname.split('/').at(-1);
+  const currentView = location.pathname.split('/').at(-2);
   const { accountComments: myPost } = useAccountComments({
     filter: {
       hasParentCid: currentView === 'comments' ? true : undefined
-    }
+    },
   }
   );
   const blockedCids = useMemo(() => Object.keys(profile?.blockedCids || {}) || [], [profile?.blockedCids]);
@@ -89,7 +89,7 @@ const Profile = () => {
                           textDecoration: "none",
 
                         } }
-                        to={ `/profile/${option?.link}` }
+                        to={ `/profile/${option?.link}/` }
                         as={ Link }
                       >
                         { option?.label }
@@ -517,7 +517,7 @@ const Profile = () => {
                         <strong>{ numFormatter(profile?.karma?.score) }</strong> karma
                       </Box>
                     </Flex>
-                    <Box as={ Link } to='/settings' color={ mobileLink } >
+                    <Box as={ Link } to='/settings/' color={ mobileLink } >
                       Edit profile <Icon marginLeft="4px" as={ MdEdit } verticalAlign="middle" />
                     </Box>
                   </Box>
@@ -548,7 +548,7 @@ const Profile = () => {
                             textDecoration: "none",
 
                           } }
-                          to={ `/profile/${option?.link}` }
+                          to={ `/profile/${option?.link}/` }
                           as={ Link }
 
                         >

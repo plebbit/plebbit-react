@@ -18,7 +18,7 @@ const Author = () => {
   const location = useLocation();
   const params = useParams();
   const { device } = useContext(ProfileContext);
-  const currentView = location.pathname.split('/').at(-1);
+  const currentView = location.pathname.split('/').at(-2);
   const bg = useColorModeValue('white', 'darkNavBg');
   const mobileBg = useColorModeValue('white', 'black');
   const mobileBorder = useColorModeValue('lightMobileIcon', 'darkMobileIcon');
@@ -90,7 +90,7 @@ const Author = () => {
                         } }
                         key={ option?.label }
 
-                        to={ `${address}/${option?.link}` }
+                        to={ `${address}/${option?.link}/` }
                         as={ Link }
                       >
                         { option?.label }
@@ -466,7 +466,7 @@ const Author = () => {
                             textDecoration: "none",
 
                           } }
-                          to={ `${address}/${option?.link}` } >
+                          to={ `${address}/${option?.link}/` } >
                           <Box
                             overflow="hidden"
                             textOverflow="ellipsis"

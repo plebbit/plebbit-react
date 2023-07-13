@@ -211,7 +211,7 @@ const SubPlebbit = ({ match }) => {
               } }
             />
             <Box zIndex="3">
-              <Link to={ `/p/${data?.address}` }>
+              <Link to={ `/p/${data?.address}/` }>
                 <Flex
                   background={ `${data?.suggested?.primaryColor || "rgb(51, 168, 255)"} url(${data?.suggested?.bannerUrl}) no-repeat center / cover` }
 

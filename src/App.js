@@ -20,7 +20,7 @@ const App = () => {
     <div>
 
       <Switch >
-        <Route exact path="/" component={ Home } />
+        <Route exact path={ ["/", '/hot', '/new', '/top'] } component={ Home } />
         <Route exact path={ ['/submit', '/p/:subplebbitAddress/submit'] } component={ PostCreate } />
         <Route
           exact
@@ -39,7 +39,7 @@ const App = () => {
         />
         <Route exact path={ ["/profile", '/profile/overview', '/profile/posts', '/profile/comments', '/profile/history', '/profile/saved', "/profile/hidden", "/profile/upvoted", "/profile/downvoted", '/profile/gilded', '/profile/gilded/given'] } component={ Profile } name="Profile" />
         <Route exact path={ ["/u/:authorAddress/c/:commentCid", '/u/:authorAddress/c/:commentCid/overview', '/u/:authorAddress/c/:commentCid/posts', '/u/:authorAddress/c/:commentCid/comments', '/u/:authorAddress/c/:commentCid/gilded'] } component={ Author } name="Author" />
-        <Route exact path="/p/:subplebbitAddress" component={ SubPlebbit } />
+        <Route exact path={ ["/p/:subplebbitAddress", "/p/:subplebbitAddress/hot", "/p/:subplebbitAddress/new", "/p/:subplebbitAddress/top"] } component={ SubPlebbit } />
         <Route
           exact
           path={ ['/p/:subplebbitAddress/c/:commentCid', '/profile/c/:index'] }

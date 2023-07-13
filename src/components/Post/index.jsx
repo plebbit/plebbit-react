@@ -63,11 +63,11 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
 
 
   const detailPath = loading ? '' : !pending
-    ? `/p/${post?.subplebbitAddress}/c/${post?.cid}`
+    ? `/p/${post?.subplebbitAddress}/c/${post?.cid}/`
     : `/profile/c/${post?.index}`;
 
-  const sharePath = `${baseUrl}p/${post?.subplebbitAddress}/c/${post?.cid}`;
-  const authorPath = owner ? "/profile" : `/u/${post?.author?.address}/c/${post?.cid}`
+  const sharePath = `${baseUrl}p/${post?.subplebbitAddress}/c/${post?.cid}/`;
+  const authorPath = owner ? "/profile/" : `/u/${post?.author?.address}/c/${post?.cid}/`
 
   const detailRoute = detailPath
 

@@ -106,7 +106,7 @@ const SideBar = ({
                 height="100%"
               />
             </Box>
-            <Box as={ Link } to='/settings' padding="4px" position="absolute" right="12px" mt="-76px">
+            <Box as={ Link } to='/settings/' padding="4px" position="absolute" right="12px" mt="-76px">
               <Icon
                 as={ AiOutlineSetting }
                 height="20px"

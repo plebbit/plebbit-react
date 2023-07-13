@@ -148,7 +148,7 @@ const CommunitySettings = ({ match }) => {
               zIndex="30"
             >
               <Avatar width={ 20 } height={ 20 } mr="8px" />
-              <Link to={ `/p/${data?.address}` }>
+              <Link to={ `/p/${data?.address}/` }>
                 <Flex alignItems="center" color={ linkColor } mr="4px">
                   { subplebbit?.title || getAddress(subplebbit?.address) } { '  ' }
                   <Box color={ mainColor } textTransform="uppercase">

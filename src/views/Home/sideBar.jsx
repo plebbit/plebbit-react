@@ -121,7 +121,7 @@ const SideBar = ({
                 borderBottom="thin solid #edeff1"
                 cursor="pointer"
                 as={ Link }
-                to={ `/p/${sub?.address}` }
+                to={ `/p/${sub?.address}/` }
               >
                 <Flex alignItems="center">
                   <Box

@@ -44,7 +44,7 @@ const Settings = () => {
   const { colorMode } = useColorMode();
   const [bPLoading, setBpLoading] = useState(false);
   const location = useLocation();
-  const view = location.pathname.split('/').at(-1);
+  const view = location.pathname.split('/').at(-2);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
@@ -236,7 +236,6 @@ const Settings = () => {
     });
   };
 
-
   return (
     <Layout name={ { label: 'User Settings', value: location?.pathname } }>
       <Box
@@ -322,7 +321,7 @@ const Settings = () => {
                     color: mainColor,
                   } }
                   as={ Link }
-                  to={ `/settings/${tab?.link}` }
+                  to={ `/settings/${tab?.link}/` }
                 >
                   { tab?.label }
                 </Box>
@@ -866,7 +865,7 @@ const Settings = () => {
               </Text>
               <Box>
                 For moderation tools please visit our <br />
-                <Link color={ linkColor }>Profile Moderation page</Link>
+                <Box color={ linkColor }>Profile Moderation page</Box>
               </Box>
             </Box>
           </Flex>

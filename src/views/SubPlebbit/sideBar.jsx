@@ -138,7 +138,7 @@ const SideBar = ({
                 verticalAlign="middle"
                 cursor="pointer"
               >
-                <Link to={ `/p/${subPlebbit?.address}/about/moderators` }>
+                <Link to={ `/p/${subPlebbit?.address}/about/moderators/` }>
                   <Flex borderRadius="2px" padding="4px" alignItems="center" fontWeight="400">
                     <Icon as={ FiShield } width={ 5 } height={ 5 } mr="4px" />
                     <Box>Mod tools</Box>
@@ -543,9 +543,9 @@ const SideBar = ({
                     alignItems="center"
                     color={ subPlebbit?.suggested?.secondaryColor || linkColor }
                   >
-                    <Link mr='4px'>
+                    <Box mr='4px'>
                       <Box maxWidth="100%" >{ `u/${truncateString(item, 25)}` }</Box>
-                    </Link>
+                    </Box>
                     <Tag
                       textOverflow="ellipsis"
                       overflow="hidden"

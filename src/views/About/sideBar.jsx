@@ -114,10 +114,10 @@ const AboutsideBar = ({ page, subPlebbit }) => {
 
   return (
     <Box
-      bg={inputBg}
+      bg={ inputBg }
       bottom="0"
       boxSizing="border-box"
-      color={mainColor}
+      color={ mainColor }
       overflow="auto"
       paddingTop="16px"
       paddingBottom="32px"
@@ -126,10 +126,10 @@ const AboutsideBar = ({ page, subPlebbit }) => {
       width="280px"
       zIndex="30"
     >
-      {sideItem
+      { sideItem
         ?.filter((child) => !child?.disabled)
         ?.map((item, index) => (
-          <Box key={index} marginBottom="8px" paddingBottom="8px">
+          <Box key={ index } marginBottom="8px" paddingBottom="8px">
             <Flex
               fontSize="10px"
               fontWeight="700"
@@ -137,23 +137,23 @@ const AboutsideBar = ({ page, subPlebbit }) => {
               lineHeight="12px"
               textTransform="uppercase"
               alignItems="center"
-              color={iconColor}
+              color={ iconColor }
               padding="8px 24px"
             >
-              <Icon as={item?.icon} mr="8px" width="20px" height="20px" />
-              <Box>{item?.name}</Box>
+              <Icon as={ item?.icon } mr="8px" width="20px" height="20px" />
+              <Box>{ item?.name }</Box>
             </Flex>
-            {item?.children
+            { item?.children
               ?.filter((child) => !child?.disabled)
               ?.map((child, index) => (
                 <Link
-                  key={index}
-                  to={{
+                  key={ index }
+                  to={ {
                     pathname: child?.custom
                       ? child?.custom
-                      : `/p/${subPlebbit?.address}/about/${child?.id}`,
+                      : `/p/${subPlebbit?.address}/about/${child?.id}/`,
                     search: child?.query,
-                  }}
+                  } }
                 >
                   <Flex
                     fontSize="14px"
@@ -161,17 +161,17 @@ const AboutsideBar = ({ page, subPlebbit }) => {
                     lineHeight="18px"
                     alignItems="center"
                     padding="8px 24px"
-                    borderLeft={page === child?.id && `4px solid #1a1a1b `}
-                    bg={page === child?.id && border1}
-                    cursor={child?.disabled && 'not-allowed'}
+                    borderLeft={ page === child?.id && `4px solid #1a1a1b ` }
+                    bg={ page === child?.id && border1 }
+                    cursor={ child?.disabled && 'not-allowed' }
                   >
-                    <Box>{child?.name}</Box>
-                    {child?.external && <Icon as={child?.external} ml="auto" color={iconColor} />}
+                    <Box>{ child?.name }</Box>
+                    { child?.external && <Icon as={ child?.external } ml="auto" color={ iconColor } /> }
                   </Flex>
                 </Link>
-              ))}
+              )) }
           </Box>
-        ))}
+        )) }
     </Box>
   );
 };

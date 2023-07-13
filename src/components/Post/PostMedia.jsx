@@ -1,18 +1,37 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
 import Image from "../Image";
 import { ProfileContext } from '../../store/profileContext';
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player/lazy'
+import youtube_parser from '../../utils/youtubeParser';
 
 const PostMedia = ({ post }) => {
     const mediaInfo = getCommentMediaInfo(post);
     const postBg = useColorModeValue("lightCommunityThemePost", "darkCommunityThemePost");
     const { postStyle } = useContext(ProfileContext);
+    const isYoutube = useMemo(() => youtube_parser(post?.link), [post?.link])
+
+
 
     const showPlaceholder = postStyle !== "card";
 
     if (!post?.content && !post?.removed) {
+        if (Boolean(isYoutube)) {
+            return (
+       
+            <iframe 
+            style={ {
+                width: "100%",
+                maxHeight:'512px',
+                height:'320px',
+                maxWidth:'100%'
+            } } 
+            src={ `https://www.youtube.com/embed/${isYoutube}?feature=oembed&amp;enablejsapi=1` } allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" width="356" height="200" frameborder="0">
+
+            </iframe> 
+            )
+        }
         if (mediaInfo?.type === "image") {
             return (
                 <Image
