@@ -1,4 +1,4 @@
-import React, { useContext, useState, } from 'react';
+import React, { useContext, useMemo, useState, } from 'react';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import {
   useAccountVote,
@@ -19,6 +19,7 @@ import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
 import ConfirmDelete from './Modal/confirmDelete';
+import youtube_parser from '../../utils/youtubeParser';
 
 const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSpecial, stateString }) => {
   const { device, accountSubplebbits, profile } = useContext(ProfileContext);
@@ -53,9 +54,10 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     isOpen: isDeleteModalOpen,
   } = useDisclosure();
 
+  const isYoutube = useMemo(() => youtube_parser(post?.link), [post?.link])
 
   const mediaInfo = post && getCommentMediaInfo(post);
-  const hasThumbnail = !post?.removed && post?.thumbnailUrl && !mediaInfo
+  const hasThumbnail = !post?.removed && post?.thumbnailUrl && !mediaInfo && !isYoutube
 
 
   const upVote = usePublishUpvote(post)
