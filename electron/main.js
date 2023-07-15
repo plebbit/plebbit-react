@@ -135,7 +135,7 @@ const createMainWindow = () => {
 
   // open links (with target="_blank") in external browser
   // do not open links in plebbit-react or will lead to remote execution
-  mainWindow.webContents.setWindowOpenHandler(({url}) => {
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     const originalUrl = url
     try {
       // do not let the user open any url with shell.openExternal
@@ -160,7 +160,7 @@ const createMainWindow = () => {
     } catch (e) {
       console.warn(e);
     }
-    return {action: 'deny'}
+    return { action: 'deny' }
   })
 
   // deny permissions like location, notifications, etc https://www.electronjs.org/docs/latest/tutorial/security#5-handle-session-permission-requests-from-remote-content
@@ -223,6 +223,22 @@ const createMainWindow = () => {
     }
   }
 
+  const appMenuBack = new MenuItem({
+    label: '←',
+    enabled: mainWindow?.webContents?.canGoBack(),
+    click: () => mainWindow?.webContents?.goBack(),
+  });
+  const appMenuForward = new MenuItem({
+    label: '→',
+    enabled: mainWindow?.webContents?.canGoForward(),
+    click: () => mainWindow?.webContents?.goForward(),
+  });
+  const appMenuReload = new MenuItem({
+    label: '⟳',
+    role: 'reload',
+    click: () => mainWindow?.webContents?.reload(),
+  });
+
   // application menu
   // hide useless electron help menu
   if (process.platform === 'darwin') {
@@ -239,22 +255,6 @@ const createMainWindow = () => {
     const appMenu = [appMenuBack, appMenuForward, appMenuReload, ...originalAppMenuWithoutHelp];
     Menu.setApplicationMenu(Menu.buildFromTemplate(appMenu));
   }
-  
-  const appMenuBack = new MenuItem({
-    label: '←',
-    enabled: mainWindow?.webContents?.canGoBack(),
-    click: () => mainWindow?.webContents?.goBack(),
-  });
-  const appMenuForward = new MenuItem({
-    label: '→',
-    enabled: mainWindow?.webContents?.canGoForward(),
-    click: () => mainWindow?.webContents?.goForward(),
-  });
-  const appMenuReload = new MenuItem({
-    label: '⟳',
-    role: 'reload',
-    click: () => mainWindow?.webContents?.reload(),
-  });
 };
 
 
