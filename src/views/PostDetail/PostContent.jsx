@@ -36,7 +36,7 @@ import { FiMoreHorizontal, FiBell, FiExternalLink } from 'react-icons/fi';
 import { CgNotes, CgClose } from 'react-icons/cg';
 import SideBar from './postDetailSideBar';
 import Comment from '../../components/Post/comment'
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import getUserName, { getSubName } from '../../utils/getUserName';
 import numFormatter from '../../utils/numberFormater';
 import Post from '../../components/Post';
@@ -177,7 +177,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
     accountSubplebbits,
     baseUrl,
   } = useContext(ProfileContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   const [showFullComments, setShowFullComments] = useState(!isReply);
 
   const { blocked, unblock, block } = useBlock({ cid: detail?.cid })
@@ -247,7 +247,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
 
   useEffect(() => {
     if (feedFromProfile && comment?.cid) {
-      history.push(`/p/${comment?.subplebbitAddress}/c/${comment?.cid}/`);
+      navigate(`/p/${comment?.subplebbitAddress}/c/${comment?.cid}/`);
     }
   }, [comment?.cid]);
 
@@ -436,8 +436,8 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
                     marginLeft="12px"
                     color="#d7dadc"
                   >
-                    <CloseIcon mr="5px" onClick={ () => history.goBack() } cursor="pointer" />
-                    <Box onClick={ () => history.goBack() } cursor="pointer">
+                    <CloseIcon mr="5px" onClick={ () => navigate(-1) } cursor="pointer" />
+                    <Box onClick={ () => navigate(-1) } cursor="pointer">
                       Close
                     </Box>
                   </Flex>
@@ -577,8 +577,8 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
                     marginLeft="12px"
                     color="#d7dadc"
                   >
-                    <CloseIcon mr="5px" onClick={ () => history.goBack() } cursor="pointer" />
-                    <Box onClick={ () => history.goBack() } cursor="pointer">
+                    <CloseIcon mr="5px" onClick={ () => navigate(-1) } cursor="pointer" />
+                    <Box onClick={ () => navigate(-1) } cursor="pointer">
                       Close
                     </Box>
                   </Flex>
@@ -1470,7 +1470,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
                       position="relative" pt="20px"
                     >
                       <Icon
-                        onClick={ () => history.goBack() }
+                        onClick={ () => navigate(-1) }
                         as={ CgClose }
                         color={ mobileColor }
                         fill={ mobileColor }

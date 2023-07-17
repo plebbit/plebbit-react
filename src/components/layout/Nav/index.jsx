@@ -26,7 +26,7 @@ import {
   AiOutlineInfoCircle,
   AiOutlinePlus,
 } from 'react-icons/ai';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import NDDown from './nDDown';
 import { GiHamburgerMenu, GiTwoCoins } from 'react-icons/gi';
 import { CgNotes, CgProfile } from 'react-icons/cg';
@@ -56,7 +56,7 @@ const NavBar = ({ location, showStyleBar }) => {
   const iconColor2 = useColorModeValue('lightIcon2', 'darkText1');
   const navBorder = useColorModeValue('#edeff1', '#343536');
   const { colorMode } = useColorMode();
-  const history = useHistory();
+  const navigate = useNavigate();
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const {
     profile,
@@ -165,9 +165,9 @@ const NavBar = ({ location, showStyleBar }) => {
                       setPostView(x.value);
                     } else {
                       if (typeof x?.value === 'object') {
-                        history.push('/');
+                        navigate('/');
                       } else {
-                        history.push(x?.value);
+                        navigate(x?.value);
                       }
                     }
                   } }

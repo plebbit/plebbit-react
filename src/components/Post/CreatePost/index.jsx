@@ -12,7 +12,7 @@ import {
 import { usePublishComment } from '@plebbit/plebbit-react-hooks';
 import { LinkIcon } from '@chakra-ui/icons';
 import { EditorState } from 'draft-js';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { MdStickyNote2 } from 'react-icons/md';
 import { AiOutlinePlus } from 'react-icons/ai';
 import Button from '../../Button';
@@ -63,7 +63,7 @@ const CreatePost = () => {
     ? subscriptions?.map((x) => ({ ...x, value: x?.address, label: x?.title }))
     : '';
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
@@ -133,7 +133,7 @@ const CreatePost = () => {
 
 
   if (Boolean(index + 1)) {
-    history.push(`/profile/c/${index}`, []);
+    navigate(`/profile/c/${index}/`);
   }
 
 

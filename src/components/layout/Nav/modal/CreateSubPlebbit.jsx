@@ -20,12 +20,12 @@ import {
 import { useCreateSubplebbit } from '@plebbit/plebbit-react-hooks';
 import React, { useEffect, useState } from 'react';
 import logger from '../../../../utils/logger';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CreateSubPlebbit = ({ isOpen, onClose }) => {
   const navBorder = useColorModeValue('#edeff1', '#343536');
   const [value, setValue] = useState({ title: '', type: 'public' });
-  const history = useHistory();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
@@ -37,7 +37,7 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (createdSubplebbit?.address) {
-      history.push(`/p/${createdSubplebbit?.address}`, []);
+      navigate(`/p/${createdSubplebbit?.address}/`);
       logger('created-sub', createdSubplebbit);
       setLoading(false);
       onClose();
