@@ -30,8 +30,8 @@ const useSubPlebbitDefaultData = () => {
       });
   };
 
-  useEffect(async () => {
-    await subplebbits();
+  useEffect(() => {
+    subplebbits();
   }, []);
 
   return value;

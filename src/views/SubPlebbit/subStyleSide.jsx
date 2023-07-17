@@ -16,7 +16,7 @@ import { MdArrowBackIos, MdArrowForwardIos, MdOutlineClose } from 'react-icons/m
 import { BsInfoCircle } from 'react-icons/bs';
 import ColorPicker from '../../components/ColorPicker';
 import Link from '../../components/Link';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const SubStyleSide = () => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -25,7 +25,7 @@ const SubStyleSide = () => {
   const border = useColorModeValue('#edeff1', '#343536');
   const [selected, setSelected] = useState('');
   const metaColor = useColorModeValue('metaTextLight', 'metaTextDark');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Box>
@@ -43,7 +43,7 @@ const SubStyleSide = () => {
       >
         <Box
           cursor="pointer"
-          onClick={ () => history.goBack() }
+          onClick={ () => navigate(-1) }
           position="absolute"
           top="18px"
           right="12px"
@@ -62,7 +62,7 @@ const SubStyleSide = () => {
               marginRight="28px"
               alignItems="center"
               cursor="pointer"
-              onClick={ () => (selected === '' ? history.goBack() : setSelected('')) }
+              onClick={ () => (selected === '' ? navigate(-1) : setSelected('')) }
             >
               <Icon as={ MdArrowBackIos } />
               <Box>Back to Mod tools</Box>
