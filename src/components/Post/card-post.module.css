@@ -1,0 +1,6 @@
+.wrapper {
+  border-radius: 4px;
+  padding-left: 40px;
+  cursor: pointer;
+  transition: color 0.5s, fill 0.5s, box-shadow 0.5s;
+}
