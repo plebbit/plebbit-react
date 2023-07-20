@@ -8,7 +8,7 @@ import {
   useSubplebbit,
   useAuthorAddress
 } from '@plebbit/plebbit-react-hooks';
-import CardPost from './CardPost';
+import CardPost from './cardPost2';
 import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
 import { ProfileContext } from '../../store/profileContext';
