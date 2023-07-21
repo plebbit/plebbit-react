@@ -6,7 +6,7 @@ import Post from '../../components/Post';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
 import { useSubscribe, useFeed, useSubplebbit, usePublishSubplebbitEdit, useSubplebbitStats, useBlock } from '@plebbit/plebbit-react-hooks';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import SideBar from './sideBar';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 import InfiniteScroll from '../../components/InfiniteScroll';
@@ -35,10 +35,11 @@ const SubPlebbit = ({ match }) => {
   const mainMobileBg = useColorModeValue('white', 'black');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
 
-  const { feed, loadMore, hasMore } = useFeed({ subplebbitAddresses: [match?.params?.subplebbitAddress], sortType: feedSort });
+  const params = useParams()
+  const { feed, loadMore, hasMore } = useFeed({ subplebbitAddresses: [params?.subplebbitAddress], sortType: feedSort });
   const subPlebbit = useSubplebbit({ subplebbitAddress: match?.params?.subplebbitAddress });
   const feeds = feed;
-  const [data, setData] = useState({ address: match?.params?.subplebbitAddress, ...subPlebbit });
+  const [data, setData] = useState({ address: params?.subplebbitAddress, ...subPlebbit });
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [subLoading, setSubLoading] = useState(false);
