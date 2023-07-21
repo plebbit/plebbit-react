@@ -33,6 +33,7 @@ const PostMedia = ({ post }) => {
             )
         } else {
             if (mediaInfo?.type === "image") {
+
                 return (
                     <Image
                         maxH="512px"
