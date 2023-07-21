@@ -1,43 +1,105 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from './card-post.module.css'
 import { BsBookmark, BsChatSquare } from 'react-icons/bs'
 import { BiDownvote, BiUpvote } from 'react-icons/bi'
 import { GoGift } from 'react-icons/go'
 import { FaShare } from 'react-icons/fa'
-import { FiMoreHorizontal } from 'react-icons/fi'
+import { FiExternalLink, FiMoreHorizontal } from 'react-icons/fi'
+import { ProfileContext } from '../../store/profileContext'
+import numFormatter from '../../utils/numberFormater'
+import { ImArrowDown, ImArrowUp } from 'react-icons/im'
+import getUserName, { getSubName } from '../../utils/getUserName'
+import dateToFromNowDaily from '../../utils/formatDate'
+import Marked from "../Editor/marked";
+import PostMedia from './PostMedia'
 
-const CardPost2 = () => {
+const CardPost2 = ({
+    post,
+    vote,
+    postVotes,
+    loading,
+    type,
+    detail,
+    handleOption,
+    location,
+    copied,
+    isOnline,
+    subPlebbit: sub,
+    handleCopy,
+    pending,
+    detailRoute,
+    allowedSpecial,
+    openRemovalModal,
+    owner,
+    showSpoiler,
+    setShowSpoiler,
+    hasThumbnail,
+    commentCount,
+    upVote,
+    downVote,
+    editLabel,
+    authorPath,
+    stateString,
+    blocked,
+    muted
+}) => {
+
+    const subPlebbit = sub || { address: post?.subplebbitAddress };
+
+    const { device } = useContext(ProfileContext);
+    const getLink = (link) => {
+        let val
+
+        try {
+            val = (link?.startsWith('https://') || link?.startsWith('https://www.')) ? link.replace(/^https:\/\/(www.)?/, '') : link
+            return val
+        } catch (error) {
+
+        }
+    }
+
     return (
         <div className={ styles.wrapper }>
             <div className={ styles.vote_bar }>
-                <button className={ styles.vote_btn }>
-                    <BiUpvote className={ styles.upVote } />
-                </button>
-                <div className={ styles.vote_text }>Vote</div>
-                <button className={ styles.vote_btn }>
-                    <BiDownvote className={ styles.downVote } />
-                </button>
+                <div className={ styles.vote_btn_wrap }>
+                    <button className={ styles.vote_btn } onClick={ upVote }>
+                        <div className={ styles.upVote_wrap }>
+                            { vote === 1 ? <ImArrowUp className={ styles.upVote } /> : <BiUpvote className={ styles.upVote } /> }
+                        </div>
+                    </button>
+                    <div className={ styles.vote_text }>
+                        { postVotes === 0 ? "vote" : numFormatter(postVotes) }
+                    </div>
+                    <button className={ styles.vote_btn } onClick={ downVote }>
+                        <div className={ styles.upVote_wrap }>
+                            { vote === -1 ? <ImArrowDown className={ styles.downVote } /> : <BiDownvote className={ styles.downVote } /> }
+
+                        </div>
+                    </button>
+                </div>
             </div>
             <div className={ styles.card_main }>
                 <div className={ styles.card_top }>
                     <div className={ styles.card_avatar_wrap }>
-                        <a className={ styles.card_avatar }>
-                            <img className={ styles.card_image } />
+                        <a href={ `p/${post?.subplebbitAddress}/` } className={ styles.card_avatar }>
+                            <img className={ styles.card_image } src={ subPlebbit?.suggested?.avatarUrl } alt='sub-avatar' />
                         </a>
                     </div>
                     <div className={ styles.card_top_right }>
                         <div className={ styles.card_top_right_txt }>
                             <div className={ styles.card_top_right_sub }>
-                                <a className={ styles.card_top_right_sub_text }>p/careerquidance</a>
+                                <a href={ `p/${post?.subplebbitAddress}/` } className={ styles.card_top_right_sub_text }>{ getSubName(subPlebbit) }</a>
                             </div>
                             <span className={ styles.dot }>•</span>
                             <span className={ styles.posted_by }>Posted by</span>
                             <div className={ styles.author_wrap }>
                                 <div>
-                                    <a className={ styles.author }>u/Abydin</a>
+                                    <a href={ authorPath } className={ styles.author }> { getUserName(post?.author) }</a>
                                 </div>
                             </div>
-                            <span className={ styles.post_timestamp }>15 hours ago</span>
+                            <span className={ styles.post_timestamp }> { dateToFromNowDaily(
+                                parseInt(post?.timestamp * 1000)
+                            ) }</span>
                         </div>
                     </div>
                 </div>
@@ -45,20 +107,48 @@ const CardPost2 = () => {
                     <div className={ styles.post_title_wrap }>
                         <a className={ styles.post_title }>
                             <div className={ styles.title_wrap }>
-                                <h3 className={ styles.title }>I’m taking the leap leaving my corporate finance job and going into luxury retail. Am I crazy?</h3>
+                                <h3 className={ styles.title }>   { post?.title }</h3>
                             </div>
                         </a>
                     </div>
                 </div>
                 <div className={ styles.card_body }>
-                    <a className={ styles.card_body_wrap }>
-                        <div className={ styles.bodyWrap }>
-                            <div className={ styles.body }>
-                                I started my job in 2014. I was promoted to an assistant from a floor worker despite telling my supervisor I can't handle stress. This was completely ignored. I have extreme anxiety dealing with people directly to the point I get heart palpitations. Over the past few years, I've also been trying to take care of my terminally ill father this was known at work; more work was piled on. Recently I've been asked to start training people - I not only don't want to do it, but I also suffered a health event so bad I nearly went to the hospital. I really, really want to quit without notice. I don't have a job lined up, but I do have some savings. I'm looking at a part time cleaning job to bring in a little cash and escape directly dealing with a lot of people. Am I being the jerk here? I work at a large corporation that fires people routinely when they give notice (including trips to the big boss' office to be screamed at). PS. I've never quit a job in the past without two weeks notice.
-                            </div>
+                    { post?.content && (
+                        <a className={ styles.card_body_wrap }>
+                            <div className={ styles.bodyWrap }>
+                                <div className={ styles.body }>
 
-                        </div>
-                    </a>
+                                    { post?.spoiler ? (
+                                        ""
+                                    ) : post?.removed ? (
+                                        "[removed]"
+                                    ) : (
+                                        <Marked content={ post?.content } />
+                                    ) }
+
+                                </div>
+                            </div>
+                        </a>
+                    ) }
+                    {/*link post  without media  */ }
+
+                    <div className={ styles.post_link_wrap } >
+                        { hasThumbnail && (
+                            <a
+                                href={ post?.link }
+                                className={ styles.post_link }
+                            >
+                                <div>{ post?.link?.substring(0, 20) + "..." }</div>
+                                <FiExternalLink
+                                    className={ styles.post_link_icon }
+                                />
+                            </a>
+                        ) }
+                    </div>
+
+                    {/*link post  with media  */ }
+
+                    <PostMedia post={ post } />
                 </div>
                 <div className={ styles.card_footer }>
                     <div className={ styles.card_footer_wrap }>

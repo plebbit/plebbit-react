@@ -22,12 +22,25 @@
   position: absolute;
   top: 0;
 }
+
 .vote_btn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: initial;
   height: 24px;
   width: 24px;
-  background: transparent;
-  cursor: pointer;
-  padding: inherit;
+}
+.vote_btn_wrap {
+  align-items: center;
+  display: flex;
+  fill: inherit;
+  flex-direction: column;
+}
+
+.vote_btn:hover {
+  background: #dae0e6;
 }
 .upVote {
   line-height: 24px;
@@ -37,6 +50,19 @@
   vertical-align: middle;
   color: #878a8c;
 }
+.upVote_wrap {
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  height: 24px;
+  width: 24px;
+  line-height: 24px;
+}
+.upVote:hover {
+  color: #cc3700;
+}
+
 .downVote {
   line-height: 24px;
   position: relative;
@@ -44,6 +70,9 @@
   font-weight: 400;
   vertical-align: middle;
   color: #878a8c;
+}
+.downVote:hover {
+  color: #5a75cc;
 }
 .vote_text {
   color: #1a1a1b;
@@ -164,6 +193,7 @@
   padding-right: 5px;
   word-wrap: break-word;
   color: #222222;
+  box-sizing: border-box;
 }
 
 .post_title:visited .title_wrap {
@@ -295,4 +325,37 @@
   height: 20px;
   vertical-align: middle;
   width: 20px;
+}
+
+.post_link_wrap {
+  display: flex;
+  margin-top: 0;
+}
+
+.post_link {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  margin: 4px 8px;
+  white-space: nowrap;
+  color: #0079d3;
+  fill: #0079d3;
+  text-decoration: inherit;
+  display: flex;
+}
+.post_link_icon {
+  font-size: 12px;
+  padding-left: 4px;
+  line-height: 20px;
+  vertical-align: middle;
+  font-weight: 400;
+}
+.post_link_icon:before {
+  content: '\f1ad';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: redesignFont2020;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
 }
