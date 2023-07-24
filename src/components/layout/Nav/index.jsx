@@ -47,6 +47,7 @@ import NavNotification from './NavNotification';
 import Link from "../../Link"
 import { bottomData1, bottomData2 } from '../../sidebar/projectLinks';
 import plebbitReactPackageJson from '../../../../package.json';
+import { createAccount, setActiveAccount } from '@plebbit/plebbit-react-hooks';
 
 
 const NavBar = ({ location, showStyleBar }) => {
@@ -62,8 +63,6 @@ const NavBar = ({ location, showStyleBar }) => {
     profile,
     device,
     accountLists,
-    createAccount,
-    setActiveAccount,
     version,
     accountSubplebbits,
     setPostView,

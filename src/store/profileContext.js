@@ -6,14 +6,8 @@ import {
   useAccountSubplebbits,
   useAuthorAvatar,
   useSubplebbits,
-  exportAccount,
-  createAccount,
-  importAccount,
-  setActiveAccount,
-  setAccountsOrder,
-  deleteAccount,
+  setAccount,
 } from '@plebbit/plebbit-react-hooks';
-import { setAccount } from "@plebbit/plebbit-react-hooks/dist/stores/accounts/accounts-actions"
 import React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
 import useSubPlebbitDefaultData from '../hooks/useSubPlebbitDefaultData';
 import getAddressFromArray from '../utils/getAddressFromArray';
@@ -133,11 +127,6 @@ export const ProfileDataProvider = (props) => {
         device,
         setDevice,
         accountLists,
-        exportAccount,
-        importAccount,
-        setActiveAccount,
-        setAccountsOrder,
-        createAccount,
         accountSubplebbits,
         version,
         subscriptions: subscriptions?.filter((x) => x !== undefined),
@@ -151,8 +140,6 @@ export const ProfileDataProvider = (props) => {
         showSide,
         setShowSide,
         baseUrl,
-        setAccount,
-        deleteAccount,
         toggleTheme,
         notifications,
       } }
