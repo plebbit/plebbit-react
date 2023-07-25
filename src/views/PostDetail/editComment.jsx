@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react'
-import { ProfileContext } from '../../store/profileContext';
+import React, { useState, } from 'react'
 import {
     Box,
     Flex,
@@ -15,11 +14,12 @@ import {
 import Editor from '../../components/Editor';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
 import useCommentEdit from '../../hooks/useCommentEdit';
+import useStore from '../../store/useStore';
 
 const EditComment = ({ detail, setEdit }) => {
     const {
         device,
-    } = useContext(ProfileContext);
+    } = useStore(state => state)
     const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
     const [editMode, setEditMode] = useState(detail?.content ? 'post' : 'link');
     const [editPost, setEditPost] = useState(editMode === 'post' ? detail?.content : detail?.link);

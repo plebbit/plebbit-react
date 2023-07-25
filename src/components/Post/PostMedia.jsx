@@ -1,15 +1,15 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
 import Image from "../Image";
-import { ProfileContext } from '../../store/profileContext';
 import ReactPlayer from 'react-player/lazy'
 import youtube_parser from '../../utils/youtubeParser';
+import useStore from '../../store/useStore';
 
 const PostMedia = ({ post }) => {
     const mediaInfo = getCommentMediaInfo(post);
     const postBg = useColorModeValue("lightCommunityThemePost", "darkCommunityThemePost");
-    const { postStyle } = useContext(ProfileContext);
+    const { postStyle } = useStore(state => state);
     const isYoutube = useMemo(() => youtube_parser(post?.link), [post?.link])
 
 

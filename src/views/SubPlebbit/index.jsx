@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Flex, Icon, Text, useColorModeValue, useToast, Button } from '@chakra-ui/react';
 import { FaBell } from 'react-icons/fa';
-import { ProfileContext } from '../../store/profileContext';
 import Post from '../../components/Post';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
-import { useSubscribe, useFeed, useSubplebbit, usePublishSubplebbitEdit, useSubplebbitStats, useBlock } from '@plebbit/plebbit-react-hooks';
+import { useSubscribe, useFeed, useSubplebbit, usePublishSubplebbitEdit, useSubplebbitStats, useBlock, useAccountSubplebbits, useAccount } from '@plebbit/plebbit-react-hooks';
 import { useLocation, useParams } from 'react-router-dom';
 import SideBar from './sideBar';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
@@ -21,10 +20,13 @@ import logger from '../../utils/logger';
 import SubStyleSide from './subStyleSide';
 import useStateString from '../../hooks/useStateString';
 import { GoMute } from 'react-icons/go';
+import useStore from '../../store/useStore';
 
 const SubPlebbit = ({ match }) => {
-  const { postStyle, feedSort, profile, device, accountSubplebbits } =
-    useContext(ProfileContext);
+  const { accountSubplebbits } = useAccountSubplebbits()
+  const profile = useAccount();
+  const { postStyle, feedSort, device } =
+    useStore(state => state)
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const pseuBg = useColorModeValue('#DAE0E6', '#030303');
   const border1 = useColorModeValue('#efefed', '#353535');

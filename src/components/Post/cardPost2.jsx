@@ -1,17 +1,17 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styles from './card-post.module.css'
 import { BsBookmark, BsChatSquare } from 'react-icons/bs'
 import { BiDownvote, BiUpvote } from 'react-icons/bi'
 import { GoGift } from 'react-icons/go'
 import { FaShare } from 'react-icons/fa'
 import { FiExternalLink, FiMoreHorizontal } from 'react-icons/fi'
-import { ProfileContext } from '../../store/profileContext'
 import numFormatter from '../../utils/numberFormater'
 import { ImArrowDown, ImArrowUp } from 'react-icons/im'
 import getUserName, { getSubName } from '../../utils/getUserName'
 import dateToFromNowDaily from '../../utils/formatDate'
 import Marked from "../Editor/marked";
 import PostMedia from './PostMedia'
+import useStore from '../../store/useStore'
 
 const CardPost2 = ({
     post,
@@ -46,7 +46,7 @@ const CardPost2 = ({
 
     const subPlebbit = sub || { address: post?.subplebbitAddress };
 
-    const { device } = useContext(ProfileContext);
+    const { device } = useStore(state => state);
     const getLink = (link) => {
         let val
 

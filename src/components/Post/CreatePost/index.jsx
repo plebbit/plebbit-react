@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Flex,
   Box,
@@ -9,7 +9,7 @@ import {
   useToast,
   useDisclosure,
 } from '@chakra-ui/react';
-import { usePublishComment } from '@plebbit/plebbit-react-hooks';
+import { usePublishComment, useAccountSubplebbits, useSubplebbits, useAccount } from '@plebbit/plebbit-react-hooks';
 import { LinkIcon } from '@chakra-ui/icons';
 import { EditorState } from 'draft-js';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -20,7 +20,6 @@ import SideBar from './createPostSideBar';
 import Editor from '../../Editor';
 import DropDown2 from '../../DropDown/DropDown2';
 import truncateString from '../../../utils/truncateString';
-import { ProfileContext } from '../../../store/profileContext';
 import logger from '../../../utils/logger';
 import Layout from '../../layout';
 import getIsOnline from '../../../utils/getIsOnline';
@@ -33,10 +32,14 @@ import AddFlair from './modal/addFlair';
 import { BsChevronDown } from 'react-icons/bs';
 import onChallenge from '../../../utils/onChallenge';
 import onChallengeVerification from '../../../utils/onChallengeVerification';
+import useStore from '../../../store/useStore';
 
 const CreatePost = () => {
-  const { accountSubplebbits, subPlebbitData, subscriptions, subPlebbitDefData } =
-    useContext(ProfileContext);
+  const { accountSubplebbits } = useAccountSubplebbits();
+  const profile = useAccount()
+  const subscriptions = useSubplebbits({ subplebbitAddresses: profile?.subscriptions })?.filter((x) => x !== undefined)
+  const { subPlebbitData, subPlebbitDefData } =
+    useStore(state => state);
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
   const borderColor = useColorModeValue('borderLight', 'borderDark');
   const bg = useColorModeValue('white', 'darkNavBg');

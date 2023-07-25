@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -15,14 +15,13 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { ProfileContext } from '../../../../store/profileContext';
+import { importAccount } from '@plebbit/plebbit-react-hooks';
 
 const ImportAccount = ({ isOpen, onClose }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const { colorMode } = useColorMode();
   const mainColor = useColorModeValue('lightText2', 'darkText1');
   const [account, setAccount] = useState();
-  const { importAccount } = useContext(ProfileContext);
   const toast = useToast();
 
   const handleImportAccount = async () => {
@@ -38,18 +37,18 @@ const ImportAccount = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal trapFocus={false} scrollBehavior="inside" isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal trapFocus={ false } scrollBehavior="inside" isOpen={ isOpen } onClose={ onClose } isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Export Account</ModalHeader>
         <ModalCloseButton />
-        <ModalBody pb={6}>
+        <ModalBody pb={ 6 }>
           <Flex flexDir="column" marginRight="8px" maxW="80%">
             <Text
               fontSize="16px"
               fontWeight="500"
               lineHeight="20px"
-              color={mainColor}
+              color={ mainColor }
               marginBottom="4px"
             >
               Account Details (json)
@@ -63,29 +62,29 @@ const ImportAccount = ({ isOpen, onClose }) => {
             justifyContent="flex-end"
           >
             <Textarea
-              backgroundColor={mainBg}
+              backgroundColor={ mainBg }
               placeholder="paste Account details"
-              color={mainColor}
+              color={ mainColor }
               boxSizing="border-box"
               marginBottom="0px"
-              border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
-              borderColor={colorMode === 'light' ? '#edeff1' : '#343456'}
+              border={ `1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}` }
+              borderColor={ colorMode === 'light' ? '#edeff1' : '#343456' }
               height="48px"
               borderRadius="4px"
               padding="8px"
               width="100%"
               resize="both"
-              value={account}
-              onChange={(e) => setAccount(e.target.value)}
+              value={ account }
+              onChange={ (e) => setAccount(e.target.value) }
             />
           </Flex>
         </ModalBody>
 
-        <ModalFooter mt={3}>
-          <Button mr={3} onClick={handleImportAccount}>
+        <ModalFooter mt={ 3 }>
+          <Button mr={ 3 } onClick={ handleImportAccount }>
             Import Account
           </Button>
-          <Button colorScheme="red" onClick={onClose}>
+          <Button colorScheme="red" onClick={ onClose }>
             Close
           </Button>
         </ModalFooter>

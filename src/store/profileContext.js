@@ -1,51 +1,36 @@
 import { useColorMode } from '@chakra-ui/react';
 import {
   useAccount,
-  useNotifications,
-  useAccounts,
   useAccountSubplebbits,
-  useAuthorAvatar,
   useSubplebbits,
-  exportAccount,
-  createAccount,
-  importAccount,
-  setActiveAccount,
-  setAccountsOrder,
-  deleteAccount,
 } from '@plebbit/plebbit-react-hooks';
-import { setAccount } from "@plebbit/plebbit-react-hooks/dist/stores/accounts/accounts-actions"
-import React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import useSubPlebbitDefaultData from '../hooks/useSubPlebbitDefaultData';
 import getAddressFromArray from '../utils/getAddressFromArray';
+import useStore from './useStore';
 
-export const ProfileContext = createContext();
 
-export const ProfileDataProvider = (props) => {
-  const { setColorMode, toggleColorMode } = useColorMode();
-  const { children } = props;
-  const [postStyle, setPostStyle] = useState('card');
-  const [feedSort, setFeedSort] = useState('hot');
-  const [showSplashcreen, setShowSplashcreen] = useState(true);
-  const [device, setDevice] = useState('pc');
-  const defaultAccount = useAccount();
-  const { accounts: accountLists } = useAccounts();
-  const profile = defaultAccount;
+const ProfileDataProvider = ({ children }) => {
+  const { setColorMode } = useColorMode();
+
+  const {
+    postView,
+    setHomeAdd,
+    setPostView,
+    setSubPlebbitDefData,
+    setSubPlebbitData,
+    setShowSplashcreen,
+    setDevice,
+  } = useStore((state) => state);
+
+
+  const profile = useAccount();
   const { accountSubplebbits } = useAccountSubplebbits();
-  const [showSide, setShowSide] = useState(false);
   const userTheme = profile?.plebbitReactOptions?.darkMode;
-  const notifications = useNotifications({ accountName: profile?.name });
 
-  const toggleTheme = () => {
-    toggleColorMode();
-    setAccount({
-      ...profile,
-      plebbitReactOptions: {
-        darkMode: !userTheme,
-      },
-    });
-  };
+
   //account Subscription === obj[]
-  const { subplebbits: subscriptions } = useSubplebbits({ subplebbitAddresses: defaultAccount?.subscriptions });
+  const { subplebbits: subscriptions } = useSubplebbits({ subplebbitAddresses: profile?.subscriptions });
 
 
 
@@ -55,34 +40,42 @@ export const ProfileDataProvider = (props) => {
     return [...subscriptionsAddresses, ...accountSubplebbitsAddresses];
   }, [subscriptions, accountSubplebbits]);
 
-  //git default subs === {...obj}
+  // Get default subs === {...obj}
   const subPlebbitData = useSubPlebbitDefaultData();
-  // account subscriptions &&  created subs && git default subs === obj[]
+
+  // Combine account subscriptions, created subs, and default subs === obj[]
   const { subplebbits: subPlebbitDefData } = useSubplebbits({
     subplebbitAddresses: [
       getAddressFromArray(subscriptions),
       Object.keys(accountSubplebbits),
       getAddressFromArray(subPlebbitData),
-    ].flat().filter(Boolean)
+    ].flat().filter(Boolean),
   });
-
-
-  const { version } = require('../../package.json');
-  const [postView, setPostView] = useState(
-    homeAdd || getAddressFromArray(subPlebbitDefData)
-  );
-  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
-  const mode = window?.location?.protocol;
-  const baseUrl = mode === 'https:' ? 'plebbitapp.eth.limo/#/' : `${window.origin}/#`;
 
 
 
   useEffect(() => {
-    if (!postView?.length) {
-      setPostView(homeAdd || getAddressFromArray(subPlebbitDefData))
+    if (subPlebbitData) {
+      setSubPlebbitData(subPlebbitData);
     }
+  }, [subPlebbitData]);
 
-  }, [homeAdd])
+  useEffect(() => {
+    if (subPlebbitDefData) {
+      setSubPlebbitDefData(subPlebbitDefData)
+    }
+  }, [subPlebbitDefData]);
+
+
+
+  useEffect(() => {
+    if (homeAdd) {
+      setHomeAdd(homeAdd);
+      if (!postView?.length) {
+        setPostView(homeAdd || getAddressFromArray(subPlebbitDefData));
+      }
+    }
+  }, [homeAdd, postView, subPlebbitDefData]);
 
 
 
@@ -94,7 +87,7 @@ export const ProfileDataProvider = (props) => {
     } else {
       setDevice('mobile');
     }
-  }, []);
+  }, [setDevice]);
 
   useEffect(() => {
     handleResize();
@@ -107,7 +100,7 @@ export const ProfileDataProvider = (props) => {
 
   useEffect(() => {
     setColorMode(userTheme ? 'dark' : 'light');
-  }, [userTheme]);
+  }, [setColorMode, userTheme]);
 
 
 
@@ -119,45 +112,18 @@ export const ProfileDataProvider = (props) => {
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [setShowSplashcreen]);
 
   return (
-    <ProfileContext.Provider
-      value={ {
-        profile,
-        postStyle,
-        setPostStyle,
-        showSplashcreen,
-        feedSort,
-        setFeedSort,
-        device,
-        setDevice,
-        accountLists,
-        exportAccount,
-        importAccount,
-        setActiveAccount,
-        setAccountsOrder,
-        createAccount,
-        accountSubplebbits,
-        version,
-        subscriptions: subscriptions?.filter((x) => x !== undefined),
-        postView,
-        setPostView,
-        authorAvatarImageUrl,
-        mode,
-        homeAdd,
-        subPlebbitDefData,
-        subPlebbitData,
-        showSide,
-        setShowSide,
-        baseUrl,
-        setAccount,
-        deleteAccount,
-        toggleTheme,
-        notifications,
-      } }
-    >
+    <div>
       { children }
-    </ProfileContext.Provider>
+    </div>
   );
 };
+
+ProfileDataProvider.defaultProps = {
+  children: null,
+};
+
+
+export default ProfileDataProvider

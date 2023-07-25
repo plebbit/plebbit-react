@@ -15,12 +15,12 @@ import {
   Alert,
   AlertIcon,
 } from '@chakra-ui/react';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { AiOutlineInfoCircle, AiOutlineTag } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import FlairList from '../../../components/Flair';
-import { ProfileContext } from '../../../store/profileContext';
 import FlairSettings from './modal/flairSettings';
+import useStore from '../../../store/useStore';
 
 const PostFlair = ({ allowedSpecial, subPlebbit, handleSubPlebbitedit, loading }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -28,7 +28,7 @@ const PostFlair = ({ allowedSpecial, subPlebbit, handleSubPlebbitedit, loading }
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const border1 = useColorModeValue('#edeff1', '#343536');
-  const { device } = useContext(ProfileContext);
+  const { device } = useStore(state => state);
   const [showAdd, setShowAdd] = useState(false);
   const {
     isOpen: showSettings,
@@ -40,11 +40,11 @@ const PostFlair = ({ allowedSpecial, subPlebbit, handleSubPlebbitedit, loading }
     <Box>
       <Flex
         alignItems="center"
-        background={border1}
+        background={ border1 }
         height="48px"
-        justifyContent={device !== 'mobile' ? 'flex-end' : 'flex-start'}
-        left={device !== 'mobile' ? '280px' : '0'}
-        padding={device !== 'mobile' ? '0 24px' : '5px 24px'}
+        justifyContent={ device !== 'mobile' ? 'flex-end' : 'flex-start' }
+        left={ device !== 'mobile' ? '280px' : '0' }
+        padding={ device !== 'mobile' ? '0 24px' : '5px 24px' }
         position="fixed"
         right="0"
         zIndex="3"
@@ -64,11 +64,11 @@ const PostFlair = ({ allowedSpecial, subPlebbit, handleSubPlebbitedit, loading }
           width="max-content"
           borderRadius="999px"
           padding="4px 16px"
-          height={device !== 'mobile' ? '32px' : '24px'}
-          onClick={OpenSettings}
-          mt={device === 'mobile' && '6px'}
-          disabled={!allowedSpecial}
-          color={mainColor}
+          height={ device !== 'mobile' ? '32px' : '24px' }
+          onClick={ OpenSettings }
+          mt={ device === 'mobile' && '6px' }
+          disabled={ !allowedSpecial }
+          color={ mainColor }
         >
           Post flair settings
         </Button>
@@ -85,11 +85,11 @@ const PostFlair = ({ allowedSpecial, subPlebbit, handleSubPlebbitedit, loading }
           width="auto"
           borderRadius="999px"
           padding="4px 16px"
-          height={device !== 'mobile' ? '32px' : '24px'}
-          onClick={() => {}}
-          mt={device === 'mobile' && '6px'}
-          disabled={!allowedSpecial}
-          color={mainColor}
+          height={ device !== 'mobile' ? '32px' : '24px' }
+          onClick={ () => { } }
+          mt={ device === 'mobile' && '6px' }
+          disabled={ !allowedSpecial }
+          color={ mainColor }
         >
           Reorder
         </Button>
@@ -108,37 +108,37 @@ const PostFlair = ({ allowedSpecial, subPlebbit, handleSubPlebbitedit, loading }
           width="max-content"
           borderRadius="999px"
           padding="4px 16px"
-          height={device !== 'mobile' ? '32px' : '24px'}
-          onClick={() => setShowAdd(true)}
-          mt={device === 'mobile' && '6px'}
-          disabled={!allowedSpecial || !subPlebbit?.features?.postFlairs || showAdd}
-          color={mainColor}
+          height={ device !== 'mobile' ? '32px' : '24px' }
+          onClick={ () => setShowAdd(true) }
+          mt={ device === 'mobile' && '6px' }
+          disabled={ !allowedSpecial || !subPlebbit?.features?.postFlairs || showAdd }
+          color={ mainColor }
         >
           Add Flair
         </Button>
       </Flex>
 
       <Box ml="24px" mr="24px" paddingTop="64px" borderRadius="0 0 4px 4px" overflow="hidden">
-        {!subPlebbit?.features?.postFlairs && (
+        { !subPlebbit?.features?.postFlairs && (
           <Alert mb="8px" status="warning" variant="left-accent">
             <AlertIcon />
             Post flairs will not be visible until feature is enabled
           </Alert>
-        )}
+        ) }
         <Flex
           fontSize="18px"
           fontWeight="500"
           lineHeight="22px"
-          color={mainColor}
+          color={ mainColor }
           marginBottom="16px"
           alignItems="center"
         >
           <Box>Post flair management </Box>
-          <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
+          <Icon as={ AiOutlineInfoCircle } ml="4px" verticalAlign="text-top" />
         </Flex>
 
         <Flex
-          bg={border1}
+          bg={ border1 }
           alignItems="center"
           borderRadius="4px 4px 0 0"
           boxSizing="border-box"
@@ -149,26 +149,26 @@ const PostFlair = ({ allowedSpecial, subPlebbit, handleSubPlebbitedit, loading }
             <Input
               placeholder="Search for a user"
               width="248px"
-              bg={mainBg}
-              border={`1px solid ${border1}`}
-              color={mainColor}
+              bg={ mainBg }
+              border={ `1px solid ${border1}` }
+              color={ mainColor }
               borderRadius="4px 0 0 4px"
               boxSizing="border-box"
               height="32px"
               padding="8px"
-              _placeholder={{
+              _placeholder={ {
                 fontSize: '14px',
                 fontWeight: '400',
                 lineHeight: '21px',
-              }}
+              } }
             />
-            <Button bg={iconColor} borderRadius="0 4px 4px 0" height="32px" width="40px">
-              <Icon as={FiSearch} color={mainBg} />
+            <Button bg={ iconColor } borderRadius="0 4px 4px 0" height="32px" width="40px">
+              <Icon as={ FiSearch } color={ mainBg } />
             </Button>
           </Flex>
         </Flex>
         <Flex
-          border={`1px solid ${border1}`}
+          border={ `1px solid ${border1}` }
           borderRadius="0 4px 4px 0"
           boxSizing="border-box"
           marginBottom="36px"
@@ -182,10 +182,10 @@ const PostFlair = ({ allowedSpecial, subPlebbit, handleSubPlebbitedit, loading }
                   fontSize="12px"
                   fontWeight="400"
                   lineHeight="16px"
-                  bg={inputBg}
-                  borderBottom={`1px solid ${border1}`}
+                  bg={ inputBg }
+                  borderBottom={ `1px solid ${border1}` }
                   boxSizing="border-box"
-                  color={iconColor}
+                  color={ iconColor }
                   height="48px"
                   padding="16px 42px 16px 24px"
                 >
@@ -200,7 +200,7 @@ const PostFlair = ({ allowedSpecial, subPlebbit, handleSubPlebbitedit, loading }
                       >
                         SETTINGS
                       </Box>
-                      <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
+                      <Icon as={ AiOutlineInfoCircle } ml="4px" verticalAlign="text-top" />
                     </Flex>
                   </Th>
                   <Th>
@@ -213,58 +213,58 @@ const PostFlair = ({ allowedSpecial, subPlebbit, handleSubPlebbitedit, loading }
                       >
                         FLAIR ID
                       </Box>
-                      <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
+                      <Icon as={ AiOutlineInfoCircle } ml="4px" verticalAlign="text-top" />
                     </Flex>
                   </Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {subPlebbit?.flairs?.post?.map((flair, index) => (
+                { subPlebbit?.flairs?.post?.map((flair, index) => (
                   <FlairList
-                    key={flair?.id || index}
+                    key={ flair?.id || index }
                     mode="edit"
-                    handleSubPlebbitedit={handleSubPlebbitedit}
+                    handleSubPlebbitedit={ handleSubPlebbitedit }
                     type="post"
-                    flairs={subPlebbit?.flairs}
-                    data={flair}
+                    flairs={ subPlebbit?.flairs }
+                    data={ flair }
                   />
-                ))}
-                {showAdd && (
+                )) }
+                { showAdd && (
                   <FlairList
                     mode="create"
-                    setShowAdd={setShowAdd}
-                    handleSubPlebbitedit={handleSubPlebbitedit}
+                    setShowAdd={ setShowAdd }
+                    handleSubPlebbitedit={ handleSubPlebbitedit }
                     type="post"
-                    flairs={subPlebbit?.flairs}
+                    flairs={ subPlebbit?.flairs }
                   />
-                )}
+                ) }
               </Tbody>
             </Table>
-            <Flex borderRadius="0 0 4px 4px" bg={border1} />
+            <Flex borderRadius="0 0 4px 4px" bg={ border1 } />
           </TableContainer>
-          {!subPlebbit?.flairs?.post && (
-            <Flex alignItems="center" bg={mainBg} flexDir="column" padding="90px 0">
-              <Icon as={AiOutlineTag} width={8} height={8} color={iconColor} mb="16px" />
+          { !subPlebbit?.flairs?.post && (
+            <Flex alignItems="center" bg={ mainBg } flexDir="column" padding="90px 0">
+              <Icon as={ AiOutlineTag } width={ 8 } height={ 8 } color={ iconColor } mb="16px" />
               <Box fontSize="18px" fontWeight="500" lineHeight="22px" mb="8px">
                 You do not have any post flair
               </Box>
               <Box>Create post flair in your community today</Box>
             </Flex>
-          )}
-          <Flex padding="8px 16px" bg={border1} height="48px" />
+          ) }
+          <Flex padding="8px 16px" bg={ border1 } height="48px" />
         </Flex>
       </Box>
-      {showSettings && (
+      { showSettings && (
         <FlairSettings
-          isOpen={showSettings}
-          onClose={closeSettings}
+          isOpen={ showSettings }
+          onClose={ closeSettings }
           title="Post flair settings"
           type="post"
-          subPlebbit={subPlebbit}
-          handleSubPlebbitedit={handleSubPlebbitedit}
-          loading={loading}
+          subPlebbit={ subPlebbit }
+          handleSubPlebbitedit={ handleSubPlebbitedit }
+          loading={ loading }
         />
-      )}
+      ) }
     </Box>
   );
 };

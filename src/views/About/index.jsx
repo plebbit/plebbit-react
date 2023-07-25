@@ -1,9 +1,8 @@
 import { Box, Flex, IconButton, useColorModeValue, useToast } from '@chakra-ui/react';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { usePublishSubplebbitEdit, useSubplebbit } from '@plebbit/plebbit-react-hooks';
+import { useAccountSubplebbits, usePublishSubplebbitEdit, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import AboutsideBar from './sideBar';
-import { ProfileContext } from '../../store/profileContext';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
@@ -12,8 +11,10 @@ import logger from '../../utils/logger';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
 import Content from './content';
 
+import useStore from '../../store/useStore';
 const About = () => {
-  const { device, accountSubplebbits } = useContext(ProfileContext);
+  const { accountSubplebbits } = useAccountSubplebbits()
+  const { device } = useStore(state => state);
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');

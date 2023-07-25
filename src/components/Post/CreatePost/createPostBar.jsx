@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Box, Flex, useColorModeValue, Input } from '@chakra-ui/react';
 import { LinkIcon } from '@chakra-ui/icons';
-import { ProfileContext } from '../../../store/profileContext';
 import Avatar from '../../Avatar';
 import Link from '../../Link';
+import { useAccount, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
 
 const CreatePostBar = (address) => {
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
@@ -12,8 +12,8 @@ const CreatePostBar = (address) => {
   const border2 = useColorModeValue('#edeff1', '#343536');
   const inputText = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
-  const { authorAvatarImageUrl } = useContext(ProfileContext);
-
+  const profile = useAccount()
+  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
   let route = '/submit';
   if (address?.address) {
     route = `/p/${address.address}/submit`;

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   Box,
   Button,
@@ -34,7 +34,6 @@ import { FiShare } from "react-icons/fi";
 import { FcCancel } from "react-icons/fc";
 import dateToFromNowDaily from "../../utils/formatDate";
 import numFormatter from "../../utils/numberFormater";
-import { ProfileContext } from "../../store/profileContext";
 import getUserName, { getSubName } from "../../utils/getUserName";
 import Marked from "../Editor/marked";
 import Avatar from "../Avatar";
@@ -52,6 +51,7 @@ import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
 import FlairLabel from "../Label/flairLabel";
 import StateString from "../Label/stateString";
+import useStore from "../../store/useStore";
 
 const CardPost = ({
   post,
@@ -121,7 +121,7 @@ const CardPost = ({
 
   const subPlebbit = sub || { address: post?.subplebbitAddress };
 
-  const { device } = useContext(ProfileContext);
+  const { device } = useStore(state => state);
   const getLink = (link) => {
     let val
 

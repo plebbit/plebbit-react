@@ -1,13 +1,12 @@
 import { Flex, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
 import Post from '../../components/Post';
-import { useAccountComments, useComments } from '@plebbit/plebbit-react-hooks';
+import { useAccount, useAccountComments, useAuthorAvatar, useComments } from '@plebbit/plebbit-react-hooks';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import FeedSort from '../../components/Post/FeedSort';
-import { ProfileContext } from '../../store/profileContext';
 import getUserName from '../../utils/getUserName';
 import numFormatter from '../../utils/numberFormater';
 import { MdEdit } from 'react-icons/md';
@@ -15,8 +14,11 @@ import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 import Link from '../../components/Link';
 
+import useStore from '../../store/useStore';
 const Profile = () => {
-  const { profile, device, authorAvatarImageUrl } = useContext(ProfileContext);
+  const profile = useAccount();
+  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
+  const { device } = useStore(state => state)
   const bg = useColorModeValue('white', 'darkNavBg');
   const mobileBg = useColorModeValue('white', 'black');
   const mobileBorder = useColorModeValue('lightMobileIcon', 'darkMobileIcon');
