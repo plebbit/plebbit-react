@@ -18,11 +18,10 @@ import {
   Button,
   Spinner,
 } from '@chakra-ui/react';
-import { deleteAccount, useResolvedAuthorAddress } from '@plebbit/plebbit-react-hooks';
+import { deleteAccount, useAccount, useAuthorAvatar, useResolvedAuthorAddress } from '@plebbit/plebbit-react-hooks';
 import { setAccount } from "@plebbit/plebbit-react-hooks/dist/stores/accounts/accounts-actions"
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import { ProfileContext } from '../../store/profileContext';
 import AddAvatar from './modal/addAvatar';
 import ExportAccount from './modal/exportAccount';
 import logger from '../../utils/logger';
@@ -36,6 +35,7 @@ import Link from '../../components/Link';
 import placeholder from '../../assets/images/fallback.png'
 import onError from '../../utils/onError';
 
+import useStore from '../../store/useStore';
 const Settings = () => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const mainColor = useColorModeValue('lightText2', 'darkText1');
@@ -45,11 +45,12 @@ const Settings = () => {
   const [bPLoading, setBpLoading] = useState(false);
   const location = useLocation();
   const view = location.pathname.split('/').at(-2);
-
+  const profile = useAccount();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
   const { isOpen: isBlockOpen, onOpen: onBlockOpen, onClose: onBlockClose } = useDisclosure();
-  const { profile, device, authorAvatarImageUrl } = useContext(ProfileContext);
+  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
+  const { device } = useStore(state => state)
   const [loader, setLoader] = useState(false);
   const tabs = [
     { label: 'Account', link: 'account' },

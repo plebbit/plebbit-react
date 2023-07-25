@@ -1,16 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PostContent from './PostContent';
 import { Box, useColorModeValue } from '@chakra-ui/react';
 import Layout from '../../components/layout';
 import { getAddress, getSubName } from '../../utils/getUserName';
-import { ProfileContext } from '../../store/profileContext';
 import useStateString from '../../hooks/useStateString';
+import useStore from '../../store/useStore';
 
 
 const PostDetail = () => {
     const {
         device,
-    } = useContext(ProfileContext);
+    } = useStore(state => state)
     const [detail, setDetail] = useState({})
     const [subplebbit, setSubplebbit] = useState({})
     const detBg = useColorModeValue('#bbbdbf', '#030303');

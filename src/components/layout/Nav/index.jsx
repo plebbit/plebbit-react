@@ -9,7 +9,7 @@ import {
   useToast,
   useDisclosure,
 } from '@chakra-ui/react';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { MdHome } from 'react-icons/md';
 import DropDown2 from '../../DropDown/DropDown2';
 import { RiCreativeCommonsByLine, RiSearchLine, RiSideBarFill } from 'react-icons/ri';
@@ -30,7 +30,6 @@ import { useNavigate } from 'react-router-dom';
 import NDDown from './nDDown';
 import { GiHamburgerMenu, GiTwoCoins } from 'react-icons/gi';
 import { CgNotes, CgProfile } from 'react-icons/cg';
-import { ProfileContext } from '../../../store/profileContext';
 import useVisible from '../../../hooks/useVisible';
 import { VscMail } from 'react-icons/vsc';
 import ImportAccount from './modal/importAccount';
@@ -47,7 +46,8 @@ import NavNotification from './NavNotification';
 import Link from "../../Link"
 import { bottomData1, bottomData2 } from '../../sidebar/projectLinks';
 import plebbitReactPackageJson from '../../../../package.json';
-import { createAccount, setActiveAccount } from '@plebbit/plebbit-react-hooks';
+import { createAccount, setAccount, setActiveAccount, useAccount, useAccountSubplebbits, useAccounts, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
+import useStore from '../../../store/useStore';
 
 
 const NavBar = ({ location, showStyleBar }) => {
@@ -56,25 +56,37 @@ const NavBar = ({ location, showStyleBar }) => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconColor2 = useColorModeValue('lightIcon2', 'darkText1');
   const navBorder = useColorModeValue('#edeff1', '#343536');
-  const { colorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
+  const { accounts: accountLists } = useAccounts();
+  const { accountSubplebbits } = useAccountSubplebbits()
+  const profile = useAccount();
+  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
   const {
-    profile,
     device,
-    accountLists,
     version,
-    accountSubplebbits,
     setPostView,
     postView,
-    authorAvatarImageUrl,
     homeAdd,
     subPlebbitData: gitData,
     subPlebbitDefData,
     showSide,
     setShowSide,
-    toggleTheme,
-  } = useContext(ProfileContext);
+  } = useStore(state => state);
+
+  const userTheme = profile?.plebbitReactOptions?.darkMode
+
+
+  const toggleTheme = () => {
+    toggleColorMode();
+    setAccount({
+      ...profile,
+      plebbitReactOptions: {
+        darkMode: !Boolean(userTheme),
+      },
+    });
+  };
 
   const [showDropDown, setShowDropDown] = useState(false);
   const { ref, showComponent, setShowComponent } = useVisible(false);

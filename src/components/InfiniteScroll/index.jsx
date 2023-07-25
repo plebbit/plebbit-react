@@ -1,10 +1,9 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso'
-import { ProfileContext } from '../../store/profileContext';
+import { useAccount } from '@plebbit/plebbit-react-hooks';
 
 const InfiniteScroll = ({ feeds: feed, loader, hasMore, loadMore, content, disableBlocked, enableSubBlock }) => {
-
-  const { profile } = useContext(ProfileContext);
+  const profile = useAccount();
 
   const blockedCids = useMemo(() => Object.keys(profile?.blockedCids || []), [profile?.blockedCids]);
   const blockedAddress = useMemo(() => Object.keys(profile?.blockedAddresses || []), [profile?.blockedAddresses]);

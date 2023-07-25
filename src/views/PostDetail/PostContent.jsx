@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Flex,
@@ -17,11 +17,13 @@ import {
   useAccountComments,
   useSubscribe,
   useAccountVote,
+  useAccount,
   useComment,
   useSubplebbit,
   useEditedComment,
   useBlock,
-  useAuthorAddress
+  useAuthorAddress,
+  useAccountSubplebbits
 } from '@plebbit/plebbit-react-hooks';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { EditorState, ContentState, convertFromHTML } from 'draft-js';
@@ -63,7 +65,6 @@ import usePublishDownvote from '../../hooks/usePublishDownvote';
 import Image from '../../components/Image';
 import Link from '../../components/Link';
 import { dateToNow } from '../../utils/formatDate';
-import { ProfileContext } from '../../store/profileContext';
 import EditLabel from "../../components/Label/editLabel";
 import PendingLabel from "../../components/Label/pendingLabel";
 import SpoilerLabel from "../../components/Label/spoilerLabel";
@@ -73,6 +74,7 @@ import EditComment from './editComment';
 import useStateString from '../../hooks/useStateString';
 import StateString from '../../components/Label/stateString';
 import ConfirmDelete from '../../components/Post/Modal/confirmDelete';
+import useStore from '../../store/useStore';
 
 const PostContent = ({ setDetail, setSubplebbit, state }) => {
   const {
@@ -171,12 +173,12 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
   const [copied, setCopied] = useState(false);
 
   const [showSpoiler, setShowSpoiler] = useState(detail?.spoiler);
+  const { accountSubplebbits } = useAccountSubplebbits()
+  const profile = useAccount();
   const {
     device,
-    profile,
-    accountSubplebbits,
     baseUrl,
-  } = useContext(ProfileContext);
+  } = useStore(state => state)
   const navigate = useNavigate();
   const [showFullComments, setShowFullComments] = useState(!isReply);
 

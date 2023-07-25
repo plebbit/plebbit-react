@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react';
-import { ProfileContext } from '../../store/profileContext';
+import React, { useEffect, useMemo } from 'react';
 import { Box, Flex } from '@chakra-ui/layout';
 import { Icon, useColorModeValue } from '@chakra-ui/react';
 import NavBar from './Nav';
@@ -11,11 +10,16 @@ import { BsArrowUpRightCircle } from 'react-icons/bs';
 import { HiOutlineChartSquareBar, HiOutlineChat } from 'react-icons/hi';
 import { AiFillSetting } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
+import { useAccount, useNotifications } from '@plebbit/plebbit-react-hooks';
+import useStore from '../../store/useStore';
 
 const Layout = ({ children, name, stateString, background }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
-  const { showSplashcreen, device, showSide, setShowSide, notifications } = useContext(ProfileContext);
+  const profile = useAccount()
+  const notifications = useNotifications({ accountName: profile?.name });
+
+  const { showSplashcreen, device, showSide, setShowSide } = useStore(state => state);
   const location = useLocation();
   const showStyleBar = location?.search === '?styling=true';
 
@@ -51,23 +55,31 @@ const Layout = ({ children, name, stateString, background }) => {
     );
   }
 
-  const label = useMemo(() => {
-    const unreadNotificationsCount = notifications?.notifications?.filter((x) => !x?.markedAsRead).length || 0;
-    const labelName = name?.label || '';
+  const unreadNotificationsCount = notifications?.notifications?.filter((x) => !x?.markedAsRead).length || 0;
+  const labelName = name?.label || '';
 
+
+  const updateDocumentTitle = (labelName, unreadNotificationsCount) => {
+    document.title = 'plebbit';
     if (labelName) {
-      return `${unreadNotificationsCount ? `(${unreadNotificationsCount}) ` : ''}plebbit`;
+      document.title = `${unreadNotificationsCount ? `(${unreadNotificationsCount}) ` : ''}plebbit`;
     } else {
-      return `${unreadNotificationsCount ? `(${unreadNotificationsCount}) ` : ''}${labelName}`;
+      document.title = `${unreadNotificationsCount ? `(${unreadNotificationsCount}) ` : ''}${labelName}`;
     }
-  }, [name?.label, notifications?.notifications]);
-
-  const updateDocumentTitle = () => {
-    document.title = label;
   };
 
 
-  useEffect(updateDocumentTitle, [name?.label]);
+
+
+
+
+  useEffect(() => {
+    updateDocumentTitle(labelName, unreadNotificationsCount);
+  }, [labelName, unreadNotificationsCount]);
+
+
+
+
 
 
   return (

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Flex,
@@ -10,7 +10,7 @@ import {
   Skeleton,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useAuthorAvatar, useAccountVote, useEditedComment, useAccountComment, useAuthorAddress } from '@plebbit/plebbit-react-hooks';
+import { useAuthorAvatar, useAccountVote, useEditedComment, useAccountComment, useAuthorAddress, useAccountSubplebbits, useAccount } from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -22,7 +22,6 @@ import numFormatter from '../../../utils/numberFormater';
 import getUserName from '../../../utils/getUserName';
 import Avatar from '../../Avatar';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { ProfileContext } from '../../../store/profileContext';
 import DropDown from '../../DropDown';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { GoGift } from 'react-icons/go';
@@ -39,6 +38,7 @@ import StateString from '../../Label/stateString';
 import usePublishComment from '../../../hooks/usePublishComment';
 import ConfirmDelete from '../Modal/confirmDelete';
 import AddRemovalReason from '../Modal/addRemovalReason';
+import useStore from '../../../store/useStore';
 
 const Comment = ({ comment: data, disableReplies, singleComment, loading, type }) => {
   let comment = data
@@ -54,7 +54,9 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: comment?.author });
-  const { baseUrl, profile, accountSubplebbits } = useContext(ProfileContext);
+  const { accountSubplebbits } = useAccountSubplebbits();
+  const profile = useAccount();
+  const { baseUrl } = useStore(state => state);
   const [copied, setCopied] = useState(false);
   const commentPending = comment?.state === 'pending';
   const commentFailed = comment?.state === 'failed';

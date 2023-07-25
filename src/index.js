@@ -1,5 +1,5 @@
 import PlebbitJs from '@plebbit/plebbit-js';
-import { ProfileDataProvider } from './store/profileContext';
+import ProfileDataProvider from './store/profileContext';
 
 // inject native functions into renderer
 // https://github.com/plebbit/plebbit-js/blob/master/docs/cross-platform-native-functions.md

@@ -1,22 +1,23 @@
 import { Box, Button, Flex, useColorModeValue } from '@chakra-ui/react'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { LockedMessage } from '../../components/Card/ModMessage'
 import getUserName from '../../utils/getUserName'
-import { ProfileContext } from '../../store/profileContext'
 import Editor from '../../components/Editor'
 import { EditorState } from 'draft-js'
 import usePublishComment from '../../hooks/usePublishComment'
 import { MdClose } from 'react-icons/md'
 import Image from '../../components/Image'
+import { useAccount, useAuthorAvatar } from '@plebbit/plebbit-react-hooks'
+import useStore from '../../store/useStore'
 
 const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments, isReply }) => {
     const borderColor2 = useColorModeValue('#d3d6da', '#545452');
-
+    const profile = useAccount();
+    const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
     const {
-        profile,
+
         device,
-        authorAvatarImageUrl
-    } = useContext(ProfileContext);
+    } = useStore(state => state)
     const [content, setContent] = useState('');
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [showMEditor, setShowMEditor] = useState(false);
