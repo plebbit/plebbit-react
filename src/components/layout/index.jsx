@@ -59,23 +59,16 @@ const Layout = ({ children, name, stateString, background }) => {
   const labelName = name?.label || '';
 
 
-  const updateDocumentTitle = (labelName, unreadNotificationsCount) => {
-    document.title = 'plebbit';
-    if (labelName) {
-      document.title = `${unreadNotificationsCount ? `(${unreadNotificationsCount}) ` : ''}plebbit`;
-    } else {
-      document.title = `${unreadNotificationsCount ? `(${unreadNotificationsCount}) ` : ''}${labelName}`;
-    }
-  };
+  if (labelName) {
+    document.title = `${unreadNotificationsCount ? `(${unreadNotificationsCount}) ` : ''}plebbit`;
+  } else {
+    document.title = `${unreadNotificationsCount ? `(${unreadNotificationsCount}) ` : ''}${labelName}`;
+  }
 
 
 
 
 
-
-  useEffect(() => {
-    updateDocumentTitle(labelName, unreadNotificationsCount);
-  }, [labelName, unreadNotificationsCount]);
 
 
 
