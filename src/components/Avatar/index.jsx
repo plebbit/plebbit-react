@@ -1,6 +1,7 @@
 import { Avatar as Av, AvatarBadge, SkeletonCircle } from '@chakra-ui/react';
 import React from 'react';
 import { PlebLogo } from '../svgs';
+import styles from './avatar.module.css'
 
 const divide = (number1, number2) => Number((number1 / number2).toFixed(2));
 
@@ -35,7 +36,7 @@ const getAvatarBadgeProps = (avatarWidth) => {
   return getSmallAvatarBadgeProps(avatarWidth);
 };
 
-const Avatar = (props) => {
+const Avatar2 = (props) => {
   const { badge, avatar, width, height, isOnline, bg, sx, loading, ...rest } = props;
   const { badgeBorderWidth, badgeWidth, badgeBottom } = getAvatarBadgeProps(width);
 
@@ -87,4 +88,20 @@ const Avatar = (props) => {
   );
 };
 
-export default Avatar;
+
+
+
+
+
+
+const Avatar = ({ avatar, address }) => {
+  return (
+    <div className={ styles.card_avatar_wrap }>
+      <a href={ address } className={ styles.card_avatar }>
+        <img className={ styles.card_image } src={ avatar } alt='avatar' />
+      </a>
+    </div>
+  )
+}
+
+export default Avatar

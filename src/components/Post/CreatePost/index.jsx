@@ -37,7 +37,7 @@ import useStore from '../../../store/useStore';
 const CreatePost = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount()
-  const subscriptions = useSubplebbits({ subplebbitAddresses: profile?.subscriptions })?.filter((x) => x !== undefined)
+  const subscriptions = useSubplebbits({ subplebbitAddresses: profile?.subscriptions })
   const { subPlebbitData, subPlebbitDefData } =
     useStore(state => state);
   const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
