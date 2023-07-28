@@ -104,4 +104,4 @@ const Avatar = ({ avatar, address }) => {
   )
 }
 
-export default Avatar
+export default Avatar2
