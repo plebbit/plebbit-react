@@ -1,17 +1,17 @@
 import { Box, Flex, Icon, useColorModeValue } from '@chakra-ui/react';
-import React, { useContext } from 'react';
+import React from 'react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { GiBlackHoleBolas } from 'react-icons/gi';
 import numFormatter from '../../../utils/numberFormater';
-import { ProfileContext } from '../../../store/profileContext';
 import Avatar from '../../Avatar';
+import { useAccount, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
 
 const NDDown = ({ onClick }) => {
   const mainColor = useColorModeValue('lightText2', 'darkText1');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const navBorder = useColorModeValue('#edeff1', '#343536');
-  const { profile, authorAvatarImageUrl } = useContext(ProfileContext);
-
+  const profile = useAccount();
+  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
   return (
     <Box onClick={ onClick }>
       <Box

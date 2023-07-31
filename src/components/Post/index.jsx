@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState, } from 'react';
+import React, { useMemo, useState, } from 'react';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import {
   useAccountVote,
@@ -6,12 +6,13 @@ import {
   useBlock,
   useEditedComment,
   useSubplebbit,
-  useAuthorAddress
+  useAuthorAddress,
+  useAccount,
+  useAccountSubplebbits,
 } from '@plebbit/plebbit-react-hooks';
 import CardPost from './CardPost';
 import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
-import { ProfileContext } from '../../store/profileContext';
 import getIsOnline from '../../utils/getIsOnline';
 import AddRemovalReason from './Modal/addRemovalReason';
 import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
@@ -19,9 +20,11 @@ import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
 import ConfirmDelete from './Modal/confirmDelete';
 import youtube_parser from '../../utils/youtubeParser';
+import useStore from '../../store/useStore';
 
 const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSpecial, stateString }) => {
-  const { device, accountSubplebbits, profile } = useContext(ProfileContext);
+  const profile = useAccount();
+  const { device } = useStore(state => state);
   let post = data
   const pending = !post?.cid;
   const accountVote = useAccountVote({ commentCid: post?.cid });
@@ -30,7 +33,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: post?.author });
-  const { baseUrl } = useContext(ProfileContext);
+  const { baseUrl } = useStore(state => state);
   const getSub = useSubplebbit({ subplebbitAddress: post?.subplebbitAddress });
   const { authorAddress } = useAuthorAddress({ comment: post })
   const isOnline = getIsOnline(getSub?.updatedAt);
@@ -38,7 +41,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
   const owner =
     profile?.author?.address === authorAddress ||
     profile?.signer?.address === authorAddress;
-
+  const { accountSubplebbits } = useAccountSubplebbits()
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(post?.subplebbitAddress);
   const { blocked, unblock, block } = useBlock({ cid: post?.cid })
   const { blocked: muted, unblock: unMute, block: mute } = useBlock({ address: post?.subplebbitAddress })

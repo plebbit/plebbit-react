@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import {
   Box,
@@ -36,7 +36,6 @@ import { FcCancel } from 'react-icons/fc';
 import fromNow from '../../utils/formatDate';
 import numFormatter from '../../utils/numberFormater';
 import getUserName, { getSubName } from '../../utils/getUserName';
-import { ProfileContext } from '../../store/profileContext';
 import DropDown from '../DropDown';
 import Marked from '../Editor/marked';
 import Avatar from '../Avatar';
@@ -53,6 +52,7 @@ import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
 import FlairLabel from "../Label/flairLabel";
 import StateString from '../Label/stateString';
+import useStore from '../../store/useStore';
 
 const ClassicPost = ({
   loading,
@@ -107,7 +107,7 @@ const ClassicPost = ({
   const removeColor = useColorModeValue('persimmon', 'persimmon');
   const lockColor = useColorModeValue('brightSun', 'brightSun');
   const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
-  const { device } = useContext(ProfileContext);
+  const { device } = useStore(state => state);
   const subPlebbit = sub || { address: post?.subplebbitAddress };
   const postBg = useColorModeValue('lightCommunityThemePost', 'darkCommunityThemePost');
 

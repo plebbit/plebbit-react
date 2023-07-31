@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Flex, Icon, useColorModeValue } from '@chakra-ui/react';
 import { RiFireFill } from 'react-icons/ri';
 import { FiMoreHorizontal } from 'react-icons/fi';
@@ -12,13 +12,13 @@ import {
   MdTableRows,
   MdViewHeadline,
 } from 'react-icons/md';
-import { ProfileContext } from '../../../store/profileContext';
 import DropDown from '../../DropDown';
 import useVisible from '../../../hooks/useVisible';
 import Link from '../../Link';
+import useStore from '../../../store/useStore';
 
 const FeedSort = ({ hideControl, subplebbitColor }) => {
-  const { postStyle, setPostStyle, feedSort, setFeedSort, device } = useContext(ProfileContext);
+  const { postStyle, setPostStyle, feedSort, setFeedSort, device } = useStore(state => state);
   const inputBg = useColorModeValue(('lightInputBg'), 'darkInputBg');
 
   const mainBg = useColorModeValue(('lightBody'), 'darkBody');

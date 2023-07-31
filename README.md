@@ -1,6 +1,6 @@
 _Telegram group for this repo https://t.me/plebbitreact_
 
-_Demo https://plebbit-test.netlify.app and https://plebbitapp.eth.limo_
+_Demo https://plebbitapp.netlify.app and https://plebbitapp.eth.limo_
 
 ### Development:
 

@@ -1,6 +1,6 @@
 import { Box, Flex, Icon, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import moment from 'moment';
-import React, { useContext } from 'react';
+import React from 'react';
 import { BsCheckAll } from 'react-icons/bs';
 import { FaBell } from 'react-icons/fa';
 import { MdSettings } from 'react-icons/md';
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import Layout from '../../components/layout';
 import Link from '../../components/Link';
 import { NotificationType } from '../../components/layout/Nav/NavNotification';
-import { ProfileContext } from '../../store/profileContext';
+import { useAccount } from '@plebbit/plebbit-react-hooks';
 
 const Notifications = () => {
   const mainColor = useColorModeValue('lightText2', 'darkText1');
@@ -16,7 +16,8 @@ const Notifications = () => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const navBorder = useColorModeValue('#edeff1', '#343536');
   const { colorMode } = useColorMode();
-  const { notifications } = useContext(ProfileContext);
+  const profile = useAccount()
+  const notifications = useNotifications({ accountName: profile?.name });
   const todayNotifications = notifications?.notifications?.filter((x) =>
     moment(x?.timestamp * 1000).isSame(new Date())
   );

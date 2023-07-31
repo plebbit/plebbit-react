@@ -6,7 +6,7 @@ const getCommentMediaInfo = (post) => {
     return;
   }
   try {
-    mime = extName(new URL(post?.link).pathname.replace('/', ''))[0]?.mime;
+    mime = extName(new URL(post?.link).pathname.toLowerCase().replace('/', ''))[0]?.mime;
   } catch (error) {
 
   }

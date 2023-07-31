@@ -1,6 +1,5 @@
-import React, { Profiler, useContext } from 'react';
+import React, { Profiler } from 'react';
 import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
-import { ProfileContext } from '../../store/profileContext';
 import SideBar from './sideBar';
 import { useFeed, useSubplebbits } from '@plebbit/plebbit-react-hooks';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
@@ -10,10 +9,11 @@ import Post from '../../components/Post';
 import Layout from '../../components/layout';
 import useFeedStateString from '../../hooks/useFeedStateString';
 import getAddressFromArray from '../../utils/getAddressFromArray';
+import useStore from '../../store/useStore';
 
 const Home = () => {
   const { postStyle, feedSort, device, postView, homeAdd, subPlebbitData } =
-    useContext(ProfileContext);
+    useStore(state => state)
   const bg = useColorModeValue('lightBody', 'darkBody');
   const mainMobileBg = useColorModeValue('white', 'black');
   const subplebbitAddresses = postView?.filter(Boolean)?.length ? postView?.filter(Boolean) : getAddressFromArray(subPlebbitData);

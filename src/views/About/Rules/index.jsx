@@ -1,18 +1,18 @@
 import { Box, Button, Flex, Icon, useColorModeValue, useDisclosure } from '@chakra-ui/react';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { HiPencil } from 'react-icons/hi';
 import { CgNotes } from 'react-icons/cg';
-import { ProfileContext } from '../../../store/profileContext';
 import AddRules from './modal/addRules';
 
+import useStore from '../../../store/useStore';
 const Rules = ({ subPlebbit, handleSubPlebbitedit, allowedSpecial, loading }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   //   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const border1 = useColorModeValue('#edeff1', '#343536');
-  const { device } = useContext(ProfileContext);
+  const { device } = useStore(state => state);
   const [mode, setMode] = useState('create');
   const { isOpen: showAdd, onOpen: OpenShowAdd, onClose: closeShowAdd } = useDisclosure(false);
   const [selected, setSelected] = useState('');
@@ -21,11 +21,11 @@ const Rules = ({ subPlebbit, handleSubPlebbitedit, allowedSpecial, loading }) =>
     <Flex flexDir="column">
       <Flex
         alignItems="center"
-        background={border1}
+        background={ border1 }
         height="48px"
-        justifyContent={device !== 'mobile' ? 'flex-end' : 'flex-start'}
-        left={device !== 'mobile' ? '280px' : '0'}
-        padding={device !== 'mobile' ? '0 24px' : '5px 24px'}
+        justifyContent={ device !== 'mobile' ? 'flex-end' : 'flex-start' }
+        left={ device !== 'mobile' ? '280px' : '0' }
+        padding={ device !== 'mobile' ? '0 24px' : '5px 24px' }
         position="fixed"
         right="0"
         zIndex="3"
@@ -43,11 +43,11 @@ const Rules = ({ subPlebbit, handleSubPlebbitedit, allowedSpecial, loading }) =>
           width="auto"
           borderRadius="999px"
           padding="4px 16px"
-          height={device !== 'mobile' ? '32px' : '24px'}
-          onClick={() => {}}
-          mt={device === 'mobile' && '6px'}
-          disabled={!allowedSpecial}
-          color={mainColor}
+          height={ device !== 'mobile' ? '32px' : '24px' }
+          onClick={ () => { } }
+          mt={ device === 'mobile' && '6px' }
+          disabled={ !allowedSpecial }
+          color={ mainColor }
         >
           Reorder Rules
         </Button>
@@ -66,14 +66,14 @@ const Rules = ({ subPlebbit, handleSubPlebbitedit, allowedSpecial, loading }) =>
           width="max-content"
           borderRadius="999px"
           padding="4px 16px"
-          height={device !== 'mobile' ? '32px' : '24px'}
-          onClick={() => {
+          height={ device !== 'mobile' ? '32px' : '24px' }
+          onClick={ () => {
             setMode('create');
             OpenShowAdd();
-          }}
-          mt={device === 'mobile' && '6px'}
-          disabled={!allowedSpecial || showAdd}
-          color={mainColor}
+          } }
+          mt={ device === 'mobile' && '6px' }
+          disabled={ !allowedSpecial || showAdd }
+          color={ mainColor }
         >
           Add Rules
         </Button>
@@ -85,12 +85,12 @@ const Rules = ({ subPlebbit, handleSubPlebbitedit, allowedSpecial, loading }) =>
             fontSize="18px"
             fontWeight="500"
             lineHeight="22px"
-            color={mainColor}
+            color={ mainColor }
             marginBottom="16px"
             alignItems="center"
           >
             <Box>Rules </Box>
-            <Icon as={AiOutlineInfoCircle} ml="4px" verticalAlign="text-top" />
+            <Icon as={ AiOutlineInfoCircle } ml="4px" verticalAlign="text-top" />
           </Flex>
           <Box>
             These are rules that visitors must follow to participate. They can be used as reasons to
@@ -105,11 +105,11 @@ const Rules = ({ subPlebbit, handleSubPlebbitedit, allowedSpecial, loading }) =>
           overflow="hidden"
           flexDir="column"
         >
-          {subPlebbit?.rules?.map((rule, index) => (
+          { subPlebbit?.rules?.map((rule, index) => (
             <Flex
-              key={index}
-              borderBottom={`1px solid ${border1}`}
-              bg={mainBg}
+              key={ index }
+              borderBottom={ `1px solid ${border1}` }
+              bg={ mainBg }
               fontSize="14px"
               fontWeight="400"
               lineHeight="21px"
@@ -117,41 +117,41 @@ const Rules = ({ subPlebbit, handleSubPlebbitedit, allowedSpecial, loading }) =>
               alignItems="center"
               borderRadius="3px"
             >
-              <Box>{+index + 1}</Box>
-              <Box ml="16px"> {rule}</Box>
+              <Box>{ +index + 1 }</Box>
+              <Box ml="16px"> { rule }</Box>
               <Icon
                 ml="auto"
-                as={HiPencil}
-                onClick={() => {
+                as={ HiPencil }
+                onClick={ () => {
                   setMode('edit');
                   setSelected(rule);
                   OpenShowAdd();
-                }}
+                } }
               />
             </Flex>
-          ))}
+          )) }
 
-          {!subPlebbit?.rules && (
-            <Flex alignItems="center" bg={mainBg} flexDir="column" padding="90px 0">
-              <Icon as={CgNotes} width={8} height={8} color={iconColor} mb="16px" />
+          { !subPlebbit?.rules && (
+            <Flex alignItems="center" bg={ mainBg } flexDir="column" padding="90px 0">
+              <Icon as={ CgNotes } width={ 8 } height={ 8 } color={ iconColor } mb="16px" />
               <Box fontSize="18px" fontWeight="500" lineHeight="22px" mb="8px">
                 No rules yet
               </Box>
             </Flex>
-          )}
+          ) }
         </Flex>
       </Box>
-      {showAdd && (
+      { showAdd && (
         <AddRules
-          isOpen={showAdd}
-          onClose={closeShowAdd}
-          handleSubPlebbitedit={handleSubPlebbitedit}
-          loading={loading}
-          rules={subPlebbit?.rules || []}
-          mode={mode}
-          data={selected}
+          isOpen={ showAdd }
+          onClose={ closeShowAdd }
+          handleSubPlebbitedit={ handleSubPlebbitedit }
+          loading={ loading }
+          rules={ subPlebbit?.rules || [] }
+          mode={ mode }
+          data={ selected }
         />
-      )}
+      ) }
     </Flex>
   );
 };

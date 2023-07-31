@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Icon, Text, useColorModeValue } from '@chakra-ui/react';
-import React, { useContext } from 'react';
+import React from 'react';
 import { BiBell } from 'react-icons/bi';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { BsCheckAll } from 'react-icons/bs';
@@ -10,14 +10,15 @@ import DropDown from '../../../DropDown';
 import PopOver from '../../../PopOver';
 import { getTimeVal } from '../../../../utils/formatDate';
 import getUserName from '../../../../utils/getUserName';
-import { ProfileContext } from '../../../../store/profileContext';
 import { toast } from 'react-toastify';
+import { useAccount, useNotifications } from '@plebbit/plebbit-react-hooks';
 
 const NavNotification = () => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconColor2 = useColorModeValue('lightIcon2', 'darkText1');
   const linkColor = useColorModeValue('lightLink', 'darkLink');
-  const { notifications } = useContext(ProfileContext);
+  const profile = useAccount()
+  const notifications = useNotifications({ accountName: profile?.name });
 
   const handleReadAll = async () => {
     await notifications?.markAsRead();

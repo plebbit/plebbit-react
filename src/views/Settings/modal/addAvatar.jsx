@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -23,16 +23,16 @@ import {
   Radio,
 } from '@chakra-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { ProfileContext } from '../../../store/profileContext';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { setAccount } from "@plebbit/plebbit-react-hooks/dist/stores/accounts/accounts-actions"
 import logger from '../../../utils/logger';
+import { useAccount } from '@plebbit/plebbit-react-hooks';
 
 const AddAvatar = ({ isOpen, onClose }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
-  const { profile } = useContext(ProfileContext);
+  const profile = useAccount();
   const [data, setData] = useState({
     domainSeparator: 'plebbit-author-avatar',
     authorAddress: profile?.author?.address,

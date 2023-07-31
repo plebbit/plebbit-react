@@ -1,14 +1,15 @@
 import { Box, Button, Flex, Icon, Input, useColorModeValue, useDisclosure } from '@chakra-ui/react';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import { HiPencil } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import { PlebLogo } from '../../../components/svgs';
-import { ProfileContext } from '../../../store/profileContext';
 import { getAddress } from '../../../utils/getUserName';
 import LeaveMod, { RemoveMod } from '../modal/leaveMod';
 import ModRole from '../modal/modRole';
+import { useAccount } from '@plebbit/plebbit-react-hooks';
+import useStore from '../../../store/useStore';
 
 const Moderators = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit, loading }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -16,7 +17,8 @@ const Moderators = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit, lo
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const border1 = useColorModeValue('#edeff1', '#343536');
   const [selected, setSelected] = useState('');
-  const { device, profile } = useContext(ProfileContext);
+  const profile = useAccount();
+  const { device } = useStore(state => state);
   const { isOpen: leaveModShow, onOpen: openLeaveMod, onClose: closeLeaveMod } = useDisclosure();
   const { isOpen: removeModShow, onOpen: openRemoveMod, onClose: closeRemoveMod } = useDisclosure();
   const { isOpen: roleModShow, onOpen: openRoleMod, onClose: closeRoleMod } = useDisclosure();

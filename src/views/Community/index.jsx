@@ -17,23 +17,24 @@ import {
   Link as Lk,
   InputGroup,
 } from '@chakra-ui/react';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaEye, FaLock, FaUser } from 'react-icons/fa';
 import CreatableMulti from '../../components/DropDown/creatableMulti';
 import {
+  useAccountSubplebbits,
   usePublishSubplebbitEdit,
   useResolvedSubplebbitAddress,
   useSubplebbit,
 } from '@plebbit/plebbit-react-hooks';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
-import { ProfileContext } from '../../store/profileContext';
 import logger from '../../utils/logger';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 import { getAddress } from '../../utils/getUserName';
 import MobileView from './mobileView';
 import SideBar from './sideBar';
+import useStore from '../../store/useStore';
 
 const CommunitySettings = ({ match }) => {
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
@@ -50,7 +51,8 @@ const CommunitySettings = ({ match }) => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const { resolvedAddress: resolvedAuthorAddress } = useResolvedSubplebbitAddress({ subplebbitAddress: data ? data?.address : '' });
-  const { device, accountSubplebbits } = useContext(ProfileContext);
+  const { accountSubplebbits } = useAccountSubplebbits()
+  const { device } = useStore(state => state)
   const [showSidebar, setShowSideBar] = useState(false);
 
   const onChallengeVerification = (challengeVerification, subplebbitEdit) => {

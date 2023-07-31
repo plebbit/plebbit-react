@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Flex, Icon, Skeleton, useColorModeValue } from '@chakra-ui/react';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { AiOutlineInfoCircle, AiOutlineUnorderedList } from 'react-icons/ai';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { FiMoreHorizontal } from 'react-icons/fi';
@@ -17,8 +17,9 @@ import { RiSpamLine } from 'react-icons/ri';
 import { TiDeleteOutline } from 'react-icons/ti';
 import Avatar from '../../../components/Avatar';
 import DropDown from '../../../components/DropDown';
-import { ProfileContext } from '../../../store/profileContext';
 import numFormatter from '../../../utils/numberFormater';
+import { useAccount, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
+import useStore from '../../../store/useStore';
 
 const ModQueue = () => {
   const linkColor = useColorModeValue('lightLink', 'darkLink');
@@ -32,7 +33,9 @@ const ModQueue = () => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const voteColor = useColorModeValue('lightVoteText', 'darkVoteTest');
   const border2 = useColorModeValue('#edeff1', '#343536');
-  const { authorAvatarImageUrl, postStyle, setPostStyle } = useContext(ProfileContext);
+  const profile = useAccount();
+  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
+  const { postStyle, setPostStyle } = useStore(state => state);
   const [selectedFilter, setSelectedFilter] = useState('Newest First');
   const [selectedType, setSelectedType] = useState('Posts And Comments');
   const vote = 0;
@@ -51,7 +54,7 @@ const ModQueue = () => {
       <Flex alignItems="center">
         <Flex alignItems="center" fontSize="18px" fontWeight="500" lineHeight="22px" mb="16px">
           Mod Queue
-          <Icon color={linkColor} ml="4px" as={AiOutlineInfoCircle} />
+          <Icon color={ linkColor } ml="4px" as={ AiOutlineInfoCircle } />
         </Flex>
         <Flex
           height="100%"
@@ -61,93 +64,93 @@ const ModQueue = () => {
           borderRadius="4px"
           mb="16px"
         >
-          <Avatar width={24} height={24} avatar={authorAvatarImageUrl} />
+          <Avatar width={ 24 } height={ 24 } avatar={ authorAvatarImageUrl } />
         </Flex>
       </Flex>
       <Flex alignItems="center" height="40px">
-        {/*filter*/}
+        {/*filter*/ }
         <Box mr="12px">
           <DropDown
             caret
-            options={[
+            options={ [
               { label: 'Newest First', id: 'new' },
               { label: 'Oldest First', id: 'old' },
               { label: 'Most Reported First', id: 'most' },
-            ]}
-            dropDownTitle={selectedFilter.toUpperCase()}
-            onChange={(val) => setSelectedFilter(val?.label)}
-            getSelected={(val) => val?.label}
-            selected={selectedFilter}
-            labelStyle={{
+            ] }
+            dropDownTitle={ selectedFilter.toUpperCase() }
+            onChange={ (val) => setSelectedFilter(val?.label) }
+            getSelected={ (val) => val?.label }
+            selected={ selectedFilter }
+            labelStyle={ {
               fontSize: '12px',
               fontWeight: '700',
               marginRight: '12px',
-            }}
-            iconStyle={{
+            } }
+            iconStyle={ {
               height: '20px',
               width: '20px',
-            }}
-            menuSx={{
+            } }
+            menuSx={ {
               paddingLeft: '0px',
-            }}
+            } }
           />
         </Box>
-        {/*types*/}
+        {/*types*/ }
         <Box>
           <DropDown
             caret
-            options={[
+            options={ [
               { label: 'Posts And Comments', id: 'both' },
               { label: 'Posts', id: 'posts' },
               { label: 'Comments', id: 'comments' },
-            ]}
-            dropDownTitle={selectedType.toUpperCase()}
-            onChange={(val) => setSelectedType(val?.label)}
-            getSelected={(val) => val?.label}
-            selected={selectedType}
-            labelStyle={{
+            ] }
+            dropDownTitle={ selectedType.toUpperCase() }
+            onChange={ (val) => setSelectedType(val?.label) }
+            getSelected={ (val) => val?.label }
+            selected={ selectedType }
+            labelStyle={ {
               fontSize: '12px',
               fontWeight: '700',
               marginRight: '12px',
-            }}
-            iconStyle={{
+            } }
+            iconStyle={ {
               height: '20px',
               width: '20px',
-            }}
-            menuSx={{
+            } }
+            menuSx={ {
               paddingLeft: '0px',
-            }}
+            } }
           />
         </Box>
-        {/* post view*/}
+        {/* post view*/ }
         <Box ml="auto">
           <DropDown
             caret
-            inputBg={inputBg}
+            inputBg={ inputBg }
             dropDownTitle={
               <>
-                {' '}
-                <Flex color={iconColor} alignItems="center">
+                { ' ' }
+                <Flex color={ iconColor } alignItems="center">
                   <Icon
                     as={
                       postStyle === 'card'
                         ? MdOutlineViewStream
                         : postStyle === 'classic'
-                        ? MdOutlineTableRows
-                        : MdOutlineViewHeadline
+                          ? MdOutlineTableRows
+                          : MdOutlineViewHeadline
                     }
-                    height={6}
-                    width={6}
+                    height={ 6 }
+                    width={ 6 }
                   />
                 </Flex>
               </>
             }
             content={
               <>
-                {' '}
+                { ' ' }
                 <Flex
-                  color={postStyle === 'card' && activeFilterText}
-                  fill={postStyle === 'card' && activeFilterText}
+                  color={ postStyle === 'card' && activeFilterText }
+                  fill={ postStyle === 'card' && activeFilterText }
                   alignItems="center"
                   position="relative"
                   outline="none"
@@ -157,23 +160,23 @@ const ModQueue = () => {
                   padding="8px"
                   textTransform="capitalize"
                   whiteSpace="nowrap"
-                  _hover={{
+                  _hover={ {
                     background: inputBg,
-                  }}
-                  onClick={() => setPostStyle('card')}
+                  } }
+                  onClick={ () => setPostStyle('card') }
                   cursor="pointer"
                 >
                   <Icon
                     mr="4px"
-                    as={postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream}
-                    width={6}
-                    height={6}
+                    as={ postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream }
+                    width={ 6 }
+                    height={ 6 }
                   />
                   <Box>Card</Box>
                 </Flex>
                 <Flex
-                  color={postStyle === 'classic' && activeFilterText}
-                  fill={postStyle === 'classic' && activeFilterText}
+                  color={ postStyle === 'classic' && activeFilterText }
+                  fill={ postStyle === 'classic' && activeFilterText }
                   alignItems="center"
                   position="relative"
                   outline="none"
@@ -183,24 +186,24 @@ const ModQueue = () => {
                   padding="8px"
                   textTransform="capitalize"
                   whiteSpace="nowrap"
-                  _hover={{
+                  _hover={ {
                     background: inputBg,
-                  }}
-                  borderTop={`1px solid ${border2}`}
-                  onClick={() => setPostStyle('classic')}
+                  } }
+                  borderTop={ `1px solid ${border2}` }
+                  onClick={ () => setPostStyle('classic') }
                   cursor="pointer"
                 >
                   <Icon
                     mr="4px"
-                    as={postStyle === 'classic' ? MdTableRows : MdOutlineTableRows}
-                    width={6}
-                    height={6}
+                    as={ postStyle === 'classic' ? MdTableRows : MdOutlineTableRows }
+                    width={ 6 }
+                    height={ 6 }
                   />
                   <Box>Classic</Box>
                 </Flex>
                 <Flex
-                  color={postStyle === 'compact' && activeFilterText}
-                  fill={postStyle === 'compact' && activeFilterText}
+                  color={ postStyle === 'compact' && activeFilterText }
+                  fill={ postStyle === 'compact' && activeFilterText }
                   alignItems="center"
                   position="relative"
                   outline="none"
@@ -210,51 +213,51 @@ const ModQueue = () => {
                   padding="8px"
                   textTransform="capitalize"
                   whiteSpace="nowrap"
-                  _hover={{
+                  _hover={ {
                     background: inputBg,
-                  }}
-                  borderTop={`1px solid ${border2}`}
-                  onClick={() => setPostStyle('compact')}
+                  } }
+                  borderTop={ `1px solid ${border2}` }
+                  onClick={ () => setPostStyle('compact') }
                   cursor="pointer"
                 >
                   <Icon
                     mr="4px"
-                    as={postStyle === 'compact' ? MdViewHeadline : MdOutlineViewHeadline}
-                    width={6}
-                    height={6}
+                    as={ postStyle === 'compact' ? MdViewHeadline : MdOutlineViewHeadline }
+                    width={ 6 }
+                    height={ 6 }
                   />
                   <Box>Compact</Box>
                 </Flex>
               </>
             }
-            rightOffset={0}
+            rightOffset={ 0 }
             leftOffset="none"
             topOffset="35px"
           />
         </Box>
       </Flex>
       <Box>
-        {/* head */}
+        {/* head */ }
         <Flex
           fontSize="12px"
           fontWeight="700"
           lineHeight="16px"
-          background={transparent20}
-          color={iconColor}
+          background={ transparent20 }
+          color={ iconColor }
           height="32px"
           mb="5px"
           padding="2px"
           alignItems="center"
         >
-          <Box borderRight={`1px solid ${border2}`}>
+          <Box borderRight={ `1px solid ${border2}` }>
             <DropDown
               disableTitleClick
               caret
-              inputBg={inputBg}
-              titleHover={{
+              inputBg={ inputBg }
+              titleHover={ {
                 bg: '',
-              }}
-              leftOffset={0}
+              } }
+              leftOffset={ 0 }
               rightOffset="none"
               topOffset="35px"
               dropDownTitle={
@@ -264,7 +267,7 @@ const ModQueue = () => {
                     width="20px"
                     height="20px"
                     border="1px solid"
-                    borderColor={iconColor}
+                    borderColor={ iconColor }
                     justifyContent="center"
                     mr="4px"
                   >
@@ -272,7 +275,7 @@ const ModQueue = () => {
                   </Flex>
                 </>
               }
-              options={[
+              options={ [
                 { label: 'Span filtered' },
                 { label: 'Has Reports' },
                 { label: 'Self Posts' },
@@ -280,13 +283,13 @@ const ModQueue = () => {
                 { label: 'Posts With Flair' },
                 { label: 'Posts' },
                 { label: 'Comments' },
-              ]}
+              ] }
             />
           </Box>
           <Flex
-            _hover={{
+            _hover={ {
               bg: inputBg,
-            }}
+            } }
             alignItems="center"
             mr="4px"
             margin="4px 8px 4px 0"
@@ -294,13 +297,13 @@ const ModQueue = () => {
             borderRadius="2px"
             cursor="pointer"
           >
-            <Icon height="20px" width="20px" as={HiOutlineCheckCircle} />
+            <Icon height="20px" width="20px" as={ HiOutlineCheckCircle } />
             <Box ml="4px">Approve</Box>
           </Flex>
           <Flex
-            _hover={{
+            _hover={ {
               bg: inputBg,
-            }}
+            } }
             alignItems="center"
             mr="4px"
             margin="4px 8px 4px 0"
@@ -308,13 +311,13 @@ const ModQueue = () => {
             borderRadius="2px"
             cursor="pointer"
           >
-            <Icon color={iconColor} height="20px" width="20px" as={TiDeleteOutline} />
+            <Icon color={ iconColor } height="20px" width="20px" as={ TiDeleteOutline } />
             <Box ml="4px">Remove</Box>
           </Flex>
           <Flex
-            _hover={{
+            _hover={ {
               bg: inputBg,
-            }}
+            } }
             alignItems="center"
             mr="4px"
             margin="4px 8px 4px 0"
@@ -322,24 +325,24 @@ const ModQueue = () => {
             borderRadius="2px"
             cursor="pointer"
           >
-            <Icon color={iconColor} height="20px" width="20px" as={RiSpamLine} />
+            <Icon color={ iconColor } height="20px" width="20px" as={ RiSpamLine } />
             <Box ml="4px">Spam</Box>
           </Flex>
           <Box>
             <DropDown
-              inputBg={inputBg}
-              titleHover={{
+              inputBg={ inputBg }
+              titleHover={ {
                 bg: '',
-              }}
-              leftOffset={0}
+              } }
+              leftOffset={ 0 }
               rightOffset="none"
               topOffset="35px"
               dropDownTitle={
                 <>
-                  <Icon width="20px" height="20px" as={AiOutlineUnorderedList} />
+                  <Icon width="20px" height="20px" as={ AiOutlineUnorderedList } />
                 </>
               }
-              options={[
+              options={ [
                 { label: 'Ignore Reports' },
                 { label: 'Unignore Reports' },
                 { label: 'Lock' },
@@ -348,7 +351,7 @@ const ModQueue = () => {
                 { label: 'Unmark as SPoiler' },
                 { label: 'Mark as NSFW' },
                 { label: 'Unmark as NSFW' },
-              ]}
+              ] }
             />
           </Box>
           <Box margin="0 5px 0 auto" justifyContent="center" alignItem="center">
@@ -358,15 +361,15 @@ const ModQueue = () => {
         <Box>
           <Box borderRadius="4px" overflow="hidden">
             <Box
-              backgroundColor={mainBg}
-              color={iconColor}
+              backgroundColor={ mainBg }
+              color={ iconColor }
               fill="currentColor"
               cursor="pointer"
               position="relative"
               transition="color .5s,fill .5s"
               marginBottom="10px"
             >
-              {/* vote Bar */}
+              {/* vote Bar */ }
               <Flex
                 width="40px"
                 borderLeft="4px solid transparent"
@@ -397,27 +400,27 @@ const ModQueue = () => {
                       w="24px"
                       fontSize="16px"
                       lineHeight="24px"
-                      _hover={{
+                      _hover={ {
                         bg: iconBg,
                         color: 'upvoteOrange',
-                      }}
-                      _focus={{
+                      } }
+                      _focus={ {
                         outline: 'none',
-                      }}
-                      onClick={() => {}}
-                      color={vote === 1 ? 'upvoteOrange' : iconColor}
+                      } }
+                      onClick={ () => { } }
+                      color={ vote === 1 ? 'upvoteOrange' : iconColor }
                     >
                       <Icon
                         width="20px"
                         height="20px"
                         fontSize="20px"
                         fontWeight="400"
-                        as={vote === 1 ? ImArrowUp : BiUpvote}
+                        as={ vote === 1 ? ImArrowUp : BiUpvote }
                       />
                     </Box>
                   </Box>
                   <Box
-                    color={voteColor}
+                    color={ voteColor }
                     margin="4px 0"
                     fontSize="12px"
                     fontWeight="700"
@@ -425,8 +428,8 @@ const ModQueue = () => {
                     pointerEvents="none"
                     wordBreak="normal"
                   >
-                    <Skeleton isLoaded={!loading}>
-                      {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
+                    <Skeleton isLoaded={ !loading }>
+                      { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
                     </Skeleton>
                   </Box>
                   <Box
@@ -441,37 +444,37 @@ const ModQueue = () => {
                     <Box
                       border="2px solid transparent"
                       cursor="pointer"
-                      color={vote === -1 ? 'downvoteBlue' : iconColor}
+                      color={ vote === -1 ? 'downvoteBlue' : iconColor }
                       display="inline-block"
                       overflow="hidden"
                       h="24px"
                       w="24px"
                       fontSize="16px"
                       lineHeight="24px"
-                      _hover={{
+                      _hover={ {
                         bg: iconBg,
                         color: 'downvoteBlue',
-                      }}
-                      _focus={{
+                      } }
+                      _focus={ {
                         outline: 'none',
-                      }}
-                      onClick={() => {}}
+                      } }
+                      onClick={ () => { } }
                     >
                       <Icon
                         width="20px"
                         height="20px"
                         fontSize="20px"
                         fontWeight="400"
-                        as={vote === -1 ? ImArrowDown : BiDownvote}
+                        as={ vote === -1 ? ImArrowDown : BiDownvote }
                       />
                     </Box>
                   </Box>
                 </Flex>
               </Flex>
-              {/* body */}
+              {/* body */ }
               <Box ml="40px">
                 <Box padding="8px">
-                  {/* head */}
+                  {/* head */ }
                   <Box mb="4px">
                     <Flex
                       mb="8px"
@@ -483,14 +486,14 @@ const ModQueue = () => {
                     >
                       <Flex alignItems="center">
                         <Box mr="4px">
-                          <Avatar width={20} height={20} />
+                          <Avatar width={ 20 } height={ 20 } />
                         </Box>
-                        <Box color={iconColor} lineHeight="16px">
+                        <Box color={ iconColor } lineHeight="16px">
                           r/plebbitairdrop
-                        </Box>{' '}
+                        </Box>{ ' ' }
                       </Flex>
-                      <Flex color={metaText} ml="3px" alignItems="center">
-                        <Box color={iconColor} lineHeight="16px">
+                      <Flex color={ metaText } ml="3px" alignItems="center">
+                        <Box color={ iconColor } lineHeight="16px">
                           Commented by
                         </Box>
                         <Flex
@@ -500,24 +503,24 @@ const ModQueue = () => {
                           lineHeight="20px"
                           transition="opacity .2s"
                         >
-                          <Box mr="4px" flex="0 0 auto" color={mainColor}>
+                          <Box mr="4px" flex="0 0 auto" color={ mainColor }>
                             Test User
                           </Box>
-                          <Box flex="0 0 auto" color={metaText}>
+                          <Box flex="0 0 auto" color={ metaText }>
                             1 month
                           </Box>
                         </Flex>
                       </Flex>
                     </Flex>
-                    {/* title */}
-                    <Box color={metaText} fontSize="15px" lineHeight="22px">
+                    {/* title */ }
+                    <Box color={ metaText } fontSize="15px" lineHeight="22px">
                       Experimental Reddit airdrop
                     </Box>
                   </Box>
-                  {/* content */}
+                  {/* content */ }
                   <Box
                     borderLeft="1px"
-                    borderLeftColor={metaText}
+                    borderLeftColor={ metaText }
                     borderLeftStyle="dashed"
                     paddingLeft="8px"
                   >
@@ -530,7 +533,7 @@ const ModQueue = () => {
                         overflow="auto"
                         paddingBottom="1px"
                         marginBottom="-1px"
-                        color={mainColor}
+                        color={ mainColor }
                       >
                         No way, I love this piece! Discord: dlann#1517 Twitter: dlann5501 Done!
                       </Box>
@@ -574,7 +577,7 @@ const ModQueue = () => {
                       borderRadius="9999px"
                       variant="ghost"
                     >
-                      <Icon as={FiMoreHorizontal} />
+                      <Icon as={ FiMoreHorizontal } />
                     </Button>
                   </Flex>
                 </Flex>

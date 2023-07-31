@@ -1,5 +1,5 @@
 import { Flex, Box, Icon, useColorModeValue, useColorMode } from '@chakra-ui/react';
-import React, { useState, useContext } from 'react';
+import React, { useState, } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { BsChat, BsBoxArrowUpRight } from 'react-icons/bs';
 import SideBar from './sideBar';
@@ -7,17 +7,17 @@ import Post from '../../components/Post';
 import { useAuthor, useAuthorAvatar, useAuthorComments, useBlock } from '@plebbit/plebbit-react-hooks';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import FeedSort from '../../components/Post/FeedSort';
-import { ProfileContext } from '../../store/profileContext';
 import getUserName from '../../utils/getUserName';
 import numFormatter from '../../utils/numberFormater';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 import Link from '../../components/Link';
+import useStore from '../../store/useStore';
 
 const Author = () => {
   const location = useLocation();
   const params = useParams();
-  const { device } = useContext(ProfileContext);
+  const { device } = useStore(state => state)
   const currentView = location.pathname.split('/').at(-2);
   const bg = useColorModeValue('white', 'darkNavBg');
   const mobileBg = useColorModeValue('white', 'black');

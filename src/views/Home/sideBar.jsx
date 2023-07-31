@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   Box,
   Text,
@@ -15,7 +15,6 @@ import {
 // import Button from '../../components/Button';
 import BottomSideBar from '../../components/sidebar/bottomSideBar';
 import BacktoTopButton from '../../components/sidebar/backtoTopButton';
-import { ProfileContext } from '../../store/profileContext';
 import { useSubplebbits } from '@plebbit/plebbit-react-hooks';
 import Avatar from '../../components/Avatar';
 import Link from '../../components/Link';
@@ -24,6 +23,7 @@ import getIsOnline from '../../utils/getIsOnline';
 import { getSubName } from '../../utils/getUserName';
 import convertArrToObj from '../../utils/convertArrToObj';
 import Sort from '../../utils/sort';
+import useStore from '../../store/useStore';
 
 const SideBar = ({
   mt,
@@ -39,7 +39,7 @@ const SideBar = ({
   borderColor,
   bg,
 }) => {
-  const { subPlebbitData } = useContext(ProfileContext);
+  const { subPlebbitData } = useStore(state => state)
   const Bg = useColorModeValue('#F8F9FA', '');
   const { subplebbits } = useSubplebbits({ subplebbitAddresses: subPlebbitData?.map((x) => x?.address) });
   const subs = Sort(
