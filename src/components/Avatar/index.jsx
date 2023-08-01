@@ -36,7 +36,7 @@ const getAvatarBadgeProps = (avatarWidth) => {
   return getSmallAvatarBadgeProps(avatarWidth);
 };
 
-const Avatar2 = (props) => {
+const Avatar = (props) => {
   const { badge, avatar, width, height, isOnline, bg, sx, loading, ...rest } = props;
   const { badgeBorderWidth, badgeWidth, badgeBottom } = getAvatarBadgeProps(width);
 
@@ -89,19 +89,12 @@ const Avatar2 = (props) => {
 };
 
 
+export default Avatar
 
 
 
 
 
-const Avatar = ({ avatar, address }) => {
-  return (
-    <div className={ styles.card_avatar_wrap }>
-      <a href={ address } className={ styles.card_avatar }>
-        <img className={ styles.card_image } src={ avatar } alt='avatar' />
-      </a>
-    </div>
-  )
-}
 
-export default Avatar2
+
+

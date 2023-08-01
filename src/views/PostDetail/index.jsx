@@ -5,6 +5,7 @@ import Layout from '../../components/layout';
 import { getAddress, getSubName } from '../../utils/getUserName';
 import useStateString from '../../hooks/useStateString';
 import useStore from '../../store/useStore';
+import { useParams } from 'react-router-dom';
 
 
 const PostDetail = () => {
@@ -14,16 +15,15 @@ const PostDetail = () => {
     const [detail, setDetail] = useState({})
     const [subplebbit, setSubplebbit] = useState({})
     const detBg = useColorModeValue('#bbbdbf', '#030303');
-
+    const params = useParams();
 
 
     const stateString = useStateString(detail)
 
-
     return (
         <Layout
             name={ {
-                label: detail?.title || subplebbit?.title || getSubName(subplebbit) || getAddress(params?.commentCid),
+                label: detail?.title || detail?.shortCid || subplebbit?.title || subplebbit && getSubName(subplebbit) || getAddress(params?.commentCid),
                 value: location?.pathname,
             } }
             stateString={ stateString }

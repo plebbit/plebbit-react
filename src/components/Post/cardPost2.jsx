@@ -12,6 +12,9 @@ import dateToFromNowDaily from '../../utils/formatDate'
 import Marked from "../Editor/marked";
 import PostMedia from './PostMedia'
 import useStore from '../../store/useStore'
+import { Link } from 'react-router-dom'
+import Avatar from '../Avatar'
+import PostTop from './PostTop'
 
 const CardPost2 = ({
     post,
@@ -60,6 +63,7 @@ const CardPost2 = ({
 
     return (
         <div className={ styles.wrapper }>
+            {/* Vote Bar */ }
             <div className={ styles.vote_bar }>
                 <div className={ styles.vote_btn_wrap }>
                     <button className={ styles.vote_btn } onClick={ upVote }>
@@ -79,37 +83,16 @@ const CardPost2 = ({
                 </div>
             </div>
             <div className={ styles.card_main }>
-                <div className={ styles.card_top }>
-                    <div className={ styles.card_avatar_wrap }>
-                        <a href={ `p/${post?.subplebbitAddress}/` } className={ styles.card_avatar }>
-                            <img className={ styles.card_image } src={ subPlebbit?.suggested?.avatarUrl } alt='sub-avatar' />
-                        </a>
-                    </div>
-                    <div className={ styles.card_top_right }>
-                        <div className={ styles.card_top_right_txt }>
-                            <div className={ styles.card_top_right_sub }>
-                                <a href={ `p/${post?.subplebbitAddress}/` } className={ styles.card_top_right_sub_text }>{ getSubName(subPlebbit) }</a>
-                            </div>
-                            <span className={ styles.dot }>•</span>
-                            <span className={ styles.posted_by }>Posted by</span>
-                            <div className={ styles.author_wrap }>
-                                <div>
-                                    <a href={ authorPath } className={ styles.author }> { getUserName(post?.author) }</a>
-                                </div>
-                            </div>
-                            <span className={ styles.post_timestamp }> { dateToFromNowDaily(
-                                parseInt(post?.timestamp * 1000)
-                            ) }</span>
-                        </div>
-                    </div>
-                </div>
+                {/* post card top */ }
+                <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } />
+                {/* post  title */ }
                 <div className={ styles.card_title }>
                     <div className={ styles.post_title_wrap }>
-                        <a className={ styles.post_title }>
+                        <Link to={ detailRoute } className={ styles.post_title }>
                             <div className={ styles.title_wrap }>
                                 <h3 className={ styles.title }>   { post?.title }</h3>
                             </div>
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 <div className={ styles.card_body }>

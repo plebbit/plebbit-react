@@ -50,6 +50,7 @@ import EditLabel from "../Label/editLabel";
 import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
 import FlairLabel from "../Label/flairLabel";
+import Label from "../Label";
 import StateString from "../Label/stateString";
 import useStore from "../../store/useStore";
 
@@ -337,7 +338,7 @@ const CardPost = ({
                           alignItems="center"
                           flexFlow="row wrap"
                         >
-                          { type !== "subPlebbit" ? (
+                          { type !== "subPlebbit" && (
                             <>
                               <Avatar
                                 avatar={ subPlebbit?.suggested?.avatarUrl }
@@ -368,8 +369,6 @@ const CardPost = ({
                                 margin="0 5px"
                               />
                             </>
-                          ) : (
-                            ""
                           ) }
                           <Text color={ misCol } flex="0 0 auto" mr="3px">
                             Posted by
@@ -393,11 +392,10 @@ const CardPost = ({
                             { getUserName(post?.author) }
                           </Link>
                           {/* status */ }
+
                           { post?.author?.flair && (
                             <Box display="inline" verticalAlign="text-top">
-                              <Text
-                                bg={ statusBg }
-                                color={ statusColor }
+                              <Label bg={ statusBg } color={ statusColor } text={ post?.author?.flair?.text }
                                 fontSize="12px"
                                 fontWeight="500"
                                 lineHeight="16px"
@@ -406,10 +404,7 @@ const CardPost = ({
                                 mr="5px"
                                 overflow="hidden"
                                 isTruncated
-                                padding="0 4px"
-                              >
-                                { post?.author?.flair?.text }
-                              </Text>
+                                padding="0 4px" />
                             </Box>
                           ) }
 
@@ -446,7 +441,7 @@ const CardPost = ({
                               color={ removeColor }
                               alignItems="center"
                               onClick={ () =>
-                                post?.reason ? openRemovalModal() : {}
+                                !post?.reason ? openRemovalModal() : {}
                               }
                             >
                               <Icon as={ FcCancel } />
