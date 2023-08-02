@@ -1,0 +1,31 @@
+.card_title {
+  margin: 0 8px;
+}
+.post_title_wrap {
+  display: inline;
+  position: relative;
+  text-decoration: none;
+  word-break: break-word;
+}
+.post_title {
+  display: inline;
+  padding-right: 5px;
+  word-wrap: break-word;
+  color: #222222;
+  box-sizing: border-box;
+}
+
+.post_title:visited {
+  color: #9b9b9b;
+}
+.title_wrap {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  position: relative;
+  text-decoration: none;
+  word-break: break-word;
+}
+.title {
+  display: inline;
+}
