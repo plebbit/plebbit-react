@@ -15,6 +15,7 @@ import useStore from '../../store/useStore'
 import { Link } from 'react-router-dom'
 import Avatar from '../Avatar'
 import PostTop from './PostTop'
+import PostTitle from './PostTitle'
 
 const CardPost2 = ({
     post,
@@ -86,15 +87,8 @@ const CardPost2 = ({
                 {/* post card top */ }
                 <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } />
                 {/* post  title */ }
-                <div className={ styles.card_title }>
-                    <div className={ styles.post_title_wrap }>
-                        <Link to={ detailRoute } className={ styles.post_title }>
-                            <div className={ styles.title_wrap }>
-                                <h3 className={ styles.title }>   { post?.title }</h3>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
+                <PostTitle post={ post } detailRoute={ detailRoute } editLabel={ editLabel } pending={ pending } type={ type } />
+
                 <div className={ styles.card_body }>
                     { post?.content && (
                         <a className={ styles.card_body_wrap }>

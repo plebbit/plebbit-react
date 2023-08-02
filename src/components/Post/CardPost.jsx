@@ -476,6 +476,58 @@ const CardPost = ({
                     { loading && <StateString stateString={ stateString } /> }
                   </Flex>{ " " }
 
+                  {/* Post Title */ }
+                  <Link to={ detailRoute }>
+                    <Flex
+                      margin="0 8px"
+                      alignItems="center"
+                      height={ loading && '20px' } flex={ loading && 1 } mb={ loading && "8px" }
+                      as={ loading && Skeleton }
+                    >
+
+                      <Text
+                        display="inline"
+                        color={ inactiveSubTitle }
+                        fontSize="18px"
+                        fontWeight="500"
+                        lineHeight="22px"
+                        paddingRight="5px"
+                        textDecor="none"
+                        wordBreak="break-word"
+                        verticalAlign='middle'
+                      >
+                        {/* flair */ }
+                        { type === "subPlebbit" && post?.flair?.text.length ? (
+                          <FlairLabel flair={ post?.flair } />
+                        ) : (
+                          ""
+                        ) }
+                        { post?.title }
+                        { ` ` }
+                        { type !== "subPlebbit" && post?.flair?.text ? (
+                          <FlairLabel flair={ post?.flair } />
+
+                        ) : (
+                          ""
+                        ) }
+                        { post?.spoiler && (
+
+                          <SpoilerLabel />
+                        ) }
+
+                        { pending && (
+                          <Skeleton isLoaded={ !loading }>
+                            <PendingLabel />
+                          </Skeleton>
+                        ) }
+                        {/* edit status */ }
+                        <EditLabel editLabel={ editLabel } post={ post } />
+                      </Text>
+
+
+                    </Flex>
+
+                  </Link>
                   <PostTitle post={ post } detailRoute={ detailRoute } editLabel={ editLabel } pending={ pending } type={ type } />
                   {/* Post Body */ }
                   <Skeleton height={ loading && '240px' } mx={ loading && '8px' } mb={ loading && "8px" } isLoaded={ !loading }>
