@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom'
 import Avatar from '../Avatar'
 import PostTop from './PostTop'
 import PostTitle from './PostTitle'
+import PostBody from './PostBody'
 
 const CardPost2 = ({
     post,
@@ -89,44 +90,7 @@ const CardPost2 = ({
                 {/* post  title */ }
                 <PostTitle post={ post } detailRoute={ detailRoute } editLabel={ editLabel } pending={ pending } type={ type } />
 
-                <div className={ styles.card_body }>
-                    { post?.content && (
-                        <a className={ styles.card_body_wrap }>
-                            <div className={ styles.bodyWrap }>
-                                <div className={ styles.body }>
-
-                                    { post?.spoiler ? (
-                                        ""
-                                    ) : post?.removed ? (
-                                        "[removed]"
-                                    ) : (
-                                        <Marked content={ post?.content } />
-                                    ) }
-
-                                </div>
-                            </div>
-                        </a>
-                    ) }
-                    {/*link post  without media  */ }
-
-                    <div className={ styles.post_link_wrap } >
-                        { hasThumbnail && (
-                            <a
-                                href={ post?.link }
-                                className={ styles.post_link }
-                            >
-                                <div>{ post?.link?.substring(0, 20) + "..." }</div>
-                                <FiExternalLink
-                                    className={ styles.post_link_icon }
-                                />
-                            </a>
-                        ) }
-                    </div>
-
-                    {/*link post  with media  */ }
-
-                    <PostMedia post={ post } />
-                </div>
+                <PostBody post={ post } hasThumbnail={ hasThumbnail } />
                 <div className={ styles.card_footer }>
                     <div className={ styles.card_footer_wrap }>
                         <a className={ styles.footer_comment }>

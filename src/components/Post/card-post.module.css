@@ -117,6 +117,8 @@
 }
 .card_body {
   margin-top: 8px;
+  display: block;
+  cursor: pointer;
 }
 .card_body_wrap {
   font-family: Noto Sans, Arial, sans-serif;
