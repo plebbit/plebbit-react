@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 import { HiOutlineCheckCircle } from 'react-icons/hi'
 import { TiDeleteOutline } from 'react-icons/ti'
 
-const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, location, handleCopy, copied, allowedSpecial, detailRoute, post, pending, loading }) => {
+const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, location, handleCopy, copied, allowedSpecial, detailRoute, post, pending, loading, commentCount }) => {
     return (
         <>
             { pending ? (
@@ -23,7 +23,7 @@ const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, loc
                         <div className={ styles.card_footer_wrap }>
                             <Link to={ detailRoute } className={ styles.footer_comment }>
                                 <BsChatSquare className={ styles.footer_comment_icon } />
-                                <span className={ styles.footer_comment_text }>56 comments</span>
+                                <span className={ styles.footer_comment_text }>{ commentCount } { type !== "subPlebbit" && 'comments' }</span>
                             </Link>
                             <div className={ styles.footer_award }>
                                 <button className={ styles.card_footer_award_wrap }>

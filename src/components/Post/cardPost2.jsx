@@ -17,8 +17,6 @@ import Avatar from '../Avatar'
 import PostTop from './PostTop'
 import PostTitle from './PostTitle'
 import PostBody from './PostBody'
-import DropDown from '../DropDown'
-import { MdOutlineDeleteOutline } from 'react-icons/md'
 import PostFooter from './PostFooter'
 
 const CardPost2 = ({
@@ -106,13 +104,13 @@ const CardPost2 = ({
                     </div>
                 ) }
                 {/* post card top */ }
-                <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } />
+                <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } />
                 {/* post  title */ }
                 <PostTitle post={ post } detailRoute={ detailRoute } editLabel={ editLabel } pending={ pending } type={ type } />
                 {/* post  body */ }
                 <PostBody post={ post } hasThumbnail={ hasThumbnail } />
                 {/* post  fgooter */ }
-                <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } detailRoute={ detailRoute } allowedSpecial={ allowedSpecial } post={ post } pending={ pending } loading={ loading } />
+                <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } detailRoute={ detailRoute } allowedSpecial={ allowedSpecial } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } />
 
             </div>
         </div>
