@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './card-post.module.css'
-import { BsBookmark, BsChatSquare, BsEyeSlash } from 'react-icons/bs'
+import { BsBookmark, BsChatSquare, BsEyeSlash, BsPinAngleFill } from 'react-icons/bs'
 import { BiDownvote, BiUpvote } from 'react-icons/bi'
 import { GoGift, GoMute } from 'react-icons/go'
 import { FaShare } from 'react-icons/fa'
@@ -88,6 +88,23 @@ const CardPost2 = ({
                 </div>
             </div>
             <div className={ styles.card_main }>
+                { post?.pinned && type === "subPlebbit" && (
+                    <div
+                        className={ styles.pin_head_wrap }
+                    >
+                        <BsPinAngleFill
+                            className={ styles.pin_head_icon }
+                        />
+                        <span
+                            className={ styles.pin_head_text }
+                        >
+                            PINNED BY MODERATORS
+                        </span>{ " " }
+
+
+
+                    </div>
+                ) }
                 {/* post card top */ }
                 <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } />
                 {/* post  title */ }

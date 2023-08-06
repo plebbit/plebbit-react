@@ -267,7 +267,6 @@ const CardPost = ({
                   position="relative"
                   wordBreak="break-word"
                 >
-                  {/* Pin Head */ }
                   { post?.pinned && type === "subPlebbit" && (
                     <Flex
                       fontSize="12px"
@@ -312,7 +311,8 @@ const CardPost = ({
                       </Flex>
 
                     </Flex>
-                  ) }{ " " }
+                  ) }    {/* Pin Head */ }
+                  { " " }
                   {/* Post Head */ }
                   <Flex
                     fontSize="12px"

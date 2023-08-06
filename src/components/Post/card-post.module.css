@@ -270,9 +270,33 @@
 .post_link_icon:before {
   content: '\f1ad';
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: redesignFont2020;
   font-size: 12px;
   font-weight: 400;
   line-height: 20px;
+}
+
+.pin_head_wrap {
+  align-items: center;
+  display: flex;
+  margin: 0 8px 14px;
+  cursor: pointer;
+  color: #7f8182;
+}
+.pin_head_icon {
+  font-size: 20px;
+  font-weight: 400;
+  height: 20px;
+  line-height: 20px;
+  vertical-align: middle;
+  width: 20px;
+  color: #75d377;
+  cursor: default;
+}
+.pin_head_text {
+  padding-left: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 12px;
+  text-transform: uppercase;
 }
