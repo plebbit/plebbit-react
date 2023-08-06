@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './card-post.module.css'
-import { BsBookmark, BsChatSquare } from 'react-icons/bs'
+import { BsBookmark, BsChatSquare, BsEyeSlash } from 'react-icons/bs'
 import { BiDownvote, BiUpvote } from 'react-icons/bi'
-import { GoGift } from 'react-icons/go'
+import { GoGift, GoMute } from 'react-icons/go'
 import { FaShare } from 'react-icons/fa'
 import { FiExternalLink, FiMoreHorizontal } from 'react-icons/fi'
 import numFormatter from '../../utils/numberFormater'
@@ -17,6 +17,9 @@ import Avatar from '../Avatar'
 import PostTop from './PostTop'
 import PostTitle from './PostTitle'
 import PostBody from './PostBody'
+import DropDown from '../DropDown'
+import { MdOutlineDeleteOutline } from 'react-icons/md'
+import PostFooter from './PostFooter'
 
 const CardPost2 = ({
     post,
@@ -89,47 +92,10 @@ const CardPost2 = ({
                 <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } />
                 {/* post  title */ }
                 <PostTitle post={ post } detailRoute={ detailRoute } editLabel={ editLabel } pending={ pending } type={ type } />
-
+                {/* post  body */ }
                 <PostBody post={ post } hasThumbnail={ hasThumbnail } />
-                <div className={ styles.card_footer }>
-                    <div className={ styles.card_footer_wrap }>
-                        <a className={ styles.footer_comment }>
-                            <BsChatSquare className={ styles.footer_comment_icon } />
-                            <span className={ styles.footer_comment_text }>56 comments</span>
-                        </a>
-                        <div className={ styles.footer_award }>
-                            <button className={ styles.card_footer_award_wrap }>
-                                <span className={ styles.award_icon_wrap }>
-                                    <GoGift className={ styles.award_icon } />
-                                </span>
-                                <span>Award</span>
-                            </button>
-                        </div>
-                        <div className={ styles.footer_award }>
-                            <button className={ styles.card_footer_award_wrap }>
-                                <span className={ styles.award_icon_wrap }>
-                                    <FaShare className={ styles.award_icon } />
-                                </span>
-                                <span>Share</span>
-                            </button>
-                        </div>
-                        <div className={ styles.footer_award }>
-                            <button className={ styles.card_footer_award_wrap }>
-                                <span className={ styles.award_icon_wrap }>
-                                    <BsBookmark className={ styles.award_icon } />
-                                </span>
-                                <span>Save</span>
-                            </button>
-                        </div>
-                        <div className={ styles.footer_award }>
-                            <button className={ styles.card_footer_award_wrap }>
-                                <span className={ styles.award_icon_wrap }>
-                                    <FiMoreHorizontal className={ styles.award_icon } />
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                {/* post  fgooter */ }
+                <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } detailRoute={ detailRoute } allowedSpecial={ allowedSpecial } post={ post } pending={ pending } loading={ loading } />
 
             </div>
         </div>

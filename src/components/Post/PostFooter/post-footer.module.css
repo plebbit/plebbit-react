@@ -1,0 +1,89 @@
+.card_footer {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  overflow-y: visible;
+}
+.card_footer_wrap {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  padding: 0 8px 0 4px;
+  flex-grow: 1;
+}
+.footer_comment {
+  padding: 8px;
+  word-break: normal;
+  margin-right: 4px;
+  align-items: center;
+  display: flex;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  padding: 4px;
+  box-sizing: border-box;
+}
+.footer_comment:hover {
+  background-color: #f6f7f8;
+}
+.footer_comment_icon {
+  margin-right: 6px;
+  font-size: 20px;
+  font-weight: 400;
+  height: 20px;
+  line-height: 20px;
+  vertical-align: middle;
+  width: 20px;
+  word-break: normal;
+}
+.footer_comment_text {
+  display: inline-block;
+  line-height: 1;
+  text-transform: capitalize;
+  vertical-align: middle;
+  word-break: normal;
+}
+.footer_award {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.footer_award:hover {
+  background-color: #f6f7f8;
+}
+.card_footer_award_wrap {
+  border-radius: 2px;
+  margin-right: 4px;
+  padding: 8px;
+  text-transform: capitalize;
+  white-space: nowrap;
+  width: auto;
+  word-break: normal;
+  word-wrap: normal;
+  height: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+.award_icon_wrap {
+  margin-right: 6px;
+}
+.award_icon {
+  display: inline-block;
+  line-height: 18px;
+  font-size: 20px;
+  font-weight: 400;
+  height: 20px;
+  vertical-align: middle;
+  width: 20px;
+}

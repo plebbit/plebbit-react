@@ -50,10 +50,8 @@ import EditLabel from "../Label/editLabel";
 import PendingLabel from "../Label/pendingLabel";
 import SpoilerLabel from "../Label/spoilerLabel";
 import FlairLabel from "../Label/flairLabel";
-import Label from "../Label";
 import StateString from "../Label/stateString";
 import useStore from "../../store/useStore";
-import PostTitle from "./PostTitle";
 
 const CardPost = ({
   post,
@@ -396,7 +394,7 @@ const CardPost = ({
 
                           { post?.author?.flair && (
                             <Box display="inline" verticalAlign="text-top">
-                              <Label bg={ statusBg } color={ statusColor } text={ post?.author?.flair?.text }
+                              <FlairLabel bg={ statusBg } color={ statusColor } text={ post?.author?.flair?.text }
                                 fontSize="12px"
                                 fontWeight="500"
                                 lineHeight="16px"
@@ -442,7 +440,7 @@ const CardPost = ({
                               color={ removeColor }
                               alignItems="center"
                               onClick={ () =>
-                                !post?.reason ? openRemovalModal() : {}
+                                post?.reason ? openRemovalModal() : {}
                               }
                             >
                               <Icon as={ FcCancel } />
@@ -528,7 +526,6 @@ const CardPost = ({
                     </Flex>
 
                   </Link>
-                  <PostTitle post={ post } detailRoute={ detailRoute } editLabel={ editLabel } pending={ pending } type={ type } />
                   {/* Post Body */ }
                   <Skeleton height={ loading && '240px' } mx={ loading && '8px' } mb={ loading && "8px" } isLoaded={ !loading }>
                     <Box mt="8px">
