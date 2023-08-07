@@ -18,6 +18,7 @@ import PostTop from './PostTop'
 import PostTitle from './PostTitle'
 import PostBody from './PostBody'
 import PostFooter from './PostFooter'
+import PostVote from './PostVote'
 
 const CardPost2 = ({
     post,
@@ -67,24 +68,7 @@ const CardPost2 = ({
     return (
         <div className={ styles.wrapper }>
             {/* Vote Bar */ }
-            <div className={ styles.vote_bar }>
-                <div className={ styles.vote_btn_wrap }>
-                    <button className={ styles.vote_btn } onClick={ upVote }>
-                        <div className={ styles.upVote_wrap }>
-                            { vote === 1 ? <ImArrowUp className={ styles.upVote } /> : <BiUpvote className={ styles.upVote } /> }
-                        </div>
-                    </button>
-                    <div className={ styles.vote_text }>
-                        { postVotes === 0 ? "vote" : numFormatter(postVotes) }
-                    </div>
-                    <button className={ styles.vote_btn } onClick={ downVote }>
-                        <div className={ styles.upVote_wrap }>
-                            { vote === -1 ? <ImArrowDown className={ styles.downVote } /> : <BiDownvote className={ styles.downVote } /> }
-
-                        </div>
-                    </button>
-                </div>
-            </div>
+            <PostVote vote={ vote } upVote={ upVote } downVote={ downVote } postVotes={ postVotes } />
             <div className={ styles.card_main }>
                 { post?.pinned && type === "subPlebbit" && (
                     <div
