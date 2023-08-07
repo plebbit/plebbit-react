@@ -3,13 +3,14 @@ import Marked from '../../Editor/marked'
 import { FiExternalLink } from 'react-icons/fi'
 import PostMedia from '../PostMedia'
 import styles from './post-body.module.css'
+import { Link } from 'react-router-dom'
 
-const PostBody = ({ post, hasThumbnail }) => {
+const PostBody = ({ post, hasThumbnail, detailRoute }) => {
     return (
         <>
             { post?.content && (
                 <div className={ styles.card_body }>
-                    <a className={ styles.card_body_wrap }>
+                    <Link to={ detailRoute } className={ styles.card_body_wrap }>
                         <div className={ styles.bodyWrap }>
                             <div className={ styles.body }>
 
@@ -23,7 +24,7 @@ const PostBody = ({ post, hasThumbnail }) => {
 
                             </div>
                         </div>
-                    </a>
+                    </Link>
 
                 </div>
             ) }

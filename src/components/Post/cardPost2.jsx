@@ -19,6 +19,7 @@ import PostTitle from './PostTitle'
 import PostBody from './PostBody'
 import PostFooter from './PostFooter'
 import PostVote from './PostVote'
+import Image from '../Image'
 
 const CardPost2 = ({
     post,
@@ -69,34 +70,58 @@ const CardPost2 = ({
         <div className={ styles.wrapper }>
             {/* Vote Bar */ }
             <PostVote vote={ vote } upVote={ upVote } downVote={ downVote } postVotes={ postVotes } />
+
             <div className={ styles.card_main }>
-                { post?.pinned && type === "subPlebbit" && (
-                    <div
-                        className={ styles.pin_head_wrap }
-                    >
-                        <BsPinAngleFill
-                            className={ styles.pin_head_icon }
-                        />
-                        <span
-                            className={ styles.pin_head_text }
-                        >
-                            PINNED BY MODERATORS
-                        </span>{ " " }
+                <article className={ styles.card_article }>
+                    <div>
+                        { post?.pinned && type === "subPlebbit" && (
+                            <div
+                                className={ styles.pin_head_wrap }
+                            >
+                                <BsPinAngleFill
+                                    className={ styles.pin_head_icon }
+                                />
+                                <span
+                                    className={ styles.pin_head_text }
+                                >
+                                    PINNED BY MODERATORS
+                                </span>{ " " }
 
-
-
+                            </div>
+                        ) }
+                        {/* post card top */ }
+                        <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } />
+                        {/* post  title */ }
+                        <PostTitle post={ post } detailRoute={ detailRoute } editLabel={ editLabel } pending={ pending } type={ type } />
+                        {/* post  body */ }
+                        <PostBody post={ post } hasThumbnail={ hasThumbnail } detailRoute={ detailRoute } />
                     </div>
-                ) }
-                {/* post card top */ }
-                <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } />
-                {/* post  title */ }
-                <PostTitle post={ post } detailRoute={ detailRoute } editLabel={ editLabel } pending={ pending } type={ type } />
-                {/* post  body */ }
-                <PostBody post={ post } hasThumbnail={ hasThumbnail } />
+                    { hasThumbnail &&
+                        <div className={ styles.article_right }>
+                            <div className={ styles.card_thumbnail_wrap }>
+                                <a href={ post?.link } target='_blank'>
+                                    <div className={ styles.img_cont } style={ {
+                                        backgroundImage: `url(${post?.thumbnailUrl})`
+                                    } }>
+                                        <div
+                                            className={ styles.external_wrap }
+                                        >
+                                            <FiExternalLink className={ styles.external_icon } />
+                                        </div>
+                                        <img alt={ post?.title } style={ {
+                                            display: 'none'
+                                        } } />
+                                    </div>
+                                </a>
+
+                            </div>
+                        </div> }
+                </article>
                 {/* post  fgooter */ }
                 <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } detailRoute={ detailRoute } allowedSpecial={ allowedSpecial } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } />
-
             </div>
+
+
         </div>
     )
 }

@@ -4,6 +4,7 @@
   flex-direction: row;
   height: 40px;
   overflow-y: visible;
+  background-color: #fff;
 }
 .card_footer_wrap {
   font-size: 12px;

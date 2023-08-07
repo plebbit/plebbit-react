@@ -12,267 +12,12 @@
 .wrapper:hover {
   border: 1px solid #898989;
 }
-.vote_bar {
-  width: 40px;
-  border-left: 4px solid transparent;
-  align-items: center;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  left: 0;
-  padding: 8px 4px 8px 0;
-  position: absolute;
-  top: 0;
-}
-.vote_btn {
-  background: transparent;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  padding: initial;
-  height: 24px;
-  width: 24px;
-}
-.vote_btn_wrap {
-  align-items: center;
-  display: flex;
-  fill: inherit;
-  flex-direction: column;
-}
 
-.vote_btn:hover {
-  background: #dae0e6;
-}
-.upVote {
-  line-height: 24px;
-  position: relative;
-  font-size: 20px;
-  font-weight: 400;
-  vertical-align: middle;
-  color: #878a8c;
-}
-.upVote_wrap {
-  border-radius: 2px;
-  cursor: pointer;
-  display: inline-block;
-  overflow: hidden;
-  height: 24px;
-  width: 24px;
-  line-height: 24px;
-}
-.upVote:hover {
-  color: #cc3700;
-}
-
-.downVote {
-  line-height: 24px;
-  position: relative;
-  font-size: 20px;
-  font-weight: 400;
-  vertical-align: middle;
-  color: #878a8c;
-}
-.downVote:hover {
-  color: #5a75cc;
-}
-.vote_text {
-  color: #1a1a1b;
-  margin: 4px 0;
-  font-size: 12px;
-  line-height: 16px;
-  pointer-events: none;
-  word-break: normal;
-}
 .card_main {
   background: #ffffff;
   position: relative;
   padding-top: 8px;
   cursor: pointer;
-}
-
-.card_title {
-  margin: 0 8px;
-}
-.post_title_wrap {
-  display: inline;
-}
-.post_title {
-  display: inline;
-  padding-right: 5px;
-  word-wrap: break-word;
-  color: #222222;
-  box-sizing: border-box;
-}
-
-.post_title:visited {
-  color: #9b9b9b;
-}
-.title_wrap {
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 22px;
-  position: relative;
-  text-decoration: none;
-  word-break: break-word;
-}
-.title {
-  display: inline;
-}
-.card_body {
-  margin-top: 8px;
-  display: block;
-  cursor: pointer;
-}
-.card_body_wrap {
-  font-family: Noto Sans, Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 21px;
-  word-break: break-word;
-  overflow: auto;
-  padding-bottom: 1px;
-  margin-bottom: -1px;
-  color: #222222;
-}
-.card_body_wrap:visited {
-  color: #9b9b9b;
-}
-.bodyWrap {
-  max-height: 250px;
-  mask-image: linear-gradient(180deg, #000 60%, transparent);
-  overflow: hidden;
-  padding: 5px 8px 10px;
-}
-.body {
-  cursor: pointer;
-  font-family: Noto Sans, Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 21px;
-  word-break: break-word;
-  overflow: auto;
-  padding-bottom: 1px;
-  margin-bottom: -1px;
-}
-.card_footer {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  height: 40px;
-  overflow-y: visible;
-}
-.card_footer_wrap {
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
-  align-items: stretch;
-  display: flex;
-  flex-direction: row;
-  padding: 0 8px 0 4px;
-  flex-grow: 1;
-}
-.footer_comment {
-  padding: 8px;
-  word-break: normal;
-  margin-right: 4px;
-  align-items: center;
-  display: flex;
-  border-radius: 2px;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
-  padding: 4px;
-  box-sizing: border-box;
-}
-.footer_comment:hover {
-  background-color: #f6f7f8;
-}
-.footer_comment_icon {
-  margin-right: 6px;
-  font-size: 20px;
-  font-weight: 400;
-  height: 20px;
-  line-height: 20px;
-  vertical-align: middle;
-  width: 20px;
-  word-break: normal;
-}
-.footer_comment_text {
-  display: inline-block;
-  line-height: 1;
-  text-transform: capitalize;
-  vertical-align: middle;
-  word-break: normal;
-}
-.footer_award {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-.footer_award:hover {
-  background-color: #f6f7f8;
-}
-.card_footer_award_wrap {
-  border-radius: 2px;
-  margin-right: 4px;
-  padding: 8px;
-  text-transform: capitalize;
-  white-space: nowrap;
-  width: auto;
-  word-break: normal;
-  word-wrap: normal;
-  height: 100%;
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  text-align: left;
-  background: transparent;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-}
-.award_icon_wrap {
-  margin-right: 6px;
-}
-.award_icon {
-  display: inline-block;
-  line-height: 18px;
-  font-size: 20px;
-  font-weight: 400;
-  height: 20px;
-  vertical-align: middle;
-  width: 20px;
-}
-
-.post_link_wrap {
-  display: flex;
-  margin-top: 0;
-}
-
-.post_link {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-  margin: 4px 8px;
-  white-space: nowrap;
-  color: #0079d3;
-  fill: #0079d3;
-  text-decoration: inherit;
-  display: flex;
-}
-.post_link_icon {
-  font-size: 12px;
-  padding-left: 4px;
-  line-height: 20px;
-  vertical-align: middle;
-  font-weight: 400;
-}
-.post_link_icon:before {
-  content: '\f1ad';
-  -webkit-font-smoothing: antialiased;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 20px;
 }
 
 .pin_head_wrap {
@@ -299,4 +44,71 @@
   letter-spacing: 0.5px;
   line-height: 12px;
   text-transform: uppercase;
+}
+.article_wrapper {
+  background: rgb(255, 255, 255);
+  position: relative;
+}
+.article_left {
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: column;
+  padding-bottom: 22px;
+  position: relative;
+  word-break: break-word;
+  cursor: pointer;
+}
+.article_right {
+  display: flex;
+  flex: 0 0 144px;
+  height: 140px;
+  align-items: flex-end;
+  border-radius: 2px;
+  flex-direction: column;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.card_article {
+  display: flex;
+  flex-direction: row;
+}
+.card_thumbnail_wrap {
+  border-radius: 4px;
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  vertical-align: bottom;
+}
+.img_cont {
+  border-color: rgb(0, 121, 211);
+  height: 100%;
+  border-radius: 4px;
+  flex: 1;
+  width: 100%;
+  border: 1px solid;
+  box-sizing: border-box;
+  background-position: 50% top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.external_wrap {
+  background-color: rgb(0, 121, 211);
+  border-top-left-radius: 4px;
+  bottom: 0;
+  height: 18px;
+  position: absolute;
+  right: 0;
+  width: 18px;
+}
+.external_icon {
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 18px;
+  margin-left: 4px;
+  vertical-align: baseline;
+  font-weight: 400;
+  margin-top: 2px;
 }
