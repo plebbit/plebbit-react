@@ -121,3 +121,33 @@
     height: 72px;
   }
 }
+
+.img_cont {
+  height: 100%;
+  border-radius: 4px;
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+  background-position: 50% top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.external_wrap {
+  background-color: rgb(0, 121, 211);
+  border-top-left-radius: 4px;
+  bottom: 0;
+  height: 18px;
+  position: absolute;
+  right: 0;
+  width: 18px;
+}
+.external_icon {
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 18px;
+  margin-left: 4px;
+  vertical-align: baseline;
+  font-weight: 400;
+  margin-top: 2px;
+}

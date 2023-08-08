@@ -8,7 +8,7 @@
   word-break: break-word;
 }
 .post_title {
-  display: inline;
+  display: inline-block;
   padding-right: 5px;
   word-wrap: break-word;
   color: #222222;
@@ -28,4 +28,27 @@
 }
 .title {
   display: inline;
+}
+
+.thumbnail_link {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  margin: 4px 8px;
+  white-space: nowrap;
+  color: #0079d3;
+  fill: #0079d3;
+  font-weight: 400;
+  line-height: 20px;
+  vertical-align: middle;
+}
+.thumbnail_icon {
+  font-size: 12px;
+  padding-left: 4px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.thumbnail_icon:before {
+  content: '\f1ac';
 }
