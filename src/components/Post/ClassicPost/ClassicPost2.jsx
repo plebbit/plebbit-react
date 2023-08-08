@@ -1,13 +1,13 @@
 import React from 'react'
 import styles from './classic-post.module.css'
-import PostVote from './PostVote'
+import PostVote from '../PostVote'
 import { BsCardImage, BsFileText, BsLink45Deg, BsPlayBtn } from 'react-icons/bs'
-import PostTitle from './PostTitle'
-import PostTop from './PostTop'
+import PostTitle from '../PostTitle'
+import PostTop from '../PostTop'
 import { FiExternalLink } from 'react-icons/fi'
 import { MdOutlineAudiotrack } from 'react-icons/md'
-import PostFooter from './PostFooter'
-import PostBody from './PostBody'
+import PostFooter from '../PostFooter'
+import PostBody from '../PostBody'
 
 const ClassicPost2 = ({
     loading,
