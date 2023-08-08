@@ -4,6 +4,7 @@ import PostVote from '../PostVote'
 
 import CompactLeftIcons from './CompactLeftIcons'
 import PostTitle from '../PostTitle'
+import PostTop from '../PostTop'
 
 const CompactPost2 = ({
     loading,
@@ -54,6 +55,8 @@ const CompactPost2 = ({
                                 lineHeight: "18px"
 
                             } } hasThumbnail={ hasThumbnail } />
+                            <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } hideAvatar />
+
 
                         </div>
                     </div>
