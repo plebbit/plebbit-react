@@ -10,7 +10,7 @@
   font-size: 12px;
   font-weight: 700;
   line-height: 16px;
-  align-items: stretch;
+  align-items: center;
   display: flex;
   flex-direction: row;
   padding: 0 8px 0 4px;
@@ -85,6 +85,35 @@
   font-size: 20px;
   font-weight: 400;
   height: 20px;
+  vertical-align: middle;
+  width: 20px;
+}
+.hr {
+  border-right: 1px solid #edeff1;
+  height: 16px;
+  margin-left: 4px;
+  vertical-align: middle;
+  word-break: break-word;
+}
+
+.show_content {
+  border-radius: 2px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 36px;
+  width: 36px;
+}
+.show_content:hover {
+  background-color: #f6f7f8;
+}
+
+.show_content_icon {
+  position: absolute;
+  font-size: 20px;
+  font-weight: 400;
+  height: 20px;
+  line-height: 20px;
   vertical-align: middle;
   width: 20px;
 }

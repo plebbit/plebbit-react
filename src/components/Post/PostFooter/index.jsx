@@ -1,5 +1,5 @@
 import React from 'react'
-import { BsBookmark, BsChatSquare, BsEyeSlash, BsShield } from 'react-icons/bs'
+import { BsBookmark, BsChatSquare, BsEyeSlash, BsFlag, BsShield } from 'react-icons/bs'
 import { FaShare } from 'react-icons/fa'
 import DropDown from '../../DropDown'
 import { FiMoreHorizontal } from 'react-icons/fi'
@@ -11,8 +11,10 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { Link } from 'react-router-dom'
 import { HiOutlineCheckCircle } from 'react-icons/hi'
 import { TiDeleteOutline } from 'react-icons/ti'
+import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg'
+import { VscLinkExternal } from 'react-icons/vsc'
 
-const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, location, handleCopy, copied, allowedSpecial, detailRoute, post, pending, loading, commentCount }) => {
+const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, location, handleCopy, copied, allowedSpecial, detailRoute, post, pending, loading, commentCount, showContent, setShowContent, classic, hasThumbnail }) => {
     return (
         <>
             { pending ? (
@@ -21,6 +23,31 @@ const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, loc
                 allowedSpecial ?
                     <div className={ styles.card_footer }>
                         <div className={ styles.card_footer_wrap }>
+                            { classic && <>
+
+                                {
+                                    hasThumbnail ?
+                                        <a href={ post?.link } className={ styles.footer_comment } target="_blank">
+                                            <VscLinkExternal className={ styles.footer_comment_icon } />
+                                        </a>
+                                        :
+                                        <>
+
+                                            <button className={ styles.show_content } onClick={ () => setShowContent(!showContent) }>
+                                                {
+                                                    showContent ? <CgCompressLeft className={ styles.show_content_icon } /> : <CgArrowsExpandLeft className={ styles.award_icon } />
+                                                }
+                                            </button>
+
+
+                                            <div className={ styles.hr } />
+                                        </>
+                                }
+
+
+
+                            </> }
+
                             <Link to={ detailRoute } className={ styles.footer_comment }>
                                 <BsChatSquare className={ styles.footer_comment_icon } />
                                 <span className={ styles.footer_comment_text }>{ commentCount } { type !== "subPlebbit" && 'comments' }</span>
@@ -140,6 +167,30 @@ const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, loc
                     </div> :
                     <div className={ styles.card_footer }>
                         <div className={ styles.card_footer_wrap }>
+                            { classic && <>
+
+                                {
+                                    !hasThumbnail ? <>
+
+                                        <button className={ styles.show_content } onClick={ () => setShowContent(!showContent) }>
+                                            {
+                                                showContent ? <CgCompressLeft className={ styles.show_content_icon } /> : <CgArrowsExpandLeft className={ styles.award_icon } />
+                                            }
+                                        </button>
+
+
+                                        <div className={ styles.hr } />
+                                    </> :
+                                        <a href={ post?.link } className={ styles.footer_comment } target="_blank">
+                                            <VscLinkExternal className={ styles.footer_comment_icon } />
+                                        </a>
+
+
+                                }
+
+
+
+                            </> }
                             <Link to={ detailRoute } className={ styles.footer_comment }>
                                 <BsChatSquare className={ styles.footer_comment_icon } />
                                 <span className={ styles.footer_comment_text }>56 comments</span>
@@ -170,7 +221,39 @@ const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, loc
                                     <span>Save</span>
                                 </button>
                             </div>
-                            <div className={ styles.footer_award }>
+                            { owner ?
+                                <div className={ styles.footer_award }>
+                                    <button className={ styles.card_footer_award_wrap } onClick={ () => handleOption({ label: 'Delete', id: 'delete' }) }
+                                    >
+                                        <span className={ styles.award_icon_wrap }>
+                                            <MdOutlineDeleteOutline className={ styles.award_icon } />
+                                        </span>
+                                        <span>Delete</span>
+                                    </button>
+                                </div> :
+                                <>
+
+                                    <div className={ styles.footer_award }>
+                                        <button className={ styles.card_footer_award_wrap } onClick={ () => handleOption({ label: 'Hide', id: 'block' }) }
+                                        >
+                                            <span className={ styles.award_icon_wrap }>
+                                                <BsEyeSlash className={ styles.award_icon } />
+                                            </span>
+                                            <span>{ blocked ? 'Unhide' : 'Hide' }</span>
+                                        </button>
+                                    </div>
+                                    <div className={ styles.footer_award }>
+                                        <button className={ styles.card_footer_award_wrap }>
+                                            <span className={ styles.award_icon_wrap }>
+                                                <BsFlag className={ styles.award_icon } />
+                                            </span>
+                                            <span>Report</span>
+                                        </button>
+                                    </div>
+                                </>
+                            }
+
+                            { !classic && <div className={ styles.footer_award }>
 
                                 <DropDown
                                     onChange={ handleOption }
@@ -206,7 +289,7 @@ const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, loc
                                     topOffset="34px"
                                 />
 
-                            </div>
+                            </div> }
                         </div>
                     </div>
             }
