@@ -70,11 +70,34 @@
   word-break: normal;
 }
 
+.h_vote_bar {
+  border-color: transparent;
+  box-sizing: border-box;
+  border-left-width: 4px;
+  border-left-style: solid;
+  flex: 0 0 36px;
+  color: #878a8c;
+  cursor: pointer;
+  fill: #878a8c;
+}
 .h_vote_bar_wrap {
-  margin: 3px 4px 4px -4px;
-  padding: 0;
+  margin-top: 9px;
   align-items: center;
   display: flex;
   flex-direction: row;
-  word-break: break-word;
+  margin: 0;
+  padding: 0 2px;
+  fill: inherit;
+}
+
+.h_vote_text {
+  color: #1a1a1b;
+  line-height: 15px;
+  margin: 0 1px;
+  text-align: center;
+  width: 32px;
+  font-size: 12px;
+  font-weight: 700;
+  pointer-events: none;
+  word-break: normal;
 }
