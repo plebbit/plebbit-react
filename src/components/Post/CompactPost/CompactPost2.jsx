@@ -1,7 +1,8 @@
 import React from 'react'
 import styles from './compact-post.module.css'
 import PostVote from '../PostVote'
-import { BsPlayBtn } from 'react-icons/bs'
+
+import CompactLeftIcons from './CompactLeftIcons'
 
 const CompactPost2 = ({
     loading,
@@ -31,15 +32,25 @@ const CompactPost2 = ({
     authorPath,
     stateString,
     blocked,
-    muted
+    muted,
+    isYoutube
 }) => {
+
+
     return (
         <div className={ styles.wrapper }>
             <div className={ styles.container }>
                 {/* Vote Bar */ }
                 <PostVote vote={ vote } upVote={ upVote } downVote={ downVote } postVotes={ postVotes } horizontal />
 
+                <div className={ styles.main }>
+                    <div className={ styles.main_wrap }>
+                        <CompactLeftIcons showContent={ showContent } setShowContent={ setShowContent } isYoutube={ isYoutube } post={ post } mediaInfo={ mediaInfo } />
+                        <div className={ styles.body }>
 
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )

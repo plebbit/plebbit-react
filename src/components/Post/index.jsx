@@ -238,6 +238,7 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
               stateString={ stateString }
               blocked={ blocked }
               muted={ muted }
+              isYoutube={ isYoutube }
 
 
             />

@@ -7,6 +7,9 @@
   position: relative;
   border: thin solid transparent;
 }
+.wrapper:hover {
+  border: thin solid #898989;
+}
 .container {
   display: flex;
   align-items: normal;
