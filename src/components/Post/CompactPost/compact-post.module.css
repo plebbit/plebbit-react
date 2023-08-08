@@ -49,3 +49,11 @@
   width: 20px;
   position: absolute;
 }
+
+.body {
+  flex: 1 1 100%;
+  margin-top: 2px;
+  min-width: 150px;
+  overflow: hidden;
+  word-wrap: break-word;
+}

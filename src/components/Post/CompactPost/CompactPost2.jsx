@@ -3,6 +3,7 @@ import styles from './compact-post.module.css'
 import PostVote from '../PostVote'
 
 import CompactLeftIcons from './CompactLeftIcons'
+import PostTitle from '../PostTitle'
 
 const CompactPost2 = ({
     loading,
@@ -47,6 +48,12 @@ const CompactPost2 = ({
                     <div className={ styles.main_wrap }>
                         <CompactLeftIcons showContent={ showContent } setShowContent={ setShowContent } isYoutube={ isYoutube } post={ post } mediaInfo={ mediaInfo } />
                         <div className={ styles.body }>
+                            <PostTitle showThumbnailLink post={ post } detailRoute={ detailRoute } editLabel={ editLabel } pending={ pending } type={ type } titleStyle={ {
+                                fontSize: "14px",
+                                fontWeight: "500",
+                                lineHeight: "18px"
+
+                            } } hasThumbnail={ hasThumbnail } />
 
                         </div>
                     </div>
