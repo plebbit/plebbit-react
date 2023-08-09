@@ -10,9 +10,9 @@ import { FcCancel } from 'react-icons/fc'
 import StateString from '../../Label/stateString'
 import { HiLockClosed } from 'react-icons/hi'
 
-const PostTop = ({ post, type, subPlebbit, isOnline, authorPath, loading, stateString, openRemovalModal, hideAvatar }) => {
+const PostTop = ({ post, type, subPlebbit, isOnline, authorPath, loading, stateString, openRemovalModal, hideAvatar, wrapperStyle }) => {
     return (
-        <div className={ styles.card_top }>
+        <div className={ styles.card_top } style={ wrapperStyle }>
             {/* subplebbit avatar */ }
             { !hideAvatar && <div className={ styles.card_avatar_wrap }>
                 <Link to={ `p/${post?.subplebbitAddress}/` } className={ styles.card_avatar }>

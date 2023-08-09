@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from './compact-post.module.css'
 import PostVote from '../PostVote'
-
 import CompactLeftIcons from './CompactLeftIcons'
 import PostTitle from '../PostTitle'
 import PostTop from '../PostTop'
+import PostFooter from '../PostFooter'
 
 const CompactPost2 = ({
     loading,
@@ -17,9 +17,9 @@ const CompactPost2 = ({
     subPlebbit,
     postVotes,
     handleOption,
-    // setCopied,
-    // location,
-    // copied,
+    setCopied,
+    location,
+    copied,
     pending,
     detailRoute,
     openRemovalModal,
@@ -35,7 +35,8 @@ const CompactPost2 = ({
     stateString,
     blocked,
     muted,
-    isYoutube
+    isYoutube,
+    handleCopy
 }) => {
 
 
@@ -55,10 +56,12 @@ const CompactPost2 = ({
                                 lineHeight: "18px"
 
                             } } hasThumbnail={ hasThumbnail } />
-                            <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } hideAvatar />
-
-
+                            <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } hideAvatar wrapperStyle={ {
+                                margin: 0,
+                                marginLeft: '8px'
+                            } } />
                         </div>
+                        <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } allowedSpecial={ allowedSpecial } detailRoute={ detailRoute } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } showContent={ showContent } setShowContent={ setShowContent } hasThumbnail={ hasThumbnail } compact />
                     </div>
                 </div>
             </div>

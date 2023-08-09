@@ -92,6 +92,12 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     else if (val?.id === 'block') {
       blocked ? unblock() : block()
     }
+    else if (val?.id === 'unknown') {
+      return;
+    }
+    else if (val?.id === 'copy') {
+      handleCopy()
+    }
     else if (val?.id === 'mute') {
       muted ? unMute() : mute()
     } else openRemovalModal();
