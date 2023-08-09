@@ -15,7 +15,7 @@ import { CgArrowsExpandLeft, CgCompressLeft } from 'react-icons/cg'
 import { VscLinkExternal } from 'react-icons/vsc'
 import { disable } from '@plebbit/plebbit-logger'
 
-const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, location, handleCopy, copied, allowedSpecial, detailRoute, post, pending, loading, commentCount, showContent, setShowContent, classic, hasThumbnail, compact }) => {
+const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, location, handleCopy, copied, allowedSpecial, detailRoute, post, pending, loading, commentCount, showContent, setShowContent, classic, hasThumbnail, compact, mediaInfo }) => {
     return (
         <>{
             compact ?
@@ -197,22 +197,22 @@ const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, loc
                                     { classic && <>
 
                                         {
-                                            hasThumbnail ?
+                                            !hasThumbnail && (post?.content || mediaInfo) ? <>
+
+                                                <button className={ styles.show_content } onClick={ () => setShowContent(!showContent) }>
+                                                    {
+                                                        showContent ? <CgCompressLeft className={ styles.show_content_icon } /> : <CgArrowsExpandLeft className={ styles.award_icon } />
+                                                    }
+                                                </button>
+
+
+                                                <div className={ styles.hr } />
+                                            </> :
                                                 <a href={ post?.link } className={ styles.footer_comment } target="_blank">
                                                     <VscLinkExternal className={ styles.footer_comment_icon } />
                                                 </a>
-                                                :
-                                                <>
-
-                                                    <button className={ styles.show_content } onClick={ () => setShowContent(!showContent) }>
-                                                        {
-                                                            showContent ? <CgCompressLeft className={ styles.show_content_icon } /> : <CgArrowsExpandLeft className={ styles.award_icon } />
-                                                        }
-                                                    </button>
 
 
-                                                    <div className={ styles.hr } />
-                                                </>
                                         }
 
 
@@ -342,7 +342,7 @@ const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, loc
                                     { classic && <>
 
                                         {
-                                            !hasThumbnail ? <>
+                                            !hasThumbnail && (post?.content || mediaInfo) ? <>
 
                                                 <button className={ styles.show_content } onClick={ () => setShowContent(!showContent) }>
                                                     {

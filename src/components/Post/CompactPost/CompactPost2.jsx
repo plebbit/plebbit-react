@@ -5,6 +5,7 @@ import CompactLeftIcons from './CompactLeftIcons'
 import PostTitle from '../PostTitle'
 import PostTop from '../PostTop'
 import PostFooter from '../PostFooter'
+import PostBody from '../PostBody'
 
 const CompactPost2 = ({
     loading,
@@ -17,7 +18,6 @@ const CompactPost2 = ({
     subPlebbit,
     postVotes,
     handleOption,
-    setCopied,
     location,
     copied,
     pending,
@@ -65,6 +65,23 @@ const CompactPost2 = ({
                     </div>
                 </div>
             </div>
+
+            { showContent && !post?.removed &&
+                <div className={ styles.content_body }>
+                    <div className={ post?.content ? styles.content : styles.content_media }>
+
+                        <PostBody post={ post } hasThumbnail={ hasThumbnail } detailRoute={ detailRoute }
+                            textContentStyle={ {
+                                marginTop: '0px',
+
+                            } }
+                            bodyWrapStyle={ {
+                                maskImage: 'none !important',
+                                webkitMaskImage: 'none'
+                            } } />
+
+                    </div>
+                </div> }
         </div>
     )
 }

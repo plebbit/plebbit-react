@@ -5,13 +5,13 @@ import PostMedia from '../PostMedia'
 import styles from './post-body.module.css'
 import { Link } from 'react-router-dom'
 
-const PostBody = ({ post, hasThumbnail, detailRoute }) => {
+const PostBody = ({ post, hasThumbnail, detailRoute, textContentStyle, bodyWrapStyle }) => {
     return (
-        <>
+        <Link to={ detailRoute }>
             { post?.content && (
-                <div className={ styles.card_body }>
+                <div className={ styles.card_body } style={ textContentStyle }>
                     <Link to={ detailRoute } className={ styles.card_body_wrap }>
-                        <div className={ styles.bodyWrap }>
+                        <div className={ styles.bodyWrap } style={ bodyWrapStyle }>
                             <div className={ styles.body }>
 
                                 { post?.spoiler ? (
@@ -49,7 +49,7 @@ const PostBody = ({ post, hasThumbnail, detailRoute }) => {
             <div className={ styles.card_body }>
                 <PostMedia post={ post } />
             </div>
-        </>
+        </Link>
     )
 }
 

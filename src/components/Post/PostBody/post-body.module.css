@@ -61,8 +61,6 @@
 }
 .post_link_icon:before {
   content: '\f1ad';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   font-family: redesignFont2020;
   font-size: 12px;
   font-weight: 400;

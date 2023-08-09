@@ -98,13 +98,16 @@ const ClassicPost2 = ({
 
                         } } hasThumbnail={ hasThumbnail } />
                         <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } hideAvatar />
-                        <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } detailRoute={ detailRoute } allowedSpecial={ allowedSpecial } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } showContent={ showContent } setShowContent={ setShowContent } classic hasThumbnail={ hasThumbnail } />
+                        <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } detailRoute={ detailRoute } allowedSpecial={ allowedSpecial } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } showContent={ showContent } setShowContent={ setShowContent } classic hasThumbnail={ hasThumbnail } mediaInfo={ mediaInfo } />
                     </div>
 
                 </div>
-                { showContent && !post?.removed && <div className={ styles.content }>
+                { showContent && !post?.removed && <div className={ post?.content ? styles.content : styles.content_media }>
 
-                    <PostBody post={ post } hasThumbnail={ hasThumbnail } detailRoute={ detailRoute } />
+                    <PostBody bodyWrapStyle={ {
+                        maskImage: 'none !important',
+                        webkitMaskImage: 'none'
+                    } } post={ post } hasThumbnail={ hasThumbnail } detailRoute={ detailRoute } />
 
                 </div> }
             </div>
