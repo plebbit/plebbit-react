@@ -267,7 +267,6 @@ const CardPost = ({
                   position="relative"
                   wordBreak="break-word"
                 >
-                  {/* Pin Head */ }
                   { post?.pinned && type === "subPlebbit" && (
                     <Flex
                       fontSize="12px"
@@ -312,7 +311,8 @@ const CardPost = ({
                       </Flex>
 
                     </Flex>
-                  ) }{ " " }
+                  ) }    {/* Pin Head */ }
+                  { " " }
                   {/* Post Head */ }
                   <Flex
                     fontSize="12px"
@@ -337,7 +337,7 @@ const CardPost = ({
                           alignItems="center"
                           flexFlow="row wrap"
                         >
-                          { type !== "subPlebbit" ? (
+                          { type !== "subPlebbit" && (
                             <>
                               <Avatar
                                 avatar={ subPlebbit?.suggested?.avatarUrl }
@@ -368,8 +368,6 @@ const CardPost = ({
                                 margin="0 5px"
                               />
                             </>
-                          ) : (
-                            ""
                           ) }
                           <Text color={ misCol } flex="0 0 auto" mr="3px">
                             Posted by
@@ -393,11 +391,10 @@ const CardPost = ({
                             { getUserName(post?.author) }
                           </Link>
                           {/* status */ }
+
                           { post?.author?.flair && (
                             <Box display="inline" verticalAlign="text-top">
-                              <Text
-                                bg={ statusBg }
-                                color={ statusColor }
+                              <FlairLabel bg={ statusBg } color={ statusColor } text={ post?.author?.flair?.text }
                                 fontSize="12px"
                                 fontWeight="500"
                                 lineHeight="16px"
@@ -406,10 +403,7 @@ const CardPost = ({
                                 mr="5px"
                                 overflow="hidden"
                                 isTruncated
-                                padding="0 4px"
-                              >
-                                { post?.author?.flair?.text }
-                              </Text>
+                                padding="0 4px" />
                             </Box>
                           ) }
 

@@ -36,7 +36,7 @@ const PostMedia = ({ post }) => {
 
                 return (
                     <Image
-                        maxH="512px"
+                        maxH="511px"
                         margin="0px auto"
                         maxW="100%"
                         overflow="hidden"
@@ -73,7 +73,7 @@ const PostMedia = ({ post }) => {
                 );
             } else if (mediaInfo?.type === "audio") {
                 return (
-                    <Box maxW="100%" color="#fff" margin="4px 8px">
+                    <Box maxW="100%" color="#fff" margin="0px 8px">
                         <audio
                             preload="auto"
                             src={ post?.link }

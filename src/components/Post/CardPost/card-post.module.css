@@ -1,0 +1,226 @@
+.wrapper {
+  border-radius: 4px;
+  padding-left: 40px;
+  cursor: pointer;
+  transition: color 0.5s, fill 0.5s, box-shadow 0.5s;
+  color: #878a8c;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  margin-bottom: 10px;
+  position: relative;
+}
+.wrapper:hover {
+  border: 1px solid #898989;
+}
+
+.card_main {
+  background: #ffffff;
+  position: relative;
+  padding-top: 8px;
+  cursor: pointer;
+}
+
+.pin_head_wrap {
+  align-items: center;
+  display: flex;
+  margin: 0 8px 14px;
+  cursor: pointer;
+  color: #7f8182;
+}
+.pin_head_icon {
+  font-size: 20px;
+  font-weight: 400;
+  height: 20px;
+  line-height: 20px;
+  vertical-align: middle;
+  width: 20px;
+  color: #75d377;
+  cursor: default;
+}
+.pin_head_text {
+  padding-left: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 12px;
+  text-transform: uppercase;
+}
+.article_wrapper {
+  background: rgb(255, 255, 255);
+  position: relative;
+}
+.article_left {
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: column;
+  padding-bottom: 22px;
+  position: relative;
+  word-break: break-word;
+  cursor: pointer;
+}
+.article_right {
+  display: flex;
+  flex: 0 0 144px;
+  height: 140px;
+  align-items: flex-end;
+  border-radius: 2px;
+  flex-direction: column;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.card_article {
+  display: flex;
+  flex-direction: row;
+}
+.card_thumbnail_wrap {
+  border-radius: 4px;
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  vertical-align: bottom;
+}
+.img_cont {
+  border-color: rgb(0, 121, 211);
+  height: 100%;
+  border-radius: 4px;
+  flex: 1;
+  width: 100%;
+  border: 1px solid;
+  box-sizing: border-box;
+  background-position: 50% top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.external_wrap {
+  background-color: rgb(0, 121, 211);
+  border-top-left-radius: 4px;
+  bottom: 0;
+  height: 18px;
+  position: absolute;
+  right: 0;
+  width: 18px;
+}
+.external_icon {
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 18px;
+  margin-left: 4px;
+  vertical-align: baseline;
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+/* mobile */
+
+.mobile_wrapper {
+  position: relative;
+  background-color: #fff;
+  color: #1a1a1b;
+  fill: #1a1a1b;
+}
+.mobile_article_link {
+  bottom: 0;
+  left: 0;
+  pointer-events: all;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.mobile_header_wrapper {
+  pointer-events: none;
+  position: relative;
+}
+.mobile_post_header {
+  padding-top: 0;
+}
+.mobile_post_header_container {
+  display: flex;
+  align-items: center;
+}
+.sub_detail_wrap {
+  color: #a5a4a4;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  vertical-align: middle;
+  flex: 1 0;
+}
+.sub_detail_wrap:after {
+  background: linear-gradient(90deg, hsla(0, 0%, 100%, 0) 0, #fff 70%);
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 3em;
+}
+
+.sub_detail {
+  color: #798389;
+  font-size: 14px;
+  line-height: 18px;
+  overflow: hidden;
+  padding-right: 3em;
+  padding: 8px 16px;
+  white-space: nowrap;
+}
+
+.mobile_sub_link {
+  color: #1a1a1b;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  pointer-events: all;
+}
+.mobile_sub_icon {
+  background-color: #fff;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.mobile_dot {
+  font-size: 14px;
+  line-height: 18px;
+}
+.mobile_dot:after {
+  color: #818384;
+  content: '\2022';
+  display: inline-block;
+  margin: 0 4px;
+  position: relative;
+  top: -1px;
+  vertical-align: middle;
+}
+
+.sub_statuses {
+  padding: 0;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  display: flex;
+}
+.status {
+  font-size: 16px;
+  line-height: 16px;
+  vertical-align: middle;
+}
+
+.status:before {
+  content: '\F167';
+}
+.mobile_card_menu {
+  pointer-events: all;
+  padding-top: 4px;
+  color: #565758;
+  font-size: 16px;
+  line-height: 16px;
+  padding: 8px 16px 8px 12px;
+  vertical-align: middle;
+}

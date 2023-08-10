@@ -21,6 +21,7 @@ const Label = (props) => {
             cursor="pointer"
             minH='undefined'
             height="16px"
+            m='0 4px'
         >
             { text }
         </Tag>

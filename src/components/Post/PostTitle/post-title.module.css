@@ -1,0 +1,54 @@
+.card_title {
+  margin: 0 8px;
+}
+.post_title_wrap {
+  display: inline;
+  position: relative;
+  text-decoration: none;
+  word-break: break-word;
+}
+.post_title {
+  display: inline-block;
+  padding-right: 5px;
+  word-wrap: break-word;
+  color: #222222;
+  box-sizing: border-box;
+}
+
+.post_title:visited {
+  color: #9b9b9b;
+}
+.title_wrap {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  position: relative;
+  text-decoration: none;
+  word-break: break-word;
+}
+.title {
+  display: inline;
+}
+
+.thumbnail_link {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  margin: 4px 8px;
+  white-space: nowrap;
+  color: #0079d3;
+  fill: #0079d3;
+  font-weight: 400;
+  line-height: 20px;
+  vertical-align: middle;
+}
+.thumbnail_icon {
+  font-size: 12px;
+  padding-left: 4px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.thumbnail_icon:before {
+  content: '\f1ac';
+}

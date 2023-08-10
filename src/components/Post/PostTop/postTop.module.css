@@ -1,0 +1,124 @@
+.card_top {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  margin: 0 8px 8px;
+  position: relative;
+  cursor: pointer;
+  color: #878a8c;
+}
+
+.card_avatar_wrap {
+  flex: 0 0 auto;
+  cursor: pointer;
+  color: #878a8c;
+}
+
+.card_avatar {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  color: #1c1c1c;
+  display: inline;
+  line-height: 20px;
+  text-decoration: none;
+  vertical-align: baseline;
+}
+
+.card_image {
+  background-color: #999999;
+  display: inline-block;
+  height: 20px;
+  margin-right: 4px;
+  vertical-align: middle;
+  width: 20px;
+  border-radius: 100%;
+  overflow-clip-margin: content-box;
+  overflow: clip;
+}
+
+.card_top_right {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+  overflow: hidden;
+  cursor: pointer;
+  color: #878a8c;
+}
+.card_top_right_txt {
+  display: inline;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: inherit;
+}
+.card_top_right_sub {
+  display: inline-block;
+}
+.card_top_right_sub_text {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  color: #1c1c1c;
+  display: inline;
+  line-height: 20px;
+  text-decoration: none;
+  vertical-align: baseline;
+}
+.dot {
+  vertical-align: middle;
+  color: #1c1c1c;
+  font-size: 6px;
+  line-height: 20px;
+  margin: 0 4px;
+  cursor: pointer;
+}
+.posted_by {
+  color: #787c7e;
+  margin-right: 3px;
+}
+.author_wrap {
+  color: inherit;
+  display: inline-block;
+}
+.author {
+  color: rgb(120, 124, 126);
+  margin-right: 3px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
+.post_timestamp {
+  color: #787c7e;
+}
+
+.authors_flair {
+  display: inline;
+  vertical-align: text-top;
+}
+
+.remove_icon_wrap {
+  display: flex;
+  cursor: pointer;
+  line-height: 12px;
+  vertical-align: unset;
+}
+
+.removal_reason {
+  flex: 0 0 auto;
+  text-decoration: none;
+  display: inline-block;
+  margin-right: 3px;
+  color: rgb(120, 124, 126);
+}
+
+.lock_wrap {
+  display: inline-block;
+  vertical-align: bottom;
+  margin-left: 4px;
+}

@@ -74,7 +74,6 @@ const Layout = ({ children, name, stateString, background }) => {
 
 
 
-
   return (
 
     <>

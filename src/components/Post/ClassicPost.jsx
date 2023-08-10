@@ -121,8 +121,8 @@ const ClassicPost = ({
           paddingLeft="40px"
           position="relative"
           border={ `thin solid ${border1}` }
-          bg={ postTransBg }
-          _hover={ { border: '1px solid #898989' } }
+          bg={ postTransBg } _hover={ { border: '1px solid #898989' } }
+
         >
 
           {/* Vote Bar */ }
