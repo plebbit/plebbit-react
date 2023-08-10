@@ -56,7 +56,7 @@ const CompactPost2 = ({
                                 lineHeight: "18px"
 
                             } } hasThumbnail={ hasThumbnail } />
-                            <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } hideAvatar wrapperStyle={ {
+                            <PostTop allowedSpecial={ allowedSpecial } post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } hideAvatar wrapperStyle={ {
                                 margin: 0,
                                 marginLeft: '8px'
                             } } />

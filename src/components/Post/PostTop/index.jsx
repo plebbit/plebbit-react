@@ -10,7 +10,7 @@ import { FcCancel } from 'react-icons/fc'
 import StateString from '../../Label/stateString'
 import { HiLockClosed } from 'react-icons/hi'
 
-const PostTop = ({ post, type, subPlebbit, isOnline, authorPath, loading, stateString, openRemovalModal, hideAvatar, wrapperStyle }) => {
+const PostTop = ({ post, type, subPlebbit, isOnline, authorPath, loading, stateString, openRemovalModal, hideAvatar, wrapperStyle, allowedSpecial }) => {
     return (
         <div className={ styles.card_top } style={ wrapperStyle }>
             {/* subplebbit avatar */ }

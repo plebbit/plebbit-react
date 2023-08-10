@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './card-post.module.css'
-import { BsBookmark, BsChatSquare, BsEyeSlash, BsPinAngleFill } from 'react-icons/bs'
+import { BsBookmark, BsChatSquare, BsEyeSlash, BsPencil, BsPinAngleFill } from 'react-icons/bs'
 import { BiDownvote, BiUpvote } from 'react-icons/bi'
 import { GoGift, GoMute } from 'react-icons/go'
 import { FaShare } from 'react-icons/fa'
@@ -20,6 +20,13 @@ import PostBody from '../PostBody'
 import PostFooter from '../PostFooter'
 import PostVote from '../PostVote'
 import Image from '../../Image'
+import PendingLabel from '../../Label/pendingLabel'
+import { useColorModeValue } from '@chakra-ui/react'
+import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi'
+import { AiTwotoneDelete } from 'react-icons/ai'
+import DropDown from '../../DropDown'
+import { TiDeleteOutline } from 'react-icons/ti'
+import { MdOutlineDeleteOutline } from 'react-icons/md'
 
 const CardPost2 = ({
     post,
@@ -51,7 +58,9 @@ const CardPost2 = ({
     blocked,
     muted
 }) => {
-
+    const approveColor = useColorModeValue("pastelGreen", "pastelGreen");
+    const removeColor = useColorModeValue("persimmon", "persimmon");
+    const lockColor = useColorModeValue("brightSun", "brightSun");
     const subPlebbit = sub || { address: post?.subplebbitAddress };
 
     const { device } = useStore(state => state);
@@ -67,62 +76,169 @@ const CardPost2 = ({
     }
 
     return (
-        <div className={ styles.wrapper }>
-            {/* Vote Bar */ }
-            <PostVote vote={ vote } upVote={ upVote } downVote={ downVote } postVotes={ postVotes } />
+        <>
+            {
+                device !== 'mobile' ?
+                    <div className={ styles.wrapper }>
+                        {/* Vote Bar */ }
+                        <PostVote vote={ vote } upVote={ upVote } downVote={ downVote } postVotes={ postVotes } />
 
-            <div className={ styles.card_main }>
-                <article className={ styles.card_article }>
-                    <div>
-                        { post?.pinned && type === "subPlebbit" && (
-                            <div
-                                className={ styles.pin_head_wrap }
-                            >
-                                <BsPinAngleFill
-                                    className={ styles.pin_head_icon }
-                                />
-                                <span
-                                    className={ styles.pin_head_text }
-                                >
-                                    PINNED BY MODERATORS
-                                </span>{ " " }
-
-                            </div>
-                        ) }
-                        {/* post card top */ }
-                        <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } />
-                        {/* post  title */ }
-                        <PostTitle post={ post } detailRoute={ detailRoute } editLabel={ editLabel } pending={ pending } type={ type } />
-                        {/* post  body */ }
-                        <PostBody post={ post } hasThumbnail={ hasThumbnail } detailRoute={ detailRoute } />
-                    </div>
-                    { hasThumbnail &&
-                        <div className={ styles.article_right }>
-                            <div className={ styles.card_thumbnail_wrap }>
-                                <a href={ post?.link } target='_blank'>
-                                    <div className={ styles.img_cont } style={ {
-                                        backgroundImage: `url(${post?.thumbnailUrl})`
-                                    } }>
+                        <div className={ styles.card_main }>
+                            <article className={ styles.card_article }>
+                                <div>
+                                    { post?.pinned && type === "subPlebbit" && (
                                         <div
-                                            className={ styles.external_wrap }
+                                            className={ styles.pin_head_wrap }
                                         >
-                                            <FiExternalLink className={ styles.external_icon } />
+                                            <BsPinAngleFill
+                                                className={ styles.pin_head_icon }
+                                            />
+                                            <span
+                                                className={ styles.pin_head_text }
+                                            >
+                                                PINNED BY MODERATORS
+                                            </span>{ " " }
+
                                         </div>
-                                        <img alt={ post?.title } style={ {
-                                            display: 'none'
-                                        } } />
+                                    ) }
+                                    {/* post card top */ }
+                                    <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } allowedSpecial={ allowedSpecial } />
+                                    {/* post  title */ }
+                                    <PostTitle post={ post } detailRoute={ detailRoute } editLabel={ editLabel } pending={ pending } type={ type } />
+                                    {/* post  body */ }
+                                    <PostBody post={ post } hasThumbnail={ hasThumbnail } detailRoute={ detailRoute } />
+                                </div>
+                                { hasThumbnail &&
+                                    <div className={ styles.article_right }>
+                                        <div className={ styles.card_thumbnail_wrap }>
+                                            <a href={ post?.link } target='_blank'>
+                                                <div className={ styles.img_cont } style={ {
+                                                    backgroundImage: `url(${post?.thumbnailUrl})`
+                                                } }>
+                                                    <div
+                                                        className={ styles.external_wrap }
+                                                    >
+                                                        <FiExternalLink className={ styles.external_icon } />
+                                                    </div>
+                                                    <img alt={ post?.title } style={ {
+                                                        display: 'none'
+                                                    } } />
+                                                </div>
+                                            </a>
+
+                                        </div>
+                                    </div> }
+                            </article>
+                            {/* post  fgooter */ }
+                            <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } detailRoute={ detailRoute } allowedSpecial={ allowedSpecial } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } />
+                        </div>
+
+
+                    </div> :
+                    <div>
+                        <article className={ styles.mobile_wrapper }>
+                            <Link to={ detailRoute } />
+                            <div className={ styles.mobile_header_wrapper }>
+                                <header className={ styles.mobile_post_header }>
+                                    <div className={ styles.mobile_post_header_container }>
+                                        <div className={ styles.sub_detail_wrap }>
+                                            <div className={ styles.sub_detail }>
+                                                <span>
+                                                    <Link className={ styles.mobile_sub_link } to={ `p/${post?.subplebbitAddress}/` }>
+                                                        <div className={ styles.mobile_sub_icon }>
+
+                                                            <Avatar
+                                                                avatar={ subPlebbit?.suggested?.avatarUrl }
+                                                                width={ 32 }
+                                                                height={ 32 }
+                                                                badge
+                                                                isOnline={ isOnline }
+
+                                                            />
+                                                        </div>
+                                                        { getSubName(
+                                                            subPlebbit || { address: post?.subplebbitAddress }
+                                                        ) }
+                                                    </Link>
+                                                    <span className={ styles.mobile_dot } />
+                                                    <span>
+                                                        { dateToFromNowDaily(post?.timestamp * 1000) }
+                                                    </span>
+
+                                                    { pending && !loading && (
+
+                                                        <PendingLabel />
+
+                                                    ) }
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className={ styles.sub_statuses }>
+                                            { (detail || type === "subPlebbit") && post?.pinned && (
+                                                <BsPinAngleFill className={ styles.status } color='#46d160' />) }
+                                            { (detail || type === "subPlebbit") && post?.pinned && (
+                                                <HiLockClosed className={ styles.status } color='#ffd635' />) }
+                                            { (detail || type === "subPlebbit") && post?.pinned && (
+                                                <AiTwotoneDelete className={ styles.status } color='#ff585b' />) }
+                                        </div>
+                                        <DropDown
+                                            onChange={ handleOption }
+                                            rightOffset="10px"
+                                            leftOffset="none"
+                                            dropDownTitle={
+                                                <div className={ styles.mobile_card_menu }>
+                                                    <FiMoreHorizontal size={ 16 } />
+                                                </div>
+                                            }
+                                            options={ [
+                                                {
+                                                    label: "Edit",
+                                                    icon: BsPencil,
+                                                    id: "edit",
+                                                    disabled: !(owner && detail),
+                                                },
+                                                {
+                                                    label: "Approve",
+                                                    icon: HiOutlineCheckCircle,
+                                                    id: "approved",
+                                                    disabled: !(allowedSpecial && post?.removed),
+                                                },
+                                                {
+                                                    label: "Remove",
+                                                    icon: TiDeleteOutline,
+                                                    id: "removed",
+                                                    disabled: !(allowedSpecial && !post?.removed),
+                                                },
+                                                {
+                                                    label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
+                                                    icon: GoMute,
+                                                    id: "mute",
+                                                    disabled: type === "subPlebbit"
+                                                },
+                                                {
+                                                    label: "Hide",
+                                                    icon: BsEyeSlash,
+                                                    id: "block",
+
+                                                },
+                                                {
+                                                    label: "Delete",
+                                                    icon: MdOutlineDeleteOutline,
+                                                    id: "delete",
+                                                    disabled: !owner,
+                                                },
+                                            ] }
+                                        />
+
                                     </div>
-                                </a>
-
+                                </header>
                             </div>
-                        </div> }
-                </article>
-                {/* post  fgooter */ }
-                <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } detailRoute={ detailRoute } allowedSpecial={ allowedSpecial } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } />
-            </div>
+                        </article>
+                    </div>
+            }
 
 
-        </div>
+        </>
     )
 }
 

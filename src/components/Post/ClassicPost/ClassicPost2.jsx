@@ -97,7 +97,7 @@ const ClassicPost2 = ({
                             lineHeight: "20px"
 
                         } } hasThumbnail={ hasThumbnail } />
-                        <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } hideAvatar />
+                        <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } hideAvatar allowedSpecial={ allowedSpecial } />
                         <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } detailRoute={ detailRoute } allowedSpecial={ allowedSpecial } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } showContent={ showContent } setShowContent={ setShowContent } classic hasThumbnail={ hasThumbnail } mediaInfo={ mediaInfo } />
                     </div>
 
