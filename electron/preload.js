@@ -45,8 +45,8 @@ contextBridge.exposeInMainWorld('plebbitJsNativeFunctions', require('@plebbit/pl
 contextBridge.exposeInMainWorld('defaultPlebbitOptions', defaultPlebbitOptions)
 
 // try/catch localStorage.debug because causes unknown error sometimes
-try {
-  if (isDev) localStorage.debug = 'plebbit-js:*,plebbit-react-hooks:*,plebbit-react:*';
-} catch (e) {
-  console.log(e);
-}
+// try {
+//   if (isDev) localStorage.debug = 'plebbit-js:*,plebbit-react-hooks:*,plebbit-react:*';
+// } catch (e) {
+//   console.log(e);
+// }
