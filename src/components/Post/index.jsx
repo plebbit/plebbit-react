@@ -10,7 +10,7 @@ import {
   useAccount,
   useAccountSubplebbits,
 } from '@plebbit/plebbit-react-hooks';
-import CardPost from './CardPost';
+import CardPost from './CardPost/cardPost2';
 import ClassicPost from './ClassicPost';
 import CompactPost from './CompactPost';
 import getIsOnline from '../../utils/getIsOnline';

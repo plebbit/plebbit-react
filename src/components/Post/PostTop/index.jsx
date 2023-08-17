@@ -9,6 +9,7 @@ import { Icon, Tooltip } from '@chakra-ui/react'
 import { FcCancel } from 'react-icons/fc'
 import StateString from '../../Label/stateString'
 import { HiLockClosed } from 'react-icons/hi'
+import FlairLabel from '../../Label/flairLabel'
 
 const PostTop = ({ post, type, subPlebbit, isOnline, authorPath, loading, stateString, openRemovalModal, hideAvatar, wrapperStyle, allowedSpecial }) => {
     return (
@@ -45,7 +46,7 @@ const PostTop = ({ post, type, subPlebbit, isOnline, authorPath, loading, stateS
                     {/* authors flair */ }
                     { post?.author?.flair && (
                         <div className={ styles.authors_flair } >
-                            <Label bg={ statusBg } color={ statusColor } text={ post?.author?.flair?.text }
+                            <FlairLabel bg={ statusBg } color={ statusColor } text={ post?.author?.flair?.text }
                                 fontSize="12px"
                                 fontWeight="500"
                                 lineHeight="16px"

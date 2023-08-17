@@ -27,6 +27,7 @@ import { AiTwotoneDelete } from 'react-icons/ai'
 import DropDown from '../../DropDown'
 import { TiDeleteOutline } from 'react-icons/ti'
 import { MdOutlineDeleteOutline } from 'react-icons/md'
+import Dot from '../../Dot'
 
 const CardPost2 = ({
     post,
@@ -160,28 +161,54 @@ const CardPost2 = ({
                                                             subPlebbit || { address: post?.subplebbitAddress }
                                                         ) }
                                                     </Link>
-                                                    <span className={ styles.mobile_dot } />
+                                                    <Dot />
+                                                    { post?.author?.flair && (
+
+                                                        <FlairLabel bg={ statusBg } color={ statusColor } text={ post?.author?.flair?.text }
+                                                            fontSize="12px"
+                                                            fontWeight="500"
+                                                            lineHeight="16px"
+                                                            borderRadius="16px"
+                                                            display="inline-block"
+                                                            mr="5px"
+                                                            overflow="hidden"
+                                                            isTruncated
+                                                            padding="0 4px" />
+                                                    ) }
+                                                    <Dot />
                                                     <span>
                                                         { dateToFromNowDaily(post?.timestamp * 1000) }
                                                     </span>
 
                                                     { pending && !loading && (
+                                                        <>
+                                                            <Dot />
+                                                            <PendingLabel />
+                                                        </>
 
-                                                        <PendingLabel />
 
                                                     ) }
+                                                    { post?.spoiler && <>
+
+                                                        <Dot />
+                                                        <span>
+                                                            <span className={ styles.spoiler }>SPOILER</span>
+                                                        </span>
+                                                    </> }
                                                 </span>
                                             </div>
+
+
                                         </div>
                                         <div className={ styles.sub_statuses }>
                                             { (detail || type === "subPlebbit") && post?.pinned && (
                                                 <BsPinAngleFill className={ styles.status } color='#46d160' />) }
-                                            { (detail || type === "subPlebbit") && post?.pinned && (
+                                            { post?.locked && (
                                                 <HiLockClosed className={ styles.status } color='#ffd635' />) }
-                                            { (detail || type === "subPlebbit") && post?.pinned && (
+                                            { post?.removed && (
                                                 <AiTwotoneDelete className={ styles.status } color='#ff585b' />) }
                                         </div>
-                                        <DropDown
+                                        { !pending && <DropDown
                                             onChange={ handleOption }
                                             rightOffset="10px"
                                             leftOffset="none"
@@ -228,9 +255,20 @@ const CardPost2 = ({
                                                     disabled: !owner,
                                                 },
                                             ] }
-                                        />
+                                        /> }
 
                                     </div>
+                                    <Link to={ detailRoute } className={ styles.post_mobile_title_wrap }>
+                                        { post?.title }
+                                    </Link>
+                                    { type === "subPlebbit" && post?.flair?.text ? (
+                                        <div className={ styles.mobile_flair_container_wrap }>
+                                            <FlairLabel flair={ post?.flair } />
+
+                                        </div>
+                                    ) : (
+                                        ""
+                                    ) }
                                 </header>
                             </div>
                         </article>

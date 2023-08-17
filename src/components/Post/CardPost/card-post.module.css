@@ -224,3 +224,58 @@
   padding: 8px 16px 8px 12px;
   vertical-align: middle;
 }
+
+.spoiler {
+  font-size: 11px;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 100px;
+  vertical-align: middle;
+  background-color: #545452;
+  padding: 0 5px;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 3px 3px;
+}
+
+.post_mobile_title_wrap {
+  color: #1a1a1b;
+  font-size: 18px;
+  font-weight: 500;
+  display: block;
+  margin: 0;
+  overflow-x: hidden;
+  padding: 0 16px 8px;
+}
+
+.mobile_flair_container_wrap {
+  color: #a5a4a4;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  vertical-align: middle;
+}
+.mobile_flair_container {
+  color: #798389;
+  font-size: 14px;
+  line-height: 18px;
+  overflow: hidden;
+  padding-bottom: 4px;
+  padding-top: 0;
+  padding-right: 3em;
+  padding: 8px 16px;
+}
+
+.mobile_flair_container:after {
+  background: linear-gradient(90deg, hsla(0, 0%, 100%, 0) 0, #fff 70%);
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 3em;
+}
