@@ -28,6 +28,7 @@ import DropDown from '../../DropDown'
 import { TiDeleteOutline } from 'react-icons/ti'
 import { MdOutlineDeleteOutline } from 'react-icons/md'
 import Dot from '../../Dot'
+import truncateString from '../../../utils/truncateString'
 
 const CardPost2 = ({
     post,
@@ -51,6 +52,7 @@ const CardPost2 = ({
     setShowSpoiler,
     hasThumbnail,
     commentCount,
+    mediaInfo,
     upVote,
     downVote,
     editLabel,
@@ -59,9 +61,6 @@ const CardPost2 = ({
     blocked,
     muted
 }) => {
-    const approveColor = useColorModeValue("pastelGreen", "pastelGreen");
-    const removeColor = useColorModeValue("persimmon", "persimmon");
-    const lockColor = useColorModeValue("brightSun", "brightSun");
     const subPlebbit = sub || { address: post?.subplebbitAddress };
 
     const { device } = useStore(state => state);
@@ -270,6 +269,36 @@ const CardPost2 = ({
                                         ""
                                     ) }
                                 </header>
+                            </div>
+                            <div className={ styles.mobile_content_wrapper }>
+                                <div className={ styles.mobile_content_media_wrapper } style={ {
+                                    margin: (hasThumbnail || mediaInfo) && 0
+
+                                } }>
+                                    { !post?.content && !mediaInfo && !hasThumbnail && post?.link &&
+                                        <a href={ post?.link } target="_blank" className={ styles.mobile_content_media_link }>
+                                            <span className={ styles.mobile_content_media_link_content }>
+                                                { truncateString(getLink(post?.link), 40, '...') }
+                                            </span>
+                                        </a>
+                                    }
+                                    {
+                                        hasThumbnail &&
+                                        <>
+                                            <a href={ post?.link } target="_blank" className={ styles.mobile_content_media_thumbnail }>
+                                                <img src={ post?.thumbnailUrl } />
+                                            </a>
+                                            <a href={ post?.link } className={ styles.mobile_content_media_thumbnail_bar }>
+                                                <span className={ styles.mobile_content_media_thumbnail_bar_text }>
+                                                    { getLink(post?.link) }
+                                                </span>
+                                            </a>
+                                        </>
+                                    }
+                                    <PostMedia post={ post } />
+
+                                </div>
+
                             </div>
                         </article>
                     </div>
