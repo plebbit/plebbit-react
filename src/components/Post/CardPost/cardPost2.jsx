@@ -133,15 +133,11 @@ const CardPost2 = ({
 
                             <div className={ styles.mobile_header_wrapper }>
                                 <header className={ styles.mobile_post_header }>
-
                                     <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } allowedSpecial={ allowedSpecial } pending={ pending } detail={ detail } handleOption={ handleOption } owner={ owner } muted={ muted } blocked={ blocked } />
-
                                     <PostTitle type={ type } post={ post } detailRoute={ detailRoute } />
-
                                 </header>
                             </div>
                             <PostBody post={ post } hasThumbnail={ hasThumbnail } detailRoute={ detailRoute } mediaInfo={ mediaInfo } />
-
                             <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } allowedSpecial={ allowedSpecial } detailRoute={ detailRoute } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } mediaInfo={ mediaInfo } vote={ vote } postVotes={ postVotes } />
                         </article>
                     </div>

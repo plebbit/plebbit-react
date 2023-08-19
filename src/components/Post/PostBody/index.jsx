@@ -75,7 +75,6 @@ const PostBody = ({ post, hasThumbnail, detailRoute, textContentStyle, bodyWrapS
                                 <>
                                     <Link to={ detailRoute } className={ styles.mobile_content_media_thumbnail }>
                                         <div>
-
                                             <img src={ post?.thumbnailUrl } />
                                         </div>
                                     </Link>
