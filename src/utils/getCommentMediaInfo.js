@@ -1,6 +1,7 @@
 import extName from 'ext-name';
+import memoize from 'memoizee'
 
-const getCommentMediaInfo = (post) => {
+const getCommentLinkMediaTypeNoCache = (post) => {
   let mime
   if (!post?.link) {
     return;
@@ -30,5 +31,7 @@ const getCommentMediaInfo = (post) => {
   }
 
 };
+
+const getCommentMediaInfo = memoize(getCommentLinkMediaTypeNoCache, { max: 1000 })
 
 export default getCommentMediaInfo;
