@@ -2,6 +2,11 @@ import { useMemo } from "react"
 
 const useStateString = (commentOrSubplebbit) => {
     return useMemo(() => {
+        // dont show state string if the data is already fetched
+        if (commentOrSubplebbit?.updatedAt) {
+            return
+        }
+
         if (!commentOrSubplebbit?.clients) {
             return
         }
