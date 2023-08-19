@@ -305,45 +305,7 @@ const CardPost2 = ({
                                 </div>
 
                             </div>
-                            <footer className={ styles.mobile_content_footer }>
-                                <div className={ styles.mobile_content_footer_wrapper }>
-                                    <div className={ styles.mobile_footer_voting_box }>
-                                        <div className={ styles.mobile_footer_upvote }>
-                                            { vote === 1 ? <ImArrowUp className={ styles.mobile_voting_icon } /> : <BiUpvote className={ styles.mobile_voting_icon } /> }
-                                        </div>
-                                        <div className={ styles.mobile_voting_text }>
-                                            { !loading
-                                                ? postVotes === 0
-                                                    ? "vote"
-                                                    : numFormatter(postVotes)
-                                                : "vote" }
-                                        </div>
-
-                                        <div className={ styles.mobile_footer_upvote }>
-                                            { vote === -1 ? <ImArrowDown className={ styles.mobile_voting_icon } /> : <BiDownvote className={ styles.mobile_voting_icon } /> }
-                                        </div>
-
-                                    </div>
-                                    <button className={ styles.mobile_footer_award }>
-                                        <span className={ styles.mobile_footer_award_container } >
-                                            <GoGift className={ styles.mobile_footer_award_icon } />
-                                        </span>
-                                    </button>
-                                    <Link to={ detailRoute } className={ styles.mobile_footer_comment }>
-                                        <BsChat className={ styles.mobile_footer_comment_icon } />
-                                        { commentCount }
-                                    </Link>
-                                    <CopyToClipboard text={ location } onCopy={ handleCopy }>
-                                        <span className={ styles.mobile_footer_share }>
-                                            <FiShare className={ styles.mobile_footer_share_icon } />
-                                            <span className={ styles.mobile_footer_share_text } >
-                                                { copied ? "copied" : "Share" }
-                                            </span>
-                                        </span>
-                                    </CopyToClipboard>
-                                </div>
-
-                            </footer>
+                            <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } allowedSpecial={ allowedSpecial } detailRoute={ detailRoute } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } mediaInfo={ mediaInfo } vote={ vote } postVotes={ postVotes } />
                         </article>
                     </div>
             }
