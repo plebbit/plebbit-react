@@ -61,7 +61,7 @@
 .article_right {
   display: flex;
   flex: 0 0 144px;
-  height: 140px;
+  height: 100px;
   align-items: flex-end;
   border-radius: 2px;
   flex-direction: column;
