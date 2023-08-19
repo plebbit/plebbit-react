@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from './card-post.module.css'
-import { BsBookmark, BsChatSquare, BsEyeSlash, BsPencil, BsPinAngleFill } from 'react-icons/bs'
+import { BsBookmark, BsChat, BsChatSquare, BsEyeSlash, BsPencil, BsPinAngleFill } from 'react-icons/bs'
 import { BiDownvote, BiUpvote } from 'react-icons/bi'
 import { GoGift, GoMute } from 'react-icons/go'
 import { FaShare } from 'react-icons/fa'
-import { FiExternalLink, FiMoreHorizontal } from 'react-icons/fi'
+import { FiExternalLink, FiMoreHorizontal, FiShare } from 'react-icons/fi'
 import numFormatter from '../../../utils/numberFormater'
 import { ImArrowDown, ImArrowUp } from 'react-icons/im'
 import getUserName, { getSubName } from '../../../utils/getUserName'
@@ -27,6 +27,9 @@ import { AiTwotoneDelete } from 'react-icons/ai'
 import DropDown from '../../DropDown'
 import { TiDeleteOutline } from 'react-icons/ti'
 import { MdOutlineDeleteOutline } from 'react-icons/md'
+import Dot from '../../Dot'
+import truncateString from '../../../utils/truncateString'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 const CardPost2 = ({
     post,
@@ -50,6 +53,7 @@ const CardPost2 = ({
     setShowSpoiler,
     hasThumbnail,
     commentCount,
+    mediaInfo,
     upVote,
     downVote,
     editLabel,
@@ -58,22 +62,10 @@ const CardPost2 = ({
     blocked,
     muted
 }) => {
-    const approveColor = useColorModeValue("pastelGreen", "pastelGreen");
-    const removeColor = useColorModeValue("persimmon", "persimmon");
-    const lockColor = useColorModeValue("brightSun", "brightSun");
     const subPlebbit = sub || { address: post?.subplebbitAddress };
 
     const { device } = useStore(state => state);
-    const getLink = (link) => {
-        let val
 
-        try {
-            val = (link?.startsWith('https://') || link?.startsWith('https://www.')) ? link.replace(/^https:\/\/(www.)?/, '') : link
-            return val
-        } catch (error) {
-
-        }
-    }
 
     return (
         <>
@@ -138,101 +130,15 @@ const CardPost2 = ({
                     <div>
                         <article className={ styles.mobile_wrapper }>
                             <Link to={ detailRoute } />
+
                             <div className={ styles.mobile_header_wrapper }>
                                 <header className={ styles.mobile_post_header }>
-                                    <div className={ styles.mobile_post_header_container }>
-                                        <div className={ styles.sub_detail_wrap }>
-                                            <div className={ styles.sub_detail }>
-                                                <span>
-                                                    <Link className={ styles.mobile_sub_link } to={ `p/${post?.subplebbitAddress}/` }>
-                                                        <div className={ styles.mobile_sub_icon }>
-
-                                                            <Avatar
-                                                                avatar={ subPlebbit?.suggested?.avatarUrl }
-                                                                width={ 32 }
-                                                                height={ 32 }
-                                                                badge
-                                                                isOnline={ isOnline }
-
-                                                            />
-                                                        </div>
-                                                        { getSubName(
-                                                            subPlebbit || { address: post?.subplebbitAddress }
-                                                        ) }
-                                                    </Link>
-                                                    <span className={ styles.mobile_dot } />
-                                                    <span>
-                                                        { dateToFromNowDaily(post?.timestamp * 1000) }
-                                                    </span>
-
-                                                    { pending && !loading && (
-
-                                                        <PendingLabel />
-
-                                                    ) }
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div className={ styles.sub_statuses }>
-                                            { (detail || type === "subPlebbit") && post?.pinned && (
-                                                <BsPinAngleFill className={ styles.status } color='#46d160' />) }
-                                            { (detail || type === "subPlebbit") && post?.pinned && (
-                                                <HiLockClosed className={ styles.status } color='#ffd635' />) }
-                                            { (detail || type === "subPlebbit") && post?.pinned && (
-                                                <AiTwotoneDelete className={ styles.status } color='#ff585b' />) }
-                                        </div>
-                                        <DropDown
-                                            onChange={ handleOption }
-                                            rightOffset="10px"
-                                            leftOffset="none"
-                                            dropDownTitle={
-                                                <div className={ styles.mobile_card_menu }>
-                                                    <FiMoreHorizontal size={ 16 } />
-                                                </div>
-                                            }
-                                            options={ [
-                                                {
-                                                    label: "Edit",
-                                                    icon: BsPencil,
-                                                    id: "edit",
-                                                    disabled: !(owner && detail),
-                                                },
-                                                {
-                                                    label: "Approve",
-                                                    icon: HiOutlineCheckCircle,
-                                                    id: "approved",
-                                                    disabled: !(allowedSpecial && post?.removed),
-                                                },
-                                                {
-                                                    label: "Remove",
-                                                    icon: TiDeleteOutline,
-                                                    id: "removed",
-                                                    disabled: !(allowedSpecial && !post?.removed),
-                                                },
-                                                {
-                                                    label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
-                                                    icon: GoMute,
-                                                    id: "mute",
-                                                    disabled: type === "subPlebbit"
-                                                },
-                                                {
-                                                    label: "Hide",
-                                                    icon: BsEyeSlash,
-                                                    id: "block",
-
-                                                },
-                                                {
-                                                    label: "Delete",
-                                                    icon: MdOutlineDeleteOutline,
-                                                    id: "delete",
-                                                    disabled: !owner,
-                                                },
-                                            ] }
-                                        />
-
-                                    </div>
+                                    <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } allowedSpecial={ allowedSpecial } pending={ pending } detail={ detail } handleOption={ handleOption } owner={ owner } muted={ muted } blocked={ blocked } />
+                                    <PostTitle type={ type } post={ post } detailRoute={ detailRoute } />
                                 </header>
                             </div>
+                            <PostBody post={ post } hasThumbnail={ hasThumbnail } detailRoute={ detailRoute } mediaInfo={ mediaInfo } />
+                            <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } allowedSpecial={ allowedSpecial } detailRoute={ detailRoute } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } mediaInfo={ mediaInfo } vote={ vote } postVotes={ postVotes } />
                         </article>
                     </div>
             }

@@ -218,3 +218,9 @@ body {
     width: 1.25em;
   }
 }
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}

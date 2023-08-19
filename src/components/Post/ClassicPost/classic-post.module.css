@@ -157,3 +157,28 @@
   margin: 0px auto;
   max-height: 712px;
 }
+
+/* mobile */
+
+.mobile_wrapper {
+  position: relative;
+  background-color: #fff;
+  color: #1a1a1b;
+  fill: #1a1a1b;
+}
+.mobile_article_link {
+  bottom: 0;
+  left: 0;
+  pointer-events: all;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.mobile_header_wrapper {
+  pointer-events: none;
+  position: relative;
+}
+.mobile_post_header {
+  padding-top: 0;
+}

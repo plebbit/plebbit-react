@@ -1,0 +1,13 @@
+.mobile_dot {
+  font-size: 14px;
+  line-height: 18px;
+}
+.mobile_dot:after {
+  color: #818384;
+  content: '\2022';
+  display: inline-block;
+  margin: 0 4px;
+  position: relative;
+  top: -1px;
+  vertical-align: middle;
+}
