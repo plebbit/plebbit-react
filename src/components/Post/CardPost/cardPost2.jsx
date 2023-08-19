@@ -65,16 +65,7 @@ const CardPost2 = ({
     const subPlebbit = sub || { address: post?.subplebbitAddress };
 
     const { device } = useStore(state => state);
-    const getLink = (link) => {
-        let val
 
-        try {
-            val = (link?.startsWith('https://') || link?.startsWith('https://www.')) ? link.replace(/^https:\/\/(www.)?/, '') : link
-            return val
-        } catch (error) {
-
-        }
-    }
 
     return (
         <>
@@ -142,169 +133,15 @@ const CardPost2 = ({
 
                             <div className={ styles.mobile_header_wrapper }>
                                 <header className={ styles.mobile_post_header }>
-                                    <div className={ styles.mobile_post_header_container }>
-                                        <div className={ styles.sub_detail_wrap }>
-                                            <div className={ styles.sub_detail }>
-                                                <span>
-                                                    <Link className={ styles.mobile_sub_link } to={ `p/${post?.subplebbitAddress}/` }>
-                                                        <div className={ styles.mobile_sub_icon }>
 
-                                                            <Avatar
-                                                                avatar={ subPlebbit?.suggested?.avatarUrl }
-                                                                width={ 32 }
-                                                                height={ 32 }
-                                                                badge
-                                                                isOnline={ isOnline }
+                                    <PostTop post={ post } type={ type } subPlebbit={ subPlebbit } isOnline={ isOnline } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } allowedSpecial={ allowedSpecial } pending={ pending } detail={ detail } handleOption={ handleOption } owner={ owner } muted={ muted } blocked={ blocked } />
 
-                                                            />
-                                                        </div>
-                                                        { getSubName(
-                                                            subPlebbit || { address: post?.subplebbitAddress }
-                                                        ) }
-                                                    </Link>
-                                                    <Dot />
-                                                    { post?.author?.flair && (
+                                    <PostTitle type={ type } post={ post } detailRoute={ detailRoute } />
 
-                                                        <FlairLabel bg={ statusBg } color={ statusColor } text={ post?.author?.flair?.text }
-                                                            fontSize="12px"
-                                                            fontWeight="500"
-                                                            lineHeight="16px"
-                                                            borderRadius="16px"
-                                                            display="inline-block"
-                                                            mr="5px"
-                                                            overflow="hidden"
-                                                            isTruncated
-                                                            padding="0 4px" />
-                                                    ) }
-                                                    <Dot />
-                                                    <span>
-                                                        { dateToFromNowDaily(post?.timestamp * 1000) }
-                                                    </span>
-
-                                                    { pending && !loading && (
-                                                        <>
-                                                            <Dot />
-                                                            <PendingLabel />
-                                                        </>
-
-
-                                                    ) }
-                                                    { post?.spoiler && <>
-
-                                                        <Dot />
-                                                        <span>
-                                                            <span className={ styles.spoiler }>SPOILER</span>
-                                                        </span>
-                                                    </> }
-                                                </span>
-                                            </div>
-
-
-                                        </div>
-                                        <div className={ styles.sub_statuses }>
-                                            { (detail || type === "subPlebbit") && post?.pinned && (
-                                                <BsPinAngleFill className={ styles.status } color='#46d160' />) }
-                                            { post?.locked && (
-                                                <HiLockClosed className={ styles.status } color='#ffd635' />) }
-                                            { post?.removed && (
-                                                <AiTwotoneDelete className={ styles.status } color='#ff585b' />) }
-                                        </div>
-                                        { !pending && <DropDown
-                                            onChange={ handleOption }
-                                            rightOffset="10px"
-                                            leftOffset="none"
-                                            dropDownTitle={
-                                                <div className={ styles.mobile_card_menu }>
-                                                    <FiMoreHorizontal size={ 16 } />
-                                                </div>
-                                            }
-                                            options={ [
-                                                {
-                                                    label: "Edit",
-                                                    icon: BsPencil,
-                                                    id: "edit",
-                                                    disabled: !(owner && detail),
-                                                },
-                                                {
-                                                    label: "Approve",
-                                                    icon: HiOutlineCheckCircle,
-                                                    id: "approved",
-                                                    disabled: !(allowedSpecial && post?.removed),
-                                                },
-                                                {
-                                                    label: "Remove",
-                                                    icon: TiDeleteOutline,
-                                                    id: "removed",
-                                                    disabled: !(allowedSpecial && !post?.removed),
-                                                },
-                                                {
-                                                    label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
-                                                    icon: GoMute,
-                                                    id: "mute",
-                                                    disabled: type === "subPlebbit"
-                                                },
-                                                {
-                                                    label: "Hide",
-                                                    icon: BsEyeSlash,
-                                                    id: "block",
-
-                                                },
-                                                {
-                                                    label: "Delete",
-                                                    icon: MdOutlineDeleteOutline,
-                                                    id: "delete",
-                                                    disabled: !owner,
-                                                },
-                                            ] }
-                                        /> }
-
-                                    </div>
-                                    <Link to={ detailRoute } className={ styles.post_mobile_title_wrap }>
-                                        { post?.title }
-                                    </Link>
-                                    { type === "subPlebbit" && post?.flair?.text ? (
-                                        <div className={ styles.mobile_flair_container_wrap }>
-                                            <FlairLabel flair={ post?.flair } />
-
-                                        </div>
-                                    ) : (
-                                        ""
-                                    ) }
                                 </header>
                             </div>
-                            <div className={ styles.mobile_content_wrapper }>
-                                <div className={ styles.mobile_content_media_wrapper } style={ {
-                                    margin: (hasThumbnail || mediaInfo) && 0
+                            <PostBody post={ post } hasThumbnail={ hasThumbnail } detailRoute={ detailRoute } mediaInfo={ mediaInfo } />
 
-                                } }>
-                                    { !post?.content && !mediaInfo && !hasThumbnail && post?.link &&
-                                        <a href={ post?.link } target="_blank" className={ styles.mobile_content_media_link }>
-                                            <span className={ styles.mobile_content_media_link_content }>
-                                                { truncateString(getLink(post?.link), 40, '...') }
-                                            </span>
-                                        </a>
-                                    }
-                                    {
-                                        hasThumbnail &&
-                                        <>
-                                            <Link to={ detailRoute } className={ styles.mobile_content_media_thumbnail }>
-                                                <div>
-
-                                                    <img src={ post?.thumbnailUrl } />
-                                                </div>
-                                            </Link>
-                                            <a href={ post?.link } target="_blank" className={ styles.mobile_content_media_thumbnail_bar }>
-                                                <span className={ styles.mobile_content_media_thumbnail_bar_text }>
-                                                    { getLink(post?.link) }
-                                                </span>
-                                            </a>
-                                        </>
-                                    }
-                                    <PostMedia post={ post } />
-
-                                </div>
-
-                            </div>
                             <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } allowedSpecial={ allowedSpecial } detailRoute={ detailRoute } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } mediaInfo={ mediaInfo } vote={ vote } postVotes={ postVotes } />
                         </article>
                     </div>

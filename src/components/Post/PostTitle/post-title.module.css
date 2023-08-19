@@ -52,3 +52,26 @@
 .thumbnail_icon:before {
   content: '\f1ac';
 }
+
+.post_mobile_title_wrap {
+  color: #1a1a1b;
+  font-size: 18px;
+  font-weight: 500;
+  display: block;
+  margin: 0;
+  overflow-x: hidden;
+  padding: 0 16px 8px;
+  pointer-events: all;
+}
+.post_mobile_title_wrap:visited {
+  color: #a5a4a4;
+}
+
+.mobile_flair_container_wrap {
+  color: #a5a4a4;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  vertical-align: middle;
+}
