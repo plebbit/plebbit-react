@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from './card-post.module.css'
-import { BsBookmark, BsChatSquare, BsEyeSlash, BsPencil, BsPinAngleFill } from 'react-icons/bs'
+import { BsBookmark, BsChat, BsChatSquare, BsEyeSlash, BsPencil, BsPinAngleFill } from 'react-icons/bs'
 import { BiDownvote, BiUpvote } from 'react-icons/bi'
 import { GoGift, GoMute } from 'react-icons/go'
 import { FaShare } from 'react-icons/fa'
-import { FiExternalLink, FiMoreHorizontal } from 'react-icons/fi'
+import { FiExternalLink, FiMoreHorizontal, FiShare } from 'react-icons/fi'
 import numFormatter from '../../../utils/numberFormater'
 import { ImArrowDown, ImArrowUp } from 'react-icons/im'
 import getUserName, { getSubName } from '../../../utils/getUserName'
@@ -29,6 +29,7 @@ import { TiDeleteOutline } from 'react-icons/ti'
 import { MdOutlineDeleteOutline } from 'react-icons/md'
 import Dot from '../../Dot'
 import truncateString from '../../../utils/truncateString'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 const CardPost2 = ({
     post,
@@ -138,6 +139,7 @@ const CardPost2 = ({
                     <div>
                         <article className={ styles.mobile_wrapper }>
                             <Link to={ detailRoute } />
+
                             <div className={ styles.mobile_header_wrapper }>
                                 <header className={ styles.mobile_post_header }>
                                     <div className={ styles.mobile_post_header_container }>
@@ -285,10 +287,13 @@ const CardPost2 = ({
                                     {
                                         hasThumbnail &&
                                         <>
-                                            <a href={ post?.link } target="_blank" className={ styles.mobile_content_media_thumbnail }>
-                                                <img src={ post?.thumbnailUrl } />
-                                            </a>
-                                            <a href={ post?.link } className={ styles.mobile_content_media_thumbnail_bar }>
+                                            <Link to={ detailRoute } className={ styles.mobile_content_media_thumbnail }>
+                                                <div>
+
+                                                    <img src={ post?.thumbnailUrl } />
+                                                </div>
+                                            </Link>
+                                            <a href={ post?.link } target="_blank" className={ styles.mobile_content_media_thumbnail_bar }>
                                                 <span className={ styles.mobile_content_media_thumbnail_bar_text }>
                                                     { getLink(post?.link) }
                                                 </span>
@@ -300,6 +305,45 @@ const CardPost2 = ({
                                 </div>
 
                             </div>
+                            <footer className={ styles.mobile_content_footer }>
+                                <div className={ styles.mobile_content_footer_wrapper }>
+                                    <div className={ styles.mobile_footer_voting_box }>
+                                        <div className={ styles.mobile_footer_upvote }>
+                                            { vote === 1 ? <ImArrowUp className={ styles.mobile_voting_icon } /> : <BiUpvote className={ styles.mobile_voting_icon } /> }
+                                        </div>
+                                        <div className={ styles.mobile_voting_text }>
+                                            { !loading
+                                                ? postVotes === 0
+                                                    ? "vote"
+                                                    : numFormatter(postVotes)
+                                                : "vote" }
+                                        </div>
+
+                                        <div className={ styles.mobile_footer_upvote }>
+                                            { vote === -1 ? <ImArrowDown className={ styles.mobile_voting_icon } /> : <BiDownvote className={ styles.mobile_voting_icon } /> }
+                                        </div>
+
+                                    </div>
+                                    <button className={ styles.mobile_footer_award }>
+                                        <span className={ styles.mobile_footer_award_container } >
+                                            <GoGift className={ styles.mobile_footer_award_icon } />
+                                        </span>
+                                    </button>
+                                    <Link to={ detailRoute } className={ styles.mobile_footer_comment }>
+                                        <BsChat className={ styles.mobile_footer_comment_icon } />
+                                        { commentCount }
+                                    </Link>
+                                    <CopyToClipboard text={ location } onCopy={ handleCopy }>
+                                        <span className={ styles.mobile_footer_share }>
+                                            <FiShare className={ styles.mobile_footer_share_icon } />
+                                            <span className={ styles.mobile_footer_share_text } >
+                                                { copied ? "copied" : "Share" }
+                                            </span>
+                                        </span>
+                                    </CopyToClipboard>
+                                </div>
+
+                            </footer>
                         </article>
                     </div>
             }
