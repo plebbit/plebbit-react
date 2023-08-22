@@ -12,6 +12,7 @@ window.PlebbitJs = PlebbitJs;
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import { App as CapacitorApp } from '@capacitor/app';
 import { ChakraProvider } from '@chakra-ui/react';
 import './index.css';
 import App from './App';
@@ -37,3 +38,12 @@ root.render(<>
 serviceWorkerRegistration.register();
 
 reportWebVitals();
+
+// add back button in android app
+CapacitorApp.addListener('backButton', ({canGoBack}) => {
+  if (canGoBack) {
+    window.history.back();
+  } else {
+    CapacitorApp.exitApp();
+  }
+});
