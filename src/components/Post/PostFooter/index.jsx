@@ -505,9 +505,7 @@ const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, loc
                         <CopyToClipboard text={ location } onCopy={ handleCopy }>
                             <span className={ styles.mobile_footer_share }>
                                 <FiShare className={ styles.mobile_footer_share_icon } />
-                                <span className={ styles.mobile_footer_share_text } >
-                                    { copied ? "copied" : "Share" }
-                                </span>
+
                             </span>
                         </CopyToClipboard>
                     </div>
