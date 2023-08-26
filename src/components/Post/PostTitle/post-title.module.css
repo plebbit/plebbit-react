@@ -60,7 +60,6 @@
   display: block;
   margin: 0;
   overflow-x: hidden;
-  padding: 0 16px 8px;
   pointer-events: all;
 }
 .post_mobile_title_wrap:visited {

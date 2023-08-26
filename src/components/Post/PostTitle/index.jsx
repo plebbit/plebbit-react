@@ -66,7 +66,7 @@ const PostTitle = ({ post, detailRoute, editLabel, pending, type, hasThumbnail, 
 
                     </div> : <div className={ styles.titlenThumbnail }>
                         <div className={ styles.titlenFlair }>
-                            <Link to={ detailRoute } className={ styles.post_mobile_title_wrap }>
+                            <Link to={ detailRoute } className={ styles.post_mobile_title_wrap } style={ {} }>
                                 { post?.title }
                             </Link>
                             { type === "subPlebbit" && post?.flair?.text ? (
