@@ -11,7 +11,7 @@ import Moderators from './views/About/Moderator';
 import NotFound from './views/NotFound';
 import 'react-toastify/dist/ReactToastify.css';
 import Notifications from './views/Notifications';
-import PostDetail from './views/PostDetail/postDetail2';
+import PostDetail from './views/PostDetail';
 import Author from './views/Author';
 
 const App = () => {
