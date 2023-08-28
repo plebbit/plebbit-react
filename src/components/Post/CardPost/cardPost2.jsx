@@ -77,7 +77,7 @@ const CardPost2 = ({
 
                         <div className={ styles.card_main }>
                             <article className={ styles.card_article }>
-                                <div>
+                                <div className={ styles.article_left }>
                                     { post?.pinned && type === "subPlebbit" && (
                                         <div
                                             className={ styles.pin_head_wrap }
