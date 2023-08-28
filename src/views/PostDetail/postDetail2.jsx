@@ -599,7 +599,13 @@ const PostDetail2 = () => {
 
 
                                             </div>
+                                        </div>
+                                        <div className={ styles.detail_add_comment }>
+
                                             <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
+                                        </div>
+                                        <div className={ styles.detail_comments_wrap }>
+
                                             { isReply && !showFullComments ? <Replies loading={ loading } parent={ replyParent } reply={ reply } disableReplies={ detail?.locked } /> : null }
                                             { showFullComments &&
                                                 comments?.map((comment, index) => (
