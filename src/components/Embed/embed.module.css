@@ -1,0 +1,11 @@
+.embed {
+  height: 360px;
+  width: 100%;
+  max-width: 640px;
+}
+
+.verticalEmbed {
+  width: 100%;
+  height: 640px;
+  max-width: 360px;
+}

@@ -28,9 +28,12 @@ import { GoGift, GoMute } from 'react-icons/go'
 import { FaShare } from 'react-icons/fa'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import PostDetailSideBar from './postDetailSideBar'
-import { FiMoreHorizontal } from 'react-icons/fi'
+import { FiExternalLink, FiMoreHorizontal } from 'react-icons/fi'
 import DropDown from '../../components/DropDown'
 import { HiOutlineCheckCircle } from 'react-icons/hi'
+import EditComment from './editComment'
+import { DeletedMessage, RemovedMessage } from '../../components/Card/ModMessage'
+import PostMedia from '../../components/Post/PostMedia'
 
 
 const PostDetail2 = () => {
@@ -368,11 +371,44 @@ const PostDetail2 = () => {
                                                     </div>
                                                 }
                                                 {/* detail content */ }
+
                                                 <div className={ styles.detail_content_wrapper }>
                                                     <div className={ styles.detail_content_text }>
-                                                        <Marked content={ detail?.content } />
+                                                        {
+                                                            edit ? (
+                                                                <EditComment detail={ detail } setEdit={ setEdit } />
+                                                            ) : detail?.removed ? (
+                                                                <RemovedMessage subplebbit={ subplebbit } />
+                                                            ) : detail?.deleted ? (
+                                                                <DeletedMessage />
+                                                            ) : showSpoiler ? (
+                                                                <div className={ styles.detail_spoiler_wrap }>
+                                                                    <button
+                                                                        className={ styles.detail_spoiler_btn }
+                                                                        onClick={ () => setShowSpoiler(false) }
+
+                                                                    >
+                                                                        Click to see spoiler
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <>
+                                                                    { !mediaInfo && detail?.link && <div className={ styles.detail_link_wrap }>
+                                                                        <a href={ detail?.link } target="_blank" className={ styles.detail_link }>
+                                                                            { detail?.link }
+                                                                            <FiExternalLink className={ styles.detail_link_icon } />
+                                                                        </a>
+                                                                    </div> }
+
+                                                                    { detail?.content && <Marked content={ detail?.content } /> }
+
+                                                                    { detail?.link && <PostMedia post={ detail } /> }
+                                                                </>
+                                                            )
+                                                        }
                                                     </div>
                                                 </div>
+
 
                                                 {/* detail footer */ }
                                                 <div className={ styles.detail_footer_wrap }>
