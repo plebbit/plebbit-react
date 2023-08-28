@@ -103,6 +103,7 @@ const DropDown = ({
                   color={ selected && getSelected && selected === getSelected(option) && linkColor }
                   onClick={ () => onChange(option) }
                   borderTop={ `1px solid ${border2}` }
+
                 >
                   { option?.icon && (
                     <Icon

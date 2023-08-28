@@ -17,8 +17,20 @@ import numFormatter from '../../utils/numberFormater'
 import { CgNotes } from 'react-icons/cg'
 import FlairLabel from '../../components/Label/flairLabel'
 import EditLabel from '../../components/Label/editLabel'
-import { CloseIcon } from '@chakra-ui/icons'
-import { MdClose } from 'react-icons/md'
+import { MdCheckBox, MdCheckBoxOutlineBlank, MdClose, MdOutlineDeleteOutline } from 'react-icons/md'
+import PendingLabel from '../../components/Label/pendingLabel'
+import PostVote from '../../components/Post/PostVote'
+import PostTop from '../../components/Post/PostTop'
+import getIsOnline from '../../utils/getIsOnline'
+import Marked from '../../components/Editor/marked'
+import { BsBookmark, BsChat, BsEyeSlash, BsPencil, BsShield } from 'react-icons/bs'
+import { GoGift, GoMute } from 'react-icons/go'
+import { FaShare } from 'react-icons/fa'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import PostDetailSideBar from './postDetailSideBar'
+import { FiMoreHorizontal } from 'react-icons/fi'
+import DropDown from '../../components/DropDown'
+import { HiOutlineCheckCircle } from 'react-icons/hi'
 
 
 const PostDetail2 = () => {
@@ -252,6 +264,7 @@ const PostDetail2 = () => {
                 <div className={ styles.wrapper }>
                     <div className={ styles.container }>
                         <div className={ styles.overlay_scroll_container }>
+                            {/* detail top */ }
                             <div className={ styles.detail_top_wrap } tabIndex="-1">
                                 <div className={ styles.detail_top }>
                                     <div className={ styles.detail_top_left }>
@@ -310,6 +323,266 @@ const PostDetail2 = () => {
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+                            {/* detail body */ }
+                            <div tabindex="-1" className={ styles.detail_body_wrap }>
+                                {/* detail content */ }
+                                <div className={ styles.detail_content_wrap }>
+                                    <div className={ styles.detail_content }>
+                                        <div className={ styles.detail_main_content }>
+                                            <div>
+                                                {/* detail voting */ }
+                                                <PostVote vote={ vote } upVote={ upVote } downVote={ downVote } postVotes={ postVotes } />
+                                                {/* detail top */ }
+                                                <PostTop post={ detail } subPlebbit={ subplebbit } isOnline={ getIsOnline(subplebbit?.updatedAt) } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } allowedSpecial={ isSpecial } pending={ detailPending } detail={ true } handleOption={ handleOption } owner={ owner } muted={ muted } blocked={ blocked } />
+                                                {/* detail title */ }
+                                                <div className={ styles.detail_title_wrap }>
+                                                    <div className={ styles.detail_title_wrap2 }>
+                                                        <div className={ styles.detail_title_wrap3 }>
+                                                            <h1 className={ styles.detail_title }>{ detail?.title }</h1>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {/* detail flair */ }
+                                                { (detail?.flair?.text.length || detail?.spoiler || detailPending || editLabel) &&
+                                                    <div className={ styles.detail_flair_wrap }>
+                                                        <div className={ styles.detail_flair_wrap2 }>
+
+                                                            { detail?.flair?.text.length ? (
+                                                                <FlairLabel flair={ detail?.flair } />
+                                                            ) : (
+                                                                ""
+                                                            ) }
+                                                            { detail?.spoiler && (
+
+                                                                <SpoilerLabel />
+                                                            ) }
+                                                            { detailPending && (
+
+                                                                <PendingLabel />
+
+                                                            ) }
+                                                            {/* edit status */ }
+                                                            <EditLabel editLabel={ editLabel } post={ detail } />
+                                                        </div>
+                                                    </div>
+                                                }
+                                                {/* detail content */ }
+                                                <div className={ styles.detail_content_wrapper }>
+                                                    <div className={ styles.detail_content_text }>
+                                                        <Marked content={ detail?.content } />
+                                                    </div>
+                                                </div>
+
+                                                {/* detail footer */ }
+                                                <div className={ styles.detail_footer_wrap }>
+                                                    {
+                                                        detailPending ? <div /> : isSpecial ? <div className={ styles.detail_footer_wrap2 }>
+                                                            <div className={ styles.detail_footer_item_comment }>
+                                                                <BsChat className={ styles.detail_footer_item_icon } />
+                                                                <span> { detailCommentCount } </span>
+                                                            </div>
+                                                            <div className={ styles.detail_footer_item_award_wrap }>
+                                                                <button className={ styles.detail_footer_item_award }>
+                                                                    <GoGift className={ styles.detail_footer_item_icon } />
+                                                                    <span>Award</span>
+                                                                </button>
+                                                            </div>
+                                                            <div className={ styles.detail_footer_item_award_wrap }>
+                                                                <CopyToClipboard text={ sharePath } onCopy={ handleCopy }>
+                                                                    <button className={ styles.detail_footer_item_award }>
+                                                                        <FaShare className={ styles.detail_footer_item_icon } />
+                                                                        <span>{ copied ? 'Copied' : 'Share' }</span>
+                                                                    </button>
+                                                                </CopyToClipboard>
+                                                            </div>
+
+                                                            <div className={ styles.detail_footer_item_award_wrap }>
+                                                                <button className={ styles.detail_footer_item_award } onClick={ () => handleOption({ id: 'approved' }) }>
+                                                                    <HiOutlineCheckCircle className={ styles.detail_footer_item_icon } />
+                                                                    <span>Approve</span>
+                                                                </button>
+                                                            </div>
+                                                            <div className={ styles.detail_footer_item_award_wrap }>
+                                                                <button className={ styles.detail_footer_item_award } onClick={ () => handleOption({ id: 'removed' }) }>
+                                                                    <HiOutlineCheckCircle className={ styles.detail_footer_item_icon } />
+                                                                    <span>Remove</span>
+                                                                </button>
+                                                            </div>
+
+
+                                                            <div className={ styles.detail_footer_more }>
+                                                                <DropDown
+                                                                    topOffset="30px"
+                                                                    dropDownTitle={
+                                                                        <button className={ styles.detail_footer_item_more }>
+                                                                            <BsShield className={ styles.detail_footer_item_icon } />
+                                                                        </button>
+                                                                    }
+                                                                    options={ [
+                                                                        {
+                                                                            label: 'Sticky Post',
+                                                                            icon: detail?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
+                                                                            id: 'pinned',
+                                                                        },
+                                                                        {
+                                                                            label: 'Lock Comments',
+                                                                            icon: detail?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
+                                                                            id: 'locked',
+                                                                        },
+
+                                                                        {
+                                                                            label: 'Mark As Spoiler',
+                                                                            icon: detail?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
+                                                                            id: 'spoiler',
+                                                                        },
+                                                                    ] }
+                                                                    onChange={ handleOption }
+                                                                    rightOffset={ 0 }
+                                                                    leftOffset="none"
+
+                                                                />
+                                                            </div>
+                                                            <div className={ styles.detail_footer_more }>
+                                                                <DropDown
+                                                                    topOffset="30px"
+                                                                    dropDownTitle={
+                                                                        <button className={ styles.detail_footer_item_more }>
+                                                                            <FiMoreHorizontal className={ styles.detail_footer_item_icon } />
+                                                                        </button>
+                                                                    }
+                                                                    options={ [
+                                                                        {
+                                                                            label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subplebbit)}`,
+                                                                            icon: GoMute,
+                                                                            id: "mute",
+                                                                        },
+                                                                        {
+                                                                            label: blocked ? 'Unhide' : "Hide",
+                                                                            icon: BsEyeSlash,
+                                                                            id: "block",
+
+                                                                        },
+                                                                        {
+                                                                            label: 'Edit Post',
+                                                                            icon: BsPencil,
+                                                                            id: 'edit',
+                                                                            disabled: !owner,
+                                                                        },
+
+                                                                        {
+                                                                            label: 'Delete',
+                                                                            icon: MdOutlineDeleteOutline,
+                                                                            id: 'delete',
+                                                                            disabled: !owner,
+                                                                        },
+                                                                    ] }
+                                                                    onChange={ handleOption }
+                                                                    rightOffset={ 0 }
+                                                                    leftOffset="none"
+
+                                                                />
+                                                            </div>
+                                                        </div> :
+                                                            <div className={ styles.detail_footer_wrap2 }>
+                                                                <div className={ styles.detail_footer_item_comment }>
+                                                                    <BsChat className={ styles.detail_footer_item_icon } />
+                                                                    <span> { detailCommentCount } Comment
+                                                                        { detailCommentCount === 1 ? '' : 's' }</span>
+                                                                </div>
+                                                                <div className={ styles.detail_footer_item_award_wrap }>
+                                                                    <button className={ styles.detail_footer_item_award }>
+                                                                        <GoGift className={ styles.detail_footer_item_icon } />
+                                                                        <span>Award</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div className={ styles.detail_footer_item_award_wrap }>
+                                                                    <CopyToClipboard text={ sharePath } onCopy={ handleCopy }>
+                                                                        <button className={ styles.detail_footer_item_award }>
+                                                                            <FaShare className={ styles.detail_footer_item_icon } />
+                                                                            <span>{ copied ? 'Copied' : 'Share' }</span>
+                                                                        </button>
+                                                                    </CopyToClipboard>
+                                                                </div>
+                                                                <div className={ styles.detail_footer_item_award_wrap }>
+                                                                    <button className={ styles.detail_footer_item_award }>
+                                                                        <BsBookmark className={ styles.detail_footer_item_icon } />
+                                                                        <span>Save</span>
+                                                                    </button>
+                                                                </div>
+
+                                                                <div className={ styles.detail_footer_more }>
+                                                                    <DropDown
+                                                                        topOffset="30px"
+                                                                        dropDownTitle={
+                                                                            <button className={ styles.detail_footer_item_more }>
+                                                                                <FiMoreHorizontal className={ styles.detail_footer_item_icon } />
+                                                                            </button>
+                                                                        }
+                                                                        options={ [
+                                                                            {
+                                                                                label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subplebbit)}`,
+                                                                                icon: GoMute,
+                                                                                id: "mute",
+                                                                            },
+                                                                            {
+                                                                                label: blocked ? 'Unhide' : "Hide",
+                                                                                icon: BsEyeSlash,
+                                                                                id: "block",
+
+                                                                            },
+                                                                            {
+                                                                                label: 'Edit Post',
+                                                                                icon: BsPencil,
+                                                                                id: 'edit',
+                                                                                disabled: !owner,
+                                                                            },
+
+                                                                            {
+                                                                                label: 'Delete',
+                                                                                icon: MdOutlineDeleteOutline,
+                                                                                id: 'delete',
+                                                                                disabled: !owner,
+                                                                            },
+                                                                        ] }
+                                                                        onChange={ handleOption }
+                                                                        rightOffset={ 0 }
+                                                                        leftOffset="none"
+
+                                                                    />
+                                                                </div>
+
+
+                                                            </div>
+                                                    }
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* detail sidebar */ }
+                                <PostDetailSideBar
+                                    margin="32px 0"
+                                    borderRadius="4px"
+                                    padding="0"
+                                    right="0"
+                                    top="0"
+                                    width="312px"
+                                    sx={ {
+                                        '@media (max-width: 1120px)': {
+                                            display: 'none',
+                                        },
+                                    } }
+                                    handleSubscribe={ handleSubscribe }
+                                    handleUnSubscribe={ handleUnSubscribe }
+                                    subLoading={ subLoading }
+                                    setSubLoading={ setSubLoading }
+                                    subscribed={ subscribed }
+                                    detail={ detail }
+                                    loading={ loading }
+                                    subplebbit={ subplebbit }
+                                />
                             </div>
                         </div>
 
