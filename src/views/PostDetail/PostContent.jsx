@@ -1401,7 +1401,7 @@ const PostContent = ({ setDetail, setSubplebbit, state }) => {
               </Flex>
               <Box maxW="100%" bg={ bg } mt="10px" padding="10px">
                 <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
-                { isReply ? <Replies loading={ loading } parent={ replyParent } reply={ reply } disableReplies={ detail?.locked } /> : null }
+                { isReply && !showFullComments ? <Replies loading={ loading } parent={ replyParent } reply={ reply } disableReplies={ detail?.locked } /> : null }
                 { showFullComments &&
                   comments?.map((comment, index) => (
                     <Comment loading={ commentLoading } comment={ comment } key={ index || comment.cid } parentCid={ detail?.cid } disableReplies={ detail?.locked } />

@@ -34,6 +34,10 @@ import { HiOutlineCheckCircle } from 'react-icons/hi'
 import EditComment from './editComment'
 import { DeletedMessage, RemovedMessage } from '../../components/Card/ModMessage'
 import PostMedia from '../../components/Post/PostMedia'
+import AddComment from './addComment'
+import Replies from '../../components/Post/comment/replies';
+import Comment from '../../components/Post/comment'
+
 
 
 const PostDetail2 = () => {
@@ -593,7 +597,14 @@ const PostDetail2 = () => {
                                                     }
                                                 </div>
 
+
                                             </div>
+                                            <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
+                                            { isReply && !showFullComments ? <Replies loading={ loading } parent={ replyParent } reply={ reply } disableReplies={ detail?.locked } /> : null }
+                                            { showFullComments &&
+                                                comments?.map((comment, index) => (
+                                                    <Comment loading={ commentLoading } comment={ comment } key={ index || comment.cid } parentCid={ detail?.cid } disableReplies={ detail?.locked } />
+                                                )) }
                                         </div>
                                     </div>
                                 </div>

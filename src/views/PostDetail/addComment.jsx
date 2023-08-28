@@ -40,7 +40,7 @@ const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments,
     return (
         <>
             { device !== 'mobile' ?
-                <Box padding="24px 40px">
+                <Box >
                     { detail?.locked ? (
                         <LockedMessage subplebbit={ subplebbit } />
                     ) : (
