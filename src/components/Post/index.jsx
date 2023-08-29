@@ -21,6 +21,7 @@ import usePublishDownvote from '../../hooks/usePublishDownvote';
 import ConfirmDelete from './Modal/confirmDelete';
 import youtube_parser from '../../utils/youtubeParser';
 import useStore from '../../store/useStore';
+import { canEmbed } from '../Embed';
 
 const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSpecial, stateString }) => {
   const profile = useAccount();
@@ -56,10 +57,20 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
     isOpen: isDeleteModalOpen,
   } = useDisclosure();
 
-  const isYoutube = useMemo(() => youtube_parser(post?.link), [post?.link])
+  const isYoutube = () => {
+    try {
+      const parsedUrl = new URL(post?.link)
+      if (canEmbed(parsedUrl)) {
+        return canEmbed(parsedUrl)
+      }
+    }
+    catch (e) { }
+    return;
+  }
+
 
   const mediaInfo = post && getCommentMediaInfo(post);
-  const hasThumbnail = !post?.removed && post?.thumbnailUrl && !mediaInfo && !isYoutube
+  const hasThumbnail = !post?.removed && post?.thumbnailUrl && !mediaInfo && !isYoutube()
 
 
   const upVote = usePublishUpvote(post)

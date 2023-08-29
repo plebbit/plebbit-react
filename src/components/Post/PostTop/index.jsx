@@ -28,7 +28,7 @@ const PostTop = ({ post, type, subPlebbit, isOnline, authorPath, loading, stateS
                     <div className={ styles.card_top } style={ wrapperStyle }>
                         {/* subplebbit avatar */ }
                         { !hideAvatar && <div className={ styles.card_avatar_wrap }>
-                            <Link to={ `p/${post?.subplebbitAddress}/` } className={ styles.card_avatar }>
+                            <Link to={ `/p/${post?.subplebbitAddress}/` } className={ styles.card_avatar }>
                                 <Avatar avatar={ subPlebbit?.suggested?.avatarUrl }
                                     width={ 24 }
                                     height={ 24 }
@@ -42,7 +42,7 @@ const PostTop = ({ post, type, subPlebbit, isOnline, authorPath, loading, stateS
                             {/* subplebbit address */ }
                             <div className={ styles.card_top_right_txt }>
                                 { type !== 'subPlebbit' && <div className={ styles.card_top_right_sub }>
-                                    <Link to={ `p/${post?.subplebbitAddress}/` } className={ styles.card_top_right_sub_text }>{ getSubName(subPlebbit) }</Link>
+                                    <Link to={ `/p/${post?.subplebbitAddress}/` } className={ styles.card_top_right_sub_text }>{ getSubName(subPlebbit) }</Link>
                                 </div> }
                                 { type !== 'subPlebbit' &&
                                     <span className={ styles.dot }>•</span>
@@ -129,42 +129,46 @@ const PostTop = ({ post, type, subPlebbit, isOnline, authorPath, loading, stateS
                         <div className={ styles.sub_detail_wrap }>
                             <div className={ styles.sub_detail }>
                                 <span>
-                                    <Link className={ styles.mobile_sub_link } to={ `p/${post?.subplebbitAddress}/` }>
-                                        <div className={ styles.mobile_sub_icon }>
+                                    <span className={ styles.mobile_top_subndate }>
+                                        <Link className={ styles.mobile_sub_link } to={ `/p/${post?.subplebbitAddress}/` }>
+                                            <div className={ styles.mobile_sub_icon }>
+                                                <Avatar
+                                                    avatar={ subPlebbit?.suggested?.avatarUrl }
+                                                    width={ 32 }
+                                                    height={ 32 }
+                                                    badge
+                                                    isOnline={ isOnline }
 
-                                            <Avatar
-                                                avatar={ subPlebbit?.suggested?.avatarUrl }
-                                                width={ 32 }
-                                                height={ 32 }
-                                                badge
-                                                isOnline={ isOnline }
-
-                                            />
-                                        </div>
-                                        { getSubName(
-                                            subPlebbit || { address: post?.subplebbitAddress }
-                                        ) }
-                                    </Link>
-                                    <Dot />
-                                    { post?.author?.flair && (
-
-                                        <FlairLabel bg={ statusBg } color={ statusColor } text={ post?.author?.flair?.text }
-                                            fontSize="12px"
-                                            fontWeight="500"
-                                            lineHeight="16px"
-                                            borderRadius="16px"
-                                            display="inline-block"
-                                            mr="5px"
-                                            overflow="hidden"
-                                            isTruncated
-                                            padding="0 4px" />
-                                    ) }
-                                    <Dot />
-                                    <span>
-                                        { dateToFromNowDaily(post?.timestamp * 1000) }
+                                                />
+                                            </div>
+                                            { getSubName(
+                                                subPlebbit || { address: post?.subplebbitAddress }
+                                            ) }
+                                        </Link>
+                                        <Dot />
+                                        <span>
+                                            { dateToFromNowDaily(post?.timestamp * 1000) }
+                                        </span>
                                     </span>
+                                    { (detail || type === "subPlebbit") && post?.author?.flair && (
+                                        <>
+                                            <Dot />
+                                            <FlairLabel bg={ statusBg } color={ statusColor } text={ post?.author?.flair?.text }
+                                                fontSize="12px"
+                                                fontWeight="500"
+                                                lineHeight="16px"
+                                                borderRadius="16px"
+                                                display="inline-block"
+                                                mr="5px"
+                                                overflow="hidden"
+                                                isTruncated
+                                                padding="0 4px" />
+                                        </>
 
-                                    { pending && !loading && (
+                                    ) }
+
+
+                                    { (detail || type === "subPlebbit") && pending && !loading && (
                                         <>
                                             <Dot />
                                             <PendingLabel />
@@ -172,7 +176,7 @@ const PostTop = ({ post, type, subPlebbit, isOnline, authorPath, loading, stateS
 
 
                                     ) }
-                                    { post?.spoiler && <>
+                                    { (detail || type === "subPlebbit") && post?.spoiler && <>
 
                                         <Dot />
                                         <span>
@@ -181,8 +185,6 @@ const PostTop = ({ post, type, subPlebbit, isOnline, authorPath, loading, stateS
                                     </> }
                                 </span>
                             </div>
-
-
                         </div>
                         <div className={ styles.sub_statuses }>
                             { (detail || type === "subPlebbit") && post?.pinned && (

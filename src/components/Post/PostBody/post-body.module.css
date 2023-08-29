@@ -84,6 +84,7 @@
   font-size: 12px;
   padding: 2px 16px;
   position: relative;
+  overflow: hidden;
 }
 
 .mobile_content_media_link:before {
@@ -157,4 +158,23 @@
   text-overflow: ellipsis;
   color: #fff;
   font-size: 12px;
+}
+
+.mobile_detail_text_container {
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.mobile_detail_text {
+  padding: 8px 16px;
+}
+
+.mobile_show_spoiler {
+  pointer-events: all;
+  color: #1a1a1b;
+  border: 1px solid #1a1a1b;
+  display: block;
+  margin: 8px auto 10px;
+  padding: 10px 20px;
+  text-transform: uppercase;
 }

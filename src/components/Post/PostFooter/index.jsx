@@ -371,7 +371,7 @@ const PostFooter = ({ muted, blocked, owner, subPlebbit, handleOption, type, loc
                                             </> }
                                             <Link to={ detailRoute } className={ styles.footer_comment }>
                                                 <BsChatSquare className={ styles.footer_comment_icon } />
-                                                <span className={ styles.footer_comment_text }>56 comments</span>
+                                                <span className={ styles.footer_comment_text }>{ commentCount } { type !== "subPlebbit" && 'comments' }</span>
                                             </Link>
                                             <div className={ styles.footer_award }>
                                                 <button className={ styles.card_footer_award_wrap }>

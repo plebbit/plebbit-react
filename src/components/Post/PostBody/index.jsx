@@ -8,7 +8,7 @@ import useStore from '../../../store/useStore'
 import truncateString from '../../../utils/truncateString'
 import getLink from '../../../utils/getLink'
 
-const PostBody = ({ post, hasThumbnail, detailRoute, textContentStyle, bodyWrapStyle, mediaInfo }) => {
+const PostBody = ({ post, hasThumbnail, detailRoute, textContentStyle, bodyWrapStyle, mediaInfo, detail, showSpoiler, setShowSpoiler }) => {
     const { device } = useStore(state => state);
 
     return (
@@ -58,36 +58,58 @@ const PostBody = ({ post, hasThumbnail, detailRoute, textContentStyle, bodyWrapS
                             <PostMedia post={ post } />
                         </div>
                     </Link> :
+
+
+
                     <div className={ styles.mobile_content_wrapper }>
-                        <div className={ styles.mobile_content_media_wrapper } style={ {
-                            margin: (hasThumbnail || mediaInfo) && 0
+                        {
+                            (detail && showSpoiler) ?
+                                <button className={ styles.mobile_show_spoiler } onClick={ () => setShowSpoiler(false) }>Click to see spoiler</button>
 
-                        } }>
-                            { !post?.content && !mediaInfo && !hasThumbnail && post?.link &&
-                                <a href={ post?.link } target="_blank" className={ styles.mobile_content_media_link }>
-                                    <span className={ styles.mobile_content_media_link_content }>
-                                        { truncateString(getLink(post?.link), 40, '...') }
-                                    </span>
-                                </a>
-                            }
-                            {
-                                hasThumbnail &&
-                                <>
-                                    <Link to={ detailRoute } className={ styles.mobile_content_media_thumbnail }>
-                                        <div>
-                                            <img src={ post?.thumbnailUrl } />
-                                        </div>
-                                    </Link>
-                                    <a href={ post?.link } target="_blank" className={ styles.mobile_content_media_thumbnail_bar }>
-                                        <span className={ styles.mobile_content_media_thumbnail_bar_text }>
-                                            { getLink(post?.link) }
-                                        </span>
-                                    </a>
+                                : <>
+
+                                    <div className={ styles.mobile_content_media_wrapper } style={ {
+                                        margin: (hasThumbnail || mediaInfo) && 0
+
+                                    } }>
+                                        { !post?.content && !mediaInfo && !hasThumbnail && post?.link &&
+                                            <a href={ post?.link } target="_blank" className={ styles.mobile_content_media_link }>
+                                                <span className={ styles.mobile_content_media_link_content }>
+                                                    { truncateString(getLink(post?.link), 40, '...') }
+                                                </span>
+                                            </a>
+                                        }
+                                        {
+                                            hasThumbnail &&
+                                            <>
+                                                <Link to={ detailRoute } className={ styles.mobile_content_media_thumbnail }>
+                                                    <div>
+                                                        <img src={ post?.thumbnailUrl } />
+                                                    </div>
+                                                </Link>
+                                                <a href={ post?.link } target="_blank" className={ styles.mobile_content_media_thumbnail_bar }>
+                                                    <span className={ styles.mobile_content_media_thumbnail_bar_text }>
+                                                        { getLink(post?.link) }
+                                                    </span>
+                                                </a>
+                                            </>
+                                        }
+                                        <PostMedia post={ post } />
+
+                                    </div>
+                                    {
+                                        detail && !post?.removed &&
+                                        <>
+                                            { post?.content && <div className={ styles.mobile_detail_text_container }>
+                                                <div className={ styles.mobile_detail_text }>
+                                                    <Marked content={ post?.content } />
+                                                </div>
+                                            </div> }
+                                        </>
+                                    }
                                 </>
-                            }
-                            <PostMedia post={ post } />
+                        }
 
-                        </div>
 
                     </div>
             }

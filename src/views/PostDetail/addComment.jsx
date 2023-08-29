@@ -9,6 +9,7 @@ import { MdClose } from 'react-icons/md'
 import Image from '../../components/Image'
 import { useAccount, useAuthorAvatar } from '@plebbit/plebbit-react-hooks'
 import useStore from '../../store/useStore'
+import Avatar from '../../components/Avatar'
 
 const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments, isReply }) => {
     const borderColor2 = useColorModeValue('#d3d6da', '#545452');
@@ -40,7 +41,7 @@ const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments,
     return (
         <>
             { device !== 'mobile' ?
-                <Box padding="24px 40px">
+                <Box >
                     { detail?.locked ? (
                         <LockedMessage subplebbit={ subplebbit } />
                     ) : (
@@ -130,14 +131,13 @@ const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments,
                                     paddingTop="8px"
                                     width="100%"
                                 >
-                                    <Image
-                                        h="24px"
+                                    <Avatar
+                                        width={ 24 }
+                                        height={ 24 }
+                                        avatar={ authorAvatarImageUrl }
                                         verticalAlign="middle"
-                                        src={ authorAvatarImageUrl }
                                         alt="user-icon"
                                         color="transparent"
-                                        borderRadius="50%"
-                                        w="24px"
                                         mr="8px"
                                     />
                                     <Button

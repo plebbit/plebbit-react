@@ -1370,7 +1370,7 @@ const CardPost = ({
 
                               </Box>
                             }
-                            <PostMedia post={ post } />
+                            <PostMedia post={ post } detail={ detail } />
                           </Box>
 
                         ) }
