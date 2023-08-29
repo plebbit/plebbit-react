@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from './post-detail.module.css'
 import useStore from '../../store/useStore'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import Layout from '../../components/layout'
 import useStateString from '../../hooks/useStateString'
 import { getSubName } from '../../utils/getUserName'
@@ -14,7 +14,7 @@ import usePublishDownvote from '../../hooks/usePublishDownvote'
 import useRepliesAndAccountReplies from '../../hooks/useRepliesAndAccountReplies';
 import { BiDownvote, BiUpvote } from 'react-icons/bi'
 import numFormatter from '../../utils/numberFormater'
-import { CgNotes } from 'react-icons/cg'
+import { CgClose, CgNotes } from 'react-icons/cg'
 import FlairLabel from '../../components/Label/flairLabel'
 import EditLabel from '../../components/Label/editLabel'
 import { MdCheckBox, MdCheckBoxOutlineBlank, MdClose, MdOutlineDeleteOutline } from 'react-icons/md'
@@ -28,7 +28,7 @@ import { GoGift, GoMute } from 'react-icons/go'
 import { FaShare } from 'react-icons/fa'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import PostDetailSideBar from './postDetailSideBar'
-import { FiExternalLink, FiMoreHorizontal } from 'react-icons/fi'
+import { FiExternal, FiMoreHorizontal } from 'react-icons/fi'
 import DropDown from '../../components/DropDown'
 import { HiOutlineCheckCircle } from 'react-icons/hi'
 import EditComment from './editComment'
@@ -37,6 +37,10 @@ import PostMedia from '../../components/Post/PostMedia'
 import AddComment from './addComment'
 import Replies from '../../components/Post/comment/replies';
 import Comment from '../../components/Post/comment'
+import Avatar from '../../components/Avatar'
+import Post from '../../components/Post'
+import AddRemovalReason from '../../components/Post/Modal/addRemovalReason'
+import ConfirmDelete from '../../components/Post/Modal/confirmDelete'
 
 
 
@@ -61,7 +65,7 @@ const PostDetail2 = () => {
     const myPostLocation = params?.index;
     const { accountComments: myPost } = useAccountComments();
     const profilePost = myPost && myPostLocation && myPost[Number(myPostLocation)];
-    // post from link or link address
+    // post from   or   address
     const commentFromCid = useComment({ commentCid: !feedFromProfile ? params?.commentCid : undefined });
     // const commentFromFeed = location?.state?.detail;
     // applicable if coming from feeds, if posts takes time to load uses feeds post props
@@ -135,7 +139,7 @@ const PostDetail2 = () => {
 
     const [subLoading, setSubLoading] = useState(false);
     const [edit, setEdit] = useState(false);
-    const [editMode, setEditMode] = useState(detail?.content ? 'post' : 'link');
+    const [editMode, setEditMode] = useState(detail?.content ? 'post' : ' ');
     const [copied, setCopied] = useState(false);
 
     const [showSpoiler, setShowSpoiler] = useState(detail?.spoiler);
@@ -266,269 +270,161 @@ const PostDetail2 = () => {
                 value: location?.pathname,
             } }
             stateString={ stateString }
-        >
-            <div>
-                <div className={ styles.wrapper }>
-                    <div className={ styles.container }>
-                        <div className={ styles.overlay_scroll_container }>
-                            {/* detail top */ }
-                            <div className={ styles.detail_top_wrap } tabIndex="-1">
-                                <div className={ styles.detail_top }>
-                                    <div className={ styles.detail_top_left }>
-                                        <div className={ styles.vote_wrap }>
-                                            <button onClick={ detail?.locked ? null : upVote
-                                            } className={ styles.vote_btn }>
-                                                <span className={ `${styles.vote_btn_wrap} ${styles.upvote_btn_wrap}` }>
-                                                    { vote === 1 ?
-                                                        <ImArrowUp className={ styles.vote_btn_icon } /> : <BiUpvote className={ styles.vote_btn_icon } /> }
-                                                </span>
-                                            </button>
-                                            <div className={ styles.vote_text_wrap }>
-                                                { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
+        >  {
+                device !== 'mobile' ? <div>
+                    <div className={ styles.wrapper }>
+                        <div className={ styles.container }>
+                            <div className={ styles.overlay_scroll_container }>
+                                {/* detail top */ }
+                                <div className={ styles.detail_top_wrap } tabIndex="-1">
+                                    <div className={ styles.detail_top }>
+                                        <div className={ styles.detail_top_left }>
+                                            <div className={ styles.vote_wrap }>
+                                                <button onClick={ detail?.locked ? null : upVote
+                                                } className={ styles.vote_btn }>
+                                                    <span className={ `${styles.vote_btn_wrap} ${styles.upvote_btn_wrap}` }>
+                                                        { vote === 1 ?
+                                                            <ImArrowUp className={ styles.vote_btn_icon } /> : <BiUpvote className={ styles.vote_btn_icon } /> }
+                                                    </span>
+                                                </button>
+                                                <div className={ styles.vote_text_wrap }>
+                                                    { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
+                                                </div>
+                                                <button className={ styles.vote_btn } onClick={ detail?.locked ? null : downVote
+                                                }>
+                                                    <span className={ `${styles.vote_btn_wrap} ${styles.downvote_btn_wrap}` }>
+                                                        { vote === -1 ?
+                                                            <ImArrowDown className={ styles.vote_btn_icon } /> : <BiDownvote className={ styles.vote_btn_icon } /> }
+                                                    </span>
+                                                </button>
                                             </div>
-                                            <button className={ styles.vote_btn } onClick={ detail?.locked ? null : downVote
-                                            }>
-                                                <span className={ `${styles.vote_btn_wrap} ${styles.downvote_btn_wrap}` }>
-                                                    { vote === -1 ?
-                                                        <ImArrowDown className={ styles.vote_btn_icon } /> : <BiDownvote className={ styles.vote_btn_icon } /> }
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <CgNotes className={ styles.post_type_icon } />
-                                        <div className={ styles.detail_top_title_wrap }>
-                                            <div className={ styles.detail_top_title_wrap_2 }>
-                                                <div className={ styles.detail_top_title_wrap_3 }>
-                                                    <h1 className={ styles.detail_top_title }>{ detail?.title }</h1>
+                                            <CgNotes className={ styles.post_type_icon } />
+                                            <div className={ styles.detail_top_title_wrap }>
+                                                <div className={ styles.detail_top_title_wrap_2 }>
+                                                    <div className={ styles.detail_top_title_wrap_3 }>
+                                                        <h1 className={ styles.detail_top_title }>{ detail?.title }</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className={ styles.detail_top_tags_wrap }>
+                                                <div className={ styles.detail_top_flair_cont }>
+                                                    { detail?.flair?.text.length ? (
+                                                        <FlairLabel flair={ detail?.flair } />
+                                                    ) : (
+                                                        ""
+                                                    ) }
+                                                    { detail?.spoiler && (
+
+                                                        <SpoilerLabel />
+                                                    ) }
+                                                    { detailPending && (
+
+                                                        <PendingLabel />
+
+                                                    ) }
+                                                    {/* edit status */ }
+                                                    <EditLabel editLabel={ editLabel } post={ detail } />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className={ styles.detail_top_tags_wrap }>
-                                            <div className={ styles.detail_top_flair_cont }>
-                                                { detail?.flair?.text.length ? (
-                                                    <FlairLabel flair={ detail?.flair } />
-                                                ) : (
-                                                    ""
-                                                ) }
-                                                { detail?.spoiler && (
-
-                                                    <SpoilerLabel />
-                                                ) }
-                                                { detailPending && (
-
-                                                    <PendingLabel />
-
-                                                ) }
-                                                {/* edit status */ }
-                                                <EditLabel editLabel={ editLabel } post={ detail } />
-                                            </div>
+                                        <div className={ styles.detail_top_right }>
+                                            <button tabindex="0" title="close" className={ styles.detail_top_right_btn } onClick={ () => navigate(-1) }>
+                                                <MdClose className={ styles.detail_top_close_icon } />
+                                                <span >Close</span>
+                                            </button>
                                         </div>
-                                    </div>
-                                    <div className={ styles.detail_top_right }>
-                                        <button tabindex="0" title="close" className={ styles.detail_top_right_btn } onClick={ () => navigate(-1) }>
-                                            <MdClose className={ styles.detail_top_close_icon } />
-                                            <span >Close</span>
-                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                            {/* detail body */ }
-                            <div tabindex="-1" className={ styles.detail_body_wrap }>
-                                {/* detail content */ }
-                                <div className={ styles.detail_content_wrap }>
-                                    <div className={ styles.detail_content }>
-                                        <div className={ styles.detail_main_content }>
-                                            <div>
-                                                {/* detail voting */ }
-                                                <PostVote vote={ vote } upVote={ upVote } downVote={ downVote } postVotes={ postVotes } />
-                                                {/* detail top */ }
-                                                <PostTop post={ detail } subPlebbit={ subplebbit } isOnline={ getIsOnline(subplebbit?.updatedAt) } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } allowedSpecial={ isSpecial } pending={ detailPending } detail={ true } handleOption={ handleOption } owner={ owner } muted={ muted } blocked={ blocked } />
-                                                {/* detail title */ }
-                                                <div className={ styles.detail_title_wrap }>
-                                                    <div className={ styles.detail_title_wrap2 }>
-                                                        <div className={ styles.detail_title_wrap3 }>
-                                                            <h1 className={ styles.detail_title }>{ detail?.title }</h1>
+                                {/* detail body */ }
+                                <div tabindex="-1" className={ styles.detail_body_wrap }>
+                                    {/* detail content */ }
+                                    <div className={ styles.detail_content_wrap }>
+                                        <div className={ styles.detail_content }>
+                                            <div className={ styles.detail_main_content }>
+                                                <div>
+                                                    {/* detail voting */ }
+                                                    <PostVote vote={ vote } upVote={ upVote } downVote={ downVote } postVotes={ postVotes } />
+                                                    {/* detail top */ }
+                                                    <PostTop post={ detail } subPlebbit={ subplebbit } isOnline={ getIsOnline(subplebbit?.updatedAt) } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } allowedSpecial={ isSpecial } pending={ detailPending } detail={ true } handleOption={ handleOption } owner={ owner } muted={ muted } blocked={ blocked } />
+                                                    {/* detail title */ }
+                                                    <div className={ styles.detail_title_wrap }>
+                                                        <div className={ styles.detail_title_wrap2 }>
+                                                            <div className={ styles.detail_title_wrap3 }>
+                                                                <h1 className={ styles.detail_title }>{ detail?.title }</h1>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                {/* detail flair */ }
-                                                { (detail?.flair?.text.length || detail?.spoiler || detailPending || editLabel) &&
-                                                    <div className={ styles.detail_flair_wrap }>
-                                                        <div className={ styles.detail_flair_wrap2 }>
+                                                    {/* detail flair */ }
+                                                    { (detail?.flair?.text.length || detail?.spoiler || detailPending || editLabel) &&
+                                                        <div className={ styles.detail_flair_wrap }>
+                                                            <div className={ styles.detail_flair_wrap2 }>
 
-                                                            { detail?.flair?.text.length ? (
-                                                                <FlairLabel flair={ detail?.flair } />
-                                                            ) : (
-                                                                ""
-                                                            ) }
-                                                            { detail?.spoiler && (
+                                                                { detail?.flair?.text.length ? (
+                                                                    <FlairLabel flair={ detail?.flair } />
+                                                                ) : (
+                                                                    ""
+                                                                ) }
+                                                                { detail?.spoiler && (
 
-                                                                <SpoilerLabel />
-                                                            ) }
-                                                            { detailPending && (
+                                                                    <SpoilerLabel />
+                                                                ) }
+                                                                { detailPending && (
 
-                                                                <PendingLabel />
+                                                                    <PendingLabel />
 
-                                                            ) }
-                                                            {/* edit status */ }
-                                                            <EditLabel editLabel={ editLabel } post={ detail } />
+                                                                ) }
+                                                                {/* edit status */ }
+                                                                <EditLabel editLabel={ editLabel } post={ detail } />
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    {/* detail content */ }
+
+                                                    <div className={ styles.detail_content_wrapper }>
+                                                        <div className={ styles.detail_content_text }>
+                                                            {
+                                                                edit ? (
+                                                                    <EditComment detail={ detail } setEdit={ setEdit } />
+                                                                ) : detail?.removed ? (
+                                                                    <RemovedMessage subplebbit={ subplebbit } />
+                                                                ) : detail?.deleted ? (
+                                                                    <DeletedMessage />
+                                                                ) : showSpoiler ? (
+                                                                    <div className={ styles.detail_spoiler_wrap }>
+                                                                        <button
+                                                                            className={ styles.detail_spoiler_btn }
+                                                                            onClick={ () => setShowSpoiler(false) }
+
+                                                                        >
+                                                                            Click to see spoiler
+                                                                        </button>
+                                                                    </div>
+                                                                ) : (
+                                                                    <>
+                                                                        { !mediaInfo && detail?.link && <div className={ styles.detail_link_wrap }>
+                                                                            <a href={ detail?.link } target="_blank" className={ styles.detail_link }>
+                                                                                { detail?.link }
+                                                                                <FiExternalLink className={ styles.detail_link_icon } />
+                                                                            </a>
+                                                                        </div> }
+
+                                                                        { detail?.content && <Marked content={ detail?.content } /> }
+
+                                                                        { detail?.link && <PostMedia post={ detail } /> }
+                                                                    </>
+                                                                )
+                                                            }
                                                         </div>
                                                     </div>
-                                                }
-                                                {/* detail content */ }
 
-                                                <div className={ styles.detail_content_wrapper }>
-                                                    <div className={ styles.detail_content_text }>
+
+                                                    {/* detail footer */ }
+                                                    <div className={ styles.detail_footer_wrap }>
                                                         {
-                                                            edit ? (
-                                                                <EditComment detail={ detail } setEdit={ setEdit } />
-                                                            ) : detail?.removed ? (
-                                                                <RemovedMessage subplebbit={ subplebbit } />
-                                                            ) : detail?.deleted ? (
-                                                                <DeletedMessage />
-                                                            ) : showSpoiler ? (
-                                                                <div className={ styles.detail_spoiler_wrap }>
-                                                                    <button
-                                                                        className={ styles.detail_spoiler_btn }
-                                                                        onClick={ () => setShowSpoiler(false) }
-
-                                                                    >
-                                                                        Click to see spoiler
-                                                                    </button>
-                                                                </div>
-                                                            ) : (
-                                                                <>
-                                                                    { !mediaInfo && detail?.link && <div className={ styles.detail_link_wrap }>
-                                                                        <a href={ detail?.link } target="_blank" className={ styles.detail_link }>
-                                                                            { detail?.link }
-                                                                            <FiExternalLink className={ styles.detail_link_icon } />
-                                                                        </a>
-                                                                    </div> }
-
-                                                                    { detail?.content && <Marked content={ detail?.content } /> }
-
-                                                                    { detail?.link && <PostMedia post={ detail } /> }
-                                                                </>
-                                                            )
-                                                        }
-                                                    </div>
-                                                </div>
-
-
-                                                {/* detail footer */ }
-                                                <div className={ styles.detail_footer_wrap }>
-                                                    {
-                                                        detailPending ? <div /> : isSpecial ? <div className={ styles.detail_footer_wrap2 }>
-                                                            <div className={ styles.detail_footer_item_comment }>
-                                                                <BsChat className={ styles.detail_footer_item_icon } />
-                                                                <span> { detailCommentCount } </span>
-                                                            </div>
-                                                            <div className={ styles.detail_footer_item_award_wrap }>
-                                                                <button className={ styles.detail_footer_item_award }>
-                                                                    <GoGift className={ styles.detail_footer_item_icon } />
-                                                                    <span>Award</span>
-                                                                </button>
-                                                            </div>
-                                                            <div className={ styles.detail_footer_item_award_wrap }>
-                                                                <CopyToClipboard text={ sharePath } onCopy={ handleCopy }>
-                                                                    <button className={ styles.detail_footer_item_award }>
-                                                                        <FaShare className={ styles.detail_footer_item_icon } />
-                                                                        <span>{ copied ? 'Copied' : 'Share' }</span>
-                                                                    </button>
-                                                                </CopyToClipboard>
-                                                            </div>
-
-                                                            <div className={ styles.detail_footer_item_award_wrap }>
-                                                                <button className={ styles.detail_footer_item_award } onClick={ () => handleOption({ id: 'approved' }) }>
-                                                                    <HiOutlineCheckCircle className={ styles.detail_footer_item_icon } />
-                                                                    <span>Approve</span>
-                                                                </button>
-                                                            </div>
-                                                            <div className={ styles.detail_footer_item_award_wrap }>
-                                                                <button className={ styles.detail_footer_item_award } onClick={ () => handleOption({ id: 'removed' }) }>
-                                                                    <HiOutlineCheckCircle className={ styles.detail_footer_item_icon } />
-                                                                    <span>Remove</span>
-                                                                </button>
-                                                            </div>
-
-
-                                                            <div className={ styles.detail_footer_more }>
-                                                                <DropDown
-                                                                    topOffset="30px"
-                                                                    dropDownTitle={
-                                                                        <button className={ styles.detail_footer_item_more }>
-                                                                            <BsShield className={ styles.detail_footer_item_icon } />
-                                                                        </button>
-                                                                    }
-                                                                    options={ [
-                                                                        {
-                                                                            label: 'Sticky Post',
-                                                                            icon: detail?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
-                                                                            id: 'pinned',
-                                                                        },
-                                                                        {
-                                                                            label: 'Lock Comments',
-                                                                            icon: detail?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
-                                                                            id: 'locked',
-                                                                        },
-
-                                                                        {
-                                                                            label: 'Mark As Spoiler',
-                                                                            icon: detail?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
-                                                                            id: 'spoiler',
-                                                                        },
-                                                                    ] }
-                                                                    onChange={ handleOption }
-                                                                    rightOffset={ 0 }
-                                                                    leftOffset="none"
-
-                                                                />
-                                                            </div>
-                                                            <div className={ styles.detail_footer_more }>
-                                                                <DropDown
-                                                                    topOffset="30px"
-                                                                    dropDownTitle={
-                                                                        <button className={ styles.detail_footer_item_more }>
-                                                                            <FiMoreHorizontal className={ styles.detail_footer_item_icon } />
-                                                                        </button>
-                                                                    }
-                                                                    options={ [
-                                                                        {
-                                                                            label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subplebbit)}`,
-                                                                            icon: GoMute,
-                                                                            id: "mute",
-                                                                        },
-                                                                        {
-                                                                            label: blocked ? 'Unhide' : "Hide",
-                                                                            icon: BsEyeSlash,
-                                                                            id: "block",
-
-                                                                        },
-                                                                        {
-                                                                            label: 'Edit Post',
-                                                                            icon: BsPencil,
-                                                                            id: 'edit',
-                                                                            disabled: !owner,
-                                                                        },
-
-                                                                        {
-                                                                            label: 'Delete',
-                                                                            icon: MdOutlineDeleteOutline,
-                                                                            id: 'delete',
-                                                                            disabled: !owner,
-                                                                        },
-                                                                    ] }
-                                                                    onChange={ handleOption }
-                                                                    rightOffset={ 0 }
-                                                                    leftOffset="none"
-
-                                                                />
-                                                            </div>
-                                                        </div> :
-                                                            <div className={ styles.detail_footer_wrap2 }>
+                                                            detailPending ? <div /> : isSpecial ? <div className={ styles.detail_footer_wrap2 }>
                                                                 <div className={ styles.detail_footer_item_comment }>
                                                                     <BsChat className={ styles.detail_footer_item_icon } />
-                                                                    <span> { detailCommentCount } Comment
-                                                                        { detailCommentCount === 1 ? '' : 's' }</span>
+                                                                    <span> { detailCommentCount } </span>
                                                                 </div>
                                                                 <div className={ styles.detail_footer_item_award_wrap }>
                                                                     <button className={ styles.detail_footer_item_award }>
@@ -544,13 +440,53 @@ const PostDetail2 = () => {
                                                                         </button>
                                                                     </CopyToClipboard>
                                                                 </div>
+
                                                                 <div className={ styles.detail_footer_item_award_wrap }>
-                                                                    <button className={ styles.detail_footer_item_award }>
-                                                                        <BsBookmark className={ styles.detail_footer_item_icon } />
-                                                                        <span>Save</span>
+                                                                    <button className={ styles.detail_footer_item_award } onClick={ () => handleOption({ id: 'approved' }) }>
+                                                                        <HiOutlineCheckCircle className={ styles.detail_footer_item_icon } />
+                                                                        <span>Approve</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div className={ styles.detail_footer_item_award_wrap }>
+                                                                    <button className={ styles.detail_footer_item_award } onClick={ () => handleOption({ id: 'removed' }) }>
+                                                                        <HiOutlineCheckCircle className={ styles.detail_footer_item_icon } />
+                                                                        <span>Remove</span>
                                                                     </button>
                                                                 </div>
 
+
+                                                                <div className={ styles.detail_footer_more }>
+                                                                    <DropDown
+                                                                        topOffset="30px"
+                                                                        dropDownTitle={
+                                                                            <button className={ styles.detail_footer_item_more }>
+                                                                                <BsShield className={ styles.detail_footer_item_icon } />
+                                                                            </button>
+                                                                        }
+                                                                        options={ [
+                                                                            {
+                                                                                label: 'Sticky Post',
+                                                                                icon: detail?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
+                                                                                id: 'pinned',
+                                                                            },
+                                                                            {
+                                                                                label: 'Lock Comments',
+                                                                                icon: detail?.locked ? MdCheckBox : MdCheckBoxOutlineBlank,
+                                                                                id: 'locked',
+                                                                            },
+
+                                                                            {
+                                                                                label: 'Mark As Spoiler',
+                                                                                icon: detail?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
+                                                                                id: 'spoiler',
+                                                                            },
+                                                                        ] }
+                                                                        onChange={ handleOption }
+                                                                        rightOffset={ 0 }
+                                                                        leftOffset="none"
+
+                                                                    />
+                                                                </div>
                                                                 <div className={ styles.detail_footer_more }>
                                                                     <DropDown
                                                                         topOffset="30px"
@@ -591,57 +527,209 @@ const PostDetail2 = () => {
 
                                                                     />
                                                                 </div>
+                                                            </div> :
+                                                                <div className={ styles.detail_footer_wrap2 }>
+                                                                    <div className={ styles.detail_footer_item_comment }>
+                                                                        <BsChat className={ styles.detail_footer_item_icon } />
+                                                                        <span> { detailCommentCount } Comment
+                                                                            { detailCommentCount === 1 ? '' : 's' }</span>
+                                                                    </div>
+                                                                    <div className={ styles.detail_footer_item_award_wrap }>
+                                                                        <button className={ styles.detail_footer_item_award }>
+                                                                            <GoGift className={ styles.detail_footer_item_icon } />
+                                                                            <span>Award</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div className={ styles.detail_footer_item_award_wrap }>
+                                                                        <CopyToClipboard text={ sharePath } onCopy={ handleCopy }>
+                                                                            <button className={ styles.detail_footer_item_award }>
+                                                                                <FaShare className={ styles.detail_footer_item_icon } />
+                                                                                <span>{ copied ? 'Copied' : 'Share' }</span>
+                                                                            </button>
+                                                                        </CopyToClipboard>
+                                                                    </div>
+                                                                    <div className={ styles.detail_footer_item_award_wrap }>
+                                                                        <button className={ styles.detail_footer_item_award }>
+                                                                            <BsBookmark className={ styles.detail_footer_item_icon } />
+                                                                            <span>Save</span>
+                                                                        </button>
+                                                                    </div>
+
+                                                                    <div className={ styles.detail_footer_more }>
+                                                                        <DropDown
+                                                                            topOffset="30px"
+                                                                            dropDownTitle={
+                                                                                <button className={ styles.detail_footer_item_more }>
+                                                                                    <FiMoreHorizontal className={ styles.detail_footer_item_icon } />
+                                                                                </button>
+                                                                            }
+                                                                            options={ [
+                                                                                {
+                                                                                    label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subplebbit)}`,
+                                                                                    icon: GoMute,
+                                                                                    id: "mute",
+                                                                                },
+                                                                                {
+                                                                                    label: blocked ? 'Unhide' : "Hide",
+                                                                                    icon: BsEyeSlash,
+                                                                                    id: "block",
+
+                                                                                },
+                                                                                {
+                                                                                    label: 'Edit Post',
+                                                                                    icon: BsPencil,
+                                                                                    id: 'edit',
+                                                                                    disabled: !owner,
+                                                                                },
+
+                                                                                {
+                                                                                    label: 'Delete',
+                                                                                    icon: MdOutlineDeleteOutline,
+                                                                                    id: 'delete',
+                                                                                    disabled: !owner,
+                                                                                },
+                                                                            ] }
+                                                                            onChange={ handleOption }
+                                                                            rightOffset={ 0 }
+                                                                            leftOffset="none"
+
+                                                                        />
+                                                                    </div>
 
 
-                                                            </div>
-                                                    }
+                                                                </div>
+                                                        }
+                                                    </div>
+
+
                                                 </div>
+                                            </div>
+                                            <div className={ styles.detail_add_comment }>
 
+                                                <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
+                                            </div>
+                                            <div className={ styles.detail_comments_wrap }>
 
+                                                { isReply && !showFullComments ? <Replies loading={ loading } parent={ replyParent } reply={ reply } disableReplies={ detail?.locked } /> : null }
+                                                { showFullComments &&
+                                                    comments?.map((comment, index) => (
+                                                        <Comment loading={ commentLoading } comment={ comment } key={ index || comment.cid } parentCid={ detail?.cid } disableReplies={ detail?.locked } />
+                                                    )) }
                                             </div>
                                         </div>
-                                        <div className={ styles.detail_add_comment }>
+                                    </div>
+                                    {/* detail sidebar */ }
+                                    <PostDetailSideBar
+                                        margin="32px 0"
+                                        borderRadius="4px"
+                                        padding="0"
+                                        right="0"
+                                        top="0"
+                                        width="312px"
+                                        sx={ {
+                                            '@media (max-width: 1120px)': {
+                                                display: 'none',
+                                            },
+                                        } }
+                                        handleSubscribe={ handleSubscribe }
+                                        handleUnSubscribe={ handleUnSubscribe }
+                                        subLoading={ subLoading }
+                                        setSubLoading={ setSubLoading }
+                                        subscribed={ subscribed }
+                                        detail={ detail }
+                                        loading={ loading }
+                                        subplebbit={ subplebbit }
+                                    />
+                                </div>
+                            </div>
 
-                                            <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
-                                        </div>
-                                        <div className={ styles.detail_comments_wrap }>
-
-                                            { isReply && !showFullComments ? <Replies loading={ loading } parent={ replyParent } reply={ reply } disableReplies={ detail?.locked } /> : null }
-                                            { showFullComments &&
-                                                comments?.map((comment, index) => (
-                                                    <Comment loading={ commentLoading } comment={ comment } key={ index || comment.cid } parentCid={ detail?.cid } disableReplies={ detail?.locked } />
-                                                )) }
+                        </div>
+                    </div>
+                </div> :
+                    <div>
+                        <article className={ styles.mobile_detail_top }>
+                            <div className={ styles.mobile_detail_header_wrapper }>
+                                <header className={ styles.mobile_detail_header }>
+                                    <div className={ styles.mobile_detail_header_top }>
+                                        <div className={ styles.mobile_detail_header_banner } style={ {
+                                            backgroundImage: subplebbit?.suggested?.backgroundUrl && `url(${subplebbit?.suggested?.backgroundUrl})`
+                                        } } />
+                                        <Link to={ `/p/${detail?.subplebbitAddress}/` } className={ styles.mobile_detail_header_sub_link } />
+                                        <div className={ styles.mobile_detail_sub_top }>
+                                            <Link className={ styles.mobile_detail_close_link } to={ -1 }>
+                                                <CgClose className={ styles.mobile_detail_close_wrap } />
+                                            </Link>
+                                            <Link to={ `/p/${detail?.subplebbitAddress}/` } className={ styles.mobile_detail_sub_wrap }>
+                                                <div className={ styles.mobile_detail_sub_avatar_circle }>
+                                                    <Avatar
+                                                        width={ 72 }
+                                                        height={ 72 }
+                                                        avatar={ subplebbit?.suggested?.avatarUrl }
+                                                        badge
+                                                        isOnline={ getIsOnline(subplebbit?.updatedAt) }
+                                                        mb="8px"
+                                                    />
+                                                </div>
+                                                <h4 className={ styles.mobile_detail_sub_text }>{ getSubName(subplebbit) }</h4>
+                                            </Link>
                                         </div>
                                     </div>
-                                </div>
-                                {/* detail sidebar */ }
-                                <PostDetailSideBar
-                                    margin="32px 0"
-                                    borderRadius="4px"
-                                    padding="0"
-                                    right="0"
-                                    top="0"
-                                    width="312px"
-                                    sx={ {
-                                        '@media (max-width: 1120px)': {
-                                            display: 'none',
-                                        },
-                                    } }
-                                    handleSubscribe={ handleSubscribe }
-                                    handleUnSubscribe={ handleUnSubscribe }
-                                    subLoading={ subLoading }
-                                    setSubLoading={ setSubLoading }
-                                    subscribed={ subscribed }
-                                    detail={ detail }
-                                    loading={ loading }
-                                    subplebbit={ subplebbit }
-                                />
+                                    { edit ? <EditComment detail={ detail } setEdit={ setEdit } /> :
+                                        <Post
+                                            detail
+                                            post={ detail }
+                                            mode="card"
+                                            key={ detail?.cid }
+                                            handleOption={ handleOption }
+                                            loading={ loading }
+                                        />
+                                    }
+                                </header>
                             </div>
+                        </article>
+                        <div className={ styles.mobile_detail_comments }>
+
+                            <div className={ styles.mobile_detail_comments_count_wrap }>
+                                <div className={ styles.mobile_detail_comments_count_wrap2 }>
+                                    <div className={ styles.mobile_detail_comments_count }> { detailCommentCount } comment{ detailCommentCount > 1 ? 's' : '' }</div>
+                                    <AddComment detail={ detail } subplebbit={ subplebbit } showFullComments={ showFullComments } setShowFullComments={ setShowFullComments } isReply={ isReply } />
+
+                                </div>
+                            </div>
+                            <div>
+                                { isReply && !showFullComments ? <Replies loading={ loading } parent={ replyParent } reply={ reply } disableReplies={ detail?.locked } /> : null }
+                                { showFullComments &&
+                                    comments.map((comment) => (
+                                        <Comment loading={ commentLoading } comment={ comment } key={ comment.cid } disableReplies={ detail?.locked } />
+                                    )) }
+                            </div>
+
                         </div>
 
                     </div>
-                </div>
-            </div>
+            }
+
+
+
+            {
+                isRemovalModalOpen && (
+                    <AddRemovalReason
+
+                        isOpen={ isRemovalModalOpen }
+                        onClose={ closeRemovalModal }
+                        post={ detail }
+                    />
+                )
+            }
+            {
+                isDeleteModalOpen && <ConfirmDelete
+                    isOpen={ isDeleteModalOpen }
+                    onClose={ closeDeleteModal }
+                    post={ detail }
+                />
+            }
+
+
         </Layout>
     )
 }
