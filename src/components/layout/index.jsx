@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { Box, Flex } from '@chakra-ui/layout';
 import { Icon, useColorModeValue } from '@chakra-ui/react';
-import NavBar from './Nav';
+import NavBar from './Nav/nav2';
 import { PlebLogo } from '../svgs';
 import { BiAddToQueue } from 'react-icons/bi';
 import { MdAdd, MdClose, MdOutlineMail, MdHome } from 'react-icons/md';

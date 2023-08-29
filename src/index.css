@@ -231,3 +231,8 @@ body {
 :before {
   box-sizing: border-box;
 }
+
+svg:not(:root) {
+  overflow-clip-margin: content-box;
+  overflow: hidden;
+}
