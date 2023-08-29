@@ -188,6 +188,13 @@ html,
 body {
   width: 100%;
   margin: 0;
+  body,
+  html {
+    font-size: 14px;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue,
+      Arial, sans-serif;
+    color: #222;
+  }
 }
 .swal2-container {
   z-index: 2000 !important;

@@ -137,7 +137,7 @@ const CardPost2 = ({
                                     <PostTitle type={ type } post={ post } detailRoute={ detailRoute } />
                                 </header>
                             </div>
-                            <PostBody post={ post } hasThumbnail={ hasThumbnail } detailRoute={ detailRoute } mediaInfo={ mediaInfo } />
+                            <PostBody post={ post } hasThumbnail={ hasThumbnail } detailRoute={ detailRoute } mediaInfo={ mediaInfo } detail={ detail } showSpoiler={ showSpoiler } setShowSpoiler={ setShowSpoiler } />
                             <PostFooter muted={ muted } blocked={ blocked } owner={ owner } subPlebbit={ subPlebbit } handleOption={ handleOption } type={ type } location={ location } handleCopy={ handleCopy } copied={ copied } allowedSpecial={ allowedSpecial } detailRoute={ detailRoute } post={ post } pending={ pending } loading={ loading } commentCount={ commentCount } mediaInfo={ mediaInfo } vote={ vote } postVotes={ postVotes } />
                         </article>
                     </div>

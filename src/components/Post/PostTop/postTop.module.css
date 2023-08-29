@@ -162,6 +162,11 @@
   line-height: 18px;
   pointer-events: all;
 }
+
+.mobile_top_subndate {
+  display: flex;
+  align-items: center;
+}
 .mobile_sub_icon {
   background-color: #fff;
   align-items: center;
