@@ -344,77 +344,102 @@ const PostDetail2 = () => {
                                                 <div>
                                                     {/* detail voting */ }
                                                     <PostVote vote={ vote } upVote={ upVote } downVote={ downVote } postVotes={ postVotes } />
-                                                    {/* detail top */ }
-                                                    <PostTop post={ detail } subPlebbit={ subplebbit } isOnline={ getIsOnline(subplebbit?.updatedAt) } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } allowedSpecial={ isSpecial } pending={ detailPending } detail={ true } handleOption={ handleOption } owner={ owner } muted={ muted } blocked={ blocked } />
-                                                    {/* detail title */ }
-                                                    <div className={ styles.detail_title_wrap }>
-                                                        <div className={ styles.detail_title_wrap2 }>
-                                                            <div className={ styles.detail_title_wrap3 }>
-                                                                <h1 className={ styles.detail_title }>{ detail?.title }</h1>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    {/* detail flair */ }
-                                                    { (detail?.flair?.text.length || detail?.spoiler || detailPending || editLabel) &&
-                                                        <div className={ styles.detail_flair_wrap }>
-                                                            <div className={ styles.detail_flair_wrap2 }>
-
-                                                                { detail?.flair?.text.length ? (
-                                                                    <FlairLabel flair={ detail?.flair } />
-                                                                ) : (
-                                                                    ""
-                                                                ) }
-                                                                { detail?.spoiler && (
-
-                                                                    <SpoilerLabel />
-                                                                ) }
-                                                                { detailPending && (
-
-                                                                    <PendingLabel />
-
-                                                                ) }
-                                                                {/* edit status */ }
-                                                                <EditLabel editLabel={ editLabel } post={ detail } />
-                                                            </div>
-                                                        </div>
-                                                    }
-                                                    {/* detail content */ }
-
-                                                    <div className={ styles.detail_content_wrapper }>
-                                                        <div className={ styles.detail_content_text }>
-                                                            {
-                                                                edit ? (
-                                                                    <EditComment detail={ detail } setEdit={ setEdit } />
-                                                                ) : detail?.removed ? (
-                                                                    <RemovedMessage subplebbit={ subplebbit } />
-                                                                ) : detail?.deleted ? (
-                                                                    <DeletedMessage />
-                                                                ) : showSpoiler ? (
-                                                                    <div className={ styles.detail_spoiler_wrap }>
-                                                                        <button
-                                                                            className={ styles.detail_spoiler_btn }
-                                                                            onClick={ () => setShowSpoiler(false) }
-
-                                                                        >
-                                                                            Click to see spoiler
-                                                                        </button>
+                                                    <div className={ styles.detail_wrap }>
+                                                        <div className={ styles.detail_wrap2 }>
+                                                            {/* detail top */ }
+                                                            <PostTop post={ detail } subPlebbit={ subplebbit } isOnline={ getIsOnline(subplebbit?.updatedAt) } authorPath={ authorPath } loading={ loading } stateString={ stateString } openRemovalModal={ openRemovalModal } allowedSpecial={ isSpecial } pending={ detailPending } detail={ true } handleOption={ handleOption } owner={ owner } muted={ muted } blocked={ blocked } />
+                                                            {/* detail title */ }
+                                                            <div className={ styles.detail_title_wrap }>
+                                                                <div className={ styles.detail_title_wrap2 }>
+                                                                    <div className={ styles.detail_title_wrap3 }>
+                                                                        <h1 className={ styles.detail_title }>{ detail?.title }</h1>
                                                                     </div>
-                                                                ) : (
-                                                                    <>
-                                                                        { !mediaInfo && detail?.link && <div className={ styles.detail_link_wrap }>
-                                                                            <a href={ detail?.link } target="_blank" className={ styles.detail_link }>
-                                                                                { detail?.link }
-                                                                                <FiExternalLink className={ styles.detail_link_icon } />
-                                                                            </a>
-                                                                        </div> }
+                                                                </div>
+                                                            </div>
+                                                            {/* detail flair */ }
+                                                            { (detail?.flair?.text.length || detail?.spoiler || detailPending || editLabel) &&
+                                                                <div className={ styles.detail_flair_wrap }>
+                                                                    <div className={ styles.detail_flair_wrap2 }>
 
-                                                                        { detail?.content && <Marked content={ detail?.content } /> }
+                                                                        { detail?.flair?.text.length ? (
+                                                                            <FlairLabel flair={ detail?.flair } />
+                                                                        ) : (
+                                                                            ""
+                                                                        ) }
+                                                                        { detail?.spoiler && (
 
-                                                                        { detail?.link && <PostMedia post={ detail } detail /> }
-                                                                    </>
-                                                                )
+                                                                            <SpoilerLabel />
+                                                                        ) }
+                                                                        { detailPending && (
+
+                                                                            <PendingLabel />
+
+                                                                        ) }
+                                                                        {/* edit status */ }
+                                                                        <EditLabel editLabel={ editLabel } post={ detail } />
+                                                                    </div>
+                                                                </div>
                                                             }
+                                                            {/* detail content */ }
+
+                                                            <div className={ styles.detail_content_wrapper }>
+                                                                <div className={ styles.detail_content_text }>
+                                                                    {
+                                                                        edit ? (
+                                                                            <EditComment detail={ detail } setEdit={ setEdit } />
+                                                                        ) : detail?.removed ? (
+                                                                            <RemovedMessage subplebbit={ subplebbit } />
+                                                                        ) : detail?.deleted ? (
+                                                                            <DeletedMessage />
+                                                                        ) : showSpoiler ? (
+                                                                            <div className={ styles.detail_spoiler_wrap }>
+                                                                                <button
+                                                                                    className={ styles.detail_spoiler_btn }
+                                                                                    onClick={ () => setShowSpoiler(false) }
+
+                                                                                >
+                                                                                    Click to see spoiler
+                                                                                </button>
+                                                                            </div>
+                                                                        ) : (
+                                                                            <>
+                                                                                { !mediaInfo && detail?.link && <div className={ styles.detail_link_wrap }>
+                                                                                    <a href={ detail?.link } target="_blank" className={ styles.detail_link }>
+                                                                                        { detail?.link?.substring(0, 20) + "..." }
+                                                                                        <FiExternalLink className={ styles.detail_link_icon } />
+                                                                                    </a>
+                                                                                </div> }
+
+                                                                                { detail?.content && <Marked content={ detail?.content } /> }
+
+                                                                                { detail?.link && <PostMedia post={ detail } detail /> }
+                                                                            </>
+                                                                        )
+                                                                    }
+                                                                </div>
+                                                            </div>
                                                         </div>
+
+                                                        {
+                                                            hasThumbnail && <div className={ styles.detail_thumbnail_wrap }>
+
+                                                                <div />
+
+                                                                <div className={ styles.detail_thumbnail_cont }>
+                                                                    <a href={ detail?.link } target='_blank'>
+                                                                        <div className={ styles.detail_thumbnail } style={ {
+                                                                            backgroundImage: `url(${detail?.thumbnailUrl})`
+                                                                        } }>
+                                                                            <div className={ styles.detail_thumbnail_external }>
+                                                                                <FiExternalLink />
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        }
+
+
                                                     </div>
 
 
