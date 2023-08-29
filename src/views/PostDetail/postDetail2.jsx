@@ -410,7 +410,7 @@ const PostDetail2 = () => {
 
                                                                         { detail?.content && <Marked content={ detail?.content } /> }
 
-                                                                        { detail?.link && <PostMedia post={ detail } /> }
+                                                                        { detail?.link && <PostMedia post={ detail } detail /> }
                                                                     </>
                                                                 )
                                                             }

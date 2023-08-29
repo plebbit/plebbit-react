@@ -1,14 +1,13 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
 import Image from "../Image";
 import ReactPlayer from 'react-player/lazy'
-import youtube_parser from '../../utils/youtubeParser';
 import useStore from '../../store/useStore';
 import Embed, { canEmbed } from '../Embed';
 import styles from './post.module.css'
 
-const PostMedia = ({ post }) => {
+const PostMedia = ({ post, detail }) => {
     const mediaInfo = getCommentMediaInfo(post);
     const postBg = useColorModeValue("lightCommunityThemePost", "darkCommunityThemePost");
     const { postStyle } = useStore(state => state);
@@ -22,7 +21,7 @@ const PostMedia = ({ post }) => {
         try {
             const parsedUrl = new URL(post?.link)
             if (canEmbed(parsedUrl)) {
-                return <div className={ styles.mediaWrapper }><Embed parsedUrl={ parsedUrl } /></div>
+                return detail && <div className={ styles.mediaWrapper }><Embed parsedUrl={ parsedUrl } /></div>
             }
         }
         catch (e) { }
