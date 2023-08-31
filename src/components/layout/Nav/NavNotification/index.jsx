@@ -17,7 +17,7 @@ const NavNotification = () => {
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const iconColor2 = useColorModeValue('lightIcon2', 'darkText1');
   const linkColor = useColorModeValue('lightLink', 'darkLink');
-  const profile = useAccount()
+  const profile = useAccount();
   const notifications = useNotifications({ accountName: profile?.name });
 
   const handleReadAll = async () => {
@@ -35,13 +35,29 @@ const NavNotification = () => {
     <PopOver
       title={
         notifications?.notifications?.filter((x) => !x?.markedAsRead).length ? (
-          <Box width={ 6 } height={ 6 } position="relative">
-
-            <Icon color={ iconColor2 } width={ 6 } height={ 6 } as={ BiBell } />
-            <Box boxShadow="0 0 0 2px white" left="15px" top="-1" minW="16px" textAlign="center" bg="red" borderRadius="12px" width="auto" height="16px" position='absolute' color="white" fontSize="10px" padding="0 2px" fontWeight="700">{ notifications?.notifications?.filter((x) => !x?.markedAsRead).length }</Box>
+          <Box width={6} height={6} position="relative">
+            <Icon color={iconColor2} width={6} height={6} as={BiBell} />
+            <Box
+              boxShadow="0 0 0 2px white"
+              left="15px"
+              top="-1"
+              minW="16px"
+              textAlign="center"
+              bg="red"
+              borderRadius="12px"
+              width="auto"
+              height="16px"
+              position="absolute"
+              color="white"
+              fontSize="10px"
+              padding="0 2px"
+              fontWeight="700"
+            >
+              {notifications?.notifications?.filter((x) => !x?.markedAsRead).length}
+            </Box>
           </Box>
         ) : (
-          <Icon color={ iconColor2 } width={ 6 } height={ 6 } as={ BiBell } />
+          <Icon color={iconColor2} width={6} height={6} as={BiBell} />
         )
       }
       header={
@@ -52,14 +68,14 @@ const NavNotification = () => {
           <Flex alignItems="center">
             <Icon
               mr="8px"
-              color={ iconColor }
-              width={ 6 }
-              height={ 6 }
-              as={ BsCheckAll }
-              onClick={ handleReadAll }
+              color={iconColor}
+              width={6}
+              height={6}
+              as={BsCheckAll}
+              onClick={handleReadAll}
             />
 
-            <Icon color={ iconColor } width={ 6 } height={ 6 } as={ MdSettings } />
+            <Icon color={iconColor} width={6} height={6} as={MdSettings} />
           </Flex>
         </Flex>
       }
@@ -67,9 +83,11 @@ const NavNotification = () => {
         <Flex justifyContent="center" alignItems="center">
           <Link to="/notifications">
             <Button
-              onClick={ () => { handleReadAll(); } }
+              onClick={() => {
+                handleReadAll();
+              }}
               variant="unstyled"
-              color={ linkColor }
+              color={linkColor}
             >
               SEE ALL
             </Button>
@@ -77,13 +95,14 @@ const NavNotification = () => {
         </Flex>
       }
       content={
-
-        <Flex flexDirection="column"
-
-        >
-          { notifications?.notifications?.map((notifications, index) => (
-            <NotificationType handleReadAll={ handleReadAll } key={ index } notification={ notifications } />
-          )) }
+        <Flex flexDirection="column">
+          {notifications?.notifications?.map((notifications, index) => (
+            <NotificationType
+              handleReadAll={handleReadAll}
+              key={index}
+              notification={notifications}
+            />
+          ))}
         </Flex>
       }
     />
@@ -191,31 +210,37 @@ export const NotificationType = ({ notification, handleReadAll }) => {
         </Flex>
       ) :  */
         !notification?.markedAsRead ? (
-          <Link to={ `/p/${notification?.subplebbitAddress}/c/${notification?.cid}/` }>
-
-            <Flex bg={ cardBg } padding="16px" cursor="pointer" onClick={ () => { handleReadAll(); } }>
+          <Link to={`/p/${notification?.subplebbitAddress}/c/${notification?.cid}/`}>
+            <Flex
+              bg={cardBg}
+              padding="16px"
+              cursor="pointer"
+              onClick={() => {
+                handleReadAll();
+              }}
+            >
               <Box mr="8px">
-                <Avatar height={ 32 } width={ 32 } avatar="" />
+                <Avatar height={32} width={32} avatar="" />
               </Box>
               <Flex flexDirection="column" width="100%">
                 <Flex w="100%" mb="4px">
                   <Text wordBreak="break-all" fontSize="14px" lineHeight="21px" fontWeight="400">
-                    { getUserName(notification?.author) } replied to your post in{ ' ' }
-                    { `p/${notification?.subplebbitAddress}` } ·{ ' ' }
+                    {getUserName(notification?.author)} replied to your post in{' '}
+                    {`p/${notification?.subplebbitAddress}`} ·{' '}
                     <span
-                      style={ {
+                      style={{
                         lineHeight: '19px',
                         color: metaText,
-                      } }
+                      }}
                     >
-                      { getTimeVal(notification?.timestamp * 1000) }
+                      {getTimeVal(notification?.timestamp * 1000)}
                     </span>
                   </Text>
                   <Box ml="auto">
                     <DropDown
                       dropDownTitle={
                         <Box>
-                          <Icon as={ FiMoreHorizontal } />
+                          <Icon as={FiMoreHorizontal} />
                         </Box>
                       }
                     />
@@ -224,41 +249,47 @@ export const NotificationType = ({ notification, handleReadAll }) => {
                 <Box
                   fontSize="14px"
                   lineHeight="18px"
-                  color={ metaText }
+                  color={metaText}
                   wordBreak="break-all"
-                  noOfLines={ 3 }
+                  noOfLines={3}
                   overflow="hidden"
                 >
-                  { notification?.content }
+                  {notification?.content}
                 </Box>
               </Flex>
             </Flex>
           </Link>
         ) : notification?.markedAsRead ? (
-          <Link to={ `/p/${notification?.subplebbitAddress}/c/${notification?.cid}/` }>
-            <Flex padding="16px" cursor="pointer" onClick={ () => { handleReadAll(); } }>
+          <Link to={`/p/${notification?.subplebbitAddress}/c/${notification?.cid}/`}>
+            <Flex
+              padding="16px"
+              cursor="pointer"
+              onClick={() => {
+                handleReadAll();
+              }}
+            >
               <Box mr="8px">
-                <Avatar height={ 32 } width={ 32 } avatar="" />
+                <Avatar height={32} width={32} avatar="" />
               </Box>
               <Flex flexDirection="column" width="100%">
                 <Flex w="100%" mb="4px">
                   <Text wordBreak="break-all" fontSize="14px" lineHeight="21px" fontWeight="400">
-                    { getUserName(notification?.author) } replied to your post in{ ' ' }
-                    { `p/${notification?.subplebbitAddress || ''}` } ·{ ' ' }
+                    {getUserName(notification?.author)} replied to your post in{' '}
+                    {`p/${notification?.subplebbitAddress || ''}`} ·{' '}
                     <span
-                      style={ {
+                      style={{
                         lineHeight: '19px',
                         color: metaText,
-                      } }
+                      }}
                     >
-                      { getTimeVal(notification?.timestamp * 1000) }
+                      {getTimeVal(notification?.timestamp * 1000)}
                     </span>
                   </Text>
                   <Box ml="auto">
                     <DropDown
                       dropDownTitle={
                         <Box>
-                          <Icon as={ FiMoreHorizontal } />
+                          <Icon as={FiMoreHorizontal} />
                         </Box>
                       }
                     />
@@ -267,12 +298,12 @@ export const NotificationType = ({ notification, handleReadAll }) => {
                 <Box
                   fontSize="14px"
                   lineHeight="18px"
-                  color={ metaText }
+                  color={metaText}
                   wordBreak="break-all"
-                  noOfLines={ 3 }
+                  noOfLines={3}
                   overflow="hidden"
                 >
-                  { notification?.content }
+                  {notification?.content}
                 </Box>
               </Flex>
             </Flex>

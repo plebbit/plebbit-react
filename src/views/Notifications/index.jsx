@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import Layout from '../../components/layout';
 import Link from '../../components/Link';
 import { NotificationType } from '../../components/layout/Nav/NavNotification';
-import { useAccount } from '@plebbit/plebbit-react-hooks';
+import { useAccount, useNotifications } from '@plebbit/plebbit-react-hooks';
 
 const Notifications = () => {
   const mainColor = useColorModeValue('lightText2', 'darkText1');
@@ -16,7 +16,7 @@ const Notifications = () => {
   const bg = useColorModeValue('lightBody', 'darkBody');
   const navBorder = useColorModeValue('#edeff1', '#343536');
   const { colorMode } = useColorMode();
-  const profile = useAccount()
+  const profile = useAccount();
   const notifications = useNotifications({ accountName: profile?.name });
   const todayNotifications = notifications?.notifications?.filter((x) =>
     moment(x?.timestamp * 1000).isSame(new Date())
@@ -36,8 +36,8 @@ const Notifications = () => {
   };
 
   return (
-    <Layout name={ { label: 'Notifications', value: 'notification', icon: <FaBell /> } }>
-      <Box zIndex={ 3 }>
+    <Layout name={{ label: 'Notifications', value: 'notification', icon: <FaBell /> }}>
+      <Box zIndex={3}>
         <Box h="131px" margin="0px auto" width="648px">
           <Text padding="40px 0 21px" fontWeight="500" fontSize="22px" lineHeight="26px">
             Notifications
@@ -52,11 +52,11 @@ const Notifications = () => {
               marginRight="8px"
               padding="15px 12px 12px"
               cursor="pointer"
-              borderBottom={ `3px solid ${colorMode === 'light' ? '#0079D3' : '#4FBCFF'}` }
-              color={ mainColor }
-              _hover={ {
+              borderBottom={`3px solid ${colorMode === 'light' ? '#0079D3' : '#4FBCFF'}`}
+              color={mainColor}
+              _hover={{
                 color: mainColor,
-              } }
+              }}
             >
               Activity
             </Box>
@@ -69,15 +69,15 @@ const Notifications = () => {
               marginRight="8px"
               padding="15px 12px 12px"
               cursor="pointer"
-              color={ metaText }
-              _hover={ {
+              color={metaText}
+              _hover={{
                 color: mainColor,
-              } }
+              }}
               alignItems="center"
               ml="auto"
-              onClick={ handleReadAll }
+              onClick={handleReadAll}
             >
-              <Icon mr="6px" color={ metaText } width={ 6 } height={ 6 } as={ BsCheckAll } />
+              <Icon mr="6px" color={metaText} width={6} height={6} as={BsCheckAll} />
               Mark as Read
             </Flex>
             <Flex
@@ -89,60 +89,60 @@ const Notifications = () => {
               marginRight="8px"
               padding="15px 12px 12px"
               cursor="pointer"
-              color={ metaText }
-              _hover={ {
+              color={metaText}
+              _hover={{
                 color: mainColor,
-              } }
+              }}
               alignItems="center"
-              as={ Link }
-              to='/settings/notifications'
+              as={Link}
+              to="/settings/notifications"
             >
-              <Icon mr="6px" color={ metaText } width={ 6 } height={ 6 } as={ MdSettings } />
+              <Icon mr="6px" color={metaText} width={6} height={6} as={MdSettings} />
               Settings
             </Flex>
           </Flex>
         </Box>
         <Flex maxW="1248px" padding="20px 24px" margin="0 auto" justifyContent="center">
           <Box maxW="740px" width="640px" flex="1 1 100%">
-            <Box borderRadius="4px" margin="0 auto" maxW="648px" bg={ bg }>
-              { todayNotifications?.length ? (
+            <Box borderRadius="4px" margin="0 auto" maxW="648px" bg={bg}>
+              {todayNotifications?.length ? (
                 <>
                   <Text fontSize="18px" fontWeight="500" lineHeight="22px" padding="8px 16px">
                     Today
                   </Text>
-                  { todayNotifications?.map((notification) => (
+                  {todayNotifications?.map((notification) => (
                     <>
                       <Flex flexDirection="column">
-                        {/* unread reply notification item */ }
-                        <Box borderBottom={ `1px solid  ${navBorder}` } color={ mainColor }>
-                          <NotificationType notification={ notification } />
+                        {/* unread reply notification item */}
+                        <Box borderBottom={`1px solid  ${navBorder}`} color={mainColor}>
+                          <NotificationType notification={notification} />
                         </Box>
                       </Flex>
                     </>
-                  )) }
+                  ))}
                 </>
               ) : (
                 ''
-              ) }
-              { earlierNotifications?.length ? (
+              )}
+              {earlierNotifications?.length ? (
                 <>
                   <Text fontSize="18px" fontWeight="500" lineHeight="22px" padding="8px 16px">
                     Earlier
                   </Text>
-                  { earlierNotifications?.map((notification) => (
+                  {earlierNotifications?.map((notification) => (
                     <>
                       <Flex flexDirection="column">
-                        {/* unread reply notification item */ }
-                        <Box borderBottom={ `1px solid  ${navBorder}` } color={ mainColor }>
-                          <NotificationType notification={ notification } />
+                        {/* unread reply notification item */}
+                        <Box borderBottom={`1px solid  ${navBorder}`} color={mainColor}>
+                          <NotificationType notification={notification} />
                         </Box>
                       </Flex>
                     </>
-                  )) }
+                  ))}
                 </>
               ) : (
                 ''
-              ) }
+              )}
             </Box>
           </Box>
         </Flex>
