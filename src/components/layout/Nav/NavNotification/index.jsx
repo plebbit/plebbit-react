@@ -1,8 +1,8 @@
 import { Box, Button, Flex, Icon, Text, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
-import { BiBell } from 'react-icons/bi';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { BsCheckAll } from 'react-icons/bs';
+import { VscBell } from 'react-icons/vsc';
 import { MdSettings } from 'react-icons/md';
 import Avatar from '../../../Avatar';
 import Link from '../../../Link';
@@ -36,14 +36,14 @@ const NavNotification = () => {
       title={
         notifications?.notifications?.filter((x) => !x?.markedAsRead).length ? (
           <Box width={6} height={6} position="relative">
-            <Icon color={iconColor2} width={6} height={6} as={BiBell} />
+            <Icon color={iconColor2} width={6} height={6} as={VscBell} />
             <Box
               boxShadow="0 0 0 2px white"
               left="15px"
               top="-1"
               minW="16px"
               textAlign="center"
-              bg="red"
+              bg="#ff4500"
               borderRadius="12px"
               width="auto"
               height="16px"
@@ -57,7 +57,7 @@ const NavNotification = () => {
             </Box>
           </Box>
         ) : (
-          <Icon color={iconColor2} width={6} height={6} as={BiBell} />
+          <Icon color={iconColor2} width={6} height={6} as={VscBell} />
         )
       }
       header={

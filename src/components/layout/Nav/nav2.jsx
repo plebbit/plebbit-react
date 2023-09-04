@@ -16,13 +16,22 @@ import getIsOnline from '../../../utils/getIsOnline';
 import { ReactComponent as PlebLogo } from '../../svgs/logo.svg';
 import { ReactComponent as PlebLogotext } from '../../svgs/plebbitText.svg';
 import { MdHome } from 'react-icons/md';
-import { BiBell, BiChevronDown } from 'react-icons/bi';
-import { RiFolderShield2Line, RiSideBarFill } from 'react-icons/ri';
-import { GiShieldEchoes } from 'react-icons/gi';
+import { BiBell, BiChevronDown, BiHelpCircle } from 'react-icons/bi';
+import { RiCreativeCommonsByLine, RiFolderShield2Line, RiSideBarFill } from 'react-icons/ri';
+import { GiBlackHoleBolas, GiShieldEchoes, GiTwoCoins } from 'react-icons/gi';
 import { HiOutlineChartSquareBar } from 'react-icons/hi';
-import { BsArrowUpRightCircle, BsPlusLg } from 'react-icons/bs';
+import { BsArrowUpRightCircle, BsEye, BsPlusLg, BsShield } from 'react-icons/bs';
 import getUserName, { getSubName } from '../../../utils/getUserName';
 import Avatar from '../../Avatar';
+import NavSearch from './navSearch';
+import NavNotification from './NavNotification';
+import { AiOutlinePlus } from 'react-icons/ai';
+import numFormatter from '../../../utils/numberFormater';
+import { FiChevronDown } from 'react-icons/fi';
+import { CgProfile } from 'react-icons/cg';
+import Switch from '../../Button/Switch';
+import HomeDropdown from './DropDown/homeDropdown';
+import NavDropDown from './DropDown/navDropDown';
 
 const NavBar2 = ({ location, showStyleBar }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -61,9 +70,7 @@ const NavBar2 = ({ location, showStyleBar }) => {
     });
   };
 
-  const [showDropDown, setShowDropDown] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const { ref, showComponent, setShowComponent } = useVisible(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
   const subPlebbitData = Sort(
@@ -88,135 +95,61 @@ const NavBar2 = ({ location, showStyleBar }) => {
       isClosable: true,
     });
   };
+
   return (
     <header className={styles.wrapper}>
       <div className={styles.nav_wrapper}>
+        {/* nev left */}
         <div className={styles.nav_left}>
+          {/* logo */}
           <Link aria-label="Home" className={styles.logo_cont} to="/">
             <PlebLogo className={styles.logo} />
             <PlebLogotext className={styles.logo_text} />
           </Link>
-          <div className={styles.nav_home_dropdown}>
-            <button className={styles.nav_home_dropdown_btn} onClick={() => setShowMenu(!showMenu)}>
-              <span className={styles.nav_home_dropdown_text_wrap}>
-                <h1>Home</h1>
-              </span>
-
-              <MdHome className={styles.nav_home_dropdown_icon} />
-              <BiChevronDown className={styles.nav_home_dropdown_caret} />
-            </button>
-            {!showSide && (
-              <RiSideBarFill
-                className={styles.nav_home_dropdown_sidemenu}
-                onClick={() => setShowSide(true)}
-              />
-            )}
-
-            {showMenu && (
-              <div role="menu" className={styles.nav_home_dropdown_menu_wrap}>
-                <input
-                  aria-label="Start typing to filter your communities or use up and down to select."
-                  placeholder="Filter"
-                  className={styles.nav_home_filter_input}
-                />
-                <div className={styles.nav_home_moderating_title}>moderating</div>
-                <Link className={styles.nav_home_moderating_item}>
-                  <GiShieldEchoes className={styles.nav_home_moderating_item_icon} />
-                  <span className={styles.nav_home_moderating_item_text}>Mod Queue</span>
-                </Link>
-                <Link className={styles.nav_home_moderating_item}>
-                  <RiFolderShield2Line className={styles.nav_home_moderating_item_icon} />
-                  <span className={styles.nav_home_moderating_item_text}>Modmail</span>
-                </Link>
-                <Link className={styles.nav_home_moderating_item}>
-                  <GiShieldEchoes className={styles.nav_home_moderating_item_icon} />
-                  <span className={styles.nav_home_moderating_item_text}>p/Mod</span>
-                </Link>
-                {Object.keys(accountSubplebbits)?.length
-                  ? Object.keys(accountSubplebbits)?.map((pages, index) => (
-                      <Link
-                        key={index}
-                        to={`/p/${pages}/`}
-                        className={styles.nav_home_moderating_item}
-                      >
-                        <Avatar
-                          width={20}
-                          height={20}
-                          mr="8px"
-                          avatar={accountSubplebbits[pages]?.avatar}
-                          badge
-                          isOnline={getIsOnline(accountSubplebbits[pages]?.updatedAt)}
-                        />
-
-                        <span className={styles.nav_home_moderating_item_text}>
-                          {getSubName(accountSubplebbits[pages])}
-                        </span>
-                      </Link>
-                    ))
-                  : ''}
-                <div className={styles.nav_home_moderating_title}>your communities</div>
-                <button className={styles.nav_home_create_sub}>
-                  <BsPlusLg className={styles.nav_home_moderating_item_icon} />
-                  <span className={styles.nav_home_moderating_item_text}>Create Community</span>
-                </button>
-                {[
-                  subPlebbitData?.map((x) => ({
-                    ...x,
-                    label: x?.title ? x?.title : getSubName(x),
-                    value: x?.address,
-                  })),
-                ]
-                  .flat()
-                  ?.map((pages, index) => (
-                    <Link
-                      key={index}
-                      to={`/p/${pages?.value}/`}
-                      className={styles.nav_home_moderating_item}
-                    >
-                      <Avatar
-                        width={20}
-                        height={20}
-                        mr="8px"
-                        avatar={pages?.avatar}
-                        badge
-                        isOnline={getIsOnline(pages?.updatedAt)}
-                      />
-                      <span className={styles.nav_home_moderating_item_text}>
-                        {getSubName(pages)}
-                      </span>
-                    </Link>
-                  ))}
-                <div className={styles.nav_home_moderating_title}>Feeds</div>
-                <Link className={styles.nav_home_moderating_item} to="/">
-                  <MdHome className={styles.nav_home_moderating_item_icon} />
-                  <span className={styles.nav_home_moderating_item_text}>Home</span>
-                </Link>
-                <Link className={styles.nav_home_moderating_item}>
-                  <BsArrowUpRightCircle className={styles.nav_home_moderating_item_icon} />
-                  <span className={styles.nav_home_moderating_item_text}>Popular</span>
-                </Link>
-                <Link className={styles.nav_home_moderating_item} to="/all">
-                  <HiOutlineChartSquareBar className={styles.nav_home_moderating_item_icon} />
-                  <span className={styles.nav_home_moderating_item_text}>All</span>
-                </Link>
-                <div className={styles.nav_home_moderating_title}>Other</div>
-                <Link to={`/settings/`} className={styles.nav_home_moderating_item}>
-                  <Avatar width={20} height={20} mr="8px" avatar={authorAvatarImageUrl} />
-                  <span className={styles.nav_home_moderating_item_text}>
-                    {getUserName(profile?.author)}
-                  </span>
-                </Link>
-
-                <Link className={styles.nav_home_moderating_item} to="/submit">
-                  <BsPlusLg className={styles.nav_home_moderating_item_icon} />
-                  <span className={styles.nav_home_moderating_item_text}>Create Post</span>
-                </Link>
-                <Link className={styles.nav_home_moderating_item} to="/notifications">
-                  <BiBell className={styles.nav_home_moderating_item_icon} />
-                  <span className={styles.nav_home_moderating_item_text}>Notifications</span>
-                </Link>
+          {/* Home drop down menu */}
+          <HomeDropdown
+            showMenu={showMenu}
+            setShowMenu={setShowMenu}
+            showSide={showSide}
+            setShowSide={setShowSide}
+            accountSubplebbits={accountSubplebbits}
+            subPlebbitData={subPlebbitData}
+            authorAvatarImageUrl={authorAvatarImageUrl}
+            profile={profile}
+          />
+          <NavSearch />
+        </div>
+        <div className={styles.nav_right}>
+          <div className={styles.nav_popular_wrap}>
+            <div className={styles.nav_popular_wrap2}>
+              <Link className={styles.nav_popular}>
+                <BsArrowUpRightCircle className={styles.nav_popular_icon} />
+              </Link>
+            </div>
+          </div>
+          <div className={styles.nav_right_right}>
+            <div className={styles.nav_right_right2}>
+              <div className={styles.nav_rr_left}>
+                <span className={styles.nav_rr_left_item}>
+                  <button className={styles.nav_rr_left_item_btn}>
+                    <div className={styles.nav_rr_left_item_btn2}>
+                      <span className={styles.nav_rr_left_item_btn_dot} />
+                      <BsShield className={styles.nav_rr_left_item_icon} />
+                    </div>
+                  </button>
+                </span>
+                <NavNotification />
+                <span className={styles.nav_rr_left_item}>
+                  <Link className={styles.nav_rr_left_item_btn} to="/submit">
+                    <div className={styles.nav_rr_left_item_btn2}>
+                      <AiOutlinePlus className={styles.nav_rr_left_item_icon} />
+                    </div>
+                  </Link>
+                </span>
+                <span className={styles.nav_rr_left_item} />
               </div>
-            )}
+              <NavDropDown authorAvatarImageUrl={authorAvatarImageUrl} profile={profile} />
+            </div>
           </div>
         </div>
       </div>

@@ -92,7 +92,7 @@ const NavBar = ({ location, showStyleBar }) => {
   };
 
   const [showDropDown, setShowDropDown] = useState(false);
-  const { ref, showComponent, setShowComponent } = useVisible(false);
+  const { ref } = useVisible(setShowDropDown);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
   const subPlebbitData = Sort(
@@ -357,13 +357,13 @@ const NavBar = ({ location, showStyleBar }) => {
                       <Icon ml="8px" color={iconColor2} width={6} height={6} as={AiOutlinePlus} />
                     </Link>
                   </Flex>
-
-                  <NDDown
-                    onClick={() => {
-                      setShowDropDown(!showDropDown);
-                      setShowComponent(!showDropDown);
-                    }}
-                  />
+                  <div>
+                    <NDDown
+                      onClick={() => {
+                        setShowDropDown(!showDropDown);
+                      }}
+                    />
+                  </div>
                 </Flex>
               </Flex>
             </Flex>
@@ -422,7 +422,7 @@ const NavBar = ({ location, showStyleBar }) => {
           </Flex>
         </Flex>
       )}
-      {showDropDown && showComponent && (
+      {showDropDown && (
         <Box ref={ref}>
           {device !== 'mobile' ? (
             <Box
@@ -444,7 +444,7 @@ const NavBar = ({ location, showStyleBar }) => {
             >
               <Flex alignItems="center" height="100%" padding="0 10px">
                 <DropDown2
-                  placeholder=" "
+                  placeholder=""
                   topMenu={
                     <Flex flexDir="column">
                       <Box
