@@ -3,7 +3,7 @@ import { BiBell, BiChevronDown } from 'react-icons/bi';
 import { GiShieldEchoes } from 'react-icons/gi';
 import { MdHome } from 'react-icons/md';
 import { RiFolderShield2Line, RiSideBarFill } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Avatar from '../../../Avatar';
 import getIsOnline from '../../../../utils/getIsOnline';
 import getUserName, { getSubName } from '../../../../utils/getUserName';
@@ -13,24 +13,52 @@ import styles from './dropdown.module.css';
 import useVisible from '../../../../hooks/useVisible';
 import { useDisclosure } from '@chakra-ui/react';
 import CreateSubPlebbit from '../modal/CreateSubPlebbit';
+import useStore from '../../../../store/useStore';
+import Sort from '../../../../utils/sort';
+import convertArrToObj from '../../../../utils/convertArrToObj';
 
-const HomeDropdown = ({
-  showSide,
-  setShowSide,
-  accountSubplebbits,
-  subPlebbitData,
-  authorAvatarImageUrl,
-  profile,
-}) => {
+const HomeDropdown = ({ accountSubplebbits, authorAvatarImageUrl, profile, location }) => {
   const [showMenu, setShowMenu] = useState(false);
   const { ref } = useVisible(setShowMenu);
   const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
+  const {
+    setPostView,
+    postView,
+    homeAdd,
+    subPlebbitData: gitData,
+    subPlebbitDefData,
+    showSide,
+    setShowSide,
+  } = useStore((state) => state);
+
+  const navigate = useNavigate();
+
+  const subPlebbitData = Sort(
+    convertArrToObj(
+      [gitData, subPlebbitDefData?.filter((x) => x !== undefined)]?.flat(),
+      'address',
+      true
+    ),
+    (x) => getIsOnline(x?.updatedAt),
+    true
+  );
+
+  const getCurrentLocationVal = () =>
+    location?.label !== 'Home'
+      ? location
+      : [
+          { label: 'Home', value: homeAdd },
+          {
+            label: location?.label !== 'Home' ? 'Home' : 'p/All',
+            value: subPlebbitData?.map((x) => x?.address)?.filter((x) => x !== undefined),
+          },
+        ].find((x) => x?.value?.sort().join('') === postView?.sort()?.join(''));
 
   return (
     <div className={styles.nav_home_dropdown} ref={ref}>
       <button className={styles.nav_home_dropdown_btn} onClick={() => setShowMenu(!showMenu)}>
         <span className={styles.nav_home_dropdown_text_wrap}>
-          <h1>Home</h1>
+          <h1>{location?.label || location?.title}</h1>
         </span>
 
         <MdHome className={styles.nav_home_dropdown_icon} />
@@ -45,6 +73,40 @@ const HomeDropdown = ({
 
       {showMenu && (
         <div role="menu" className={styles.nav_home_dropdown_menu_wrap}>
+          {[
+            location || {},
+            {
+              label: location?.label !== 'Home' ? 'Home' : 'p/All',
+              value: subPlebbitData?.map((x) => x?.address)?.filter((x) => x !== undefined),
+            },
+          ]?.map((x, index) => (
+            <button
+              key={index}
+              className={
+                (Array.isArray(x?.value) &&
+                  Array.isArray(getCurrentLocationVal()?.value) &&
+                  x?.value?.sort()?.join('') ===
+                    getCurrentLocationVal()?.value?.sort()?.join('')) ||
+                x?.value === getCurrentLocationVal()?.value
+                  ? styles.nav_home_moderating_selected_item
+                  : styles.nav_home_moderating_item
+              }
+              onClick={() => {
+                if (location.label === 'Home') {
+                  setPostView(x.value);
+                } else {
+                  if (typeof x?.value === 'object') {
+                    navigate('/');
+                  } else {
+                    navigate(x?.value);
+                  }
+                }
+              }}
+            >
+              <span className={styles.nav_home_moderating_item_text2}>{x?.label}</span>
+            </button>
+          ))}
+
           <input
             aria-label="Start typing to filter your communities or use up and down to select."
             placeholder="Filter"

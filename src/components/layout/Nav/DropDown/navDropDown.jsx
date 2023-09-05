@@ -97,7 +97,7 @@ const NavDropDown = ({ authorAvatarImageUrl, profile }) => {
                 <span className={styles.nav_rr_menu_item3_icon_wrap}>
                   <RiCreativeCommonsByLine className={styles.nav_rr_menu_item3_icon} />
                 </span>
-                <span lassName={styles.nav_rr_menu_item3_text}>Create a Community</span>
+                <span className={styles.nav_rr_menu_item3_text}>Create a Community</span>
               </span>
             </Link>
             <button className={styles.nav_rr_menu_item3}>
@@ -105,7 +105,7 @@ const NavDropDown = ({ authorAvatarImageUrl, profile }) => {
                 <span className={styles.nav_rr_menu_item3_icon_wrap}>
                   <GiTwoCoins className={styles.nav_rr_menu_item3_icon} />
                 </span>
-                <span lassName={styles.nav_rr_menu_item3_text}>0 Coin</span>
+                <span className={styles.nav_rr_menu_item3_text}>0 Coin</span>
               </span>
             </button>
             <button className={styles.nav_rr_menu_item3}>
@@ -113,7 +113,7 @@ const NavDropDown = ({ authorAvatarImageUrl, profile }) => {
                 <span className={styles.nav_rr_menu_item3_icon_wrap}>
                   <BiHelpCircle className={styles.nav_rr_menu_item3_icon} />
                 </span>
-                <span lassName={styles.nav_rr_menu_item3_text}>Help Center</span>
+                <span className={styles.nav_rr_menu_item3_text}>Help Center</span>
               </span>
             </button>
           </div>

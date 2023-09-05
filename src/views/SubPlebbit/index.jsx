@@ -4,7 +4,16 @@ import { FaBell } from 'react-icons/fa';
 import Post from '../../components/Post';
 import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
-import { useSubscribe, useFeed, useSubplebbit, usePublishSubplebbitEdit, useSubplebbitStats, useBlock, useAccountSubplebbits, useAccount } from '@plebbit/plebbit-react-hooks';
+import {
+  useSubscribe,
+  useFeed,
+  useSubplebbit,
+  usePublishSubplebbitEdit,
+  useSubplebbitStats,
+  useBlock,
+  useAccountSubplebbits,
+  useAccount,
+} from '@plebbit/plebbit-react-hooks';
 import { useLocation, useParams } from 'react-router-dom';
 import SideBar from './sideBar';
 import getChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
@@ -23,10 +32,9 @@ import { GoMute } from 'react-icons/go';
 import useStore from '../../store/useStore';
 
 const SubPlebbit = ({ match }) => {
-  const { accountSubplebbits } = useAccountSubplebbits()
+  const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
-  const { postStyle, feedSort, device } =
-    useStore(state => state)
+  const { postStyle, feedSort, device } = useStore((state) => state);
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const pseuBg = useColorModeValue('#DAE0E6', '#030303');
   const border1 = useColorModeValue('#efefed', '#353535');
@@ -37,9 +45,12 @@ const SubPlebbit = ({ match }) => {
   const mainMobileBg = useColorModeValue('white', 'black');
   const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
 
-  const params = useParams()
-  const { feed, loadMore, hasMore } = useFeed({ subplebbitAddresses: [params?.subplebbitAddress], sortType: feedSort });
-  const subPlebbit = useSubplebbit({ subplebbitAddress: match?.params?.subplebbitAddress });
+  const params = useParams();
+  const { feed, loadMore, hasMore } = useFeed({
+    subplebbitAddresses: [params?.subplebbitAddress],
+    sortType: feedSort,
+  });
+  const subPlebbit = useSubplebbit({ subplebbitAddress: params?.subplebbitAddress });
   const feeds = feed;
   const [data, setData] = useState({ address: params?.subplebbitAddress, ...subPlebbit });
   const toast = useToast();
@@ -50,11 +61,8 @@ const SubPlebbit = ({ match }) => {
   const isOnline = getIsOnline(subPlebbit?.updatedAt);
   const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';
   const showStyleBar = location?.search === '?styling=true';
-  const stats = useSubplebbitStats({ subplebbitAddress: subPlebbit?.address })
-  const { blocked, unblock, block } = useBlock({ address: subPlebbit?.address })
-
-
-
+  const stats = useSubplebbitStats({ subplebbitAddress: subPlebbit?.address });
+  const { blocked, unblock, block } = useBlock({ address: subPlebbit?.address });
 
   useEffect(() => {
     setData({ ...data, ...subPlebbit });
@@ -113,7 +121,9 @@ const SubPlebbit = ({ match }) => {
     }
   };
 
-  const { subscribe, unsubscribe, subscribed } = useSubscribe({ subplebbitAddress: subPlebbit?.address })
+  const { subscribe, unsubscribe, subscribed } = useSubscribe({
+    subplebbitAddress: subPlebbit?.address,
+  });
 
   const handleSubscribe = async () => {
     try {
@@ -126,15 +136,12 @@ const SubPlebbit = ({ match }) => {
         duration: 3000,
         isClosable: true,
       });
-
     }
   };
   const handleUnSubscribe = async () => {
     try {
       await unsubscribe();
-
     } catch (error) {
-
       toast({
         title: 'Unsubscribed.',
         description: error?.toString(),
@@ -143,18 +150,16 @@ const SubPlebbit = ({ match }) => {
         isClosable: true,
       });
     }
-
   };
-
 
   const editSubplebbitOptions = {
     ...data,
     onChallenge,
     onChallengeVerification,
     onError,
-  }
+  };
 
-  const { publishSubplebbitEdit } = usePublishSubplebbitEdit(editSubplebbitOptions)
+  const { publishSubplebbitEdit } = usePublishSubplebbitEdit(editSubplebbitOptions);
   const handleSaveChanges = async () => {
     try {
       setLoading(true);
@@ -174,36 +179,30 @@ const SubPlebbit = ({ match }) => {
 
   const handleOption = (val) => {
     if (val?.id === 'mute') {
-      blocked ? unblock() : block()
+      blocked ? unblock() : block();
     }
+  };
 
-  }
-
-  const stateString = useStateString(subPlebbit)
-
-
-
-
-
+  const stateString = useStateString(subPlebbit);
 
   return (
-    <Layout background=
-      { data?.suggested?.backgroundUrl && `url(${data?.suggested?.backgroundUrl}) repeat center top` }
-
-
-
-
-      stateString={ feeds?.length ? '' : stateString } name={ { label: data?.title || 'Subplebbit', value: location?.pathname } }>
-      { showStyleBar && <SubStyleSide /> }
+    <Layout
+      background={
+        data?.suggested?.backgroundUrl && `url(${data?.suggested?.backgroundUrl}) repeat center top`
+      }
+      stateString={feeds?.length ? '' : stateString}
+      name={{ label: data?.title || 'Subplebbit', value: location?.pathname }}
+    >
+      {showStyleBar && <SubStyleSide />}
       <>
-        { device !== 'mobile' ? (
+        {device !== 'mobile' ? (
           <Flex flexDirection="column" minH="calc(100vh - 48px)">
             <Box
               minH="100%"
               overflow="hidden"
               position="relative"
               flex="none"
-              _after={ {
+              _after={{
                 content: `" "`,
                 position: 'fixed',
                 height: '100%',
@@ -211,13 +210,14 @@ const SubPlebbit = ({ match }) => {
                 left: '0',
                 backgroundColor: pseuBg,
                 willChange: 'transform',
-              } }
+              }}
             />
             <Box zIndex="3">
-              <Link to={ `/p/${data?.address}/` }>
+              <Link to={`/p/${data?.address}/`}>
                 <Flex
-                  background={ `${data?.suggested?.primaryColor || "rgb(51, 168, 255)"} url(${data?.suggested?.bannerUrl}) no-repeat center / cover` }
-
+                  background={`${data?.suggested?.primaryColor || 'rgb(51, 168, 255)'} url(${
+                    data?.suggested?.bannerUrl
+                  }) no-repeat center / cover`}
                   filter="none"
                   height="128px"
                   padding="8px 16px"
@@ -225,7 +225,7 @@ const SubPlebbit = ({ match }) => {
                   minW="260px"
                 />
               </Link>
-              <Box backgroundColor={ mainBg } width="100%">
+              <Box backgroundColor={mainBg} width="100%">
                 <Flex
                   maxWidth="984px"
                   flexDirection="column"
@@ -237,27 +237,27 @@ const SubPlebbit = ({ match }) => {
                   <Flex
                     marginTop="-14px"
                     marginBottom="12px"
-                    alignItems={ device !== 'mobile' ? 'flex-start' : 'center' }
-                    flexDir={ device !== 'mobile' ? 'row' : 'column' }
+                    alignItems={device !== 'mobile' ? 'flex-start' : 'center'}
+                    flexDir={device !== 'mobile' ? 'row' : 'column'}
                   >
                     <Avatar
-                      width={ 76 }
-                      height={ 76 }
+                      width={76}
+                      height={76}
                       border="1px solid #fff"
                       badge
-                      isOnline={ isOnline }
-                      avatar={ data?.suggested?.avatarUrl }
+                      isOnline={isOnline}
+                      avatar={data?.suggested?.avatarUrl}
                     />
 
                     <Flex
                       boxSizing="border-box"
                       alignContent="flex-start"
-                      flexDirection={ device !== 'mobile' ? 'row' : 'column' }
+                      flexDirection={device !== 'mobile' ? 'row' : 'column'}
                       flex="1"
                       paddingLeft="16px"
                       marginTop="24px"
-                      justifyContent={ device !== 'mobile' ? 'space-between' : 'center' }
-                      width={ device !== 'mobile' ? '"calc(100% - 80px)"' : '100%' }
+                      justifyContent={device !== 'mobile' ? 'space-between' : 'center'}
+                      width={device !== 'mobile' ? '"calc(100% - 80px)"' : '100%'}
                     >
                       <Box paddingRight="24px" box-sizing="border-box">
                         <Box
@@ -267,85 +267,84 @@ const SubPlebbit = ({ match }) => {
                           padding="0 2px 4px 0"
                           width="100%"
                         >
-                          { data?.title || getAddress(data?.address) }
+                          {data?.title || getAddress(data?.address)}
                         </Box>
                         <Box
                           fontSize="14px"
                           fontWeight="500"
                           lineHeight="18px"
-                          color={ subPlebbitSubTitle }
+                          color={subPlebbitSubTitle}
                           wordBreak="break-all"
                         >
-                          p/{ data?.address }
+                          p/{data?.address}
                         </Box>
                       </Box>
                       <Flex alignItems="center" mt="10px">
                         <Box width="96px">
                           <Button
                             variant="outline"
-                            borderRadius='9999px'
+                            borderRadius="9999px"
                             padding="4px 16px"
                             minW="32px"
                             minH="32px"
-                            height='auto'
-                            width='100%'
-                            lineHeight='17px'
-                            fontWeight='700'
-                            fontSize='14px'
-                            loading={ subLoading }
-                            onClick={
-                              subscribed
-                                ? handleUnSubscribe
-                                : handleSubscribe
-                            }
-                            borderColor={ data?.suggested?.secondaryColor }
-                            color={ data?.suggested?.secondaryColor }
-
-                          >{
-                              subscribed
-                                ? 'Joined'
-                                : 'Join'
-                            }</Button>
+                            height="auto"
+                            width="100%"
+                            lineHeight="17px"
+                            fontWeight="700"
+                            fontSize="14px"
+                            loading={subLoading}
+                            onClick={subscribed ? handleUnSubscribe : handleSubscribe}
+                            borderColor={data?.suggested?.secondaryColor}
+                            color={data?.suggested?.secondaryColor}
+                          >
+                            {subscribed ? 'Joined' : 'Join'}
+                          </Button>
                         </Box>
-                        <Box ml='8px'>
-                          { blocked ?
-
+                        <Box ml="8px">
+                          {blocked ? (
                             <Button
-                              borderRadius='9999px'
+                              borderRadius="9999px"
                               padding="4px 16px"
                               minW="32px"
                               minH="32px"
-                              height='auto'
-                              width='100%'
-                              lineHeight='17px'
-                              fontWeight='700'
-                              fontSize='14px'
+                              height="auto"
+                              width="100%"
+                              lineHeight="17px"
+                              fontWeight="700"
+                              fontSize="14px"
                               bg="transparent"
-                              borderColor={ data?.suggested?.secondaryColor }
-
-                              onClick={ () => blocked ? unblock() : block() }
-
+                              borderColor={data?.suggested?.secondaryColor}
+                              onClick={() => (blocked ? unblock() : block())}
                             >
-
-                              <Icon mr='8px' color={ data?.suggested?.secondaryColor } verticalAlign="middle" width="20px" height="20px" as={ GoMute } />
+                              <Icon
+                                mr="8px"
+                                color={data?.suggested?.secondaryColor}
+                                verticalAlign="middle"
+                                width="20px"
+                                height="20px"
+                                as={GoMute}
+                              />
                               Muted
-
                             </Button>
-
-
-                            : <Button
+                          ) : (
+                            <Button
                               variant="outline"
                               padding="5px"
                               height="33px"
                               width="33px"
                               bg="transparent"
-                              borderColor={ data?.suggested?.secondaryColor }
+                              borderColor={data?.suggested?.secondaryColor}
                               borderRadius="100%"
                             >
-
-                              <Icon color={ data?.suggested?.secondaryColor } verticalAlign="middle" width="20px" height="20px" as={ FaBell } />
-
-                            </Button> }
+                              <Icon
+                                color={data?.suggested?.secondaryColor}
+                                verticalAlign="middle"
+                                width="20px"
+                                height="20px"
+                                as={FaBell}
+                              />
+                            </Button>
+                          )}
                         </Box>
                       </Flex>
                     </Flex>
@@ -369,8 +368,8 @@ const SubPlebbit = ({ match }) => {
                     >
                       <Box>
                         <Box
-                          borderBottom={ `3px solid` }
-                          borderColor={ subPlebbitBorder }
+                          borderBottom={`3px solid`}
+                          borderColor={subPlebbitBorder}
                           paddingBottom="1px"
                           fontSize="14px"
                           fontWeight="500"
@@ -389,61 +388,61 @@ const SubPlebbit = ({ match }) => {
                 </Flex>
               </Box>
               <Flex maxW="100%" padding="20px 24px" justifyContent="center" margin="0 auto">
-                <Box width={ postStyle === 'card' ? '640px' : '100%' } minWidth="0">
-                  {/* Create Post Bar */ }
-                  <CreatePostBar address={ data?.address } />
-                  {/* feed sort bar */ }
-                  <FeedSort subplebbitColor={ data?.suggested?.secondaryColor } />
-                  {/* feed list */ }
+                <Box width={postStyle === 'card' ? '640px' : '100%'} minWidth="0">
+                  {/* Create Post Bar */}
+                  <CreatePostBar address={data?.address} />
+                  {/* feed sort bar */}
+                  <FeedSort subplebbitColor={data?.suggested?.secondaryColor} />
+                  {/* feed list */}
 
                   <Box minHeight="1000px" width="100%">
                     <InfiniteScroll
-                      hasMore={ hasMore }
-                      loadMore={ loadMore }
-                      content={ (index, feed) => (
+                      hasMore={hasMore}
+                      loadMore={loadMore}
+                      content={(index, feed) => (
                         <Post
-                          allowedSpecial={ allowedSpecial }
+                          allowedSpecial={allowedSpecial}
                           type="subPlebbit"
-                          post={ feed }
-                          index={ index }
-                          key={ feed?.cid || index }
-                          mode={ postStyle }
+                          post={feed}
+                          index={index}
+                          key={feed?.cid || index}
+                          mode={postStyle}
                         />
-                      ) }
-                      feeds={ feeds }
+                      )}
+                      feeds={feeds}
                       loader={
                         <Post
-                          stateString={ stateString }
+                          stateString={stateString}
                           type="subPlebbit"
-                          loading={ true }
-                          mode={ postStyle }
-                          key={ Math.random() }
+                          loading={true}
+                          mode={postStyle}
+                          key={Math.random()}
                         />
                       }
                     />
                   </Box>
                 </Box>
-                {/* side bar */ }
+                {/* side bar */}
                 <SideBar
-                  profile={ profile }
-                  handleSaveChanges={ handleSaveChanges }
-                  loading={ loading }
-                  data={ data }
-                  setData={ setData }
-                  subPlebbit={ data }
-                  allowedSpecial={ allowedSpecial }
-                  blocked={ blocked }
-                  handleOption={ handleOption }
+                  profile={profile}
+                  handleSaveChanges={handleSaveChanges}
+                  loading={loading}
+                  data={data}
+                  setData={setData}
+                  subPlebbit={data}
+                  allowedSpecial={allowedSpecial}
+                  blocked={blocked}
+                  handleOption={handleOption}
                 />
               </Flex>
             </Box>
           </Flex>
         ) : (
           <Flex>
-            <Box bg={ mainMobileBg } borderBottom={ `1px solid ${border1}` } width="100%">
+            <Box bg={mainMobileBg} borderBottom={`1px solid ${border1}`} width="100%">
               <Box
-                backgroundColor={ data?.suggested?.primaryColor || "rgb(51, 168, 255)" }
-                backgroundImage={ data?.suggested?.bannerUrl }
+                backgroundColor={data?.suggested?.primaryColor || 'rgb(51, 168, 255)'}
+                backgroundImage={data?.suggested?.bannerUrl}
                 pos="relative"
                 width="100%"
                 paddingBottom="20%"
@@ -464,43 +463,40 @@ const SubPlebbit = ({ match }) => {
                   border="2px solid #fff"
                 >
                   <Box
-                    backgroundColor={ data?.suggested?.primaryColor || "#24a0ed" }
+                    backgroundColor={data?.suggested?.primaryColor || '#24a0ed'}
                     backgroundRepeat="no-repeat"
                     borderRadius="50%"
                     height="100%"
                     pos="relative"
                     width="100%"
                   >
-                    <Box height="100%" width="100%" >
+                    <Box height="100%" width="100%">
                       <PlebLogo />
                     </Box>
                   </Box>
                 </Box>
               </Box>
               <Box fontSize="14px" textAlign="center" padding="0 12px">
-                <Box fontSize="20px" fontWeight="700" padding="0 20px" color={ mobileMainColor }>
-                  { data?.title || getAddress(data?.address) }
+                <Box fontSize="20px" fontWeight="700" padding="0 20px" color={mobileMainColor}>
+                  {data?.title || getAddress(data?.address)}
                 </Box>
-                <Box color="#a5a4a4">p/{ data?.address }</Box>
+                <Box color="#a5a4a4">p/{data?.address}</Box>
                 <Box mt="10px" fontSize="14px" padding="0 12px">
-                  <Box> { stats?.allActiveUserCount || 0 } member{ `${stats?.allActiveUserCount > 0 ? 's' : ''}` } • { stats?.hourActiveUserCount || 0 } online</Box>
+                  <Box>
+                    {' '}
+                    {stats?.allActiveUserCount || 0} member
+                    {`${stats?.allActiveUserCount > 0 ? 's' : ''}`} •{' '}
+                    {stats?.hourActiveUserCount || 0} online
+                  </Box>
                   <Flex justifyContent="center" mt="8px" mb="10px">
                     <Button
                       bg="transparent"
-                      content={
-                        subscribed
-                          ? 'Joined'
-                          : 'Join'
-                      }
+                      content={subscribed ? 'Joined' : 'Join'}
                       padding="4px 32px"
                       minW="32px"
                       minH="32px"
-                      loading={ subLoading }
-                      onClick={
-                        subscribed
-                          ? handleUnSubscribe
-                          : handleSubscribe
-                      }
+                      loading={subLoading}
+                      onClick={subscribed ? handleUnSubscribe : handleSubscribe}
                       color="#24a0ed"
                     />
                   </Flex>
@@ -533,8 +529,8 @@ const SubPlebbit = ({ match }) => {
                       flex="1 1 1%"
                       textAlign="center"
                       padding="0 8px"
-                      as={ Link }
-                      to={ `/p/${data?.address}/about/` }
+                      as={Link}
+                      to={`/p/${data?.address}/about/`}
                     >
                       ABOUT
                     </Box>
@@ -542,33 +538,33 @@ const SubPlebbit = ({ match }) => {
                 </Box>
               </Box>
               <Box>
-                {/* Create Post Bar */ }
+                {/* Create Post Bar */}
                 <CreatePostBar />
-                {/* feed sort bar */ }
+                {/* feed sort bar */}
                 <FeedSort />
-                {/* feed list */ }
+                {/* feed list */}
                 <InfiniteScroll
-                  hasMore={ hasMore }
-                  loadMore={ loadMore }
-                  content={ (index, feed) => (
+                  hasMore={hasMore}
+                  loadMore={loadMore}
+                  content={(index, feed) => (
                     <Post
                       type="subPlebbit"
-                      post={ feed }
-                      index={ index }
-                      key={ feed?.cid || index }
-                      mode={ postStyle }
-                      allowedSpecial={ allowedSpecial }
+                      post={feed}
+                      index={index}
+                      key={feed?.cid || index}
+                      mode={postStyle}
+                      allowedSpecial={allowedSpecial}
                     />
-                  ) }
-                  feeds={ feeds }
+                  )}
+                  feeds={feeds}
                   loader={
-                    <Post type="subPlebbit" loading={ true } mode={ postStyle } key={ Math.random() } />
+                    <Post type="subPlebbit" loading={true} mode={postStyle} key={Math.random()} />
                   }
                 />
               </Box>
             </Box>
           </Flex>
-        ) }
+        )}
       </>
     </Layout>
   );
