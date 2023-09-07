@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { Box, Flex } from '@chakra-ui/layout';
-import { Icon, useColorModeValue } from '@chakra-ui/react';
+import { Icon, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import NavBar from './Nav/nav2';
 import { PlebLogo } from '../svgs';
 import { BiAddToQueue } from 'react-icons/bi';
@@ -12,6 +12,9 @@ import { AiFillSetting } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
 import { useAccount, useNotifications } from '@plebbit/plebbit-react-hooks';
 import useStore from '../../store/useStore';
+import styles from './layout.module.css';
+import { SideMenu } from './Nav/DropDown/homeDropdown';
+import CreateSubPlebbit from './Nav/modal/CreateSubPlebbit';
 
 const Layout = ({ children, name, stateString, background }) => {
   const bg = useColorModeValue('lightBody', 'darkBody');
@@ -368,4 +371,76 @@ const Layout = ({ children, name, stateString, background }) => {
   );
 };
 
-export default Layout;
+const Layout2 = ({ children, name, stateString, background }) => {
+  const profile = useAccount();
+  const notifications = useNotifications({ accountName: profile?.name });
+  const { showSplashcreen, device, showSide, setShowSide } = useStore((state) => state);
+  const location = useLocation();
+  const showStyleBar = location?.search === '?styling=true';
+  const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
+
+  if (showSplashcreen) {
+    return (
+      <div className={styles.splash_wrapper}>
+        <div className={styles.splash}>
+          <PlebLogo />
+        </div>
+      </div>
+    );
+  }
+
+  const unreadNotificationsCount =
+    notifications?.notifications?.filter((x) => !x?.markedAsRead).length || 0;
+
+  document.title = `${unreadNotificationsCount ? `(${unreadNotificationsCount}) ` : ''}${
+    name?.label || 'plebbit'
+  }`;
+
+  return (
+    <>
+      <div className={styles.wrapper}>
+        <div tabIndex="-1" />
+        <div className={styles.wrapper2}>
+          <NavBar showStyleBar={showStyleBar} location={name} />
+          {device !== 'mobile' ? (
+            <div>
+              <div className={styles.wrapper3} showSide={String(showSide)}>
+                {showSide && (
+                  <div className={styles.sidemenu_wrap}>
+                    <div className={styles.sidemenu_top}>
+                      <div className={styles.sidemenu_close} onClick={() => setShowSide(false)}>
+                        <MdClose color="#878A8C" lassName={styles.sidemenu_close_icon} />
+                      </div>
+                    </div>
+                    <div className={styles.sidemenu_content} role="menu">
+                      <SideMenu location={name} onOpenCreate={onOpenCreate} />
+                    </div>
+                  </div>
+                )}
+                <div>
+                  <div className={styles.wrapper4}>
+                    <div className={styles.wrapper_background} />
+                    <div className={styles.content_wrapper}>
+                      <div className={styles.content}>{children}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div className={styles.mobile_wrapper3}>{children}</div>
+            </div>
+          )}
+
+          {device === 'mobile' && stateString && stateString !== 'Succeeded' && (
+            <div className={`loading-ellipsis ${styles.stateString}`}>{stateString}</div>
+          )}
+        </div>
+      </div>
+
+      {isOpenCreate ? <CreateSubPlebbit isOpen={isOpenCreate} onClose={onCloseCreate} /> : ''}
+    </>
+  );
+};
+export default Layout2;
