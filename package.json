@@ -39,6 +39,7 @@
     "memoizee": "^0.4.15",
     "mock-require": "3.0.3",
     "moment": "2.29.1",
+    "plebbit": "https://github.com/plebbit/plebbit-react.git#e1291bbf4128215500405f7a5363f900ffe727ff",
     "react": "18.2.0",
     "react-color": "2.19.3",
     "react-copy-to-clipboard": "5.1.0",

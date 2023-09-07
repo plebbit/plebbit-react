@@ -4594,6 +4594,11 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+D@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/D/-/D-1.0.0.tgz#c348a4e034f72847be51206fc530fc089e9cc2a9"
+  integrity sha512-nQvrCBu7K2pSSEtIM0EEF03FVjcczCXInMt3moLNFbjlWx6bZrX72uT6/1uAXDbnzGUAx9gTyDiQ+vrFi663oA==
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.6.tgz#41b80f2c871d19686216b82309231cfd3cb3d291"
@@ -13576,6 +13581,66 @@ pkg-up@^3.1.0:
   integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
   dependencies:
     find-up "^3.0.0"
+
+"plebbit@https://github.com/plebbit/plebbit-react.git#e1291bbf4128215500405f7a5363f900ffe727ff":
+  version "0.1.26"
+  resolved "https://github.com/plebbit/plebbit-react.git#e1291bbf4128215500405f7a5363f900ffe727ff"
+  dependencies:
+    "@babel/plugin-proposal-private-property-in-object" "^7.21.11"
+    "@capacitor/android" "3.6.0"
+    "@capacitor/app" "1.1.1"
+    "@capacitor/core" "3.6.0"
+    "@chakra-ui/icons" "1.1.1"
+    "@chakra-ui/react" "1.7.4"
+    "@emotion/react" "11.7.1"
+    "@emotion/styled" "11.6.0"
+    "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
+    "@plebbit/plebbit-react-hooks" "https://github.com/plebbit/plebbit-react-hooks.git#b8e78211b2b115c5d3fdd119432b179cc421298b"
+    "@sweetalert/with-react" "0.1.1"
+    "@testing-library/jest-dom" "5.16.1"
+    "@testing-library/react" "12.1.2"
+    "@testing-library/user-event" "13.5.0"
+    "@uiw/react-markdown-editor" "3.2.7"
+    D "^1.0.0"
+    debug "4.3.4"
+    dompurify "2.4.0"
+    draft-js "0.11.7"
+    draftjs-to-markdown "0.6.0"
+    electron-context-menu "3.3.0"
+    electron-is-dev "2.0.0"
+    emojibase "6.1.0"
+    ext-name "5.0.0"
+    framer-motion "5.6.0"
+    html-react-parser "3.0.1"
+    husky "8.0.3"
+    interweave "13.0.0"
+    interweave-autolink "5.1.0"
+    interweave-emoji "7.0.0"
+    lodash "4.17.21"
+    markdown-it "13.0.1"
+    memoizee "^0.4.15"
+    mock-require "3.0.3"
+    moment "2.29.1"
+    react "18.2.0"
+    react-color "2.19.3"
+    react-copy-to-clipboard "5.1.0"
+    react-dom "18.2.0"
+    react-draft-wysiwyg "1.14.7"
+    react-icons "4.3.1"
+    react-markdown "8.0.7"
+    react-moment "1.1.1"
+    react-player "2.12.0"
+    react-router-dom "6.14.1"
+    react-scripts "5.0.0"
+    react-select "5.3.1"
+    react-toastify "9.0.8"
+    react-virtuoso "4.3.0"
+    remark-gfm "3.0.1"
+    styled-components "5.3.3"
+    sweetalert2 "11.4.10"
+    uuid "9.0.0"
+    web-vitals "2.1.3"
+    zustand "4.3.9"
 
 plist@^3.0.1, plist@^3.0.2, plist@^3.0.4, plist@^3.0.6:
   version "3.1.0"
