@@ -1,4 +1,4 @@
-import React, { useMemo, useState, } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import {
   useAccountVote,
@@ -23,29 +23,41 @@ import youtube_parser from '../../utils/youtubeParser';
 import useStore from '../../store/useStore';
 import { canEmbed } from '../Embed';
 
-const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSpecial, stateString }) => {
+const Post = ({
+  type,
+  post: data,
+  mode,
+  loading,
+  detail,
+  handleOption,
+  allowedSpecial,
+  stateString,
+}) => {
   const profile = useAccount();
-  const { device } = useStore(state => state);
-  let post = data
+  const { device } = useStore((state) => state);
+  let post = data;
   const pending = !post?.cid;
   const accountVote = useAccountVote({ commentCid: post?.cid });
-  const vote = accountVote?.vote || 0
+  const vote = accountVote?.vote || 0;
   const [postVotes] = useState(pending ? 0 : post?.upvoteCount || 0 - post?.downvoteCount || 0);
   const [showContent, setShowContent] = useState(false);
   const [copied, setCopied] = useState(false);
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: post?.author });
-  const { baseUrl } = useStore(state => state);
+  const { baseUrl } = useStore((state) => state);
   const getSub = useSubplebbit({ subplebbitAddress: post?.subplebbitAddress });
-  const { authorAddress } = useAuthorAddress({ comment: post })
+  const { authorAddress } = useAuthorAddress({ comment: post });
   const isOnline = getIsOnline(getSub?.updatedAt);
   const [showSpoiler, setShowSpoiler] = useState(post?.spoiler);
   const owner =
-    profile?.author?.address === authorAddress ||
-    profile?.signer?.address === authorAddress;
-  const { accountSubplebbits } = useAccountSubplebbits()
+    profile?.author?.address === authorAddress || profile?.signer?.address === authorAddress;
+  const { accountSubplebbits } = useAccountSubplebbits();
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(post?.subplebbitAddress);
-  const { blocked, unblock, block } = useBlock({ cid: post?.cid })
-  const { blocked: muted, unblock: unMute, block: mute } = useBlock({ address: post?.subplebbitAddress })
+  const { blocked, unblock, block } = useBlock({ cid: post?.cid });
+  const {
+    blocked: muted,
+    unblock: unMute,
+    block: mute,
+  } = useBlock({ address: post?.subplebbitAddress });
   const {
     onOpen: openRemovalModal,
     onClose: closeRemovalModal,
@@ -59,35 +71,30 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
 
   const isYoutube = () => {
     try {
-      const parsedUrl = new URL(post?.link)
+      const parsedUrl = new URL(post?.link);
       if (canEmbed(parsedUrl)) {
-        return canEmbed(parsedUrl)
+        return canEmbed(parsedUrl);
       }
-    }
-    catch (e) { }
+    } catch (e) {}
     return;
-  }
-
+  };
 
   const mediaInfo = post && getCommentMediaInfo(post);
-  const hasThumbnail = !post?.removed && post?.thumbnailUrl && !mediaInfo && !isYoutube()
+  const hasThumbnail = !post?.removed && post?.thumbnailUrl && !mediaInfo && !isYoutube();
 
+  const upVote = usePublishUpvote(post);
+  const downVote = usePublishDownvote(post);
 
-  const upVote = usePublishUpvote(post)
-  const downVote = usePublishDownvote(post)
-
-
-  const detailPath = loading ? '' : !pending
+  const detailPath = loading
+    ? ''
+    : !pending
     ? `/p/${post?.subplebbitAddress}/c/${post?.cid}/`
     : `/profile/c/${post?.index}`;
 
   const sharePath = `${baseUrl}p/${post?.subplebbitAddress}/c/${post?.cid}/`;
-  const authorPath = owner ? "/profile/" : `/u/${post?.author?.address}/c/${post?.cid}/`
+  const authorPath = owner ? '/profile/' : `/u/${post?.author?.address}/c/${post?.cid}/`;
 
-  const detailRoute = detailPath
-
-
-
+  const detailRoute = detailPath;
 
   const handleCopy = () => {
     setCopied(true);
@@ -98,220 +105,197 @@ const Post = ({ type, post: data, mode, loading, detail, handleOption, allowedSp
 
   const handleModOption = (val) => {
     if (val?.id === 'delete') {
-      openDeleteModal()
-    }
-    else if (val?.id === 'block') {
-      blocked ? unblock() : block()
-    }
-    else if (val?.id === 'unknown') {
+      openDeleteModal();
+    } else if (val?.id === 'block') {
+      blocked ? unblock() : block();
+    } else if (val?.id === 'unknown') {
       return;
-    }
-    else if (val?.id === 'copy') {
-      handleCopy()
-    }
-    else if (val?.id === 'mute') {
-      muted ? unMute() : mute()
+    } else if (val?.id === 'copy') {
+      handleCopy();
+    } else if (val?.id === 'mute') {
+      muted ? unMute() : mute();
     } else openRemovalModal();
-
   };
 
-  const commentCount = post?.replyCount
+  const commentCount = post?.replyCount;
 
-
-  const { state: editedCommentState, editedComment } = useEditedComment({ comment: post })
+  const { state: editedCommentState, editedComment } = useEditedComment({ comment: post });
 
   if (editedComment) {
-    post = editedComment
+    post = editedComment;
   }
 
-  let editLabel
+  let editLabel;
   if (editedCommentState === 'succeeded') {
-    editLabel = { text: 'edited', color: 'green' }
+    editLabel = { text: 'edited', color: 'green' };
   }
   if (editedCommentState === 'pending') {
-    editLabel = { text: 'pending edit', color: 'orange' }
+    editLabel = { text: 'pending edit', color: 'orange' };
   }
   if (editedCommentState === 'failed') {
-    editLabel = { text: 'failed edit', color: 'red' }
+    editLabel = { text: 'failed edit', color: 'red' };
   }
-
-
 
   return (
     <>
       <Box>
-        {/* card */ }
-        { mode === 'card' && (
+        {/* card */}
+        {mode === 'card' && (
           <CardPost
-            vote={ vote }
-            postVotes={ postVotes }
-            upVote={ post?.locked ? null : upVote }
-            downVote={ post?.locked ? null : downVote }
-            type={ type }
-            post={ post }
-            loading={ loading }
-            detail={ detail }
-            handleOption={ handleOption === undefined ? handleModOption : handleOption }
-            copied={ copied }
-            setCopied={ setCopied }
-            location={ sharePath }
-            avatar={ authorAvatarImageUrl }
-            isOnline={ isOnline }
-            subPlebbit={ getSub }
-            handleCopy={ handleCopy }
-            pending={ pending }
-            detailRoute={ detailRoute }
-            allowedSpecial={ isSpecial || allowedSpecial }
-            openRemovalModal={ openRemovalModal }
-            owner={ owner }
-            showSpoiler={ showSpoiler }
-            setShowSpoiler={ setShowSpoiler }
-            mediaInfo={ mediaInfo }
-            hasThumbnail={ hasThumbnail }
-            commentCount={ commentCount }
-            editLabel={ editLabel }
-            authorPath={ authorPath }
-            stateString={ stateString }
-            blocked={ blocked }
-            muted={ muted }
-
-
+            vote={vote}
+            postVotes={postVotes}
+            upVote={post?.locked ? null : upVote}
+            downVote={post?.locked ? null : downVote}
+            type={type}
+            post={post}
+            loading={loading}
+            detail={detail}
+            handleOption={handleOption === undefined ? handleModOption : handleOption}
+            copied={copied}
+            setCopied={setCopied}
+            location={sharePath}
+            avatar={authorAvatarImageUrl}
+            isOnline={isOnline}
+            subPlebbit={getSub}
+            handleCopy={handleCopy}
+            pending={pending}
+            detailRoute={detailRoute}
+            allowedSpecial={isSpecial || allowedSpecial}
+            openRemovalModal={openRemovalModal}
+            owner={owner}
+            showSpoiler={showSpoiler}
+            setShowSpoiler={setShowSpoiler}
+            mediaInfo={mediaInfo}
+            hasThumbnail={hasThumbnail}
+            commentCount={commentCount}
+            editLabel={editLabel}
+            authorPath={authorPath}
+            stateString={stateString}
+            blocked={blocked}
+            muted={muted}
           />
-        ) }
-        {/* classic */ }
-        { mode === 'classic' && (
+        )}
+        {/* classic */}
+        {mode === 'classic' && (
           <ClassicPost
-            vote={ vote }
-            postVotes={ postVotes }
-            upVote={ post?.locked ? null : upVote }
-            downVote={ post?.locked ? null : downVote }
-            showContent={ showContent }
-            setShowContent={ setShowContent }
-            type={ type }
-            post={ post }
-            loading={ loading }
-            detail={ detail }
-            handleOption={ handleOption === undefined ? handleModOption : handleOption }
-            copied={ copied }
-            setCopied={ setCopied }
-            location={ sharePath }
-            avatar={ authorAvatarImageUrl }
-            isOnline={ isOnline }
-            subPlebbit={ getSub }
-            handleCopy={ handleCopy }
-            pending={ pending }
-            detailRoute={ detailRoute }
-            allowedSpecial={ isSpecial || allowedSpecial }
-            openRemovalModal={ openRemovalModal }
-            owner={ owner }
-            showSpoiler={ showSpoiler }
-            setShowSpoiler={ setShowSpoiler }
-            mediaInfo={ mediaInfo }
-            hasThumbnail={ hasThumbnail }
-            commentCount={ commentCount }
-            editLabel={ editLabel }
-            authorPath={ authorPath }
-            stateString={ stateString }
-            blocked={ blocked }
-            muted={ muted }
-
-
+            vote={vote}
+            postVotes={postVotes}
+            upVote={post?.locked ? null : upVote}
+            downVote={post?.locked ? null : downVote}
+            showContent={showContent}
+            setShowContent={setShowContent}
+            type={type}
+            post={post}
+            loading={loading}
+            detail={detail}
+            handleOption={handleOption === undefined ? handleModOption : handleOption}
+            copied={copied}
+            setCopied={setCopied}
+            location={sharePath}
+            avatar={authorAvatarImageUrl}
+            isOnline={isOnline}
+            subPlebbit={getSub}
+            handleCopy={handleCopy}
+            pending={pending}
+            detailRoute={detailRoute}
+            allowedSpecial={isSpecial || allowedSpecial}
+            openRemovalModal={openRemovalModal}
+            owner={owner}
+            showSpoiler={showSpoiler}
+            setShowSpoiler={setShowSpoiler}
+            mediaInfo={mediaInfo}
+            hasThumbnail={hasThumbnail}
+            commentCount={commentCount}
+            editLabel={editLabel}
+            authorPath={authorPath}
+            stateString={stateString}
+            blocked={blocked}
+            muted={muted}
           />
-        ) }
-        {/* compact */ }
-        { mode === 'compact' &&
+        )}
+        {/* compact */}
+        {mode === 'compact' &&
           (device === 'pc' ? (
             <CompactPost
-              vote={ vote }
-              postVotes={ postVotes }
-              upVote={ post?.locked ? null : upVote }
-              downVote={ post?.locked ? null : downVote }
-              showContent={ showContent }
-              setShowContent={ setShowContent }
-              type={ type }
-              post={ post }
-              loading={ loading }
-              detail={ detail }
-              handleOption={ handleOption === undefined ? handleModOption : handleOption }
-              copied={ copied }
-              setCopied={ setCopied }
-              location={ sharePath }
-              avatar={ authorAvatarImageUrl }
-              isOnline={ isOnline }
-              subPlebbit={ getSub }
-              handleCopy={ handleCopy }
-              detailRoute={ detailRoute }
-              pending={ pending }
-              allowedSpecial={ isSpecial || allowedSpecial }
-              openRemovalModal={ openRemovalModal }
-              owner={ owner }
-              showSpoiler={ showSpoiler }
-              setShowSpoiler={ setShowSpoiler }
-              mediaInfo={ mediaInfo }
-              hasThumbnail={ hasThumbnail }
-              commentCount={ commentCount }
-              editLabel={ editLabel }
-              authorPath={ authorPath }
-              stateString={ stateString }
-              blocked={ blocked }
-              muted={ muted }
-              isYoutube={ isYoutube }
-
-
+              vote={vote}
+              postVotes={postVotes}
+              upVote={post?.locked ? null : upVote}
+              downVote={post?.locked ? null : downVote}
+              showContent={showContent}
+              setShowContent={setShowContent}
+              type={type}
+              post={post}
+              loading={loading}
+              detail={detail}
+              handleOption={handleOption === undefined ? handleModOption : handleOption}
+              copied={copied}
+              setCopied={setCopied}
+              location={sharePath}
+              avatar={authorAvatarImageUrl}
+              isOnline={isOnline}
+              subPlebbit={getSub}
+              handleCopy={handleCopy}
+              detailRoute={detailRoute}
+              pending={pending}
+              allowedSpecial={isSpecial || allowedSpecial}
+              openRemovalModal={openRemovalModal}
+              owner={owner}
+              showSpoiler={showSpoiler}
+              setShowSpoiler={setShowSpoiler}
+              mediaInfo={mediaInfo}
+              hasThumbnail={hasThumbnail}
+              commentCount={commentCount}
+              editLabel={editLabel}
+              authorPath={authorPath}
+              stateString={stateString}
+              blocked={blocked}
+              muted={muted}
+              isYoutube={isYoutube}
             />
           ) : (
             <ClassicPost
-              vote={ vote }
-              postVotes={ postVotes }
-              upVote={ post?.locked ? null : upVote }
-              downVote={ post?.locked ? null : downVote }
-              showContent={ showContent }
-              setShowContent={ setShowContent }
-              type={ type }
-              post={ post }
-              loading={ loading }
-              detail={ detail }
-              handleOption={ handleOption === undefined ? handleModOption : handleOption }
-              copied={ copied }
-              setCopied={ setCopied }
-              location={ sharePath }
-              avatar={ authorAvatarImageUrl }
-              isOnline={ isOnline }
-              subPlebbit={ getSub }
-              handleCopy={ handleCopy }
-              pending={ pending }
-              detailRoute={ detailRoute }
-              allowedSpecial={ isSpecial || allowedSpecial }
-              openRemovalModal={ openRemovalModal }
-              owner={ owner }
-              showSpoiler={ showSpoiler }
-              setShowSpoiler={ setShowSpoiler }
-              mediaInfo={ mediaInfo }
-              hasThumbnail={ hasThumbnail }
-              commentCount={ commentCount }
-              editLabel={ editLabel }
-              authorPath={ authorPath }
-              stateString={ stateString }
-              blocked={ blocked }
-              muted={ muted }
-
+              vote={vote}
+              postVotes={postVotes}
+              upVote={post?.locked ? null : upVote}
+              downVote={post?.locked ? null : downVote}
+              showContent={showContent}
+              setShowContent={setShowContent}
+              type={type}
+              post={post}
+              loading={loading}
+              detail={detail}
+              handleOption={handleOption === undefined ? handleModOption : handleOption}
+              copied={copied}
+              setCopied={setCopied}
+              location={sharePath}
+              avatar={authorAvatarImageUrl}
+              isOnline={isOnline}
+              subPlebbit={getSub}
+              handleCopy={handleCopy}
+              pending={pending}
+              detailRoute={detailRoute}
+              allowedSpecial={isSpecial || allowedSpecial}
+              openRemovalModal={openRemovalModal}
+              owner={owner}
+              showSpoiler={showSpoiler}
+              setShowSpoiler={setShowSpoiler}
+              mediaInfo={mediaInfo}
+              hasThumbnail={hasThumbnail}
+              commentCount={commentCount}
+              editLabel={editLabel}
+              authorPath={authorPath}
+              stateString={stateString}
+              blocked={blocked}
+              muted={muted}
             />
-          )) }
+          ))}
       </Box>
-      { isRemovalModalOpen && (
-        <AddRemovalReason
-          isOpen={ isRemovalModalOpen }
-          onClose={ closeRemovalModal }
-          post={ post }
-        />
-      ) }
-      {
-        isDeleteModalOpen && <ConfirmDelete
-          isOpen={ isDeleteModalOpen }
-          onClose={ closeDeleteModal }
-          post={ post }
-        />
-      }
+      {isRemovalModalOpen && (
+        <AddRemovalReason isOpen={isRemovalModalOpen} onClose={closeRemovalModal} post={post} />
+      )}
+      {isDeleteModalOpen && (
+        <ConfirmDelete isOpen={isDeleteModalOpen} onClose={closeDeleteModal} post={post} />
+      )}
     </>
   );
 };

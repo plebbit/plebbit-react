@@ -18,50 +18,44 @@ import Link from '../../Link';
 import useStore from '../../../store/useStore';
 
 const FeedSort = ({ hideControl, subplebbitColor }) => {
-  const { postStyle, setPostStyle, feedSort, setFeedSort, device } = useStore(state => state);
-  const inputBg = useColorModeValue(('lightInputBg'), 'darkInputBg');
+  const { postStyle, setPostStyle, feedSort, setFeedSort, device } = useStore((state) => state);
+  const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
 
-  const mainBg = useColorModeValue(('lightBody'), 'darkBody');
+  const mainBg = useColorModeValue('lightBody', 'darkBody');
   // const border1 = useColorModeValue('#ccc', '#343536');
   const border2 = useColorModeValue('#edeff1', '#343536');
-  const activeFilterText = useColorModeValue((subplebbitColor || 'lightText'), (subplebbitColor || 'bodyTextDark'));
+  const activeFilterText = useColorModeValue(
+    subplebbitColor || 'lightText',
+    subplebbitColor || 'bodyTextDark'
+  );
   const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const mainMobileBg = useColorModeValue('white', 'black');
   const iconMobileColor = useColorModeValue('lightMobileIcon', 'darkMobileIcon');
   const [mobileSort, setMobileSort] = useState(false);
   const [viewSelect, setViewSelect] = useState(false);
-  const { ref, showComponent, setShowComponent } = useVisible(false);
-  const {
-    ref: ref2,
-    showComponent: showComponent2,
-    setShowComponent: setShowComponent2,
-  } = useVisible(false);
-
-
-
+  const { ref } = useVisible(setMobileSort);
+  const { ref: ref2 } = useVisible(setViewSelect);
 
   return (
     <>
-      { device !== 'mobile' ? (
+      {device !== 'mobile' ? (
         <>
-
           <Flex
             alignItems="center"
-            bg={ mainBg }
-            border={ `1px solid ${border2}` }
+            bg={mainBg}
+            border={`1px solid ${border2}`}
             borderRadius="4px"
             flexFlow="nowrap"
             justifyContent="flex-start"
-            mb='16px'
+            mb="16px"
             padding="10px 12px"
-
           >
             <Flex alignItems="center" cursor="pointer">
               <Box
-                bg={ feedSort === 'hot' ? inputBg : 'transparent' }
-                color={ feedSort === 'hot' ? activeFilterText : iconColor }
+                bg={feedSort === 'hot' ? inputBg : 'transparent'}
+                color={feedSort === 'hot' ? activeFilterText : iconColor}
                 cursor="default"
-                fill={ feedSort === 'hot' ? activeFilterText : iconColor }
+                fill={feedSort === 'hot' ? activeFilterText : iconColor}
                 mr="8px"
                 textTransform="capitalize"
                 position="relative"
@@ -77,21 +71,21 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                 width="auto"
                 display="flex"
                 alignItems="center"
-                _hover={ {
+                _hover={{
                   background: feedSort === 'hot' ? '' : inputBg,
-                } }
-                onClick={ () => setFeedSort('hot') }
-                as={ Link }
-                to='hot'
+                }}
+                onClick={() => setFeedSort('hot')}
+                as={Link}
+                to="hot"
               >
-                <Icon width="20px" mr="8px" height="20px" as={ RiFireFill } />
+                <Icon width="20px" mr="8px" height="20px" as={RiFireFill} />
                 Hot
               </Box>
               <Box
-                bg={ feedSort === 'new' ? inputBg : 'transparent' }
-                color={ feedSort === 'new' ? activeFilterText : iconColor }
+                bg={feedSort === 'new' ? inputBg : 'transparent'}
+                color={feedSort === 'new' ? activeFilterText : iconColor}
                 cursor="default"
-                fill={ feedSort === 'new' ? activeFilterText : iconColor }
+                fill={feedSort === 'new' ? activeFilterText : iconColor}
                 mr="8px"
                 textTransform="capitalize"
                 position="relative"
@@ -107,21 +101,21 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                 width="auto"
                 display="flex"
                 alignItems="center"
-                _hover={ {
+                _hover={{
                   background: feedSort === 'new' ? '' : inputBg,
-                } }
-                onClick={ () => setFeedSort('new') }
-                as={ Link }
-                to='new'
+                }}
+                onClick={() => setFeedSort('new')}
+                as={Link}
+                to="new"
               >
-                <Icon width="20px" mr="8px" height="20px" as={ TiStarburstOutline } />
+                <Icon width="20px" mr="8px" height="20px" as={TiStarburstOutline} />
                 New
               </Box>
               <Box
-                bg={ feedSort === 'topAll' ? inputBg : 'transparent' }
-                color={ feedSort === 'topAll' ? activeFilterText : iconColor }
+                bg={feedSort === 'topAll' ? inputBg : 'transparent'}
+                color={feedSort === 'topAll' ? activeFilterText : iconColor}
                 cursor="default"
-                fill={ feedSort === 'topAll' ? activeFilterText : iconColor }
+                fill={feedSort === 'topAll' ? activeFilterText : iconColor}
                 mr="8px"
                 textTransform="capitalize"
                 position="relative"
@@ -137,14 +131,14 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                 width="auto"
                 display="flex"
                 alignItems="center"
-                _hover={ {
+                _hover={{
                   background: feedSort === 'topAll' ? '' : inputBg,
-                } }
-                onClick={ () => setFeedSort('topAll') }
-                as={ Link }
-                to='top'
+                }}
+                onClick={() => setFeedSort('topAll')}
+                as={Link}
+                to="top"
               >
-                <Icon width="20px" mr="8px" height="20px" as={ BsBoxArrowUp } />
+                <Icon width="20px" mr="8px" height="20px" as={BsBoxArrowUp} />
                 Top
               </Box>
             </Flex>
@@ -152,49 +146,49 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
               <Flex alignItems="center" borderRadius="4px">
                 <Box
                   borderRadius="20px"
-                  color={ iconColor }
+                  color={iconColor}
                   outline="none"
                   padding="8px"
                   bg="transparent"
                   cursor="pointer"
                   display="flex"
                   alignItems="center"
-                  _hover={ {
+                  _hover={{
                     background: inputBg,
-                  } }
+                  }}
                 >
-                  <Icon as={ FiMoreHorizontal } width="20px" height="20px" />
+                  <Icon as={FiMoreHorizontal} width="20px" height="20px" />
                 </Box>
               </Flex>
             </Flex>
-            { !hideControl && (
+            {!hideControl && (
               <DropDown
                 caret
-                inputBg={ inputBg }
+                inputBg={inputBg}
                 dropDownTitle={
                   <>
-                    { ' ' }
-                    <Flex color={ iconColor } alignItems="center">
+                    {' '}
+                    <Flex color={iconColor} alignItems="center">
                       <Icon
                         as={
                           postStyle === 'card'
                             ? MdOutlineViewStream
                             : postStyle === 'classic'
-                              ? MdOutlineTableRows
-                              : MdOutlineViewHeadline
+                            ? MdOutlineTableRows
+                            : MdOutlineViewHeadline
                         }
-                        height={ 6 }
-                        width={ 6 }
+                        height={6}
+                        width={6}
                       />
                     </Flex>
                   </>
                 }
                 content={
                   <>
-                    { ' ' }
+                    {' '}
                     <Flex
-                      color={ postStyle === 'card' && activeFilterText }
-                      fill={ postStyle === 'card' && activeFilterText }
+                      color={postStyle === 'card' && activeFilterText}
+                      fill={postStyle === 'card' && activeFilterText}
                       alignItems="center"
                       position="relative"
                       outline="none"
@@ -204,23 +198,23 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                       padding="8px"
                       textTransform="capitalize"
                       whiteSpace="nowrap"
-                      _hover={ {
+                      _hover={{
                         background: inputBg,
-                      } }
-                      onClick={ () => setPostStyle('card') }
+                      }}
+                      onClick={() => setPostStyle('card')}
                       cursor="pointer"
                     >
                       <Icon
                         mr="4px"
-                        as={ postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream }
-                        width={ 6 }
-                        height={ 6 }
+                        as={postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream}
+                        width={6}
+                        height={6}
                       />
                       <Box>Card</Box>
                     </Flex>
                     <Flex
-                      color={ postStyle === 'classic' && activeFilterText }
-                      fill={ postStyle === 'classic' && activeFilterText }
+                      color={postStyle === 'classic' && activeFilterText}
+                      fill={postStyle === 'classic' && activeFilterText}
                       alignItems="center"
                       position="relative"
                       outline="none"
@@ -230,24 +224,24 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                       padding="8px"
                       textTransform="capitalize"
                       whiteSpace="nowrap"
-                      _hover={ {
+                      _hover={{
                         background: inputBg,
-                      } }
-                      borderTop={ `1px solid ${border2}` }
-                      onClick={ () => setPostStyle('classic') }
+                      }}
+                      borderTop={`1px solid ${border2}`}
+                      onClick={() => setPostStyle('classic')}
                       cursor="pointer"
                     >
                       <Icon
                         mr="4px"
-                        as={ postStyle === 'classic' ? MdTableRows : MdOutlineTableRows }
-                        width={ 6 }
-                        height={ 6 }
+                        as={postStyle === 'classic' ? MdTableRows : MdOutlineTableRows}
+                        width={6}
+                        height={6}
                       />
                       <Box>Classic</Box>
                     </Flex>
                     <Flex
-                      color={ postStyle === 'compact' && activeFilterText }
-                      fill={ postStyle === 'compact' && activeFilterText }
+                      color={postStyle === 'compact' && activeFilterText}
+                      fill={postStyle === 'compact' && activeFilterText}
                       alignItems="center"
                       position="relative"
                       outline="none"
@@ -257,60 +251,56 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                       padding="8px"
                       textTransform="capitalize"
                       whiteSpace="nowrap"
-                      _hover={ {
+                      _hover={{
                         background: inputBg,
-                      } }
-                      borderTop={ `1px solid ${border2}` }
-                      onClick={ () => setPostStyle('compact') }
+                      }}
+                      borderTop={`1px solid ${border2}`}
+                      onClick={() => setPostStyle('compact')}
                       cursor="pointer"
                     >
                       <Icon
                         mr="4px"
-                        as={ postStyle === 'compact' ? MdViewHeadline : MdOutlineViewHeadline }
-                        width={ 6 }
-                        height={ 6 }
+                        as={postStyle === 'compact' ? MdViewHeadline : MdOutlineViewHeadline}
+                        width={6}
+                        height={6}
                       />
                       <Box>Compact</Box>
                     </Flex>
                   </>
                 }
               />
-            ) }
+            )}
           </Flex>
-
-
-
         </>
       ) : (
         <Flex
-          borderBottom={ `1px solid ${border2}` }
+          borderBottom={`1px solid ${border2}`}
           borderBottomWidth="4px"
           minH="52px"
-          bg={ mainMobileBg }
+          bg={mainMobileBg}
           justifyContent="space-between"
           lineHeight="32px"
           padding="8px 16px"
           maxWidth="1000px"
           margin="0 auto"
           position="relative"
-          sx={ {
+          sx={{
             touchAction: 'manipulation',
-          } }
+          }}
         >
           <Flex flex="1" justifyContent="space-between" overflow="hidden" lineHeight="32px">
             <Box flex="1" overflow="hidden">
-              <Box marginRight="16px" maxW="calc(100% - 2 * 8px)">
+              <Box marginRight="16px" maxW="calc(100% - 2 * 8px)" ref={ref}>
                 <Flex
                   alignItems="center"
                   flexFlow="row nowrap"
-                  onClick={ () => {
+                  onClick={() => {
                     setMobileSort(!mobileSort);
-                    setShowComponent(!mobileSort);
-                  } }
+                  }}
                 >
                   <Icon
-                    as={ RiFireFill }
-                    color={ iconMobileColor }
+                    as={RiFireFill}
+                    color={iconMobileColor}
                     w="24px"
                     h="24px"
                     flex="0 0 24px"
@@ -324,11 +314,11 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                     marginRight="8px"
                     textTransform="capitalize"
                   >
-                    { feedSort }
+                    {feedSort}
                   </Box>
                   <Icon
-                    as={ BsChevronDown }
-                    color={ iconMobileColor }
+                    as={BsChevronDown}
+                    color={iconMobileColor}
                     width="16px"
                     height="16px"
                     flex="0 0 16px"
@@ -336,8 +326,8 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                   />
                 </Flex>
 
-                { mobileSort && showComponent ? (
-                  <Box position="fixed" zIndex="20" ref={ ref }>
+                {mobileSort ? (
+                  <Box position="fixed" zIndex="20">
                     <Box
                       position="fixed"
                       borderWidth="1px"
@@ -348,7 +338,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                       left="8px"
                       right="8px"
                       width="auto"
-                      borderColor={ border2 }
+                      borderColor={border2}
                     >
                       <Box
                         position="fixed"
@@ -377,7 +367,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                       />
                       <Box width="100%" height="100%" overflow="auto">
                         <Box
-                          bg={ mainMobileBg }
+                          bg={mainMobileBg}
                           color="#a5a4a4"
                           overflow="hidden"
                           textOverflow="ellipsis"
@@ -391,30 +381,30 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                         >
                           Sort post by:
                           <Box
-                            borderTopColor={ iconMobileColor }
+                            borderTopColor={iconMobileColor}
                             borderTopStyle="solid"
                             borderTopWidth="1px"
                             marginTop="8px"
                           />
                         </Box>
                         <Flex
-                          bg={ mainMobileBg }
+                          bg={mainMobileBg}
                           alignItems="flex-start"
                           minH="50px"
                           padding="14px 0"
-                          onClick={ () => {
+                          onClick={() => {
                             setMobileSort(false);
                             setShowComponent(false);
                             setFeedSort('hot');
-                          } }
-                          as={ Link }
-                          to='hot'
+                          }}
+                          as={Link}
+                          to="hot"
                         >
                           <Icon
-                            as={ RiFireFill }
+                            as={RiFireFill}
                             w="50px"
                             flex="0 0 5opx"
-                            color={ feedSort === 'hot' ? activeFilterText : iconMobileColor }
+                            color={feedSort === 'hot' ? activeFilterText : iconMobileColor}
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -430,23 +420,23 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                           </Box>
                         </Flex>
                         <Flex
-                          bg={ mainMobileBg }
+                          bg={mainMobileBg}
                           alignItems="flex-start"
                           minH="50px"
                           padding="14px 0"
-                          onClick={ () => {
+                          onClick={() => {
                             setMobileSort(false);
                             setShowComponent(false);
                             setFeedSort('new');
-                          } }
-                          as={ Link }
-                          to='new'
+                          }}
+                          as={Link}
+                          to="new"
                         >
                           <Icon
-                            as={ RiFireFill }
+                            as={RiFireFill}
                             w="50px"
                             flex="0 0 5opx"
-                            color={ feedSort === 'new' ? activeFilterText : iconMobileColor }
+                            color={feedSort === 'new' ? activeFilterText : iconMobileColor}
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -462,23 +452,23 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                           </Box>
                         </Flex>
                         <Flex
-                          bg={ mainMobileBg }
+                          bg={mainMobileBg}
                           alignItems="flex-start"
                           minH="50px"
                           padding="14px 0"
-                          onClick={ () => {
+                          onClick={() => {
                             setMobileSort(false);
                             setShowComponent(false);
                             setFeedSort('top');
-                          } }
-                          as={ Link }
-                          to='top'
+                          }}
+                          as={Link}
+                          to="top"
                         >
                           <Icon
-                            as={ RiFireFill }
+                            as={RiFireFill}
                             w="50px"
                             flex="0 0 5opx"
-                            color={ feedSort === 'top' ? activeFilterText : iconMobileColor }
+                            color={feedSort === 'top' ? activeFilterText : iconMobileColor}
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -498,41 +488,40 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                   </Box>
                 ) : (
                   ''
-                ) }
+                )}
               </Box>
             </Box>
-            { !hideControl && (
-              <Box>
+            {!hideControl && (
+              <Box ref={ref2}>
                 <Flex
                   alignItems="center"
                   color="#a5a4a4"
                   fill="#a5a4a4"
                   height="32px"
-                  onClick={ () => {
+                  onClick={() => {
                     setViewSelect(!viewSelect);
-                    setShowComponent2(!viewSelect);
-                  } }
+                  }}
                 >
                   <Icon
-                    as={ postStyle === 'card' ? MdViewAgenda : MdTableRows }
+                    as={postStyle === 'card' ? MdViewAgenda : MdTableRows}
                     width="24px"
                     height="24px"
                     verticalAlign="middle"
-                    color={ iconMobileColor }
-                    fill={ iconMobileColor }
+                    color={iconMobileColor}
+                    fill={iconMobileColor}
                   />
                   <Icon
-                    as={ BsChevronDown }
+                    as={BsChevronDown}
                     width="24px"
                     height="24px"
                     verticalAlign="middle"
-                    color={ iconMobileColor }
-                    fill={ iconMobileColor }
+                    color={iconMobileColor}
+                    fill={iconMobileColor}
                     marginLeft="8px"
                   />
                 </Flex>
-                { viewSelect && showComponent2 ? (
-                  <Box position="fixed" zIndex="20" ref={ ref2 }>
+                {viewSelect ? (
+                  <Box position="fixed" zIndex="20">
                     <Box
                       position="fixed"
                       borderWidth="1px"
@@ -543,7 +532,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                       left="0"
                       right="8px"
                       width="auto"
-                      borderColor={ border2 }
+                      borderColor={border2}
                     >
                       <Box
                         position="fixed"
@@ -572,7 +561,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                       />
                       <Box width="100%" height="100%" overflow="auto">
                         <Box
-                          bg={ mainMobileBg }
+                          bg={mainMobileBg}
                           color="#a5a4a4"
                           overflow="hidden"
                           textOverflow="ellipsis"
@@ -586,28 +575,28 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                         >
                           View post in:
                           <Box
-                            borderTopColor={ iconMobileColor }
+                            borderTopColor={iconMobileColor}
                             borderTopStyle="solid"
                             borderTopWidth="1px"
                             marginTop="8px"
                           />
                         </Box>
                         <Flex
-                          bg={ mainMobileBg }
+                          bg={mainMobileBg}
                           alignItems="flex-start"
                           minH="50px"
                           padding="14px 0"
-                          onClick={ () => {
+                          onClick={() => {
                             setViewSelect(false);
                             setShowComponent2(false);
                             setPostStyle('classic');
-                          } }
+                          }}
                         >
                           <Icon
-                            as={ postStyle === 'classic' ? MdTableRows : MdOutlineTableRows }
+                            as={postStyle === 'classic' ? MdTableRows : MdOutlineTableRows}
                             w="50px"
                             flex="0 0 5opx"
-                            color={ postStyle === 'classic' ? activeFilterText : iconMobileColor }
+                            color={postStyle === 'classic' ? activeFilterText : iconMobileColor}
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -623,21 +612,21 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                           </Box>
                         </Flex>
                         <Flex
-                          bg={ mainMobileBg }
+                          bg={mainMobileBg}
                           alignItems="flex-start"
                           minH="50px"
                           padding="14px 0"
-                          onClick={ () => {
+                          onClick={() => {
                             setViewSelect(false);
                             setShowComponent2(false);
                             setPostStyle('card');
-                          } }
+                          }}
                         >
                           <Icon
-                            as={ postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream }
+                            as={postStyle === 'card' ? MdViewAgenda : MdOutlineViewStream}
                             w="50px"
                             flex="0 0 5opx"
-                            color={ postStyle === 'card' ? activeFilterText : iconMobileColor }
+                            color={postStyle === 'card' ? activeFilterText : iconMobileColor}
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -657,11 +646,11 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                   </Box>
                 ) : (
                   ''
-                ) }
+                )}
               </Box>
-            ) }
+            )}
           </Flex>
-          { (mobileSort && showComponent) || (viewSelect && showComponent2) ? (
+          {mobileSort || viewSelect ? (
             <Box
               background="rgba(0,0,0,.4)"
               position="fixed"
@@ -674,9 +663,9 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
             />
           ) : (
             ''
-          ) }
+          )}
         </Flex>
-      ) }
+      )}
     </>
   );
 };
