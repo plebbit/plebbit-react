@@ -1,0 +1,165 @@
+.splash_wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.splash {
+  width: 200px;
+  border-radius: 50%;
+  transform: scale(1);
+  animation: pulse 1.5s infinite;
+  height: 200px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(181, 183, 183, 0.4);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 30px rgba(204, 169, 44, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+  }
+}
+
+.wrapper {
+  background-color: #fff;
+  min-height: calc(100vh - 48px);
+}
+
+.wrapper:after {
+  content: ' ';
+  position: fixed;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background-color: #fff;
+}
+
+.wrapper2 {
+  outline: none;
+}
+
+.wrapper3 {
+  transition: margin-top 0.3s ease;
+  padding-top: 48px;
+}
+
+.wrapper3[showSide='true'] {
+  padding-left: 270px;
+}
+
+.wrapper4 {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 48px);
+}
+
+.wrapper_background {
+  min-height: 100%;
+  overflow: hidden;
+  position: relative;
+  flex: none;
+}
+
+.wrapper_background:before {
+  content: ' ';
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  background: #dae0e6;
+}
+
+.content_wrapper {
+  z-index: 3;
+}
+.content {
+  max-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .content {
+    padding: 20px 24px;
+  }
+}
+
+.stateString {
+  width: 100%;
+  z-index: 80;
+  font-weight: 500;
+  position: fixed;
+  color: white;
+  top: 48px;
+  padding: 5px 20px;
+  font-size: 12px;
+  background-color: #212a3b;
+}
+
+.sidemenu_wrap {
+  top: 48px;
+  flex-direction: column;
+  left: 0;
+  overflow: hidden;
+  position: fixed;
+  width: 270px;
+  z-index: 4;
+  display: flex;
+  background-color: #fff;
+  bottom: 0;
+  color: #1c1c1c;
+}
+
+.sidemenu_top {
+  display: flex;
+  justify-content: end;
+  padding: 16px 20px 0;
+  position: relative;
+}
+
+.sidemenu_close {
+  border-radius: 2px;
+  cursor: pointer;
+  height: 20px;
+  padding: 0 4px 0 8px;
+  width: 20px;
+}
+
+.sidemenu_close_icon {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 20px;
+  vertical-align: middle;
+}
+
+.sidemenu_close_icon:before {
+  content: '\f156';
+}
+
+.sidemenu_content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.mobile_wrapper3 {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 48px;
+}
