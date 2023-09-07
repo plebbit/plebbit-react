@@ -13,8 +13,15 @@ import styles from './dropdown.module.css';
 import useVisible from '../../../../hooks/useVisible';
 import NavUserDropdown from './navUserDropdown';
 
-const NavDropDown = ({ authorAvatarImageUrl, profile }) => {
-  const [showDropDown, setShowDropDown] = useState(false);
+const NavDropDown = ({
+  authorAvatarImageUrl,
+  profile,
+  showDropDown,
+  setShowDropDown,
+  colorMode,
+  toggleTheme,
+  onOpen,
+}) => {
   const { ref } = useVisible(setShowDropDown);
   return (
     <div ref={ref}>
@@ -50,7 +57,11 @@ const NavDropDown = ({ authorAvatarImageUrl, profile }) => {
         {showDropDown && (
           <div className={styles.nav_rr_menu} role="menu" tabIndex="-1">
             <div>
-              <NavUserDropdown authorAvatarImageUrl={authorAvatarImageUrl} profile={profile} />
+              <NavUserDropdown
+                authorAvatarImageUrl={authorAvatarImageUrl}
+                profile={profile}
+                onOpen={onOpen}
+              />
               <div className={styles.nav_rr_menu_head}>
                 <span className={styles.nav_rr_menu_head2}>
                   <span className={styles.nav_rr_menu_head_avatar}>
@@ -88,7 +99,7 @@ const NavDropDown = ({ authorAvatarImageUrl, profile }) => {
                 </button>
                 <button className={styles.nav_rr_menu_item1}>
                   <span>Dark Mode</span>
-                  <Switch />
+                  <Switch checked={String(colorMode === 'dark')} onChange={toggleTheme} />
                 </button>
               </div>
             </div>

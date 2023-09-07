@@ -11,16 +11,20 @@ import { BsArrowUpRightCircle, BsPlusLg } from 'react-icons/bs';
 import { HiOutlineChartSquareBar } from 'react-icons/hi';
 import styles from './dropdown.module.css';
 import useVisible from '../../../../hooks/useVisible';
-import { useDisclosure } from '@chakra-ui/react';
-import CreateSubPlebbit from '../modal/CreateSubPlebbit';
+
 import useStore from '../../../../store/useStore';
 import Sort from '../../../../utils/sort';
 import convertArrToObj from '../../../../utils/convertArrToObj';
 
-const HomeDropdown = ({ accountSubplebbits, authorAvatarImageUrl, profile, location }) => {
+const HomeDropdown = ({
+  accountSubplebbits,
+  authorAvatarImageUrl,
+  profile,
+  location,
+  onOpenCreate,
+}) => {
   const [showMenu, setShowMenu] = useState(false);
   const { ref } = useVisible(setShowMenu);
-  const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
   const {
     setPostView,
     postView,
@@ -206,7 +210,6 @@ const HomeDropdown = ({ accountSubplebbits, authorAvatarImageUrl, profile, locat
           </Link>
         </div>
       )}
-      {isOpenCreate ? <CreateSubPlebbit isOpen={isOpenCreate} onClose={onCloseCreate} /> : ''}
     </div>
   );
 };

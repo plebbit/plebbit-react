@@ -6,10 +6,9 @@ import { createAccount, setActiveAccount, useAccounts } from '@plebbit/plebbit-r
 import ImportAccount from '../modal/importAccount';
 import { useDisclosure, useToast } from '@chakra-ui/react';
 
-const NavUserDropdown = ({ profile, authorAvatarImageUrl }) => {
+const NavUserDropdown = ({ profile, authorAvatarImageUrl, onOpen }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const { accounts: accountLists } = useAccounts();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
   const handleCreateAccount = async () => {
@@ -81,8 +80,6 @@ const NavUserDropdown = ({ profile, authorAvatarImageUrl }) => {
           ))}
         </div>
       )}
-
-      {isOpen ? <ImportAccount isOpen={isOpen} onClose={onClose} /> : ''}
     </div>
   );
 };

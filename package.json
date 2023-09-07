@@ -5,9 +5,9 @@
   "main": "electron/main.js",
   "homepage": "./",
   "dependencies": {
-    "@capacitor/app": "1.1.1",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@capacitor/android": "3.6.0",
+    "@capacitor/app": "1.1.1",
     "@capacitor/core": "3.6.0",
     "@chakra-ui/icons": "1.1.1",
     "@chakra-ui/react": "1.7.4",
@@ -20,7 +20,6 @@
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "13.5.0",
     "@uiw/react-markdown-editor": "3.2.7",
-    "D": "^1.0.0",
     "debug": "4.3.4",
     "dompurify": "2.4.0",
     "draft-js": "0.11.7",
