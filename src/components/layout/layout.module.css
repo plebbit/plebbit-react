@@ -127,7 +127,7 @@
 
 .sidemenu_top {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   padding: 16px 20px 0;
   position: relative;
 }
