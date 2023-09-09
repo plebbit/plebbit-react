@@ -14,6 +14,9 @@ import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 import Link from '../../components/Link';
 
+// don't put inside component or will cause rerenders
+const isReply = (comment) => !!comment.parentCid
+
 import useStore from '../../store/useStore';
 const Profile = () => {
   const profile = useAccount();
@@ -27,11 +30,8 @@ const Profile = () => {
   const location = useLocation();
   const currentView = location.pathname.split('/').at(-2);
   const { accountComments: myPost } = useAccountComments({
-    filter: {
-      hasParentCid: currentView === 'comments' ? true : undefined
-    },
-  }
-  );
+    filter: currentView === 'comments' ? isReply : undefined
+  });
   const blockedCids = useMemo(() => Object.keys(profile?.blockedCids || {}) || [], [profile?.blockedCids]);
   const { comments: blockedFeeds, } = useComments(
     {

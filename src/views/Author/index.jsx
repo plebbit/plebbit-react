@@ -14,6 +14,9 @@ import Avatar from '../../components/Avatar';
 import Link from '../../components/Link';
 import useStore from '../../store/useStore';
 
+// don't put inside component or will cause rerenders
+const isReply = (comment) => !!comment.parentCid
+
 const Author = () => {
   const location = useLocation();
   const params = useParams();
@@ -27,9 +30,9 @@ const Author = () => {
   const author = useAuthor({ commentCid: params?.commentCid, authorAddress: params?.authorAddress })
   const { imageUrl } = useAuthorAvatar({ author: author?.author })
   const { authorComments, hasMore, loadMore } = useAuthorComments({
-    commentCid: params?.commentCid, authorAddress: params?.authorAddress, filter: {
-      hasParentCid: currentView === 'comments' ? true : undefined
-    }
+    commentCid: params?.commentCid, 
+    authorAddress: params?.authorAddress, 
+    filter: currentView === 'comments' ? isReply : undefined
   })
   const { blocked, unblock, block } = useBlock({ address: params?.authorAddress })
 

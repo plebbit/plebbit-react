@@ -1,9 +1,9 @@
 import { useAccountComments } from "@plebbit/plebbit-react-hooks"
-import { useMemo } from "react"
+import { useMemo, useCallback } from "react"
 
 const useRepliesAndAccountReplies = (comment) => {
     // filter only the parent cid
-    const filter = useMemo(() => ({ parentCids: [comment?.cid || 'n/a'] }), [comment?.cid])
+    const filter = useCallback((accountComment) => accountComment.parentCid === (comment?.cid || 'n/a'), [comment?.cid])
     const { accountComments } = useAccountComments({ filter })
 
     // the account's replies have a delay before getting published, so get them locally from accountComments instead
