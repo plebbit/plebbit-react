@@ -24,7 +24,6 @@ const Layout = ({ children, name, stateString, background }) => {
   } = useStore((state) => state);
   const location = useLocation();
   const showStyleBar = location?.search === '?styling=true';
-  const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
 
   if (showSplashcreen) {
     return (
@@ -60,7 +59,7 @@ const Layout = ({ children, name, stateString, background }) => {
                       </div>
                     </div>
                     <div className={styles.sidemenu_content} role="menu">
-                      <SideMenu location={name} onOpenCreate={onOpenCreate} />
+                      <SideMenu location={name} />
                     </div>
                   </div>
                 )}

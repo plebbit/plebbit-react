@@ -40,10 +40,8 @@ import { RiCreativeCommonsByLine, RiSearchLine } from 'react-icons/ri';
 import { VscMail } from 'react-icons/vsc';
 import MobileMenuDropDown from './DropDown/mobileMenuDropDown';
 import { HiOutlineUserGroup } from 'react-icons/hi';
-import CreateSubPlebbit from './modal/CreateSubPlebbit';
 import { bottomData1 } from '../../sidebar/projectLinks';
 import plebbitReactPackageJson from '../../../../package.json';
-import ImportAccount from './modal/importAccount';
 
 const NavBar = ({ location, showStyleBar }) => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -57,7 +55,9 @@ const NavBar = ({ location, showStyleBar }) => {
     subPlebbitDefData,
     setPostView,
     setShowImportAccountModal,
+    setShowCreateSubModal,
   } = useStore((state) => state);
+
   const { accounts: accountLists } = useAccounts();
   const userTheme = profile?.plebbitReactOptions?.darkMode;
 
@@ -72,8 +72,6 @@ const NavBar = ({ location, showStyleBar }) => {
   };
 
   const [showDropDown, setShowDropDown] = useState(false);
-
-  const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
 
   const subPlebbitData = Sort(
     convertArrToObj(
@@ -118,7 +116,6 @@ const NavBar = ({ location, showStyleBar }) => {
                 profile={profile}
                 location={location}
                 homeAdd={homeAdd}
-                onOpenCreate={onOpenCreate}
               />
               <NavSearch />
             </div>
@@ -356,7 +353,7 @@ const NavBar = ({ location, showStyleBar }) => {
                       onClick={() => {
                         if (pages?.legacy) {
                           setShowDropDown(!showDropDown);
-                          onOpenCreate();
+                          setShowCreateSubModal(true);
                         } else {
                           setShowDropDown(!showDropDown);
                         }
@@ -484,8 +481,6 @@ const NavBar = ({ location, showStyleBar }) => {
           )}
         </>
       )}
-
-      {isOpenCreate ? <CreateSubPlebbit isOpen={isOpenCreate} onClose={onCloseCreate} /> : ''}
     </>
   );
 };
