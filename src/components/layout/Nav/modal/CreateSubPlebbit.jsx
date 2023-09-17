@@ -5,6 +5,7 @@ import logger from '../../../../utils/logger';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../../Modal';
 import useStore from '../../../../store/useStore';
+import styles from './createSub.module.css';
 
 const CreateSubPlebbit = () => {
   const { showCreateSubModal, setShowCreateSubModal } = useStore((state) => state);
