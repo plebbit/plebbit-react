@@ -1,32 +1,18 @@
 import React, { useState } from 'react';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  Flex,
-  useColorModeValue,
-  useColorMode,
-  Textarea,
-  Text,
-  useToast,
-} from '@chakra-ui/react';
+import Modal from '../../../Modal';
+import styles from './importAccount.module.css';
+import { useToast } from '@chakra-ui/react';
 import { importAccount } from '@plebbit/plebbit-react-hooks';
+import useStore from '../../../../store/useStore';
 
-const ImportAccount = ({ isOpen, onClose }) => {
-  const mainBg = useColorModeValue('lightBody', 'darkBody');
-  const { colorMode } = useColorMode();
-  const mainColor = useColorModeValue('lightText2', 'darkText1');
+const ImportAccount = () => {
   const [account, setAccount] = useState();
+  const { showImportAccountModal, setShowImportAccountModal } = useStore((state) => state);
+
   const toast = useToast();
 
   const handleImportAccount = async () => {
     await importAccount(account);
-
     toast({
       title: 'Import Account.',
       description: 'Account Imported Successfully',
@@ -34,61 +20,42 @@ const ImportAccount = ({ isOpen, onClose }) => {
       duration: 5000,
       isClosable: true,
     });
+    setShowImportAccountModal(false);
   };
-
   return (
-    <Modal trapFocus={ false } scrollBehavior="inside" isOpen={ isOpen } onClose={ onClose } isCentered>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Export Account</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody pb={ 6 }>
-          <Flex flexDir="column" marginRight="8px" maxW="80%">
-            <Text
-              fontSize="16px"
-              fontWeight="500"
-              lineHeight="20px"
-              color={ mainColor }
-              marginBottom="4px"
-            >
-              Account Details (json)
-            </Text>
-          </Flex>
-          <Flex
-            alignItems="flex-start"
-            marginTop="12px"
-            flexDir="column"
-            flexGrow="1"
-            justifyContent="flex-end"
+    <Modal
+      isOpen={showImportAccountModal}
+      setIsOpen={setShowImportAccountModal}
+      header="Import Account"
+    >
+      <div className={styles.wrapper}>
+        <label htmlFor="account_detail" className={styles.import_account}>
+          <p className={styles.import_account_label}>Account Details (JSON)</p>
+          <textarea
+            name="account_detail"
+            id="account_detail"
+            className={styles.import_account_input}
+            placeholder="paste account details"
+            onChange={(e) => setAccount(e.target.value)}
+            value={account}
+          />
+        </label>
+        <footer className={styles.import_account_footer}>
+          <button
+            style={{
+              background: '#2b6cb0',
+              color: '#fff',
+            }}
+            className={styles.footer_btn}
+            onClick={handleImportAccount}
           >
-            <Textarea
-              backgroundColor={ mainBg }
-              placeholder="paste Account details"
-              color={ mainColor }
-              boxSizing="border-box"
-              marginBottom="0px"
-              border={ `1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}` }
-              borderColor={ colorMode === 'light' ? '#edeff1' : '#343456' }
-              height="48px"
-              borderRadius="4px"
-              padding="8px"
-              width="100%"
-              resize="both"
-              value={ account }
-              onChange={ (e) => setAccount(e.target.value) }
-            />
-          </Flex>
-        </ModalBody>
-
-        <ModalFooter mt={ 3 }>
-          <Button mr={ 3 } onClick={ handleImportAccount }>
-            Import Account
-          </Button>
-          <Button colorScheme="red" onClick={ onClose }>
-            Close
-          </Button>
-        </ModalFooter>
-      </ModalContent>
+            Import account
+          </button>
+          <button className={styles.footer_btn} onClick={() => setShowImportAccountModal(false)}>
+            Cancel
+          </button>
+        </footer>
+      </div>
     </Modal>
   );
 };

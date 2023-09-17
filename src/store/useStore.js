@@ -26,6 +26,10 @@ const useStore = create((set, get) => ({
   baseUrl: get()?.mode === 'https:' ? 'plebbitapp.eth.limo/#/' : `${window.origin}/#`,
   navLocation: {},
   setNavLocation: (val) => set(() => ({ location: val })),
+  showImportAccountModal: false,
+  setShowImportAccountModal: (val) => set(() => ({ showImportAccountModal: val })),
+  showCreateSubModal: false,
+  setShowCreateSubModal: (val) => set(() => ({ showCreateSubModal: val })),
 }));
 
 export default useStore;

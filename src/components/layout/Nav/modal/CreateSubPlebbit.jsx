@@ -4,7 +4,6 @@ import {
   Flex,
   Input,
   InputGroup,
-  Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
@@ -21,6 +20,9 @@ import { useCreateSubplebbit } from '@plebbit/plebbit-react-hooks';
 import React, { useEffect, useState } from 'react';
 import logger from '../../../../utils/logger';
 import { useNavigate } from 'react-router-dom';
+import Modal from '../../../Modal';
+import useStore from '../../../../store/useStore';
+import styles from './createSub.module.css';
 
 const CreateSubPlebbit = ({ isOpen, onClose }) => {
   const navBorder = useColorModeValue('#edeff1', '#343536');
@@ -29,11 +31,7 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-
-
-  const { createdSubplebbit, createSubplebbit, error, errors } = useCreateSubplebbit({ value })
-
-
+  const { createdSubplebbit, createSubplebbit, error, errors } = useCreateSubplebbit({ value });
 
   useEffect(() => {
     if (createdSubplebbit?.address) {
@@ -42,7 +40,7 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
       setLoading(false);
       onClose();
     }
-  }, [createdSubplebbit?.address])
+  }, [createdSubplebbit?.address]);
 
   if (error) {
     logger('create-sub', error, 'error');
@@ -56,26 +54,24 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
     });
   }
 
-
   const handleCreateSubPlebbit = async () => {
     setLoading(true);
     await createSubplebbit();
-
   };
 
   return (
     <Modal
-      trapFocus={ false }
+      trapFocus={false}
       scrollBehavior="inside"
-      isOpen={ isOpen }
-      onClose={ onClose }
+      isOpen={isOpen}
+      onClose={onClose}
       isCentered
       size="xl"
     >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
-          borderBottomColor={ navBorder }
+          borderBottomColor={navBorder}
           borderBottomStyle="solid"
           borderBottomWidth="1px"
         >
@@ -89,9 +85,9 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
             </Box>
             <InputGroup mt="12px" mb="8px">
               <Input
-                disabled={ loading }
-                value={ value?.title }
-                onChange={ (e) => setValue({ ...value, title: e.target.value }) }
+                disabled={loading}
+                value={value?.title}
+                onChange={(e) => setValue({ ...value, title: e.target.value })}
                 placeholder="input subplebbit title"
               />
             </InputGroup>
@@ -105,7 +101,7 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
               Community type
             </Box>
             <Flex flexDirection="column" mt="12px" alignItems="flex-start">
-              <RadioGroup onChange={ (x) => setValue({ ...value, type: x }) } value={ value?.type }>
+              <RadioGroup onChange={(x) => setValue({ ...value, type: x })} value={value?.type}>
                 <Stack direction="column">
                   <Radio value="public" colorScheme="gray" color="gray">
                     <Flex alignItems="center">
@@ -144,16 +140,16 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
         </ModalBody>
 
         <ModalFooter
-          sx={ {
+          sx={{
             bg: navBorder,
-          } }
+          }}
         >
           <Button
             variant="outline"
             colorScheme="blue"
-            ml={ 8 }
-            mr={ 3 }
-            onClick={ onClose }
+            ml={8}
+            mr={3}
+            onClick={onClose}
             borderRadius="999px"
             padding="4px 16px"
           >
@@ -163,8 +159,8 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
             colorScheme="blue"
             borderRadius="999px"
             padding="4px 16px"
-            onClick={ handleCreateSubPlebbit }
-            isLoading={ loading }
+            onClick={handleCreateSubPlebbit}
+            isLoading={loading}
           >
             Create a community
           </Button>
@@ -174,4 +170,100 @@ const CreateSubPlebbit = ({ isOpen, onClose }) => {
   );
 };
 
-export default CreateSubPlebbit;
+const CreateSubPlebbit2 = () => {
+  const { showCreateSubModal, setShowCreateSubModal } = useStore((state) => state);
+
+  const [value, setValue] = useState({ title: '', type: 'public' });
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+
+  const { createdSubplebbit, createSubplebbit, error, errors } = useCreateSubplebbit({ value });
+
+  useEffect(() => {
+    if (createdSubplebbit?.address) {
+      navigate(`/p/${createdSubplebbit?.address}/`);
+      logger('created-sub', createdSubplebbit);
+      setLoading(false);
+      onClose();
+    }
+  }, [createdSubplebbit?.address]);
+
+  if (error) {
+    logger('create-sub', error, 'error');
+    setLoading(false);
+    toast({
+      title: 'Create Subplebbit.',
+      description: error?.toString(),
+      status: 'error',
+      duration: 5000,
+      isClosable: true,
+    });
+  }
+
+  const handleCreateSubPlebbit = async () => {
+    setLoading(true);
+    await createSubplebbit();
+    setShowCreateSubModal(false);
+  };
+  return (
+    <Modal
+      header="Create a Subplebbit"
+      isOpen={showCreateSubModal}
+      setIsOpen={setShowCreateSubModal}
+      width="36em"
+    >
+      <div className={styles.wrapper}>
+        <label className={styles.create_sub_label} htmlFor="title">
+          <p>Title</p>
+          <input
+            name="title"
+            id="title"
+            className={styles.create_sub_input}
+            value={value?.title}
+            onChange={(e) => setValue({ ...value, title: e.target.value })}
+            disabled={loading}
+            placeholder="input subplebbit title"
+            max={21}
+          />
+          <span className={styles.title_length}>
+            {21 - (value?.title?.length || 0)} Characters remaining
+          </span>
+        </label>
+        <label className={styles.create_sub_label} htmlFor="description">
+          <p>Description</p>
+          <textarea
+            name="description"
+            id="description"
+            className={styles.create_sub_descr}
+            value={value?.description}
+            onChange={(e) => setValue({ ...value, description: e.target.value })}
+            disabled={loading}
+            placeholder="input subplebbit description"
+            max={500}
+          />
+          <span className={styles.title_length}>
+            {500 - (value?.description?.length || 0)} Characters remaining
+          </span>
+        </label>
+        <footer className={styles.import_account_footer}>
+          <button
+            className={styles.footer_btn}
+            style={{
+              background: '#2b6cb0',
+              color: '#fff',
+            }}
+            onClick={() => setShowCreateSubModal(false)}
+          >
+            Cancel
+          </button>
+          <button className={styles.footer_btn} onClick={handleCreateSubPlebbit}>
+            Create Subplebbit
+          </button>
+        </footer>
+      </div>
+    </Modal>
+  );
+};
+
+export default CreateSubPlebbit2;

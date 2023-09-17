@@ -20,7 +20,6 @@ const NavDropDown = ({
   setShowDropDown,
   colorMode,
   toggleTheme,
-  onOpen,
 }) => {
   const { ref } = useVisible(setShowDropDown);
   return (
@@ -57,11 +56,7 @@ const NavDropDown = ({
         {showDropDown && (
           <div className={styles.nav_rr_menu} role="menu" tabIndex="-1">
             <div>
-              <NavUserDropdown
-                authorAvatarImageUrl={authorAvatarImageUrl}
-                profile={profile}
-                onOpen={onOpen}
-              />
+              <NavUserDropdown authorAvatarImageUrl={authorAvatarImageUrl} profile={profile} />
               <div className={styles.nav_rr_menu_head}>
                 <span className={styles.nav_rr_menu_head2}>
                   <span className={styles.nav_rr_menu_head_avatar}>
