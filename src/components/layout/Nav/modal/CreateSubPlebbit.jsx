@@ -10,7 +10,7 @@ import styles from './createSub.module.css';
 const CreateSubPlebbit = () => {
   const { showCreateSubModal, setShowCreateSubModal } = useStore((state) => state);
 
-  const [value, setValue] = useState({ title: '', type: 'public' });
+  const [value, setValue] = useState({ title: '' });
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
