@@ -10,13 +10,13 @@ import Layout from '../../components/layout';
 import useFeedStateString from '../../hooks/useFeedStateString';
 import getAddressFromArray from '../../utils/getAddressFromArray';
 import useStore from '../../store/useStore';
+import styles from './home.module.css';
 
 const Home = () => {
   const { postStyle, feedSort, device, postView, homeAdd, subPlebbitData } = useStore(
     (state) => state
   );
   const bg = useColorModeValue('lightBody', 'darkBody');
-  const mainMobileBg = useColorModeValue('white', 'black');
   const subplebbitAddresses = postView?.filter(Boolean)?.length
     ? postView?.filter(Boolean)
     : getAddressFromArray(subPlebbitData);
@@ -36,20 +36,25 @@ const Home = () => {
     <Layout name={{ label: 'Home', value: homeAdd }} stateString={feeds?.length ? '' : stateString}>
       <Profiler id="home">
         {device !== 'mobile' ? (
-          <Flex
+          <div
             maxW="100%"
             padding="20px 24px"
             boxSizing="border-box"
             justifyContent="center"
             margin="0 auto"
+            className={styles.wrapper}
           >
-            <Box width={postStyle === 'card' ? '640px' : '100%'} minW="0">
+            <div
+              className={styles.wrapper2}
+              type={postStyle === 'card' ? 'true' : 'false'}
+              minW="0"
+            >
               {/* Create Post Bar */}
               <CreatePostBar />
               {/* feed sorter bar */}
               <FeedSort />
 
-              <Box minHeight="1000px" width="100%">
+              <div className={styles.home_feed}>
                 <InfiniteScroll
                   hasMore={hasMore}
                   loadMore={loadMore}
@@ -67,14 +72,14 @@ const Home = () => {
                   }
                   enableSubBlock
                 />
-              </Box>
-            </Box>
+              </div>
+            </div>
             <SideBar bg={bg} width="312px" />
-          </Flex>
+          </div>
         ) : (
-          <Box bg={mainMobileBg}>
+          <div>
             <FeedSort />
-            <Box bg={mainMobileBg}>
+            <div>
               <InfiniteScroll
                 hasMore={hasMore}
                 loadMore={loadMore}
@@ -85,8 +90,8 @@ const Home = () => {
                 loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
                 enableSubBlock
               />
-            </Box>
-          </Box>
+            </div>
+          </div>
         )}
       </Profiler>
     </Layout>
