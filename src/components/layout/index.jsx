@@ -42,6 +42,7 @@ const Layout = ({ children, name, stateString, background }) => {
     name?.label || 'plebbit'
   }`;
 
+  console.log({ showCreateSubModal });
   return (
     <>
       <div className={styles.wrapper}>

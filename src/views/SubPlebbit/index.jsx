@@ -31,7 +31,7 @@ import useStateString from '../../hooks/useStateString';
 import { GoMute } from 'react-icons/go';
 import useStore from '../../store/useStore';
 
-const SubPlebbit = ({ match }) => {
+const SubPlebbit = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
   const { postStyle, feedSort, device } = useStore((state) => state);
