@@ -54,7 +54,7 @@ const App = () => {
       <Route path="/p/:subplebbitAddress/about/edit" element={<CommunitySettings />} />
       <Route path="/p/:subplebbitAddress/moderators" element={<Moderators />} />
       <Route path="notifications" element={<Notifications />} />
-      <Route path="/p/:subplebbitAddress/about/" element={<About />} />
+      <Route path="/p/:subplebbitAddress/about" element={<About />} />
       <Route path="/p/:subplebbitAddress/about/moderators" element={<About />} />
       <Route path="/p/:subplebbitAddress/about/modqueue" element={<About />} />
       <Route path="/p/:subplebbitAddress/about/spam" element={<About />} />
