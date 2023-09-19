@@ -12,6 +12,7 @@ import numFormatter from '../../../../utils/numberFormater';
 import styles from './dropdown.module.css';
 import useVisible from '../../../../hooks/useVisible';
 import NavUserDropdown from './navUserDropdown';
+import useStore from '../../../../store/useStore';
 
 const NavDropDown = ({
   authorAvatarImageUrl,
@@ -22,6 +23,7 @@ const NavDropDown = ({
   toggleTheme,
 }) => {
   const { ref } = useVisible(setShowDropDown);
+  const { setShowCreateSubModal } = useStore((state) => state);
   return (
     <div ref={ref}>
       <button
@@ -98,14 +100,14 @@ const NavDropDown = ({
                 </button>
               </div>
             </div>
-            <Link to="/submit" className={styles.nav_rr_menu_item3}>
+            <div onClick={() => setShowCreateSubModal(true)} className={styles.nav_rr_menu_item3}>
               <span className={styles.nav_rr_menu_item3_1}>
                 <span className={styles.nav_rr_menu_item3_icon_wrap}>
                   <RiCreativeCommonsByLine className={styles.nav_rr_menu_item3_icon} />
                 </span>
-                <span className={styles.nav_rr_menu_item3_text}>Create a Community</span>
+                <span className={styles.nav_rr_menu_item3_text}>Create a Subplebbit</span>
               </span>
-            </Link>
+            </div>
             <button className={styles.nav_rr_menu_item3}>
               <span className={styles.nav_rr_menu_item3_1}>
                 <span className={styles.nav_rr_menu_item3_icon_wrap}>
