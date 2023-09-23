@@ -105,6 +105,7 @@ const CreatePost = () => {
     link: link ? link : undefined,
     spoiler: spoiler ? spoiler : undefined,
     subplebbitAddress: address?.value,
+    flair: flair ? flair : undefined,
     onChallenge,
     onChallengeVerification: (challengeVerification, comment) =>
       onChallengeVerification(
@@ -115,6 +116,8 @@ const CreatePost = () => {
           setAddress(null);
           setTitle('');
           setContent('');
+          setLink('');
+          setFlair({});
           setEditorState(EditorState.createEmpty());
         },
         () => {
