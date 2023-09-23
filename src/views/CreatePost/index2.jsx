@@ -172,6 +172,7 @@ const CreatePost = () => {
             <div className={styles.create_post_select_wrap}>
               <div className={styles.create_post_select_wrap2}>
                 <DropDown2
+                  isClearable
                   options={options}
                   onChange={(value) => setAddress(value)}
                   value={address}
@@ -288,6 +289,29 @@ const CreatePost = () => {
                       <AiOutlineTag />
                       <span>{flair?.text || 'Flair'}</span>
                       <BsChevronDown />
+                    </button>
+                  </div>
+                </div>
+                <hr />
+                <div className={styles.footer_wrap}>
+                  <div className={styles.footer}>
+                    <button
+                      role="button"
+                      tabIndex="0"
+                      disabled={
+                        (mode === 'post' ? !content : !link) || !title || !address || loading
+                      }
+                      active={String(
+                        (mode === 'post' ? content !== '' : link !== '') &&
+                          title !== '' &&
+                          address?.value !== ''
+                      )}
+                      onClick={handlePublishPost}
+                    >
+                      Post
+                    </button>{' '}
+                    <button role="button" tabIndex="0">
+                      Save Draft
                     </button>
                   </div>
                 </div>

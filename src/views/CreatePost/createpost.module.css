@@ -360,3 +360,65 @@
 .create_post_form_foot_tag2 button svg:before {
   content: '\f105';
 }
+
+.create_post_form_foot hr {
+  display: block;
+  unicode-bidi: isolate;
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+  overflow: hidden;
+}
+.footer_wrap {
+  position: relative;
+  width: 100%;
+  margin-top: 8px;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.footer > button {
+  min-width: 96px;
+  position: relative;
+  background-color: transparent;
+  border: 1px solid currentColor;
+  color: #0079d3;
+  fill: #0079d3;
+  font-family: Noto Sans, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: unset;
+  line-height: 17px;
+  text-transform: unset;
+  min-height: 32px;
+  padding: 4px 16px;
+  align-items: center;
+  border-radius: 9999px;
+  box-sizing: border-box;
+  display: flex;
+  text-align: center;
+  width: auto;
+  justify-content: center;
+  margin-left: 8px;
+}
+.footer > button[active='true'] {
+  background-color: #0079d3;
+  color: #fff;
+  border: none;
+}
+
+.footer > button:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background: #fff;
+  opacity: 0;
+}
