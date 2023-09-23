@@ -2,7 +2,6 @@ import React, { Profiler } from 'react';
 import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
 import SideBar from './sideBar';
 import { useFeed, useSubplebbits } from '@plebbit/plebbit-react-hooks';
-import CreatePostBar from '../../components/Post/CreatePost/createPostBar';
 import FeedSort from '../../components/Post/FeedSort';
 import InfiniteScroll from '../../components/InfiniteScroll';
 import Post from '../../components/Post';
@@ -11,6 +10,7 @@ import useFeedStateString from '../../hooks/useFeedStateString';
 import getAddressFromArray from '../../utils/getAddressFromArray';
 import useStore from '../../store/useStore';
 import styles from './home.module.css';
+import CreatePostBar from '../../components/CreatePost/createPostBar';
 
 const Home = () => {
   const { postStyle, feedSort, device, postView, homeAdd, subPlebbitData } = useStore(

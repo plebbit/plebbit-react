@@ -1,9 +1,8 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Home from './views/Home';
-import PostCreate from './components/Post/CreatePost';
 import Profile from './views/Profile';
-import SubPlebbit from './views/SubPlebbit/index2';
+import SubPlebbit from './views/SubPlebbit';
 import Settings from './views/Settings';
 import About from './views/About';
 import CommunitySettings from './views/Community';
@@ -13,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Notifications from './views/Notifications';
 import PostDetail from './views/PostDetail/postDetail2';
 import Author from './views/Author';
+import CreatePost from './views/CreatePost/index2';
 
 const App = () => {
   return (
@@ -21,8 +21,8 @@ const App = () => {
       <Route path="/hot" element={<Home />} />
       <Route path="/new" element={<Home />} />
       <Route path="/top" element={<Home />} />
-      <Route path="/submit" element={<PostCreate />} />
-      <Route path="/p/:subplebbitAddress/submit" element={<PostCreate />} />
+      <Route path="/submit" element={<CreatePost />} />
+      <Route path="/p/:subplebbitAddress/submit" element={<CreatePost />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/settings/account" element={<Settings />} />
       <Route path="/settings/profile" element={<Settings />} />

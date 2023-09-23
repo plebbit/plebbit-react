@@ -226,6 +226,13 @@ body {
   }
 }
 
+*[disabled] {
+  cursor: not-allowed !important;
+  filter: grayscale(1) !important;
+  color: rgba(135, 138, 140, 0.5) !important;
+  fill: rgba(135, 138, 140, 0.5) !important;
+}
+
 *,
 :after,
 :before {
