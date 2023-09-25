@@ -9,8 +9,8 @@ import Layout from '../../components/layout';
 import useFeedStateString from '../../hooks/useFeedStateString';
 import getAddressFromArray from '../../utils/getAddressFromArray';
 import useStore from '../../store/useStore';
-import styles from './home.module.css';
 import CreatePostBar from '../../components/CreatePost/createPostBar';
+import FeedContent from '../../components/container/FeedContent';
 
 const Home = () => {
   const { postStyle, feedSort, device, postView, homeAdd, subPlebbitData } = useStore(
@@ -36,46 +36,35 @@ const Home = () => {
     <Layout name={{ label: 'Home', value: homeAdd }} stateString={feeds?.length ? '' : stateString}>
       <Profiler id="home">
         {device !== 'mobile' ? (
-          <div
-            maxW="100%"
-            padding="20px 24px"
-            boxSizing="border-box"
-            justifyContent="center"
-            margin="0 auto"
-            className={styles.wrapper}
-          >
-            <div
-              className={styles.wrapper2}
+          <>
+            <FeedContent
+              top={
+                <>
+                  {/* Create Post Bar */}
+                  <CreatePostBar />
+                  {/* feed sorter bar */}
+                  <FeedSort />
+                </>
+              }
               type={postStyle === 'card' ? 'true' : 'false'}
-              minW="0"
-            >
-              {/* Create Post Bar */}
-              <CreatePostBar />
-              {/* feed sorter bar */}
-              <FeedSort />
-
-              <div className={styles.home_feed}>
-                <InfiniteScroll
-                  hasMore={hasMore}
-                  loadMore={loadMore}
-                  content={(index, feed) => (
-                    <Post index={index} post={feed} key={feed?.cid || index} mode={postStyle} />
-                  )}
-                  feeds={feeds}
-                  loader={
-                    <Post
-                      loading={true}
-                      mode={postStyle}
-                      stateString={stateString}
-                      key={Math.random()}
-                    />
-                  }
-                  enableSubBlock
+              hasMore={hasMore}
+              loadMore={loadMore}
+              content={(index, feed) => (
+                <Post index={index} post={feed} key={feed?.cid || index} mode={postStyle} />
+              )}
+              feeds={feeds}
+              loader={
+                <Post
+                  loading={true}
+                  mode={postStyle}
+                  stateString={stateString}
+                  key={Math.random()}
                 />
-              </div>
-            </div>
-            <SideBar bg={bg} width="312px" />
-          </div>
+              }
+              enableSubBlock
+              sidebar={<SideBar bg={bg} />}
+            />
+          </>
         ) : (
           <div>
             <FeedSort />

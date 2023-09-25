@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Home from './views/Home';
-import Profile from './views/Profile';
+import Profile from './views/Profile/index2';
 import SubPlebbit from './views/SubPlebbit';
 import Settings from './views/Settings';
 import About from './views/About';
@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Notifications from './views/Notifications';
 import PostDetail from './views/PostDetail/postDetail2';
 import Author from './views/Author';
-import CreatePost from './views/CreatePost/index2';
+import CreatePost from './views/CreatePost';
 
 const App = () => {
   return (
@@ -39,6 +39,7 @@ const App = () => {
       <Route path="/profile/saved" element={<Profile />} />
       <Route path="/profile/hidden" element={<Profile />} />
       <Route path="/profile/upvoted" element={<Profile />} />
+      <Route path="/profile/downvoted" element={<Profile />} />
       <Route path="/profile/gilded" element={<Profile />} />
       <Route path="/profile/gilded/given" element={<Profile />} />
       <Route path="/u/:authorAddress/c/:commentCid" element={<Author />} />

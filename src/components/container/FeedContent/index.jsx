@@ -1,7 +1,40 @@
 import React from 'react';
+import styles from './feedcontent.module.css';
+import InfiniteScroll from '../../InfiniteScroll';
 
-const FeedContent = () => {
-  return <div>FeedContent</div>;
+const FeedContent = ({
+  feeds,
+  loader,
+  hasMore,
+  loadMore,
+  content,
+  disableBlocked,
+  enableSubBlock,
+  top,
+  type,
+  sidebar,
+}) => {
+  return (
+    <div className={styles.wrapper}>
+      {/* FeedContent */}
+      <div className={styles.wrapper2} type={type}>
+        {top}
+        <div className={styles.home_feed}>
+          <InfiniteScroll
+            hasMore={hasMore}
+            loadMore={loadMore}
+            content={(index, feed) => content(index, feed)}
+            feeds={feeds || []}
+            loader={loader}
+            enableSubBlock={enableSubBlock}
+            disableBlocked={disableBlocked}
+          />
+        </div>
+      </div>
+      {/* sideBar */}
+      <div className={styles.sidebar}>{sidebar}</div>
+    </div>
+  );
 };
 
 export default FeedContent;
