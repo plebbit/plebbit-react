@@ -28,6 +28,7 @@ import SideBar from './sideBar';
 import truncateString from '../../utils/truncateString';
 import Dot from '../../components/Dot';
 import CreatePostBar from '../../components/CreatePost/createPostBar';
+import FeedContent from '../../components/container/FeedContent';
 
 const Subplebbit = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
@@ -235,63 +236,52 @@ const Subplebbit = () => {
               </div>
             </div>
           </div>
-          <div
-            maxW="100%"
-            padding="20px 24px"
-            boxSizing="border-box"
-            justifyContent="center"
-            margin="0 auto"
-            className={styles.wrapper}
-          >
-            <div
-              className={styles.wrapper2}
-              type={postStyle === 'card' ? 'true' : 'false'}
-              minW="0"
-            >
-              {/* Create Post Bar */}
-              <CreatePostBar address={data?.address} />
-              {/* feed sorter bar */}
-              <FeedSort subplebbitColor={data?.suggested?.secondaryColor} />
-
-              <div className={styles.home_feed}>
-                <InfiniteScroll
-                  hasMore={hasMore}
-                  loadMore={loadMore}
-                  content={(index, feed) => (
-                    <Post
-                      allowedSpecial={allowedSpecial}
-                      type="subPlebbit"
-                      post={feed}
-                      index={index}
-                      key={feed?.cid || index}
-                      mode={postStyle}
-                    />
-                  )}
-                  feeds={feeds}
-                  loader={
-                    <Post
-                      stateString={stateString}
-                      type="subPlebbit"
-                      loading={true}
-                      mode={postStyle}
-                      key={Math.random()}
-                    />
-                  }
-                />
-              </div>
-            </div>
-            <SideBar
-              profile={profile}
-              handleSaveChanges={handleSaveChanges}
-              loading={loading}
-              data={data}
-              setData={setData}
-              subPlebbit={data}
-              allowedSpecial={allowedSpecial}
-              blocked={blocked}
-              handleOption={handleOption}
-            />
-          </div>
+          <FeedContent
+            type={postStyle === 'card' ? 'true' : 'false'}
+            top={
+              <>
+                {/* Create Post Bar */}
+                <CreatePostBar address={data?.address} />
+                {/* feed sorter bar */}
+                <FeedSort subplebbitColor={data?.suggested?.secondaryColor} />
+              </>
+            }
+            hasMore={hasMore}
+            loadMore={loadMore}
+            content={(index, feed) => (
+              <Post
+                allowedSpecial={allowedSpecial}
+                type="subPlebbit"
+                post={feed}
+                index={index}
+                key={feed?.cid || index}
+                mode={postStyle}
+              />
+            )}
+            feeds={feeds}
+            loader={
+              <Post
+                stateString={stateString}
+                type="subPlebbit"
+                loading={true}
+                mode={postStyle}
+                key={Math.random()}
+              />
+            }
+            sidebar={
+              <SideBar
+                profile={profile}
+                handleSaveChanges={handleSaveChanges}
+                loading={loading}
+                data={data}
+                setData={setData}
+                subPlebbit={data}
+                allowedSpecial={allowedSpecial}
+                blocked={blocked}
+                handleOption={handleOption}
+              />
+            }
+          />
         </>
       ) : (
         <div>
