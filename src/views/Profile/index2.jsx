@@ -40,18 +40,28 @@ const Profile = () => {
   const { comments: blockedFeeds } = useComments({
     commentCids: blockedCids,
   });
-  const navOptions = [
-    { label: 'overview', link: 'overview', optional: 'profile' },
-    { label: 'posts', link: 'posts' },
-    { label: 'comments', link: 'comments' },
-    { label: 'history', link: 'history' },
-    { label: 'saved', link: 'saved' },
-    { label: 'hidden', link: 'hidden' },
-    { label: 'upvoted', link: 'upvoted' },
-    { label: 'downvoted', link: 'downvoted' },
-    { label: 'awards received', link: 'gilded' },
-    { label: 'awards given', link: 'gilded/given', optional: 'given' },
-  ];
+  const navOptions =
+    device !== 'mobile'
+      ? [
+          { label: 'overview', link: 'overview', optional: 'profile' },
+          { label: 'posts', link: 'posts' },
+          { label: 'comments', link: 'comments' },
+          { label: 'history', link: 'history' },
+          { label: 'saved', link: 'saved' },
+          { label: 'hidden', link: 'hidden' },
+          { label: 'upvoted', link: 'upvoted' },
+          { label: 'downvoted', link: 'downvoted' },
+          { label: 'awards received', link: 'gilded' },
+          { label: 'awards given', link: 'gilded/given', optional: 'given' },
+        ]
+      : [
+          { label: 'overview', link: 'overview', optional: 'profile' },
+          { label: 'posts', link: 'posts' },
+          { label: 'comments', link: 'comments' },
+          { label: 'Moderation', link: 'moderation' },
+          { label: 'saved', link: 'saved' },
+          { label: 'hidden', link: 'hidden' },
+        ];
   const feeds = myPost ? [...myPost].reverse() : [];
   const fullNav = !(currentView === 'overview' || currentView === 'profile');
 

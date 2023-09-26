@@ -120,6 +120,7 @@
 
 .mobile_profile_header_navigation {
   position: relative;
+  display: block;
 }
 
 .mobile_profile_header_navigation > nav {
