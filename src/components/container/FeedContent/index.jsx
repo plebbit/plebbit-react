@@ -13,6 +13,7 @@ const FeedContent = ({
   top,
   type,
   sidebar,
+  children,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -20,15 +21,17 @@ const FeedContent = ({
       <div className={styles.wrapper2} type={type}>
         {top}
         <div className={styles.home_feed}>
-          <InfiniteScroll
-            hasMore={hasMore}
-            loadMore={loadMore}
-            content={(index, feed) => content(index, feed)}
-            feeds={feeds || []}
-            loader={loader}
-            enableSubBlock={enableSubBlock}
-            disableBlocked={disableBlocked}
-          />
+          {children || (
+            <InfiniteScroll
+              hasMore={hasMore}
+              loadMore={loadMore}
+              content={(index, feed) => content(index, feed)}
+              feeds={feeds || []}
+              loader={loader}
+              enableSubBlock={enableSubBlock}
+              disableBlocked={disableBlocked}
+            />
+          )}
         </div>
       </div>
       {/* sideBar */}

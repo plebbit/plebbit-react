@@ -446,7 +446,7 @@ const Profile = () => {
                     </Flex>
                   </Flex>
                 )}
-                {currentView === 'awards given' && (
+                {currentView === 'given' && (
                   <Flex width="100%" flexDir="column">
                     {/* <Post hideContent />
 
@@ -466,7 +466,7 @@ const Profile = () => {
                     <Post hideContent /> */}
                   </Flex>
                 )}
-                {currentView === 'awards recieved' && (
+                {currentView === 'gilded' && (
                   <Flex width="100%" flexDir="column">
                     {/* <Post hideContent />
 

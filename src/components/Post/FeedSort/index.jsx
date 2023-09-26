@@ -458,7 +458,6 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                           padding="14px 0"
                           onClick={() => {
                             setMobileSort(false);
-                            setShowComponent(false);
                             setFeedSort('top');
                           }}
                           as={Link}
@@ -588,7 +587,6 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                           padding="14px 0"
                           onClick={() => {
                             setViewSelect(false);
-                            setShowComponent2(false);
                             setPostStyle('classic');
                           }}
                         >
@@ -618,7 +616,6 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                           padding="14px 0"
                           onClick={() => {
                             setViewSelect(false);
-                            setShowComponent2(false);
                             setPostStyle('card');
                           }}
                         >

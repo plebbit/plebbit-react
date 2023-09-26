@@ -19,7 +19,7 @@
 
 @media (min-width: 1024px) {
   .profile_header2 {
-    left: calc((100% - 976px) / 2);
+    left: calc(((100%) - 976px) / 2);
     right: calc(((100%) - 312px) / 2);
   }
 }
@@ -47,4 +47,105 @@
   box-shadow: inset 0 -2px 0 0 #0079d3;
   cursor: default;
   color: #0079d3;
+}
+
+/* mobile */
+
+.mobile_profile_header {
+  background-color: #fff;
+  border-bottom: 1px solid #ccccca;
+}
+
+.mobile_profile_header2 {
+  display: block;
+}
+
+.mobile_profile_header_banner {
+  padding: 8px;
+  text-align: center;
+}
+
+.mobile_profile_header_avatar {
+  margin: auto;
+}
+
+.mobile_profile_header_name {
+  display: inline-block;
+  padding-left: 8px;
+  padding-right: 8px;
+  vertical-align: middle;
+  margin: 0;
+  font-size: 24px;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+.mobile_profile_header_detail {
+  display: flex;
+  justify-content: center;
+}
+
+.mobile_profile_header_detail > span {
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-weight: lighter;
+  vertical-align: middle;
+}
+
+.mobile_profile_header_banner > a {
+  color: #24a0ed;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 4px;
+  padding: 4px;
+}
+
+.mobile_profile_header_banner svg {
+  font-size: 16px;
+  line-height: 16px;
+  vertical-align: middle;
+  display: inline;
+}
+
+.mobile_profile_header_banner svg:before {
+  vertical-align: inherit;
+  content: '\F14C';
+}
+
+.mobile_profile_header_navigation {
+  position: relative;
+}
+
+.mobile_profile_header_navigation > nav {
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.mobile_profile_header_navigation nav a {
+  border-bottom: 2px solid transparent;
+  display: inline-block;
+  overflow: hidden;
+  padding: 0 8px;
+  scroll-snap-align: start;
+  text-align: center;
+}
+.mobile_profile_header_navigation_link {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  padding: 9px 8px;
+  color: #6a6d6f;
+}
+.mobile_profile_header_navigation_link[active='true'] {
+  border-bottom: 2px solid #006cbf;
+  color: #006cbf;
 }

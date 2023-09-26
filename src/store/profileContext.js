@@ -1,14 +1,9 @@
 import { useColorMode } from '@chakra-ui/react';
-import {
-  useAccount,
-  useAccountSubplebbits,
-  useSubplebbits,
-} from '@plebbit/plebbit-react-hooks';
+import { useAccount, useAccountSubplebbits, useSubplebbits } from '@plebbit/plebbit-react-hooks';
 import React, { useEffect, useCallback, useMemo } from 'react';
 import useSubPlebbitDefaultData from '../hooks/useSubPlebbitDefaultData';
 import getAddressFromArray from '../utils/getAddressFromArray';
 import useStore from './useStore';
-
 
 const ProfileDataProvider = ({ children }) => {
   const { setColorMode } = useColorMode();
@@ -23,16 +18,14 @@ const ProfileDataProvider = ({ children }) => {
     setDevice,
   } = useStore((state) => state);
 
-
   const profile = useAccount();
   const { accountSubplebbits } = useAccountSubplebbits();
   const userTheme = profile?.plebbitReactOptions?.darkMode;
 
-
   //account Subscription === obj[]
-  const { subplebbits: subscriptions } = useSubplebbits({ subplebbitAddresses: profile?.subscriptions });
-
-
+  const { subplebbits: subscriptions } = useSubplebbits({
+    subplebbitAddresses: profile?.subscriptions,
+  });
 
   const homeAdd = useMemo(() => {
     const subscriptionsAddresses = getAddressFromArray(subscriptions);
@@ -49,10 +42,10 @@ const ProfileDataProvider = ({ children }) => {
       getAddressFromArray(subscriptions),
       Object.keys(accountSubplebbits),
       getAddressFromArray(subPlebbitData),
-    ].flat().filter(Boolean),
+    ]
+      .flat()
+      .filter(Boolean),
   });
-
-
 
   useEffect(() => {
     if (subPlebbitData) {
@@ -62,11 +55,9 @@ const ProfileDataProvider = ({ children }) => {
 
   useEffect(() => {
     if (subPlebbitDefData) {
-      setSubPlebbitDefData(subPlebbitDefData)
+      setSubPlebbitDefData(subPlebbitDefData);
     }
   }, [subPlebbitDefData]);
-
-
 
   useEffect(() => {
     if (homeAdd) {
@@ -76,8 +67,6 @@ const ProfileDataProvider = ({ children }) => {
       }
     }
   }, [homeAdd, postView, subPlebbitDefData]);
-
-
 
   const handleResize = useCallback(() => {
     if (window.innerWidth > 1200) {
@@ -102,8 +91,6 @@ const ProfileDataProvider = ({ children }) => {
     setColorMode(userTheme ? 'dark' : 'light');
   }, [setColorMode, userTheme]);
 
-
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplashcreen(false);
@@ -114,16 +101,11 @@ const ProfileDataProvider = ({ children }) => {
     };
   }, [setShowSplashcreen]);
 
-  return (
-    <div>
-      { children }
-    </div>
-  );
+  return <div>{children}</div>;
 };
 
 ProfileDataProvider.defaultProps = {
   children: null,
 };
 
-
-export default ProfileDataProvider
+export default ProfileDataProvider;
