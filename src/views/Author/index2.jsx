@@ -1,12 +1,15 @@
 import {
   useAccount,
   useAccountComments,
+  useAuthor,
   useAuthorAvatar,
+  useAuthorComments,
+  useBlock,
   useComments,
 } from '@plebbit/plebbit-react-hooks';
 import React, { useMemo } from 'react';
 import useStore from '../../store/useStore';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import Layout from '../../components/layout';
 import styles from './profile.module.css';
 import getUserName from '../../utils/getUserName';
@@ -25,48 +28,48 @@ const isReply = (comment) => !!comment.parentCid;
 const isPost = (comment) => !comment.parentCid;
 
 const Profile = () => {
-  const profile = useAccount();
-  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
+  const params = useParams();
   const { device, postStyle } = useStore((state) => state);
   const location = useLocation();
+  const author = useAuthor({
+    commentCid: params?.commentCid,
+    authorAddress: params?.authorAddress,
+  });
+  const { imageUrl } = useAuthorAvatar({ author: author?.author });
+
   const currentView = location.pathname.split('/').at(-2);
-  const { accountComments: myPost } = useAccountComments({
+  const { authorComments, hasMore, loadMore } = useAuthorComments({
+    commentCid: params?.commentCid,
+    authorAddress: params?.authorAddress,
     filter: currentView === 'comments' ? isReply : currentView === 'posts' ? isPost : undefined,
   });
-  const blockedCids = useMemo(
-    () => Object.keys(profile?.blockedCids || {}) || [],
-    [profile?.blockedCids]
-  );
-  const { comments: blockedFeeds } = useComments({
-    commentCids: blockedCids,
-  });
+  const { blocked, unblock, block } = useBlock({ address: params?.authorAddress });
+
+  const handleOption = (val) => {
+    if (val?.id === 'mute') {
+      blocked ? unblock() : block();
+    }
+  };
+
   const navOptions =
     device !== 'mobile'
       ? [
-          { label: 'overview', link: 'overview', optional: 'profile' },
+          { label: 'overview', link: 'overview', optional: params?.commentCid },
           { label: 'posts', link: 'posts' },
           { label: 'comments', link: 'comments' },
-          { label: 'history', link: 'history' },
-          { label: 'saved', link: 'saved' },
-          { label: 'hidden', link: 'hidden' },
-          { label: 'upvoted', link: 'upvoted' },
-          { label: 'downvoted', link: 'downvoted' },
-          { label: 'awards received', link: 'gilded' },
-          { label: 'awards given', link: 'gilded/given', optional: 'given' },
         ]
       : [
-          { label: 'overview', link: 'overview', optional: 'profile' },
+          { label: 'overview', link: 'overview', optional: params?.commentCid },
           { label: 'posts', link: 'posts' },
           { label: 'comments', link: 'comments' },
           { label: 'Moderation', link: 'moderation' },
-          { label: 'saved', link: 'saved' },
-          { label: 'hidden', link: 'hidden' },
         ];
-  const feeds = myPost ? [...myPost].reverse() : [];
+  const feeds = authorComments ? [...authorComments].reverse() : [];
   const fullNav = !(currentView === 'overview' || currentView === 'profile');
+  const address = `/u/${params?.authorAddress}/c/${params?.commentCid}`;
 
   return (
-    <Layout name={{ label: getUserName(profile?.author) || 'Profile', value: location?.pathname }}>
+    <Layout name={{ label: getUserName(author?.author) || 'Profile', value: location?.pathname }}>
       {device !== 'mobile' ? (
         <>
           <div className={styles.profile_header}>
@@ -77,7 +80,7 @@ const Profile = () => {
                     <Link
                       key={index}
                       className={styles.profile_header_link}
-                      to={`/profile/${option?.link}/`}
+                      to={`${address}/${option?.link}/`}
                       active={String(
                         currentView === option?.link || currentView === option?.optional
                       )}
@@ -92,8 +95,15 @@ const Profile = () => {
           <FeedContent
             type={fullNav ? 'false' : 'true'}
             top={<FeedSort hideControl />}
-            sidebar={<SideBar profile={profile} avatar={authorAvatarImageUrl} />}
-            feeds={currentView === 'hidden' ? blockedFeeds : feeds}
+            sidebar={
+              <SideBar
+                profile={author}
+                avatar={imageUrl}
+                handleOption={handleOption}
+                blocked={blocked}
+              />
+            }
+            feeds={feeds}
             loader={
               <Post
                 loading={true}
@@ -101,6 +111,8 @@ const Profile = () => {
                 key={Math.random()}
               />
             }
+            hasMore={hasMore}
+            loadMore={loadMore}
             content={(index, feed) => (
               <Post
                 post={feed}
@@ -109,7 +121,6 @@ const Profile = () => {
                 mode={currentView === 'overview' || currentView === 'profile' ? 'card' : 'classic'}
               />
             )}
-            disableBlocked={currentView === 'hidden'}
           />
         </>
       ) : (
@@ -119,7 +130,7 @@ const Profile = () => {
               <div className={styles.mobile_profile_header_banner}>
                 <div className={styles.mobile_profile_header_avatar}>
                   <Avatar
-                    avatar={authorAvatarImageUrl}
+                    avatar={imageUrl}
                     height={64}
                     width={64}
                     sx={{
@@ -127,24 +138,17 @@ const Profile = () => {
                     }}
                   />
                 </div>
-                <h3 className={styles.mobile_profile_header_name}>
-                  {' '}
-                  {getUserName(profile?.author)}
-                </h3>
+                <h3 className={styles.mobile_profile_header_name}>{getUserName(author?.author)}</h3>
                 <div className={styles.mobile_profile_header_detail}>
                   <span>
-                    <span>{numFormatter(profile?.karma?.score)} karma</span>
+                    <span>{numFormatter(author?.author?.karma?.score) || 0} karma</span>
                   </span>
                 </div>
-
-                <Link to="/settings/">
-                  Edit Profile <MdEdit />
-                </Link>
               </div>
               <div className={styles.mobile_profile_header_navigation}>
                 <nav>
                   {navOptions?.map((option, index) => (
-                    <Link to={`/profile/${option?.link}/`} key={index}>
+                    <Link to={`${address}/${option?.link}/`} key={index}>
                       <div
                         active={String(
                           currentView === option?.link || currentView === option?.optional
@@ -160,7 +164,9 @@ const Profile = () => {
             </header>
             <FeedSort />
             <InfiniteScroll
-              feeds={currentView === 'hidden' ? blockedFeeds : feeds}
+              feeds={feeds}
+              hasMore={hasMore}
+              loadMore={loadMore}
               loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
               content={(index, feed) => (
                 <Post index={index} post={feed} key={feed?.cid || index} mode="card" />
