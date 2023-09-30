@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './views/Home';
 import Profile from './views/Profile';
 import SubPlebbit from './views/SubPlebbit';
-import Settings from './views/Settings';
+import Settings from './views/Settings/index2';
 import About from './views/About';
 import CommunitySettings from './views/Community';
 import Moderators from './views/About/Moderator';
@@ -11,7 +11,7 @@ import NotFound from './views/NotFound';
 import 'react-toastify/dist/ReactToastify.css';
 import Notifications from './views/Notifications';
 import PostDetail from './views/PostDetail/postDetail2';
-import Author from './views/Author/index2';
+import Author from './views/Author';
 import CreatePost from './views/CreatePost';
 
 const App = () => {

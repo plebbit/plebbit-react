@@ -243,3 +243,39 @@ svg:not(:root) {
   overflow-clip-margin: content-box;
   overflow: hidden;
 }
+
+h3 {
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+input,
+textarea,
+[contenteditable] {
+  font-family: Noto Sans, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  font-family: inherit;
+}
+
+input[type='text' i] {
+  padding-block: 1px;
+  padding-inline: 2px;
+}
+
+ol,
+ul {
+  margin: 0px;
+  padding: 0px;
+}

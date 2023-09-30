@@ -1,0 +1,342 @@
+.wrapper {
+  padding-bottom: 40px;
+  min-height: calc(100vh - 88px);
+  margin-left: calc(100vw - 100%);
+  background: #fff;
+  position: relative;
+}
+
+.settings_top {
+  box-sizing: border-box;
+  background: #fff;
+  position: relative;
+}
+
+.settings_top_wrap {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 20px 20px;
+  justify-content: space-between;
+}
+
+.settings_top_wrap > h3 {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #1c1c1c;
+  fill: #fff;
+}
+
+.settings_top_wrap button {
+  position: relative;
+  border: 1px solid #0079d3;
+  color: #0079d3;
+  fill: #0079d3;
+  font-family: Noto Sans, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: unset;
+  line-height: 17px;
+  text-transform: unset;
+  min-height: 32px;
+  min-width: 32px;
+  padding: 4px 16px;
+  align-items: center;
+  border-radius: 9999px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: auto;
+}
+
+.settings_tablist {
+  max-width: 1200px;
+  background: #ffff;
+  margin: 0 auto;
+  padding: 0 20px;
+  border-bottom: 1px solid #edeff1;
+}
+
+.settings_tablist_link {
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: none;
+  color: #7c7c7c;
+  display: inline-block;
+  line-height: unset;
+  margin-right: 8px;
+  padding: 15px 12px 12px;
+}
+
+.settings_tablist_link[aria-selected='true'] {
+  border-bottom: 3px solid #0079d3;
+  color: #1c1c1c;
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-block;
+  line-height: unset;
+  margin-right: 8px;
+  padding: 15px 12px 12px;
+}
+
+.settings_content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+}
+
+.settings_content2 {
+  max-width: 688px;
+  flex: 1 1 auto;
+}
+.settings_head_wrap {
+  display: flex;
+}
+.settings_head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settings_head > h2 {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  color: #1c1c1c;
+  padding: 40px 0;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+.settings_head button {
+  position: relative;
+  border: 1px solid #0079d3;
+  color: #0079d3;
+  fill: #0079d3;
+  font-family: Noto Sans, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: unset;
+  line-height: 17px;
+  text-transform: unset;
+  min-height: 32px;
+  min-width: 32px;
+  padding: 4px 16px;
+  align-items: center;
+  border-radius: 9999px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: auto;
+}
+
+.settings_title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 12px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #edeff1;
+  color: #7c7c7c;
+  margin-bottom: 32px;
+  padding-bottom: 6px;
+}
+
+.settings_options {
+  display: flex;
+  flex-flow: row wrap;
+  margin-bottom: 32px;
+  flex-direction: column;
+}
+.chain_option_wrap {
+  display: flex;
+  align-items: center;
+}
+
+.chain_option_wrap > button {
+  border: 1px solid currentColor;
+  color: #fff;
+  fill: #fff;
+  background-color: red;
+  font-family: Noto Sans, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: unset;
+  line-height: 17px;
+  text-transform: unset;
+  min-height: 32px;
+  min-width: 32px;
+  padding: 4px;
+  align-items: center;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: auto;
+  margin-left: auto;
+}
+
+.settings_options_title {
+  flex-direction: column;
+  margin-right: 8px;
+  max-width: 80%;
+  display: flex;
+}
+
+.settings_options_title > h3 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #1c1c1c;
+  display: flex;
+  margin-bottom: 4px;
+}
+.settings_options_title p {
+  font-weight: 400;
+  color: #7c7c7c;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.settings_options_input {
+  align-items: flex-start;
+  margin-top: 12px;
+  flex-direction: column;
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+.settings_options_input > input,
+.settings_options_input > textarea {
+  background-color: #fff;
+  border: 1px solid #edeff1;
+  color: #1c1c1c;
+  box-sizing: border-box;
+  height: 48px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  padding: 12px 24px 4px 12px;
+  width: 100%;
+}
+
+.settings_options_input_count {
+  color: #7c7c7c;
+  padding-top: 5px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.setting_account_del {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 32x;
+}
+
+.setting_account_del > button {
+  border: 1px solid currentColor;
+  color: red;
+  fill: red;
+  font-family: Noto Sans, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: unset;
+  line-height: 17px;
+  text-transform: unset;
+  min-height: 32px;
+  min-width: 32px;
+  padding: 4px 16px;
+  align-items: center;
+  border-radius: 9999px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: auto;
+}
+
+.setting_account_del > button svg {
+  margin-right: 5px;
+}
+
+.settings_options_input ol {
+  margin-inline-start: 1em;
+  margin-top: 0.75em;
+}
+
+.settings_options_input > ol li {
+  font-size: 12px;
+  list-style: lower-roman;
+  margin-bottom: 8px;
+}
+
+.settings_options_input > ol li a {
+  display: inline-block;
+  color: #0079d3;
+  font-style: italic;
+}
+
+.settings_options_input > p {
+  font-size: 14px;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  text-decoration: underline;
+}
+.profile_avatar_wrap {
+  display: flex;
+  height: 120px;
+  margin-top: 12px;
+}
+
+.profile_avatar {
+  border-radius: 8px;
+  overflow: hidden;
+  height: 100%;
+  margin: 0 12px 0 0;
+  width: 120px;
+  position: relative;
+}
+
+.profile_avatar > label {
+  cursor: pointer;
+}
+
+.profile_avatar > label > span {
+  height: 100%;
+  width: 100%;
+}
+
+.profile_avatar2 {
+  height: 100%;
+  position: relative;
+}
+
+.profile_avatar3 {
+  border-radius: 4px;
+  object-fit: cover;
+  object-position: top;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.profile_avatar_bg {
+  background: #edeff1;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.profile_avatar_1 {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}

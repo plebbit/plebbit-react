@@ -539,7 +539,7 @@ const Settings = () => {
                     Address
                   </Text>
                   <Text fontWeight="400" color={metaColor} fontSize="12px" lineHeight="16px">
-                    Set an Address for your profile..
+                    Set an Address for your profile.
                   </Text>
                 </Flex>
                 <Flex
