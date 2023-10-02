@@ -216,7 +216,7 @@ const Settings = () => {
   return (
     <Layout name={{ label: 'Plebbit Settings', value: location?.pathname }}>
       {isOpen ? <AddAvatar isOpen={isOpen} onClose={onClose} /> : ''}
-      {isExportOpen ? <ExportAccount isOpen={isExportOpen} onClose={onExportClose} /> : ''}
+      {isExportOpen ? <ExportAccount isOpen={isExportOpen} onClose={() => onExportClose()} /> : ''}
       {isBlockOpen ? (
         <AddBlockProvide
           isOpen={isBlockOpen}

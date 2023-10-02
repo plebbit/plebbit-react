@@ -20,24 +20,32 @@ const ExportAccount = ({ isOpen, onClose }) => {
 
   const [account, setAccount] = useState();
 
-  useEffect(async () => {
+  const fetchAccount = async () => {
     const exportedAccount = await exportAccount();
     setAccount(exportedAccount);
+  };
+
+  useEffect(() => {
+    fetchAccount();
+
+    return () => {
+      setAccount();
+    };
   }, []);
 
   return (
-    <Modal trapFocus={ false } scrollBehavior="inside" isOpen={ isOpen } onClose={ onClose } isCentered>
+    <Modal trapFocus={false} scrollBehavior="inside" isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Export Account</ModalHeader>
         <ModalCloseButton />
-        <ModalBody pb={ 6 }>
+        <ModalBody pb={6}>
           <Textarea
             flexDir="column"
-            border={ `1px solid ${navBorder}` }
+            border={`1px solid ${navBorder}`}
             padding="10px"
             overflow="scroll"
-            value={ account }
+            value={account}
             height="100%"
           />
 
@@ -48,8 +56,8 @@ const ExportAccount = ({ isOpen, onClose }) => {
           </Flex>
         </ModalBody>
 
-        <ModalFooter mt={ 3 }>
-          <Button colorScheme="red" onClick={ onClose }>
+        <ModalFooter mt={3}>
+          <Button colorScheme="red" onClick={onClose}>
             Close
           </Button>
         </ModalFooter>
