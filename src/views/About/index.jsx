@@ -1,7 +1,11 @@
 import { Box, Flex, IconButton, useColorModeValue, useToast } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { useAccountSubplebbits, usePublishSubplebbitEdit, useSubplebbit } from '@plebbit/plebbit-react-hooks';
+import {
+  useAccountSubplebbits,
+  usePublishSubplebbitEdit,
+  useSubplebbit,
+} from '@plebbit/plebbit-react-hooks';
 import AboutsideBar from './sideBar';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Layout from '../../components/layout';
@@ -13,8 +17,8 @@ import Content from './content';
 
 import useStore from '../../store/useStore';
 const About = () => {
-  const { accountSubplebbits } = useAccountSubplebbits()
-  const { device } = useStore(state => state);
+  const { accountSubplebbits } = useAccountSubplebbits();
+  const { device } = useStore((state) => state);
   const layoutBg = useColorModeValue('lightBg', 'darkBg');
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -22,7 +26,7 @@ const About = () => {
   const location = useLocation();
   const { subplebbitAddress } = useParams();
   const subPlebbit = useSubplebbit({ subplebbitAddress: subplebbitAddress });
-  const page = location.pathname.split('/').at(-2);
+  const page = location.pathname.split('/')[4];
   const [showSidebar, setShowSideBar] = useState(false);
   const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
   const toast = useToast();
@@ -70,12 +74,11 @@ const About = () => {
     // ...data,
     onChallenge,
     onChallengeVerification,
-  }
+  };
 
-  const { publishSubplebbitEdit } = usePublishSubplebbitEdit(editSubplebbitOptions)
+  const { publishSubplebbitEdit } = usePublishSubplebbitEdit(editSubplebbitOptions);
 
   const handleSubPlebbitedit = async () => {
-
     try {
       setLoading(true);
       await publishSubplebbitEdit();
@@ -95,14 +98,14 @@ const About = () => {
 
   return (
     <Layout
-      name={ {
+      name={{
         label: subPlebbit?.title || getAddress(subPlebbit?.address),
         value: location?.pathname,
-      } }
+      }}
     >
       <>
-        { device !== 'mobile' ? (
-          <Flex bg={ layoutBg } flexDir="column" color={ mainColor } minH="100vh" overflowX="auto">
+        {device !== 'mobile' ? (
+          <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
             <Flex
               fontSize="12px"
               fontWeight="700"
@@ -110,54 +113,54 @@ const About = () => {
               textTransform="uppercase"
               lineHeight="24px"
               alignItems="center"
-              bg={ mainBg }
+              bg={mainBg}
               height="40px"
               paddingLeft="24px"
               position="fixed"
               width="100%"
               zIndex="30"
             >
-              <Avatar width={ 20 } height={ 20 } mr="8px" />
+              <Avatar width={20} height={20} mr="8px" />
 
-              <Link to={ `/p/${subPlebbit?.address}/` }>
-                <Flex alignItems="center" color={ linkColor } mr="4px">
-                  { subPlebbit?.title || getAddress(subPlebbit?.address) } { '  ' }
-                  <Box color={ mainColor }>
-                    /{ ' ' }
-                    { page === 'modqueue'
+              <Link to={`/p/${subPlebbit?.address}/`}>
+                <Flex alignItems="center" color={linkColor} mr="4px">
+                  {subPlebbit?.title || getAddress(subPlebbit?.address)} {'  '}
+                  <Box color={mainColor}>
+                    /{' '}
+                    {page === 'modqueue'
                       ? 'mod queue'
                       : page === 'scheduledposts'
-                        ? 'Scheduled posts'
-                        : page === 'eventposts'
-                          ? 'event posts'
-                          : page.toUpperCase() }{ ' ' }
+                      ? 'Scheduled posts'
+                      : page === 'eventposts'
+                      ? 'event posts'
+                      : page.toUpperCase()}{' '}
                   </Box>
                 </Flex>
               </Link>
             </Flex>
             <Flex margin="40px 0">
-              {/* sideBar */ }
+              {/* sideBar */}
               <AboutsideBar
-                page={ page }
-                allowedSpecial={ allowedSpecial }
-                role={ role }
-                subPlebbit={ subPlebbit }
+                page={page}
+                allowedSpecial={allowedSpecial}
+                role={role}
+                subPlebbit={subPlebbit}
               />
-              {/*Body */ }
+              {/*Body */}
               <Box paddingLeft="280px" boxSizing="border-box" width="100%">
                 <Content
-                  page={ page }
-                  subPlebbit={ subPlebbit }
-                  role={ role }
-                  allowedSpecial={ allowedSpecial }
-                  handleSubPlebbitedit={ handleSubPlebbitedit }
-                  loading={ loading }
+                  page={page}
+                  subPlebbit={subPlebbit}
+                  role={role}
+                  allowedSpecial={allowedSpecial}
+                  handleSubPlebbitedit={handleSubPlebbitedit}
+                  loading={loading}
                 />
               </Box>
             </Flex>
           </Flex>
         ) : (
-          <Flex bg={ layoutBg } flexDir="column" color={ mainColor } minH="100vh" overflowX="auto">
+          <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
             <Flex
               fontSize="12px"
               fontWeight="700"
@@ -165,7 +168,7 @@ const About = () => {
               textTransform="uppercase"
               lineHeight="24px"
               alignItems="center"
-              bg={ mainBg }
+              bg={mainBg}
               height="48px"
               position="fixed"
               width="100%"
@@ -173,54 +176,54 @@ const About = () => {
               padding="5px"
             >
               <IconButton
-                onClick={ () => setShowSideBar(!showSidebar) }
+                onClick={() => setShowSideBar(!showSidebar)}
                 variant="outline"
-                icon={ <HamburgerIcon /> }
+                icon={<HamburgerIcon />}
                 mr="10px"
               />
-              <Avatar width={ 20 } height={ 20 } mr="8px" />
-              <Link to={ `/p/${subPlebbit?.address}/` }>
-                <Flex alignItems="center" color={ linkColor } mr="4px">
-                  { subPlebbit?.title || getAddress(subPlebbit?.address) } { '  ' }
-                  <Box color={ mainColor }>
-                    /{ ' ' }
-                    { page === 'modqueue'
+              <Avatar width={20} height={20} mr="8px" />
+              <Link to={`/p/${subPlebbit?.address}/`}>
+                <Flex alignItems="center" color={linkColor} mr="4px">
+                  {subPlebbit?.title || getAddress(subPlebbit?.address)} {'  '}
+                  <Box color={mainColor}>
+                    /{' '}
+                    {page === 'modqueue'
                       ? 'mod queue'
                       : page === 'scheduledposts'
-                        ? 'Scheduled posts'
-                        : page === 'eventposts'
-                          ? 'event posts'
-                          : page.toUpperCase() }{ ' ' }
+                      ? 'Scheduled posts'
+                      : page === 'eventposts'
+                      ? 'event posts'
+                      : page.toUpperCase()}{' '}
                   </Box>
                 </Flex>
               </Link>
             </Flex>
             <Flex margin="40px 0">
-              {/* sideBar */ }
-              { showSidebar && (
-                <Box zIndex={ 28 }>
+              {/* sideBar */}
+              {showSidebar && (
+                <Box zIndex={28}>
                   <AboutsideBar
-                    allowedSpecial={ allowedSpecial }
-                    page={ page }
-                    role={ role }
-                    subPlebbit={ subPlebbit }
+                    allowedSpecial={allowedSpecial}
+                    page={page}
+                    role={role}
+                    subPlebbit={subPlebbit}
                   />
                 </Box>
-              ) }
-              {/*Body */ }
+              )}
+              {/*Body */}
               <Box boxSizing="border-box" width="100%">
                 <Content
-                  page={ page }
-                  subPlebbit={ subPlebbit }
-                  role={ role }
-                  allowedSpecial={ allowedSpecial }
-                  handleSubPlebbitedit={ handleSubPlebbitedit }
-                  loading={ loading }
+                  page={page}
+                  subPlebbit={subPlebbit}
+                  role={role}
+                  allowedSpecial={allowedSpecial}
+                  handleSubPlebbitedit={handleSubPlebbitedit}
+                  loading={loading}
                 />
               </Box>
             </Flex>
           </Flex>
-        ) }
+        )}
       </>
     </Layout>
   );

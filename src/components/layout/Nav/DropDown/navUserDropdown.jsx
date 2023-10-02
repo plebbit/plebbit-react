@@ -3,13 +3,14 @@ import styles from './dropdown.module.css';
 import Avatar from '../../../Avatar';
 import { FiChevronDown } from 'react-icons/fi';
 import { createAccount, setActiveAccount, useAccounts } from '@plebbit/plebbit-react-hooks';
-import ImportAccount from '../modal/importAccount';
-import { useDisclosure, useToast } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
+import useStore from '../../../../store/useStore';
 
-const NavUserDropdown = ({ profile, authorAvatarImageUrl, onOpen }) => {
+const NavUserDropdown = ({ profile, authorAvatarImageUrl }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const { accounts: accountLists } = useAccounts();
   const toast = useToast();
+  const { setShowImportAccountModal } = useStore((state) => state);
 
   const handleCreateAccount = async () => {
     await createAccount();
@@ -53,7 +54,10 @@ const NavUserDropdown = ({ profile, authorAvatarImageUrl, onOpen }) => {
           <div className={styles.nav_user_dd_menu_item} onClick={handleCreateAccount}>
             Create Account
           </div>
-          <div className={styles.nav_user_dd_menu_item} onClick={onOpen}>
+          <div
+            className={styles.nav_user_dd_menu_item}
+            onClick={() => setShowImportAccountModal(true)}
+          >
             Import Account
           </div>
           {accountLists?.map((item, index) => (

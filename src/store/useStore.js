@@ -14,7 +14,7 @@ const useStore = create((set, get) => ({
   version,
   postView: [],
   setPostView: (val) => set(() => ({ postView: val })),
-  mode: window?.location?.protocol,
+  isElectron: window?.location?.protocol,
   homeAdd: [],
   setHomeAdd: (val) => set(() => ({ homeAdd: val })),
   subPlebbitDefData: [],
@@ -26,6 +26,10 @@ const useStore = create((set, get) => ({
   baseUrl: get()?.mode === 'https:' ? 'plebbitapp.eth.limo/#/' : `${window.origin}/#`,
   navLocation: {},
   setNavLocation: (val) => set(() => ({ location: val })),
+  showImportAccountModal: false,
+  setShowImportAccountModal: (val) => set(() => ({ showImportAccountModal: val })),
+  showCreateSubModal: false,
+  setShowCreateSubModal: (val) => set(() => ({ showCreateSubModal: val })),
 }));
 
 export default useStore;

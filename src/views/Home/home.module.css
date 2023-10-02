@@ -1,0 +1,30 @@
+.wrapper {
+  max-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0 auto;
+}
+@media (min-width: 640px) {
+  .wrapper {
+    padding: 20px 24px;
+  }
+}
+.wrapper2 {
+  min-width: 0;
+}
+.wrapper2[type='false'] {
+  width: 100%;
+}
+
+@media (min-width: 960px) {
+  .wrapper2 {
+    width: 640px;
+  }
+}
+
+.home_feed {
+  min-height: 1000px;
+  width: 100%;
+}

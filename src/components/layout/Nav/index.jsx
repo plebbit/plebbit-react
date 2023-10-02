@@ -1,48 +1,7 @@
-import {
-  Box,
-  Flex,
-  useColorModeValue,
-  useColorMode,
-  Icon,
-  Input,
-  Switch,
-  useToast,
-  useDisclosure,
-} from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { MdHome } from 'react-icons/md';
-import DropDown2 from '../../DropDown/DropDown2';
-import { RiCreativeCommonsByLine, RiSearchLine, RiSideBarFill } from 'react-icons/ri';
-import { BsBarChartFill, BsChevronDown, BsEye, BsPlusLg } from 'react-icons/bs';
-import { HiOutlineChartSquareBar, HiOutlineChat, HiOutlineUserGroup } from 'react-icons/hi';
-import {
-  BiBookmarks,
-  BiRightTopArrowCircle,
-  BiHelpCircle,
-  BiPencil,
-  BiTrendingUp,
-} from 'react-icons/bi';
-import { AiFillSetting, AiOutlineInfoCircle, AiOutlinePlus } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
-import NDDown from './nDDown';
-import { GiHamburgerMenu, GiTwoCoins } from 'react-icons/gi';
-import { CgNotes, CgProfile } from 'react-icons/cg';
-import useVisible from '../../../hooks/useVisible';
-import { VscMail } from 'react-icons/vsc';
-import ImportAccount from './modal/importAccount';
-import CreateSubPlebbit from './modal/CreateSubPlebbit';
-import getUserName, { getSubName } from '../../../utils/getUserName';
-import NavItem from './navItem';
-import getIsOnline from '../../../utils/getIsOnline';
-import Avatar from '../../Avatar';
-import { PlebLogo, PlebbitTextLogo } from '../../svgs';
-import NavSearch from './navSearch';
-import convertArrToObj from '../../../utils/convertArrToObj';
-import Sort from '../../../utils/sort';
-import NavNotification from './NavNotification';
-import Link from '../../Link';
-import { bottomData1, bottomData2 } from '../../sidebar/projectLinks';
-import plebbitReactPackageJson from '../../../../package.json';
+import styles from './navbar.module.css';
+import { useColorMode, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   createAccount,
   setAccount,
@@ -53,32 +12,53 @@ import {
   useAuthorAvatar,
 } from '@plebbit/plebbit-react-hooks';
 import useStore from '../../../store/useStore';
+import Sort from '../../../utils/sort';
+import convertArrToObj from '../../../utils/convertArrToObj';
+import getIsOnline from '../../../utils/getIsOnline';
+import { ReactComponent as PlebLogo } from '../../svgs/logo.svg';
+import { ReactComponent as PlebLogotext } from '../../svgs/plebbitText.svg';
+import { ReactComponent as PlebLogotext2 } from '../../svgs/plebbitText2.svg';
+import { BsArrowUpRightCircle, BsChevronDown, BsEye, BsPlusLg, BsShield } from 'react-icons/bs';
+import getUserName, { getSubName } from '../../../utils/getUserName';
+import Avatar from '../../Avatar';
+import NavSearch from './navSearch';
+import NavNotification from './NavNotification';
+import {
+  AiFillSetting,
+  AiOutlineClose,
+  AiOutlineFieldTime,
+  AiOutlineInfoCircle,
+  AiOutlinePlus,
+} from 'react-icons/ai';
+
+import { CgNotes } from 'react-icons/cg';
+import HomeDropdown from './DropDown/homeDropdown';
+import NavDropDown from './DropDown/navDropDown';
+import { BiBookmarks, BiPencil } from 'react-icons/bi';
+import { GiHamburgerMenu, GiTwoCoins } from 'react-icons/gi';
+import { RiCreativeCommonsByLine, RiSearchLine } from 'react-icons/ri';
+import { VscMail } from 'react-icons/vsc';
+import MobileMenuDropDown from './DropDown/mobileMenuDropDown';
+import { HiOutlineUserGroup } from 'react-icons/hi';
+import { bottomData1 } from '../../sidebar/projectLinks';
+import plebbitReactPackageJson from '../../../../package.json';
 
 const NavBar = ({ location, showStyleBar }) => {
-  const bg = useColorModeValue('lightBody', 'darkBody');
-  const mainColor = useColorModeValue('lightText2', 'darkText1');
-  const iconColor = useColorModeValue('lightIcon', 'darkIcon');
-  const iconColor2 = useColorModeValue('lightIcon2', 'darkText1');
-  const navBorder = useColorModeValue('#edeff1', '#343536');
   const { colorMode, toggleColorMode } = useColorMode();
-  const navigate = useNavigate();
-  const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
-  const { accounts: accountLists } = useAccounts();
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
   const {
     device,
-    version,
-    setPostView,
-    postView,
     homeAdd,
     subPlebbitData: gitData,
     subPlebbitDefData,
-    showSide,
-    setShowSide,
+    setPostView,
+    setShowImportAccountModal,
+    setShowCreateSubModal,
   } = useStore((state) => state);
 
+  const { accounts: accountLists } = useAccounts();
   const userTheme = profile?.plebbitReactOptions?.darkMode;
 
   const toggleTheme = () => {
@@ -92,9 +72,7 @@ const NavBar = ({ location, showStyleBar }) => {
   };
 
   const [showDropDown, setShowDropDown] = useState(false);
-  const { ref } = useVisible(setShowDropDown);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
+
   const subPlebbitData = Sort(
     convertArrToObj(
       [gitData, subPlebbitDefData?.filter((x) => x !== undefined)]?.flat(),
@@ -119,977 +97,234 @@ const NavBar = ({ location, showStyleBar }) => {
   };
 
   return (
-    <Box>
+    <>
       {device !== 'mobile' ? (
-        <Flex
-          // for the side bar
-          marginLeft={showStyleBar && '284px'}
-          flex="0"
-          left="0"
-          position="fixed"
-          right="0"
-          top="0"
-          zIndex="2001"
-          marginTop="0"
-          color={mainColor}
-          height="48px"
-          alignItems="center"
-        >
-          <Flex
-            alignItems="center"
-            bg={bg}
-            borderBottom={`1px solid ${navBorder}`}
-            boxSizing="border-box"
-            flexGrow={1}
-            padding="0 20px"
-            height="100%"
-          >
-            <Flex alignItems="center" flexGrow="1">
+        <header className={styles.wrapper} showStyleBar={showStyleBar?.toString()}>
+          <div className={styles.nav_wrapper}>
+            {/* nev left */}
+            <div className={styles.nav_left}>
               {/* logo */}
-              <Link to="/">
-                <Flex display="flex" alignItems="center">
-                  <Box
-                    mr="8px"
-                    cursor="pointer"
-                    borderRadius="full"
-                    width="32px"
-                    height="32px"
-                    maxWidth="32px"
-                  >
-                    <PlebLogo />
-                  </Box>
-                  <PlebbitTextLogo
-                    style={{
-                      height: '20px',
-                      border: 'none',
-                      marginRight: '10px',
-                      cursor: 'pointer',
-                      overflow: 'hidden',
-                    }}
-                    color={colorMode === 'light' ? '#000' : '#fff'}
-                  />
-                </Flex>
+              <Link aria-label="Home" className={styles.logo_cont} to="/">
+                <PlebLogo className={styles.logo} />
+                <PlebLogotext className={styles.logo_text} />
               </Link>
-              <Box>
-                <DropDown2
-                  onChange={(x) => {
-                    if (location.label === 'Home') {
-                      setPostView(x.value);
-                    } else {
-                      if (typeof x?.value === 'object') {
-                        navigate('/');
-                      } else {
-                        navigate(x?.value);
-                      }
-                    }
-                  }}
-                  prefix={(val) => (val?.icon ? val?.icon : <Icon as={MdHome} h={6} w={8} />)}
-                  suffix={() => {
-                    return (
-                      !showSide &&
-                      location.label === 'Home' && (
-                        <Flex>
-                          <Icon as={RiSideBarFill} h={6} w={8} onClick={() => setShowSide(true)} />
-                        </Flex>
-                      )
-                    );
-                  }}
-                  options={[
-                    location || {},
-                    {
-                      label: location?.label !== 'Home' ? 'Home' : 'p/All',
-                      value: subPlebbitData?.map((x) => x?.address)?.filter((x) => x !== undefined),
-                    },
-                  ]}
-                  placeholder="Home"
-                  getOptionValue={(item) => item?.value}
-                  sx={{
-                    width: '270px',
-                    height: '36px',
-                    background: 'transparent',
-                  }}
-                  value={
-                    location?.label !== 'Home'
-                      ? location
-                      : [
-                          { label: 'Home', value: homeAdd },
-                          {
-                            label: location?.label !== 'Home' ? 'Home' : 'p/All',
-                            value: subPlebbitData
-                              ?.map((x) => x?.address)
-                              ?.filter((x) => x !== undefined),
-                          },
-                        ].find((x) => x?.value === postView)
-                  }
-                  isSearchable={false}
-                  topMenu={
-                    <Box>
-                      <Box paddingX="12px" paddingTop="10px" fontSize="10px">
-                        {Object.keys(accountSubplebbits)?.length ? 'Moderating' : ''}
-                      </Box>
-                      {Object.keys(accountSubplebbits)?.length
-                        ? Object.keys(accountSubplebbits)?.map((pages, index) => (
-                            <Link key={index} to={`/p/${pages}/`}>
-                              <Flex
-                                alignItems="center"
-                                _hover={{
-                                  bg: '#DEEBFF',
-                                }}
-                                padding="8px 12px"
-                                fontWeight="400"
-                                fontSize="14px"
-                                borderBottom={`1px solid ${navBorder}`}
-                              >
-                                <Avatar
-                                  width={20}
-                                  height={20}
-                                  mr="8px"
-                                  avatar={accountSubplebbits[pages]?.avatar}
-                                  badge
-                                  isOnline={getIsOnline(accountSubplebbits[pages]?.updatedAt)}
-                                />
-
-                                <Box>{getSubName(accountSubplebbits[pages])}</Box>
-                              </Flex>
-                            </Link>
-                          ))
-                        : ''}
-                    </Box>
-                  }
-                  bottomMenu={
-                    <>
-                      <Box paddingX="12px" paddingTop="10px" fontSize="10px">
-                        Your Communities
-                      </Box>
-                      <Flex
-                        fontWeight="500"
-                        fontSize="12px"
-                        padding="12px"
-                        cursor="pointer"
-                        color="blue.400"
-                        borderBottomColor={navBorder}
-                        borderBottomWidth="3px"
-                        borderBottomStyle="solid"
-                        _hover={{
-                          bg: inputBg,
-                        }}
-                        onClick={onOpenCreate}
-                        alignItems="center"
-                      >
-                        <Icon onClick={() => onOpenCreate()} as={BsPlusLg} mr="8px" />
-                        <Box onClick={() => onOpenCreate()}>Create Community</Box>
-                      </Flex>
-                      {[
-                        subPlebbitData?.map((x) => ({
-                          ...x,
-                          label: x?.title ? x?.title : getSubName(x),
-                          value: x?.address,
-                        })),
-                      ]
-                        .flat()
-                        ?.map((pages, index) => (
-                          <Link key={index} to={`/p/${pages?.value}/`}>
-                            <Flex
-                              _hover={{
-                                bg: '#DEEBFF',
-                              }}
-                              padding="8px 12px"
-                              fontWeight="400"
-                              fontSize="14px"
-                              borderBottom={`1px solid ${navBorder}`}
-                              alignItems="center"
-                            >
-                              <Avatar
-                                width={20}
-                                height={20}
-                                mr="8px"
-                                avatar={pages?.avatar}
-                                badge
-                                isOnline={getIsOnline(pages?.updatedAt)}
-                              />
-
-                              <Box>{getSubName(pages)}</Box>
-                            </Flex>
-                          </Link>
-                        ))}
-                    </>
-                  }
-                />
-              </Box>
-              {/* Search bar */}
-              <NavSearch />
-            </Flex>
-            <Flex alignItems="center" flexGrow="0">
-              <Flex
-                marginRight="8px"
-                paddingRight="8px"
-                borderRight={`1px solid ${navBorder}`}
-                alignItems="center"
-              >
-                <Icon
-                  borderRadius="2px"
-                  color={iconColor2}
-                  width={6}
-                  height={6}
-                  as={BiRightTopArrowCircle}
-                />
-                <Icon
-                  marginLeft="8px"
-                  borderRadius="2px"
-                  width={6}
-                  height={6}
-                  as={HiOutlineChartSquareBar}
-                  color={iconColor2}
-                />
-              </Flex>
-              <Flex alignItems="center">
-                <Flex alignItems="center">
-                  <Flex alignItems="center">
-                    <Icon
-                      borderRadius="2px"
-                      color={iconColor2}
-                      width={6}
-                      height={6}
-                      as={HiOutlineChat}
-                    />
-                    <NavNotification />
-                    <Link to="/submit">
-                      <Icon ml="8px" color={iconColor2} width={6} height={6} as={AiOutlinePlus} />
-                    </Link>
-                  </Flex>
-                  <div>
-                    <NDDown
-                      onClick={() => {
-                        setShowDropDown(!showDropDown);
-                      }}
-                    />
-                  </div>
-                </Flex>
-              </Flex>
-            </Flex>
-          </Flex>
-        </Flex>
-      ) : (
-        <Flex bg="#1d2535" height="48px" position="fixed" width="100%" zIndex="2001" top="0">
-          <Flex
-            width="100%"
-            alignItems="center"
-            height="100%"
-            margin="0"
-            paddingLeft="16px"
-            paddingRight="8px"
-          >
-            <Flex flexBasis="144px" flex="1 0 130px" mr="auto" alignItems="center" as={Link} to="/">
-              <Box mr="4px" cursor="pointer" borderRadius="full" width="30px" height="30px">
-                <PlebLogo />
-              </Box>
-
-              <PlebbitTextLogo
-                style={{
-                  height: '20px',
-                  border: 'none',
-                  marginRight: '10px',
-                  cursor: 'pointer',
-                  overflow: 'hidden',
-                }}
-                color="#fff"
+              {/* Home drop down menu */}
+              <HomeDropdown
+                accountSubplebbits={accountSubplebbits}
+                subPlebbitData={subPlebbitData}
+                authorAvatarImageUrl={authorAvatarImageUrl}
+                profile={profile}
+                location={location}
+                homeAdd={homeAdd}
               />
-            </Flex>
-            <Flex
-              mr="8px"
-              padding={0}
-              height="36px"
-              width="36px"
-              alignItems="center"
-              justifyContent="center"
-              as={Link}
-              to="/submit"
-            >
-              <Icon as={BiPencil} width={6} height={6} color="#fff" />
-            </Flex>
-            <Flex
-              onClick={() => {
-                setShowDropDown(!showDropDown);
-                setShowComponent(!showDropDown);
-              }}
-              height="36px"
-              width="36px"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Icon as={GiHamburgerMenu} width={6} height={6} color="#fff" />
-            </Flex>
-          </Flex>
-        </Flex>
-      )}
-      {showDropDown && (
-        <Box ref={ref}>
-          {device !== 'mobile' ? (
-            <Box
-              position="fixed"
-              right="16px"
-              top="45.3125px"
-              borderRadius="4px"
-              justifyContent="flex-end"
-              marginTop="4px"
-              paddingY="8px"
-              width="252px"
-              border={`1px solid ${navBorder}`}
-              boxShadow="none"
-              maxHeight="80%"
-              overflowY="auto"
-              overflowX="hidden"
-              zIndex="2001"
-              bg={bg}
-            >
-              <Flex alignItems="center" height="100%" padding="0 10px">
-                <DropDown2
-                  placeholder=""
-                  topMenu={
-                    <Flex flexDir="column">
-                      <Box
-                        cursor="pointer"
-                        fontSize="14px"
-                        mb="10px"
-                        color="blue.600"
-                        _hover={{
-                          bg: inputBg,
-                        }}
-                        fontWeight="500"
-                        fontStyle="italic"
-                        padding="10px 20px"
-                        onClick={handleCreateAccount}
-                      >
-                        Create Account
-                      </Box>
-                      <Box
-                        cursor="pointer"
-                        fontSize="14px"
-                        mb="10px"
-                        color="blue.600"
-                        padding="5px 20px"
-                        _hover={{
-                          bg: inputBg,
-                        }}
-                        fontWeight="500"
-                        fontStyle="italic"
-                        onClick={onOpen}
-                      >
-                        Import Account
-                      </Box>
-                    </Flex>
-                  }
-                  options={accountLists}
-                  getOptionLabel={(item) =>
-                    item?.author?.displayName ? item?.author?.displayName : item?.name
-                  }
-                  getOptionValue={(item) => item?.name}
-                  onChange={async (val) => {
-                    await setActiveAccount(val?.name);
-                    toast({
-                      title: 'Account Changed.',
-                      description: `${val?.name} selected`,
-                      status: 'success',
-                      duration: 5000,
-                      isClosable: true,
-                    });
-                  }}
-                  value={profile}
-                  sx={{
-                    background: 'transparent',
-                  }}
-                />
-              </Flex>
-              <Box width="100%" height="40px" color="#787c7e">
-                <Flex alignItems="center" height="100%" padding="10px 20px" color="">
-                  <Flex
-                    justifyContent="center"
-                    alignItems="center"
-                    flex="0 0"
-                    fontSize="20px"
-                    mr="12px"
-                    minW="20px"
-                    w="20px"
-                  >
-                    <Icon as={CgProfile} width={5} height={5} />
-                  </Flex>
-                  <Box
-                    flex="1 1 100%"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    textAlign="left"
-                    width="100%"
-                    textOverflow="ellipsis"
-                    whiteSpace="nowrap"
-                    overflow="hidden"
-                  >
-                    My Stuff
-                  </Box>
-                </Flex>
-              </Box>
-              <Box borderBottom={`1px solid ${navBorder}`} marginBottom="12px" paddingBottom="12px">
-                <Flex
-                  boxSizing="border-box"
-                  height="40px"
-                  width="100%"
-                  cursor="pointer"
-                  fontSize="14px"
-                  fontWeight="500"
-                  lineHeight="18px"
-                  alignItems="center"
-                  color={mainColor}
-                  paddingRight="16px"
-                  paddingLeft="52px"
-                  justifyContent="space-between"
-                  _hover={{
-                    bg: inputBg,
-                  }}
-                >
-                  <Box>Online Status</Box>
-                  <Switch size="md" />
-                </Flex>
-                <Link to="/profile/">
-                  <Flex
-                    boxSizing="border-box"
-                    height="40px"
-                    width="100%"
-                    cursor="pointer"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    alignItems="center"
-                    color={mainColor}
-                    paddingRight="16px"
-                    _hover={{
-                      bg: inputBg,
-                    }}
-                    paddingLeft="52px"
-                    justifyContent="space-between"
-                  >
-                    <Box>Profile</Box>
-                  </Flex>
-                </Link>
-                <Flex
-                  boxSizing="border-box"
-                  height="40px"
-                  width="100%"
-                  cursor="pointer"
-                  fontSize="14px"
-                  fontWeight="500"
-                  lineHeight="18px"
-                  alignItems="center"
-                  color={mainColor}
-                  paddingRight="16px"
-                  paddingLeft="52px"
-                  justifyContent="space-between"
-                  _hover={{
-                    bg: inputBg,
-                  }}
-                >
-                  <Box>Style Avatar</Box>
-                </Flex>
-                <Link to="/settings/">
-                  <Flex
-                    _hover={{
-                      bg: inputBg,
-                    }}
-                    boxSizing="border-box"
-                    height="40px"
-                    width="100%"
-                    cursor="pointer"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    alignItems="center"
-                    color={mainColor}
-                    paddingRight="16px"
-                    paddingLeft="52px"
-                    justifyContent="space-between"
-                  >
-                    <Box>User Settings</Box>
-                  </Flex>
-                </Link>
-              </Box>
-              <Box width="100%" height="40px" color="#787c7e">
-                <Flex alignItems="center" height="100%" padding="0 20px">
-                  <Flex
-                    justifyContent="center"
-                    alignItems="center"
-                    flex="0 0"
-                    fontSize="20px"
-                    mr="12px"
-                    minW="20px"
-                    w="20px"
-                  >
-                    <Icon as={BsEye} width={5} height={5} />
-                  </Flex>
-                  <Box
-                    flex="1 1 100%"
-                    fontSize="14px"
-                    fontWeight="500"
-                    lineHeight="18px"
-                    textAlign="left"
-                    width="100%"
-                    textOverflow="ellipsis"
-                    whiteSpace="nowrap"
-                    overflow="hidden"
-                  >
-                    View Options
-                  </Box>
-                </Flex>
-              </Box>
-              <Box
-                _hover={{
-                  bg: inputBg,
-                }}
-                borderBottom={`1px solid ${navBorder}`}
-                marginBottom="12px"
-                paddingBottom="12px"
-              >
-                <Flex
-                  boxSizing="border-box"
-                  height="40px"
-                  width="100%"
-                  cursor="pointer"
-                  fontSize="14px"
-                  fontWeight="500"
-                  lineHeight="18px"
-                  alignItems="center"
-                  color={mainColor}
-                  paddingRight="16px"
-                  paddingLeft="52px"
-                  justifyContent="space-between"
-                >
-                  <Box>Dark Mode</Box>
-                  <Switch
-                    size="md"
-                    onChange={toggleTheme}
-                    isChecked={colorMode === 'dark'}
-                    ml="auto"
+              <NavSearch />
+            </div>
+            <div className={styles.nav_right}>
+              <div className={styles.nav_popular_wrap}>
+                <div className={styles.nav_popular_wrap2}>
+                  <Link className={styles.nav_popular}>
+                    <BsArrowUpRightCircle className={styles.nav_popular_icon} />
+                  </Link>
+                </div>
+              </div>
+              <div className={styles.nav_right_right}>
+                <div className={styles.nav_right_right2}>
+                  <div className={styles.nav_rr_left}>
+                    <span className={styles.nav_rr_left_item}>
+                      <button className={styles.nav_rr_left_item_btn}>
+                        <div className={styles.nav_rr_left_item_btn2}>
+                          <span className={styles.nav_rr_left_item_btn_dot} />
+                          <BsShield className={styles.nav_rr_left_item_icon} />
+                        </div>
+                      </button>
+                    </span>
+                    <NavNotification />
+                    <span className={styles.nav_rr_left_item}>
+                      <Link className={styles.nav_rr_left_item_btn} to="/submit">
+                        <div className={styles.nav_rr_left_item_btn2}>
+                          <AiOutlinePlus className={styles.nav_rr_left_item_icon} />
+                        </div>
+                      </Link>
+                    </span>
+                    <span className={styles.nav_rr_left_item} />
+                  </div>
+                  <NavDropDown
+                    authorAvatarImageUrl={authorAvatarImageUrl}
+                    profile={profile}
+                    showDropDown={showDropDown}
+                    setShowDropDown={setShowDropDown}
+                    colorMode={colorMode}
+                    toggleTheme={toggleTheme}
                   />
-                </Flex>
-              </Box>
-              <Box borderBottom={`1px solid ${navBorder}`} marginBottom="12px" paddingBottom="12px">
-                <Box
-                  width="100%"
-                  height="40px"
-                  color={mainColor}
-                  cursor="pointer"
-                  _hover={{
-                    bg: inputBg,
-                  }}
-                  onClick={onOpenCreate}
-                >
-                  <Flex alignItems="center" height="100%" padding="0 20px">
-                    <Flex
-                      justifyContent="center"
-                      alignItems="center"
-                      flex="0 0"
-                      fontSize="20px"
-                      mr="12px"
-                      minW="20px"
-                      w="20px"
-                    >
-                      <Icon as={RiCreativeCommonsByLine} width={5} height={5} />
-                    </Flex>
-                    <Box
-                      flex="1 1 100%"
-                      fontSize="14px"
-                      fontWeight="500"
-                      lineHeight="18px"
-                      textAlign="left"
-                      width="100%"
-                      textOverflow="ellipsis"
-                      whiteSpace="nowrap"
-                      overflow="hidden"
-                    >
-                      Create Community
-                    </Box>
-                  </Flex>
-                </Box>
-                <Box
-                  width="100%"
-                  height="40px"
-                  color={mainColor}
-                  cursor="pointer"
-                  _hover={{
-                    bg: inputBg,
-                  }}
-                >
-                  <Flex alignItems="center" height="100%" padding="0 20px">
-                    <Flex
-                      justifyContent="center"
-                      alignItems="center"
-                      flex="0 0"
-                      fontSize="20px"
-                      mr="12px"
-                      minW="20px"
-                      w="20px"
-                    >
-                      <Icon as={BiHelpCircle} width={5} height={5} />
-                    </Flex>
-                    <Box
-                      flex="1 1 100%"
-                      fontSize="14px"
-                      fontWeight="500"
-                      lineHeight="18px"
-                      textAlign="left"
-                      width="100%"
-                      textOverflow="ellipsis"
-                      whiteSpace="nowrap"
-                      overflow="hidden"
-                    >
-                      Help Center
-                    </Box>
-                  </Flex>
-                </Box>
-                <Box
-                  width="100%"
-                  height="40px"
-                  color={mainColor}
-                  cursor="pointer"
-                  _hover={{
-                    bg: inputBg,
-                  }}
-                >
-                  <Flex alignItems="center" height="100%" padding="0 20px">
-                    <Icon as={GiTwoCoins} w="20px" h="20px" mr="8px" />
-                    <Flex flexDir="column">
-                      <Box>Coins</Box>
-                      <Box fontSize="12px" fontWeight="400" lineHeight="16px" color={iconColor}>
-                        0 Coins
-                      </Box>
-                    </Flex>
-                  </Flex>
-                </Box>
-              </Box>
-
-              {/* <Box
-                width="100%"
-                height="40px"
-                color={mainColor}
-                cursor="pointer"
-                _hover={{
-                  bg: inputBg,
-                }}
-              >
-                <Flex alignItems="center" height="100%" padding="0 20px">
-                  <Icon as={CgEnter} w="20px" h="20px" mr="8px" />
-                  {!isLoggedIn ? (
-                    <Box onClick={() => setIsLoggedIn(true)}>Log In / Sign Up</Box>
-                  ) : (
-                    <Box onClick={() => setIsLoggedIn(false)}>Log Out</Box>
-                  )}
-                </Flex>
-              </Box> */}
-              <Box
-                color={iconColor}
-                width="100%"
-                fontSize="12px"
-                lineHeight="16px"
-                fontWeight="400"
-                minHeight="40px"
-                padding="12px 20px"
-                minH="40px"
-                height="unset"
-              >
-                Plebbit v{version}. GPL-2.0
-              </Box>
-            </Box>
-          ) : (
-            <Box
-              top="48px"
-              bg="linear-gradient(180deg,#1d2535 0,#1d2535 50%,rgba(0,0,0,.3) 51%,rgba(0,0,0,.3))"
-              paddingBottom="96px"
-              zIndex="2001"
-              position="fixed"
-              left="0"
-              right="0"
-              bottom="0"
-              fontSize="16px"
-              overflowY="scroll"
-            >
-              <Flex
-                bg="#1d2535"
-                padding="10px 16px 4px"
-                marginBottom="0"
-                zIndex="30"
-                flexDirection="column"
-              >
-                <Box marginBottom="20px">
-                  <Flex
-                    height="32px"
-                    bg="rgba(246,247,248,.1)"
-                    flexFlow="row nowrap"
-                    alignItems="center"
-                    borderRadius="32px"
-                    display="flex"
-                    border="1px solid transparent"
-                    padding="0 12px"
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+      ) : (
+        <>
+          <nav className={styles.mobile_wrapper}>
+            <ul className={styles.mobile_wrapper2}>
+              <li className={styles.mobile_nav_left}>
+                <Link to="/" className={styles.mobile_nav_logo_wrap}>
+                  <PlebLogo className={styles.mobile_nav_logo} />
+                </Link>
+                <div className={styles.mobile_nav_logo_text_wrap}>
+                  <Link to="/" className={styles.mobile_nav_logo_text_wrap2}>
+                    <PlebLogotext2 className={styles.mobile_nav_logo_text} />
+                  </Link>
+                </div>
+              </li>
+              {showDropDown ? (
+                <li>
+                  <button
+                    className={styles.mobile_nav_btn}
+                    onClick={() => setShowDropDown(!showDropDown)}
                   >
-                    <Icon as={RiSearchLine} color="#d7dadc" fill="#d7dadc" w={5} h={5} mr="8px" />
-                    <Box flex="1">
-                      <Input
-                        color="#fff"
-                        placeholder="Search plebbit"
-                        bg="none"
-                        boxSizing="content-box"
-                        fontSize="16px"
-                        textOverflow="ellipsis"
-                        border="none"
-                        outline="none"
-                        padding="0"
-                        height="100%"
+                    <AiOutlineClose color="#fff" className={styles.mobile_menu} />
+                  </button>
+                </li>
+              ) : (
+                <>
+                  <li>
+                    <Link to="/submit">
+                      <button className={styles.mobile_nav_btn}>
+                        <BiPencil color="#fff" className={styles.mobile_new_post} />
+                      </button>
+                    </Link>
+                  </li>
+                  <li>
+                    <button
+                      className={styles.mobile_nav_btn}
+                      onClick={() => setShowDropDown(!showDropDown)}
+                    >
+                      <GiHamburgerMenu color="#fff" className={styles.mobile_menu} />
+                    </button>
+                  </li>
+                </>
+              )}
+            </ul>
+          </nav>
+          {showDropDown && (
+            <nav className={styles.mobile_menu_wrapper}>
+              <ul className={styles.mobile_menu_wrapper2}>
+                <div className={styles.mobile_menu_Search_wrapper}>
+                  <label className={styles.mobile_menu_Search_wrapper2}>
+                    <RiSearchLine color="#d7dadc" className={styles.mobile_menu_Search_icon} />
+                    <div className={styles.mobile_menu_Search_wrap}>
+                      <input
+                        placeholder="Search Plebbit"
+                        className={styles.mobile_menu_Search}
+                        type="search"
                       />
-                    </Box>
-                  </Flex>
-                </Box>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex
-                    alignItems="center"
-                    flexFlow="row nowrap"
-                    onClick={() => {
-                      setShowDropDown(!showDropDown);
-                      setShowComponent(!showDropDown);
-                    }}
-                    as={Link}
-                    to="/profile"
-                  >
+                    </div>
+                  </label>
+                </div>
+                <MobileMenuDropDown
+                  title={getUserName(profile?.author)}
+                  titleIcon={
                     <Avatar width={24} height={24} mr="8px" avatar={authorAvatarImageUrl} />
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      {getUserName(profile?.author)}
-                    </Box>
-                  </Flex>
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                  color="#fff"
-                >
-                  <DropDown2
-                    selectStyles={{
-                      background: '#1d2535',
-                    }}
-                    placeholder=" "
-                    topMenu={
-                      <Flex flexDir="column">
-                        <Box
-                          cursor="pointer"
-                          fontSize="14px"
-                          mb="10px"
-                          color="blue.600"
-                          _hover={{
-                            bg: inputBg,
-                          }}
-                          fontWeight="500"
-                          fontStyle="italic"
-                          padding="10px 20px"
-                          onClick={handleCreateAccount}
-                        >
-                          Create Account
-                        </Box>
-                        <Box
-                          cursor="pointer"
-                          fontSize="14px"
-                          mb="10px"
-                          color="blue.600"
-                          padding="5px 20px"
-                          _hover={{
-                            bg: inputBg,
-                          }}
-                          fontWeight="500"
-                          fontStyle="italic"
-                          onClick={onOpen}
-                        >
-                          Import Account
-                        </Box>
-                      </Flex>
-                    }
-                    options={accountLists}
-                    getOptionLabel={(item) =>
-                      item?.author?.displayName ? item?.author?.displayName : item?.name
-                    }
-                    getOptionValue={(item) => item?.id}
-                    onChange={async (val) => {
-                      await setActiveAccount(val?.name);
-                      toast({
-                        title: 'Account Changed.',
-                        description: `${val?.name} selected`,
-                        status: 'success',
-                        duration: 5000,
-                        isClosable: true,
-                      });
-                    }}
-                    value={profile}
-                    sx={{
-                      background: 'transparent',
-                    }}
-                  />
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer">
-                    <Flex
-                      alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
-                    >
-                      <Icon as={VscMail} w={5} h={5} opacity=".5" />
-                    </Flex>
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      Inbox
-                    </Box>
-                  </Flex>
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer">
-                    <Flex
-                      alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
-                    >
-                      <Icon as={GiTwoCoins} w={5} h={5} opacity=".5" />
-                    </Flex>
-                    <Flex flexDir="column" justifyContent="center">
-                      <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                        Coins
-                      </Box>
-                      <Box fontSize="11px" lineHeight="1.2">
-                        0 Coins
-                      </Box>
-                    </Flex>
-                  </Flex>
-                </Flex>
-
-                <NavItem
-                  head={
-                    <Flex
-                      alignItems="center"
-                      flexFlow="row nowrap"
-                      color="#fff"
-                      marginBottom="20px"
-                      marginLeft="-4px"
-                      paddingLeft="2px"
-                    >
-                      <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
-                        <Flex
-                          alignItems="center"
-                          flex="0 0 24px"
-                          height="24px"
-                          justifyContent="center"
-                          mr="8px"
-                          position="8px"
-                          width="24px"
-                        >
-                          <Icon as={BiHelpCircle} w={5} h={5} opacity=".5" />
-                        </Flex>
-                        <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                          Recent Communities
-                        </Box>
-
-                        <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
-                      </Flex>
-                    </Flex>
                   }
-                  body={
-                    <Flex
-                      flexDirection="column"
-                      color="#fff"
-                      marginBottom="20px"
-                      marginLeft="-4px"
-                      paddingLeft="20px"
+                  options={[
+                    { label: 'Create Account', create: true, legacy: true },
+                    { label: 'Import Account', import: true, legacy: true },
+                    accountLists,
+                  ].flat()}
+                  render={(pages) => (
+                    <li
+                      className={styles.mobile_menu_dropdown_item}
+                      onClick={async () => {
+                        if (pages?.create) {
+                          handleCreateAccount();
+                        }
+                        if (pages?.import) {
+                          setShowImportAccountModal(true);
+                        } else {
+                          await setActiveAccount(pages?.name);
+                          toast({
+                            title: 'Account Changed.',
+                            description: `${pages?.name} selected`,
+                            status: 'success',
+                            duration: 5000,
+                            isClosable: true,
+                          });
+                        }
+                      }}
                     >
-                      {[
-                        { label: 'Home', value: homeAdd },
-                        {
-                          label: 'p/All',
-                          value: subPlebbitData
-                            ?.map((x) => x?.address)
-                            ?.filter((x) => x !== undefined),
-                        },
-                      ]?.map((pages, index) => (
-                        <Flex
-                          key={index}
-                          alignItems="center"
-                          flexFlow="row nowrap"
-                          cursor="pointer"
-                          onClick={() => {
-                            setShowDropDown(!showDropDown);
-                            setShowComponent(!showDropDown);
-                            setPostView(pages?.value);
-                          }}
-                        >
-                          <Flex
-                            alignItems="center"
-                            flex="0 0 24px"
-                            height="24px"
-                            justifyContent="center"
-                            mr="8px"
-                            position="8px"
-                            width="24px"
-                          >
-                            {/* <Icon as={VscMail} w={5} h={5} opacity=".5" /> */}
-                          </Flex>
-                          <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                            {pages.label}
-                          </Box>
-                        </Flex>
-                      ))}
-                      {[
-                        subPlebbitData
-                          .map((x) => ({
-                            ...x,
-                            label: x?.title || getSubName(x),
-                            value: x?.address,
-                          }))
-                          ?.filter((x) => x !== undefined),
-                      ]
-                        .flat()
-                        ?.map((pages, index) => (
-                          <Flex
-                            key={index}
-                            alignItems="center"
-                            flexFlow="row nowrap"
-                            cursor="pointer"
-                            onClick={() => {
-                              setShowDropDown(!showDropDown);
-                              setShowComponent(!showDropDown);
-                            }}
-                            as={Link}
-                            to={`/p/${pages?.value}/`}
-                          >
+                      <Link
+                        className={styles.mobile_menu_dropdown_item2}
+                        active={!pages?.legacy && profile?.id === pages?.id && 'true'}
+                      >
+                        {pages?.legacy
+                          ? pages?.label
+                          : pages?.author?.displayName
+                          ? pages?.author?.displayName
+                          : pages?.name}
+                      </Link>
+                    </li>
+                  )}
+                />
+                <li className={styles.mobile_menu_item}>
+                  <Link to="/notifications" className={styles.mobile_menu_item1}>
+                    <span className={styles.mobile_menu_item_icon_wrap}>
+                      <div className={styles.mobile_menu_item_icon_wrap2}>
+                        <VscMail className={styles.mobile_menu_item_icon} />
+                      </div>
+                    </span>
+                    <span className={styles.mobile_menu_item_text}>Inbox</span>
+                  </Link>
+                </li>
+                <li className={styles.mobile_menu_item}>
+                  <Link className={styles.mobile_menu_item1}>
+                    <span className={styles.mobile_menu_item_icon_wrap}>
+                      <div className={styles.mobile_menu_item_icon_wrap2}>
+                        <GiTwoCoins className={styles.mobile_menu_item_icon} />
+                      </div>
+                    </span>
+                    <span className={styles.mobile_menu_item_text_wrap}>
+                      <span className={styles.mobile_menu_item_text}>Coins</span>
+                      <span className={styles.mobile_menu_item_text2}>0 coins</span>
+                    </span>
+                  </Link>
+                </li>
+                <MobileMenuDropDown
+                  title="Recent Communities"
+                  titleIcon={<AiOutlineFieldTime />}
+                  options={[
+                    { label: 'Home', value: homeAdd, legacy: true },
+                    {
+                      label: 'p/All',
+                      value: subPlebbitData?.map((x) => x?.address)?.filter((x) => x !== undefined),
+                      legacy: true,
+                    },
+                    [
+                      subPlebbitData
+                        .map((x) => ({
+                          ...x,
+                          label: x?.title || getSubName(x),
+                          value: x?.address,
+                        }))
+                        ?.filter((x) => x !== undefined),
+                    ].flat(),
+                  ].flat()}
+                  render={(pages) => (
+                    <li
+                      className={styles.mobile_menu_dropdown_item}
+                      onClick={() => {
+                        if (pages?.legacy) {
+                          setShowDropDown(!showDropDown);
+                          setPostView(pages?.value);
+                        } else {
+                          setShowDropDown(!showDropDown);
+                        }
+                      }}
+                    >
+                      <Link
+                        to={!pages?.legacy ? `/p/${pages?.value}/` : '/'}
+                        className={styles.mobile_menu_dropdown_item2}
+                      >
+                        {!pages?.legacy && (
+                          <span className={styles.mobile_menu_dropdown_item_avatar_wrap}>
                             <Avatar
                               badge
                               avatar={pages?.avatar}
@@ -1098,364 +333,155 @@ const NavBar = ({ location, showStyleBar }) => {
                               mr="8px"
                               isOnline={getIsOnline(pages?.updatedAt)}
                             />
-
-                            <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                              {getSubName(pages)}
-                            </Box>
-                          </Flex>
-                        ))}
-                    </Flex>
-                  }
+                          </span>
+                        )}
+                        {pages?.label}
+                      </Link>
+                    </li>
+                  )}
                 />
-
-                <NavItem
-                  head={
-                    <Flex
-                      alignItems="center"
-                      flexFlow="row nowrap"
-                      color="#fff"
-                      marginBottom="20px"
-                      marginLeft="-4px"
-                      paddingLeft="2px"
-                    >
-                      <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
-                        <Flex
-                          alignItems="center"
-                          flex="0 0 24px"
-                          height="24px"
-                          justifyContent="center"
-                          mr="8px"
-                          width="24px"
-                        >
-                          <Icon as={HiOutlineUserGroup} w={5} h={5} opacity=".5" />
-                        </Flex>
-                        <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                          My Communities
-                        </Box>
-
-                        <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
-                      </Flex>
-                    </Flex>
-                  }
-                  body={
-                    <Flex
-                      flexDirection="column"
-                      color="#fff"
-                      marginBottom="20px"
-                      marginLeft="-4px"
-                      paddingLeft="20px"
-                    >
-                      <Box
-                        width="100%"
-                        height="40px"
-                        color={mainColor}
-                        cursor="pointer"
-                        _hover={{
-                          bg: inputBg,
-                        }}
-                        onClick={() => {
+                <MobileMenuDropDown
+                  title="My Communities"
+                  titleIcon={<HiOutlineUserGroup />}
+                  options={[
+                    { label: 'Create Community', legacy: true },
+                    Object.keys(accountSubplebbits),
+                  ].flat()}
+                  render={(pages) => (
+                    <li
+                      className={styles.mobile_menu_dropdown_item}
+                      onClick={() => {
+                        if (pages?.legacy) {
                           setShowDropDown(!showDropDown);
-                          setShowComponent(!showDropDown);
-                          onOpenCreate();
+                          setShowCreateSubModal(true);
+                        } else {
+                          setShowDropDown(!showDropDown);
+                        }
+                      }}
+                    >
+                      <Link
+                        to={!pages?.legacy && `/p/${pages}/`}
+                        className={styles.mobile_menu_dropdown_item2}
+                      >
+                        {!pages?.legacy ? (
+                          <span className={styles.mobile_menu_dropdown_item_avatar_wrap}>
+                            <Avatar
+                              badge
+                              avatar={accountSubplebbits[pages]?.avatar}
+                              width={24}
+                              height={24}
+                              mr="8px"
+                              isOnline={getIsOnline(accountSubplebbits[pages]?.updatedAt)}
+                            />
+                          </span>
+                        ) : (
+                          <RiCreativeCommonsByLine
+                            className={styles.mobile_menu_dropdown_item_avatar_wrap}
+                          />
+                        )}
+                        {pages?.legacy ? pages?.label : getSubName(accountSubplebbits[pages])}
+                      </Link>
+                    </li>
+                  )}
+                />
+                <li className={styles.mobile_menu_item}>
+                  <Link className={styles.mobile_menu_item1}>
+                    <span className={styles.mobile_menu_item_icon_wrap}>
+                      <div className={styles.mobile_menu_item_icon_wrap2}>
+                        <BiBookmarks className={styles.mobile_menu_item_icon} />
+                      </div>
+                    </span>
+                    <span className={styles.mobile_menu_item_text}>Saved</span>
+                  </Link>
+                </li>
+                <MobileMenuDropDown
+                  title="Settings"
+                  titleIcon={<AiFillSetting />}
+                  options={[
+                    { label: 'Dark Mode', theme: true },
+                    { label: 'Language', lang: true },
+                    {
+                      label: 'Account Settings',
+                      value: 'settings',
+                      link: true,
+                    },
+                  ]}
+                  render={(pages) => (
+                    <li
+                      className={styles.mobile_menu_dropdown_item}
+                      onClick={() => {
+                        if (pages?.theme) {
+                          toggleTheme();
+                        } else {
+                          setShowDropDown(!showDropDown);
+                        }
+                      }}
+                    >
+                      <Link
+                        to={pages?.link && `/${pages?.value}/`}
+                        className={styles.mobile_menu_dropdown_item2}
+                        style={{
+                          width: '100%',
+                          display: 'flex',
                         }}
                       >
-                        <Flex alignItems="center" height="100%" padding="0 20px" color="#fff">
-                          <Flex
-                            justifyContent="center"
-                            alignItems="center"
-                            flex="0 0"
-                            fontSize="20px"
-                            mr="12px"
-                            minW="20px"
-                            w="20px"
+                        {pages?.label}
+                        {pages?.theme && (
+                          <div
+                            onClick={() => toggleTheme()}
+                            className={styles.mobile_menu_dropdown_item_aux}
                           >
-                            <Icon as={RiCreativeCommonsByLine} width={5} height={5} />
-                          </Flex>
-                          <Box
-                            flex="1 1 100%"
-                            fontSize="14px"
-                            fontWeight="500"
-                            lineHeight="18px"
-                            textAlign="left"
-                            width="100%"
-                            textOverflow="ellipsis"
-                            whiteSpace="nowrap"
-                            overflow="hidden"
-                          >
-                            Create Community
-                          </Box>
-                        </Flex>
-                      </Box>
-                      {Object.keys(accountSubplebbits)?.map((pages, index) => (
-                        <Flex
-                          alignItems="center"
-                          flexFlow="row nowrap"
-                          cursor="pointer"
-                          onClick={() => {
-                            setShowDropDown(!showDropDown);
-                            setShowComponent(!showDropDown);
-                          }}
-                          as={Link}
-                          to={`/p/${pages}/`}
-                          key={index}
-                        >
-                          <Avatar
-                            badge
-                            avatar={accountSubplebbits[pages]?.avatar}
-                            width={24}
-                            height={24}
-                            mr="8px"
-                            isOnline={getIsOnline(accountSubplebbits[pages]?.updatedAt)}
-                          />
-
-                          <Box fontSize="14px" fontWeight="400" textAlign="left" padding="5px">
-                            {getSubName(accountSubplebbits[pages])}
-                          </Box>
-                        </Flex>
-                      ))}
-                    </Flex>
-                  }
+                            <input type="checkbox" checked={colorMode === 'dark'} />
+                          </div>
+                        )}
+                        {pages?.lang && (
+                          <div className={styles.mobile_menu_dropdown_item_aux}>English (US)</div>
+                        )}
+                      </Link>
+                    </li>
+                  )}
+                />
+                <MobileMenuDropDown
+                  title="More"
+                  titleIcon={<AiOutlineInfoCircle />}
+                  options={bottomData1}
+                  render={(pages) => (
+                    <li className={styles.mobile_menu_dropdown_item}>
+                      <a
+                        target="_blank"
+                        href={pages?.link}
+                        className={styles.mobile_menu_dropdown_item2}
+                      >
+                        {pages?.label}
+                      </a>
+                    </li>
+                  )}
                 />
 
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer">
-                    <Flex
-                      alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
-                    >
-                      <Icon as={BiBookmarks} w={5} h={5} opacity=".5" />
-                    </Flex>
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      Saved
-                    </Box>
-                  </Flex>
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                  onClick={() => {
-                    setShowDropDown(!showDropDown);
-                    setShowComponent(!showDropDown);
-                  }}
-                  as={Link}
-                  to="/settings"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
-                    <Flex
-                      alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
-                    >
-                      <Icon as={AiFillSetting} w={5} h={5} opacity=".5" />
-                    </Flex>
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      Settings
-                    </Box>
-
-                    <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
-                  </Flex>
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer">
-                    <Flex
-                      alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
-                    >
-                      <Icon as={BiTrendingUp} w={5} h={5} opacity=".5" />
-                    </Flex>
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      p/popular
-                    </Box>
-                  </Flex>
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex
-                    alignItems="center"
-                    flexFlow="row nowrap"
-                    cursor="pointer"
-                    onClick={() =>
-                      setPostView(subPlebbitData?.map((x) => x?.address))?.filter(
-                        (x) => x !== undefined
-                      )
-                    }
-                  >
-                    <Flex
-                      alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
-                    >
-                      <Icon as={BsBarChartFill} w={5} h={5} opacity=".5" />
-                    </Flex>
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      p/all
-                    </Box>
-                  </Flex>
-                </Flex>
-                <NavItem
-                  head={
-                    <Flex
-                      alignItems="center"
-                      flexFlow="row nowrap"
-                      color="#fff"
-                      marginBottom="20px"
-                      marginLeft="-4px"
-                      paddingLeft="2px"
-                    >
-                      <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
-                        <Flex
-                          alignItems="center"
-                          flex="0 0 24px"
-                          height="24px"
-                          justifyContent="center"
-                          mr="8px"
-                          position="8px"
-                          width="24px"
-                        >
-                          <Icon as={AiOutlineInfoCircle} w={5} h={5} opacity=".5" />
-                        </Flex>
-                        <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                          More
-                        </Box>
-
-                        <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
-                      </Flex>
-                    </Flex>
-                  }
-                  body={
-                    <Flex
-                      flexDirection="column"
-                      color="#fff"
-                      marginBottom="20px"
-                      marginLeft="-4px"
-                      paddingLeft="20px"
-                    >
-                      {bottomData1?.map((item, index) => (
-                        <a target="_blank" rel="noreferrer" href={item?.link} key={index}>
-                          <Box
-                            fontSize="12px"
-                            fontWeight="400"
-                            lineHeight="16px"
-                            marginTop="3px"
-                            marginBottom="3px"
-                            display="inline-block"
-                          >
-                            {item?.label}
-                          </Box>
-                        </a>
-                      ))}
-                      {bottomData2?.map((item, index) => (
-                        <a target="_blank" rel="noreferrer" href={item?.link} key={index}>
-                          <Box
-                            fontSize="12px"
-                            fontWeight="400"
-                            lineHeight="16px"
-                            marginTop="3px"
-                            marginBottom="3px"
-                            display="inline-block"
-                          >
-                            {item?.label}
-                          </Box>
-                        </a>
-                      ))}
-                    </Flex>
-                  }
-                />
-
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
-                    <Flex
-                      alignItems="center"
-                      flex="0 0 24px"
-                      height="24px"
-                      justifyContent="center"
-                      mr="8px"
-                      position="8px"
-                      width="24px"
-                    >
-                      <Icon as={CgNotes} w={5} h={5} opacity=".5" />
-                    </Flex>
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
-                      Terms and Conditions
-                    </Box>
-
-                    <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
-                  </Flex>
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  flexFlow="row nowrap"
-                  color="#fff"
-                  marginBottom="20px"
-                  marginLeft="-4px"
-                  paddingLeft="2px"
-                >
-                  <Flex alignItems="center" flexFlow="row nowrap" cursor="pointer" width="100%">
-                    <Box fontSize="16px" fontWeight="600" lineHeight="19px" textAlign="left">
+                <li className={styles.mobile_menu_item}>
+                  <Link className={styles.mobile_menu_item1}>
+                    <span className={styles.mobile_menu_item_icon_wrap}>
+                      <div className={styles.mobile_menu_item_icon_wrap2}>
+                        <CgNotes className={styles.mobile_menu_item_icon} />
+                      </div>
+                    </span>
+                    <span className={styles.mobile_menu_item_text}> Terms and Conditions</span>
+                  </Link>
+                </li>
+                <li className={styles.mobile_menu_item}>
+                  <Link className={styles.mobile_menu_item1}>
+                    <span className={styles.mobile_menu_item_text}>
+                      {' '}
                       Plebbit v{plebbitReactPackageJson.version}. GPL-2.0
-                    </Box>
-
-                    <Icon as={BsChevronDown} color="#787c7e" ml="auto" w={6} h={5} />
-                  </Flex>
-                </Flex>
-              </Flex>
-            </Box>
+                    </span>
+                  </Link>
+                </li>
+              </ul>
+            </nav>
           )}
-        </Box>
+        </>
       )}
-
-      {isOpen ? <ImportAccount isOpen={isOpen} onClose={onClose} /> : ''}
-      {isOpenCreate ? <CreateSubPlebbit isOpen={isOpenCreate} onClose={onCloseCreate} /> : ''}
-    </Box>
+    </>
   );
 };
 

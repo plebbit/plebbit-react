@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
-import BottomSideBar from '../../sidebar/bottomSideBar';
-import Image from "../../Image"
+import BottomSideBar from '../../components/sidebar/bottomSideBar';
+import Image from '../../components/Image';
 
 const CreatePostSideBar = () => {
   const bg = useColorModeValue('white', 'darkNavBg');
@@ -11,17 +11,17 @@ const CreatePostSideBar = () => {
     <Box
       marginLeft="24px"
       marginTop="0px"
-      sx={ {
+      sx={{
         '@media (min-width:960px)': {
           display: 'block',
         },
-      } }
+      }}
       display="none"
       flex="0 0 312px"
       width="312px"
     >
       <Box paddingTop="27px" width="inherit">
-        <Box backgroundColor={ bg } borderRadius="4px" marginTop="15px" padding="12px">
+        <Box backgroundColor={bg} borderRadius="4px" marginTop="15px" padding="12px">
           <Flex
             fontSize="16px"
             lineHeight="20px"
@@ -30,7 +30,6 @@ const CreatePostSideBar = () => {
             fontWeight="500"
           >
             <Image
-
               height="40px"
               marginRight="8px"
               paddingBottom="5px"
@@ -44,10 +43,10 @@ const CreatePostSideBar = () => {
             fontSize="14px"
             lineHeight="18px"
             fontWeight="500"
-            sx={ {
+            sx={{
               listStylePos: '',
               listStyle: 'decimal',
-            } }
+            }}
           >
             <Flex borderBottom="1px solid #edeff1" padding="10px 5px">
               1. Do what you want

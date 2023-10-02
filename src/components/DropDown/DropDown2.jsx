@@ -1,6 +1,8 @@
 import { Flex, Box, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 import Select, { components } from 'react-select';
+import Avatar from '../Avatar';
+import getIsOnline from '../../utils/getIsOnline';
 
 const DropDown2 = ({
   prefix,
@@ -51,7 +53,16 @@ const DropDown2 = ({
             fontSize="22px"
             lineHeight="22px"
             ml="8px"
-          />
+          >
+            <Avatar
+              width={20}
+              height={20}
+              mr="8px"
+              avatar={props?.selectProps?.value?.suggested?.avatarUrl}
+              badge
+              isOnline={getIsOnline(props?.selectProps?.value?.updatedAt)}
+            />
+          </Box>
         )}
         {children}
         {suffix && suffix(props?.selectProps)}

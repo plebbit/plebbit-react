@@ -1,59 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  Flex,
-  useColorModeValue,
-  Text,
-  Textarea,
-} from '@chakra-ui/react';
 import { exportAccount } from '@plebbit/plebbit-react-hooks';
+import Modal from '../../../components/Modal';
+import styles from './modal.module.css';
 
-const ExportAccount = ({ isOpen, onClose }) => {
-  const navBorder = useColorModeValue('#edeff1', '#343536');
-
+const ExportAccount = ({ isOpen, setIsOpen }) => {
   const [account, setAccount] = useState();
 
-  useEffect(async () => {
+  const fetchAccount = async () => {
     const exportedAccount = await exportAccount();
     setAccount(exportedAccount);
+  };
+
+  useEffect(() => {
+    fetchAccount();
+
+    return () => {
+      setAccount();
+    };
   }, []);
 
   return (
-    <Modal trapFocus={ false } scrollBehavior="inside" isOpen={ isOpen } onClose={ onClose } isCentered>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Export Account</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody pb={ 6 }>
-          <Textarea
-            flexDir="column"
-            border={ `1px solid ${navBorder}` }
-            padding="10px"
-            overflow="scroll"
-            value={ account }
-            height="100%"
-          />
+    <Modal setIsOpen={setIsOpen} isOpen={isOpen} header="Export Account">
+      <div className={styles.wrapper}>
+        <textarea value={account} />
 
-          <Flex width="100%">
-            <Text fontWeight="400" color="red" fontSize="12px" lineHeight="16px" paddingTop="5px">
-              copy this text in the box above and store in a safe place
-            </Text>
-          </Flex>
-        </ModalBody>
+        <h3 fontWeight="400" color="red" fontSize="12px" lineHeight="16px" paddingTop="5px">
+          copy this text in the box above and store in a safe place
+        </h3>
 
-        <ModalFooter mt={ 3 }>
-          <Button colorScheme="red" onClick={ onClose }>
-            Close
-          </Button>
-        </ModalFooter>
-      </ModalContent>
+        <div className={styles.footer}>
+          <button onClick={() => setIsOpen(false)}>Close</button>
+        </div>
+      </div>
     </Modal>
   );
 };

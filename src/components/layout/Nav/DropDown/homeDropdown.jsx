@@ -17,7 +17,7 @@ import Sort from '../../../../utils/sort';
 import convertArrToObj from '../../../../utils/convertArrToObj';
 import { useAccount, useAccountSubplebbits, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
 
-const HomeDropdown = ({ location, onOpenCreate }) => {
+const HomeDropdown = ({ location }) => {
   const [showMenu, setShowMenu] = useState(false);
   const { ref } = useVisible(setShowMenu);
 
@@ -42,7 +42,7 @@ const HomeDropdown = ({ location, onOpenCreate }) => {
 
       {showMenu && (
         <div role="menu" className={styles.nav_home_dropdown_menu_wrap}>
-          <SideMenu location={location} onOpenCreate={onOpenCreate} />
+          <SideMenu location={location} />
         </div>
       )}
     </div>
@@ -51,7 +51,7 @@ const HomeDropdown = ({ location, onOpenCreate }) => {
 
 export default HomeDropdown;
 
-export const SideMenu = ({ location, onOpenCreate }) => {
+export const SideMenu = ({ location }) => {
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
@@ -61,6 +61,7 @@ export const SideMenu = ({ location, onOpenCreate }) => {
     homeAdd,
     subPlebbitData: gitData,
     subPlebbitDefData,
+    setShowCreateSubModal,
   } = useStore((state) => state);
 
   const navigate = useNavigate();
@@ -156,7 +157,7 @@ export const SideMenu = ({ location, onOpenCreate }) => {
           ))
         : ''}
       <div className={styles.nav_home_moderating_title}>your communities</div>
-      <button className={styles.nav_home_create_sub} onClick={onOpenCreate}>
+      <button className={styles.nav_home_create_sub} onClick={() => setShowCreateSubModal(true)}>
         <BsPlusLg className={styles.nav_home_moderating_item_icon} />
         <span className={styles.nav_home_moderating_item_text}>Create Community</span>
       </button>
