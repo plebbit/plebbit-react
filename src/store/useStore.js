@@ -14,7 +14,7 @@ const useStore = create((set, get) => ({
   version,
   postView: [],
   setPostView: (val) => set(() => ({ postView: val })),
-  mode: window?.location?.protocol,
+  isElectron: window?.location?.protocol,
   homeAdd: [],
   setHomeAdd: (val) => set(() => ({ homeAdd: val })),
   subPlebbitDefData: [],

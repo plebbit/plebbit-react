@@ -480,6 +480,15 @@ const Settings = () => {
                   <h2>Customize plebbit Options</h2>
 
                   <div className={styles.settings_head_wrap}>
+                    <Link to="http://localhost:5001/webui" target="_blank">
+                      <button
+                        style={{
+                          border: '1px solid transparent',
+                        }}
+                      >
+                        View IPFS web ui
+                      </button>
+                    </Link>
                     <button
                       onClick={() =>
                         handleConfirm(
@@ -490,6 +499,7 @@ const Settings = () => {
                       style={{
                         color: 'red',
                         border: '1px solid currentColor',
+                        marginLeft: '4px',
                       }}
                     >
                       Reset back to default
@@ -530,7 +540,7 @@ const Settings = () => {
                       Optional URLs of an IPFS API or IPFS Http Clients Options,{' '}
                       <strong
                         style={{
-                          color: 'blue',
+                          color: '#0079d3',
                         }}
                       >
                         http://localhost:5001
