@@ -25,9 +25,9 @@ const Settings = () => {
   const location = useLocation();
   const view = location.pathname.split('/').at(-2);
   const profile = useAccount();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isOpen: isExportOpen, onOpen: onExportOpen, onClose: onExportClose } = useDisclosure();
-  const { isOpen: isBlockOpen, onOpen: onBlockOpen, onClose: onBlockClose } = useDisclosure();
+  const [isOpen, setIsClose] = useState(false);
+  const [isExportOpen, setIsExportClose] = useState(false);
+  const [isBlockOpen, setBlockClose] = useState(false);
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
   const { device } = useStore((state) => state);
   const [loader, setLoader] = useState(false);
@@ -215,12 +215,12 @@ const Settings = () => {
 
   return (
     <Layout name={{ label: 'Plebbit Settings', value: location?.pathname }}>
-      {isOpen ? <AddAvatar isOpen={isOpen} onClose={onClose} /> : ''}
-      {isExportOpen ? <ExportAccount isOpen={isExportOpen} onClose={() => onExportClose()} /> : ''}
+      {isOpen ? <AddAvatar isOpen={isOpen} setIsOpen={setIsClose} /> : ''}
+      {isExportOpen ? <ExportAccount isOpen={isExportOpen} setIsOpen={setIsExportClose} /> : ''}
       {isBlockOpen ? (
         <AddBlockProvide
           isOpen={isBlockOpen}
-          onClose={onBlockClose}
+          setIsOpen={setBlockClose}
           handleSave={handleSaveChainProvider}
           loading={bPLoading}
         />
@@ -307,7 +307,7 @@ const Settings = () => {
                 </div>
                 <div className={styles.settings_head}>
                   <button
-                    onClick={onExportOpen}
+                    onClick={() => setIsExportClose(true)}
                     style={{
                       background: '#EDF2F7',
                       border: '1px solid #EDF2F7',
@@ -461,7 +461,7 @@ const Settings = () => {
                                   transformOrigin="bottom center"
                                   clipPath="polygon(0 68.22%,12.12% 68.22%,12.85% 71.49%,13.86% 74.69%,15.14% 77.79%,16.69% 80.77%,18.49% 83.6%,20.54% 86.26%,22.8% 88.73%,25.28% 91%,27.94% 93.04%,30.77% 94.85%,33.75% 96.4%,36.85% 97.68%,40.05% 98.69%,43.32% 99.42%,46.65% 99.85%,50% 100%,53.35% 99.85%,56.68% 99.42%,59.95% 98.69%,63.15% 97.68%,66.25% 96.4%,69.23% 94.85%,72.06% 93.04%,74.72% 91%,77.2% 88.73%,79.46% 86.26%,81.51% 83.6%,83.31% 80.77%,84.86% 77.79%,86.14% 74.69%,87.15% 71.49%,87.88% 68.22%,100% 68.22%,100% 0,0 0)"
                                   src={authorAvatarImageUrl || placeholder}
-                                  onClick={onOpen}
+                                  onClick={() => setIsClose(true)}
                                 />
                               </div>
                             </div>
@@ -630,7 +630,7 @@ const Settings = () => {
                 <div className={styles.settings_options}>
                   <div className={styles.setting_account_del}>
                     <button
-                      onClick={onBlockOpen}
+                      onClick={() => setBlockClose(true)}
                       style={{
                         color: '#0079d3',
                       }}

@@ -1,34 +1,15 @@
 import React, { useState } from 'react';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  Flex,
-  Input,
-  FormControl,
-  FormLabel,
-  useColorModeValue,
-  useColorMode,
-  Text,
-  Textarea,
-  useToast,
-  Box,
-  RadioGroup,
-  Stack,
-  Radio,
-} from '@chakra-ui/react';
+
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { setAccount } from "@plebbit/plebbit-react-hooks/dist/stores/accounts/accounts-actions"
+import { setAccount } from '@plebbit/plebbit-react-hooks/dist/stores/accounts/accounts-actions';
 import logger from '../../../utils/logger';
 import { useAccount } from '@plebbit/plebbit-react-hooks';
+import Modal from '../../../components/Modal';
+import styles from './modal.module.css';
+import { BiLinkExternal } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 
-const AddAvatar = ({ isOpen, onClose }) => {
+const AddAvatar = ({ isOpen, setIsOpen }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const linkColor = useColorModeValue('lightLink', 'darkLink');
   const { colorMode } = useColorMode();
@@ -37,7 +18,7 @@ const AddAvatar = ({ isOpen, onClose }) => {
     domainSeparator: 'plebbit-author-avatar',
     authorAddress: profile?.author?.address,
   });
-  const [timestamp, setTimeStamp] = useState("")
+  const [timestamp, setTimeStamp] = useState('');
   const [message, setMessage] = useState('');
   const [signature, setSignature] = useState('');
   const [type, setType] = useState('eip191');
@@ -47,7 +28,7 @@ const AddAvatar = ({ isOpen, onClose }) => {
   const toast = useToast();
 
   const handleMessage = (val) => {
-    setTimeStamp(val)
+    setTimeStamp(val);
     setMessage(
       JSON.stringify({
         domainSeparator: data?.domainSeparator,
@@ -56,196 +37,200 @@ const AddAvatar = ({ isOpen, onClose }) => {
         tokenAddress: data?.tokenAddress,
         tokenId: data?.tokenId,
       })
-    )
-  }
+    );
+  };
 
   return (
-    <Modal trapFocus={ false } scrollBehavior="inside" isOpen={ isOpen } onClose={ onClose } isCentered>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Add Nft Avatar</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody pb={ 6 }>
-          <Flex flexDir="column">
-            <FormControl>
-              <FormLabel>Token address</FormLabel>
-              <Input
-                backgroundColor={ mainBg }
-                border={ `1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}` }
-                borderColor={ colorMode === 'light' ? '#edeff1' : '#343456' }
-                placeholder="Input token address"
-                onChange={ (e) => {
-                  setMessage('');
-                  setData({ ...data, tokenAddress: e.target.value });
-                } }
-                value={ data?.tokenAddress }
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Token Id</FormLabel>
-              <Input
-                backgroundColor={ mainBg }
-                border={ `1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}` }
-                borderColor={ colorMode === 'light' ? '#edeff1' : '#343456' }
-                placeholder="Input token id"
-                onChange={ (e) => {
-                  setMessage('');
-                  setData({ ...data, tokenId: e.target.value });
-                } }
-                value={ data?.tokenId }
-              />
-            </FormControl>
-            { message ? (
-              <FormControl mt="15px">
-                <FormLabel>Message</FormLabel>
-                <Text
-                  border={ `1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}` }
-                  borderColor={ colorMode === 'light' ? '#edeff1' : '#343456' }
-                  padding="10px"
-                >
-                  { message }
-                </Text>
-              </FormControl>
-            ) : (
-              ''
-            ) }
-            { message?.length ? (
-              <FormControl>
+    <Modal setIsOpen={setIsOpen} isOpen={isOpen} header="Add Nft Avatar">
+      <div className={styles.wrapper}>
+        <div className={styles.wrapper2}>
+          <label className={styles.input_group}>
+            <span>Token address</span>
+            <input
+              placeholder="Input token address"
+              onChange={(e) => {
+                setMessage('');
+                setData({ ...data, tokenAddress: e.target.value });
+              }}
+              value={data?.tokenAddress}
+            />
+          </label>
+          <label className={styles.input_group}>
+            <span>Token Id</span>
+            <input
+              placeholder="Input token id"
+              onChange={(e) => {
+                setMessage('');
+                setData({ ...data, tokenId: e.target.value });
+              }}
+              value={data?.tokenId}
+            />
+          </label>
+          {message ? (
+            <label className={styles.input_group}>
+              <span>Message</span>
+              <h3 className={styles.message}>{message}</h3>
+            </label>
+          ) : (
+            ''
+          )}
+          {message?.length ? (
+            <label className={styles.input_group}>
+              <div>
                 <CopyToClipboard
-                  text={ message }
-                  onCopy={ () => {
+                  text={message}
+                  onCopy={() => {
                     setCopied(true);
                     setTimeout(() => {
                       setCopied(false);
                     }, 3000);
-                  } }
+                  }}
                 >
-                  <Button>{ copied ? 'Copied' : 'Copy' }</Button>
+                  <button className={styles.avatar_copy} disabled={copied}>
+                    {copied ? 'Copied' : 'Copy'}
+                  </button>
                 </CopyToClipboard>
-                <Text fontSize="13px" fontWeight="bold" color="red">
-                  copy the message in the box above and sign it on{ ' ' }
-                  <Box color={ linkColor } fontSize="12px" fontStyle="italic">
-                    https://etherscan.io/verifiedSignatures
-                    <ExternalLinkIcon mx="2px" />
-                  </Box>
-                </Text>
-              </FormControl>
-            ) : (
-              ''
-            ) }
-            { message ? (
-              <FormControl mt="15px">
-                <FormLabel>Chain Ticker</FormLabel>
-                <Input
-                  value={ chainTicker }
-                  onChange={ (e) => {
-                    setUserProfile({
-                      ...userProfile,
-                      author: {
-                        ...userProfile?.author,
-                        avatar: {
-                          ...userProfile?.author?.avatar,
-                          chainTicker: e.target.value,
-                        },
+              </div>
+              <h3 className={styles.message_info}>
+                copy the message in the box above and sign it on{' '}
+                <Link
+                  target="_blank"
+                  to="https://etherscan.io/verifiedSignatures"
+                  color={linkColor}
+                  fontSize="12px"
+                  fontStyle="italic"
+                >
+                  https://etherscan.io/verifiedSignatures
+                  <BiLinkExternal />
+                </Link>
+              </h3>
+            </label>
+          ) : (
+            ''
+          )}
+          {message ? (
+            <label className={styles.input_group}>
+              <span>Chain Ticker</span>
+              <input
+                value={chainTicker}
+                onChange={(e) => {
+                  setUserProfile({
+                    ...userProfile,
+                    author: {
+                      ...userProfile?.author,
+                      avatar: {
+                        ...userProfile?.author?.avatar,
+                        chainTicker: e.target.value,
                       },
-                    });
-                    setChainTicker(e.target.value?.toLowerCase());
-                  } }
-                  mb="10px"
-                  placeholder="input ticker of the chain, like eth, avax, sol, matic, etc"
+                    },
+                  });
+                  setChainTicker(e.target.value?.toLowerCase());
+                }}
+                mb="10px"
+                placeholder="input ticker of the chain, like eth, avax, sol, matic, etc"
+              />
+
+              <label>
+                <input
+                  type="radio"
+                  value="eip191"
+                  checked
+                  style={{
+                    marginRight: '6px',
+                  }}
                 />
-                <RadioGroup onChange={ setType } value={ type }>
-                  <Stack mb="10px" direction="row">
-                    <Radio value="eip191">eip191</Radio>
-                    {/* <Radio isDisabled value="rsa">
+                eip191
+              </label>
+              {/* <Radio isDisabled value="rsa">
                       rsa
                     </Radio> */}
-                  </Stack>
-                </RadioGroup>
-                <FormLabel>Signature</FormLabel>
-                <Textarea
-                  border={ `1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}` }
-                  placeholder="Input signature"
-                  value={ signature }
-                  onChange={ (e) => {
-                    setUserProfile({
-                      ...userProfile,
-                      author: {
-                        ...userProfile?.author,
-                        avatar: {
-                          ...userProfile?.author?.avatar,
-                          chainTicker: chainTicker,
-                          address: data?.tokenAddress,
-                          id: data?.tokenId,
-                          timestamp,
-                          signature: {
-                            ...userProfile?.author?.avatar?.signature,
-                            signature: e.target.value,
-                            type: type,
-                            signedPropertyNames: Object.keys(data),
-                          },
+
+              <span>Signature</span>
+              <textarea
+                border={`1px solid ${colorMode === 'light' ? '#edeff1' : '#343456'}`}
+                placeholder="Input signature"
+                value={signature}
+                onChange={(e) => {
+                  setUserProfile({
+                    ...userProfile,
+                    author: {
+                      ...userProfile?.author,
+                      avatar: {
+                        ...userProfile?.author?.avatar,
+                        chainTicker: chainTicker,
+                        address: data?.tokenAddress,
+                        id: data?.tokenId,
+                        timestamp,
+                        signature: {
+                          ...userProfile?.author?.avatar?.signature,
+                          signature: e.target.value,
+                          type: type,
+                          signedPropertyNames: Object.keys(data),
                         },
                       },
-                    });
-                    setSignature(e.target.value);
-                  } }
-                />
-                <Text fontSize="10px" fontWeight="bold">
-                  paste the signature hash gotten from{ ' ' }
-                  <Box color={ linkColor } fontSize="12px" fontStyle="italic">
-                    https://etherscan.io/verifiedSignatures
-                    <ExternalLinkIcon mx="2px" /> after publishing
-                  </Box>{ ' ' }
-                  in the box above
-                </Text>
-              </FormControl>
-            ) : (
-              ''
-            ) }
-          </Flex>
-        </ModalBody>
+                    },
+                  });
+                  setSignature(e.target.value);
+                }}
+              />
+              <h3 className={styles.message_info}>
+                paste the signature hash gotten from{' '}
+                <Link to="https://etherscan.io/verifiedSignatures" target="_blank">
+                  https://etherscan.io/verifiedSignatures
+                  <BiLinkExternal mx="2px" />
+                </Link>{' '}
+                after publishing in the box above
+              </h3>
+            </label>
+          ) : (
+            ''
+          )}
+        </div>
 
-        <ModalFooter mt={ 3 }>
-          <Button
-            mr={ 3 }
-            onClick={ () =>
+        <div className={styles.footer}>
+          <button
+            onClick={() =>
               signature
                 ? setTimeout(async () => {
-                  if (signature) {
-                    try {
-                      const res = await setAccount(userProfile);
-                      logger('account:update', res);
-                      toast({
-                        title: `changes saved`,
-                        variant: 'left-accent',
-                        status: 'success',
-                        isClosable: true,
-                      });
-                      onClose();
-                    } catch (error) {
-                      logger('account:update', error, 'error');
-                      toast({
-                        title: `Account update`,
-                        variant: 'left-update',
-                        description: error?.toString(),
-                        status: 'error',
-                        isClosable: true,
-                      });
+                    if (signature) {
+                      try {
+                        const res = await setAccount(userProfile);
+                        logger('account:update', res);
+                        toast({
+                          title: `changes saved`,
+                          variant: 'left-accent',
+                          status: 'success',
+                          isClosable: true,
+                        });
+                        onClose();
+                      } catch (error) {
+                        logger('account:update', error, 'error');
+                        toast({
+                          title: `Account update`,
+                          variant: 'left-update',
+                          description: error?.toString(),
+                          status: 'error',
+                          isClosable: true,
+                        });
+                      }
                     }
-                  }
-                }, 300)
+                  }, 300)
                 : data?.tokenId &&
-                data?.tokenAddress &&
-                handleMessage(Number(Math.round(Date.now() / 1000)))
+                  data?.tokenAddress &&
+                  handleMessage(Number(Math.round(Date.now() / 1000)))
             }
+            style={{
+              display: !message ? 'block' : message && signature ? 'block' : 'none',
+              color: '#0079d3',
+              border: '1px solid currentColor',
+              backgroundColor: 'transparent',
+            }}
           >
-            { !message ? 'Create message' : message && signature ? 'Save' : '' }
-          </Button>
-          <Button colorScheme="red" onClick={ onClose }>
-            Close
-          </Button>
-        </ModalFooter>
-      </ModalContent>
+            {!message ? 'Create message' : message && signature ? 'Save' : ''}
+          </button>
+          <button onClick={() => setIsOpen(false)}>Close</button>
+        </div>
+      </div>
     </Modal>
   );
 };
