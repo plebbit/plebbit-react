@@ -11,18 +11,18 @@ import getAddressFromArray from '../../utils/getAddressFromArray';
 import useStore from '../../store/useStore';
 import CreatePostBar from '../../components/CreatePost/createPostBar';
 import FeedContent from '../../components/container/FeedContent';
+import { useParams } from 'react-router-dom';
 
 const Home = () => {
-  const { postStyle, feedSort, device, postView, homeAdd, subPlebbitData } = useStore(
-    (state) => state
-  );
+  const { postStyle, device, postView, homeAdd, subPlebbitData } = useStore((state) => state);
+  const sortType = useParams()?.sortType ?? 'hot';
   const bg = useColorModeValue('lightBody', 'darkBody');
   const subplebbitAddresses = postView?.filter(Boolean)?.length
     ? postView?.filter(Boolean)
     : getAddressFromArray(subPlebbitData);
   const { feed, loadMore, hasMore } = useFeed({
     subplebbitAddresses: subplebbitAddresses.length ? subplebbitAddresses : undefined,
-    sortType: feedSort,
+    sortType: sortType,
   });
 
   const { subplebbits } = useSubplebbits({

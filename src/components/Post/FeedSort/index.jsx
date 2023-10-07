@@ -22,7 +22,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
   const { postStyle, setPostStyle, device } = useStore((state) => state);
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
 
-  const view = useParams()?.view ?? 'hot';
+  const sortType = useParams()?.sortType ?? 'hot';
   const location = useLocation();
 
   const mainBg = useColorModeValue('lightBody', 'darkBody');
@@ -57,10 +57,10 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
           >
             <Flex alignItems="center" cursor="pointer">
               <Link
-                bg={view === 'hot' ? inputBg : 'transparent'}
-                color={view === 'hot' ? activeFilterText : iconColor}
+                bg={sortType === 'hot' ? inputBg : 'transparent'}
+                color={sortType === 'hot' ? activeFilterText : iconColor}
                 cursor="default"
-                fill={view === 'hot' ? activeFilterText : iconColor}
+                fill={sortType === 'hot' ? activeFilterText : iconColor}
                 mr="8px"
                 textTransform="capitalize"
                 position="relative"
@@ -77,7 +77,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                 display="flex"
                 alignItems="center"
                 _hover={{
-                  background: view === 'hot' ? '' : inputBg,
+                  background: sortType === 'hot' ? '' : inputBg,
                 }}
                 as={Link}
                 to={`${path}/hot`}
@@ -86,10 +86,10 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                 Hot
               </Link>
               <Box
-                bg={view === 'new' ? inputBg : 'transparent'}
-                color={view === 'new' ? activeFilterText : iconColor}
+                bg={sortType === 'new' ? inputBg : 'transparent'}
+                color={sortType === 'new' ? activeFilterText : iconColor}
                 cursor="default"
-                fill={view === 'new' ? activeFilterText : iconColor}
+                fill={sortType === 'new' ? activeFilterText : iconColor}
                 mr="8px"
                 textTransform="capitalize"
                 position="relative"
@@ -106,7 +106,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                 display="flex"
                 alignItems="center"
                 _hover={{
-                  background: view === 'new' ? '' : inputBg,
+                  background: sortType === 'new' ? '' : inputBg,
                 }}
                 as={Link}
                 to={`${path}/new`}
@@ -115,10 +115,10 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                 New
               </Box>
               <Box
-                bg={view === 'topAll' ? inputBg : 'transparent'}
-                color={view === 'topAll' ? activeFilterText : iconColor}
+                bg={sortType === 'topAll' ? inputBg : 'transparent'}
+                color={sortType === 'topAll' ? activeFilterText : iconColor}
                 cursor="default"
-                fill={view === 'topAll' ? activeFilterText : iconColor}
+                fill={sortType === 'topAll' ? activeFilterText : iconColor}
                 mr="8px"
                 textTransform="capitalize"
                 position="relative"
@@ -135,7 +135,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                 display="flex"
                 alignItems="center"
                 _hover={{
-                  background: view === 'topAll' ? '' : inputBg,
+                  background: sortType === 'topAll' ? '' : inputBg,
                 }}
                 as={Link}
                 to={`${path}/topAll`}
@@ -316,7 +316,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                     marginRight="8px"
                     textTransform="capitalize"
                   >
-                    {view}
+                    {sortType}
                   </Box>
                   <Icon
                     as={BsChevronDown}
@@ -404,7 +404,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                             as={RiFireFill}
                             w="50px"
                             flex="0 0 5opx"
-                            color={view === 'hot' ? activeFilterText : iconMobileColor}
+                            color={sortType === 'hot' ? activeFilterText : iconMobileColor}
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -434,7 +434,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                             as={RiFireFill}
                             w="50px"
                             flex="0 0 5opx"
-                            color={view === 'new' ? activeFilterText : iconMobileColor}
+                            color={sortType === 'new' ? activeFilterText : iconMobileColor}
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -464,7 +464,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                             as={RiFireFill}
                             w="50px"
                             flex="0 0 5opx"
-                            color={view === 'topAll' ? activeFilterText : iconMobileColor}
+                            color={sortType === 'topAll' ? activeFilterText : iconMobileColor}
                             textAlign="center"
                             lineHeight="22px"
                           />

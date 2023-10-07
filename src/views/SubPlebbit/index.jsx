@@ -34,11 +34,11 @@ const Subplebbit = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
   const { postStyle, device } = useStore((state) => state);
-  const view = useParams()?.view ?? 'hot';
+  const sortType = useParams()?.sortType ?? 'hot';
   const params = useParams();
   const { feed, loadMore, hasMore } = useFeed({
     subplebbitAddresses: [params?.subplebbitAddress],
-    sortType: view,
+    sortType: sortType,
   });
   const subPlebbit = useSubplebbit({ subplebbitAddress: params?.subplebbitAddress });
   const feeds = feed;

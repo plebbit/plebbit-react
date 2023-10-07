@@ -18,7 +18,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/:view" element={<Home />} />
+      <Route path="/:sortType" element={<Home />} />
       <Route path="/submit" element={<CreatePost />} />
       <Route path="/p/:subplebbitAddress/submit" element={<CreatePost />} />
       <Route path="/settings" element={<Settings />} />
@@ -28,7 +28,7 @@ const App = () => {
       <Route path="/u/:authorAddress/c/:commentCid" element={<Author />} />
       <Route path="/u/:authorAddress/c/:commentCid/:view" element={<Author />} />
       <Route path="/p/:subplebbitAddress" element={<SubPlebbit />} />
-      <Route path="/p/:subplebbitAddress/:view" element={<SubPlebbit />} />
+      <Route path="/p/:subplebbitAddress/:sortType" element={<SubPlebbit />} />
       <Route path="/p/:subplebbitAddress/c/:commentCid" element={<PostDetail />} />
       <Route path="/profile/c/:index" element={<PostDetail />} />
       <Route path="notifications" element={<Notifications />} />
