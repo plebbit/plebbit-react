@@ -49,7 +49,7 @@
   vertical-align: middle;
 }
 
-.thumbnail_icon:before {
+.thumbnail_icon::before {
   content: '\f1ac';
 }
 
@@ -140,11 +140,11 @@
   overflow-x: hidden;
   white-space: nowrap;
 }
-.mobile_content_bar_link:before {
+.mobile_content_bar_link::before {
   content: ' ';
   display: table;
 }
-.mobile_content_bar_link:after {
+.mobile_content_bar_link::after {
   clear: both;
   content: ' ';
   display: table;

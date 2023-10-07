@@ -33,11 +33,12 @@ import FeedContent from '../../components/container/FeedContent';
 const Subplebbit = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
-  const { postStyle, feedSort, device } = useStore((state) => state);
+  const { postStyle, device } = useStore((state) => state);
+  const view = useParams()?.view ?? 'hot';
   const params = useParams();
   const { feed, loadMore, hasMore } = useFeed({
     subplebbitAddresses: [params?.subplebbitAddress],
-    sortType: feedSort,
+    sortType: view,
   });
   const subPlebbit = useSubplebbit({ subplebbitAddress: params?.subplebbitAddress });
   const feeds = feed;

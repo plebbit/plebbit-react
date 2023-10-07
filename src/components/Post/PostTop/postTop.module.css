@@ -136,7 +136,7 @@
   vertical-align: middle;
   flex: 1 0;
 }
-.sub_detail_wrap:after {
+.sub_detail_wrap::after {
   content: '';
   position: absolute;
   top: 0;
@@ -180,7 +180,7 @@
   font-size: 14px;
   line-height: 18px;
 }
-.mobile_dot:after {
+.mobile_dot::after {
   color: #818384;
   content: '\2022';
   display: inline-block;
@@ -202,7 +202,7 @@
   vertical-align: middle;
 }
 
-.status:before {
+.status::before {
   content: '\F167';
 }
 .mobile_card_menu {

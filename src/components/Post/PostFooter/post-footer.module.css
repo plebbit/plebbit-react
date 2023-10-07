@@ -154,7 +154,7 @@
   line-height: 20px;
   vertical-align: middle;
 }
-.compact_comment_icon:before {
+.compact_comment_icon::before {
   content: '\f16f';
   font-family: redesignFont2020;
 }
@@ -220,7 +220,7 @@
   width: 20px;
 }
 
-.remove_btn_icon:before {
+.remove_btn_icon::before {
   content: '\f16f';
   font-family: redesignFont2020;
 }
@@ -233,12 +233,12 @@
   padding: 8px 16px;
 }
 
-.mobile_content_footer:before {
+.mobile_content_footer::before {
   content: ' ';
   display: table;
 }
 
-.mobile_content_footer:after {
+.mobile_content_footer::after {
   clear: both;
   content: ' ';
   display: table;

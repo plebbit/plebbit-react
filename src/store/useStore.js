@@ -7,8 +7,6 @@ const useStore = create((set, get) => ({
   setPostStyle: (val) => set(() => ({ postStyle: val })),
   showSplashcreen: true,
   setShowSplashcreen: (val) => set(() => ({ showSplashcreen: val })),
-  feedSort: 'hot',
-  setFeedSort: (val) => set(() => ({ feedSort: val })),
   device: 'pc',
   setDevice: (val) => set(() => ({ device: val })),
   version,

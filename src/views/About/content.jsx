@@ -8,6 +8,12 @@ import Moderators from './Moderator/subPlebbitModerators';
 import ModQueue from './Modqueue';
 import Rules from './Rules';
 
+import styles from './about.module.css';
+import { Link } from 'react-router-dom';
+import TabButton from './TabButton';
+import { queuesTabs } from '../../store/data';
+import Queues from './Queues';
+
 const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading, allowedSpecial }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
@@ -78,4 +84,24 @@ const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading, allowe
   );
 };
 
-export default Content;
+const Content2 = ({ page, subPlebbit, role, handleSubPlebbitedit, loading, allowedSpecial }) => {
+  return (
+    <div className={styles.content_wrapper}>
+      {page === '' ? (
+        <div className={styles.content_home}>
+          <BsFillShieldFill />
+          Welcome to the mod tools for {subPlebbit?.title}
+        </div>
+      ) : (
+        <div className={styles.content_wrapper2}>
+          {/* content */}
+
+          <Queues page={page} subPlebbit={subPlebbit} />
+
+          <div className={styles.content_side} />
+        </div>
+      )}
+    </div>
+  );
+};
+export default Content2;

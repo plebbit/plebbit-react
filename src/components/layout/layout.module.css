@@ -34,7 +34,7 @@
   min-height: calc(100vh - 48px);
 }
 
-.wrapper:after {
+.wrapper::after {
   content: ' ';
   position: fixed;
   top: 100%;
@@ -70,7 +70,7 @@
   flex: none;
 }
 
-.wrapper_background:before {
+.wrapper_background::before {
   content: ' ';
   position: fixed;
   width: 100%;
@@ -133,7 +133,7 @@
   vertical-align: middle;
 }
 
-.sidemenu_close_icon:before {
+.sidemenu_close_icon::before {
   content: '\f156';
 }
 

@@ -37,11 +37,11 @@ const Profile = () => {
   });
   const { imageUrl } = useAuthorAvatar({ author: author?.author });
 
-  const currentView = location.pathname.split('/').at(-2);
+  const view = useParams()?.view ?? params?.commentCid;
   const { authorComments, hasMore, loadMore } = useAuthorComments({
     commentCid: params?.commentCid,
     authorAddress: params?.authorAddress,
-    filter: currentView === 'comments' ? isReply : currentView === 'posts' ? isPost : undefined,
+    filter: view === 'comments' ? isReply : view === 'posts' ? isPost : undefined,
   });
   const { blocked, unblock, block } = useBlock({ address: params?.authorAddress });
 
@@ -65,7 +65,7 @@ const Profile = () => {
           { label: 'Moderation', link: 'moderation' },
         ];
   const feeds = authorComments ? [...authorComments].reverse() : [];
-  const fullNav = !(currentView === 'overview' || currentView === 'profile');
+  const fullNav = !(view === 'overview' || view === 'profile');
   const address = `/u/${params?.authorAddress}/c/${params?.commentCid}`;
 
   return (
@@ -81,9 +81,7 @@ const Profile = () => {
                       key={index}
                       className={styles.profile_header_link}
                       to={`${address}/${option?.link}/`}
-                      active={String(
-                        currentView === option?.link || currentView === option?.optional
-                      )}
+                      active={String(view === option?.link || view === option?.optional)}
                     >
                       {option?.label}
                     </Link>
@@ -107,7 +105,7 @@ const Profile = () => {
             loader={
               <Post
                 loading={true}
-                mode={currentView === 'overview' || currentView === 'profile' ? 'card' : 'classic'}
+                mode={view === 'overview' || view === 'profile' ? 'card' : 'classic'}
                 key={Math.random()}
               />
             }
@@ -118,7 +116,7 @@ const Profile = () => {
                 post={feed}
                 index={index}
                 key={feed?.cid || index}
-                mode={currentView === 'overview' || currentView === 'profile' ? 'card' : 'classic'}
+                mode={view === 'overview' || view === 'profile' ? 'card' : 'classic'}
               />
             )}
           />
@@ -150,9 +148,7 @@ const Profile = () => {
                   {navOptions?.map((option, index) => (
                     <Link to={`${address}/${option?.link}/`} key={index}>
                       <div
-                        active={String(
-                          currentView === option?.link || currentView === option?.optional
-                        )}
+                        active={String(view === option?.link || view === option?.optional)}
                         className={styles.mobile_profile_header_navigation_link}
                       >
                         {option?.label}
@@ -171,7 +167,7 @@ const Profile = () => {
               content={(index, feed) => (
                 <Post index={index} post={feed} key={feed?.cid || index} mode="card" />
               )}
-              disableBlocked={currentView === 'hidden'}
+              disableBlocked={view === 'hidden'}
             />
           </div>
         </div>

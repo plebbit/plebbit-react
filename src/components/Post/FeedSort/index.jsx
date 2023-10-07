@@ -16,10 +16,14 @@ import DropDown from '../../DropDown';
 import useVisible from '../../../hooks/useVisible';
 import Link from '../../Link';
 import useStore from '../../../store/useStore';
+import { useLocation, useParams } from 'react-router-dom';
 
 const FeedSort = ({ hideControl, subplebbitColor }) => {
-  const { postStyle, setPostStyle, feedSort, setFeedSort, device } = useStore((state) => state);
+  const { postStyle, setPostStyle, device } = useStore((state) => state);
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
+
+  const view = useParams()?.view ?? 'hot';
+  const location = useLocation();
 
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   // const border1 = useColorModeValue('#ccc', '#343536');
@@ -36,6 +40,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
   const { ref } = useVisible(setMobileSort);
   const { ref: ref2 } = useVisible(setViewSelect);
 
+  const path = location?.pathname?.split('/')?.slice(0, -1).join('/');
   return (
     <>
       {device !== 'mobile' ? (
@@ -51,11 +56,11 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
             padding="10px 12px"
           >
             <Flex alignItems="center" cursor="pointer">
-              <Box
-                bg={feedSort === 'hot' ? inputBg : 'transparent'}
-                color={feedSort === 'hot' ? activeFilterText : iconColor}
+              <Link
+                bg={view === 'hot' ? inputBg : 'transparent'}
+                color={view === 'hot' ? activeFilterText : iconColor}
                 cursor="default"
-                fill={feedSort === 'hot' ? activeFilterText : iconColor}
+                fill={view === 'hot' ? activeFilterText : iconColor}
                 mr="8px"
                 textTransform="capitalize"
                 position="relative"
@@ -72,20 +77,19 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                 display="flex"
                 alignItems="center"
                 _hover={{
-                  background: feedSort === 'hot' ? '' : inputBg,
+                  background: view === 'hot' ? '' : inputBg,
                 }}
-                onClick={() => setFeedSort('hot')}
                 as={Link}
-                to="hot"
+                to={`${path}/hot`}
               >
                 <Icon width="20px" mr="8px" height="20px" as={RiFireFill} />
                 Hot
-              </Box>
+              </Link>
               <Box
-                bg={feedSort === 'new' ? inputBg : 'transparent'}
-                color={feedSort === 'new' ? activeFilterText : iconColor}
+                bg={view === 'new' ? inputBg : 'transparent'}
+                color={view === 'new' ? activeFilterText : iconColor}
                 cursor="default"
-                fill={feedSort === 'new' ? activeFilterText : iconColor}
+                fill={view === 'new' ? activeFilterText : iconColor}
                 mr="8px"
                 textTransform="capitalize"
                 position="relative"
@@ -102,20 +106,19 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                 display="flex"
                 alignItems="center"
                 _hover={{
-                  background: feedSort === 'new' ? '' : inputBg,
+                  background: view === 'new' ? '' : inputBg,
                 }}
-                onClick={() => setFeedSort('new')}
                 as={Link}
-                to="new"
+                to={`${path}/new`}
               >
                 <Icon width="20px" mr="8px" height="20px" as={TiStarburstOutline} />
                 New
               </Box>
               <Box
-                bg={feedSort === 'topAll' ? inputBg : 'transparent'}
-                color={feedSort === 'topAll' ? activeFilterText : iconColor}
+                bg={view === 'topAll' ? inputBg : 'transparent'}
+                color={view === 'topAll' ? activeFilterText : iconColor}
                 cursor="default"
-                fill={feedSort === 'topAll' ? activeFilterText : iconColor}
+                fill={view === 'topAll' ? activeFilterText : iconColor}
                 mr="8px"
                 textTransform="capitalize"
                 position="relative"
@@ -132,11 +135,10 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                 display="flex"
                 alignItems="center"
                 _hover={{
-                  background: feedSort === 'topAll' ? '' : inputBg,
+                  background: view === 'topAll' ? '' : inputBg,
                 }}
-                onClick={() => setFeedSort('topAll')}
                 as={Link}
-                to="top"
+                to={`${path}/topAll`}
               >
                 <Icon width="20px" mr="8px" height="20px" as={BsBoxArrowUp} />
                 Top
@@ -314,7 +316,7 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                     marginRight="8px"
                     textTransform="capitalize"
                   >
-                    {feedSort}
+                    {view}
                   </Box>
                   <Icon
                     as={BsChevronDown}
@@ -394,17 +396,15 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                           padding="14px 0"
                           onClick={() => {
                             setMobileSort(false);
-                            setShowComponent(false);
-                            setFeedSort('hot');
                           }}
                           as={Link}
-                          to="hot"
+                          to={`${path}/hot`}
                         >
                           <Icon
                             as={RiFireFill}
                             w="50px"
                             flex="0 0 5opx"
-                            color={feedSort === 'hot' ? activeFilterText : iconMobileColor}
+                            color={view === 'hot' ? activeFilterText : iconMobileColor}
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -426,17 +426,15 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                           padding="14px 0"
                           onClick={() => {
                             setMobileSort(false);
-                            setShowComponent(false);
-                            setFeedSort('new');
                           }}
                           as={Link}
-                          to="new"
+                          to={`${path}/new`}
                         >
                           <Icon
                             as={RiFireFill}
                             w="50px"
                             flex="0 0 5opx"
-                            color={feedSort === 'new' ? activeFilterText : iconMobileColor}
+                            color={view === 'new' ? activeFilterText : iconMobileColor}
                             textAlign="center"
                             lineHeight="22px"
                           />
@@ -458,16 +456,15 @@ const FeedSort = ({ hideControl, subplebbitColor }) => {
                           padding="14px 0"
                           onClick={() => {
                             setMobileSort(false);
-                            setFeedSort('top');
                           }}
                           as={Link}
-                          to="top"
+                          to={`${path}/topAll`}
                         >
                           <Icon
                             as={RiFireFill}
                             w="50px"
                             flex="0 0 5opx"
-                            color={feedSort === 'top' ? activeFilterText : iconMobileColor}
+                            color={view === 'topAll' ? activeFilterText : iconMobileColor}
                             textAlign="center"
                             lineHeight="22px"
                           />

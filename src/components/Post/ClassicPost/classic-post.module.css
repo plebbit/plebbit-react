@@ -68,10 +68,10 @@
   top: 50%;
   color: #878a8c;
 }
-.icon:before {
+.icon::before {
   font-family: redesignFont2020;
 }
-.icon_text_post:before {
+.icon_text_post::before {
   content: '\f2b4';
 }
 

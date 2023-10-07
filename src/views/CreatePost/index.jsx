@@ -27,6 +27,7 @@ import { MdStickyNote2 } from 'react-icons/md';
 import { BsChevronDown, BsLink45Deg } from 'react-icons/bs';
 import { BiPoll } from 'react-icons/bi';
 import { AiOutlinePlus, AiOutlineTag } from 'react-icons/ai';
+import truncateString from '../../utils/truncateString';
 
 const CreatePost = () => {
   const { accountSubplebbits } = useAccountSubplebbits();

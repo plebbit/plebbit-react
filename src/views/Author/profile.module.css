@@ -113,7 +113,7 @@
   display: inline;
 }
 
-.mobile_profile_header_banner svg:before {
+.mobile_profile_header_banner svg::before {
   vertical-align: inherit;
   content: '\F14C';
 }
