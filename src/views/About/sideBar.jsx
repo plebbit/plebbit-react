@@ -1,21 +1,11 @@
-import { Box, Flex, Icon, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
-import {
-  AiOutlineFileProtect,
-  AiOutlineMail,
-  AiOutlineRight,
-  AiOutlineSetting,
-  AiOutlineTag,
-  AiOutlineUnorderedList,
-} from 'react-icons/ai';
-import { BiAddToQueue, BiArrowBack, BiBarChartAlt, BiLinkExternal, BiUser } from 'react-icons/bi';
-import { BsChatDots } from 'react-icons/bs';
-import { TiDocumentText } from 'react-icons/ti';
-import { Link } from 'react-router-dom';
+import { BiArrowBack, BiLinkExternal } from 'react-icons/bi';
+import { Link, useLocation } from 'react-router-dom';
 import styles from './about.module.css';
 import { SubplebbitSideItem } from '../../store/data';
 
 export const SideBar = ({ page, subPlebbit }) => {
+  const pag = useLocation();
   return (
     <div className={styles.about_nav}>
       <div className={styles.about_nav2}>
@@ -29,7 +19,10 @@ export const SideBar = ({ page, subPlebbit }) => {
             {item?.children?.map((child, key) => (
               <li key={key}>
                 <Link to={`/p/${subPlebbit?.address}/about/${child?.id}/`}>
-                  <div className={styles.selected} active={String(page === child?.id)} />
+                  <div
+                    className={styles.selected}
+                    active={String(`${page}${pag?.search}`?.split('/')[0] === child?.id)}
+                  />
                   <span className={styles.list_icon_wrap}>
                     <span className={styles.list_icon}>
                       <child.icon />

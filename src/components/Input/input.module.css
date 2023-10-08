@@ -1,0 +1,43 @@
+.input_options {
+  display: flex;
+  flex-flow: row wrap;
+  margin-bottom: 32px;
+  flex-direction: column;
+}
+
+.input_options_title {
+  flex-direction: column;
+  margin-right: 8px;
+  max-width: 80%;
+  display: flex;
+}
+
+.input_options_input {
+  align-items: flex-start;
+  margin-top: 12px;
+  flex-direction: column;
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+.input_options_input > input,
+.input_options_input > textarea {
+  background-color: #fff;
+  border: 1px solid #edeff1;
+  color: #1c1c1c;
+  box-sizing: border-box;
+  height: 48px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  padding: 12px 24px 4px 12px;
+  width: 100%;
+}
+
+.input_options_input_count {
+  color: #7c7c7c;
+  padding-top: 5px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+}

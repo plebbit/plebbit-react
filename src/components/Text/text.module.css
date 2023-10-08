@@ -1,0 +1,25 @@
+.header_head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header_head > h2 {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #1c1c1c;
+  margin-bottom: 16px;
+}
+
+.header_title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 12px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #edeff1;
+  color: #7c7c7c;
+  margin-bottom: 32px;
+  padding-bottom: 6px;
+}

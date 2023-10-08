@@ -1,0 +1,29 @@
+.content_top2 {
+  display: flex;
+  height: 48px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  background-color: #fff;
+}
+
+.wrapper {
+  padding-top: 64px;
+  border-radius: 0 0 4px 4px;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .wrapper {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+}
+
+.wrapper2 {
+  background-color: #fff;
+  border-radius: 4px;
+  box-sizing: border-box;
+  max-width: 856px;
+  padding: 16px 24px;
+}

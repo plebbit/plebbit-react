@@ -1,25 +1,29 @@
+.content_wrapper2 {
+  width: fit-content;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .content {
   width: 640px;
   margin: 0 auto;
   padding-top: 24px !important;
   position: relative;
 }
-
+.content_side {
+  flex: 0 0 312px;
+  margin-left: 24px;
+  margin-top: 24px;
+  width: 312px;
+}
+@media (min-width: 960px) {
+  .content_side {
+    display: block;
+  }
+}
 .content_top {
   margin-bottom: 0.5rem;
-}
-
-.content_title {
-  line-height: 1.5rem;
-  font-weight: 700;
-  font-size: 1.125rem;
-  text-transform: capitalize;
-}
-
-.content_page_tabs {
-  overflow: auto;
-  display: flex;
-  margin-top: 0.75rem;
 }
 
 .queues_sort {

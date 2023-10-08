@@ -9,10 +9,10 @@ import ModQueue from './Modqueue';
 import Rules from './Rules';
 
 import styles from './about.module.css';
-import { Link } from 'react-router-dom';
-import TabButton from './TabButton';
-import { queuesTabs } from '../../store/data';
-import Queues from './Queues';
+import { SubplebbitSideItem, subQueuesTabs, subUserMgmtTabs } from '../../store/data';
+import Queues from './Overview/Queues';
+import UserManagement from './Overview/UserManagement';
+import SubSettings from './Settings';
 
 const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading, allowedSpecial }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -93,13 +93,24 @@ const Content2 = ({ page, subPlebbit, role, handleSubPlebbitedit, loading, allow
           Welcome to the mod tools for {subPlebbit?.title}
         </div>
       ) : (
-        <div className={styles.content_wrapper2}>
-          {/* content */}
-
-          <Queues page={page} subPlebbit={subPlebbit} />
-
-          <div className={styles.content_side} />
-        </div>
+        <>
+          {subQueuesTabs?.map((x) => x?.id)?.includes(page) ? (
+            <Queues page={page} subPlebbit={subPlebbit} />
+          ) : subUserMgmtTabs?.map((x) => x?.id)?.includes(page) ? (
+            <UserManagement
+              page={page}
+              subPlebbit={subPlebbit}
+              role={role}
+              loading={loading}
+              handleSubPlebbitedit={handleSubPlebbitedit}
+              allowedSpecial={allowedSpecial}
+            />
+          ) : page === 'edit' ? (
+            <SubSettings />
+          ) : (
+            ''
+          )}
+        </>
       )}
     </div>
   );

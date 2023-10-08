@@ -33,7 +33,7 @@ const App = () => {
       <Route path="/profile/c/:index" element={<PostDetail />} />
       <Route path="notifications" element={<Notifications />} />
       <Route path="/p/:subplebbitAddress/about" element={<About />} />
-      <Route path="/p/:subplebbitAddress/about/edit" element={<CommunitySettings />} />
+      {/* <Route path="/p/:subplebbitAddress/about/edit" element={<CommunitySettings />} /> */}
       <Route path="/p/:subplebbitAddress/moderators" element={<Moderators />} />
       <Route path="/p/:subplebbitAddress/about/:page" element={<About />} />
       <Route path="*" element={<NotFound />} />

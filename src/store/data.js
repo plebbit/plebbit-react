@@ -23,7 +23,7 @@ export const SubplebbitSideItem = [
       { name: 'Queues', id: 'modqueue', icon: AiOutlineFileProtect },
       { name: 'Modmail', id: 'mail', icon: MdMailOutline, isExternal: true },
       { name: 'Scheduled Posts', id: 'scheduledposts', icon: AiOutlineCalendar },
-      { name: 'User Management', id: 'user', disabled: true, icon: BiUser },
+      { name: 'User Management', id: 'moderators', icon: BiUser },
     ],
   },
   {
@@ -72,7 +72,7 @@ export const SubplebbitSideItem = [
   },
 ];
 
-export const queuesTabs = [
+export const subQueuesTabs = [
   {
     name: 'Mod Queue',
     id: 'modqueue',
@@ -92,6 +92,24 @@ export const queuesTabs = [
   {
     name: 'Unmoderated',
     id: 'unmoderated',
+  },
+];
+export const subUserMgmtTabs = [
+  {
+    name: 'Banned',
+    id: 'banned',
+  },
+  {
+    name: 'Muted',
+    id: 'muted',
+  },
+  {
+    name: 'Approved',
+    id: 'contributors',
+  },
+  {
+    name: 'Moderators',
+    id: 'moderators',
   },
 ];
 

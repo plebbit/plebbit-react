@@ -239,11 +239,6 @@ body {
   box-sizing: border-box;
 }
 
-svg:not(:root) {
-  overflow-clip-margin: content-box;
-  overflow: hidden;
-}
-
 h3 {
   margin-block-start: 1em;
   margin-block-end: 1em;

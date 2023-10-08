@@ -108,11 +108,20 @@ const About = () => {
             ? 'Scheduled posts'
             : page === 'eventposts'
             ? 'event posts'
+            : page === 'edit'
+            ? 'Community settings'
             : page?.toUpperCase()}
         </div>
         <div className={styles.container}>
           <SideBar page={page} subPlebbit={subPlebbit} />
-          <Content page={page} subPlebbit={subPlebbit} />
+          <Content
+            page={page}
+            subPlebbit={subPlebbit}
+            allowedSpecial={allowedSpecial}
+            role={role}
+            handleSubPlebbitedit={handleSubPlebbitedit}
+            loading={loading}
+          />
         </div>
       </div>
     </Layout>

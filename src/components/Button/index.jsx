@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button as Btn } from '@chakra-ui/button';
+import styles from './button.module.css';
 
 const Button = ({ children, ...props }) => {
   const {
@@ -67,3 +68,11 @@ const Button = ({ children, ...props }) => {
 };
 
 export default Button;
+
+export const Button2 = ({ children, className, ...rest }) => {
+  return (
+    <button role="button" className={[styles.button, className].join(' ')} {...rest}>
+      {children}
+    </button>
+  );
+};

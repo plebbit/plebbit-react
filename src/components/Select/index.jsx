@@ -136,7 +136,19 @@ function Option({ label, optionClassName }) {
   );
 }
 
-const Select = ({ title, options, className, render, optionClassName, top, left }) => {
+const Select = ({
+  title,
+  options,
+  className,
+  render,
+  optionClassName,
+  top,
+  left,
+  optionLabel,
+  optionValue,
+  getOptionLabel,
+  getOptionValue,
+}) => {
   return (
     <>
       <SelectBody title={title} wrapperClassName={className} top={top} left={left}>
@@ -144,7 +156,24 @@ const Select = ({ title, options, className, render, optionClassName, top, left 
           typeof render === 'function' ? (
             render(option)
           ) : (
-            <Option optionClassName={optionClassName} label={option} key={index} />
+            <Option
+              optionClassName={optionClassName}
+              label={
+                optionLabel
+                  ? option[optionLabel]
+                  : typeof getOptionLabel === 'function'
+                  ? getOptionLabel(option)
+                  : option
+              }
+              value={
+                optionValue
+                  ? option[optionValue]
+                  : typeof getOptionValue === 'function'
+                  ? getOptionValue(option)
+                  : option
+              }
+              key={index}
+            />
           )
         )}
       </SelectBody>
