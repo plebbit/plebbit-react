@@ -226,10 +226,14 @@ body {
   }
 }
 
-[disabled] {
+[disabled],
+[disabled] > *,
+[disabled='true'],
+[disabled='true'] > * {
   cursor: not-allowed !important;
   filter: grayscale(1) !important;
   color: rgba(135, 138, 140, 0.5) !important;
+  border-color: rgba(135, 138, 140, 0.5) !important;
   fill: rgba(135, 138, 140, 0.5) !important;
 }
 
@@ -301,4 +305,11 @@ hr {
 ::-webkit-scrollbar-thumb {
   background: #7d7d7d;
   border-radius: 8px;
+}
+input,
+textarea {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 21px !important;
+  font-family: inherit;
 }

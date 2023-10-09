@@ -16,31 +16,123 @@ import { RiBookLine } from 'react-icons/ri';
 import { TiDocumentText } from 'react-icons/ti';
 import { VscSourceControl } from 'react-icons/vsc';
 
+export const subQueuesTabs = [
+  {
+    name: 'Mod Queue',
+    id: 'modqueue',
+    disabled: true,
+  },
+  {
+    name: 'Reported',
+    id: 'reports',
+    disabled: true,
+  },
+  {
+    name: 'Removed',
+    id: 'spam',
+    disabled: true,
+  },
+  {
+    name: 'Edited',
+    id: 'edited',
+    disabled: true,
+  },
+  {
+    name: 'Unmoderated',
+    id: 'unmoderated',
+    disabled: true,
+  },
+];
+export const subUserMgmtTabs = [
+  {
+    name: 'Banned',
+    id: 'banned',
+    disabled: true,
+  },
+  {
+    name: 'Muted',
+    id: 'muted',
+    disabled: true,
+  },
+  {
+    name: 'Approved',
+    id: 'contributors',
+    disabled: true,
+  },
+  {
+    name: 'Moderators',
+    id: 'moderators',
+  },
+];
+
+export const SubRulesTabs = [
+  {
+    name: 'Rules',
+    id: 'rules',
+  },
+  {
+    name: 'Removal reasons',
+    id: 'removal',
+    disabled: true,
+  },
+];
+
+export const SubUserFlairTabs = [
+  {
+    name: 'Setup',
+    id: 'userflair',
+  },
+  {
+    name: 'Assign',
+    id: 'flair',
+    disabled: true,
+  },
+];
 export const SubplebbitSideItem = [
   {
     name: 'Overview',
     children: [
-      { name: 'Queues', id: 'modqueue', icon: AiOutlineFileProtect },
-      { name: 'Modmail', id: 'mail', icon: MdMailOutline, isExternal: true },
-      { name: 'Scheduled Posts', id: 'scheduledposts', icon: AiOutlineCalendar },
-      { name: 'User Management', id: 'moderators', icon: BiUser },
+      {
+        name: 'Queues',
+        id: 'modqueue',
+        icon: AiOutlineFileProtect,
+        children: subQueuesTabs?.map((x) => x?.id),
+      },
+      { name: 'Modmail', id: 'mail', icon: MdMailOutline, isExternal: true, disabled: true },
+      { name: 'Scheduled Posts', id: 'scheduledposts', icon: AiOutlineCalendar, disabled: true },
+      {
+        name: 'User Management',
+        id: 'moderators',
+        icon: BiUser,
+        children: [...subUserMgmtTabs?.map((x) => x?.id)],
+      },
     ],
   },
   {
     name: 'Moderation',
     children: [
-      { name: 'Rules and Removal Reasons', id: 'rules', disabled: true, icon: AiOutlineFileText },
-      { name: 'User Flair', id: 'userflair', disabled: true, icon: AiOutlineTag },
+      {
+        name: 'Rules and Removal Reasons',
+        id: 'rules',
+        icon: AiOutlineFileText,
+        children: [...SubRulesTabs?.map((x) => x?.id)],
+      },
+      {
+        name: 'User Flair',
+        id: 'userflair',
+        icon: AiOutlineTag,
+        children: [...SubUserFlairTabs?.map((x) => x?.id)],
+      },
       { name: 'Content Controls', id: 'settings', disabled: true, icon: VscSourceControl },
-      { name: 'Safety', id: 'log', icon: BsKey },
+      { name: 'Safety', id: 'log', icon: BsKey, disabled: true },
     ],
   },
 
   {
     name: 'Content',
     children: [
-      { name: 'Wiki', id: 'wiki/index', icon: RiBookLine },
-      { name: 'Post Flair', id: 'postflair', disabled: true, icon: AiOutlineTag },
+      { name: 'Wiki', id: 'wiki', icon: RiBookLine, disabled: true },
+      { name: 'Post Flair', id: 'postflair', icon: AiOutlineTag },
     ],
   },
   {
@@ -49,15 +141,13 @@ export const SubplebbitSideItem = [
       {
         name: 'General Settings',
         id: 'edit?page=community',
-        disabled: true,
         icon: MdOutlineSettings,
       },
-      { name: 'Post and Comment', id: 'edit?page=posts', disabled: true, icon: TiDocumentText },
-      { name: 'Community Appearance', id: '?styling=true', disabled: true, icon: BiBrush },
+      { name: 'Post and Comment', id: 'edit?page=posts', icon: TiDocumentText },
+      { name: 'Community Appearance', id: '?styling=true', icon: BiBrush },
       {
         name: 'Notifications',
         id: 'edit?page=notifications',
-        disabled: true,
         icon: MdNotificationsNone,
       },
       {
@@ -68,48 +158,6 @@ export const SubplebbitSideItem = [
       },
       { name: 'Emojis', id: 'emojis', disabled: true, icon: BsEmojiSmile },
     ],
-    disabled: true,
-  },
-];
-
-export const subQueuesTabs = [
-  {
-    name: 'Mod Queue',
-    id: 'modqueue',
-  },
-  {
-    name: 'Reported',
-    id: 'reports',
-  },
-  {
-    name: 'Removed',
-    id: 'spam',
-  },
-  {
-    name: 'Edited',
-    id: 'edited',
-  },
-  {
-    name: 'Unmoderated',
-    id: 'unmoderated',
-  },
-];
-export const subUserMgmtTabs = [
-  {
-    name: 'Banned',
-    id: 'banned',
-  },
-  {
-    name: 'Muted',
-    id: 'muted',
-  },
-  {
-    name: 'Approved',
-    id: 'contributors',
-  },
-  {
-    name: 'Moderators',
-    id: 'moderators',
   },
 ];
 

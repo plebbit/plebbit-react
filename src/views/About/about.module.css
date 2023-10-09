@@ -243,3 +243,16 @@
   display: flex;
   margin-top: 0.75rem;
 }
+
+.about_wrapper {
+  padding-top: 64px;
+  border-radius: 0 0 4px 4px;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .about_wrapper {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+}

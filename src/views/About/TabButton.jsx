@@ -1,13 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styles from './about.module.css';
 
-const TabButton = ({ tab, page, subPlebbit }) => {
+const TabButton = ({ tab }) => {
+  const { subplebbitAddress, page } = useParams();
+
   return (
     <Link
       className={styles.content_tab}
       aria-selected={tab?.id === page}
-      to={`/p/${subPlebbit?.address}/about/${tab?.id}/`}
+      to={!tab?.disabled && `/p/${subplebbitAddress}/about/${tab?.id}/`}
+      disabled={tab?.disabled}
     >
       {tab?.name}
     </Link>

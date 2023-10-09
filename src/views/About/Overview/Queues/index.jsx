@@ -16,7 +16,7 @@ import { BsListUl } from 'react-icons/bs';
 import Select from '../../../../components/Select';
 import AboutHead from '../../AboutHead';
 
-const Queues = ({ page, subPlebbit }) => {
+const Queues = () => {
   const [selected, setSelected] = useState([1]);
   const feeds = [1, 2, 3, 4, 5];
 
@@ -24,7 +24,7 @@ const Queues = ({ page, subPlebbit }) => {
     <div className={styles.content_wrapper2}>
       <div className={styles.content}>
         <div className={styles.content_top}>
-          <AboutHead title="Queues" options={subQueuesTabs} active={page} subPlebbit={subPlebbit} />
+          <AboutHead title="Queues" options={subQueuesTabs} />
           <div className={styles.queues_sort}>
             <Select
               options={[

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './settings.module.css';
 import { Button2 } from '../../../components/Button';
-import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import GeneralSettings from './GeneralSettings';
 import {
   useAccountSubplebbits,
@@ -11,17 +11,21 @@ import {
 } from '@plebbit/plebbit-react-hooks';
 import { useToast } from '@chakra-ui/react';
 
-const SubSettings = () => {
+const SubSettings = ({ subPlebbit: subplebbit }) => {
   const { subplebbitAddress } = useParams();
-  const subplebbit = useSubplebbit({ subplebbitAddress });
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const pageValue = queryParams.get('page')?.split('/')[0];
   const [data, setData] = useState({ address: subplebbitAddress, ...subplebbit });
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const { resolvedAddress: resolvedAuthorAddress } = useResolvedSubplebbitAddress({
+  const {
+    resolvedAddress,
+    state: resolveEnsState,
+    error: resolveEnsError,
+  } = useResolvedSubplebbitAddress({
     subplebbitAddress: data ? data?.address : '',
+    cache: false,
   });
   const { accountSubplebbits } = useAccountSubplebbits();
 
@@ -42,6 +46,7 @@ const SubSettings = () => {
 
   const onChallenge = async (challenges, subplebbitEdit) => {
     let challengeAnswers = [];
+
     try {
       // ask the user to complete the challenges in a modal window
       challengeAnswers = await getChallengeAnswersFromUser(challenges);
@@ -88,7 +93,7 @@ const SubSettings = () => {
   };
 
   const role = accountSubplebbits[subplebbit?.address]?.role?.role;
-  // const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';
+  const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';
 
   useEffect(() => {
     setData({ ...subplebbit });
@@ -97,11 +102,24 @@ const SubSettings = () => {
   return (
     <>
       <div className={styles.content_top2}>
-        <Button2>Save changes</Button2>
+        <Button2 disabled={loading || !allowedSpecial} onClick={handleSaveChanges}>
+          Save changes
+        </Button2>
       </div>
       <div className={styles.wrapper}>
         <div className={styles.wrapper2}>
-          {pageValue === 'community' ? <GeneralSettings data={data} setData={setData} /> : ''}
+          {pageValue === 'community' ? (
+            <GeneralSettings
+              data={data}
+              setData={setData}
+              allowedSpecial={allowedSpecial}
+              resolveEnsState={resolveEnsState}
+              resolveEnsError={resolveEnsError}
+              resolvedAddress={resolvedAddress}
+            />
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </>

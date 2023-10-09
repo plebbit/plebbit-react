@@ -27,3 +27,34 @@
   max-width: 856px;
   padding: 16px 24px;
 }
+
+.settings_options_input_count {
+  color: #7c7c7c;
+  padding-top: 5px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+}
+.settings_options_input ol {
+  margin-inline-start: 1em;
+  margin-top: 0.75em;
+}
+
+.settings_options_input > ol li {
+  font-size: 12px;
+  list-style: lower-roman;
+  margin-bottom: 8px;
+}
+
+.settings_options_input > ol li a {
+  display: inline-block;
+  color: #0079d3;
+  font-style: italic;
+}
+
+.nsfw_wrap {
+  flex-direction: row-reverse;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}

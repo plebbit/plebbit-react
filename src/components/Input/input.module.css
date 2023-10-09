@@ -12,6 +12,21 @@
   display: flex;
 }
 
+.input_options_title > h3 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #1c1c1c;
+  display: flex;
+  margin-bottom: 4px;
+}
+.input_options_title p {
+  font-weight: 400;
+  color: #7c7c7c;
+  font-size: 12px;
+  line-height: 16px;
+}
+
 .input_options_input {
   align-items: flex-start;
   margin-top: 12px;
@@ -40,4 +55,78 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;
+}
+
+.input_options_switch {
+  margin-right: 6px;
+}
+
+.radio_input {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.radio_input_svg {
+  flex: 0 0 16px;
+  height: 16px;
+  margin-right: 6px;
+  width: 16px;
+  color: #878a8c;
+  fill: currentColor;
+}
+
+.radio_title {
+  font-weight: 500;
+  color: #1c1c1c;
+  font-size: 14px;
+  line-height: 18px;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 4px;
+  margin-top: -1px;
+}
+
+/* SwitchButton.module.css */
+.react-switch-checkbox {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  display: none;
+}
+
+.react-switch-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 100px;
+  height: 50px;
+  background: rgba(26, 26, 27, 0.1);
+  border-radius: 100px;
+  position: relative;
+  transition: background-color 0.15s;
+}
+
+.react-switch-label .react-switch-button {
+  content: '';
+  position: absolute;
+  top: 2.5px;
+  left: 2px;
+  width: 45px;
+  height: 45px;
+  border-radius: 45px;
+  transition: 0.15s;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.react-switch-checkbox:checked + .react-switch-label .react-switch-button {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+}
+
+.react-switch-label:active .react-switch-button {
+  width: 60px;
 }

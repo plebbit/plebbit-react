@@ -13,6 +13,9 @@ import { SubplebbitSideItem, subQueuesTabs, subUserMgmtTabs } from '../../store/
 import Queues from './Overview/Queues';
 import UserManagement from './Overview/UserManagement';
 import SubSettings from './Settings';
+import { useParams } from 'react-router-dom';
+import Overview from './Overview';
+import Moderation from './Moderation';
 
 const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading, allowedSpecial }) => {
   const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
@@ -84,29 +87,46 @@ const Content = ({ page, subPlebbit, role, handleSubPlebbitedit, loading, allowe
   );
 };
 
-const Content2 = ({ page, subPlebbit, role, handleSubPlebbitedit, loading, allowedSpecial }) => {
+const Content2 = ({ subPlebbit, role, handleSubPlebbitedit, loading, allowedSpecial }) => {
+  const { page } = useParams();
+  const getContent = (value) =>
+    SubplebbitSideItem?.filter((x) => x?.name === value)[0]
+      ['children']?.map((x) => (x?.children ? x?.children : x?.id))
+      ?.flat();
+
   return (
     <div className={styles.content_wrapper}>
-      {page === '' ? (
+      {page === undefined ? (
         <div className={styles.content_home}>
           <BsFillShieldFill />
           Welcome to the mod tools for {subPlebbit?.title}
         </div>
       ) : (
         <>
-          {subQueuesTabs?.map((x) => x?.id)?.includes(page) ? (
-            <Queues page={page} subPlebbit={subPlebbit} />
-          ) : subUserMgmtTabs?.map((x) => x?.id)?.includes(page) ? (
-            <UserManagement
-              page={page}
+          {getContent('Overview')?.includes(page) ? (
+            <Overview
               subPlebbit={subPlebbit}
               role={role}
-              loading={loading}
               handleSubPlebbitedit={handleSubPlebbitedit}
+              loading={loading}
+              allowedSpecial={allowedSpecial}
+            />
+          ) : getContent('Moderation')?.includes(page) ? (
+            <Moderation
+              subPlebbit={subPlebbit}
+              role={role}
+              handleSubPlebbitedit={handleSubPlebbitedit}
+              loading={loading}
               allowedSpecial={allowedSpecial}
             />
           ) : page === 'edit' ? (
-            <SubSettings />
+            <SubSettings
+              subPlebbit={subPlebbit}
+              role={role}
+              handleSubPlebbitedit={handleSubPlebbitedit}
+              loading={loading}
+              allowedSpecial={allowedSpecial}
+            />
           ) : (
             ''
           )}

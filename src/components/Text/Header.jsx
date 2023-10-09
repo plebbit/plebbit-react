@@ -11,6 +11,10 @@ const Header = ({ title, className }) => {
 
 export default Header;
 
-export const SubHeader = ({ title, className }) => {
-  return <h3 className={[styles.header_title, className].join(' ')}>{title}</h3>;
+export const SubHeader = ({ title, className, ...rest }) => {
+  return (
+    <h3 {...rest} className={[styles.header_title, className].join(' ')}>
+      {title}
+    </h3>
+  );
 };

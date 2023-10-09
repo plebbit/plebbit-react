@@ -18,9 +18,8 @@ const About = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
   const { device } = useStore((state) => state);
   const location = useLocation();
-  const { subplebbitAddress } = useParams();
+  const { subplebbitAddress, page } = useParams();
   const subPlebbit = useSubplebbit({ subplebbitAddress: subplebbitAddress });
-  const page = location.pathname.split('/')[4];
   const [showSidebar, setShowSideBar] = useState(false);
   const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
   const toast = useToast();
@@ -109,13 +108,12 @@ const About = () => {
             : page === 'eventposts'
             ? 'event posts'
             : page === 'edit'
-            ? 'Community settings'
+            ? 'Subplebbit settings'
             : page?.toUpperCase()}
         </div>
         <div className={styles.container}>
-          <SideBar page={page} subPlebbit={subPlebbit} />
+          <SideBar />
           <Content
-            page={page}
             subPlebbit={subPlebbit}
             allowedSpecial={allowedSpecial}
             role={role}
