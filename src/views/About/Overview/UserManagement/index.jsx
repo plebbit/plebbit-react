@@ -17,9 +17,8 @@ import { getAddress } from '../../../../utils/getUserName';
 const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit, loading }) => {
   const [selected, setSelected] = useState('');
   const profile = useAccount();
-  const { device } = useStore((state) => state);
-  const { isOpen: leaveModShow, onOpen: openLeaveMod, onClose: closeLeaveMod } = useDisclosure();
-  const { isOpen: removeModShow, onOpen: openRemoveMod, onClose: closeRemoveMod } = useDisclosure();
+  const [leaveModShow, setLeaveMod] = useState(false);
+  const [removeModShow, setRemoveMod] = useState(false);
   const { isOpen: roleModShow, onOpen: openRoleMod, onClose: closeRoleMod } = useDisclosure();
   const thereIsOwner = Object?.values(subPlebbit?.roles)
     ?.map((x) => x?.role)
@@ -32,7 +31,7 @@ const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit
         <AboutHead title="User Management" options={subUserMgmtTabs} />
       </div>
       <div className={styles.content_top2}>
-        <Button2 onClick={openLeaveMod}>Leave as mod</Button2>
+        <Button2 onClick={() => setLeaveMod(true)}>Leave as mod</Button2>
 
         <Button2
           role="button"
@@ -82,7 +81,7 @@ const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit
       {removeModShow && (
         <RemoveMod
           isOpen={removeModShow}
-          onClose={closeRemoveMod}
+          setIsOpen={setRemoveMod}
           subPlebbit={subPlebbit}
           address={selected}
           handleSubPlebbitedit={handleSubPlebbitedit}
@@ -93,7 +92,7 @@ const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit
       {leaveModShow && (
         <LeaveMod
           isOpen={leaveModShow}
-          onClose={closeLeaveMod}
+          setIsOpen={setLeaveMod}
           subPlebbit={subPlebbit}
           profile={profile}
           handleSubPlebbitedit={handleSubPlebbitedit}
