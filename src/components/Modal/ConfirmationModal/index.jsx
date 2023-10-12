@@ -23,6 +23,7 @@ const ConfirmModal = ({
       header={title}
       width="33em"
       modalBodyStyle={styles.main_wrapper}
+      hideCloseBtn
     >
       <div className={styles.wrapper}>{children}</div>
       <footer className={styles.footer}>
