@@ -36,17 +36,6 @@ import { useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
 import DropDown from '../../components/DropDown';
 
 const SideBar = ({
-  mt,
-  borderRadius,
-  ml,
-  margin,
-  width,
-  padding,
-  top,
-  right,
-  sx,
-  border,
-  borderColor,
   bg,
   subPlebbit,
   setData,

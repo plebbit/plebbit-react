@@ -4,12 +4,28 @@ import { subQueuesTabs, subUserMgmtTabs } from '../../../store/data';
 import { useParams } from 'react-router-dom';
 import UserManagement from './UserManagement';
 
-const Overview = ({ subPlebbit, role, loading, handleSubPlebbitedit, allowedSpecial }) => {
+const Overview = ({
+  subPlebbit,
+  role,
+  loading,
+  handleSubPlebbitedit,
+  allowedSpecial,
+  data,
+  setData,
+}) => {
   const { page } = useParams();
   return (
     <>
       {subQueuesTabs?.map((x) => x?.id)?.includes(page) ? (
-        <Queues />
+        <Queues
+          subPlebbit={subPlebbit}
+          role={role}
+          loading={loading}
+          handleSubPlebbitedit={handleSubPlebbitedit}
+          allowedSpecial={allowedSpecial}
+          data={data}
+          setData={setData}
+        />
       ) : subUserMgmtTabs?.map((x) => x?.id)?.includes(page) ? (
         <UserManagement
           subPlebbit={subPlebbit}
@@ -17,6 +33,8 @@ const Overview = ({ subPlebbit, role, loading, handleSubPlebbitedit, allowedSpec
           loading={loading}
           handleSubPlebbitedit={handleSubPlebbitedit}
           allowedSpecial={allowedSpecial}
+          data={data}
+          setData={setData}
         />
       ) : (
         ''

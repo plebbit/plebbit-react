@@ -14,9 +14,16 @@ import { MdOutlineModeEditOutline } from 'react-icons/md';
 import { Button2 } from '../../../../components/Button';
 import { getAddress } from '../../../../utils/getUserName';
 
-const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit, loading }) => {
+const UserManagement = ({
+  subPlebbit,
+  role,
+  allowedSpecial,
+  handleSubPlebbitedit,
+  loading,
+  data,
+  setData,
+}) => {
   const [selected, setSelected] = useState('');
-  const profile = useAccount();
   const [leaveModShow, setLeaveMod] = useState(false);
   const [removeModShow, setRemoveMod] = useState(false);
   const [roleModShow, setRoleMod] = useState(false);
@@ -89,6 +96,8 @@ const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit
           handleSubPlebbitedit={handleSubPlebbitedit}
           loading={loading}
           setSelected={setSelected}
+          data={data}
+          setData={setData}
         />
       )}
       {leaveModShow && (
@@ -98,6 +107,8 @@ const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit
           subPlebbit={subPlebbit}
           handleSubPlebbitedit={handleSubPlebbitedit}
           loading={loading}
+          data={data}
+          setData={setData}
         />
       )}
       {roleModShow && (
@@ -107,6 +118,8 @@ const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit
           subPlebbit={subPlebbit}
           handleSubPlebbitedit={handleSubPlebbitedit}
           loading={loading}
+          data={data}
+          setData={setData}
         />
       )}
     </div>

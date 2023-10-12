@@ -6,7 +6,15 @@ import { useParams } from 'react-router-dom';
 import RulesAndRemoval from './Rules';
 import UserFlair from './UserFlair';
 
-const Moderation = ({ subPlebbit, loading, handleSubPlebbitedit, allowedSpecial }) => {
+const Moderation = ({
+  subPlebbit,
+  loading,
+  handleSubPlebbitedit,
+  allowedSpecial,
+  data,
+  setData,
+  role,
+}) => {
   const { page } = useParams();
   return (
     <Container>
@@ -16,9 +24,18 @@ const Moderation = ({ subPlebbit, loading, handleSubPlebbitedit, allowedSpecial 
           loading={loading}
           handleSubPlebbitedit={handleSubPlebbitedit}
           allowedSpecial={allowedSpecial}
+          data={data}
+          setData={setData}
         />
       ) : SubUserFlairTabs?.map((x) => x?.id)?.includes(page) ? (
-        <UserFlair />
+        <UserFlair
+          subPlebbit={subPlebbit}
+          loading={loading}
+          handleSubPlebbitedit={handleSubPlebbitedit}
+          allowedSpecial={allowedSpecial}
+          data={data}
+          setData={setData}
+        />
       ) : (
         ''
       )}

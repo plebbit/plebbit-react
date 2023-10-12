@@ -2,16 +2,20 @@ import React, { useState } from 'react';
 import styles from '../moderation.module.css';
 import AboutHead from '../../AboutHead';
 import { SubRulesTabs } from '../../../../store/data';
-import AddRules from '../../Rules/modal/addRules';
-import { useDisclosure } from '@chakra-ui/react';
+import AddRules from '../../modal/addRules';
 import { Button2 } from '../../../../components/Button';
 import { MdEdit } from 'react-icons/md';
 import { BsFileText } from 'react-icons/bs';
 
-const RulesAndRemoval = ({ subPlebbit, handleSubPlebbitedit, loading, allowedSpecial }) => {
-  const { isOpen: showAdd, onOpen: OpenShowAdd, onClose: closeShowAdd } = useDisclosure(false);
-  const [mode, setMode] = useState('create');
-  const [selected, setSelected] = useState('');
+const RulesAndRemoval = ({
+  subPlebbit,
+  handleSubPlebbitedit,
+  loading,
+  allowedSpecial,
+  data,
+  setData,
+}) => {
+  const [showAdd, setShowAdd] = useState(false);
 
   return (
     <>
@@ -33,7 +37,7 @@ const RulesAndRemoval = ({ subPlebbit, handleSubPlebbitedit, loading, allowedSpe
             color: '#fff',
             fill: '#fff',
           }}
-          onClick={OpenShowAdd}
+          onClick={() => setShowAdd(true)}
           disabled={loading || !allowedSpecial}
         >
           Add Rule
@@ -59,7 +63,7 @@ const RulesAndRemoval = ({ subPlebbit, handleSubPlebbitedit, loading, allowedSpe
                   onClick={() => {
                     setMode('edit');
                     setSelected(rule);
-                    OpenShowAdd();
+                    setShowAdd(true);
                   }}
                 >
                   <MdEdit />
@@ -73,12 +77,12 @@ const RulesAndRemoval = ({ subPlebbit, handleSubPlebbitedit, loading, allowedSpe
       {showAdd && (
         <AddRules
           isOpen={showAdd}
-          onClose={closeShowAdd}
+          setIsOpen={setShowAdd}
           handleSubPlebbitedit={handleSubPlebbitedit}
           loading={loading}
           rules={subPlebbit?.rules || []}
-          mode={mode}
-          data={selected}
+          data={data}
+          setData={setData}
         />
       )}
     </>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   useFloating,
   useDismiss,
@@ -23,6 +23,8 @@ const Modal = ({
   children,
   modalBodyStyle,
   className,
+  onClose,
+  onOpen,
 }) => {
   const { refs, context } = useFloating({
     open: isOpen,
@@ -37,6 +39,10 @@ const Modal = ({
 
   const headingId = useId();
   const descriptionId = useId();
+
+  useEffect(() => {
+    typeof onOpen === 'function' && onOpen();
+  }, []);
 
   return (
     <>
@@ -60,7 +66,13 @@ const Modal = ({
                 <header className={styles.modal_header}>
                   {header}
                   {!hideCloseBtn && (
-                    <button className={styles.modal_close} onClick={() => setIsOpen(false)}>
+                    <button
+                      className={styles.modal_close}
+                      onClick={() => {
+                        typeof onClose === 'function' && onClose();
+                        setIsOpen(false);
+                      }}
+                    >
                       <MdClose className={styles.modal_close_icon} />
                     </button>
                   )}

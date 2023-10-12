@@ -5,10 +5,16 @@ import Input from '../../../components/Input';
 import { Button2 } from '../../../components/Button';
 import Select from '../../../components/Select';
 
-const ModRole = ({ setIsOpen, isOpen, subPlebbit, handleSubPlebbitedit, loading }) => {
-  const data = useState({ ...subPlebbit });
+const ModRole = ({
+  setIsOpen,
+  isOpen,
+  subPlebbit,
+  handleSubPlebbitedit,
+  loading,
+  data,
+  setData,
+}) => {
   const [input, setInput] = useState('');
-  const [role, setRole] = useState('');
 
   return (
     <Modal
@@ -16,10 +22,11 @@ const ModRole = ({ setIsOpen, isOpen, subPlebbit, handleSubPlebbitedit, loading 
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       modalBodyStyle={styles.main_wrapper}
+      onClose={() => setData({})}
     >
       <div className={styles.wrapper}>
         <Input
-          placeholder="Enter Username"
+          placeholder="Enter user address"
           onChange={(e) => setInput(e.target.value)}
           value={input}
           title="User Address"
@@ -33,19 +40,29 @@ const ModRole = ({ setIsOpen, isOpen, subPlebbit, handleSubPlebbitedit, loading 
             options={['admin', 'moderator']}
             placeholder="Select role"
             left={-12}
-            onChange={(value) => setRole(value)}
+            onChange={(value) =>
+              setData({ ...data, roles: { ...subPlebbit?.roles, [input]: { role: value } } })
+            }
+            disabled={!input}
           />
         </div>
       </div>
       <footer className={styles.footer}>
-        <Button2 onClick={() => setIsOpen(false)}>Cancel</Button2>
         <Button2
           onClick={() => {
-            handleSubPlebbitedit({ roles: { ...data?.roles, [input]: { role } } });
+            setData({});
+            setIsOpen(false);
+          }}
+        >
+          Cancel
+        </Button2>
+        <Button2
+          onClick={() => {
+            handleSubPlebbitedit();
 
             setIsOpen(false);
           }}
-          disabled={!(role && input)}
+          disabled={!(data && data.roles && data.roles[input] && data.roles[input].role && input)}
           style={{
             color: '#fff',
             backgroundColor: '#0079df',

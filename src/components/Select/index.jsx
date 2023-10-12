@@ -19,7 +19,16 @@ import { createContext, useCallback, useContext, useMemo, useRef, useState } fro
 const SelectContext = createContext({});
 // const options = ['Apple', 'Blueberry', 'Watermelon', 'Banana'];
 
-const SelectBody = ({ title, children, wrapperClassName, top, left, onChange, titleClass }) => {
+const SelectBody = ({
+  title,
+  children,
+  wrapperClassName,
+  top,
+  left,
+  onChange,
+  titleClass,
+  disabled,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -36,14 +45,14 @@ const SelectBody = ({ title, children, wrapperClassName, top, left, onChange, ti
   const elementsRef = useRef([]);
   const labelsRef = useRef([]);
 
-  const handleSelect = useCallback((index, value) => {
+  const handleSelect = (index, value) => {
     setSelectedIndex(index);
     onChange(value);
     setIsOpen(false);
     if (index !== null) {
       setSelectedLabel(labelsRef.current[index]);
     }
-  }, []);
+  };
 
   function handleTypeaheadMatch(index) {
     if (isOpen) {
@@ -89,7 +98,13 @@ const SelectBody = ({ title, children, wrapperClassName, top, left, onChange, ti
 
   return (
     <>
-      <button className={titleClass} ref={refs.setReference} tabIndex={0} {...getReferenceProps()}>
+      <button
+        disabled={disabled}
+        className={titleClass}
+        ref={refs.setReference}
+        tabIndex={0}
+        {...getReferenceProps()}
+      >
         {typeof title === 'function' ? title(selectedLabel) : selectedLabel ?? 'Select'}
       </button>
       <SelectContext.Provider value={selectContext}>
@@ -151,6 +166,7 @@ const Select = ({
   getOptionValue,
   onChange,
   titleClass,
+  disabled,
 }) => {
   return (
     <>
@@ -161,6 +177,7 @@ const Select = ({
         top={top}
         left={left}
         titleClass={titleClass}
+        disabled={disabled}
       >
         {options?.map((option, index) =>
           typeof render === 'function' ? (
