@@ -19,7 +19,7 @@ import { createContext, useCallback, useContext, useMemo, useRef, useState } fro
 const SelectContext = createContext({});
 // const options = ['Apple', 'Blueberry', 'Watermelon', 'Banana'];
 
-const SelectBody = ({ title, children, wrapperClassName, top, left }) => {
+const SelectBody = ({ title, children, wrapperClassName, top, left, onChange, titleClass }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -36,8 +36,9 @@ const SelectBody = ({ title, children, wrapperClassName, top, left }) => {
   const elementsRef = useRef([]);
   const labelsRef = useRef([]);
 
-  const handleSelect = useCallback((index) => {
+  const handleSelect = useCallback((index, value) => {
     setSelectedIndex(index);
+    onChange(value);
     setIsOpen(false);
     if (index !== null) {
       setSelectedLabel(labelsRef.current[index]);
@@ -88,7 +89,7 @@ const SelectBody = ({ title, children, wrapperClassName, top, left }) => {
 
   return (
     <>
-      <button ref={refs.setReference} tabIndex={0} {...getReferenceProps()}>
+      <button className={titleClass} ref={refs.setReference} tabIndex={0} {...getReferenceProps()}>
         {typeof title === 'function' ? title(selectedLabel) : selectedLabel ?? 'Select'}
       </button>
       <SelectContext.Provider value={selectContext}>
@@ -111,7 +112,7 @@ const SelectBody = ({ title, children, wrapperClassName, top, left }) => {
   );
 };
 
-function Option({ label, optionClassName }) {
+function Option({ label, optionClassName, value }) {
   const { activeIndex, selectedIndex, getItemProps, handleSelect } = useContext(SelectContext);
 
   const { ref, index } = useListItem({ label });
@@ -128,7 +129,7 @@ function Option({ label, optionClassName }) {
       isActive={String(isActive)}
       className={optionClassName}
       {...getItemProps({
-        onClick: () => handleSelect(index),
+        onClick: () => handleSelect(index, value),
       })}
     >
       {label}
@@ -148,10 +149,19 @@ const Select = ({
   optionValue,
   getOptionLabel,
   getOptionValue,
+  onChange,
+  titleClass,
 }) => {
   return (
     <>
-      <SelectBody title={title} wrapperClassName={className} top={top} left={left}>
+      <SelectBody
+        onChange={onChange}
+        title={title}
+        wrapperClassName={className}
+        top={top}
+        left={left}
+        titleClass={titleClass}
+      >
         {options?.map((option, index) =>
           typeof render === 'function' ? (
             render(option)

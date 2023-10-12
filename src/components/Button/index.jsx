@@ -69,9 +69,15 @@ const Button = ({ children, ...props }) => {
 
 export default Button;
 
-export const Button2 = ({ children, className, ...rest }) => {
+export const Button2 = ({ children, className, disabled, onClick, ...rest }) => {
   return (
-    <button role="button" className={[styles.button, className].join(' ')} {...rest}>
+    <button
+      disabled={disabled}
+      role="button"
+      className={[styles.button, className].join(' ')}
+      onClick={(e) => !disabled && onClick(e)}
+      {...rest}
+    >
       {children}
     </button>
   );

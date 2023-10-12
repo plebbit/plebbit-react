@@ -1,14 +1,4 @@
-import React, { useState } from 'react';
-import {
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import React from 'react';
 import { useAccount } from '@plebbit/plebbit-react-hooks';
 import ConfirmModal from '../../../components/Modal/ConfirmationModal';
 

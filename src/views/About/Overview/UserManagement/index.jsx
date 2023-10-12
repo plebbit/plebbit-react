@@ -19,7 +19,7 @@ const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit
   const profile = useAccount();
   const [leaveModShow, setLeaveMod] = useState(false);
   const [removeModShow, setRemoveMod] = useState(false);
-  const { isOpen: roleModShow, onOpen: openRoleMod, onClose: closeRoleMod } = useDisclosure();
+  const [roleModShow, setRoleMod] = useState(false);
   const thereIsOwner = Object?.values(subPlebbit?.roles)
     ?.map((x) => x?.role)
     ?.includes('owner') === false && { Anonymous: { role: 'owner' } };
@@ -40,10 +40,10 @@ const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit
             color: '#fff',
             fill: '#fff',
           }}
-          onClick={openRoleMod}
+          onClick={() => setRoleMod(true)}
           disabled={!allowedSpecial}
         >
-          Add user as mod
+          Assign role to user
         </Button2>
       </div>
       <div className={styles.table_head}>
@@ -70,9 +70,11 @@ const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit
                 <div className={styles.user_middle}></div>
                 <div className={styles.user_end}>
                   <div className={styles.user_previlege}>{moderators[user]?.role}</div>
-                  <div className={styles.user_previlege_edit}>
-                    <MdOutlineModeEditOutline />
-                  </div>
+                  {moderators[user]?.role !== 'owner' && (
+                    <div className={styles.user_previlege_edit} disabled>
+                      <MdOutlineModeEditOutline />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -94,7 +96,6 @@ const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit
           isOpen={leaveModShow}
           setIsOpen={setLeaveMod}
           subPlebbit={subPlebbit}
-          profile={profile}
           handleSubPlebbitedit={handleSubPlebbitedit}
           loading={loading}
         />
@@ -102,7 +103,7 @@ const UserManagement = ({ subPlebbit, role, allowedSpecial, handleSubPlebbitedit
       {roleModShow && (
         <ModRole
           isOpen={roleModShow}
-          onClose={closeRoleMod}
+          setIsOpen={setRoleMod}
           subPlebbit={subPlebbit}
           handleSubPlebbitedit={handleSubPlebbitedit}
           loading={loading}
