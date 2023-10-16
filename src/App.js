@@ -29,6 +29,7 @@ const App = () => {
       <Route path="/u/:authorAddress/c/:commentCid/:view" element={<Author />} />
       <Route path="/p/:subplebbitAddress" element={<SubPlebbit />} />
       <Route path="/p/:subplebbitAddress/:sortType" element={<SubPlebbit />} />
+      <Route path="/p/:subplebbitAddress/?styling=true" element={<SubPlebbit />} />
       <Route path="/p/:subplebbitAddress/c/:commentCid" element={<PostDetail />} />
       <Route path="/profile/c/:index" element={<PostDetail />} />
       <Route path="notifications" element={<Notifications />} />

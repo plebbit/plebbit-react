@@ -313,3 +313,12 @@ textarea {
   line-height: 21px !important;
   font-family: inherit;
 }
+
+button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: initial;
+  appearance: auto;
+}

@@ -10,6 +10,9 @@ import {
   useSubplebbit,
 } from '@plebbit/plebbit-react-hooks';
 import { useToast } from '@chakra-ui/react';
+import onChallenge from '../../../utils/onChallenge';
+import onChallengeVerification from '../../../utils/onChallengeVerification';
+import onError from '../../../utils/onError';
 
 const SubSettings = ({ subPlebbit: subplebbit }) => {
   const { subplebbitAddress } = useParams();
@@ -29,49 +32,30 @@ const SubSettings = ({ subPlebbit: subplebbit }) => {
   });
   const { accountSubplebbits } = useAccountSubplebbits();
 
-  const onChallengeVerification = (challengeVerification, subplebbitEdit) => {
-    // if the challengeVerification fails, a new challenge request will be sent automatically
-    // to break the loop, the user must decline to send a challenge answer
-    // if the subplebbit owner sends more than 1 challenge for the same challenge request, subsequents will be ignored
-    toast({
-      title: 'Accepted.',
-      description: 'Action accepted',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
-    setLoading(false);
-    logger('challenge verified', { challengeVerification, subplebbitEdit }, 'error');
-  };
-
-  const onChallenge = async (challenges, subplebbitEdit) => {
-    let challengeAnswers = [];
-
-    try {
-      // ask the user to complete the challenges in a modal window
-      challengeAnswers = await getChallengeAnswersFromUser(challenges);
-    } catch (error) {
-      // if  he declines, throw error and don't get a challenge answer
-      logger('decline challenge', error, 'trace');
-      toast({
-        title: 'Declined.',
-        description: error?.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-    if (challengeAnswers) {
-      await subplebbitEdit.publishChallengeAnswers(challengeAnswers);
-    }
-  };
-
   const editSubplebbitOptions = {
     title: data?.title,
     description: data?.description,
     address: data?.address,
+    suggested: { ...data?.suggested, language: data?.suggested?.language },
+    features: {
+      ...data?.features,
+      language: data?.suggested?.safeForWork,
+    },
     onChallenge,
-    onChallengeVerification,
+    onChallengeVerification: (challengeVerification, comment) =>
+      onChallengeVerification(
+        challengeVerification,
+        comment,
+        () => {
+          setData({});
+          setLoading(false);
+        },
+        () => {
+          setData({});
+          setLoading(false);
+        }
+      ),
+    onError,
   };
   const { publishSubplebbitEdit } = usePublishSubplebbitEdit(editSubplebbitOptions);
 

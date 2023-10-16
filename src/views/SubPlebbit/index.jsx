@@ -29,86 +29,35 @@ import truncateString from '../../utils/truncateString';
 import Dot from '../../components/Dot';
 import CreatePostBar from '../../components/CreatePost/createPostBar';
 import FeedContent from '../../components/container/FeedContent';
+import onChallenge from '../../utils/onChallenge';
+import onChallengeVerification from '../../utils/onChallengeVerification';
+import SubStyleSide from './subStyleSide';
 
 const Subplebbit = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
   const { postStyle, device } = useStore((state) => state);
   const sortType = useParams()?.sortType ?? 'hot';
-  const params = useParams();
+  const { subplebbitAddress } = useParams();
   const { feed, loadMore, hasMore } = useFeed({
-    subplebbitAddresses: [params?.subplebbitAddress],
+    subplebbitAddresses: [subplebbitAddress],
     sortType: sortType,
   });
-  const subPlebbit = useSubplebbit({ subplebbitAddress: params?.subplebbitAddress });
+  const subPlebbit = useSubplebbit({ subplebbitAddress });
   const feeds = feed;
-  const [data, setData] = useState({ address: params?.subplebbitAddress, ...subPlebbit });
+  const [data, setData] = useState({ address: subplebbitAddress, ...subPlebbit });
   const toast = useToast();
   const [loading, setLoading] = useState(false);
-  const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
-  const location = useLocation();
+  const role = accountSubplebbits[subplebbitAddress]?.role?.role;
+  const { pathname } = useLocation();
   const isOnline = getIsOnline(subPlebbit?.updatedAt);
   const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';
-  const showStyleBar = location?.search === '?styling=true';
-  const stats = useSubplebbitStats({ subplebbitAddress: subPlebbit?.address });
-  const { blocked, unblock, block } = useBlock({ address: subPlebbit?.address });
+  const stats = useSubplebbitStats({ subplebbitAddress: subplebbitAddress });
+  const { blocked, unblock, block } = useBlock({ address: subplebbitAddress });
 
   useEffect(() => {
     setData({ ...data, ...subPlebbit });
   }, [subPlebbit]);
-
-  const onChallengeVerification = (challengeVerification) => {
-    if (challengeVerification.challengeSuccess === true) {
-      toast({
-        title: 'Accepted.',
-        description: 'Action accepted',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
-
-      logger('challengeSuccess', { challengeVerification });
-    } else if (challengeVerification.challengeSuccess === false) {
-      logger(
-        'challengefailed',
-        {
-          reason: challengeVerification.reason,
-          errors: challengeVerification.challengeErrors,
-        },
-        'error'
-      );
-      toast({
-        title: challengeVerification.reason ? challengeVerification.reason : 'Declined.',
-        description: challengeVerification.challengeErrors
-          ? challengeVerification.challengeErrors.join(',')
-          : 'Challenge Verification Failed',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-  };
-
-  const onChallenge = async (challenges, subplebbitEdit) => {
-    let challengeAnswers = [];
-    try {
-      // ask the user to complete the challenges in a modal window
-      challengeAnswers = await GetChallengeAnswersFromUser(challenges);
-    } catch (error) {
-      // if  he declines, throw error and don't get a challenge answer
-      logger('failChallenge', error, 'error');
-      toast({
-        title: 'Declined.',
-        description: 'Action Declined',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-    if (challengeAnswers) {
-      await subplebbitEdit.publishChallengeAnswers(challengeAnswers);
-    }
-  };
 
   const { subscribe, unsubscribe, subscribed } = useSubscribe({
     subplebbitAddress: subPlebbit?.address,
@@ -172,18 +121,19 @@ const Subplebbit = () => {
     }
   };
 
-  const currentView = location.pathname.split('/')[3];
+  const currentView = pathname.split('/')[3];
   const stateString = useStateString(subPlebbit);
+
   return (
     <Layout
       background={
         data?.suggested?.backgroundUrl && `url(${data?.suggested?.backgroundUrl}) repeat center top`
       }
       stateString={feeds?.length ? '' : stateString}
-      name={{ label: data?.title || 'Subplebbit', value: location?.pathname }}
+      name={{ label: data?.title || 'Subplebbit', value: pathname }}
     >
       {device !== 'mobile' ? (
-        <>
+        <div>
           {/* banner */}
           <span
             className={styles.sub_banner}
@@ -193,7 +143,7 @@ const Subplebbit = () => {
               }) no-repeat center / cover`,
             }}
           >
-            <Link to={`/p/${data?.address}/`} className={styles.sub_banner2}>
+            <Link to={`/p/${subplebbitAddress}/`} className={styles.sub_banner2}>
               <div className={styles.sub_banner3}>
                 <div className={styles.sub_banner4}></div>
               </div>
@@ -213,8 +163,10 @@ const Subplebbit = () => {
                 </div>
                 <div className={styles.sub_detail}>
                   <div className={styles.sub_detail_left}>
-                    <h1 className={styles.sub_title}>{data?.title || getAddress(data?.address)}</h1>
-                    <h2 className={styles.sub_address}>{`p/${data?.address}`}</h2>
+                    <h1 className={styles.sub_title}>
+                      {data?.title || getAddress(subplebbitAddress)}
+                    </h1>
+                    <h2 className={styles.sub_address}>{`p/${subplebbitAddress}`}</h2>
                   </div>
                   <div className={styles.sub_detail_right}>
                     <div className={styles.sub_join_wrap}>
@@ -242,7 +194,7 @@ const Subplebbit = () => {
             top={
               <>
                 {/* Create Post Bar */}
-                <CreatePostBar address={data?.address} />
+                <CreatePostBar address={subplebbitAddress} />
                 {/* feed sorter bar */}
                 <FeedSort subplebbitColor={data?.suggested?.secondaryColor} />
               </>
@@ -283,7 +235,8 @@ const Subplebbit = () => {
               />
             }
           />
-        </>
+          {/*appeareance side bar */}
+        </div>
       ) : (
         <div>
           <div className={styles.mobile_sub_header}>
@@ -306,7 +259,7 @@ const Subplebbit = () => {
             </div>
             <div className={styles.mobile_sub_header_text}>
               {data?.title && <h4 className={styles.mobile_sub_title}>{data?.title}</h4>}
-              <div className={styles.mobile_sub_add}>{getAddress(data?.address)}</div>
+              <div className={styles.mobile_sub_add}>{getAddress(subplebbitAddress)}</div>
             </div>
             <div className={styles.mobile_sub_header_description}>
               {truncateString(data?.description, 100, '...')} {`  `}
@@ -337,12 +290,12 @@ const Subplebbit = () => {
                 </button>
               </div>
               <nav className={styles.mobile_sub_nav}>
-                <Link className={styles.mobile_sub_nav_item} to={`/p/${data?.address}/`}>
+                <Link className={styles.mobile_sub_nav_item} to={`/p/${subplebbitAddress}/`}>
                   <div className={styles.mobile_sub_nav_text} active={String(currentView === '')}>
                     POSTS
                   </div>
                 </Link>
-                <Link className={styles.mobile_sub_nav_item} to={`/p/${data?.address}/about/`}>
+                <Link className={styles.mobile_sub_nav_item} to={`/p/${subplebbitAddress}/about/`}>
                   <div
                     className={styles.mobile_sub_nav_text}
                     active={String(currentView === 'about')}

@@ -289,3 +289,265 @@
   border-bottom: 2px solid #006cbf;
   color: #006cbf;
 }
+
+/* Appearance side bar */
+
+.app_wrapper {
+  background-color: #fff;
+  width: 284px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  overflow: auto;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 85;
+}
+
+.close_btn {
+  position: absolute;
+  top: 18px;
+  right: 12px;
+}
+
+.close_btn svg {
+  height: 16px;
+  width: 16px;
+  fill: #878a8c;
+}
+
+.app_container {
+  padding: 12px 12px 40px;
+}
+
+.nav_btn {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #1a1a1a;
+  margin-bottom: 40px;
+  padding-top: 4px;
+  text-align: left;
+  margin-right: 28px;
+}
+
+.nav_btn svg {
+  fill: #1a1a1a;
+  height: 16px;
+  width: 16px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  vertical-align: middle;
+}
+
+.nav_btn span {
+  margin-left: 6px;
+}
+
+.app_container2 {
+  margin-bottom: 32px;
+}
+
+.app_container2 h1 {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  border-bottom: 2px solid #edeff1;
+  color: #1c1c1c;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+}
+
+.app_container2 p {
+  font-weight: 400;
+  color: #747576;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.app_container3 {
+  border-bottom: 1px solid #edeff1;
+  margin-bottom: 8px;
+  padding-bottom: 2px;
+}
+.app_container3 h2 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  color: #1a1a1a;
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+
+.ac_item {
+  border-bottom: none;
+  display: block;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 12px 0;
+  text-decoration: none;
+  color: #1c1c1c;
+  cursor: pointer;
+}
+
+.ac_item2 {
+  display: flex;
+  cursor: pointer;
+}
+
+.ac_item_text {
+  flex: 1 1 100%;
+  width: 100%;
+}
+
+.ac_item_icon {
+  flex: 0 0;
+}
+
+.ac_item_icon svg {
+  height: 16px;
+  width: 16px;
+  fill: #878a8c;
+}
+
+.app_seperator {
+  text-align: right;
+  text-transform: uppercase;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 24px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 12px;
+  margin-top: 12px;
+  padding: 0;
+  position: relative;
+  border: 1px solid transparent;
+}
+
+.app_seperator:hover {
+  background-color: #edeff1;
+}
+
+.color_select,
+.image_select {
+  padding: 8px 0;
+}
+
+.color_select2 {
+  display: flex;
+  align-items: center;
+}
+
+.color_select2 h3 {
+  flex: 1 1 100%;
+  width: 100%;
+  color: #878a8c;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.image_select h3 {
+  color: #878a8c;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.image_select_img {
+  background-color: #f6f7f8;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 4px;
+  border: 1px solid #edeff1;
+  height: 100px;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  z-index: 3;
+}
+
+.image_select_img .inner {
+  background-color: rgba(28, 28, 28, 0.9);
+  bottom: 0;
+  left: 0;
+  padding: 3px;
+  position: absolute;
+  right: 0;
+  text-align: right;
+  transition: transform 0.3s;
+}
+
+.inner button {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 24px;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.inner button svg {
+  height: 16px;
+  width: 16px;
+  fill: #fff;
+}
+
+.image_select_style {
+  margin-top: 24px;
+  display: flex;
+}
+
+.img_fill_style {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  align-items: center;
+  border: 1px solid #edeff1;
+  border-radius: 4px;
+  display: flex;
+  flex: 1 1;
+  flex-direction: column;
+  height: 70px;
+  justify-content: center;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding: 8px;
+  text-align: center;
+  color: #878a8c;
+}
+
+.img_fill_style[active='true'] {
+  background-color: #0079d3;
+  color: #edeff1;
+}
+
+.img_fill_style svg {
+  height: 30px;
+  width: 30px;
+}
+
+.style_submit {
+  margin-bottom: 8px;
+  padding-bottom: 2px;
+  width: 100%;
+}
+
+.style_submit button {
+  width: 100%;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}

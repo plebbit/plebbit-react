@@ -23,7 +23,11 @@ export const SideBar = () => {
             {item?.children?.map((child, key) => (
               <li key={key} disabled={child?.disabled}>
                 <Link
-                  to={!child?.disabled && `/p/${subplebbitAddress}/about/${child?.id}/`}
+                  to={
+                    !child?.disabled && child?.custom
+                      ? `/p/${subplebbitAddress}${child?.id}`
+                      : `/p/${subplebbitAddress}/about/${child?.id}/`
+                  }
                   target={!child?.disabled && child?.isExternal && '_blank'}
                   disabled={child?.disabled}
                 >

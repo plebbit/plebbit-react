@@ -144,7 +144,7 @@ export const SubplebbitSideItem = [
         icon: MdOutlineSettings,
       },
       { name: 'Post and Comment', id: 'edit?page=posts', icon: TiDocumentText },
-      { name: 'Community Appearance', id: '?styling=true', icon: BiBrush },
+      { name: 'Community Appearance', id: '?styling=true', icon: BiBrush, custom: true },
       {
         name: 'Notifications',
         id: 'edit?page=notifications',
@@ -187,4 +187,57 @@ export const projectSocialLinks = [
   { label: 'Blog', link: 'https://medium.com/@plebbit' },
   { label: 'Discord', link: 'https://discord.gg/E7ejphwzGW' },
   { label: 'Matrix', link: 'https://matrix.to/#/#plebbit:plebbitchat.org' },
+];
+
+export const subStylingData = [
+  {
+    name: 'Appearance',
+    id: 'appearance',
+    children: [
+      {
+        name: 'Color theme',
+        id: 'color',
+      },
+      {
+        name: 'Name & icon',
+        id: 'nameAndIcon',
+      },
+      {
+        name: 'Banner',
+        id: 'banner',
+      },
+      {
+        name: 'Menu',
+        id: 'menu',
+        disabled: true,
+      },
+      {
+        name: 'Posts',
+        id: 'posts',
+        disabled: true,
+      },
+      {
+        name: 'CSS',
+        id: 'css',
+        disabled: true,
+      },
+    ],
+  },
+
+  {
+    name: 'Structure',
+    id: 'structure',
+    children: [
+      {
+        name: 'Menu links',
+        id: 'menuLinks',
+        disabled: true,
+      },
+      {
+        name: 'Sidebar widgets',
+        id: 'widgets',
+        disabled: true,
+      },
+    ],
+  },
 ];

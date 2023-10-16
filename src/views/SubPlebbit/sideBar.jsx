@@ -32,15 +32,15 @@ import BacktoTopButton from '../../components/sidebar/backtoTopButton';
 import FlairLabel from '../../components/Label/flairLabel';
 import Link from '../../components/Link';
 import { getSubName } from '../../utils/getUserName';
-import { useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
+import { useAccount, useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
 import DropDown from '../../components/DropDown';
+import { useParams } from 'react-router-dom';
 
 const SideBar = ({
   bg,
   subPlebbit,
   setData,
   data,
-  profile,
   handleSaveChanges,
   allowedSpecial,
   blocked,
@@ -60,7 +60,9 @@ const SideBar = ({
   const [showAddSubtopic, hideSubTopic] = useState(false);
   const [showAddDescription, hideAddDescription] = useState(false);
   const [showComOptions, hideComOptions] = useState(false);
-  const stats = useSubplebbitStats({ subplebbitAddress: subPlebbit?.address });
+  const { subplebbitAddress } = useParams();
+  const profile = useAccount();
+  const stats = useSubplebbitStats({ subplebbitAddress });
   const loading = stats.state === 'fetching-ipfs' || subPlebbit === undefined;
 
   return (
@@ -98,7 +100,7 @@ const SideBar = ({
               verticalAlign="middle"
               cursor="pointer"
             >
-              <Link to={`/p/${subPlebbit?.address}/about/`}>
+              <Link to={`/p/${subplebbitAddress}/about/`}>
                 <Flex borderRadius="2px" padding="4px" alignItems="center" fontWeight="400">
                   <Icon as={FiShield} width={5} height={5} mr="4px" />
                   <Box>Mod tools</Box>
@@ -362,7 +364,7 @@ const SideBar = ({
               bg={subPlebbit?.suggested?.secondaryColor || headerBg}
               color={headerColor}
               as={Link}
-              to={`/p/${subPlebbit?.address}/submit`}
+              to={`/p/${subplebbitAddress}/submit`}
             >
               Create Post
             </Button>
@@ -525,8 +527,8 @@ const SideBar = ({
                 to={
                   subPlebbit?.roles &&
                   Object.keys(subPlebbit?.roles).includes(profile?.author?.address)
-                    ? `/p/${subPlebbit?.address}/about/moderators`
-                    : `/p/${subPlebbit?.address}/moderators`
+                    ? `/p/${subplebbitAddress}/about/moderators`
+                    : `/p/${subplebbitAddress}/moderators`
                 }
               >
                 <Box

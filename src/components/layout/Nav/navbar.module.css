@@ -1,5 +1,5 @@
 .wrapper {
-  color: 1c1c1c;
+  color: #1c1c1c;
   height: 48px;
   align-items: center;
   display: inline-flex;
@@ -9,10 +9,12 @@
   left: 0px;
   top: 0px;
   position: fixed;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .wrapper[showStyleBar='true'] {
-  padding-left: 284px;
+  padding-left: 284px !important;
 }
 .nav_wrapper {
   background-color: #ffffff;

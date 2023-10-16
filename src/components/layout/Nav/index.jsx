@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './navbar.module.css';
 import { useColorMode, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   createAccount,
   setAccount,
@@ -43,7 +43,7 @@ import { HiOutlineUserGroup } from 'react-icons/hi';
 import { bottomData1 } from '../../sidebar/projectLinks';
 import plebbitReactPackageJson from '../../../../package.json';
 
-const NavBar = ({ location, showStyleBar }) => {
+const NavBar = ({ location }) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
@@ -60,7 +60,8 @@ const NavBar = ({ location, showStyleBar }) => {
 
   const { accounts: accountLists } = useAccounts();
   const userTheme = profile?.plebbitReactOptions?.darkMode;
-
+  const { search } = useLocation();
+  const showStyleBar = search === '?styling=true';
   const toggleTheme = () => {
     toggleColorMode();
     setAccount({

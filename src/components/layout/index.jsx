@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDisclosure } from '@chakra-ui/react';
 import NavBar from './Nav';
 import { PlebLogo } from '../svgs';
 import { MdClose } from 'react-icons/md';
@@ -10,8 +9,9 @@ import styles from './layout.module.css';
 import { SideMenu } from './Nav/DropDown/homeDropdown';
 import CreateSubPlebbit from './Nav/modal/CreateSubPlebbit';
 import ImportAccount from './Nav/modal/importAccount';
+import SubStyleSide from '../../views/SubPlebbit/subStyleSide';
 
-const Layout = ({ children, name, stateString, background }) => {
+const Layout = ({ children, name, stateString }) => {
   const profile = useAccount();
   const notifications = useNotifications({ accountName: profile?.name });
   const {
@@ -22,8 +22,8 @@ const Layout = ({ children, name, stateString, background }) => {
     showImportAccountModal,
     showCreateSubModal,
   } = useStore((state) => state);
-  const location = useLocation();
-  const showStyleBar = location?.search === '?styling=true';
+  const { search } = useLocation();
+  const showStyleBar = search === '?styling=true';
 
   if (showSplashcreen) {
     return (
@@ -63,11 +63,14 @@ const Layout = ({ children, name, stateString, background }) => {
                     </div>
                   </div>
                 )}
-                <div>
-                  <div className={styles.wrapper4}>
-                    <div className={styles.wrapper_background} />
-                    <div className={styles.content_wrapper}>{children}</div>
+                <div className={styles.sub_app_wrapper} showStyleBar={String(showStyleBar)}>
+                  <div>
+                    <div className={styles.wrapper4}>
+                      <div className={styles.wrapper_background} />
+                      <div className={styles.content_wrapper}>{children}</div>
+                    </div>
                   </div>
+                  <div>{showStyleBar && <SubStyleSide />}</div>
                 </div>
               </div>
             </div>

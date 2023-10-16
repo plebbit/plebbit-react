@@ -20,8 +20,8 @@ const About = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
   const location = useLocation();
   const { subplebbitAddress, page } = useParams();
+  const role = accountSubplebbits[subplebbitAddress]?.role?.role;
   const subPlebbit = useSubplebbit({ subplebbitAddress: subplebbitAddress });
-  const role = accountSubplebbits[subPlebbit?.address]?.role?.role;
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';

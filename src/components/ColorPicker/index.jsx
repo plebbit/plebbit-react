@@ -30,7 +30,7 @@ const ColorPicker = ({ custom, color, onChange, popoverStyles }) => {
       },
       popover: {
         position: 'absolute',
-        zIndex: '2',
+        zIndex: '5',
         ...popoverStyles,
       },
       cover: {
@@ -44,7 +44,11 @@ const ColorPicker = ({ custom, color, onChange, popoverStyles }) => {
   });
 
   return (
-    <div>
+    <div
+      style={{
+        position: 'relative',
+      }}
+    >
       <div style={styles.swatch} onClick={handleClick}>
         {custom || <div style={styles.color} />}
       </div>
