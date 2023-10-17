@@ -41,3 +41,7 @@ const FeedContent = ({
 };
 
 export default FeedContent;
+
+export const SideBarWrap = ({ children }) => {
+  return <div className={styles.sidebar_wrap}>{children}</div>;
+};

@@ -41,3 +41,11 @@
     display: block;
   }
 }
+
+.sidebar_wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  top: 0;
+  width: 312px;
+}

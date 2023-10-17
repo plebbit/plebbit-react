@@ -4,6 +4,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import { useDisclosure, useToast } from '@chakra-ui/react';
 import {
   deleteCaches,
+  setAccount,
   useAccount,
   useAuthorAvatar,
   useResolvedAuthorAddress,

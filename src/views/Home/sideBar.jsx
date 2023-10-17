@@ -10,6 +10,7 @@ import Sort from '../../utils/sort';
 import useStore from '../../store/useStore';
 import styles from './home.module.css';
 import { Link, useLocation } from 'react-router-dom';
+import { SideBarWrap } from '../../components/container/FeedContent';
 
 export const SideBar = () => {
   const { pathname } = useLocation();
@@ -35,7 +36,7 @@ export const SideBar = () => {
   );
 
   return (
-    <div className={styles.side_wrapper}>
+    <SideBarWrap>
       <div className={styles.side_top_communities}>
         <div className={styles.side_top_communities2}>
           <div className={styles.side_top_communities3}>
@@ -77,7 +78,7 @@ export const SideBar = () => {
         <BottomSideBar />
         <BacktoTopButton />
       </div>
-    </div>
+    </SideBarWrap>
   );
 };
 

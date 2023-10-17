@@ -1,8 +1,8 @@
 .button {
   position: relative;
-  border: 1px solid #0079d3;
+  border: 1px solid currentColor;
   color: #0079d3;
-  fill: #0079d3;
+  fill: currentColor;
   font-family: Noto Sans, Arial, sans-serif;
   font-size: 14px;
   font-weight: 700;
