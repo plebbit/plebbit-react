@@ -1,64 +1,37 @@
 import React from 'react';
-import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
 import plebbitReactPackageJson from '../../../package.json';
-import { bottomData1, bottomData2 } from './projectLinks';
+import { projectLinks, projectSocialLinks } from '../../store/data';
+import styles from './sidebar.module.css';
+import { Link } from 'react-router-dom';
 
-const BottomSideBar = ({ bg }) => {
-  const Bg = useColorModeValue('lightBody', 'darkBody');
-
-
+const BottomSideBar = () => {
   return (
-    <Box position="sticky" top="57px">
-      <Box marginTop="16px" background={ bg || Bg }>
-        <Box maxHeight="none">
-          <Flex padding="12px 8px">
-            <Flex flexFlow="column" flexWrap="nowrap" width="50%" padding="0 4px">
-              { bottomData1?.map((item, index) => (
-                <a target="_blank" rel="noreferrer" href={ item?.link } key={ index }>
-                  <Box
-                    fontSize="12px"
-                    fontWeight="400"
-                    lineHeight="16px"
-                    marginTop="3px"
-                    marginBottom="3px"
-                    display="inline-block"
-                  >
-                    { item?.label }
-                  </Box>
-                </a>
-              )) }
-            </Flex>
-            <Flex flexFlow="column" flexWrap="nowrap" width="50%" padding="0 4px">
-              { bottomData2?.map((item, index) => (
-                <a target="_blank" rel="noreferrer" href={ item?.link } key={ index }>
-                  <Box
-                    fontSize="12px"
-                    fontWeight="400"
-                    lineHeight="16px"
-                    marginTop="3px"
-                    marginBottom="3px"
-                    display="inline-block"
-                  >
-                    { item?.label }
-                  </Box>
-                </a>
-              )) }
-            </Flex>
-          </Flex>
-          <Flex
-            padding="12px"
-            fontSize="12px"
-            fontWeight="400"
-            lineHeight="16px"
-            marginTop="3px"
-            marginBottom="3px"
-            display="inline-block"
-          >
-            Plebbit v{ plebbitReactPackageJson.version }. GPL-2.0
-          </Flex>
-        </Box>
-      </Box>
-    </Box>
+    <div className={styles.bottom_link_wrapper}>
+      <div className={styles.bottom_link_wrapper2}>
+        <div className={styles.bottom_link_content}>
+          <div className={styles.blc_top}>
+            <div className={styles.blc_t_left}>
+              {projectLinks?.map((item, index) => (
+                <Link target="_blank" rel="noreferrer" to={item?.link} key={index}>
+                  <span>{item?.label}</span>
+                </Link>
+              ))}
+            </div>
+            <div className={styles.blc_t_left}>
+              {projectSocialLinks?.map((item, index) => (
+                <Link target="_blank" rel="noreferrer" to={item?.link} key={index}>
+                  <span>{item?.label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div className={styles.blc_bottom}>
+            {' '}
+            Plebbit v{plebbitReactPackageJson.version}. GPL-2.0
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
