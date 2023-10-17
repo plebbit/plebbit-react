@@ -8,11 +8,9 @@ import Modal from '../../../components/Modal';
 import styles from './modal.module.css';
 import { BiLinkExternal } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react';
 
 const AddAvatar = ({ isOpen, setIsOpen }) => {
-  const mainBg = useColorModeValue('lightBody', 'darkBody');
-  const linkColor = useColorModeValue('lightLink', 'darkLink');
-  const { colorMode } = useColorMode();
   const profile = useAccount();
   const [data, setData] = useState({
     domainSeparator: 'plebbit-author-avatar',

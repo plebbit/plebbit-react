@@ -6,7 +6,7 @@ import {
 } from '@plebbit/plebbit-react-hooks';
 import React, { useMemo } from 'react';
 import useStore from '../../store/useStore';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Layout from '../../components/layout';
 import styles from './profile.module.css';
 import getUserName from '../../utils/getUserName';
@@ -16,7 +16,6 @@ import SideBar from './sideBar';
 import Post from '../../components/Post';
 import Avatar from '../../components/Avatar';
 import numFormatter from '../../utils/numberFormater';
-import Dot from '../../components/Dot';
 import { MdEdit } from 'react-icons/md';
 import InfiniteScroll from '../../components/InfiniteScroll';
 

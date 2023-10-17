@@ -75,7 +75,7 @@ export const Button2 = ({ children, className, disabled, onClick, ...rest }) => 
       disabled={disabled}
       role="button"
       className={[styles.button, className].join(' ')}
-      onClick={(e) => !disabled && onClick(e)}
+      onClick={(e) => !disabled && typeof onClick === 'function' && onClick(e)}
       {...rest}
     >
       {children}
