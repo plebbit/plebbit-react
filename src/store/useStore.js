@@ -28,6 +28,10 @@ const useStore = create((set, get) => ({
   setShowImportAccountModal: (val) => set(() => ({ showImportAccountModal: val })),
   showCreateSubModal: false,
   setShowCreateSubModal: (val) => set(() => ({ showCreateSubModal: val })),
+  colorMode: 'light',
+  setColorMode: (val) => set(() => ({ darkMode: val })),
+  toggleColorMode: () =>
+    set((state) => ({ colorMode: state?.darkMode === 'light' ? 'dark' : 'light' })),
 }));
 
 export default useStore;

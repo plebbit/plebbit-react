@@ -1,4 +1,3 @@
-import { useColorMode } from '@chakra-ui/react';
 import { useAccount, useAccountSubplebbits, useSubplebbits } from '@plebbit/plebbit-react-hooks';
 import React, { useEffect, useCallback, useMemo } from 'react';
 import useSubPlebbitDefaultData from '../hooks/useSubPlebbitDefaultData';
@@ -6,8 +5,6 @@ import getAddressFromArray from '../utils/getAddressFromArray';
 import useStore from './useStore';
 
 const ProfileDataProvider = ({ children }) => {
-  const { setColorMode } = useColorMode();
-
   const {
     postView,
     setHomeAdd,
@@ -16,6 +13,7 @@ const ProfileDataProvider = ({ children }) => {
     setSubPlebbitData,
     setShowSplashcreen,
     setDevice,
+    setColorMode,
   } = useStore((state) => state);
 
   const profile = useAccount();

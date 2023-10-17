@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './navbar.module.css';
-import { useColorMode, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   createAccount,
@@ -44,7 +44,6 @@ import { bottomData1 } from '../../sidebar/projectLinks';
 import plebbitReactPackageJson from '../../../../package.json';
 
 const NavBar = ({ location }) => {
-  const { colorMode, toggleColorMode } = useColorMode();
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
@@ -56,6 +55,8 @@ const NavBar = ({ location }) => {
     setPostView,
     setShowImportAccountModal,
     setShowCreateSubModal,
+    colorMode,
+    toggleColorMode,
   } = useStore((state) => state);
 
   const { accounts: accountLists } = useAccounts();
