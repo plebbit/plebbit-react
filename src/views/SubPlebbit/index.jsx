@@ -60,7 +60,7 @@ const Subplebbit = () => {
   }, [subPlebbit]);
 
   const { subscribe, unsubscribe, subscribed } = useSubscribe({
-    subplebbitAddress: subPlebbit?.address,
+    subplebbitAddress,
   });
 
   const handleSubscribe = async () => {
