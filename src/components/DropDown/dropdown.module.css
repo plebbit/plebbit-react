@@ -1,3 +1,61 @@
+.wrapper {
+  display: flex;
+  margin-left: auto;
+  flex-flow: row nowrap;
+  position: relative;
+}
+
+.dd_top {
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  cursor: pointer;
+  height: 32px;
+  padding: 0 8px;
+}
+
+.dd_top_caret {
+  display: flex;
+  align-items: center;
+  color: #878a8c;
+}
+
+.dd_top:hover {
+  background-color: #f6f7f8;
+}
+
+.dd_content {
+  margin-left: -9px;
+  border: 1px solid #edeff1;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: rgba(28, 28, 28, 0.03);
+  position: absolute;
+  z-index: 10;
+  color: #878a8c;
+  fill: #878a8c;
+}
+
+.dd_option {
+  display: flex;
+  align-items: center;
+  position: relative;
+  outline: none;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  padding: 8px;
+  text-transform: capitalize;
+  white-space: nowrap;
+  cursor: pointer;
+  border-top: 1px solid #edeff1;
+}
+
+.dd_option:hover {
+  background-color: white;
+  color: #0079d3;
+}
+
 .control {
   border-radius: 22px;
   border: 1px dashed #a4a4a4;
@@ -13,4 +71,5 @@
   width: 100%;
   align-items: center;
   border-radius: 4px;
+  align-items: center;
 }

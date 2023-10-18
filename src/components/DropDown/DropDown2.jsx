@@ -1,4 +1,3 @@
-import { Flex, Box, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 import Select, { components } from 'react-select';
 import Avatar from '../Avatar';
@@ -26,10 +25,6 @@ const DropDown2 = ({
   unselectedBg,
   render,
 }) => {
-  const mainColor = useColorModeValue('lightText2', 'darkText1');
-  const navBorder = useColorModeValue('#edeff1', '#343536');
-  const mainBg = useColorModeValue('#fff', '#1A1A1B');
-
   const Option = ({ children, ...props }) => {
     return render ? (
       <components.Option {...props}>{render(props?.data)}</components.Option>
@@ -80,7 +75,7 @@ const DropDown2 = ({
           container: (styles) => ({
             ...styles,
             width: '100%',
-            backgroundColor: mainBg,
+            backgroundColor: '#fff',
             ...selectStyles,
           }),
           control: (styles) => ({
@@ -89,7 +84,7 @@ const DropDown2 = ({
             border: '1px solid transparent',
             ':hover': {
               ...styles,
-              border: `1px solid ${navBorder}`,
+              border: `1px solid ${'#edeff1'}`,
               boxShadow: 'none',
               backgroundColor: 'transparent',
             },
@@ -110,22 +105,22 @@ const DropDown2 = ({
           },
           input: (styles) => ({ ...styles }),
           menu: (styles) => ({ ...styles, border: `1px solid ${navBorder}` }),
-          menuList: (styles) => ({ ...styles, backgroundColor: mainBg }),
+          menuList: (styles) => ({ ...styles, backgroundColor: '#fff' }),
           placeholder: (styles) => ({
             ...styles,
             fontWeight: '500',
-            color: mainColor,
+            color: '#1c1c1c',
             ...placeholderStyles,
           }),
           singleValue: (styles) => ({
             ...styles,
             fontWeight: '500',
-            color: mainColor,
+            color: '#1c1c1c',
           }),
           indicatorSeparator: (styles) => ({ ...styles, display: 'none' }),
           dropdownIndicator: (styles) => ({
             ...styles,
-            color: mainColor,
+            color: '#1c1c1c',
             fontWeight: '400',
           }),
         }}

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Box, Flex, Icon, useColorModeValue } from '@chakra-ui/react';
-
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import styles from './dropdown.module.css';
 
 const DropDown = ({
   inputBg,
@@ -23,109 +22,80 @@ const DropDown = ({
   labelStyle,
   caretStyle,
   menuSx,
-  titleHover,
   disableTitleClick,
 }) => {
-  const shadow = useColorModeValue('rgba(28,28,28,0.2)', 'rgba(215,218,220,0.2)');
-  const mainBg = useColorModeValue('lightBody', 'darkBody');
-  const border2 = useColorModeValue('#edeff1', '#343536');
-  const iconColor = useColorModeValue('lightIcon', 'darkIcon');
   const [show, hide] = useState(false);
-  const linkColor = useColorModeValue('lightLink', 'darkLink');
 
   return (
-    <Flex ml="auto" sx={ wrapSx } alignItems="center" flexFlow="row nowrap" position="relative">
-      <Flex
-        alignItems="center"
-        borderRadius="20px"
-        cursor="pointer"
-        display="flex"
-        height="32px"
-        padding="0 8px"
-        _hover={
-          titleHover || {
-            bg: inputBg,
-          }
-        }
-        onClick={ () => !disableTitleClick && hide(!show) }
-        sx={ menuSx }
+    <div style={wrapSx}>
+      <div
+        className={styles.dd_top}
+        onClick={() => !disableTitleClick && hide(!show)}
+        style={menuSx}
       >
-        <Box sx={ labelStyle }>{ dropDownTitle }</Box>
-        { caret
+        <div style={labelStyle}>{dropDownTitle}</div>
+        {caret
           ? customCaret || (
-            <Flex onClick={ () => hide(!show) } color={ iconColor } alignItems="center">
-              <Icon sx={ caretStyle } as={ MdOutlineKeyboardArrowDown } />
-            </Flex>
-          )
-          : '' }
-      </Flex>
-      { show ? (
-        <Box
-          onMouseLeave={ () => (stopAutoHide ? {} : hide(false)) }
-          ml="-9px"
-          minW="99px"
-          border={ `1px solid ${border2}` }
-          borderRadius="4px"
-          boxShadow={ `0 2px 4px 0 ${shadow}` }
-          bg={ mainBg }
-          position="absolute"
-          zIndex="10"
-          color={ iconColor }
-          fill={ iconColor }
-          sx={ {
+              <div onClick={() => hide(!show)} className={styles.dd_top_caret}>
+                <MdOutlineKeyboardArrowDown style={caretStyle} />
+              </div>
+            )
+          : ''}
+      </div>
+      {show ? (
+        <div
+          onMouseLeave={() => (stopAutoHide ? {} : hide(false))}
+          className={styles.dd_content}
+          style={{
             top: topOffset || '24px',
             left: leftOffset || '10px',
             right: rightOffset,
-          } }
-          width={ width }
+            width,
+          }}
         >
-          { options
+          {options
             ? options?.map((option) =>
-              render && option.disabled !== true ? (
-                render(option)
-              ) : option.disabled !== true ? (
-                <Flex
-                  key={ option?.id }
-                  alignItems="center"
-                  position="relative"
-                  outline="none"
-                  fontSize="14px"
-                  fontWeight="500"
-                  lineHeight="18px"
-                  padding="8px"
-                  textTransform="capitalize"
-                  whiteSpace="nowrap"
-                  _hover={ {
-                    background: inputBg,
-                    color: linkColor,
-                  } }
-                  cursor="pointer"
-                  color={ selected && getSelected && selected === getSelected(option) && linkColor }
-                  onClick={ () => onChange(option) }
-                  borderTop={ `1px solid ${border2}` }
-
-                >
-                  { option?.icon && (
-                    <Icon
-                      mr="4px"
-                      color={ option?.IconColor || option?.color }
-                      as={ option?.icon }
-                      width={ 6 }
-                      height={ 6 }
-                    />
-                  ) }
-                  <Box color={ option?.color }>{ option?.label }</Box>
-                </Flex>
-              ) : (
-                ''
+                render && option.disabled !== true ? (
+                  render(option)
+                ) : option.disabled !== true ? (
+                  <div
+                    key={option?.id}
+                    style={{
+                      color:
+                        selected && getSelected && selected === getSelected(option) && '#0079d3',
+                    }}
+                    cursor="pointer"
+                    onClick={() => onChange(option)}
+                    className={styles.dd_option}
+                  >
+                    {option?.icon && (
+                      <option.icon
+                        style={{
+                          width: '20px',
+                          height: '20px',
+                        }}
+                        color={option?.IconColor || option?.color}
+                        as={option?.icon}
+                      />
+                    )}
+                    <div
+                      style={{
+                        color: option?.color,
+                      }}
+                    >
+                      {option?.label}
+                    </div>
+                  </div>
+                ) : (
+                  ''
+                )
               )
-            )
-            : content }
-        </Box>
+            : content}
+        </div>
       ) : (
         ''
-      ) }
-    </Flex>
+      )}
+    </div>
   );
 };
 
