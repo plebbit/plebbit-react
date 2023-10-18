@@ -13,8 +13,10 @@ const EditLabel = (props) => {
       {editLabel ? (
         <Label
           onClick={() => setIsOpen(true)}
-          variant="outline"
-          colorScheme={editLabel?.color}
+          style={{
+            color: editLabel.color,
+            borderColor: '1px solid currentColor',
+          }}
           text={editLabel?.text}
         />
       ) : null}

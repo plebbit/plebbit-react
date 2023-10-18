@@ -30,9 +30,11 @@ const CreatePostSideBar = () => {
             fontWeight="500"
           >
             <Image
-              height="40px"
-              marginRight="8px"
-              paddingBottom="5px"
+              style={{
+                height: '40px',
+                marginRight: '8px',
+                paddingBottom: '5px',
+              }}
               // width="40px"
               src="/favicon.ico"
             />

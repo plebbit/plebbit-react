@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import GetChallengeAnswersFromUser from './getChallengeAnswersFromUser';
 import logger from './logger';
-import { ChakraProvider } from '@chakra-ui/react';
-import theme from '../assets/style/theme';
 
 const ModalContainer = ({ challenges, comment, onComplete }) => {
   const [isMounted, setIsMounted] = useState(true);

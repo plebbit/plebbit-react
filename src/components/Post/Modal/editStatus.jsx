@@ -33,7 +33,13 @@ const EditStatus = ({ setIsOpen, isOpen, post }) => {
               </div>
 
               <div>
-                <Label colorScheme="red" variant="outline" text="failed" />
+                <Label
+                  style={{
+                    color: 'red',
+                  }}
+                  variant="outline"
+                  text="failed"
+                />
               </div>
             </div>
           ))}
@@ -52,7 +58,12 @@ const EditStatus = ({ setIsOpen, isOpen, post }) => {
               </div>
 
               <div>
-                <Label colorScheme="orange" variant="outline" text="pending" />
+                <Label
+                  style={{
+                    color: 'orange',
+                  }}
+                  text="pending"
+                />
               </div>
             </div>
           ))}
@@ -71,7 +82,12 @@ const EditStatus = ({ setIsOpen, isOpen, post }) => {
               </div>
 
               <div>
-                <Label colorScheme="green" variant="outline" text="pending" />
+                <Label
+                  style={{
+                    color: 'green',
+                  }}
+                  text="success"
+                />
               </div>
             </div>
           ))}

@@ -40,7 +40,6 @@ import usePublishDownvote from '../../../hooks/usePublishDownvote';
 import EditLabel from '../../Label/editLabel';
 import PendingLabel from '../../Label/pendingLabel';
 import FlairLabel from '../../Label/flairLabel';
-import Link from '../../Link';
 import useStateString from '../../../hooks/useStateString';
 import StateString from '../../Label/stateString';
 import usePublishComment from '../../../hooks/usePublishComment';

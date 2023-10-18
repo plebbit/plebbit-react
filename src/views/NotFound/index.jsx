@@ -1,30 +1,47 @@
-import { Box, Flex } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PlebLogo } from '../../components/svgs';
 
 const NotFound = () => {
   return (
-    <Flex
-      flexDir="column"
-      width="100%"
-      height="100vh"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
+    <div
+      style={{
+        flexDirection: 'column',
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
     >
-      <Box width="200px" borderRadius="full" height="200xp">
+      <div
+        style={{
+          width: '200px',
+          borderRadius: 'full',
+          height: '200px',
+        }}
+      >
         <PlebLogo />
-      </Box>
-      <Box fontWeight="700" mt="10px">
+      </div>
+      <div
+        style={{
+          fontWeight: '700',
+          marginTop: '10px',
+        }}
+      >
         <h3>Something went wrong</h3>
-      </Box>
+      </div>
       <Link to="/">
-        <Box textDecor="underline" color="blue">
+        <div
+          style={{
+            textDecoration: 'underline',
+            color: 'blue',
+          }}
+        >
           Go Home
-        </Box>
+        </div>
       </Link>
-    </Flex>
+    </div>
   );
 };
 

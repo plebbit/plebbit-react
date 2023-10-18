@@ -1,12 +1,8 @@
-import { Box, Button, Flex, Icon, Input, useColorModeValue } from '@chakra-ui/react';
 import { useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import React from 'react';
-import { AiOutlineInfoCircle } from 'react-icons/ai';
-import { FiSearch } from 'react-icons/fi';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import Avatar from '../../../components/Avatar';
 import Layout from '../../../components/layout';
-import { PlebLogo } from '../../../components/svgs';
 import { getAddress } from '../../../utils/getUserName';
 import styles from './moderator.module.css';
 import { RiSearch2Line } from 'react-icons/ri';

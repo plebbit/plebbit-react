@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import getUserName, { getSubName } from '../../../utils/getUserName';
 import dateToFromNowDaily, { dateFormater } from '../../../utils/formatDate';
 import Avatar from '../../Avatar';
-import Label from '../../Label';
-import { Icon, Tooltip } from '@chakra-ui/react';
+import { Tooltip } from '@chakra-ui/react';
 import { FcCancel } from 'react-icons/fc';
 import StateString from '../../Label/stateString';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
@@ -121,7 +120,7 @@ const PostTop = ({
               {/* locked */}
               {post?.locked && (
                 <span className={styles.lock_wrap}>
-                  <Icon as={HiLockClosed} color="#ffd635" />
+                  <HiLockClosed color="#ffd635" />
                 </span>
               )}
               {/* removed */}
@@ -130,7 +129,7 @@ const PostTop = ({
                   className={styles.remove_icon_wrap}
                   onClick={() => (!post?.reason ? openRemovalModal() : {})}
                 >
-                  <Icon as={FcCancel} />
+                  <FcCancel />
                   {!post?.reason ? (
                     allowedSpecial && <div>Add a removal reason</div>
                   ) : (

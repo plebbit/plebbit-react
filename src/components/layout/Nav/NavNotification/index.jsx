@@ -17,7 +17,6 @@ import Button from '../../../Button';
 import Dot from '../../../Dot';
 
 const NavNotification = () => {
-  const iconColor2 = useColorModeValue('lightIcon2', 'darkText1');
   const profile = useAccount();
   const notifications = useNotifications({ accountName: profile?.name });
 

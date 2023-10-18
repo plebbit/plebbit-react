@@ -23,17 +23,21 @@ const DropDown = ({
   caretStyle,
   menuSx,
   disableTitleClick,
+  getOptionLabel,
+  titleClass,
 }) => {
   const [show, hide] = useState(false);
 
   return (
-    <div style={wrapSx}>
+    <div style={wrapSx} className={styles.wrapper}>
       <div
         className={styles.dd_top}
         onClick={() => !disableTitleClick && hide(!show)}
         style={menuSx}
       >
-        <div style={labelStyle}>{dropDownTitle}</div>
+        <div style={labelStyle} className={titleClass}>
+          {dropDownTitle}
+        </div>
         {caret
           ? customCaret || (
               <div onClick={() => hide(!show)} className={styles.dd_top_caret}>
@@ -54,18 +58,18 @@ const DropDown = ({
           }}
         >
           {options
-            ? options?.map((option) =>
+            ? options?.map((option, index) =>
                 render && option.disabled !== true ? (
                   render(option)
                 ) : option.disabled !== true ? (
                   <div
-                    key={option?.id}
+                    key={index}
                     style={{
                       color:
                         selected && getSelected && selected === getSelected(option) && '#0079d3',
                     }}
                     cursor="pointer"
-                    onClick={() => onChange(option)}
+                    onClick={() => typeof onChange === 'function' && onChange(option)}
                     className={styles.dd_option}
                   >
                     {option?.icon && (
@@ -83,7 +87,9 @@ const DropDown = ({
                         color: option?.color,
                       }}
                     >
-                      {option?.label}
+                      {typeof getOptionLabel === 'function'
+                        ? getOptionLabel(option)
+                        : option?.label}
                     </div>
                   </div>
                 ) : (

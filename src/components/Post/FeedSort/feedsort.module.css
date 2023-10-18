@@ -1,0 +1,156 @@
+.wrapper {
+  display: flex;
+  background-color: #fff;
+  border: 1px solid #edeff1;
+  border-radius: 4px;
+  flex-flow: nowrap;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  width: 100%;
+}
+
+.sort_wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.sort_item {
+  cursor: default;
+  margin-right: 8px;
+  text-transform: capitalize;
+  position: relative;
+  border: 1px solid transparent;
+  min-height: unset;
+  padding: 6px 8px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: unset;
+  line-height: 17px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  color: #878a8c;
+  fill: #878a8c;
+}
+
+.sort_item svg {
+  width: 20px;
+  margin-right: 8px;
+  height: 20px;
+}
+
+.sort_item[active='true'] {
+  background: #f6f7f8;
+  color: #222222;
+  fill: #222222;
+}
+
+.sort_item[active='true']:hover {
+  background: '';
+}
+.sort_item:hover {
+  background: #f6f7f8;
+}
+
+.sort_wrapper2 {
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.sort_wrapper3 {
+  border-radius: 20px;
+  color: #878a8c;
+  outline: none;
+  padding: 8px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+}
+
+.sort_wrapper3:hover {
+  background: #f6f7f8;
+}
+
+.sort_wrapper3 svg {
+  width: 20px;
+  height: 20px;
+}
+
+.sort_wrapper4 {
+  margin-left: auto;
+}
+
+.sort_wrapper svg {
+  width: 20px;
+  height: 20px;
+}
+
+.dd_item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  outline: none;
+  font-size: 14px;
+}
+
+/* mobil */
+.mobile_overlay {
+  background-color: rgba(0, 0, 0 0.4);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.mobile_wrapper {
+  border-bottom: 1px solid #edeff1;
+  border-bottom-width: 4px;
+  min-height: 52px;
+  background: #fff;
+  justify-content: space-between;
+  line-height: 32px;
+  padding: 8px 16px;
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+  touch-action: manipulation;
+  display: flex;
+}
+
+.mobile_wrapper2 {
+  display: flex;
+  justify-content: space-between;
+  line-height: 32px;
+  flex: 1;
+}
+
+.mobile_sort {
+  flex: 1;
+}
+
+.mobile_sort2 {
+  margin-right: 16px;
+  max-width: calc(100% - 2 * 8px);
+}
+
+.mobile_sort2_head {
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+  color: #878a8c;
+}
+
+.mobile_sort2_head_svg {
+  width: 20px;
+  height: 20px;
+}
+
+.mobile_post_type {
+}

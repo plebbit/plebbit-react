@@ -6,9 +6,9 @@ import { FaBell } from 'react-icons/fa';
 import { MdSettings } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import Layout from '../../components/layout';
-import Link from '../../components/Link';
 import { NotificationType } from '../../components/layout/Nav/NavNotification';
 import { useAccount, useNotifications } from '@plebbit/plebbit-react-hooks';
+import { Link } from 'react-router-dom';
 
 const Notifications = () => {
   const mainColor = useColorModeValue('lightText2', 'darkText1');

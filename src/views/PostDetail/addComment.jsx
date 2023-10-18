@@ -6,7 +6,6 @@ import Editor from '../../components/Editor';
 import { EditorState } from 'draft-js';
 import usePublishComment from '../../hooks/usePublishComment';
 import { MdClose } from 'react-icons/md';
-import Image from '../../components/Image';
 import { useAccount, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
 import useStore from '../../store/useStore';
 import Avatar from '../../components/Avatar';
