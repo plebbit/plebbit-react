@@ -115,7 +115,13 @@ const ModalItem = ({ item, step, data, setData }) => {
         <div className={styles.modal_item}>{item?.challenge}</div>
       ) : item?.type === 'image/png' ? (
         <div className={styles.modal_item}>
-          <Image width="100%" height="100%" src={`data:image/png;base64,  ${item?.challenge}`} />
+          <Image
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+            src={`data:image/png;base64,  ${item?.challenge}`}
+          />
         </div>
       ) : (
         ''
