@@ -228,14 +228,13 @@ const Subplebbit = () => {
                 loading={loading}
                 data={data}
                 setData={setData}
-                subPlebbit={data}
+                subPlebbit={subPlebbit}
                 allowedSpecial={allowedSpecial}
                 blocked={blocked}
                 handleOption={handleOption}
               />
             }
           />
-          {/*appeareance side bar */}
         </div>
       ) : (
         <div>

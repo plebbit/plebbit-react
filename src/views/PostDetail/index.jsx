@@ -59,16 +59,8 @@ import AddRemovalReason from '../../components/Post/Modal/addRemovalReason';
 import ConfirmDelete from '../../components/Post/Modal/confirmDelete';
 
 const PostDetail2 = () => {
-  const {
-    onOpen: openRemovalModal,
-    onClose: closeRemovalModal,
-    isOpen: isRemovalModalOpen,
-  } = useDisclosure();
-  const {
-    onOpen: openDeleteModal,
-    onClose: closeDeleteModal,
-    isOpen: isDeleteModalOpen,
-  } = useDisclosure();
+  const [isRemovalModalOpen, setRemovalModalOpen] = useState(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState();
   const location = useLocation();
   const postDetailModal = location?.state?.modal && location?.state?.detail;
   const params = useParams();
@@ -202,14 +194,14 @@ const PostDetail2 = () => {
     if (option?.id === 'edit') {
       setEdit(true);
     } else if (option?.id === 'delete') {
-      openDeleteModal();
+      setDeleteModalOpen(true);
     }
     if (option?.id === 'block') {
       blocked ? unblock() : block();
     }
     if (option?.id === 'mute') {
       muted ? unMute() : mute();
-    } else openRemovalModal();
+    } else setRemovalModalOpen(true);
   };
 
   const sharePath = `${baseUrl}p/${detail?.subplebbitAddress}/c/${detail?.cid}`;
@@ -255,8 +247,6 @@ const PostDetail2 = () => {
   useEffect(() => {
     detail = editedComment;
   }, [editedComment]);
-
-  console.log({ stateString, detail });
 
   return (
     <Layout
@@ -365,7 +355,7 @@ const PostDetail2 = () => {
                                 authorPath={authorPath}
                                 loading={loading}
                                 stateString={stateString}
-                                openRemovalModal={openRemovalModal}
+                                openRemovalModal={() => setRemovalModalOpen(true)}
                                 allowedSpecial={isSpecial}
                                 pending={detailPending}
                                 detail={true}
@@ -811,10 +801,14 @@ const PostDetail2 = () => {
         </div>
       )}
       {isRemovalModalOpen && (
-        <AddRemovalReason isOpen={isRemovalModalOpen} onClose={closeRemovalModal} post={detail} />
+        <AddRemovalReason
+          isOpen={isRemovalModalOpen}
+          setIsOpen={setRemovalModalOpen}
+          post={detail}
+        />
       )}
       {isDeleteModalOpen && (
-        <ConfirmDelete isOpen={isDeleteModalOpen} onClose={closeDeleteModal} post={detail} />
+        <ConfirmDelete isOpen={isDeleteModalOpen} setIsOpen={setDeleteModalOpen} post={detail} />
       )}
     </Layout>
   );

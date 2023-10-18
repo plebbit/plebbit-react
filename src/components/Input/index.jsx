@@ -17,6 +17,7 @@ const Input = ({
   titleClass,
   disabled,
   customMessage,
+  hideInput,
 }) => {
   return (
     <div className={[styles.input_options, wrapperClass].join(' ')}>
@@ -29,26 +30,28 @@ const Input = ({
           {subTitle && <p className={subTitleClass}>{subTitle}</p>}
         </label>
       )}
-      <div className={styles.input_options_input}>
-        <input
-          value={value}
-          maxLength={maxLength}
-          onChange={onChange}
-          type={type}
-          placeholder={placeholder}
-          id={typeof title === 'string' && title?.replace(' ', '_')}
-          disabled={disabled}
-        />
+      {!hideInput && (
+        <div className={styles.input_options_input}>
+          <input
+            value={value}
+            maxLength={maxLength}
+            onChange={onChange}
+            type={type}
+            placeholder={placeholder}
+            id={typeof title === 'string' && title?.replace(' ', '_')}
+            disabled={disabled}
+          />
 
-        {customMessage
-          ? customMessage
-          : maxLength &&
-            !hideCount && (
-              <div className={styles.input_options_input_count}>
-                {maxLength - (+value?.length || 0)} Characters remaining
-              </div>
-            )}
-      </div>
+          {customMessage
+            ? customMessage
+            : maxLength &&
+              !hideCount && (
+                <div className={styles.input_options_input_count}>
+                  {maxLength - (+value?.length || 0)} Characters remaining
+                </div>
+              )}
+        </div>
+      )}
     </div>
   );
 };
@@ -161,6 +164,7 @@ export const RadioGroup = ({
   titleClass,
   subTitle,
   render,
+  subTitleClass,
 }) => {
   return (
     <div className={[styles.input_options, wrapperClass].join(' ')}>

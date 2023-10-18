@@ -69,16 +69,9 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
   const commentPending = comment?.state === 'pending';
   const commentFailed = comment?.state === 'failed';
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(comment?.subplebbitAddress);
-  const {
-    onOpen: openDeleteModal,
-    onClose: closeDeleteModal,
-    isOpen: isDeleteModalOpen,
-  } = useDisclosure();
-  const {
-    onOpen: openRemovalModal,
-    onClose: closeRemovalModal,
-    isOpen: isRemovalModalOpen,
-  } = useDisclosure();
+  const [isDeleteModalOpen, setDeleteModal] = useState(false);
+
+  const [isRemovalModalOpen, setRemovalModalOpen] = useState(false);
   const { authorAddress, shortAuthorAddress } = useAuthorAddress({ comment });
 
   const owner =
@@ -104,7 +97,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
 
   const handleOption = (val) => {
     if (val?.id === 'delete') {
-      openDeleteModal();
+      setDeleteModal(true);
     } else {
       openRemovalModal();
     }
@@ -507,7 +500,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
       {isDeleteModalOpen && (
         <ConfirmDelete
           isOpen={isDeleteModalOpen}
-          onClose={closeDeleteModal}
+          setIsOpen={setDeleteModal}
           post={comment}
           title="Delete comment"
           message="Are you sure you want to delete your comment?"
@@ -518,7 +511,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
       {isRemovalModalOpen && (
         <AddRemovalReason
           isOpen={isRemovalModalOpen}
-          onClose={closeRemovalModal}
+          setIsOpen={setRemovalModalOpen}
           post={comment}
           hideList={['pinned', 'reason']}
         />

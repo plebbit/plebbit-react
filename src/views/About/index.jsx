@@ -70,7 +70,7 @@ const About = () => {
   return (
     <Layout
       name={{
-        label: subPlebbit?.title || getAddress(subPlebbit?.address),
+        label: subPlebbit?.title || getAddress(subplebbitAddress),
         value: location?.pathname,
       }}
     >
@@ -83,8 +83,8 @@ const About = () => {
               marginRight: '8px',
             }}
           />
-          <Link to={`/p/${subPlebbit?.address}/`}>
-            {subPlebbit?.title || getAddress(subPlebbit?.address)}
+          <Link to={`/p/${subplebbitAddress}/`}>
+            {subPlebbit?.title || getAddress(subplebbitAddress)}
           </Link>
           /{' '}
           {page === 'modqueue'

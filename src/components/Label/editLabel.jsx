@@ -1,42 +1,27 @@
-import Label from '.'
-import React from 'react'
-import EditStatus from '../Post/Modal/editStatus'
-import { useDisclosure } from '@chakra-ui/react'
-import { useEditedComment } from '@plebbit/plebbit-react-hooks'
+import Label from '.';
+import React, { useState } from 'react';
+import EditStatus from '../Post/Modal/editStatus';
+import { useEditedComment } from '@plebbit/plebbit-react-hooks';
 
 const EditLabel = (props) => {
-    const { editLabel, post } = props
-    const {
-        onClose, onOpen, isOpen
-    } = useDisclosure();
-    const editedComment = useEditedComment({ comment: post })
+  const { editLabel, post } = props;
+  const [isOpen, setIsOpen] = useState(false);
+  const editedComment = useEditedComment({ comment: post });
 
+  return (
+    <>
+      {editLabel ? (
+        <Label
+          onClick={() => setIsOpen(true)}
+          variant="outline"
+          colorScheme={editLabel?.color}
+          text={editLabel?.text}
+        />
+      ) : null}
 
-    return (
-        <>
+      {isOpen && <EditStatus isOpen={isOpen} setIsOpen={setIsOpen} post={editedComment} />}
+    </>
+  );
+};
 
-            {
-                editLabel ? (
-                    <Label
-                        onClick={ onOpen }
-
-                        variant='outline' colorScheme={ editLabel?.color } text={ editLabel?.text } />
-
-                ) : null
-            }
-            {
-
-            }
-            { isOpen && (
-                <EditStatus
-
-                    isOpen={ isOpen }
-                    onClose={ onClose }
-                    post={ editedComment }
-                />
-            ) }
-        </>
-    )
-}
-
-export default EditLabel
+export default EditLabel;

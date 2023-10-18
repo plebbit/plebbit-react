@@ -16,12 +16,10 @@ import { SideBarWrap } from '../../components/container/FeedContent';
 import styles from './subplebbit.module.css';
 import { MdOutlineMoreHoriz, MdOutlineShield } from 'react-icons/md';
 
-const SubplebbitSideBar = ({ subplebbit: subs }) => {
+const SubplebbitSideBar = ({ subPlebbit: subs }) => {
   const { subplebbitAddress } = useParams();
   const sub = useSubplebbit({ subplebbitAddress });
   const subPlebbit = { ...subs, sub };
-
-  console.log({ subs });
 
   return (
     <SideBarWrap>
