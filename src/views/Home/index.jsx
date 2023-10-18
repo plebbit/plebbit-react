@@ -12,6 +12,7 @@ import useStore from '../../store/useStore';
 import CreatePostBar from '../../components/CreatePost/createPostBar';
 import FeedContent from '../../components/container/FeedContent';
 import { useParams } from 'react-router-dom';
+import GetChallengesModal from '../../components/Modal/ChallengeModal';
 
 const Home = () => {
   const { postStyle, device, postView, homeAdd, subPlebbitData } = useStore((state) => state);

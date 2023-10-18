@@ -28,6 +28,7 @@ import { BsChevronDown, BsLink45Deg } from 'react-icons/bs';
 import { BiPoll } from 'react-icons/bi';
 import { AiOutlinePlus, AiOutlineTag } from 'react-icons/ai';
 import truncateString from '../../utils/truncateString';
+import logger from '../../utils/logger';
 
 const CreatePost = () => {
   const { accountSubplebbits } = useAccountSubplebbits();

@@ -19,7 +19,9 @@ import { MdOutlineMoreHoriz, MdOutlineShield } from 'react-icons/md';
 const SubplebbitSideBar = ({ subplebbit: subs }) => {
   const { subplebbitAddress } = useParams();
   const sub = useSubplebbit({ subplebbitAddress });
-  const subPlebbit = sub || subs;
+  const subPlebbit = { ...subs, sub };
+
+  console.log({ subs });
 
   return (
     <SideBarWrap>
@@ -205,7 +207,7 @@ export const SubModeratorSideBar = ({ subPlebbit }) => {
         <div className={styles.view_mods}>
           <Link
             to={
-              Object.keys(subPlebbit?.roles) && allowedSpecial
+              Object.keys(subPlebbit?.roles || {}) && allowedSpecial
                 ? `/p/${subplebbitAddress}/about/moderators`
                 : `/p/${subplebbitAddress}/moderators`
             }

@@ -8,8 +8,7 @@ import { AboutSubSideBar, SubModeratorSideBar, SubRulesSideBar } from '../SubPle
 const PostDetailSideBar = ({ subplebbit: subs }) => {
   const { subplebbitAddress } = useParams();
   const sub = useSubplebbit({ subplebbitAddress });
-  const subPlebbit = sub || subs;
-
+  const subPlebbit = { ...subs, ...sub };
   return (
     <SideBarWrap>
       <AboutSubSideBar subPlebbit={subPlebbit} />

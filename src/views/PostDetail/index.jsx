@@ -111,8 +111,10 @@ const PostDetail2 = () => {
   }
 
   const sub = useSubplebbit({ subplebbitAddress: detail?.subplebbitAddress });
-  const loading = detail?.state === 'fetching-ipfs' || !detail?.timestamp;
-  const commentLoading = detail?.state === 'fetching-ipfs' || !detail?.updatedAt;
+  const loading =
+    detail?.state === 'fetching-ipfs' || !detail?.timestamp || detail?.state === 'pending';
+  const commentLoading =
+    detail?.state === 'fetching-ipfs' || !detail?.updatedAt || detail?.state === 'pending';
   const detailPending = !detail?.cid;
   const subplebbit =
     sub === undefined ? { ...detail?.subplebbit, address: detail?.subplebbitAddress } : sub;
@@ -215,7 +217,9 @@ const PostDetail2 = () => {
     setCopied(true);
     setTimeout(() => setCopied(false), 3000);
   };
-  const isSpecial = Object.keys(accountSubplebbits || {})?.includes(detail?.subplebbitAddress);
+  const isSpecial =
+    Object.keys(accountSubplebbits)?.length &&
+    Object.keys(accountSubplebbits || {})?.includes(detail?.subplebbitAddress);
 
   useEffect(() => {
     if (feedFromProfile && comment?.cid) {
@@ -251,6 +255,8 @@ const PostDetail2 = () => {
   useEffect(() => {
     detail = editedComment;
   }, [editedComment]);
+
+  console.log({ stateString, detail });
 
   return (
     <Layout
@@ -314,7 +320,7 @@ const PostDetail2 = () => {
                       </div>
                       <div className={styles.detail_top_tags_wrap}>
                         <div className={styles.detail_top_flair_cont}>
-                          {detail?.flair?.text.length ? <FlairLabel flair={detail?.flair} /> : ''}
+                          {detail?.flair?.text?.length ? <FlairLabel flair={detail?.flair} /> : ''}
                           {detail?.spoiler && <SpoilerLabel />}
                           {detailPending && <PendingLabel />}
                           {/* edit status */}
@@ -377,13 +383,13 @@ const PostDetail2 = () => {
                                 </div>
                               </div>
                               {/* detail flair */}
-                              {(detail?.flair?.text.length ||
+                              {(detail?.flair?.text?.length ||
                                 detail?.spoiler ||
                                 detailPending ||
                                 editLabel) && (
                                 <div className={styles.detail_flair_wrap}>
                                   <div className={styles.detail_flair_wrap2}>
-                                    {detail?.flair?.text.length ? (
+                                    {detail?.flair?.text?.length ? (
                                       <FlairLabel flair={detail?.flair} />
                                     ) : (
                                       ''
