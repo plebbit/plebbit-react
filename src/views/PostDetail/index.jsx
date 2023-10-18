@@ -742,7 +742,9 @@ const PostDetail2 = () => {
                           avatar={subplebbit?.suggested?.avatarUrl}
                           badge
                           isOnline={getIsOnline(subplebbit?.updatedAt)}
-                          mb="8px"
+                          style={{
+                            marginBottom: '8px',
+                          }}
                         />
                       </div>
                       <h4 className={styles.mobile_detail_sub_text}>{getSubName(subplebbit)}</h4>

@@ -120,7 +120,13 @@ const About = () => {
               width="100%"
               zIndex="30"
             >
-              <Avatar width={20} height={20} mr="8px" />
+              <Avatar
+                width={20}
+                height={20}
+                style={{
+                  marginRight: '8px',
+                }}
+              />
 
               <Link to={`/p/${subPlebbit?.address}/`}>
                 <Flex alignItems="center" color={linkColor} mr="4px">
@@ -183,7 +189,13 @@ const About = () => {
               />
               <Avatar width={20} height={20} mr="8px" />
               <Link to={`/p/${subPlebbit?.address}/`}>
-                <Flex alignItems="center" color={linkColor} mr="4px">
+                <Flex
+                  alignItems="center"
+                  color={linkColor}
+                  style={{
+                    marginRight: '4px',
+                  }}
+                >
                   {subPlebbit?.title || getAddress(subPlebbit?.address)} {'  '}
                   <Box color={mainColor}>
                     /{' '}

@@ -35,7 +35,7 @@ export const NavSearch = () => {
               avatar={data?.avatar}
               width={24}
               height={24}
-              sx={{
+              style={{
                 marginRight: '8px',
               }}
               badge={data !== undefined ? true : false}

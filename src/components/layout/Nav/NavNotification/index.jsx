@@ -220,7 +220,7 @@ export const NotificationType = ({ notification, handleReadAll }) => {
               }}
             >
               <Box mr="8px">
-                <Avatar height={32} width={32} avatar="" />
+                <Avatar height={32} width={32} />
               </Box>
               <Flex flexDirection="column" width="100%">
                 <Flex w="100%" mb="4px">
@@ -269,7 +269,7 @@ export const NotificationType = ({ notification, handleReadAll }) => {
               }}
             >
               <Box mr="8px">
-                <Avatar height={32} width={32} avatar="" />
+                <Avatar height={32} width={32} />
               </Box>
               <Flex flexDirection="column" width="100%">
                 <Flex w="100%" mb="4px">

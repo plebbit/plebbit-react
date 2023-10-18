@@ -68,7 +68,13 @@ const UserManagement = ({
               <div className={styles.table_row}>
                 <div className={styles.user}>
                   <Link>
-                    <Avatar width={32} height={32} mr="6px" />
+                    <Avatar
+                      width={32}
+                      height={32}
+                      style={{
+                        marginRight: '6px',
+                      }}
+                    />
                     <span className={styles.user_detail}>
                       <span>{getAddress(user)}</span>
                     </span>

@@ -82,7 +82,14 @@ const SideBar = () => {
             Object?.values(accountSubplebbits)?.map((item, index) => (
               <div key={index} className={styles.pms_bottom_item}>
                 <div className={styles.pms_bottom_item2}>
-                  <Avatar width={32} height={32} mr="8px" avatar={item?.suggested?.avatarUrl} />
+                  <Avatar
+                    width={32}
+                    height={32}
+                    style={{
+                      marginRight: '8px',
+                    }}
+                    avatar={item?.suggested?.avatarUrl}
+                  />
                   <div className={styles.pms_bottom_item_sub}>
                     <div className={styles.pms_bottom_item_sub2}>
                       <Link to={`/p/${item?.address}`}>{getSubName(item)}</Link>

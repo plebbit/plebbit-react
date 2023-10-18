@@ -50,9 +50,11 @@ const CommunitySettings = ({ match }) => {
   const [data, setData] = useState({ ...subplebbit });
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const { resolvedAddress: resolvedAuthorAddress } = useResolvedSubplebbitAddress({ subplebbitAddress: data ? data?.address : '' });
-  const { accountSubplebbits } = useAccountSubplebbits()
-  const { device } = useStore(state => state)
+  const { resolvedAddress: resolvedAuthorAddress } = useResolvedSubplebbitAddress({
+    subplebbitAddress: data ? data?.address : '',
+  });
+  const { accountSubplebbits } = useAccountSubplebbits();
+  const { device } = useStore((state) => state);
   const [showSidebar, setShowSideBar] = useState(false);
 
   const onChallengeVerification = (challengeVerification, subplebbitEdit) => {
@@ -98,10 +100,9 @@ const CommunitySettings = ({ match }) => {
     onChallenge,
     onChallengeVerification,
   };
-  const { publishSubplebbitEdit } = usePublishSubplebbitEdit(editSubplebbitOptions)
+  const { publishSubplebbitEdit } = usePublishSubplebbitEdit(editSubplebbitOptions);
 
   const handleSaveChanges = async () => {
-
     try {
       setLoading(true);
       await publishSubplebbitEdit();
@@ -127,14 +128,14 @@ const CommunitySettings = ({ match }) => {
 
   return (
     <Layout
-      name={ {
+      name={{
         label: subplebbit?.title || getAddress(subplebbit?.address),
         value: location?.pathname,
-      } }
+      }}
     >
       <>
-        { device !== 'mobile' ? (
-          <Flex bg={ layoutBg } flexDir="column" color={ mainColor } minH="100vh" overflowX="auto">
+        {device !== 'mobile' ? (
+          <Flex bg={layoutBg} flexDir="column" color={mainColor} minH="100vh" overflowX="auto">
             <Flex
               fontSize="12px"
               fontWeight="700"
@@ -142,31 +143,37 @@ const CommunitySettings = ({ match }) => {
               textTransform="uppercase"
               lineHeight="24px"
               alignItems="center"
-              bg={ mainBg }
+              bg={mainBg}
               height="40px"
               paddingLeft="24px"
               position="fixed"
               width="100%"
               zIndex="30"
             >
-              <Avatar width={ 20 } height={ 20 } mr="8px" />
-              <Link to={ `/p/${data?.address}/` }>
-                <Flex alignItems="center" color={ linkColor } mr="4px">
-                  { subplebbit?.title || getAddress(subplebbit?.address) } { '  ' }
-                  <Box color={ mainColor } textTransform="uppercase">
+              <Avatar
+                width={20}
+                height={20}
+                style={{
+                  marginRight: '8px',
+                }}
+              />
+              <Link to={`/p/${data?.address}/`}>
+                <Flex alignItems="center" color={linkColor} mr="4px">
+                  {subplebbit?.title || getAddress(subplebbit?.address)} {'  '}
+                  <Box color={mainColor} textTransform="uppercase">
                     / community settings
                   </Box>
                 </Flex>
               </Link>
             </Flex>
             <Flex margin="40px 0">
-              {/* sideBar */ }
-              <SideBar device={ device } page={ page } />
-              {/*Body */ }
+              {/* sideBar */}
+              <SideBar device={device} page={page} />
+              {/*Body */}
               <Box paddingLeft="280px" boxSizing="border-box" width="100%">
                 <Flex
                   alignItems="center"
-                  background={ border1 }
+                  background={border1}
                   height="48px"
                   justifyContent="flex-end"
                   left="280px"
@@ -188,9 +195,9 @@ const CommunitySettings = ({ match }) => {
                     borderRadius="999px"
                     padding="4px 16px"
                     height="32px"
-                    onClick={ handleSaveChanges }
-                    isLoading={ loading }
-                    disabled={ !allowedSpecial }
+                    onClick={handleSaveChanges}
+                    isLoading={loading}
+                    disabled={!allowedSpecial}
                   >
                     Save changes
                   </Button>
@@ -202,13 +209,13 @@ const CommunitySettings = ({ match }) => {
                   borderRadius="0 0 4px 4px"
                   overflow="hidden"
                 >
-                  { page === 'community' && (
-                    <Box bg={ mainBg } borderRadius="4px" maxW="856px" padding="16px 24px">
+                  {page === 'community' && (
+                    <Box bg={mainBg} borderRadius="4px" maxW="856px" padding="16px 24px">
                       <Box
                         fontSize="18px"
                         fontWeight="500"
                         lineHeight="22px"
-                        color={ mainColor }
+                        color={mainColor}
                         mb="16px"
                       >
                         Community settings
@@ -218,8 +225,8 @@ const CommunitySettings = ({ match }) => {
                         fontWeight="700"
                         lineHeight="12px"
                         letterSpacing=".5px"
-                        color={ metaColor }
-                        borderBottom={ `1px solid ${border1}` }
+                        color={metaColor}
+                        borderBottom={`1px solid ${border1}`}
                         mb="32px"
                         paddingBottom="6px"
                       >
@@ -230,7 +237,7 @@ const CommunitySettings = ({ match }) => {
                           fontSize="16px"
                           fontWeight="500"
                           lineHeight="20px"
-                          color={ mainColor }
+                          color={mainColor}
                           mb="4px"
                         >
                           Community name
@@ -246,25 +253,25 @@ const CommunitySettings = ({ match }) => {
                             fontSize="14px"
                             fontWeight="400"
                             lineHeight="21px"
-                            value={ data?.title }
-                            bg={ mainBg }
-                            border={ `1px solid ${border1}` }
-                            borderColor={ border1 }
+                            value={data?.title}
+                            bg={mainBg}
+                            border={`1px solid ${border1}`}
+                            borderColor={border1}
                             height="48px"
                             mb="8px"
                             borderRadius="4px"
                             padding="12px 24px 4px 12px"
-                            disabled={ loading }
-                            onChange={ (e) => setData({ ...data, title: e.target.value }) }
+                            disabled={loading}
+                            onChange={(e) => setData({ ...data, title: e.target.value })}
                           />
                           <Box
-                            color={ metaColor }
+                            color={metaColor}
                             pt="4px"
                             fontSize="12px"
                             fontWeight="400"
                             lineHeight="16px"
                           >
-                            {/* 94 Characters remaining */ }
+                            {/* 94 Characters remaining */}
                           </Box>
                         </Flex>
                       </Flex>
@@ -273,7 +280,7 @@ const CommunitySettings = ({ match }) => {
                           fontSize="16px"
                           fontWeight="500"
                           lineHeight="20px"
-                          color={ mainColor }
+                          color={mainColor}
                           mb="4px"
                         >
                           Community address
@@ -290,56 +297,56 @@ const CommunitySettings = ({ match }) => {
                               fontSize="14px"
                               fontWeight="400"
                               lineHeight="21px"
-                              value={ data?.address }
-                              bg={ mainBg }
-                              border={ `1px solid ${border1}` }
-                              borderColor={ border1 }
+                              value={data?.address}
+                              bg={mainBg}
+                              border={`1px solid ${border1}`}
+                              borderColor={border1}
                               height="48px"
                               mb="8px"
                               borderRadius="4px"
                               padding="12px 24px 4px 12px"
-                              disabled={ loading || !allowedSpecial }
-                              onChange={ (e) => setData({ ...data, address: e.target.value }) }
+                              disabled={loading || !allowedSpecial}
+                              onChange={(e) => setData({ ...data, address: e.target.value })}
                             />
                           </InputGroup>
-                          { resolvedAuthorAddress !== data?.signer?.address ? (
+                          {resolvedAuthorAddress !== data?.signer?.address ? (
                             <Box
-                              color={ metaColor }
+                              color={metaColor}
                               pt="4px"
                               fontSize="12px"
                               fontWeight="400"
                               lineHeight="16px"
                             >
-                              { data?.address } { '' }
+                              {data?.address} {''}
                               has not been acquired by you yet !!!
                             </Box>
                           ) : (
                             <Box
-                              color={ metaColor }
+                              color={metaColor}
                               pt="4px"
                               fontSize="12px"
                               fontWeight="400"
                               lineHeight="16px"
                             >
-                              {/* 94 Characters remaining */ }
+                              {/* 94 Characters remaining */}
                             </Box>
-                          ) }
-                          <UnorderedList mt={ 3 }>
-                            <ListItem fontSize={ 12 }>
-                              Go to{ ' ' }
+                          )}
+                          <UnorderedList mt={3}>
+                            <ListItem fontSize={12}>
+                              Go to{' '}
                               <Lk
-                                color={ linkColor }
-                                href={ `https://app.ens.domains/name/${data?.address}` }
+                                color={linkColor}
+                                href={`https://app.ens.domains/name/${data?.address}`}
                                 isExternal
                               >
-                                { ' ' }
-                                https://app.ens.domains/name/{ data?.address }
+                                {' '}
+                                https://app.ens.domains/name/{data?.address}
                               </Lk>
                             </ListItem>
-                            <ListItem fontSize={ 12 }>Click ADD/EDIT RECORD</ListItem>
-                            <ListItem fontSize={ 12 }>
+                            <ListItem fontSize={12}>Click ADD/EDIT RECORD</ListItem>
+                            <ListItem fontSize={12}>
                               Select "text", write in "key": "subplebbit-address", write in next
-                              field: { data?.signer?.address }
+                              field: {data?.signer?.address}
                             </ListItem>
                           </UnorderedList>
                         </Flex>
@@ -350,12 +357,12 @@ const CommunitySettings = ({ match }) => {
                             fontSize="16px"
                             fontWeight="500"
                             lineHeight="20px"
-                            color={ mainColor }
+                            color={mainColor}
                             mb="4px"
                           >
                             Community topics
                           </Box>
-                          <Box color={ metaColor } fontSize="12px" fontWeight="400" lineHeight="16px">
+                          <Box color={metaColor} fontSize="12px" fontWeight="400" lineHeight="16px">
                             This will help plebbit recommend your community to relevant users and
                             other discovery experiences.
                           </Box>
@@ -391,12 +398,12 @@ const CommunitySettings = ({ match }) => {
                             fontSize="16px"
                             fontWeight="500"
                             lineHeight="20px"
-                            color={ mainColor }
+                            color={mainColor}
                             mb="4px"
                           >
                             Community description
                           </Box>
-                          <Box color={ metaColor } fontSize="12px" fontWeight="400" lineHeight="16px">
+                          <Box color={metaColor} fontSize="12px" fontWeight="400" lineHeight="16px">
                             This is how new members come to understand your community.
                           </Box>
                         </Flex>
@@ -411,26 +418,26 @@ const CommunitySettings = ({ match }) => {
                             fontSize="14px"
                             fontWeight="400"
                             lineHeight="21px"
-                            value={ data?.description }
-                            bg={ mainBg }
-                            border={ `1px solid ${border1}` }
-                            borderColor={ border1 }
+                            value={data?.description}
+                            bg={mainBg}
+                            border={`1px solid ${border1}`}
+                            borderColor={border1}
                             height="48px"
                             mb="0"
                             borderRadius="4px"
                             padding="8px"
                             resize="both"
-                            disabled={ loading || !allowedSpecial }
-                            onChange={ (e) => setData({ ...data, description: e.target.value }) }
+                            disabled={loading || !allowedSpecial}
+                            onChange={(e) => setData({ ...data, description: e.target.value })}
                           />
                           <Box
-                            color={ metaColor }
+                            color={metaColor}
                             pt="4px"
                             fontSize="12px"
                             fontWeight="400"
                             lineHeight="16px"
                           >
-                            {/* 500 Characters remaining */ }
+                            {/* 500 Characters remaining */}
                           </Box>
                         </Flex>
                       </Flex>
@@ -439,8 +446,8 @@ const CommunitySettings = ({ match }) => {
                         fontWeight="700"
                         lineHeight="12px"
                         letterSpacing=".5px"
-                        color={ metaColor }
-                        borderBottom={ `1px solid ${border1}` }
+                        color={metaColor}
+                        borderBottom={`1px solid ${border1}`}
                         mb="32px"
                         paddingBottom="6px"
                       >
@@ -451,7 +458,7 @@ const CommunitySettings = ({ match }) => {
                           fontSize="16px"
                           fontWeight="500"
                           lineHeight="20px"
-                          color={ mainColor }
+                          color={mainColor}
                           mb="4px"
                         >
                           Type of Community
@@ -463,11 +470,11 @@ const CommunitySettings = ({ match }) => {
                                 <Flex alignItems="center">
                                   <Box>
                                     <Icon
-                                      as={ FaUser }
+                                      as={FaUser}
                                       width="16px"
                                       height="16px"
                                       margin="0 4px"
-                                      color={ iconColor }
+                                      color={iconColor}
                                     />
                                   </Box>
 
@@ -483,11 +490,11 @@ const CommunitySettings = ({ match }) => {
                                 <Flex alignItems="center">
                                   <Box>
                                     <Icon
-                                      as={ FaLock }
+                                      as={FaLock}
                                       width="16px"
                                       height="16px"
                                       margin="0 4px"
-                                      color={ iconColor }
+                                      color={iconColor}
                                     />
                                   </Box>
                                   <Box fontWeight="500" lineHeight="18px" fontSize="14px">
@@ -502,11 +509,11 @@ const CommunitySettings = ({ match }) => {
                                 <Flex alignItems="center">
                                   <Box>
                                     <Icon
-                                      as={ FaEye }
+                                      as={FaEye}
                                       width="16px"
                                       height="16px"
                                       margin="0 4px"
-                                      color={ iconColor }
+                                      color={iconColor}
                                     />
                                   </Box>
                                   <Box fontWeight="500" lineHeight="18px" fontSize="14px">
@@ -529,7 +536,7 @@ const CommunitySettings = ({ match }) => {
                               fontWeight="500"
                               lineHeight="20px"
                               mb="4px"
-                              color={ mainColor }
+                              color={mainColor}
                             >
                               18+ year old community
                             </Box>
@@ -545,7 +552,7 @@ const CommunitySettings = ({ match }) => {
                               NSFW
                             </Box>
                           </Flex>
-                          <Box color={ metaColor } fontSize="12px" fontWeight="400" lineHeight="16px">
+                          <Box color={metaColor} fontSize="12px" fontWeight="400" lineHeight="16px">
                             When your community is marked as an 18+ community, users must be flagged
                             as 18+ in their user settings
                           </Box>
@@ -555,27 +562,27 @@ const CommunitySettings = ({ match }) => {
                         </Flex>
                       </Flex>
                     </Box>
-                  ) }
+                  )}
                 </Box>
               </Box>
             </Flex>
           </Flex>
         ) : (
           <MobileView
-            setShowSideBar={ setShowSideBar }
-            showSidebar={ showSidebar }
-            data={ data }
-            subplebbit={ subplebbit }
-            page={ page }
-            handleSaveChanges={ handleSaveChanges }
-            setData={ setData }
-            loading={ loading }
-            role={ role }
-            allowedSpecial={ allowedSpecial }
-            resolvedAuthorAddress={ resolvedAuthorAddress }
-            device={ device }
+            setShowSideBar={setShowSideBar}
+            showSidebar={showSidebar}
+            data={data}
+            subplebbit={subplebbit}
+            page={page}
+            handleSaveChanges={handleSaveChanges}
+            setData={setData}
+            loading={loading}
+            role={role}
+            allowedSpecial={allowedSpecial}
+            resolvedAuthorAddress={resolvedAuthorAddress}
+            device={device}
           />
-        ) }
+        )}
       </>
     </Layout>
   );

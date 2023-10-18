@@ -105,7 +105,9 @@ export const AboutSubSideBar = ({ subPlebbit, hideSub }) => {
               height={54}
               badge
               isOnline={getIsOnline(subPlebbit?.updatedAt)}
-              mr="8px"
+              style={{
+                marginRight: '8px',
+              }}
             />
             <div className={styles.pd_top_subname}>
               <Link to={`/p/${subplebbitAddress}/`}>{getSubName(subPlebbit)}</Link>
@@ -203,7 +205,7 @@ export const SubModeratorSideBar = ({ subPlebbit }) => {
         <div className={styles.view_mods}>
           <Link
             to={
-              subPlebbit?.roles && allowedSpecial
+              Object.keys(subPlebbit?.roles) && allowedSpecial
                 ? `/p/${subplebbitAddress}/about/moderators`
                 : `/p/${subplebbitAddress}/moderators`
             }
@@ -236,7 +238,7 @@ export const SubRulesSideBar = ({ subPlebbit }) => {
           <h2 className={styles.pd_top_banner_title}>{getSubName(subPlebbit)}</h2>
         </div>
         {subPlebbit?.rules &&
-          subPlebbit?.roles?.map((item, index) => (
+          subPlebbit?.rules?.map((item, index) => (
             <div className={styles.side_top_communities_link2}>
               <span className={styles.sn}>{index + 1}</span>
 

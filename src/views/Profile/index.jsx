@@ -118,7 +118,7 @@ const Profile = () => {
                     avatar={authorAvatarImageUrl}
                     height={64}
                     width={64}
-                    sx={{
+                    style={{
                       margin: 'auto',
                     }}
                   />

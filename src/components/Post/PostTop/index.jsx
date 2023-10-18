@@ -52,10 +52,12 @@ const PostTop = ({
                   avatar={subPlebbit?.suggested?.avatarUrl}
                   width={24}
                   height={24}
-                  mr="8px"
                   badge
                   isOnline={isOnline}
-                  mb="5px"
+                  style={{
+                    marginRight: '8px',
+                    marginBottom: '5px',
+                  }}
                 />
               </Link>
             </div>

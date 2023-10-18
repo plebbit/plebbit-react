@@ -11,7 +11,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 // import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Image from "../Image"
+import Image from '../Image';
 
 import {
   // BsBookmark,
@@ -47,11 +47,11 @@ import {
 import { VscLinkExternal } from 'react-icons/vsc';
 import { AiOutlineYoutube } from 'react-icons/ai';
 import PostMedia from './PostMedia';
-import Label from '../Label'
-import EditLabel from "../Label/editLabel";
-import PendingLabel from "../Label/pendingLabel";
-import SpoilerLabel from "../Label/spoilerLabel";
-import FlairLabel from "../Label/flairLabel";
+import Label from '../Label';
+import EditLabel from '../Label/editLabel';
+import PendingLabel from '../Label/pendingLabel';
+import SpoilerLabel from '../Label/spoilerLabel';
+import FlairLabel from '../Label/flairLabel';
 import StateString from '../Label/stateString';
 import { GoMute } from 'react-icons/go';
 
@@ -83,7 +83,7 @@ const CompactPost = ({
   authorPath,
   stateString,
   blocked,
-  muted
+  muted,
 }) => {
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const subPlebbitSubTitle = useColorModeValue('metaTextLight', 'metaTextDark');
@@ -106,17 +106,17 @@ const CompactPost = ({
 
   return (
     <Box
-      color={ iconColor }
-      fill={ iconColor }
+      color={iconColor}
+      fill={iconColor}
       cursor="pointer"
       maxW="100%"
-      bg={ postTransBg }
+      bg={postTransBg}
       position="relative"
-      border={ `thin solid transparent` }
-      _hover={ { border: '1px solid #898989' } }
+      border={`thin solid transparent`}
+      _hover={{ border: '1px solid #898989' }}
     >
       <Flex alignItems="normal">
-        {/* vote Bar */ }
+        {/* vote Bar */}
         <Flex>
           <Flex
             borderColor="transparent"
@@ -132,40 +132,40 @@ const CompactPost = ({
                 bg="transparent"
                 border="none"
                 color="inherit"
-                cursor={ post?.locked ? 'not-allowed' : "pointer" }
+                cursor={post?.locked ? 'not-allowed' : 'pointer'}
                 padding="initial"
                 textAlign="center"
               >
                 <Box
                   borderRadius="2px"
-                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
+                  cursor={post?.locked ? 'not-allowed' : 'pointer'}
                   display="inline-block"
                   overflow="hidden"
                   h="24px"
                   w="24px"
                   fontSize="16px"
                   lineHeight="24px"
-                  _hover={ {
+                  _hover={{
                     bg: iconBg,
                     color: 'upvoteOrange',
-                  } }
-                  _focus={ {
+                  }}
+                  _focus={{
                     outline: 'none',
-                  } }
-                  onClick={ upVote }
-                  color={ vote === 1 ? 'upvoteOrange' : iconColor }
+                  }}
+                  onClick={upVote}
+                  color={vote === 1 ? 'upvoteOrange' : iconColor}
                 >
                   <Icon
                     width="20px"
                     height="20px"
                     fontSize="20px"
                     fontWeight="400"
-                    as={ vote === 1 ? ImArrowUp : BiUpvote }
+                    as={vote === 1 ? ImArrowUp : BiUpvote}
                   />
                 </Box>
               </Box>
               <Box
-                color={ voteColor }
+                color={voteColor}
                 margin="0 1px"
                 fontSize="12px"
                 fontWeight="700"
@@ -175,8 +175,8 @@ const CompactPost = ({
                 textAlign="center"
                 width="32px"
               >
-                <Skeleton isLoaded={ !loading }>
-                  { postVotes === 0 ? 'vote' : numFormatter(postVotes) }
+                <Skeleton isLoaded={!loading}>
+                  {postVotes === 0 ? 'vote' : numFormatter(postVotes)}
                 </Skeleton>
               </Box>
               <Box
@@ -186,34 +186,34 @@ const CompactPost = ({
                 bg="transparent"
                 border="none"
                 color="inherit"
-                cursor={ post?.locked ? 'not-allowed' : "pointer" }
+                cursor={post?.locked ? 'not-allowed' : 'pointer'}
                 padding="initial"
               >
                 <Box
                   borderRadius="2px"
-                  cursor={ post?.locked ? 'not-allowed' : "pointer" }
-                  color={ vote === -1 ? 'downvoteBlue' : iconColor }
+                  cursor={post?.locked ? 'not-allowed' : 'pointer'}
+                  color={vote === -1 ? 'downvoteBlue' : iconColor}
                   display="inline-block"
                   overflow="hidden"
                   h="24px"
                   w="24px"
                   fontSize="16px"
                   lineHeight="24px"
-                  _hover={ {
+                  _hover={{
                     bg: iconBg,
                     color: 'downvoteBlue',
-                  } }
-                  _focus={ {
+                  }}
+                  _focus={{
                     outline: 'none',
-                  } }
-                  onClick={ downVote }
+                  }}
+                  onClick={downVote}
                 >
                   <Icon
                     width="20px"
                     height="20px"
                     fontSize="20px"
                     fontWeight="400"
-                    as={ vote === -1 ? ImArrowDown : BiDownvote }
+                    as={vote === -1 ? ImArrowDown : BiDownvote}
                   />
                 </Box>
               </Box>
@@ -221,37 +221,36 @@ const CompactPost = ({
           </Flex>
         </Flex>
         <Box
-          bg={ mainBg }
-          borderLeft={ `1px solid ${border2}` }
+          bg={mainBg}
+          borderLeft={`1px solid ${border2}`}
           flex="1 1 auto"
           minW="0"
           padding="3px 0"
           position="relative"
         >
           <Flex alignItems="center">
-
-            { !hasThumbnail && (
+            {!hasThumbnail && (
               <Link
                 display="flex"
                 flex="0 0 36px"
                 margin="0 8px"
                 alignSelf="center"
                 alignItems="center"
-                borderRadius={ loading ? '50%' : "2px" }
+                borderRadius={loading ? '50%' : '2px'}
                 justifyContent="center"
                 height="36px"
                 width="36px"
-                _hover={ {
+                _hover={{
                   bg: iconBg,
-                } }
-                as={ loading && SkeletonCircle }
-                onClick={ () => setShowContent(!showContent) }
-                onMouseEnter={ () => setShowExpand(true) }
-                onMouseLeave={ () => setShowExpand(false) }
+                }}
+                as={loading && SkeletonCircle}
+                onClick={() => setShowContent(!showContent)}
+                onMouseEnter={() => setShowExpand(true)}
+                onMouseLeave={() => setShowExpand(false)}
               >
-                { showExpand ? (
+                {showExpand ? (
                   <Icon
-                    as={ showContent ? CgCompressLeft : CgArrowsExpandLeft }
+                    as={showContent ? CgCompressLeft : CgArrowsExpandLeft}
                     position="absolute"
                     width="20px"
                     height="20px"
@@ -259,7 +258,7 @@ const CompactPost = ({
                   />
                 ) : showContent ? (
                   <Icon
-                    as={ CgCompressLeft }
+                    as={CgCompressLeft}
                     position="absolute"
                     width="20px"
                     height="20px"
@@ -267,89 +266,98 @@ const CompactPost = ({
                   />
                 ) : (
                   <>
-                    { post?.content && (
+                    {post?.content && (
                       <Icon
-                        as={ BsFileText }
+                        as={BsFileText}
                         position="absolute"
                         width="20px"
                         height="20px"
                         verticalAlign="middle"
                       />
-                    ) }
+                    )}
 
-                    { mediaInfo?.type === 'image' && (
+                    {mediaInfo?.type === 'image' && (
                       <Icon
-                        as={ CgImage }
+                        as={CgImage}
                         position="absolute"
                         width="20px"
                         height="20px"
                         verticalAlign="middle"
                       />
-                    ) }
-                    { mediaInfo?.type === 'video' && (
+                    )}
+                    {mediaInfo?.type === 'video' && (
                       <Icon
-                        as={ AiOutlineYoutube }
+                        as={AiOutlineYoutube}
                         position="absolute"
                         width="20px"
                         height="20px"
                         verticalAlign="middle"
                       />
-                    ) }
-                    { mediaInfo?.type === 'audio' && (
+                    )}
+                    {mediaInfo?.type === 'audio' && (
                       <Icon
-                        as={ MdOutlineAudiotrack }
+                        as={MdOutlineAudiotrack}
                         position="absolute"
                         width="20px"
                         height="20px"
                         verticalAlign="middle"
                       />
-                    ) }
+                    )}
                   </>
-                ) }
+                )}
               </Link>
-            ) }
+            )}
 
-            { hasThumbnail && (
+            {hasThumbnail && (
               <Box
                 display="flex"
                 flex="0 0 36px"
                 margin="0 8px"
                 alignSelf="center"
                 alignItems="center"
-                borderRadius={ loading ? '50%' : "2px" }
+                borderRadius={loading ? '50%' : '2px'}
                 justifyContent="center"
                 height="36px"
                 width="36px"
-                _hover={ {
+                _hover={{
                   bg: iconBg,
-                } }
-                as={ loading && SkeletonCircle }
+                }}
+                as={loading && SkeletonCircle}
               >
                 <Icon
-                  as={ VscLinkExternal }
+                  as={VscLinkExternal}
                   position="absolute"
                   width="20px"
                   height="20px"
                   verticalAlign="middle"
                 />
               </Box>
-            ) }
+            )}
 
+            <Box
+              as={loading && Skeleton}
+              w={loading && '50%'}
+              h={loading && '20px'}
+              mr={loading && '8px'}
+              flex={!loading && '1 1 100%'}
+              mt="2px"
+              minW="150px"
+              overflow="hidden"
+              wordWrap="break-word"
+            >
+              {/* post title */}
 
-            <Box as={ loading && Skeleton } w={ loading && '50%' } h={ loading && '20px' } mr={ loading && '8px' } flex={ !loading && "1 1 100%" } mt="2px" minW="150px" overflow="hidden" wordWrap="break-word">
-              {/* post title */ }
-
-              <Box margin="0 8px" as={ Link } to={ detailRoute }>
-                { ' ' }
-                {/* flair */ }
-                { type === 'subPlebbit' && post?.flair?.text ? (
-                  <FlairLabel flair={ post?.flair } />
+              <Box margin="0 8px" as={Link} to={detailRoute}>
+                {' '}
+                {/* flair */}
+                {type === 'subPlebbit' && post?.flair?.text ? (
+                  <FlairLabel flair={post?.flair} />
                 ) : (
                   ''
-                ) }
+                )}
                 <Text
                   display="inline"
-                  color={ inactiveSubTitle }
+                  color={inactiveSubTitle}
                   fontSize="14px"
                   fontWeight="500"
                   lineHeight="18px"
@@ -358,20 +366,20 @@ const CompactPost = ({
                   wordBreak="break-word"
                   mb="4px"
                 >
-                  { post?.title }
-                  { hasThumbnail ? (
+                  {post?.title}
+                  {hasThumbnail ? (
                     <Link
                       fontSize="12px"
                       fontWeight="400"
                       lineHeight="16px"
                       margin="4px 8px"
                       color="mainBlue"
-                      href={ post?.link }
+                      href={post?.link}
                       isExternal
                     >
-                      <span>{ post?.link.substring(0, 20) + '...' }</span>
+                      <span>{post?.link.substring(0, 20) + '...'}</span>
                       <Icon
-                        as={ FiExternalLink }
+                        as={FiExternalLink}
                         verticalAlign="middle"
                         fontWeight="400"
                         width="20px"
@@ -382,27 +390,19 @@ const CompactPost = ({
                     </Link>
                   ) : (
                     ''
-                  ) }
+                  )}
                 </Text>
-                { type !== 'subPlebbit' && post?.flair?.text ? (
-                  <FlairLabel flair={ post?.flair } />
+                {type !== 'subPlebbit' && post?.flair?.text ? (
+                  <FlairLabel flair={post?.flair} />
                 ) : (
                   ''
-                ) }
-                { post?.spoiler && (
-                  <SpoilerLabel />
-                ) }
-                { pending && (
-
-                  <PendingLabel />
-
-                ) }
-                {/* edit status */ }
-                <EditLabel editLabel={ editLabel } post={ post } />
-
-
+                )}
+                {post?.spoiler && <SpoilerLabel />}
+                {pending && <PendingLabel />}
+                {/* edit status */}
+                <EditLabel editLabel={editLabel} post={post} />
               </Box>
-              {/* Post head */ }
+              {/* Post head */}
               <Flex
                 fontSize="12px"
                 fontWeight="400"
@@ -410,11 +410,8 @@ const CompactPost = ({
                 flexFlow="row nowrap"
                 alignItems="start"
                 margin="0 8px 8px"
-
                 position="relative"
-
               >
-
                 <Flex alignItems="center" flexWrap="wrap" flex="1 1 auto" overflow="hidden">
                   <Flex
                     fontSize="12px"
@@ -423,30 +420,32 @@ const CompactPost = ({
                     alignItems="center"
                     flexFlow="row wrap"
                   >
-                    { type !== 'subPlebbit' ? (
+                    {type !== 'subPlebbit' ? (
                       <>
                         <Avatar
-                          avatar={ subPlebbit?.suggested?.avatarUrl }
-                          width={ 24 }
-                          height={ 24 }
-                          mr="8px"
+                          avatar={subPlebbit?.suggested?.avatarUrl}
+                          width={24}
+                          height={24}
+                          style={{
+                            marginRight: '8px',
+                          }}
                           badge
-                          isOnline={ isOnline }
+                          isOnline={isOnline}
                         />
                         <Link
-                          color={ subPledditTextColor }
+                          color={subPledditTextColor}
                           fontSize="12px"
                           fontWeight="700"
                           display="inline"
                           lineHeight="20px"
                           textDecoration="none"
-                          to={ `/p/${post?.subplebbitAddress}/` }
+                          to={`/p/${post?.subplebbitAddress}/`}
                         >
-                          { getSubName(subPlebbit) }
+                          {getSubName(subPlebbit)}
                         </Link>
                         <Box
                           verticalAlign="middle"
-                          color={ subPlebbitSubTitle }
+                          color={subPlebbitSubTitle}
                           fontSize="6px"
                           lineHeight="20px"
                           margin="0 4px"
@@ -454,8 +453,8 @@ const CompactPost = ({
                       </>
                     ) : (
                       <Link
-                        to={ `/p/${post?.subplebbitAddress}/` }
-                        color={ subPledditTextColor }
+                        to={`/p/${post?.subplebbitAddress}/`}
+                        color={subPledditTextColor}
                         fontSize="12px"
                         fontWeight="700"
                         display="inline"
@@ -463,36 +462,36 @@ const CompactPost = ({
                         textDecoration="none"
                         mr="3px"
                       >
-                        { getSubName(subPlebbit) }{ ' ' }
+                        {getSubName(subPlebbit)}{' '}
                       </Link>
-                    ) }
-                    <Text color={ misCol } flex="0 0 auto" mr="3px">
+                    )}
+                    <Text color={misCol} flex="0 0 auto" mr="3px">
                       Posted by
                     </Text>
-                    {/* User Name */ }
+                    {/* User Name */}
                     <Box display="inline-block" flex="0 0 auto">
                       <Box>
                         <Link
-                          _hover={ {
+                          _hover={{
                             textDecoration: 'underline',
-                          } }
-                          color={ misCol }
+                          }}
+                          color={misCol}
                           fontWeight="400"
                           mr="3px"
                           textDecor="none"
                           fontSize="12px"
                           lineHeight="16px"
-                          to={ authorPath }
+                          to={authorPath}
                         >
-                          { getUserName(post?.author) }
+                          {getUserName(post?.author)}
                         </Link>
                       </Box>
                     </Box>
-                    { post?.author?.flair && (
+                    {post?.author?.flair && (
                       <Box display="inline" verticalAlign="text-top">
                         <Text
-                          bg={ statusBg }
-                          color={ statusColor }
+                          bg={statusBg}
+                          color={statusColor}
                           fontSize="12px"
                           fontWeight="500"
                           lineHeight="16px"
@@ -503,39 +502,39 @@ const CompactPost = ({
                           isTruncated
                           padding="0 4px"
                         >
-                          { post?.author?.flair?.text }
+                          {post?.author?.flair?.text}
                         </Text>
                       </Box>
-                    ) }
-                    {/* date/time */ }
+                    )}
+                    {/* date/time */}
                     <Tooltip
                       fontSize="10px"
-                      label={ post?.timestamp * 1000 }
+                      label={post?.timestamp * 1000}
                       aria-label="date tooltip"
                       placement="top"
                     >
                       <Text
-                        color={ misCol }
+                        color={misCol}
                         mr="3px"
                         textDecor="none"
                         display="inline-block"
                         flex="0 0 auto"
                       >
-                        { fromNow(parseInt(post?.timestamp * 1000)) }
+                        {fromNow(parseInt(post?.timestamp * 1000))}
                       </Text>
                     </Tooltip>
-                    { post?.pinned && <Icon as={ BsPinAngleFill } color={ approveColor } /> }
-                    { post?.locked && <Icon as={ HiLockClosed } color={ lockColor } /> }
-                    { post?.removed && (
+                    {post?.pinned && <Icon as={BsPinAngleFill} color={approveColor} />}
+                    {post?.locked && <Icon as={HiLockClosed} color={lockColor} />}
+                    {post?.removed && (
                       <Flex
-                        ml='4px'
+                        ml="4px"
                         cursor="pointer"
-                        color={ removeColor }
+                        color={removeColor}
                         alignItems="center"
-                        onClick={ () => (post?.reason ? openRemovalModal() : {}) }
+                        onClick={() => (post?.reason ? openRemovalModal() : {})}
                       >
-                        <Icon as={ FcCancel } />
-                        { !post?.reason ? (
+                        <Icon as={FcCancel} />
+                        {!post?.reason ? (
                           allowedSpecial && <Box>Add a removal reason</Box>
                         ) : (
                           <Tooltip
@@ -545,30 +544,27 @@ const CompactPost = ({
                             placement="top"
                           >
                             <Text
-                              color={ misCol }
+                              color={misCol}
                               mr="3px"
                               textDecor="none"
                               display="inline-block"
                               flex="0 0 auto"
                             >
-                              { post?.reason }
+                              {post?.reason}
                             </Text>
                           </Tooltip>
-                        ) }
+                        )}
                       </Flex>
-                    ) }
+                    )}
                   </Flex>
                 </Flex>
-
               </Flex>
             </Box>
-            { loading && <StateString stateString={ stateString } /> }
+            {loading && <StateString stateString={stateString} />}
 
-            {/* Post Footer */ }
-            { pending ? (
-              !loading && (
-                <Box />
-              )
+            {/* Post Footer */}
+            {pending ? (
+              !loading && <Box />
             ) : allowedSpecial ? (
               <Flex
                 alignItems="center"
@@ -588,14 +584,14 @@ const CompactPost = ({
                   fontWeight="700"
                   lineHeight="16px"
                   boxSizing="border-box"
-                  _hover={ {
+                  _hover={{
                     backgroundColor: inputBg,
-                  } }
-                  as={ Link }
-                  to={ detailRoute }
+                  }}
+                  as={Link}
+                  to={detailRoute}
                 >
                   <Icon
-                    as={ BsChatSquare }
+                    as={BsChatSquare}
                     width="20px"
                     height="20px"
                     verticalAlign="middle"
@@ -604,50 +600,50 @@ const CompactPost = ({
                   />
                   <Text
                     display="inline-block"
-                    lineHeight={ 1 }
+                    lineHeight={1}
                     textTransform="capitalize"
                     verticalAlign="middle"
                   >
-                    { commentCount }
+                    {commentCount}
                   </Text>
                 </Flex>
-                { post?.removed ? (
+                {post?.removed ? (
                   <Flex
-                    _hover={ {
+                    _hover={{
                       bg: inputBg,
-                    } }
+                    }}
                     alignItems="center"
                     mr="4px"
                     margin="4px 8px 4px 0"
                     padding="4px"
                     borderRadius="2px"
                     cursor="pointer"
-                    color={ iconColor }
-                    onClick={ () => handleOption({ id: 'approved' }) }
+                    color={iconColor}
+                    onClick={() => handleOption({ id: 'approved' })}
                   >
-                    <Icon height="20px" width="20px" as={ HiOutlineCheckCircle } />
+                    <Icon height="20px" width="20px" as={HiOutlineCheckCircle} />
                   </Flex>
                 ) : (
                   <Flex
-                    _hover={ {
+                    _hover={{
                       bg: inputBg,
-                    } }
+                    }}
                     alignItems="center"
                     mr="4px"
                     margin="4px 8px 4px 0"
                     padding="4px"
                     borderRadius="2px"
                     cursor="pointer"
-                    color={ iconColor }
-                    onClick={ () => handleOption({ id: 'removed' }) }
+                    color={iconColor}
+                    onClick={() => handleOption({ id: 'removed' })}
                   >
-                    <Icon height="20px" width="20px" as={ TiDeleteOutline } />
+                    <Icon height="20px" width="20px" as={TiDeleteOutline} />
                   </Flex>
-                ) }
+                )}
 
                 <Flex justifyContent="center">
                   <DropDown
-                    onChange={ handleOption }
+                    onChange={handleOption}
                     dropDownTitle={
                       <Flex
                         borderRadius="2px"
@@ -658,14 +654,14 @@ const CompactPost = ({
                         bg="transparent"
                         border="none"
                         alignItems="center"
-                        _hover={ {
+                        _hover={{
                           backgroundColor: inputBg,
-                        } }
+                        }}
                       >
-                        <Icon as={ BsShield } color={ iconColor } h="20px" w="20px" />
+                        <Icon as={BsShield} color={iconColor} h="20px" w="20px" />
                       </Flex>
                     }
-                    options={ [
+                    options={[
                       {
                         label: 'Sticky Post',
                         icon: post?.pinned ? MdCheckBox : MdCheckBoxOutlineBlank,
@@ -681,15 +677,15 @@ const CompactPost = ({
                         icon: post?.spoiler ? MdCheckBox : MdCheckBoxOutlineBlank,
                         id: 'spoiler',
                       },
-                    ] }
-                    rightOffset={ 0 }
+                    ]}
+                    rightOffset={0}
                     leftOffset="none"
                     topOffset="34px"
                   />
                 </Flex>
                 <Flex justifyContent="center">
                   <DropDown
-                    onChange={ handleOption }
+                    onChange={handleOption}
                     dropDownTitle={
                       <Flex
                         borderRadius="2px"
@@ -700,25 +696,24 @@ const CompactPost = ({
                         bg="transparent"
                         border="none"
                         alignItems="center"
-                        _hover={ {
+                        _hover={{
                           backgroundColor: inputBg,
-                        } }
+                        }}
                       >
-                        <Icon as={ FiMoreHorizontal } color={ iconColor } h="20px" w="20px" />
+                        <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
                       </Flex>
                     }
-                    options={ [
+                    options={[
                       {
                         label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
                         icon: GoMute,
-                        id: "mute",
-                        disabled: type === "subPlebbit"
+                        id: 'mute',
+                        disabled: type === 'subPlebbit',
                       },
                       {
-                        label: blocked ? 'Unhide' : "Hide",
+                        label: blocked ? 'Unhide' : 'Hide',
                         icon: BsEyeSlash,
-                        id: "block",
-
+                        id: 'block',
                       },
                       {
                         label: 'Delete',
@@ -726,8 +721,8 @@ const CompactPost = ({
                         id: 'delete',
                         disabled: !owner,
                       },
-                    ] }
-                    rightOffset={ 0 }
+                    ]}
+                    rightOffset={0}
                     leftOffset="none"
                     topOffset="34px"
                   />
@@ -750,26 +745,26 @@ const CompactPost = ({
                   lineHeight="16px"
                   padding="4px"
                   boxSizing="border-box"
-                  _hover={ {
+                  _hover={{
                     bg: inputBg,
-                  } }
-                  as={ Link }
-                  to={ detailRoute }
+                  }}
+                  as={Link}
+                  to={detailRoute}
                 >
                   <Icon
-                    as={ BsChat }
+                    as={BsChat}
                     width="20px"
                     height="20px"
                     verticalAlign="middle"
                     fontWeight="400"
                     mr="6px"
                   />
-                  <span>{ commentCount }</span>
+                  <span>{commentCount}</span>
                 </Link>
                 <Flex justifyContent="center">
                   <DropDown
-                    onChange={ handleOption }
-                    rightOffset={ 0 }
+                    onChange={handleOption}
+                    rightOffset={0}
                     leftOffset="unset"
                     dropDownTitle={
                       <Flex
@@ -781,25 +776,24 @@ const CompactPost = ({
                         bg="transparent"
                         border="none"
                         alignItems="center"
-                        _hover={ {
+                        _hover={{
                           backgroundColor: inputBg,
-                        } }
+                        }}
                       >
-                        <Icon as={ FiMoreHorizontal } color={ iconColor } h="20px" w="20px" />
+                        <Icon as={FiMoreHorizontal} color={iconColor} h="20px" w="20px" />
                       </Flex>
                     }
-                    options={ [
+                    options={[
                       {
                         label: `${muted ? 'UnMuted' : 'Mute'} ${getSubName(subPlebbit)}`,
                         icon: GoMute,
-                        id: "mute",
-                        disabled: type === "subPlebbit"
+                        id: 'mute',
+                        disabled: type === 'subPlebbit',
                       },
                       {
-                        label: blocked ? 'Unhide' : "Hide",
+                        label: blocked ? 'Unhide' : 'Hide',
                         icon: BsEyeSlash,
-                        id: "block",
-
+                        id: 'block',
                       },
                       {
                         label: 'Delete',
@@ -807,20 +801,20 @@ const CompactPost = ({
                         id: 'delete',
                         disabled: !owner,
                       },
-                    ] }
+                    ]}
                   />
                 </Flex>
               </Flex>
-            ) }
+            )}
           </Flex>
         </Box>
       </Flex>
-      { showContent && (
-        <Box bg={ postBg }>
-          { post?.content && (
+      {showContent && (
+        <Box bg={postBg}>
+          {post?.content && (
             <Box padding="5px 16px 5px 8px" maxWidth="100%">
               <Box
-                color={ voteColor }
+                color={voteColor}
                 fontSize="14px"
                 fontWeight="400"
                 lineHeight="21px"
@@ -829,13 +823,13 @@ const CompactPost = ({
                 paddingBottom="1px"
                 marginBottom="-1px"
               >
-                <Marked content={ post?.content } />
+                <Marked content={post?.content} />
               </Box>
             </Box>
-          ) }
-          <PostMedia post={ post } />
+          )}
+          <PostMedia post={post} />
         </Box>
-      ) }
+      )}
     </Box>
   );
 };

@@ -76,7 +76,13 @@ const About = () => {
     >
       <div className={styles.wrapper}>
         <div className={styles.top}>
-          <Avatar width={20} height={20} mr="8px" />
+          <Avatar
+            width={20}
+            height={20}
+            style={{
+              marginRight: '8px',
+            }}
+          />
           <Link to={`/p/${subPlebbit?.address}/`}>
             {subPlebbit?.title || getAddress(subPlebbit?.address)}
           </Link>

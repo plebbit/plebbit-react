@@ -38,7 +38,14 @@ const CreatePostBar = (address) => {
         height="38px"
       >
         <Box position="relative">
-          <Avatar avatar={authorAvatarImageUrl} width={38} height={38} mr="8px" />
+          <Avatar
+            avatar={authorAvatarImageUrl}
+            width={38}
+            height={38}
+            style={{
+              marginRight: '8px',
+            }}
+          />
         </Box>
       </Box>
       <Input

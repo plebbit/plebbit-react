@@ -225,7 +225,14 @@ const NavBar = ({ location }) => {
                 <MobileMenuDropDown
                   title={getUserName(profile?.author)}
                   titleIcon={
-                    <Avatar width={24} height={24} mr="8px" avatar={authorAvatarImageUrl} />
+                    <Avatar
+                      width={24}
+                      height={24}
+                      style={{
+                        marginRight: '8px',
+                      }}
+                      avatar={authorAvatarImageUrl}
+                    />
                   }
                   options={[
                     { label: 'Create Account', create: true, legacy: true },
@@ -332,7 +339,9 @@ const NavBar = ({ location }) => {
                               avatar={pages?.avatar}
                               width={24}
                               height={24}
-                              mr="8px"
+                              style={{
+                                marginRight: '8px',
+                              }}
                               isOnline={getIsOnline(pages?.updatedAt)}
                             />
                           </span>
@@ -372,7 +381,9 @@ const NavBar = ({ location }) => {
                               avatar={accountSubplebbits[pages]?.avatar}
                               width={24}
                               height={24}
-                              mr="8px"
+                              style={{
+                                marginRight: '8px',
+                              }}
                               isOnline={getIsOnline(accountSubplebbits[pages]?.updatedAt)}
                             />
                           </span>

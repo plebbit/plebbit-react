@@ -57,7 +57,9 @@ const DropDown2 = ({
             <Avatar
               width={20}
               height={20}
-              mr="8px"
+              style={{
+                marginRight: '8px',
+              }}
               avatar={props?.selectProps?.value?.suggested?.avatarUrl}
               badge
               isOnline={getIsOnline(props?.selectProps?.value?.updatedAt)}

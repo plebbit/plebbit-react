@@ -322,3 +322,17 @@ button {
   padding: initial;
   appearance: auto;
 }
+
+*[skeletonLoading='true'] {
+  animation: shimmer 1.5s infinite !important;
+  background: linear-gradient(90deg, #ddd 25%, #e0e0e0 50%, #ddd 75%) !important;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

@@ -185,7 +185,9 @@ const CreatePost = () => {
                       <Avatar
                         width={20}
                         height={20}
-                        mr="8px"
+                        style={{
+                          marginRight: '8px',
+                        }}
                         avatar={data?.suggested?.avatarUrl}
                         badge
                         isOnline={getIsOnline(data?.updatedAt)}
