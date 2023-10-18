@@ -3,9 +3,10 @@ import { Box, Flex, useColorModeValue, Input } from '@chakra-ui/react';
 import { LinkIcon } from '@chakra-ui/icons';
 import { useAccount, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
 import Avatar from '../Avatar';
-import Link from '../Link';
+import styles from './createpostbar.module.css';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
-const CreatePostBar = (address) => {
+const CreatePostBar2 = (address) => {
   const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
   const mainBg = useColorModeValue('lightBody', 'darkBody');
   const border1 = useColorModeValue('#ccc', '#343536');
@@ -88,4 +89,26 @@ const CreatePostBar = (address) => {
   );
 };
 
+const CreatePostBar = () => {
+  const profile = useAccount();
+  const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
+  const params = useParams();
+  const navigate = useNavigate();
+
+  return (
+    <div className={styles.wrapper}>
+      <Link to="/profile">
+        <Avatar
+          avatar={authorAvatarImageUrl}
+          width={38}
+          height={38}
+          style={{
+            marginRight: '8px',
+          }}
+        />
+      </Link>
+      <input type="text" placeholder="Create Post" onFocus={() => navigate('submit')} />
+    </div>
+  );
+};
 export default CreatePostBar;

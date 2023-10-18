@@ -5,7 +5,6 @@ import Profile from './views/Profile';
 import SubPlebbit from './views/SubPlebbit';
 import Settings from './views/Settings';
 import About from './views/About';
-import CommunitySettings from './views/Community';
 import Moderators from './views/About/Moderator';
 import NotFound from './views/NotFound';
 import 'react-toastify/dist/ReactToastify.css';

@@ -54,13 +54,6 @@ const SideBar = () => {
                   <span> {numFormatter(profile?.karma?.score) || 0}</span>
                 </div>
               </div>
-              {/* <div className={styles.pst_info_item}>
-                <h5>Cake day</h5>
-                <div className={styles.pst_info_item_bot}>
-                  <GiCakeSlice />
-                  <span> {numFormatter(profile?.karma?.score) || 0}</span>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
