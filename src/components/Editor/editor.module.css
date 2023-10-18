@@ -1,0 +1,43 @@
+.wrapper {
+  background: #fff;
+  position: relative;
+  border: 1px solid #edeff1;
+  border-radius: 4px;
+}
+
+.editor {
+  overflow: auto;
+  position: relative;
+  height: inherit;
+  text-align: initial;
+  outline: none;
+  user-select: text;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  color: #1c1c1c;
+  min-height: 122px;
+  word-break: break-word;
+  overflow: hidden;
+  padding: 8px 16px;
+  resize: vertical;
+  font-family: Noto Sans, Arial, sans-serif;
+  border-radius: 4px;
+  background-color: #fff;
+  width: 100%;
+}
+
+.editor_footer {
+  justify-content: space-between;
+  border-radius: 0 0 4px 4px;
+  background-color: #f6f7f8;
+  flex-direction: row-reverse;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+}
+
+.editor_footer button {
+  margin: 4px 8px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
