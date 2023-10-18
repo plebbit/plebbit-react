@@ -130,6 +130,7 @@
 
 .nav_rr_left_item {
   height: 32px;
+  margin-left: 8px;
 }
 .nav_rr_left_item_btn {
   border-radius: 2px;

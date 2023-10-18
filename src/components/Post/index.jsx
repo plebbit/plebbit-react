@@ -1,5 +1,4 @@
-import React, { useMemo, useState } from 'react';
-import { Box, useDisclosure } from '@chakra-ui/react';
+import React, { useState } from 'react';
 import {
   useAccountVote,
   useAuthorAvatar,
@@ -19,7 +18,6 @@ import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
 import ConfirmDelete from './Modal/confirmDelete';
-import youtube_parser from '../../utils/youtubeParser';
 import useStore from '../../store/useStore';
 import { canEmbed } from '../Embed';
 
@@ -130,7 +128,7 @@ const Post = ({
 
   return (
     <>
-      <Box>
+      <div>
         {/* card */}
         {mode === 'card' && (
           <CardPost
@@ -281,7 +279,7 @@ const Post = ({
               muted={muted}
             />
           ))}
-      </Box>
+      </div>
       {isRemovalModalOpen && (
         <AddRemovalReason isOpen={isRemovalModalOpen} setIsOpen={setRemoveModal} post={post} />
       )}

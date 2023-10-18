@@ -140,7 +140,9 @@ const NavBar = ({ location }) => {
                         </div>
                       </button>
                     </span>
-                    <NavNotification />
+                    <span className={styles.nav_rr_left_item}>
+                      <NavNotification />
+                    </span>
                     <span className={styles.nav_rr_left_item}>
                       <Link className={styles.nav_rr_left_item_btn} to="/submit">
                         <div className={styles.nav_rr_left_item_btn2}>

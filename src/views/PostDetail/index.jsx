@@ -6,7 +6,7 @@ import Layout from '../../components/layout';
 import useStateString from '../../hooks/useStateString';
 import { getSubName } from '../../utils/getUserName';
 import { ImArrowDown, ImArrowUp } from 'react-icons/im';
-import { useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 import {
   useAccount,
   useAccountComments,
@@ -62,7 +62,6 @@ const PostDetail2 = () => {
   const [isRemovalModalOpen, setRemovalModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState();
   const location = useLocation();
-  const postDetailModal = location?.state?.modal && location?.state?.detail;
   const params = useParams();
 
   const feedFromProfile = location?.pathname.includes('/profile/c');
@@ -113,30 +112,9 @@ const PostDetail2 = () => {
 
   const mediaInfo = getCommentMediaInfo(detail);
   const hasThumbnail = !detail?.removed && detail?.thumbnailUrl && !mediaInfo;
-  const color = useColorModeValue('lightIcon', 'rgb(129, 131, 132)');
-  const iconColor = useColorModeValue('lightIcon', 'darkIcon');
-  const iconBg = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
-  const titleColor = useColorModeValue('lightText', 'darkText');
   const [postVotes] = useState(detail?.upvoteCount || 0 - detail?.downvoteCount || 0);
   const accountVote = useAccountVote({ commentCid: detail?.cid });
   const vote = accountVote?.vote || 0;
-  const subPledditTextColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
-  const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
-  const bg = useColorModeValue('white', 'darkNavBg');
-  const statusColor = useColorModeValue('lightVoteText', 'fff');
-  const statusBg = useColorModeValue('rgb(237, 239, 241);', 'rgb(52, 53, 54)');
-  const misCol = useColorModeValue('rgb(120, 124, 126)', 'rgb(129, 131, 132)');
-  const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
-  // const approveColor = useColorModeValue('pastelGreen', 'pastelGreen');
-  const removeColor = useColorModeValue('persimmon', 'persimmon');
-  const lockColor = useColorModeValue('brightSun', 'brightSun');
-  // const borderColor = useColorModeValue('#ccc', '#343536');
-  const postBg = useColorModeValue('lightCommunityThemePost', 'darkCommunityThemePost');
-  const inputBg = useColorModeValue('lightInputBg', 'darkInputBg');
-  // const borderColor2 = useColorModeValue('#d3d6da', '#545452');
-  const border2 = useColorModeValue('#edeff1', '#343536');
-  const mainMobileBg = useColorModeValue('white', 'black');
-  const mobileColor = useColorModeValue('lightMobileText2', 'darkMobileText');
   const toast = useToast();
 
   const [subLoading, setSubLoading] = useState(false);
@@ -219,7 +197,7 @@ const PostDetail2 = () => {
     }
   }, [comment?.cid]);
 
-  const { authorAddress, shortAuthorAddress } = useAuthorAddress({ comment: detail });
+  const { authorAddress } = useAuthorAddress({ comment: detail });
   const owner =
     profile?.author?.address === authorAddress || profile?.signer?.address === authorAddress;
 

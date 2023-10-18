@@ -1,0 +1,157 @@
+.nav_bell_wrap {
+  position: relative;
+  border-radius: 2px;
+}
+
+.nav_bell {
+  box-sizing: border-box;
+  height: 32px;
+  width: 32px;
+  fill: #1a1a1b;
+  position: relative;
+}
+
+.nav_bell svg {
+  font-size: 20px;
+  font-weight: 400;
+  height: 20px;
+  line-height: 20px;
+  vertical-align: middle;
+  width: 20px;
+  color: #1a1a1b;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.nav_bell svg::before {
+  font-size: 20px;
+  font-weight: 400;
+  height: 20px;
+  content: '\f219';
+}
+
+.nav_bell span {
+  background: #ff4500;
+  border-radius: 12px;
+  box-shadow: 0 0 0 2px #fff;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  height: 16px;
+  left: 20px;
+  line-height: 16px;
+  padding: 0 4px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  vertical-align: middle;
+  min-width: 16px;
+  width: auto;
+  z-index: 1;
+}
+
+.notification_head {
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.nh_title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 12px;
+}
+
+.nh_right {
+  align-items: center;
+  display: flex;
+  overflow: hidden;
+}
+
+.nh_right a,
+.nh_right button {
+  margin-left: 8px;
+}
+
+.nh_right svg {
+  font-size: 20px;
+  font-weight: 400;
+  color: #7c7c7c;
+  line-height: 20px;
+  vertical-align: middle;
+}
+
+.notification_footer {
+  align-items: center;
+  background-color: #f6f7f8;
+  border-radius: 0 0 4px 4px;
+  display: flex;
+  height: 49px;
+  justify-content: center;
+  padding: 0 12px;
+}
+
+.notification_footer a button {
+  width: 100%;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.notif_container {
+  background-color: #fff;
+  overflow: hidden;
+  overflow-y: auto;
+  transition: max-height 0.3s ease-out;
+}
+
+.notif_item {
+  display: flex;
+  padding: 16px;
+}
+
+.ni_avatar {
+  margin-right: 8px;
+  position: relative;
+}
+
+.ni_content {
+  flex: 1 0;
+}
+
+.ni_content > span {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.ni_content > span > span {
+  font-size: 14px;
+  line-height: 21px;
+  font-family: Noto Sans, Arial, sans-serif;
+  font-weight: 400;
+}
+
+.ni_content2 {
+  font-family: Noto Sans, Arial, sans-serif;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  font-size: 14px;
+  color: #7c7c7c;
+  word-break: break-word;
+  line-height: 18px;
+  max-height: 54px;
+  -webkit-line-clamp: 3;
+}

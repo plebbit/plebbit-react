@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../components/layout';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { useDisclosure, useToast } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 import {
   deleteCaches,
   setAccount,
