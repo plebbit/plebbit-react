@@ -1,6 +1,4 @@
 import React from 'react';
-import { Box, Flex, useColorModeValue, Input } from '@chakra-ui/react';
-import { LinkIcon } from '@chakra-ui/icons';
 import { useAccount, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
 import Avatar from '../Avatar';
 import styles from './createpostbar.module.css';

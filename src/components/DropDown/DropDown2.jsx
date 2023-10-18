@@ -3,6 +3,7 @@ import React from 'react';
 import Select, { components } from 'react-select';
 import Avatar from '../Avatar';
 import getIsOnline from '../../utils/getIsOnline';
+import styles from './dropdown.module.css';
 
 const DropDown2 = ({
   prefix,
@@ -43,17 +44,7 @@ const DropDown2 = ({
     return (
       <components.Control {...props}>
         {(prefix && prefix(props?.selectProps?.value)) || (
-          <Box
-            style={style}
-            borderRadius="22px"
-            border="1px dashed #a4a4a4"
-            height="22px"
-            margin="0"
-            width="22px"
-            fontSize="22px"
-            lineHeight="22px"
-            ml="8px"
-          >
+          <div style={style} className={styles.control}>
             <Avatar
               width={20}
               height={20}
@@ -64,7 +55,7 @@ const DropDown2 = ({
               badge
               isOnline={getIsOnline(props?.selectProps?.value?.updatedAt)}
             />
-          </Box>
+          </div>
         )}
         {children}
         {suffix && suffix(props?.selectProps)}
@@ -83,7 +74,7 @@ const DropDown2 = ({
   };
 
   return (
-    <Flex width="100%" alignItems="center" borderRadius="4px" sx={sx}>
+    <div width="100%" alignItems="center" borderRadius="4px" style={sx}>
       <Select
         styles={{
           container: (styles) => ({
@@ -153,7 +144,7 @@ const DropDown2 = ({
         defaultValue={defaultValue}
         isClearable={isClearable}
       />
-    </Flex>
+    </div>
   );
 };
 
