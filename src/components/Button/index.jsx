@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button as Btn } from '@chakra-ui/button';
 import styles from './button.module.css';
 
 export const Button2 = ({ children, className, disabled, onClick, ...rest }) => {
