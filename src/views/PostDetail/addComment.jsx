@@ -1,4 +1,3 @@
-import { Box, Button, Flex, useColorModeValue } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { LockedMessage } from '../../components/Card/ModMessage';
 import getUserName from '../../utils/getUserName';
@@ -9,15 +8,19 @@ import { MdClose } from 'react-icons/md';
 import { useAccount, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
 import useStore from '../../store/useStore';
 import Avatar from '../../components/Avatar';
+import styles from './post-detail.module.css';
+import { Link, useNavigate } from 'react-router-dom';
+import DropDown from '../../components/DropDown';
+import Button from '../../components/Button';
 
 const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments, isReply }) => {
-  const borderColor2 = useColorModeValue('#d3d6da', '#545452');
   const profile = useAccount();
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
   const { device } = useStore((state) => state);
   const [content, setContent] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [showMEditor, setShowMEditor] = useState(false);
+  const navigate = useNavigate();
 
   const { publishComment } = usePublishComment(content, detail);
 
@@ -30,25 +33,41 @@ const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments,
       () => {}
     );
   };
+  const queryString = '?sort=new';
+  const urlParams = new URLSearchParams(queryString);
+  const sortValue = urlParams.get('sort');
 
+  const sortOption = [
+    {
+      label: 'Top',
+      id: 'topAll',
+    },
+    {
+      label: 'New',
+      id: 'new',
+    },
+    {
+      label: 'Old',
+      id: 'old',
+    },
+    {
+      label: 'Controversial',
+      id: 'controversialAll',
+    },
+  ];
   return (
     <>
       {device !== 'mobile' ? (
-        <Box>
+        <>
           {detail?.locked ? (
             <LockedMessage subplebbit={subplebbit} />
           ) : (
             <>
-              <Box fontSize="12px" fontWeight="400" lineHeight="18px" mb="4px">
-                Comment as {getUserName(profile?.author)}
-              </Box>
-              <Box
-                borderRadius="4px"
-                overflow="hidden auto"
-                padding="8px 0px"
-                resize="none"
-                minH="200px"
-              >
+              <div className={styles.addComment_top}>
+                <span>Comment as</span>
+                <Link to="/profile/">{getUserName(profile?.author)}</Link>
+              </div>
+              <div>
                 <Editor
                   setValue={setContent}
                   editorState={editorState}
@@ -57,35 +76,38 @@ const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments,
                   handleSubmit={handlePublishPost}
                   value={content}
                 />
-              </Box>
+              </div>
             </>
           )}
 
-          <Box
-            fontSize="12px"
-            fontWeight="700"
-            lineHeight="16px"
-            marginTop="16px"
-            marginBottom="4px "
-          >
-            Sort By: Best
-          </Box>
+          <div className={styles.sort_wrap}>
+            <div className={styles.sort_wrap2}>
+              <DropDown
+                onChange={(val) => navigate(`?sort=${val?.id}`)}
+                wrapSx={{
+                  marginLeft: '0px !important',
+                }}
+                dropDownTitle={
+                  <div className={styles.sort_wrap3}>
+                    <button>
+                      <span>Sort by: {sortOption?.find((x) => x?.id === sortValue)?.label}</span>
+                    </button>
+                  </div>
+                }
+                options={sortOption}
+                rightOffset={0}
+                leftOffset="none"
+                topOffset="34px"
+              />
+            </div>
+          </div>
           <hr />
           {!showFullComments && isReply ? (
-            <Box
-              fontSize="12px"
-              fontWeight="700"
-              my="8px"
-              _hover={{
-                textDecoration: 'underline',
-                cursor: 'pointer',
-              }}
-              onClick={() => setShowFullComments(!showFullComments)}
-            >
+            <div className={styles.view_all} onClick={() => setShowFullComments(!showFullComments)}>
               View all comments
-            </Box>
+            </div>
           ) : null}
-        </Box>
+        </>
       ) : (
         <>
           {detail?.locked ? (
@@ -93,59 +115,38 @@ const AddComment = ({ detail, subplebbit, showFullComments, setShowFullComments,
           ) : (
             <>
               {showMEditor ? (
-                <Box>
-                  <Flex backgroundColor="inherit" color="inherit" margin="0" borderWidth="0">
-                    <Box width="100%">
-                      <Editor
-                        setValue={setContent}
-                        editorState={editorState}
-                        setEditorState={setEditorState}
-                        showSubmit
-                        handleSubmit={handlePublishPost}
-                        submitBtnText="Add Comment"
-                        value={content}
-                        otherBtn={
-                          <Button mr="auto" onClick={() => setShowMEditor(false)}>
-                            <MdClose />
-                          </Button>
-                        }
-                      />
-                    </Box>
-                  </Flex>
-                </Box>
+                <div>
+                  <Editor
+                    setValue={setContent}
+                    editorState={editorState}
+                    setEditorState={setEditorState}
+                    showSubmit
+                    handleSubmit={handlePublishPost}
+                    submitBtnText="Add Comment"
+                    value={content}
+                    otherBtn={
+                      <Button mr="auto" onClick={() => setShowMEditor(false)}>
+                        <MdClose />
+                      </Button>
+                    }
+                  />
+                </div>
               ) : (
-                <Flex alignItems="center" flexFlow="row nowrap" paddingTop="8px" width="100%">
+                <div className={styles.mobile_add_com}>
                   <Avatar
                     width={24}
                     height={24}
                     avatar={authorAvatarImageUrl}
-                    verticalAlign="middle"
                     alt="user-icon"
-                    color="transparent"
                     style={{
+                      verticalAlign: 'middle',
                       marginRight: '8px',
                       color: 'transparent',
                       verticalAlign: 'middle',
                     }}
                   />
-                  <Button
-                    border={`1px solid ${borderColor2}`}
-                    color="#818384"
-                    overflow="hidden"
-                    textOverflow="ellipsis"
-                    borderRadius="15px"
-                    flex="1"
-                    fontSize="14px"
-                    height="30px"
-                    lineHeight="17px"
-                    textAlign="left"
-                    padding="0 8px"
-                    justifyContent="flex-start"
-                    onClick={() => setShowMEditor(true)}
-                  >
-                    Leave a comment
-                  </Button>
-                </Flex>
+                  <Button onClick={() => setShowMEditor(true)}>Leave a comment</Button>
+                </div>
               )}
             </>
           )}

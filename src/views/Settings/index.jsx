@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../components/layout';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { useToast } from '@chakra-ui/react';
 import {
   deleteCaches,
   setAccount,
@@ -20,6 +19,7 @@ import ExportAccount from './modal/exportAccount';
 import AddBlockProvide from './modal/addBlockProvider';
 import Image from '../../components/Image';
 import placeholder from '../../assets/images/fallback.png';
+import { toast } from 'react-toastify';
 
 const Settings = () => {
   const [bPLoading, setBpLoading] = useState(false);
@@ -42,7 +42,6 @@ const Settings = () => {
     { label: 'Chat & Messaging', link: 'messaging' },
   ];
   const [userProfile, setUserProfile] = useState(profile);
-  const toast = useToast();
 
   const { resolvedAddress: resolvedAuthorAddress, error } = useResolvedAuthorAddress({
     author: userProfile ? userProfile?.author?.address : '',
@@ -120,13 +119,7 @@ const Settings = () => {
       });
     } catch (error) {
       setBpLoading(false);
-      toast({
-        title: `Account update`,
-        variant: 'left-update',
-        description: error?.toString(),
-        status: 'error',
-        isClosable: true,
-      });
+      toast.error(error?.toString());
     }
   };
 
@@ -145,13 +138,7 @@ const Settings = () => {
       }, 500);
     } catch (error) {
       setLoader(false);
-      toast({
-        title: `Account not deleted`,
-        variant: 'left-update',
-        description: error?.toString(),
-        status: 'error',
-        isClosable: true,
-      });
+      toast.error(error?.toString());
     }
   };
   const handleResetPlebbitOptions = async () => {
@@ -161,57 +148,33 @@ const Settings = () => {
         ...userProfile,
         plebbitOptions: window.defaultPlebbitOptions,
       });
-      toast({
-        title: `Account updated`,
-        variant: 'left-accent',
-        status: 'success',
-        isClosable: true,
+      toast.success(`Account updated`, {
+        autoClose: 500,
       });
       setTimeout(() => {
         setLoader(false);
       }, 500);
     } catch (error) {
       setLoader(false);
-      toast({
-        title: `Account not updated`,
-        variant: 'left-update',
-        description: error?.toString(),
-        status: 'error',
-        isClosable: true,
-      });
+      toast.error(error?.toString());
     }
   };
 
   const handleSave = async () => {
     try {
       await setAccount(userProfile);
-      toast({
-        title: `changes saved`,
-        variant: 'left-accent',
-        status: 'success',
-        isClosable: true,
+      toast.success(`changes saved`, {
+        autoClose: 5000,
       });
     } catch (error) {
       logger('setting:update', error, 'error');
-      toast({
-        title: `Account update`,
-        variant: 'left-update',
-        description: error?.toString(),
-        status: 'error',
-        isClosable: true,
-      });
+      toast.error(error?.toString());
     }
   };
 
   const handleClearDb = async () => {
     await deleteCaches();
-    toast({
-      title: `db-cleared`,
-      variant: 'left-update',
-      description: 'deleted',
-      status: 'success',
-      isClosable: true,
-    });
+    toast.success(`db-cleared`);
   };
   return (
     <Layout name={{ label: 'Plebbit Settings', value: location?.pathname }}>

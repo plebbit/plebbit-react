@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styles from './navbar.module.css';
-import { useToast } from '@chakra-ui/react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   createAccount,
@@ -42,6 +41,7 @@ import MobileMenuDropDown from './DropDown/mobileMenuDropDown';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { bottomData1 } from '../../sidebar/projectLinks';
 import plebbitReactPackageJson from '../../../../package.json';
+import { toast } from 'react-toastify';
 
 const NavBar = ({ location }) => {
   const { accountSubplebbits } = useAccountSubplebbits();
@@ -85,16 +85,10 @@ const NavBar = ({ location }) => {
     true
   );
 
-  const toast = useToast();
-
   const handleCreateAccount = async () => {
     await createAccount();
-    toast({
-      title: 'Create Account.',
-      description: 'Account Created Successfully',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
+    toast.success('Account Created Successfully', {
+      aut: 5000,
     });
   };
 

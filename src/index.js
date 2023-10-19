@@ -23,16 +23,18 @@ import { HashRouter as Router } from 'react-router-dom';
 
 const app = document.getElementById('root');
 const root = createRoot(app);
-root.render(<>
-  <ChakraProvider theme={ theme }>
-    <ProfileDataProvider>
-      <Router future={ { v7_startTransition: true } } >
-        <App />
-      </Router>
-    </ProfileDataProvider>
-  </ChakraProvider>
-  <ToastContainer />
-</>)
+root.render(
+  <>
+    <ChakraProvider theme={theme}>
+      <ProfileDataProvider>
+        <Router future={{ v7_startTransition: true }}>
+          <App />
+        </Router>
+      </ProfileDataProvider>
+    </ChakraProvider>
+    <ToastContainer position="bottom-center" autoClose={false} closeButton hideProgressBar />
+  </>
+);
 
 // set up PWA https://cra.link/PWA
 serviceWorkerRegistration.register();
@@ -40,7 +42,7 @@ serviceWorkerRegistration.register();
 reportWebVitals();
 
 // add back button in android app
-CapacitorApp.addListener('backButton', ({canGoBack}) => {
+CapacitorApp.addListener('backButton', ({ canGoBack }) => {
   if (canGoBack) {
     window.history.back();
   } else {

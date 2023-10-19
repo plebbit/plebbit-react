@@ -6,7 +6,6 @@ import {
   useSubplebbit,
 } from '@plebbit/plebbit-react-hooks';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { useToast } from '@chakra-ui/react';
 import Layout from '../../components/layout';
 import Avatar from '../../components/Avatar';
 import { getAddress } from '../../utils/getUserName';
@@ -15,6 +14,7 @@ import Content from './content';
 import onChallenge from '../../utils/onChallenge';
 import onChallengeVerification from '../../utils/onChallengeVerification';
 import onError from '../../utils/onError';
+import { toast } from 'react-toastify';
 
 const About = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
@@ -22,7 +22,6 @@ const About = () => {
   const { subplebbitAddress, page } = useParams();
   const role = accountSubplebbits[subplebbitAddress]?.role?.role;
   const subPlebbit = useSubplebbit({ subplebbitAddress: subplebbitAddress });
-  const toast = useToast();
   const [loading, setLoading] = useState(false);
   const allowedSpecial = role === 'owner' || role === 'moderator' || role === 'admin';
   const [data, setData] = useState({});
@@ -56,13 +55,7 @@ const About = () => {
       setLoading(false);
     } catch (error) {
       logger('editSubplebbit', error, 'error');
-      toast({
-        title: 'Declined.',
-        description: error?.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
+      toast.error(error?.toString());
       setLoading(false);
     }
   };

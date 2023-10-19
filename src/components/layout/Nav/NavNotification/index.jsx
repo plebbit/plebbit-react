@@ -1,11 +1,8 @@
-import { Box, Flex, Icon, Text, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
-import { FiMoreHorizontal } from 'react-icons/fi';
 import { BsCheckAll } from 'react-icons/bs';
 import { VscBell } from 'react-icons/vsc';
 import { MdSettings } from 'react-icons/md';
 import Avatar from '../../../Avatar';
-import DropDown from '../../../DropDown';
 import PopOver from '../../../PopOver';
 import { getTimeVal } from '../../../../utils/formatDate';
 import getUserName from '../../../../utils/getUserName';

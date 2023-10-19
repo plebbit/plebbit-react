@@ -3,23 +3,19 @@ import styles from './dropdown.module.css';
 import Avatar from '../../../Avatar';
 import { FiChevronDown } from 'react-icons/fi';
 import { createAccount, setActiveAccount, useAccounts } from '@plebbit/plebbit-react-hooks';
-import { useToast } from '@chakra-ui/react';
 import useStore from '../../../../store/useStore';
+import { toast } from 'react-toastify';
 
 const NavUserDropdown = ({ profile, authorAvatarImageUrl }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const { accounts: accountLists } = useAccounts();
-  const toast = useToast();
+
   const { setShowImportAccountModal } = useStore((state) => state);
 
   const handleCreateAccount = async () => {
     await createAccount();
-    toast({
-      title: 'Create Account.',
-      description: 'Account Created Successfully',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
+    toast.success('Account Created Successfully', {
+      autoClose: 5000,
     });
   };
 

@@ -4,7 +4,6 @@
 }
 .mobile_dot::after {
   color: #818384;
-  content: '\2022';
   display: inline-block;
   margin: 0 4px;
   position: relative;

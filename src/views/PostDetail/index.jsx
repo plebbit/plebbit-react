@@ -6,7 +6,6 @@ import Layout from '../../components/layout';
 import useStateString from '../../hooks/useStateString';
 import { getSubName } from '../../utils/getUserName';
 import { ImArrowDown, ImArrowUp } from 'react-icons/im';
-import { useToast } from '@chakra-ui/react';
 import {
   useAccount,
   useAccountComments,
@@ -115,7 +114,6 @@ const PostDetail2 = () => {
   const [postVotes] = useState(detail?.upvoteCount || 0 - detail?.downvoteCount || 0);
   const accountVote = useAccountVote({ commentCid: detail?.cid });
   const vote = accountVote?.vote || 0;
-  const toast = useToast();
 
   const [subLoading, setSubLoading] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -144,13 +142,7 @@ const PostDetail2 = () => {
       await subscribe();
     } catch (error) {
       logger('subscribe:response:', error, 'error');
-      toast({
-        title: 'Subscription declined',
-        description: error?.toString(),
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast(error?.toString());
     }
   };
   const handleUnSubscribe = async () => {

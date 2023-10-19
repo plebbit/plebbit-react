@@ -1,4 +1,5 @@
 import React from 'react';
+import Label from '.';
 
 const FlairLabel = (props) => {
   const { flair, text, bg, color, style, className } = props;

@@ -770,3 +770,97 @@
   padding: 0;
   width: 312px;
 }
+
+/*Add Comment */
+.addComment_top {
+  margin-bottom: 4px;
+}
+
+.addComment_top span {
+  font-family: Noto Sans, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  color: #1a1a1a;
+  margin-right: 4px;
+}
+
+.addComment_top a {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #646d73;
+}
+
+.sort_wrap {
+  flex-direction: column;
+  margin: 26px 0px 4px;
+  padding: 0 16px 4px 0;
+  display: flex;
+  background: #fff;
+  border-bottom: 1px solid #edeff1;
+}
+.sort_wrap2 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sort_wrap3 {
+  display: flex;
+  align-items: center;
+}
+
+.sort_wrap3 button {
+  border: none;
+  padding: 4px 8px 4px 0;
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  display: block;
+  color: #878a8c;
+}
+
+.sort_wrap3 button span {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  color: #646d73;
+}
+
+.mobile_add_com {
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+  padding-top: 8px;
+  width: 100%;
+}
+
+.mobile_add_com button {
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.view_all {
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.edit_comment_wrap {
+  margin-top: 8px;
+  padding: 10px;
+}
+
+.edc_footer {
+  display: flex;
+  margin-top: 8px;
+  justify-content: flex-end;
+}

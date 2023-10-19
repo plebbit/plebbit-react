@@ -1,4 +1,3 @@
-import { useToast } from '@chakra-ui/react';
 import { useCreateSubplebbit } from '@plebbit/plebbit-react-hooks';
 import React, { useEffect, useState } from 'react';
 import logger from '../../../../utils/logger';
@@ -6,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from '../../../Modal';
 import useStore from '../../../../store/useStore';
 import styles from './createSub.module.css';
+import { toast } from 'react-toastify';
 
 const CreateSubPlebbit = () => {
   const { showCreateSubModal, setShowCreateSubModal } = useStore((state) => state);
@@ -13,7 +13,6 @@ const CreateSubPlebbit = () => {
   const [value, setValue] = useState({ title: '' });
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const toast = useToast();
 
   const { createdSubplebbit, createSubplebbit, error, errors } = useCreateSubplebbit({ value });
 
@@ -29,13 +28,7 @@ const CreateSubPlebbit = () => {
   if (error) {
     logger('create-sub', error, 'error');
     setLoading(false);
-    toast({
-      title: 'Create Subplebbit.',
-      description: error?.toString(),
-      status: 'error',
-      duration: 5000,
-      isClosable: true,
-    });
+    toast.error(error?.toString());
   }
 
   const handleCreateSubPlebbit = async () => {

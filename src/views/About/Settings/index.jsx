@@ -9,10 +9,11 @@ import {
   useResolvedSubplebbitAddress,
   useSubplebbit,
 } from '@plebbit/plebbit-react-hooks';
-import { useToast } from '@chakra-ui/react';
+
 import onChallenge from '../../../utils/onChallenge';
 import onChallengeVerification from '../../../utils/onChallengeVerification';
 import onError from '../../../utils/onError';
+import { toast } from 'react-toastify';
 
 const SubSettings = ({ subPlebbit: subplebbit }) => {
   const { subplebbitAddress } = useParams();
@@ -21,7 +22,6 @@ const SubSettings = ({ subPlebbit: subplebbit }) => {
   const pageValue = queryParams.get('page')?.split('/')[0];
   const [data, setData] = useState({ address: subplebbitAddress, ...subplebbit });
   const [loading, setLoading] = useState(false);
-  const toast = useToast();
   const {
     resolvedAddress,
     state: resolveEnsState,
@@ -66,13 +66,7 @@ const SubSettings = ({ subPlebbit: subplebbit }) => {
       setLoading(false);
     } catch (error) {
       logger('editComment', error, 'error');
-      toast({
-        title: 'Declined.',
-        description: error?.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
+      toast.error(error?.toString());
     }
   };
 

@@ -11,7 +11,6 @@ import {
 import React, { useEffect, useState } from 'react';
 import useStore from '../../store/useStore';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { useToast } from '@chakra-ui/react';
 import getIsOnline from '../../utils/getIsOnline';
 import logger from '../../utils/logger';
 import GetChallengeAnswersFromUser from '../../utils/getChallengeAnswersFromUser';
@@ -32,6 +31,7 @@ import FeedContent from '../../components/container/FeedContent';
 import onChallenge from '../../utils/onChallenge';
 import onChallengeVerification from '../../utils/onChallengeVerification';
 import SubStyleSide from './subStyleSide';
+import { toast } from 'react-toastify';
 
 const Subplebbit = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
@@ -46,7 +46,6 @@ const Subplebbit = () => {
   const subPlebbit = useSubplebbit({ subplebbitAddress });
   const feeds = feed;
   const [data, setData] = useState({ address: subplebbitAddress, ...subPlebbit });
-  const toast = useToast();
   const [loading, setLoading] = useState(false);
   const role = accountSubplebbits[subplebbitAddress]?.role?.role;
   const { pathname } = useLocation();
@@ -67,26 +66,14 @@ const Subplebbit = () => {
     try {
       await subscribe();
     } catch (error) {
-      toast({
-        title: 'Subscription failed',
-        description: error?.toString(),
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast.error(error?.toString());
     }
   };
   const handleUnSubscribe = async () => {
     try {
       await unsubscribe();
     } catch (error) {
-      toast({
-        title: 'Unsubscribed.',
-        description: error?.toString(),
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast.error(error?.toString());
     }
   };
 
@@ -105,13 +92,7 @@ const Subplebbit = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      toast({
-        title: 'Supplebbit Edit declined.',
-        description: error?.toString(),
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast.error(error?.toString());
     }
   };
 

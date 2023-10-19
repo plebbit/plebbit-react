@@ -8,7 +8,7 @@ import Modal from '../../../components/Modal';
 import styles from './modal.module.css';
 import { BiLinkExternal } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import { useToast } from '@chakra-ui/react';
+import { toast } from 'react-toastify';
 
 const AddAvatar = ({ isOpen, setIsOpen }) => {
   const profile = useAccount();
@@ -23,7 +23,6 @@ const AddAvatar = ({ isOpen, setIsOpen }) => {
   const [chainTicker, setChainTicker] = useState('');
   const [userProfile, setUserProfile] = useState(profile);
   const [copied, setCopied] = useState(false);
-  const toast = useToast();
 
   const handleMessage = (val) => {
     setTimeStamp(val);
@@ -194,22 +193,13 @@ const AddAvatar = ({ isOpen, setIsOpen }) => {
                       try {
                         const res = await setAccount(userProfile);
                         logger('account:update', res);
-                        toast({
-                          title: `changes saved`,
-                          variant: 'left-accent',
-                          status: 'success',
-                          isClosable: true,
+                        toast(`changes saved`, {
+                          autoClose: 5000,
                         });
                         onClose();
                       } catch (error) {
                         logger('account:update', error, 'error');
-                        toast({
-                          title: `Account update`,
-                          variant: 'left-update',
-                          description: error?.toString(),
-                          status: 'error',
-                          isClosable: true,
-                        });
+                        toast.error(error?.toString());
                       }
                     }
                   }, 300)

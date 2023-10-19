@@ -1,6 +1,5 @@
 .wrapper {
   display: flex;
-  margin-left: auto;
   flex-flow: row nowrap;
   position: relative;
 }
@@ -18,10 +17,6 @@
   display: flex;
   align-items: center;
   color: #878a8c;
-}
-
-.dd_top:hover {
-  background-color: #f6f7f8;
 }
 
 .dd_content {
