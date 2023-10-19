@@ -34,8 +34,10 @@ const NavNotification = () => {
         <button className={styles.nav_bell_wrap}>
           <div className={styles.nav_bell}>
             <VscBell />
-            {notifications?.notifications?.filter((x) => !x?.markedAsRead).length && (
+            {notifications?.notifications?.filter((x) => !x?.markedAsRead).length ? (
               <span>{notifications?.notifications?.filter((x) => !x?.markedAsRead).length}</span>
+            ) : (
+              ''
             )}
           </div>
         </button>

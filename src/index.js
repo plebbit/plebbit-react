@@ -13,7 +13,6 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { App as CapacitorApp } from '@capacitor/app';
-import { ChakraProvider } from '@chakra-ui/react';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -25,13 +24,11 @@ const app = document.getElementById('root');
 const root = createRoot(app);
 root.render(
   <>
-    <ChakraProvider theme={theme}>
-      <ProfileDataProvider>
-        <Router future={{ v7_startTransition: true }}>
-          <App />
-        </Router>
-      </ProfileDataProvider>
-    </ChakraProvider>
+    <ProfileDataProvider>
+      <Router future={{ v7_startTransition: true }}>
+        <App />
+      </Router>
+    </ProfileDataProvider>
     <ToastContainer position="bottom-center" autoClose={false} closeButton hideProgressBar />
   </>
 );

@@ -9,8 +9,6 @@
     "@capacitor/android": "3.6.0",
     "@capacitor/app": "1.1.1",
     "@capacitor/core": "3.6.0",
-    "@chakra-ui/icons": "1.1.1",
-    "@chakra-ui/react": "1.7.4",
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",
     "@floating-ui/react": "^0.25.4",
