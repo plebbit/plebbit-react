@@ -1,27 +1,25 @@
-.card_avatar_wrap {
-  flex: 0 0 auto;
-  cursor: pointer;
-  color: #878a8c;
+.wrapper {
+  border-radius: 50%;
+  position: relative;
 }
 
-.card_avatar {
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
-  color: #1c1c1c;
-  display: inline;
-  line-height: 20px;
-  text-decoration: none;
-  vertical-align: baseline;
+.avatar_wrap {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-position-y: center;
+  background-position-x: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-.card_image {
-  background-color: #999999;
-  display: inline-block;
-  height: 20px;
-  margin-right: 4px;
-  vertical-align: middle;
-  width: 20px;
-  border-radius: 100%;
-  overflow-clip-margin: content-box;
-  overflow: clip;
+
+.badge {
+  position: absolute;
+  transform: translate(25%, 25%);
+  border-radius: 50%;
+  border-width: 0.2em;
+  border-style: solid;
+  left: 59%;
+  position: absolute;
+  overflow: hidden;
 }

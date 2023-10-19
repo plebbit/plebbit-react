@@ -144,7 +144,7 @@
   border: none;
 }
 
-.footer > button:before {
+.footer > button::before {
   content: '';
   position: absolute;
   top: 0;

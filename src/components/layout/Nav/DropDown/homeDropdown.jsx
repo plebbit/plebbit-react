@@ -144,7 +144,9 @@ export const SideMenu = ({ location }) => {
               <Avatar
                 width={20}
                 height={20}
-                mr="8px"
+                style={{
+                  marginRight: '8px',
+                }}
                 avatar={accountSubplebbits[pages]?.avatar}
                 badge
                 isOnline={getIsOnline(accountSubplebbits[pages]?.updatedAt)}
@@ -174,7 +176,9 @@ export const SideMenu = ({ location }) => {
             <Avatar
               width={20}
               height={20}
-              mr="8px"
+              style={{
+                marginRight: '8px',
+              }}
               avatar={pages?.avatar}
               badge
               isOnline={getIsOnline(pages?.updatedAt)}
@@ -197,7 +201,14 @@ export const SideMenu = ({ location }) => {
       </Link>
       <div className={styles.nav_home_moderating_title}>Other</div>
       <Link to={`/settings/`} className={styles.nav_home_moderating_item}>
-        <Avatar width={20} height={20} mr="8px" avatar={authorAvatarImageUrl} />
+        <Avatar
+          width={20}
+          height={20}
+          style={{
+            marginRight: '8px',
+          }}
+          avatar={authorAvatarImageUrl}
+        />
         <span className={styles.nav_home_moderating_item_text}>{getUserName(profile?.author)}</span>
       </Link>
       <Link className={styles.nav_home_moderating_item} to="/submit">

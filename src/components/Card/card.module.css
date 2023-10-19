@@ -1,0 +1,39 @@
+.wrapper {
+  border: 1px solid #878a8c;
+  border-radius: 4px;
+  margin: 16px 16px 8px 8px;
+  padding: 4px 8px 4px 0;
+  position: relative;
+}
+
+.ribbon {
+  background-color: #878a8c;
+  bottom: 0;
+  top: 0;
+  position: absolute;
+  width: 8px;
+}
+
+.wrap_icon {
+  margin: 12px 8px 8px 16px;
+}
+
+.wrap_icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.content {
+  margin: 8px 0;
+}
+.content1 {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+}
+.content2 {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  padding-top: 4px;
+}

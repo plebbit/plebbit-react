@@ -6,7 +6,7 @@ import {
 } from '@plebbit/plebbit-react-hooks';
 import React, { useMemo } from 'react';
 import useStore from '../../store/useStore';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Layout from '../../components/layout';
 import styles from './profile.module.css';
 import getUserName from '../../utils/getUserName';
@@ -16,7 +16,6 @@ import SideBar from './sideBar';
 import Post from '../../components/Post';
 import Avatar from '../../components/Avatar';
 import numFormatter from '../../utils/numberFormater';
-import Dot from '../../components/Dot';
 import { MdEdit } from 'react-icons/md';
 import InfiniteScroll from '../../components/InfiniteScroll';
 
@@ -28,10 +27,9 @@ const Profile = () => {
   const profile = useAccount();
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
   const { device, postStyle } = useStore((state) => state);
-  const location = useLocation();
-  const currentView = location.pathname.split('/').at(-2);
+  const view = useParams()?.view ?? 'profile';
   const { accountComments: myPost } = useAccountComments({
-    filter: currentView === 'comments' ? isReply : currentView === 'posts' ? isPost : undefined,
+    filter: view === 'comments' ? isReply : view === 'posts' ? isPost : undefined,
   });
   const blockedCids = useMemo(
     () => Object.keys(profile?.blockedCids || {}) || [],
@@ -63,7 +61,7 @@ const Profile = () => {
           { label: 'hidden', link: 'hidden' },
         ];
   const feeds = myPost ? [...myPost].reverse() : [];
-  const fullNav = !(currentView === 'overview' || currentView === 'profile');
+  const fullNav = !(view === 'overview' || view === 'profile');
 
   return (
     <Layout name={{ label: getUserName(profile?.author) || 'Profile', value: location?.pathname }}>
@@ -78,9 +76,7 @@ const Profile = () => {
                       key={index}
                       className={styles.profile_header_link}
                       to={`/profile/${option?.link}/`}
-                      active={String(
-                        currentView === option?.link || currentView === option?.optional
-                      )}
+                      active={String(view === option?.optional || view === option?.link)}
                     >
                       {option?.label}
                     </Link>
@@ -93,11 +89,11 @@ const Profile = () => {
             type={fullNav ? 'false' : 'true'}
             top={<FeedSort hideControl />}
             sidebar={<SideBar profile={profile} avatar={authorAvatarImageUrl} />}
-            feeds={currentView === 'hidden' ? blockedFeeds : feeds}
+            feeds={view === 'hidden' ? blockedFeeds : feeds}
             loader={
               <Post
                 loading={true}
-                mode={currentView === 'overview' || currentView === 'profile' ? 'card' : 'classic'}
+                mode={view === 'overview' || view === 'profile' ? 'card' : 'classic'}
                 key={Math.random()}
               />
             }
@@ -106,10 +102,10 @@ const Profile = () => {
                 post={feed}
                 index={index}
                 key={feed?.cid || index}
-                mode={currentView === 'overview' || currentView === 'profile' ? 'card' : 'classic'}
+                mode={view === 'overview' || view === 'profile' ? 'card' : 'classic'}
               />
             )}
-            disableBlocked={currentView === 'hidden'}
+            disableBlocked={view === 'hidden'}
           />
         </>
       ) : (
@@ -122,7 +118,7 @@ const Profile = () => {
                     avatar={authorAvatarImageUrl}
                     height={64}
                     width={64}
-                    sx={{
+                    style={{
                       margin: 'auto',
                     }}
                   />
@@ -146,9 +142,7 @@ const Profile = () => {
                   {navOptions?.map((option, index) => (
                     <Link to={`/profile/${option?.link}/`} key={index}>
                       <div
-                        active={String(
-                          currentView === option?.link || currentView === option?.optional
-                        )}
+                        active={String(view === option?.link || view === option?.optional)}
                         className={styles.mobile_profile_header_navigation_link}
                       >
                         {option?.label}
@@ -160,12 +154,12 @@ const Profile = () => {
             </header>
             <FeedSort />
             <InfiniteScroll
-              feeds={currentView === 'hidden' ? blockedFeeds : feeds}
+              feeds={view === 'hidden' ? blockedFeeds : feeds}
               loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
               content={(index, feed) => (
                 <Post index={index} post={feed} key={feed?.cid || index} mode="card" />
               )}
-              disableBlocked={currentView === 'hidden'}
+              disableBlocked={view === 'hidden'}
             />
           </div>
         </div>

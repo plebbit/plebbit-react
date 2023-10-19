@@ -1,8 +1,8 @@
-import { Flex, Box, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 import Select, { components } from 'react-select';
 import Avatar from '../Avatar';
 import getIsOnline from '../../utils/getIsOnline';
+import styles from './dropdown.module.css';
 
 const DropDown2 = ({
   prefix,
@@ -25,10 +25,6 @@ const DropDown2 = ({
   unselectedBg,
   render,
 }) => {
-  const mainColor = useColorModeValue('lightText2', 'darkText1');
-  const navBorder = useColorModeValue('#edeff1', '#343536');
-  const mainBg = useColorModeValue('#fff', '#1A1A1B');
-
   const Option = ({ children, ...props }) => {
     return render ? (
       <components.Option {...props}>{render(props?.data)}</components.Option>
@@ -43,26 +39,18 @@ const DropDown2 = ({
     return (
       <components.Control {...props}>
         {(prefix && prefix(props?.selectProps?.value)) || (
-          <Box
-            style={style}
-            borderRadius="22px"
-            border="1px dashed #a4a4a4"
-            height="22px"
-            margin="0"
-            width="22px"
-            fontSize="22px"
-            lineHeight="22px"
-            ml="8px"
-          >
+          <div style={style} className={styles.control}>
             <Avatar
               width={20}
               height={20}
-              mr="8px"
+              style={{
+                marginRight: '8px',
+              }}
               avatar={props?.selectProps?.value?.suggested?.avatarUrl}
               badge
               isOnline={getIsOnline(props?.selectProps?.value?.updatedAt)}
             />
-          </Box>
+          </div>
         )}
         {children}
         {suffix && suffix(props?.selectProps)}
@@ -81,13 +69,13 @@ const DropDown2 = ({
   };
 
   return (
-    <Flex width="100%" alignItems="center" borderRadius="4px" sx={sx}>
+    <div width="100%" alignItems="center" borderRadius="4px" style={sx}>
       <Select
         styles={{
           container: (styles) => ({
             ...styles,
             width: '100%',
-            backgroundColor: mainBg,
+            backgroundColor: '#fff',
             ...selectStyles,
           }),
           control: (styles) => ({
@@ -96,7 +84,7 @@ const DropDown2 = ({
             border: '1px solid transparent',
             ':hover': {
               ...styles,
-              border: `1px solid ${navBorder}`,
+              border: `1px solid ${'#edeff1'}`,
               boxShadow: 'none',
               backgroundColor: 'transparent',
             },
@@ -116,23 +104,23 @@ const DropDown2 = ({
             };
           },
           input: (styles) => ({ ...styles }),
-          menu: (styles) => ({ ...styles, border: `1px solid ${navBorder}` }),
-          menuList: (styles) => ({ ...styles, backgroundColor: mainBg }),
+          menu: (styles) => ({ ...styles, border: `1px solid #edeff1` }),
+          menuList: (styles) => ({ ...styles, backgroundColor: '#fff' }),
           placeholder: (styles) => ({
             ...styles,
             fontWeight: '500',
-            color: mainColor,
+            color: '#1c1c1c',
             ...placeholderStyles,
           }),
           singleValue: (styles) => ({
             ...styles,
             fontWeight: '500',
-            color: mainColor,
+            color: '#1c1c1c',
           }),
           indicatorSeparator: (styles) => ({ ...styles, display: 'none' }),
           dropdownIndicator: (styles) => ({
             ...styles,
-            color: mainColor,
+            color: '#1c1c1c',
             fontWeight: '400',
           }),
         }}
@@ -151,7 +139,7 @@ const DropDown2 = ({
         defaultValue={defaultValue}
         isClearable={isClearable}
       />
-    </Flex>
+    </div>
   );
 };
 

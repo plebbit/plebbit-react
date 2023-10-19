@@ -1,0 +1,43 @@
+.delBtn {
+  color: white;
+  background-color: red;
+}
+
+.wrapper {
+  flex: 1;
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #1c1c1c;
+  line-height: 21px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-inline-start: 1.5rem;
+  padding-inline-end: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: #edeff1;
+  border-radius: 0 0 6px 6px;
+}
+
+.footer button {
+  margin-left: 8px;
+}
+
+.main_wrapper {
+  padding: 0px;
+}
+
+.modal_form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal_form_item {
+  display: flex;
+  margin-bottom: 32px;
+}

@@ -13,7 +13,6 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { App as CapacitorApp } from '@capacitor/app';
-import { ChakraProvider } from '@chakra-ui/react';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -23,16 +22,16 @@ import { HashRouter as Router } from 'react-router-dom';
 
 const app = document.getElementById('root');
 const root = createRoot(app);
-root.render(<>
-  <ChakraProvider theme={ theme }>
+root.render(
+  <>
     <ProfileDataProvider>
-      <Router future={ { v7_startTransition: true } } >
+      <Router future={{ v7_startTransition: true }}>
         <App />
       </Router>
     </ProfileDataProvider>
-  </ChakraProvider>
-  <ToastContainer />
-</>)
+    <ToastContainer position="bottom-center" autoClose={false} closeButton hideProgressBar />
+  </>
+);
 
 // set up PWA https://cra.link/PWA
 serviceWorkerRegistration.register();
@@ -40,7 +39,7 @@ serviceWorkerRegistration.register();
 reportWebVitals();
 
 // add back button in android app
-CapacitorApp.addListener('backButton', ({canGoBack}) => {
+CapacitorApp.addListener('backButton', ({ canGoBack }) => {
   if (canGoBack) {
     window.history.back();
   } else {

@@ -7,8 +7,6 @@ const useStore = create((set, get) => ({
   setPostStyle: (val) => set(() => ({ postStyle: val })),
   showSplashcreen: true,
   setShowSplashcreen: (val) => set(() => ({ showSplashcreen: val })),
-  feedSort: 'hot',
-  setFeedSort: (val) => set(() => ({ feedSort: val })),
   device: 'pc',
   setDevice: (val) => set(() => ({ device: val })),
   version,
@@ -30,6 +28,10 @@ const useStore = create((set, get) => ({
   setShowImportAccountModal: (val) => set(() => ({ showImportAccountModal: val })),
   showCreateSubModal: false,
   setShowCreateSubModal: (val) => set(() => ({ showCreateSubModal: val })),
+  colorMode: 'light',
+  setColorMode: (val) => set(() => ({ darkMode: val })),
+  toggleColorMode: () =>
+    set((state) => ({ colorMode: state?.darkMode === 'light' ? 'dark' : 'light' })),
 }));
 
 export default useStore;

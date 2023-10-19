@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './navbar.module.css';
-import { useColorMode, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   createAccount,
   setAccount,
@@ -42,9 +41,9 @@ import MobileMenuDropDown from './DropDown/mobileMenuDropDown';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { bottomData1 } from '../../sidebar/projectLinks';
 import plebbitReactPackageJson from '../../../../package.json';
+import { toast } from 'react-toastify';
 
-const NavBar = ({ location, showStyleBar }) => {
-  const { colorMode, toggleColorMode } = useColorMode();
+const NavBar = ({ location }) => {
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
@@ -56,11 +55,14 @@ const NavBar = ({ location, showStyleBar }) => {
     setPostView,
     setShowImportAccountModal,
     setShowCreateSubModal,
+    colorMode,
+    toggleColorMode,
   } = useStore((state) => state);
 
   const { accounts: accountLists } = useAccounts();
   const userTheme = profile?.plebbitReactOptions?.darkMode;
-
+  const { search } = useLocation();
+  const showStyleBar = search === '?styling=true';
   const toggleTheme = () => {
     toggleColorMode();
     setAccount({
@@ -83,16 +85,10 @@ const NavBar = ({ location, showStyleBar }) => {
     true
   );
 
-  const toast = useToast();
-
   const handleCreateAccount = async () => {
     await createAccount();
-    toast({
-      title: 'Create Account.',
-      description: 'Account Created Successfully',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
+    toast.success('Account Created Successfully', {
+      aut: 5000,
     });
   };
 
@@ -138,7 +134,9 @@ const NavBar = ({ location, showStyleBar }) => {
                         </div>
                       </button>
                     </span>
-                    <NavNotification />
+                    <span className={styles.nav_rr_left_item}>
+                      <NavNotification />
+                    </span>
                     <span className={styles.nav_rr_left_item}>
                       <Link className={styles.nav_rr_left_item_btn} to="/submit">
                         <div className={styles.nav_rr_left_item_btn2}>
@@ -223,7 +221,14 @@ const NavBar = ({ location, showStyleBar }) => {
                 <MobileMenuDropDown
                   title={getUserName(profile?.author)}
                   titleIcon={
-                    <Avatar width={24} height={24} mr="8px" avatar={authorAvatarImageUrl} />
+                    <Avatar
+                      width={24}
+                      height={24}
+                      style={{
+                        marginRight: '8px',
+                      }}
+                      avatar={authorAvatarImageUrl}
+                    />
                   }
                   options={[
                     { label: 'Create Account', create: true, legacy: true },
@@ -330,7 +335,9 @@ const NavBar = ({ location, showStyleBar }) => {
                               avatar={pages?.avatar}
                               width={24}
                               height={24}
-                              mr="8px"
+                              style={{
+                                marginRight: '8px',
+                              }}
                               isOnline={getIsOnline(pages?.updatedAt)}
                             />
                           </span>
@@ -370,7 +377,9 @@ const NavBar = ({ location, showStyleBar }) => {
                               avatar={accountSubplebbits[pages]?.avatar}
                               width={24}
                               height={24}
-                              mr="8px"
+                              style={{
+                                marginRight: '8px',
+                              }}
                               isOnline={getIsOnline(accountSubplebbits[pages]?.updatedAt)}
                             />
                           </span>

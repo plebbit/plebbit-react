@@ -1,33 +1,25 @@
-import { Tag } from '@chakra-ui/react'
-import React from 'react'
+import React from 'react';
+import Label from '.';
 
 const FlairLabel = (props) => {
-    const { flair, text, bg, color } = props
-    return (
-        <Tag
-            borderRadius="20px"
-            fontWeight='500'
-            p="2px 8px"
-            fontSize="12px"
-            lineHeight="16px"
-            overflow="hidden"
-            textOverflow='ellipsis'
-            verticalAlign="top"
-            whiteSpace="pre"
-            wordBreak="normal"
-            boxSizing='border-box'
-            mr="5px"
-            { ...props }
-            cursor="pointer"
-            minH='undefined'
-            height="16px"
-            bg={ flair?.backgroundColor || bg }
-            color={ flair?.textColor || color }
-            isTruncated
-        >
-            { flair?.text || text }
-        </Tag>
-    )
-}
+  const { flair, text, bg, color, style, className } = props;
+  return (
+    <Label
+      {...props}
+      style={{
+        borderRadius: '20px',
+        padding: '2px 8px',
+        overflow: 'hidden',
+        verticalAlign: 'top',
+        backgroundColor: flair?.backgroundColor || bg,
+        color: flair?.textColor || color,
+        ...style,
+      }}
+      className={className}
+    >
+      {flair?.text || text}
+    </Label>
+  );
+};
 
-export default FlairLabel
+export default FlairLabel;

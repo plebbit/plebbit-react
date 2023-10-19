@@ -1,24 +1,18 @@
 import React, { useState } from 'react';
 import Modal from '../../../Modal';
 import styles from './importAccount.module.css';
-import { useToast } from '@chakra-ui/react';
 import { importAccount } from '@plebbit/plebbit-react-hooks';
 import useStore from '../../../../store/useStore';
+import { toast } from 'react-toastify';
 
 const ImportAccount = () => {
   const [account, setAccount] = useState();
   const { showImportAccountModal, setShowImportAccountModal } = useStore((state) => state);
 
-  const toast = useToast();
-
   const handleImportAccount = async () => {
     await importAccount(account);
-    toast({
-      title: 'Import Account.',
-      description: 'Account Imported Successfully',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
+    toast.success('Account Imported Successfully', {
+      autoClose: 5000,
     });
     setShowImportAccountModal(false);
   };

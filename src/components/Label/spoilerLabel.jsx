@@ -1,12 +1,19 @@
-import React from 'react'
-import Label from "."
+import React from 'react';
+import Label from '.';
 
-const SpoilerLabel = () => {
-    return (
-        <Label
-            variant="outline"
-            colorScheme="blackAlpha" text="spoiler" />
-    )
-}
+const SpoilerLabel = (props) => {
+  const { className } = props;
+  return (
+    <Label
+      style={{
+        color: 'rgb(164, 167, 168)',
+        border: '1px solid currentColor',
+      }}
+      text="spoiler"
+      className={className}
+      {...props}
+    />
+  );
+};
 
-export default SpoilerLabel
+export default SpoilerLabel;

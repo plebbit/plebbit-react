@@ -26,7 +26,7 @@
   justify-content: flex-end;
 }
 
-.nav_rr_menu_item_switch_control:after {
+.nav_rr_menu_item_switch_control::after {
   content: '';
   padding-top: 100%;
   display: block;

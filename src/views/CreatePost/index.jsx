@@ -8,7 +8,7 @@ import {
   useSubplebbits,
 } from '@plebbit/plebbit-react-hooks';
 import { EditorState } from 'draft-js';
-import { useToast } from '@chakra-ui/react';
+
 import useStore from '../../store/useStore';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Sort from '../../utils/sort';
@@ -27,6 +27,9 @@ import { MdStickyNote2 } from 'react-icons/md';
 import { BsChevronDown, BsLink45Deg } from 'react-icons/bs';
 import { BiPoll } from 'react-icons/bi';
 import { AiOutlinePlus, AiOutlineTag } from 'react-icons/ai';
+import truncateString from '../../utils/truncateString';
+import logger from '../../utils/logger';
+import { toast } from 'react-toastify';
 
 const CreatePost = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
@@ -42,7 +45,6 @@ const CreatePost = () => {
   const [type, setType] = useState('markup');
   const [spoiler, setSpoiler] = useState(false);
   const [flair, setFlair] = useState({});
-  const toast = useToast();
   const mySubplebbits = Object.keys(accountSubplebbits)?.length
     ? Object.keys(accountSubplebbits)?.map((pages) => ({
         label: truncateString(accountSubplebbits[pages]?.title),
@@ -141,13 +143,7 @@ const CreatePost = () => {
     } catch (error) {
       logger('create-post', error, 'error');
       setLoading(false);
-      toast({
-        title: 'Declined.',
-        description: error?.toString(),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
+      toast.error(error?.toString());
     }
   };
 
@@ -184,7 +180,9 @@ const CreatePost = () => {
                       <Avatar
                         width={20}
                         height={20}
-                        mr="8px"
+                        style={{
+                          marginRight: '8px',
+                        }}
                         avatar={data?.suggested?.avatarUrl}
                         badge
                         isOnline={getIsOnline(data?.updatedAt)}
@@ -322,7 +320,7 @@ const CreatePost = () => {
             </div>
           </div>
         </div>
-        <CreatePostSideBar />
+        <CreatePostSideBar subPlebbit={address} />
       </div>
       {isOpen && (
         <AddFlair

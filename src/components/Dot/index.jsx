@@ -1,9 +1,8 @@
-import React from 'react'
-import styles from './dot.module.css'
+import React from 'react';
+import styles from './dot.module.css';
 
-const Dot = () => {
-    return (
-        <span className={ styles.mobile_dot } />)
-}
+const Dot = ({ className }) => {
+  return <span className={[styles.mobile_dot, className].join(' ')}> • </span>;
+};
 
-export default Dot
+export default Dot;

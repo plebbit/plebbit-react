@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import getUserName, { getSubName } from '../../../utils/getUserName';
 import dateToFromNowDaily, { dateFormater } from '../../../utils/formatDate';
 import Avatar from '../../Avatar';
-import Label from '../../Label';
-import { Icon, Tooltip } from '@chakra-ui/react';
 import { FcCancel } from 'react-icons/fc';
 import StateString from '../../Label/stateString';
 import { HiLockClosed, HiOutlineCheckCircle } from 'react-icons/hi';
@@ -52,10 +50,12 @@ const PostTop = ({
                   avatar={subPlebbit?.suggested?.avatarUrl}
                   width={24}
                   height={24}
-                  mr="8px"
                   badge
                   isOnline={isOnline}
-                  mb="5px"
+                  style={{
+                    marginRight: '8px',
+                    marginBottom: '5px',
+                  }}
                 />
               </Link>
             </div>
@@ -105,21 +105,15 @@ const PostTop = ({
                 </div>
               )}
               {/* date/time */}
-              <Tooltip
-                fontSize="10px"
-                label={dateFormater(parseInt(post?.timestamp * 1000))}
-                aria-label="date tooltip"
-                placement="top"
-              >
-                <span className={styles.post_timestamp}>
-                  {' '}
-                  {dateToFromNowDaily(parseInt(post?.timestamp * 1000))}
-                </span>
-              </Tooltip>
+
+              <span className={styles.post_timestamp}>
+                {dateToFromNowDaily(parseInt(post?.timestamp * 1000))}
+              </span>
+
               {/* locked */}
               {post?.locked && (
                 <span className={styles.lock_wrap}>
-                  <Icon as={HiLockClosed} color="#ffd635" />
+                  <HiLockClosed color="#ffd635" />
                 </span>
               )}
               {/* removed */}
@@ -128,18 +122,11 @@ const PostTop = ({
                   className={styles.remove_icon_wrap}
                   onClick={() => (!post?.reason ? openRemovalModal() : {})}
                 >
-                  <Icon as={FcCancel} />
+                  <FcCancel />
                   {!post?.reason ? (
                     allowedSpecial && <div>Add a removal reason</div>
                   ) : (
-                    <Tooltip
-                      fontSize="10px"
-                      label="removal reason"
-                      aria-label="removal reason"
-                      placement="top"
-                    >
-                      <div className={styles.removal_reason}>{post?.reason}</div>
-                    </Tooltip>
+                    <div className={styles.removal_reason}>{post?.reason}</div>
                   )}
                 </div>
               )}

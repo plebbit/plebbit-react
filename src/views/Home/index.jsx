@@ -1,5 +1,4 @@
 import React, { Profiler } from 'react';
-import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
 import SideBar from './sideBar';
 import { useFeed, useSubplebbits } from '@plebbit/plebbit-react-hooks';
 import FeedSort from '../../components/Post/FeedSort';
@@ -11,18 +10,18 @@ import getAddressFromArray from '../../utils/getAddressFromArray';
 import useStore from '../../store/useStore';
 import CreatePostBar from '../../components/CreatePost/createPostBar';
 import FeedContent from '../../components/container/FeedContent';
+import { useParams } from 'react-router-dom';
+import GetChallengesModal from '../../components/Modal/ChallengeModal';
 
 const Home = () => {
-  const { postStyle, feedSort, device, postView, homeAdd, subPlebbitData } = useStore(
-    (state) => state
-  );
-  const bg = useColorModeValue('lightBody', 'darkBody');
+  const { postStyle, device, postView, homeAdd, subPlebbitData } = useStore((state) => state);
+  const sortType = useParams()?.sortType ?? 'hot';
   const subplebbitAddresses = postView?.filter(Boolean)?.length
     ? postView?.filter(Boolean)
     : getAddressFromArray(subPlebbitData);
   const { feed, loadMore, hasMore } = useFeed({
     subplebbitAddresses: subplebbitAddresses.length ? subplebbitAddresses : undefined,
-    sortType: feedSort,
+    sortType: sortType,
   });
 
   const { subplebbits } = useSubplebbits({
@@ -62,7 +61,7 @@ const Home = () => {
                 />
               }
               enableSubBlock
-              sidebar={<SideBar bg={bg} />}
+              sidebar={<SideBar />}
             />
           </>
         ) : (

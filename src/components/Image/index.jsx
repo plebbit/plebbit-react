@@ -1,14 +1,8 @@
-import React from 'react'
-import { Image as Img } from "@chakra-ui/react"
-// import placeHolder from "../../assets/images/fallback.png"
-
-
+import React from 'react';
 
 const Image = (props) => {
-
-
-    const { noPlaceholder, ...rest } = props
-    return <Img { ...rest } fallbackSrc={ !noPlaceholder ? undefined : undefined } />;
+  const { noPlaceholder, ...rest } = props;
+  return <img {...rest} fallbackSrc={!noPlaceholder ? undefined : undefined} />;
 };
 
-export default (Image)
+export default Image;

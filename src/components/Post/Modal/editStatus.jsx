@@ -1,138 +1,103 @@
-import React, { useState } from 'react';
-import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    Button,
-    useColorModeValue,
-    Box,
-    Textarea,
-    Switch,
-    FormControl,
-    FormLabel,
-    Flex,
-    FormHelperText,
-} from '@chakra-ui/react';
+import React from 'react';
 import Label from '../../Label';
+import Modal from '../../Modal';
+import styles from './modal.module.css';
+import Button from '../../Button';
 
-const EditStatus = ({ onClose, isOpen, post }) => {
-    const border1 = useColorModeValue('#edeff1', '#343536');
-    const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
-    const failed = post?.failedEdits
-    const pending = post?.pendingEdits
-    const success = post?.succeededEdits
+const EditStatus = ({ setIsOpen, isOpen, post }) => {
+  const failed = post?.failedEdits;
+  const pending = post?.pendingEdits;
+  const success = post?.succeededEdits;
 
+  return (
+    <Modal
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      header="Edit Status"
+      modalBodyStyle={styles.main_wrapper}
+    >
+      <div className={styles.wrapper}>
+        <div className={styles.modal_form}>
+          {Object?.keys(failed)?.map((val) => (
+            <div className={styles.modal_form_item}>
+              <div
+                style={{
+                  fontSize: '18px',
+                  fontWeight: '500',
+                  lineHeight: '20px',
+                  marginBottom: '4px',
+                  color: '#1c1c1c',
+                }}
+              >
+                {val}
+              </div>
 
+              <div>
+                <Label
+                  style={{
+                    color: 'red',
+                  }}
+                  variant="outline"
+                  text="failed"
+                />
+              </div>
+            </div>
+          ))}
+          {Object?.keys(pending)?.map((val) => (
+            <div className={styles.modal_form_item}>
+              <div
+                style={{
+                  fontSize: '18px',
+                  fontWeight: '500',
+                  lineHeight: '20px',
+                  marginBottom: '4px',
+                  color: '#1c1c1c',
+                }}
+              >
+                {val}
+              </div>
 
-    return (
-        <Modal
-            scrollBehavior="inside"
-            trapFocus={ false }
-            onClose={ onClose }
-            size="sm"
-            isOpen={ isOpen }
-            isCentered
-        >
-            <ModalOverlay />
-            <ModalContent>
-                <ModalHeader> Edit Status</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody
-                    padding="16px"
-                    fontSize="14px"
-                    fontWeight="400"
-                    color={ mainColor }
-                    lineHeight="21px"
-                >
-                    <FormControl>
-                        { Object?.keys(failed)?.map((val) =>
-                            <Flex flexFlow="row wrap" marginBottom="32px">
-                                <Flex flexDir="column" marginRight="8px" maxWidth="80%">
-                                    <Box>
-                                        <FormLabel
-                                            fontSize="18px"
-                                            fontWeight="500"
-                                            lineHeight="20px"
-                                            color={ mainColor }
-                                            marginBottom="4px"
-                                            htmlFor="pinned"
-                                        >
-                                            { val }
-                                        </FormLabel>
-                                    </Box>
+              <div>
+                <Label
+                  style={{
+                    color: 'orange',
+                  }}
+                  text="pending"
+                />
+              </div>
+            </div>
+          ))}
+          {Object?.keys(success)?.map((val) => (
+            <div className={styles.modal_form_item}>
+              <div
+                style={{
+                  fontSize: '18px',
+                  fontWeight: '500',
+                  lineHeight: '20px',
+                  marginBottom: '4px',
+                  color: '#1c1c1c',
+                }}
+              >
+                {val}
+              </div>
 
-                                </Flex>
-                                <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-                                    <Label colorScheme="red" variant="outline" text="failed" />
-                                </Flex>
-                            </Flex>) }
-                        { Object?.keys(pending)?.map((val) =>
-                            <Flex flexFlow="row wrap" marginBottom="32px">
-                                <Flex flexDir="column" marginRight="8px" maxWidth="80%">
-                                    <Box>
-                                        <FormLabel
-                                            fontSize="18px"
-                                            fontWeight="500"
-                                            lineHeight="20px"
-                                            color={ mainColor }
-                                            marginBottom="4px"
-                                            htmlFor="pinned"
-                                        >
-                                            { val }
-                                        </FormLabel>
-                                    </Box>
-
-                                </Flex>
-                                <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-                                    <Label colorScheme="orange" variant="outline" text="pending" />
-                                </Flex>
-                            </Flex>) }
-                        { Object?.keys(success)?.map((val) =>
-                            <Flex flexFlow="row wrap" marginBottom="32px">
-                                <Flex flexDir="column" marginRight="8px" maxWidth="80%">
-                                    <Box>
-                                        <FormLabel
-                                            fontSize="18px"
-                                            fontWeight="500"
-                                            lineHeight="20px"
-                                            color={ mainColor }
-                                            marginBottom="4px"
-                                            htmlFor="pinned"
-                                        >
-                                            { val }
-                                        </FormLabel>
-                                    </Box>
-
-                                </Flex>
-                                <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-                                    <Label colorScheme="green" variant="outline" text="success" />
-                                </Flex>
-                            </Flex>) }
-
-
-
-                    </FormControl>
-                </ModalBody>
-                <ModalFooter bg={ border1 }>
-                    <Button
-                        borderRadius="999px"
-                        mr="8px"
-                        variant="outline"
-                        colorScheme="red"
-                        onClick={ onClose }
-                        h="32px"
-                    >
-                        Close
-                    </Button>
-
-                </ModalFooter>
-            </ModalContent>
-        </Modal>
-    );
+              <div>
+                <Label
+                  style={{
+                    color: 'green',
+                  }}
+                  text="success"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <footer className={styles.footer}>
+        <Button onClick={() => setIsOpen(false)}>Close</Button>
+      </footer>
+    </Modal>
+  );
 };
 
 export default EditStatus;

@@ -1,0 +1,35 @@
+.button {
+  position: relative;
+  border: 1px solid currentColor;
+  color: #0079d3;
+  fill: currentColor;
+  font-family: Noto Sans, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: unset;
+  line-height: 17px;
+  text-transform: unset;
+  min-height: 32px;
+  min-width: 32px;
+  padding: 4px 16px;
+  align-items: center;
+  border-radius: 9999px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  width: auto;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background: #0079d3;
+  opacity: 0;
+}

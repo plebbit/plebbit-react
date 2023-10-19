@@ -1,40 +1,34 @@
-import React, { useEffect } from "react";
-import GetChallengesModal from "../components/Modal/getChallengesModal";
-import { useDisclosure } from "@chakra-ui/react";
+import React, { useEffect, useState } from 'react';
+import GetChallengesModal from '../components/Modal/ChallengeModal';
 
 const GetChallengeAnswersFromUser = ({ challenges, comment, onComplete }) => {
-  const { onClose, isOpen, onOpen } = useDisclosure()
-
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = (values) => {
     const answers = Object.values(values);
     onComplete(answers);
-    onClose()
+    setIsOpen(false);
   };
 
   useEffect(() => {
-    onOpen()
+    setIsOpen(true);
 
     return () => {
-      onClose()
-    }
-  }, [])
-
-
-
-
+      setIsOpen(false);
+    };
+  }, []);
 
   return (
     <>
-
-      { isOpen && <GetChallengesModal
-        handleSubmit={ handleSubmit }
-        post={ comment }
-        challenges={ challenges?.challenges }
-        onClose={ onClose }
-        isOpen={ isOpen }
-        onOpen={ onOpen }
-      /> }
+      {isOpen && (
+        <GetChallengesModal
+          handleSubmit={handleSubmit}
+          post={comment}
+          challenges={challenges?.challenges}
+          setIsOpen={setIsOpen}
+          isOpen={isOpen}
+        />
+      )}
     </>
   );
 };

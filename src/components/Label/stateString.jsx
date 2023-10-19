@@ -1,37 +1,19 @@
-import { Text, useColorModeValue } from '@chakra-ui/react'
-import React from 'react'
+import React from 'react';
+import styles from './label.module.css';
 
 const StateString = ({ stateString, textSx }) => {
-    const separatorColor = useColorModeValue('#7c7c7c', 'darkIcon');
-
-    return (
+  return (
+    <>
+      {stateString && stateString !== 'Succeeded' && (
         <>
-            { stateString && stateString !== 'Succeeded' && <>
-
-                <Text
-                    color={ separatorColor }
-                    as="span"
-                    verticalAlign="middle"
-                    fontSize="6px"
-                    lineHeight="20px"
-                    margin="0 4px"
-                >
-                    •
-                </Text>
-                <Text
-                    color={ separatorColor }
-                    as="span"
-                    verticalAlign="middle"
-                    fontSize="12px"
-                    lineHeight="16px"
-                    className='loading-ellipsis'
-                    sx={ textSx }
-                >
-                    { stateString }
-                </Text>
-            </> }
+          <span className={styles.style_dot}>•</span>
+          <span style={textSx} className={[styles.style_dot, 'loading-ellipsis'].join(' ')}>
+            {stateString}
+          </span>
         </>
-    )
-}
+      )}
+    </>
+  );
+};
 
-export default StateString
+export default StateString;

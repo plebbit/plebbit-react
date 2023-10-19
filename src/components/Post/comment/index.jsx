@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import {
-  Box,
-  Flex,
-  Text,
-  useColorModeValue,
-  IconButton,
-  Icon,
-  Tag,
-  Skeleton,
-  useDisclosure,
-} from '@chakra-ui/react';
-import { useAuthorAvatar, useAccountVote, useEditedComment, useAccountComment, useAuthorAddress, useAccountSubplebbits, useAccount } from '@plebbit/plebbit-react-hooks';
+  useAuthorAvatar,
+  useAccountVote,
+  useEditedComment,
+  useAccountComment,
+  useAuthorAddress,
+  useAccountSubplebbits,
+  useAccount,
+} from '@plebbit/plebbit-react-hooks';
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { EditorState } from 'draft-js';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
@@ -32,20 +29,21 @@ import usePublishDownvote from '../../../hooks/usePublishDownvote';
 import EditLabel from '../../Label/editLabel';
 import PendingLabel from '../../Label/pendingLabel';
 import FlairLabel from '../../Label/flairLabel';
-import Link from '../../Link';
 import useStateString from '../../../hooks/useStateString';
 import StateString from '../../Label/stateString';
 import usePublishComment from '../../../hooks/usePublishComment';
 import ConfirmDelete from '../Modal/confirmDelete';
 import AddRemovalReason from '../Modal/addRemovalReason';
 import useStore from '../../../store/useStore';
+import { Link, useParams } from 'react-router-dom';
+import styles from './comment.module.css';
+import Dot from '../../Dot';
+import Label from '../../Label';
 
 const Comment = ({ comment: data, disableReplies, singleComment, loading, type }) => {
-  let comment = data
-  const iconColor = useColorModeValue('lightIcon', 'darkIcon');
-  const commentBg = useColorModeValue('rgba(0,121,211,0.05)', 'rgba(215,218,220,0.05)');
-  const bottomButtonHover = useColorModeValue('rgba(26, 26, 27, 0.1)', 'rgba(215, 218, 220, 0.1)');
-  const replies = useRepliesAndAccountReplies(comment)
+  let comment = data;
+  const { commentCid } = useParams();
+  const replies = useRepliesAndAccountReplies(comment);
   const [vote] = useState(+comment?.upvoteCount || 0 - +comment?.downvoteCount || 0);
   const postVote = useAccountVote({ commentCid: comment?.cid });
   const voteMode = postVote?.vote || 0;
@@ -56,466 +54,307 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: comment?.author });
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
-  const { baseUrl } = useStore(state => state);
+  const { baseUrl } = useStore((state) => state);
   const [copied, setCopied] = useState(false);
   const commentPending = comment?.state === 'pending';
   const commentFailed = comment?.state === 'failed';
   const isSpecial = Object.keys(accountSubplebbits || {})?.includes(comment?.subplebbitAddress);
-  const {
-    onOpen: openDeleteModal,
-    onClose: closeDeleteModal,
-    isOpen: isDeleteModalOpen,
-  } = useDisclosure();
-  const {
-    onOpen: openRemovalModal,
-    onClose: closeRemovalModal,
-    isOpen: isRemovalModalOpen,
-  } = useDisclosure();
-  const { authorAddress, shortAuthorAddress } = useAuthorAddress({ comment })
+  const [isDeleteModalOpen, setDeleteModal] = useState(false);
 
+  const [isRemovalModalOpen, setRemovalModalOpen] = useState(false);
+  const { authorAddress, shortAuthorAddress } = useAuthorAddress({ comment });
 
   const owner =
-    profile?.author?.address === authorAddress ||
-    profile?.signer?.address === authorAddress;
+    profile?.author?.address === authorAddress || profile?.signer?.address === authorAddress;
 
-  const upVote = usePublishUpvote(comment)
-  const downVote = usePublishDownvote(comment)
+  const upVote = usePublishUpvote(comment);
+  const downVote = usePublishDownvote(comment);
   //options needed to publish a comment
 
+  const { publishComment } = usePublishComment(content, comment);
 
-  const { publishComment } = usePublishComment(content, comment)
-
-  const accountComment = useAccountComment({ commentIndex: comment?.index })
-
+  const accountComment = useAccountComment({ commentIndex: comment?.index });
 
   const handlePublishPost = async () => {
-    await publishComment(() => {
-      setContent('');
-      setEditorState(EditorState.createEmpty());
-    }, () => {
-
-    });
+    await publishComment(
+      () => {
+        setContent('');
+        setEditorState(EditorState.createEmpty());
+      },
+      () => {}
+    );
   };
-
 
   const handleOption = (val) => {
     if (val?.id === 'delete') {
-      openDeleteModal()
+      setDeleteModal(true);
     } else {
-      openRemovalModal()
+      openRemovalModal();
     }
   };
 
-  const oneComment = (
-    <Comment
-      key={ singleComment?.cid }
-      comment={ singleComment }
-      type="singleComment"
-      loading={ loading }
-    />
-  );
-
-
-
-
-
-  // comment replies
-  const firstComment = (<Comment
-    key={ replies[0]?.cid }
-    comment={ replies[0] }
-    type={ replies[0]?.cid === singleComment?.cid ? 'singleComment' : 'child' }
-    loading={ loading }
-  />)
-
-  const repliesComponent = (replies?.slice(1) || []).map((data) => {
-    return (
-      <Comment
-        key={ data?.cid }
-        comment={ data }
-        type={ data?.cid === singleComment?.cid ? 'singleComment' : 'child' }
-        loading={ loading }
-      />
-    );
-  });
-
-
-
-
-  const commentCount = replies?.length
-
-
-  const { state: editedCommentState, editedComment } = useEditedComment({ comment: comment })
+  const { state: editedCommentState, editedComment } = useEditedComment({ comment: comment });
 
   if (editedComment) {
-    comment = editedComment
+    comment = editedComment;
   }
 
-  let editLabel
+  let editLabel;
   if (editedCommentState === 'succeeded') {
-    editLabel = { text: 'edited', color: 'green' }
+    editLabel = { text: 'edited', color: 'green' };
   }
   if (editedCommentState === 'pending') {
-    editLabel = { text: 'pending edit', color: 'orange' }
+    editLabel = { text: 'pending edit', color: 'orange' };
   }
   if (editedCommentState === 'failed') {
-    editLabel = { text: 'failed edit', color: 'red' }
+    editLabel = { text: 'failed edit', color: 'red' };
   }
-  const authorPath = owner ? "/profile" : `/u/${comment?.author?.address}/c/${comment?.cid}`
+  const authorPath = owner ? '/profile' : `/u/${comment?.author?.address}/c/${comment?.cid}`;
 
-  const stateString = useStateString(accountComment)
-
+  const stateString = useStateString(accountComment);
 
   return (
-    <Flex marginTop="15px" bg={ type === 'singleComment' && commentBg } padding="8px 0 0 8px">
-      <Flex marginRight="8px" flexDir="column" alignItems="center">
-        <Avatar loading={ loading } width={ 28 } height={ 28 } avatar={ authorAvatarImageUrl } mb="10px" />
-
-        { !loading && <Box borderRight="2px solid #edeff1" width="0" height="100%" /> }
-      </Flex>
-
-      <Flex flexDir="column" flexGrow={ 1 }>
-        <Flex flexDir="column" mb="6px">
-          <Flex mr="4px" height={ loading && '20px' } width={ loading && "50%" } as={ loading && Skeleton } fontWeight="400" fontSize="12px">
-            <Box mr='5px' isTruncated as={ Link } to={ authorPath }>{ getUserName(comment?.author) } </Box>
-            { commentPending && (
-              <PendingLabel />
-            ) }
-            { commentFailed && (
-              <Tag size="sm" colorScheme="red" variant="outline">
-                Failed
-              </Tag>
-            ) }
-            {/* edit status */ }
-            <EditLabel editLabel={ editLabel } post={ comment } />
-
-            <Box
-              as="span"
-              verticalAlign="middle"
-              fontSize="6px"
-              lineHeight="20px"
-              margin="0 4px"
-              color={ iconColor }
-            >
-              •
-            </Box>
-            <Box color={ iconColor } >
-              { dateToNow(comment?.timestamp * 1000) }
-            </Box>
-            { commentPending && <StateString stateString={ stateString } textSx={ {
-              fontWeight: "400 !important",
-              fontSize: "12px !important",
-
-            } } /> }
-            { comment?.flair?.text && (
-              <Box ml='4px'>
-
-                <FlairLabel flair={ comment?.flair } />
-              </Box>
-            ) }
-          </Flex>
-
-
-        </Flex>
-        <Skeleton height={ loading && "120px" } isLoaded={ !loading }>
-          <Box padding="2px 0" fontSize="14px" fontWeight="400" lineHeight="21px" mb="6px" word>
-            <Marked content={ comment?.content || '' } />
-          </Box>
-        </Skeleton>
-        {/* footer */ }
-        { (loading || commentPending || commentFailed) ? (
-          <Flex />
-        ) : (
-          <Flex color={ iconColor }>
-            <Flex
-              alignItems="center"
-              maxH=""
-              p="4px"
-              width="auto"
-              maxWidth="110px"
-              minWidth="32px"
-              mr="10px"
-              flexShrink="0"
-            >
-              <IconButton
-                aria-label="Upvote Post"
-                color={ voteMode === 1 ? 'upvoteOrange' : iconColor }
-                w="24px"
-                h="24px"
-                bg="none"
-                minW="24px"
-                minH="24px"
-                border="none"
-                borderRadius="2px"
-                _hover={ {
-                  color: 'upvoteOrange',
-                  bg: bottomButtonHover,
-                } }
-                _focus={ {
-                  outline: 'none',
-                } }
-                onClick={ disableReplies ? null : upVote }
-                disabled={ disableReplies }
-                icon={ <Icon as={ voteMode === 1 ? ImArrowUp : BiUpvote } w="20px" h="20px" /> }
-              />
-              <Box fontSize="14px" fontWeight="700" lineHeight="16px" pointerEvents="none" color="">
-                { numFormatter(vote + voteMode) === 0 ? 'vote' : numFormatter(vote + voteMode) || 0 }
-              </Box>
-              <IconButton
-                aria-label="Downvote Post"
-                color={ voteMode === -1 ? 'downvoteBlue' : iconColor }
-                w="24px"
-                h="24px"
-                minW="24px"
-                minH="24px"
-                border="none"
-                bg="none"
-                borderRadius="2px"
-                _hover={ {
-                  color: 'downvoteBlue',
-                  bg: bottomButtonHover,
-                } }
-                _focus={ {
-                  outline: 'none',
-                } }
-                onClick={ disableReplies ? null : downVote }
-                icon={ <Icon as={ voteMode === -1 ? ImArrowDown : BiDownvote } w="20px" h="20px" /> }
-                disabled={ disableReplies }
-              />
-            </Flex>
-            { !disableReplies && <Box
-              display="flex"
-              alignItems="center"
-              borderRadius="2px"
-              padding="2px"
-              marginRight="4px"
-              _hover={ {
-                textDecor: 'none',
-                outline: 'none',
-                bg: bottomButtonHover,
-              } }
-              _focus={ {
-                boxShadow: 'none',
-              } }
-              onClick={ () => setShowReply(!reply) }
-            >
-              <Icon as={ BsChat } height="20px" width="20px" mr="5px" />
-              <Text
-                fontSize="12px"
-                fontWeight="700"
-                lineHeight="16px"
-                pointerEvents="none"
-                color=""
-              >
-                Reply
-              </Text>
-            </Box> }
-
-            <CopyToClipboard
-              text={ `${baseUrl}p/${comment?.subplebbitAddress}/c/${comment?.cid}/` }
-              onCopy={ () => {
-                setCopied(true);
-                setTimeout(() => {
-                  setCopied(false);
-                }, 3000);
-              } }
-            >
-              <Box
-                display="flex"
-                alignItems="center"
-                borderRadius="2px"
-                padding="4px"
-                marginRight="4px"
-                _hover={ {
-                  textDecor: 'none',
-                  outline: 'none',
-                  bg: bottomButtonHover,
-                } }
-                _focus={ {
-                  boxShadow: 'none',
-                } }
-                sx={ {
-                  '@media (min-width: 1280px)': {},
-                  '@media (max-width: 1120px)': {
-                    display: 'none',
-                  },
-                } }
-              >
-                <Text
-                  fontSize="12px"
-                  fontWeight="700"
-                  lineHeight="16px"
-                  pointerEvents="none"
-                  color=""
-                >
-                  { copied ? 'Copied' : 'share' }
-                </Text>
-              </Box>
-            </CopyToClipboard>
-            <Flex justifyContent="center">
-              <DropDown
-                onChange={ (val) => handleOption(val?.id) }
-                dropDownTitle={
-                  <Flex
-                    borderRadius="2px"
-                    height="24px"
-                    verticalAlign="middle"
-                    padding="0 4px"
-                    width="100%"
-                    bg="transparent"
-                    border="none"
-                    alignItems="center"
-                    _hover={ {
-                      textDecor: 'none',
-                      outline: 'none',
-                      bg: bottomButtonHover,
-                    } }
-                  >
-                    <Icon as={ FiMoreHorizontal } color={ iconColor } h="20px" w="20px" />
-                  </Flex>
-                }
-                options={ [
-                  {
-                    label: 'Give Award',
-                    icon: GoGift,
-                    id: 'award',
-                  },
-                  {
-                    label: 'Report',
-                    icon: BsFlag,
-                    id: 'award',
-                    disabled: owner,
-                  },
-                  {
-                    label: 'Save',
-                    icon: BsBookmark,
-                    id: 'save',
-                  },
-                  {
-                    label: 'Delete',
-                    icon: MdOutlineDeleteOutline,
-                    id: 'delete',
-                    disabled: !owner,
-                  },
-                ] }
-                rightOffset={ 0 }
-                leftOffset="none"
-                topOffset="34px"
-              />
-            </Flex>
-            { isSpecial && (
-              <Flex justifyContent="center">
-                <DropDown
-                  onChange={ (val) => handleOption(val?.id) }
-                  dropDownTitle={
-                    <Flex
-                      borderRadius="2px"
-                      height="24px"
-                      verticalAlign="middle"
-                      padding="0 4px"
-                      width="100%"
-                      bg="transparent"
-                      border="none"
-                      alignItems="center"
-                      _hover={ {
-                        color: 'downvoteBlue',
-                        bg: bottomButtonHover,
-                      } }
-                      _focus={ {
-                        outline: 'none',
-                      } }
-                    >
-                      <Icon as={ BsShield } color={ iconColor } h="20px" w="20px" />
-                    </Flex>
-                  }
-                  options={ [
-                    {
-                      label: !comment?.removed ? 'Approved' : 'Approve',
-                      id: 'removed',
-                      color: !comment?.removed ? ' green' : 'red',
-                    },
-                    {
-                      label: 'Lock Comments',
-                      id: 'locked',
-                      color: comment?.locked && 'red',
-                    },
-                  ] }
-                  rightOffset={ 0 }
-                  leftOffset="none"
-                  topOffset="34px"
-                />
-              </Flex>
-            ) }
-          </Flex>
-        ) }
-        { reply ? (
-          <Box
-            minH="150px"
-            borderRadius="4px"
-            overflow="hidden auto"
-            padding="8px 16px"
-            resize='none'
+    <>
+      <div>
+        <div>
+          <div
+            className={styles.wrapper}
+            tabindex="-1"
+            style={{
+              paddingLeft: `calc(16px + ${+comment?.depth - 1} * 21px)`,
+            }}
           >
+            <div className={styles.wrapper_thread}>
+              {[...Array(comment?.depth - 1)].map((x, index) => (
+                <div className={styles.wrapper_thread2_alt} key={index}>
+                  <div className={styles.thread_line} />
+                </div>
+              ))}
 
-            <Editor
-              setValue={ setContent }
-              editorState={ editorState }
-              setEditorState={ setEditorState }
-              showSubmit
-              handleSubmit={ handlePublishPost }
-              value={ content }
-            />
-          </Box>
-        ) : (
-          ''
-        ) }
-        {/* when visiting a neested reply from link */ }
-        { singleComment && oneComment }
-        {/* show replies button */ }
-        { !loading && !showReplies && (commentCount - 1) > 0 && <Box
-          onClick={ () => setShowReplies(true) }
-          fontSize="12px"
-          fontWeight="700"
-          lineHeight="16px"
-          color="#a4a4a4"
-          ml="4px"
-          pl="4px"
-          cursor="pointer"
-        >
-          { commentCount - 1 }
-          { (commentCount - 1) > 0 ? ' more' : '' } repl{ (commentCount - 1) > 1 ? 'ies' : 'y' }
-        </Box> }
+              <div className={styles.wrapper_thread2}>
+                <div className={styles.wrapper_thread3}>
+                  <div className={styles.thread_line} />
+                </div>
+              </div>
+            </div>
+            <div
+              className={styles.comment_main}
+              style={{
+                background: commentCid === comment?.cid && 'rgba(0,121,211,0.05',
+              }}
+            >
+              <div className={styles.comment_user_avatar}>
+                <div className={styles.comment_user_avatar2}>
+                  <Avatar height="100%" width="100%" src={authorAvatarImageUrl} />
+                </div>
+              </div>
+              <div className={styles.comment_content}>
+                <div className={styles.cc_top}>
+                  <span className={styles.cc_top2}>
+                    <div className={styles.cc_top_name}>
+                      <div className={styles.cc_top_name2}>
+                        <div>
+                          <Link to={authorPath}> {getUserName(comment?.author)}</Link>
+                        </div>
+                      </div>
+                    </div>
+                    {commentPending && <PendingLabel />}
+                    {commentFailed && (
+                      <Label
+                        text="Failed"
+                        style={{
+                          color: '#ff585b',
+                          border: '1px solid currentColor',
+                        }}
+                      />
+                    )}
+                    {commentPending && (
+                      <StateString
+                        stateString={stateString}
+                        textSx={{
+                          fontWeight: '400 !important',
+                          fontSize: '12px !important',
+                        }}
+                      />
+                    )}
+                    {comment?.flair?.text && <FlairLabel flair={comment?.flair} />}
+                    <EditLabel editLabel={editLabel} post={comment} />
+                    <Dot className={styles.cct_dot} />
+                    <span className={styles.cct_time}>{dateToNow(comment?.timestamp * 1000)}</span>
+                  </span>
+                </div>
+                <div className={styles.comment_text}>
+                  <div className={styles.comment_text2}>
+                    <Marked content={comment?.content || ''} />
+                  </div>
+                </div>
+                {(!loading || !commentPending || !commentFailed) && (
+                  <div className={styles.comment_footer}>
+                    <div className={styles.cf_vote}>
+                      <button
+                        upvote="true"
+                        onClick={disableReplies ? null : upVote}
+                        disabled={disableReplies}
+                      >
+                        <span>{voteMode === 1 ? <ImArrowUp color="#cc3700" /> : <BiUpvote />}</span>
+                      </button>
+                      <div className={styles.cf_vote_text}>
+                        {numFormatter(vote + voteMode) === 0
+                          ? 'vote'
+                          : numFormatter(vote + voteMode) || 0}
+                      </div>
+                      <button
+                        downvote="true"
+                        onClick={disableReplies ? null : downVote}
+                        disabled={disableReplies}
+                      >
+                        <span>
+                          {voteMode === -1 ? <ImArrowDown color="#5a75cc" /> : <BiDownvote />}
+                        </span>
+                      </button>
+                    </div>
+                    {!disableReplies && (
+                      <div className={styles.cf_others} onClick={() => setShowReply(!reply)}>
+                        <button>
+                          <BsChat />
+                          Reply
+                        </button>
+                      </div>
+                    )}
+                    <CopyToClipboard
+                      text={`${baseUrl}/p/${comment?.subplebbitAddress}/c/${comment?.cid}/`}
+                      onCopy={() => {
+                        setCopied(true);
+                        setTimeout(() => {
+                          setCopied(false);
+                        }, 3000);
+                      }}
+                    >
+                      <div className={styles.cf_others} onClick={() => setShowReply(!reply)}>
+                        <button> {copied ? 'Copied' : 'share'}</button>
+                      </div>
+                    </CopyToClipboard>
 
-        {/* nested comments */ }
-        { replies[0] && firstComment }
-        {
-          showReplies && repliesComponent
-        }
-      </Flex>
+                    <DropDown
+                      onChange={(val) => handleOption(val?.id)}
+                      wrapSx={{
+                        marginLeft: '0px !important',
+                      }}
+                      dropDownTitle={
+                        <div className={styles.cf_others} onClick={() => setShowReply(!reply)}>
+                          <button>
+                            <FiMoreHorizontal />
+                          </button>
+                        </div>
+                      }
+                      options={[
+                        {
+                          label: 'Give Award',
+                          icon: GoGift,
+                          id: 'award',
+                        },
+                        {
+                          label: 'Report',
+                          icon: BsFlag,
+                          id: 'award',
+                          disabled: owner,
+                        },
+                        {
+                          label: 'Save',
+                          icon: BsBookmark,
+                          id: 'save',
+                        },
+                        {
+                          label: 'Delete',
+                          icon: MdOutlineDeleteOutline,
+                          id: 'delete',
+                          disabled: !owner,
+                        },
+                      ]}
+                      rightOffset={0}
+                      leftOffset="none"
+                      topOffset="34px"
+                    />
+                    {isSpecial && (
+                      <DropDown
+                        onChange={(val) => handleOption(val?.id)}
+                        wrapSx={{
+                          marginLeft: '0px !important',
+                        }}
+                        dropDownTitle={
+                          <div className={styles.cf_others} onClick={() => setShowReply(!reply)}>
+                            <button>
+                              <BsShield />
+                            </button>
+                          </div>
+                        }
+                        options={[
+                          {
+                            label: !comment?.removed ? 'Approved' : 'Approve',
+                            id: 'removed',
+                            color: !comment?.removed ? ' green' : 'red',
+                          },
+                          {
+                            label: 'Lock Comments',
+                            id: 'locked',
+                            color: comment?.locked && 'red',
+                          },
+                        ]}
+                        rightOffset={0}
+                        leftOffset="none"
+                        topOffset="34px"
+                      />
+                    )}
+                  </div>
+                )}
+                {reply && (
+                  <div className={styles.reply_comment}>
+                    <div
+                      style={{
+                        left: '33px',
+                      }}
+                    >
+                      <Editor
+                        setValue={setContent}
+                        editorState={editorState}
+                        setEditorState={setEditorState}
+                        showSubmit
+                        handleSubmit={handlePublishPost}
+                        value={content}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {replies?.map((val, index) => (
+        <Comment key={index} comment={val} loading={loading} />
+      ))}
 
-      {
-        isDeleteModalOpen && <ConfirmDelete
-          isOpen={ isDeleteModalOpen }
-          onClose={ closeDeleteModal }
-          post={ comment }
+      {isDeleteModalOpen && (
+        <ConfirmDelete
+          isOpen={isDeleteModalOpen}
+          setIsOpen={setDeleteModal}
+          post={comment}
           title="Delete comment"
           message="Are you sure you want to delete your comment?"
           cancelText="Keep"
-
         />
-      }
+      )}
 
-      { isRemovalModalOpen && (
+      {isRemovalModalOpen && (
         <AddRemovalReason
-          isOpen={ isRemovalModalOpen }
-          onClose={ closeRemovalModal }
-          post={ comment }
-          hideList={ ['pinned', 'reason'] }
+          isOpen={isRemovalModalOpen}
+          setIsOpen={setRemovalModalOpen}
+          post={comment}
+          hideList={['pinned', 'reason']}
         />
-      ) }
-    </Flex>
+      )}
+    </>
   );
 };
 
 export default Comment;
-
-

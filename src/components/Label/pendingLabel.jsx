@@ -1,11 +1,20 @@
-import React from 'react'
-import Label from "."
+import React from 'react';
+import Label from '.';
 
-const PendingLabel = () => {
-    return (
-        <Label
-            variant='outline' colorScheme="yellow" text="pending" />
-    )
-}
+const PendingLabel = (props) => {
+  const { className } = props;
 
-export default PendingLabel
+  return (
+    <Label
+      text="pending "
+      style={{
+        color: '#ffd635',
+        border: '1px solid currentColor',
+      }}
+      className={className}
+      {...props}
+    />
+  );
+};
+
+export default PendingLabel;

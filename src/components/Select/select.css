@@ -1,0 +1,38 @@
+[aria-haspopup='listbox'] {
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+}
+
+[role='listbox'] {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #edeff1;
+  outline: 0;
+  border-radius: 4px;
+  box-shadow: rgba(28, 28, 28, 0.2);
+  background-color: #fff;
+  z-index: 1;
+}
+
+[role='option'] {
+  border: none;
+  padding: 8px 16px 8px 8px;
+  text-align: left;
+  outline: 0;
+  border-top: 1px solid #edeff1;
+  border-bottom: none;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  display: block;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+[role='option'][isActive='true'] {
+  background: rgba(0, 121, 211, 0.2);
+  border-top: 1px solid rgb(0, 121, 211);
+  color: #1c1c1c;
+  font-weight: bold;
+}

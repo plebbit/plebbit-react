@@ -1,0 +1,30 @@
+.container {
+  border-radius: 2px;
+  font-size: 12px;
+  padding: 0px 4px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  vertical-align: text-bottom;
+  white-space: pre;
+  word-break: normal;
+  box-sizing: border-box;
+  margin-right: 5px;
+  cursor: pointer;
+  height: 16px;
+  line-height: 16px;
+  margin: 0 4px;
+}
+
+.style_dot {
+  color: #7c7c7c;
+  font-size: 6px;
+  line-height: 20px;
+  margin: 0 4px;
+}
+
+.style_string {
+  color: #7c7c7c;
+  line-height: 16px;
+  font-size: 12px;
+  vertical-align: middle;
+}

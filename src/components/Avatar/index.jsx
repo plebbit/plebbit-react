@@ -1,7 +1,6 @@
-import { Avatar as Av, AvatarBadge, SkeletonCircle } from '@chakra-ui/react';
 import React from 'react';
 import { PlebLogo } from '../svgs';
-import styles from './avatar.module.css'
+import styles from './avatar.module.css';
 
 const divide = (number1, number2) => Number((number1 / number2).toFixed(2));
 
@@ -37,64 +36,46 @@ const getAvatarBadgeProps = (avatarWidth) => {
 };
 
 const Avatar = (props) => {
-  const { badge, avatar, width, height, isOnline, bg, sx, loading, ...rest } = props;
+  const { badge, avatar, width, height, isOnline, style, loading, className } = props;
   const { badgeBorderWidth, badgeWidth, badgeBottom } = getAvatarBadgeProps(width);
 
   return (
-    <SkeletonCircle width={ `${width}px` }
-      height={ `${height}px` } sx={ sx }
-      { ...rest } isLoaded={ !loading } >
-      { badge ? (
-        <Av
-          icon={
-            <PlebLogo
-              style={ {
-                width: width,
-                height: height,
-              } }
-            />
-          }
-          { ...props }
-          width={ `${width}px` }
-          height={ `${height}px` }
-          src={ avatar }
-          sx={ sx }
-          { ...rest }
-          bg={ bg }
-        >
-          <AvatarBadge
-            borderWidth={ badgeBorderWidth }
-            borderColor="#fff"
-            bg={ isOnline ? '#46d160' : 'red' }
-            height={ badgeWidth + 'px' }
-            width={ badgeWidth + 'px' }
-            bottom={ badgeBottom + 'px' }
-            right={ badgeBottom + 'px' }
-            // overwrite the default transform value of AvatarBadge
-            transform="translate(0px, 0px)"
+    <div
+      style={{
+        width,
+        height,
+        ...style,
+      }}
+      className={[styles.wrapper, className].join(' ')}
+      isLoading={loading}
+    >
+      <>
+        {avatar ? (
+          <div
+            className={styles.avatar_wrap}
+            style={{
+              backgroundImage: `url(${avatar})`,
+            }}
           />
-        </Av>
-      ) : (
-        <Av
-          icon={ <PlebLogo /> }
-          width={ `${width}px` }
-          height={ `${height}px` }
-          src={ avatar }
-          bg={ bg || 'transparent' }
-          sx={ sx }
+        ) : (
+          <PlebLogo className={styles.avatar_wrap} />
+        )}
+      </>
+      {badge && (
+        <div
+          className={styles.badge}
+          style={{
+            borderWidth: badgeBorderWidth,
+            borderColor: '#fff',
+            background: isOnline ? '#46d160' : 'red',
+            width: badgeWidth + 'px',
+            height: badgeWidth + 'px',
+            bottom: badgeBottom + 'px',
+          }}
         />
-      ) }
-    </SkeletonCircle>
+      )}
+    </div>
   );
 };
 
-
-export default Avatar
-
-
-
-
-
-
-
-
+export default Avatar;

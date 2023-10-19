@@ -1,28 +1,11 @@
 import React, { useState } from 'react';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  useColorModeValue,
-  Box,
-  Textarea,
-  Switch,
-  FormControl,
-  FormLabel,
-  Flex,
-  FormHelperText,
-} from '@chakra-ui/react';
 import useCommentEdit from '../../../hooks/useCommentEdit';
+import Modal from '../../Modal';
+import styles from './modal.module.css';
+import Input, { Switch, TextArea } from '../../Input';
+import Button from '../../Button';
 
-const AddRemovalReason = ({ onClose, isOpen, post, hideList }) => {
-  const border1 = useColorModeValue('#edeff1', '#343536');
-  const mainColor = useColorModeValue('bodyTextLight', 'bodyTextDark');
-  const metaColor = useColorModeValue('metaTextLight', 'metaTextDark');
+const AddRemovalReason = ({ setIsOpen, isOpen, post, hideList }) => {
   const [data, setData] = useState({
     pinned: post?.pinned,
     removed: post?.removed,
@@ -31,222 +14,107 @@ const AddRemovalReason = ({ onClose, isOpen, post, hideList }) => {
     reason: post?.reason,
   });
 
-  const { commentEdit } = useCommentEdit((data), post);
-
+  const { commentEdit } = useCommentEdit(data, post);
 
   const handleEditComment = async () => {
-    await commentEdit(() => onClose());
+    await commentEdit(() => setIsOpen(false));
   };
-
-
 
   return (
     <Modal
-      scrollBehavior="inside"
-      trapFocus={ false }
-      onClose={ onClose }
-      size="xl"
-      isOpen={ isOpen }
-      isCentered
+      modalBodyStyle={styles.main_wrapper}
+      setIsOpen={setIsOpen}
+      isOpen={isOpen}
+      header="Add Moderation options"
     >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader> Add Moderation options</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody
-          padding="16px"
-          fontSize="14px"
-          fontWeight="400"
-          color={ mainColor }
-          lineHeight="21px"
+      <div className={styles.wrapper}>
+        <div className={styles.modal_form}>
+          {!hideList?.includes('pinned') && (
+            <div className={styles.modal_form_item}>
+              <div>
+                <Input
+                  hideInput
+                  title="Pinned"
+                  subTitle="This means that this post will remain at the top of the subplebbit, even as new
+                    posts are submitted."
+                />
+              </div>
+              <div onClick={() => setData({ ...data, pinned: !data?.pinned })}>
+                <Switch id="pinned" checked={data?.pinned} />
+              </div>
+            </div>
+          )}
+          {!hideList?.includes('removed') && (
+            <div className={styles.modal_form_item}>
+              <div>
+                <Input
+                  hideInput
+                  title="Removed"
+                  subTitle=" The post will no longer visible to other users, but the person who posted it can
+                    still see it in their own account."
+                />
+              </div>
+              <div onClick={() => setData({ ...data, removed: !data?.removed })}>
+                <Switch id="pinned" checked={data?.removed} />
+              </div>
+            </div>
+          )}
+          {!hideList?.includes('locked') && (
+            <div className={styles.modal_form_item}>
+              <div>
+                <Input
+                  hideInput
+                  title="Locked"
+                  subTitle="Locking a post allows users to still see the content, but they cannot add any
+                    new comments or replies to it."
+                />
+              </div>
+              <div onClick={() => setData({ ...data, locked: !data?.locked })}>
+                <Switch id="locked" checked={data?.locked} />
+              </div>
+            </div>
+          )}
+          {!hideList?.includes('spoiler') && (
+            <div className={styles.modal_form_item}>
+              <div>
+                <Input
+                  hideInput
+                  title="Spoiler"
+                  subTitle=" this will mark this with a 'spoiler' tag or warning to alert others of the
+                    potential spoilers contained within."
+                />
+              </div>
+              <div onClick={() => setData({ ...data, spoiler: !data?.spoiler })}>
+                <Switch id="spoiler" checked={data?.spoiler} />
+              </div>
+            </div>
+          )}
+
+          {!hideList?.includes('reason') && (
+            <TextArea
+              title="Reason"
+              placeholder="Enter Reason"
+              onChange={(e) => setData({ ...data, reason: e.target.value })}
+              value={data?.reason}
+              id="reason"
+              subTitle=" Help people become better posters by giving a short reason why their post was
+                removed."
+            />
+          )}
+        </div>
+      </div>
+      <footer className={styles.footer}>
+        <Button onClick={() => setIsOpen(false)}>Cancel</Button>
+        <Button
+          style={{
+            color: 'white',
+            background: '#0079d3',
+          }}
+          onClick={handleEditComment}
         >
-          <FormControl>
-            { !hideList?.includes('pinned') && <Flex flexFlow="row wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxWidth="80%">
-                <Box>
-                  <FormLabel
-                    fontSize="18px"
-                    fontWeight="500"
-                    lineHeight="20px"
-                    color={ mainColor }
-                    marginBottom="4px"
-                    htmlFor="pinned"
-                  >
-                    Pinned
-                  </FormLabel>
-                </Box>
-                <Box>
-                  <FormHelperText
-                    fontWeight="400"
-                    color={ metaColor }
-                    fontSize="12px"
-                    lineHeight="16px"
-                  >
-                    This means that this post will remain at the top of the subplebbit, even as new
-                    posts are submitted.
-                  </FormHelperText>
-                </Box>
-              </Flex>
-              <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-                <Switch
-                  id="pinned"
-                  isChecked={ data?.pinned }
-                  onChange={ () => setData({ ...data, pinned: !data?.pinned }) }
-                />
-              </Flex>
-            </Flex> }
-            { !hideList?.includes('removed') && <Flex flexFlow="row wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxWidth="80%">
-                <Box>
-                  <FormLabel
-                    fontSize="18px"
-                    fontWeight="500"
-                    lineHeight="20px"
-                    color={ mainColor }
-                    marginBottom="4px"
-                    htmlFor="removed"
-                  >
-                    Removed
-                  </FormLabel>
-                </Box>
-                <Box>
-                  <FormHelperText
-                    fontWeight="400"
-                    color={ metaColor }
-                    fontSize="12px"
-                    lineHeight="16px"
-                  >
-                    The post will no longer visible to other users, but the person who posted it can
-                    still see it in their own account.
-                  </FormHelperText>
-                </Box>
-              </Flex>
-              <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-                <Switch
-                  id="removed"
-                  isChecked={ data?.removed }
-                  onChange={ () => setData({ ...data, removed: !data?.removed }) }
-                />
-              </Flex>
-            </Flex> }
-            { !hideList?.includes('locked') && <Flex flexFlow="row wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxWidth="80%">
-                <Box>
-                  <FormLabel
-                    fontSize="18px"
-                    fontWeight="500"
-                    lineHeight="20px"
-                    color={ mainColor }
-                    marginBottom="4px"
-                    htmlFor="locked"
-                  >
-                    Locked
-                  </FormLabel>
-                </Box>
-                <Box>
-                  <FormHelperText
-                    fontWeight="400"
-                    color={ metaColor }
-                    fontSize="12px"
-                    lineHeight="16px"
-                  >
-                    Locking a post allows users to still see the content, but they cannot add any
-                    new comments or replies to it.
-                  </FormHelperText>
-                </Box>
-              </Flex>
-              <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-                <Switch
-                  id="locked"
-                  isChecked={ data?.locked }
-                  onChange={ () => setData({ ...data, locked: !data?.locked }) }
-                />
-              </Flex>
-            </Flex> }
-            { !hideList?.includes('spoiler') && <Flex flexFlow="row wrap" marginBottom="32px">
-              <Flex flexDir="column" marginRight="8px" maxWidth="80%">
-                <Box>
-                  <FormLabel
-                    fontSize="18px"
-                    fontWeight="500"
-                    lineHeight="20px"
-                    color={ mainColor }
-                    marginBottom="4px"
-                    htmlFor="spoiler"
-                  >
-                    Spoiler
-                  </FormLabel>
-                </Box>
-                <Box>
-                  <FormHelperText
-                    fontWeight="400"
-                    color={ metaColor }
-                    fontSize="12px"
-                    lineHeight="16px"
-                  >
-                    this will mark this with a "spoiler" tag or warning to alert others of the
-                    potential spoilers contained within.
-                  </FormHelperText>
-                </Box>
-              </Flex>
-              <Flex alignItems="center" flexGrow="1" justifyContent="flex-end">
-                <Switch
-                  id="spoiler"
-                  isChecked={ data?.spoiler }
-                  onChange={ () => setData({ ...data, spoiler: !data?.spoiler }) }
-                />
-              </Flex>
-            </Flex> }
-            { !hideList?.includes('reason') && <Box mb="16px">
-              <FormLabel
-                fontSize="18px"
-                fontWeight="500"
-                lineHeight="20px"
-                color={ mainColor }
-                marginBottom="4px"
-                htmlFor="spoiler"
-              >
-                Reason
-              </FormLabel>
-              <Textarea
-                placeholder="Enter Reason"
-                h="36px"
-                padding="0 8px"
-                border={ `1px solid ${border1}` }
-                borderColor={ border1 }
-                fontSize="14px"
-                onChange={ (e) => setData({ ...data, reason: e.target.value }) }
-                value={ data?.reason }
-                id="reason"
-              />
-              <FormHelperText fontWeight="400" color={ metaColor } fontSize="12px" lineHeight="16px">
-                Help people become better posters by giving a short reason why their post was
-                removed.
-              </FormHelperText>
-            </Box> }
-          </FormControl>
-        </ModalBody>
-        <ModalFooter bg={ border1 }>
-          <Button
-            borderRadius="999px"
-            mr="8px"
-            variant="outline"
-            colorScheme="red"
-            onClick={ onClose }
-            h="32px"
-          >
-            Cancel
-          </Button>
-          <Button
-            h="32px"
-            borderRadius="999px"
-            colorScheme="blackAlpha"
-            onClick={ handleEditComment }
-          >
-            Save
-          </Button>
-        </ModalFooter>
-      </ModalContent>
+          Save
+        </Button>
+      </footer>
     </Modal>
   );
 };

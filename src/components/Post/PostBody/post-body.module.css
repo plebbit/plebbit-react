@@ -59,7 +59,7 @@
   vertical-align: middle;
   font-weight: 400;
 }
-.post_link_icon:before {
+.post_link_icon::before {
   content: '\f1ad';
   font-family: redesignFont2020;
   font-size: 12px;
@@ -87,11 +87,11 @@
   overflow: hidden;
 }
 
-.mobile_content_media_link:before {
+.mobile_content_media_link::before {
   content: ' ';
   display: table;
 }
-.mobile_content_media_link:before {
+.mobile_content_media_link::before {
   clear: both;
   content: ' ';
   display: table;
@@ -139,11 +139,11 @@
   white-space: nowrap;
   pointer-events: all;
 }
-.mobile_content_media_thumbnail_bar:before {
+.mobile_content_media_thumbnail_bar::before {
   content: ' ';
   display: table;
 }
-.mobile_content_media_thumbnail_bar:after {
+.mobile_content_media_thumbnail_bar::after {
   clear: both;
   content: ' ';
   display: table;

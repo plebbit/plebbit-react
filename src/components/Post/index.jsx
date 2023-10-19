@@ -1,5 +1,4 @@
-import React, { useMemo, useState } from 'react';
-import { Box, useDisclosure } from '@chakra-ui/react';
+import React, { useState } from 'react';
 import {
   useAccountVote,
   useAuthorAvatar,
@@ -19,7 +18,6 @@ import getCommentMediaInfo from '../../utils/getCommentMediaInfo';
 import usePublishUpvote from '../../hooks/usePublishUpvote';
 import usePublishDownvote from '../../hooks/usePublishDownvote';
 import ConfirmDelete from './Modal/confirmDelete';
-import youtube_parser from '../../utils/youtubeParser';
 import useStore from '../../store/useStore';
 import { canEmbed } from '../Embed';
 
@@ -58,16 +56,8 @@ const Post = ({
     unblock: unMute,
     block: mute,
   } = useBlock({ address: post?.subplebbitAddress });
-  const {
-    onOpen: openRemovalModal,
-    onClose: closeRemovalModal,
-    isOpen: isRemovalModalOpen,
-  } = useDisclosure();
-  const {
-    onOpen: openDeleteModal,
-    onClose: closeDeleteModal,
-    isOpen: isDeleteModalOpen,
-  } = useDisclosure();
+  const [isRemovalModalOpen, setRemoveModal] = useState(false);
+  const [isDeleteModalOpen, setDeleteModal] = useState(false);
 
   const isYoutube = () => {
     try {
@@ -105,7 +95,7 @@ const Post = ({
 
   const handleModOption = (val) => {
     if (val?.id === 'delete') {
-      openDeleteModal();
+      setDeleteModal(true);
     } else if (val?.id === 'block') {
       blocked ? unblock() : block();
     } else if (val?.id === 'unknown') {
@@ -114,7 +104,7 @@ const Post = ({
       handleCopy();
     } else if (val?.id === 'mute') {
       muted ? unMute() : mute();
-    } else openRemovalModal();
+    } else setRemoveModal(true);
   };
 
   const commentCount = post?.replyCount;
@@ -138,7 +128,7 @@ const Post = ({
 
   return (
     <>
-      <Box>
+      <div>
         {/* card */}
         {mode === 'card' && (
           <CardPost
@@ -161,7 +151,7 @@ const Post = ({
             pending={pending}
             detailRoute={detailRoute}
             allowedSpecial={isSpecial || allowedSpecial}
-            openRemovalModal={openRemovalModal}
+            openRemovalModal={() => setRemoveModal(true)}
             owner={owner}
             showSpoiler={showSpoiler}
             setShowSpoiler={setShowSpoiler}
@@ -199,7 +189,7 @@ const Post = ({
             pending={pending}
             detailRoute={detailRoute}
             allowedSpecial={isSpecial || allowedSpecial}
-            openRemovalModal={openRemovalModal}
+            openRemovalModal={() => setRemoveModal(true)}
             owner={owner}
             showSpoiler={showSpoiler}
             setShowSpoiler={setShowSpoiler}
@@ -238,7 +228,7 @@ const Post = ({
               detailRoute={detailRoute}
               pending={pending}
               allowedSpecial={isSpecial || allowedSpecial}
-              openRemovalModal={openRemovalModal}
+              openRemovalModal={() => setRemoveModal(true)}
               owner={owner}
               showSpoiler={showSpoiler}
               setShowSpoiler={setShowSpoiler}
@@ -275,7 +265,7 @@ const Post = ({
               pending={pending}
               detailRoute={detailRoute}
               allowedSpecial={isSpecial || allowedSpecial}
-              openRemovalModal={openRemovalModal}
+              openRemovalModal={() => setRemoveModal(true)}
               owner={owner}
               showSpoiler={showSpoiler}
               setShowSpoiler={setShowSpoiler}
@@ -289,12 +279,12 @@ const Post = ({
               muted={muted}
             />
           ))}
-      </Box>
+      </div>
       {isRemovalModalOpen && (
-        <AddRemovalReason isOpen={isRemovalModalOpen} onClose={closeRemovalModal} post={post} />
+        <AddRemovalReason isOpen={isRemovalModalOpen} setIsOpen={setRemoveModal} post={post} />
       )}
       {isDeleteModalOpen && (
-        <ConfirmDelete isOpen={isDeleteModalOpen} onClose={closeDeleteModal} post={post} />
+        <ConfirmDelete isOpen={isDeleteModalOpen} setIsOpen={setDeleteModal} post={post} />
       )}
     </>
   );

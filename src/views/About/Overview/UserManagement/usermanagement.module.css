@@ -1,0 +1,148 @@
+.wrapper {
+  padding-top: 64px;
+  border-radius: 0 0 4px 4px;
+  overflow: hidden;
+  color: #1c1c1c;
+}
+
+@media (min-width: 640px) {
+  .wrapper {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+}
+.content_top {
+  margin-bottom: 0.5rem;
+}
+
+.content_top2 {
+  display: flex;
+  height: 48px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  background-color: #fff;
+}
+
+.content_top2 button {
+  margin-left: 8px;
+}
+
+.table_head {
+  display: flex;
+  background-color: #edeff1;
+  align-items: center;
+  border-radius: 4px 4px 0 0;
+  box-sizing: border-box;
+  justify-content: space-between;
+  padding: 8px 16px;
+}
+
+.table_head_search {
+  display: flex;
+}
+
+.table_head_search > input {
+  background-color: #fff;
+  border: 1px solid #878a8c;
+  color: #1c1c1c;
+  border-radius: 4px 0 0 4px;
+  box-sizing: border-box;
+  height: 32px;
+  padding: 8px;
+  width: 248px;
+  outline: none;
+}
+
+.table_head_search button {
+  background-color: #878a8c;
+  border-radius: 0 4px 4px 0;
+  height: 32px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table_head_search button svg {
+  fill: #fff;
+  color: #fff;
+  height: 16px;
+  width: 16px;
+}
+
+.table_content {
+  border: 1px solid #edeff1;
+}
+
+.table_row {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  background-color: #fff;
+  border-bottom: 1px solid #edeff1;
+  box-sizing: border-box;
+  color: #878a8c;
+  height: 60px;
+  padding: 8px 16px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.table_row .user {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  color: #1c1c1c;
+  min-width: 220px;
+}
+
+.table_row .user a {
+  display: flex;
+  align-items: center;
+}
+
+.user_detail {
+  display: inline-block;
+}
+
+.user_time {
+  height: 16px;
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  color: #576f76;
+}
+
+.user_middle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1 0 100px;
+  line-height: normal;
+}
+
+.user_end {
+  align-items: center;
+  margin-left: auto;
+  display: flex;
+  min-width: 0;
+}
+
+.user_previlege {
+  padding: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user_previlege_edit {
+  cursor: pointer;
+}
+
+.user_previlege_edit svg {
+  fill: #878a8c;
+  height: 16px;
+  width: 16px;
+}
