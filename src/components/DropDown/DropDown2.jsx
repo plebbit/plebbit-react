@@ -104,7 +104,7 @@ const DropDown2 = ({
             };
           },
           input: (styles) => ({ ...styles }),
-          menu: (styles) => ({ ...styles, border: `1px solid ${navBorder}` }),
+          menu: (styles) => ({ ...styles, border: `1px solid #edeff1` }),
           menuList: (styles) => ({ ...styles, backgroundColor: '#fff' }),
           placeholder: (styles) => ({
             ...styles,

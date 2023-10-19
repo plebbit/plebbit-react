@@ -320,7 +320,7 @@ const CreatePost = () => {
             </div>
           </div>
         </div>
-        <CreatePostSideBar />
+        <CreatePostSideBar subPlebbit={address} />
       </div>
       {isOpen && (
         <AddFlair

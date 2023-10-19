@@ -33,7 +33,7 @@ const SubplebbitSideBar = ({ subPlebbit: subs }) => {
 
 export default SubplebbitSideBar;
 
-export const AboutSubSideBar = ({ subPlebbit, hideSub }) => {
+export const AboutSubSideBar = ({ subPlebbit, hideSub, hideBtn }) => {
   const { subplebbitAddress } = useParams();
   const stats = useSubplebbitStats({ subplebbitAddress });
   const loading = subPlebbit === undefined || stats.state === 'fetching-ipfs';
@@ -137,31 +137,33 @@ export const AboutSubSideBar = ({ subPlebbit, hideSub }) => {
           </div>
         </div>
         <hr className={styles.ruler} />
-        <Link to={hideSub && `/p/${subplebbitAddress}/submit`} className={styles.join_sub}>
-          {hideSub ? (
-            <Button2
-              style={{
-                width: '100%',
-                color: subPlebbit?.suggested?.secondaryColor,
-              }}
-              onClick={subscribed ? handleUnSubscribe : handleSubscribe}
-              disabled={loading}
-            >
-              Create Post
-            </Button2>
-          ) : (
-            <Button2
-              style={{
-                width: '100%',
-                color: subPlebbit?.suggested?.secondaryColor,
-              }}
-              onClick={subscribed ? handleUnSubscribe : handleSubscribe}
-              disabled={loading}
-            >
-              {subscribed ? 'Joined' : 'Join'}
-            </Button2>
-          )}
-        </Link>
+        {!hideBtn && (
+          <Link to={hideSub && `/p/${subplebbitAddress}/submit`} className={styles.join_sub}>
+            {hideSub ? (
+              <Button2
+                style={{
+                  width: '100%',
+                  color: subPlebbit?.suggested?.secondaryColor,
+                }}
+                onClick={subscribed ? handleUnSubscribe : handleSubscribe}
+                disabled={loading}
+              >
+                Create Post
+              </Button2>
+            ) : (
+              <Button2
+                style={{
+                  width: '100%',
+                  color: subPlebbit?.suggested?.secondaryColor,
+                }}
+                onClick={subscribed ? handleUnSubscribe : handleSubscribe}
+                disabled={loading}
+              >
+                {subscribed ? 'Joined' : 'Join'}
+              </Button2>
+            )}
+          </Link>
+        )}
         <hr className={styles.ruler} />
       </div>
     </div>
