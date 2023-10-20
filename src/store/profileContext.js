@@ -89,15 +89,15 @@ const ProfileDataProvider = ({ children }) => {
     setColorMode(userTheme ? 'dark' : 'light');
   }, [setColorMode, userTheme]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplashcreen(false);
-    }, 5000);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setShowSplashcreen(false);
+  //   }, 5000);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [setShowSplashcreen]);
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, [setShowSplashcreen]);
 
   return <div>{children}</div>;
 };
