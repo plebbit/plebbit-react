@@ -5,7 +5,7 @@ const { version } = require('../../package.json');
 const useStore = create((set, get) => ({
   postStyle: 'card',
   setPostStyle: (val) => set(() => ({ postStyle: val })),
-  showSplashcreen: true,
+  showSplashcreen: false,
   setShowSplashcreen: (val) => set(() => ({ showSplashcreen: val })),
   device: 'pc',
   setDevice: (val) => set(() => ({ device: val })),

@@ -14,26 +14,21 @@ import SubStyleSide from '../../views/SubPlebbit/subStyleSide';
 const Layout = ({ children, name, stateString }) => {
   const profile = useAccount();
   const notifications = useNotifications({ accountName: profile?.name });
-  const {
-    showSplashcreen,
-    device,
-    showSide,
-    setShowSide,
-    showImportAccountModal,
-    showCreateSubModal,
-  } = useStore((state) => state);
+  const { device, showSide, setShowSide, showImportAccountModal, showCreateSubModal } = useStore(
+    (state) => state
+  );
   const { search } = useLocation();
   const showStyleBar = search === '?styling=true';
 
-  if (showSplashcreen) {
-    return (
-      <div className={styles.splash_wrapper}>
-        <div className={styles.splash}>
-          <PlebLogo />
-        </div>
-      </div>
-    );
-  }
+  // if (showSplashcreen) {
+  //   return (
+  //     <div className={styles.splash_wrapper}>
+  //       <div className={styles.splash}>
+  //         <PlebLogo />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   const unreadNotificationsCount =
     notifications?.notifications?.filter((x) => !x?.markedAsRead).length || 0;
