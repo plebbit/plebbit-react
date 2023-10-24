@@ -1,4 +1,4 @@
-import React, { Profiler } from 'react';
+import React, { Profiler, useEffect } from 'react';
 import SideBar from './sideBar';
 import { useFeed, useSubplebbits } from '@plebbit/plebbit-react-hooks';
 import FeedSort from '../../components/Post/FeedSort';
@@ -12,9 +12,12 @@ import CreatePostBar from '../../components/CreatePost/createPostBar';
 import FeedContent from '../../components/container/FeedContent';
 import { useParams } from 'react-router-dom';
 import GetChallengesModal from '../../components/Modal/ChallengeModal';
+import useAppTitle from '../../hooks/useAppTitle';
 
 const Home = () => {
-  const { postStyle, device, postView, homeAdd, subPlebbitData } = useStore((state) => state);
+  const { postStyle, device, postView, homeAdd, subPlebbitData, setStateString } = useStore(
+    (state) => state
+  );
   const sortType = useParams()?.sortType ?? 'hot';
   const subplebbitAddresses = postView?.filter(Boolean)?.length
     ? postView?.filter(Boolean)
@@ -30,9 +33,18 @@ const Home = () => {
   const stateString = useFeedStateString(subplebbits);
 
   const feeds = feed;
+  useAppTitle('plebbit');
+
+  useEffect(() => {
+    setStateString(stateString);
+
+    return () => {
+      setStateString('');
+    };
+  }, [stateString]);
 
   return (
-    <Layout name={{ label: 'Home', value: homeAdd }} stateString={feeds?.length ? '' : stateString}>
+    <>
       <Profiler id="home">
         {device !== 'mobile' ? (
           <>
@@ -82,7 +94,7 @@ const Home = () => {
           </div>
         )}
       </Profiler>
-    </Layout>
+    </>
   );
 };
 

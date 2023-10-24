@@ -22,6 +22,7 @@ import numFormatter from '../../utils/numberFormater';
 import Dot from '../../components/Dot';
 import { MdEdit } from 'react-icons/md';
 import InfiniteScroll from '../../components/InfiniteScroll';
+import useAppTitle from '../../hooks/useAppTitle';
 
 // don't put inside component or will cause rerenders
 const isReply = (comment) => !!comment.parentCid;
@@ -68,8 +69,10 @@ const Profile = () => {
   const fullNav = !(view === 'overview' || view === 'profile');
   const address = `/u/${params?.authorAddress}/c/${params?.commentCid}`;
 
+  useAppTitle(getUserName(author?.author) || 'Profile', author);
+
   return (
-    <Layout name={{ label: getUserName(author?.author) || 'Profile', value: location?.pathname }}>
+    <>
       {device !== 'mobile' ? (
         <>
           <div className={styles.profile_header}>
@@ -172,7 +175,7 @@ const Profile = () => {
           </div>
         </div>
       )}
-    </Layout>
+    </>
   );
 };
 

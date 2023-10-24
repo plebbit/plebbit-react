@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PlebLogo } from '../../components/svgs';
+import useStore from '../../store/useStore';
+import useAppTitle from '../../hooks/useAppTitle';
 
 const NotFound = () => {
+  useAppTitle('plebbit: Page not found');
   return (
     <div
       style={{

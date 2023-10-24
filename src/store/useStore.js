@@ -28,6 +28,10 @@ const useStore = create((set, get) => ({
   setShowImportAccountModal: (val) => set(() => ({ showImportAccountModal: val })),
   showCreateSubModal: false,
   setShowCreateSubModal: (val) => set(() => ({ showCreateSubModal: val })),
+  appTitle: 'plebbit',
+  setAppTitle: (val) => set(() => ({ appTitle: val })),
+  stateString: '',
+  setStateString: (val) => set(() => ({ stateString: val })),
   colorMode: 'light',
   setColorMode: (val) => set(() => ({ darkMode: val })),
   toggleColorMode: () =>

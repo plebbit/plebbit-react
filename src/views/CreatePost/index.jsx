@@ -30,6 +30,7 @@ import { AiOutlinePlus, AiOutlineTag } from 'react-icons/ai';
 import truncateString from '../../utils/truncateString';
 import logger from '../../utils/logger';
 import { toast } from 'react-toastify';
+import useAppTitle from '../../hooks/useAppTitle';
 
 const CreatePost = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
@@ -147,8 +148,10 @@ const CreatePost = () => {
     }
   };
 
+  useAppTitle(address ? `Submit to ${getSubName(address)}` : 'Submit to plebbit', address);
+
   return (
-    <Layout name={{ label: 'Create Post', value: location?.pathname }}>
+    <>
       <div className={styles.wrapper}>
         <div className={styles.content}>
           <div tabIndex="0"></div>
@@ -331,7 +334,7 @@ const CreatePost = () => {
           setFlair={setFlair}
         />
       )}
-    </Layout>
+    </>
   );
 };
 

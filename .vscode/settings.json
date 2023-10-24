@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["Plebbits"],
+  "cSpell.words": ["Plebbits", "subplebbits"],
   "java.configuration.updateBuildConfiguration": "automatic",
   "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
   "editor.formatOnSave": true,

@@ -8,6 +8,7 @@ import styles from './moderator.module.css';
 import { RiSearch2Line } from 'react-icons/ri';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
 import Container from '../container';
+import useAppTitle from '../../../hooks/useAppTitle';
 
 const Moderators = () => {
   const { pathname } = useLocation();
@@ -18,13 +19,10 @@ const Moderators = () => {
     ?.map((x) => x?.role)
     ?.includes('owner') === false && { Anonymous: { role: 'owner' } };
   const moderators = { ...thereIsOwner, ...subPlebbit?.roles };
+
+  useAppTitle(subPlebbit?.title || getAddress(subplebbitAddress), subPlebbit);
   return (
-    <Layout
-      name={{
-        label: subPlebbit?.title || getAddress(subplebbitAddress),
-        value: pathname,
-      }}
-    >
+    <>
       <div className={styles.top}>
         <Avatar
           width={20}
@@ -80,7 +78,7 @@ const Moderators = () => {
             ))}
         </div>
       </Container>
-    </Layout>
+    </>
   );
 };
 
