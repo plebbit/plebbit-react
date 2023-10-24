@@ -15,6 +15,7 @@ import onChallenge from '../../utils/onChallenge';
 import onChallengeVerification from '../../utils/onChallengeVerification';
 import onError from '../../utils/onError';
 import { toast } from 'react-toastify';
+import useAppTitle from '../../hooks/useAppTitle';
 
 const About = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
@@ -60,13 +61,16 @@ const About = () => {
     }
   };
 
+  useAppTitle(
+    {
+      label: subPlebbit?.title || getAddress(subplebbitAddress),
+      value: location?.pathname,
+    },
+    subPlebbit
+  );
+
   return (
-    <Layout
-      name={{
-        label: subPlebbit?.title || getAddress(subplebbitAddress),
-        value: location?.pathname,
-      }}
-    >
+    <>
       <div className={styles.wrapper}>
         <div className={styles.top}>
           <Avatar
@@ -103,7 +107,7 @@ const About = () => {
           />
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

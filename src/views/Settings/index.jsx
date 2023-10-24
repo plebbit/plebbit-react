@@ -20,6 +20,7 @@ import AddBlockProvide from './modal/addBlockProvider';
 import Image from '../../components/Image';
 import placeholder from '../../assets/images/fallback.png';
 import { toast } from 'react-toastify';
+import useAppTitle from '../../hooks/useAppTitle';
 
 const Settings = () => {
   const [bPLoading, setBpLoading] = useState(false);
@@ -176,8 +177,10 @@ const Settings = () => {
     await deleteCaches();
     toast.success(`db-cleared`);
   };
+
+  useAppTitle({ label: 'Plebbit Settings', value: location?.pathname });
   return (
-    <Layout name={{ label: 'Plebbit Settings', value: location?.pathname }}>
+    <>
       {isOpen ? <AddAvatar isOpen={isOpen} setIsOpen={setIsClose} /> : ''}
       {isExportOpen ? <ExportAccount isOpen={isExportOpen} setIsOpen={setIsExportClose} /> : ''}
       {isBlockOpen ? (
@@ -714,7 +717,7 @@ const Settings = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

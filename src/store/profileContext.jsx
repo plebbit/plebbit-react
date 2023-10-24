@@ -4,14 +4,13 @@ import useSubPlebbitDefaultData from '../hooks/useSubPlebbitDefaultData';
 import getAddressFromArray from '../utils/getAddressFromArray';
 import useStore from './useStore';
 
-const ProfileDataProvider = ({ children }) => {
+const ProfileDataProvider = React.memo(() => {
   const {
     postView,
     setHomeAdd,
     setPostView,
     setSubPlebbitDefData,
     setSubPlebbitData,
-    setShowSplashcreen,
     setDevice,
     setColorMode,
   } = useStore((state) => state);
@@ -89,21 +88,7 @@ const ProfileDataProvider = ({ children }) => {
     setColorMode(userTheme ? 'dark' : 'light');
   }, [setColorMode, userTheme]);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setShowSplashcreen(false);
-  //   }, 5000);
-
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [setShowSplashcreen]);
-
-  return <div>{children}</div>;
-};
-
-ProfileDataProvider.defaultProps = {
-  children: null,
-};
+  return <div />;
+});
 
 export default ProfileDataProvider;

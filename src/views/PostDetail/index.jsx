@@ -56,6 +56,7 @@ import Avatar from '../../components/Avatar';
 import Post from '../../components/Post';
 import AddRemovalReason from '../../components/Post/Modal/addRemovalReason';
 import ConfirmDelete from '../../components/Post/Modal/confirmDelete';
+import useAppTitle from '../../hooks/useAppTitle';
 
 const PostDetail2 = () => {
   const [isRemovalModalOpen, setRemovalModalOpen] = useState(false);
@@ -123,7 +124,7 @@ const PostDetail2 = () => {
   const [showSpoiler, setShowSpoiler] = useState(detail?.spoiler);
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
-  const { device, baseUrl } = useStore((state) => state);
+  const { device, baseUrl, setStateString } = useStore((state) => state);
   const navigate = useNavigate();
   const [showFullComments, setShowFullComments] = useState(!isReply);
 
@@ -218,19 +219,29 @@ const PostDetail2 = () => {
     detail = editedComment;
   }, [editedComment]);
 
+  useAppTitle(
+    {
+      label:
+        detail?.title ||
+        detail?.shortCid ||
+        subplebbit?.title ||
+        (subplebbit && getSubName(subplebbit)) ||
+        getAddress(params?.commentCid),
+      value: location?.pathname,
+    },
+    detail
+  );
+
+  useEffect(() => {
+    setStateString(stateString);
+
+    return () => {
+      setStateString('');
+    };
+  }, [stateString]);
+
   return (
-    <Layout
-      name={{
-        label:
-          detail?.title ||
-          detail?.shortCid ||
-          subplebbit?.title ||
-          (subplebbit && getSubName(subplebbit)) ||
-          getAddress(params?.commentCid),
-        value: location?.pathname,
-      }}
-      stateString={stateString}
-    >
+    <>
       {' '}
       {device !== 'mobile' ? (
         <div>
@@ -780,7 +791,7 @@ const PostDetail2 = () => {
       {isDeleteModalOpen && (
         <ConfirmDelete isOpen={isDeleteModalOpen} setIsOpen={setDeleteModalOpen} post={detail} />
       )}
-    </Layout>
+    </>
   );
 };
 

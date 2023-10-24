@@ -9,6 +9,7 @@ import { NotificationType } from '../../components/layout/Nav/NavNotification';
 import { useAccount, useNotifications } from '@plebbit/plebbit-react-hooks';
 import { Link } from 'react-router-dom';
 import styles from './notifications.module.css';
+import useAppTitle from '../../hooks/useAppTitle';
 
 const Notifications = () => {
   const profile = useAccount();
@@ -29,6 +30,8 @@ const Notifications = () => {
       isClosable: true,
     });
   };
+
+  useAppTitle({ label: 'Notifications', value: 'notification', icon: <FaBell /> });
 
   return (
     <Layout name={{ label: 'Notifications', value: 'notification', icon: <FaBell /> }}>

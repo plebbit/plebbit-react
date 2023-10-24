@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Layout from '../../components/layout';
 import {
   useAccount,
   useAccountSubplebbits,
@@ -30,6 +29,7 @@ import { AiOutlinePlus, AiOutlineTag } from 'react-icons/ai';
 import truncateString from '../../utils/truncateString';
 import logger from '../../utils/logger';
 import { toast } from 'react-toastify';
+import useAppTitle from '../../hooks/useAppTitle';
 
 const CreatePost = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
@@ -147,8 +147,17 @@ const CreatePost = () => {
     }
   };
 
+  useAppTitle(
+    {
+      label: address ? `Submit to ${getSubName(address)}` : 'Submit to plebbit',
+      value: location?.pathname,
+      dropdown: 'Create Post',
+    },
+    address
+  );
+
   return (
-    <Layout name={{ label: 'Create Post', value: location?.pathname }}>
+    <>
       <div className={styles.wrapper}>
         <div className={styles.content}>
           <div tabIndex="0"></div>
@@ -331,7 +340,7 @@ const CreatePost = () => {
           setFlair={setFlair}
         />
       )}
-    </Layout>
+    </>
   );
 };
 

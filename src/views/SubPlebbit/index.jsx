@@ -32,11 +32,12 @@ import onChallenge from '../../utils/onChallenge';
 import onChallengeVerification from '../../utils/onChallengeVerification';
 import SubStyleSide from './subStyleSide';
 import { toast } from 'react-toastify';
+import useAppTitle from '../../hooks/useAppTitle';
 
 const Subplebbit = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
-  const { postStyle, device } = useStore((state) => state);
+  const { postStyle, device, setStateString } = useStore((state) => state);
   const sortType = useParams()?.sortType ?? 'hot';
   const { subplebbitAddress } = useParams();
   const { feed, loadMore, hasMore } = useFeed({
@@ -104,15 +105,18 @@ const Subplebbit = () => {
 
   const currentView = pathname.split('/')[3];
   const stateString = useStateString(subPlebbit);
+  useAppTitle({ label: data?.title || 'Subplebbit', value: pathname }, subPlebbit);
+
+  useEffect(() => {
+    setStateString(stateString);
+
+    return () => {
+      setStateString('');
+    };
+  }, [stateString]);
 
   return (
-    <Layout
-      background={
-        data?.suggested?.backgroundUrl && `url(${data?.suggested?.backgroundUrl}) repeat center top`
-      }
-      stateString={feeds?.length ? '' : stateString}
-      name={{ label: data?.title || 'Subplebbit', value: pathname }}
-    >
+    <>
       {device !== 'mobile' ? (
         <div>
           {/* banner */}
@@ -309,7 +313,7 @@ const Subplebbit = () => {
           />
         </div>
       )}
-    </Layout>
+    </>
   );
 };
 

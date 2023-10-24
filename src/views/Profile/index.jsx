@@ -4,7 +4,7 @@ import {
   useAuthorAvatar,
   useComments,
 } from '@plebbit/plebbit-react-hooks';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import useStore from '../../store/useStore';
 import { Link, useParams } from 'react-router-dom';
 import Layout from '../../components/layout';
@@ -18,6 +18,7 @@ import Avatar from '../../components/Avatar';
 import numFormatter from '../../utils/numberFormater';
 import { MdEdit } from 'react-icons/md';
 import InfiniteScroll from '../../components/InfiniteScroll';
+import useAppTitle from '../../hooks/useAppTitle';
 
 // don't put inside component or will cause rerenders
 const isReply = (comment) => !!comment.parentCid;
@@ -26,7 +27,7 @@ const isPost = (comment) => !comment.parentCid;
 const Profile = () => {
   const profile = useAccount();
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
-  const { device, postStyle } = useStore((state) => state);
+  const { device, postStyle, setAppTitle } = useStore((state) => state);
   const view = useParams()?.view ?? 'profile';
   const { accountComments: myPost } = useAccountComments({
     filter: view === 'comments' ? isReply : view === 'posts' ? isPost : undefined,
@@ -63,8 +64,13 @@ const Profile = () => {
   const feeds = myPost ? [...myPost].reverse() : [];
   const fullNav = !(view === 'overview' || view === 'profile');
 
+  useAppTitle(
+    { label: getUserName(profile?.author) || 'Profile', value: location?.pathname },
+    profile
+  );
+
   return (
-    <Layout name={{ label: getUserName(profile?.author) || 'Profile', value: location?.pathname }}>
+    <>
       {device !== 'mobile' ? (
         <>
           <div className={styles.profile_header}>
@@ -164,7 +170,7 @@ const Profile = () => {
           </div>
         </div>
       )}
-    </Layout>
+    </>
   );
 };
 
