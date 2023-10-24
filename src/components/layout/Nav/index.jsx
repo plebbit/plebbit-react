@@ -43,7 +43,7 @@ import { bottomData1 } from '../../sidebar/projectLinks';
 import plebbitReactPackageJson from '../../../../package.json';
 import { toast } from 'react-toastify';
 
-const NavBar = ({ location }) => {
+const NavBar = () => {
   const { accountSubplebbits } = useAccountSubplebbits();
   const profile = useAccount();
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
@@ -110,7 +110,6 @@ const NavBar = ({ location }) => {
                 subPlebbitData={subPlebbitData}
                 authorAvatarImageUrl={authorAvatarImageUrl}
                 profile={profile}
-                location={location}
                 homeAdd={homeAdd}
               />
               <NavSearch />

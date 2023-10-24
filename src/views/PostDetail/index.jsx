@@ -219,7 +219,18 @@ const PostDetail2 = () => {
     detail = editedComment;
   }, [editedComment]);
 
-  useAppTitle(detail?.title, detail);
+  useAppTitle(
+    {
+      label:
+        detail?.title ||
+        detail?.shortCid ||
+        subplebbit?.title ||
+        (subplebbit && getSubName(subplebbit)) ||
+        getAddress(params?.commentCid),
+      value: location?.pathname,
+    },
+    detail
+  );
 
   useEffect(() => {
     setStateString(stateString);

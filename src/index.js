@@ -24,11 +24,9 @@ const app = document.getElementById('root');
 const root = createRoot(app);
 root.render(
   <>
-    <ProfileDataProvider>
-      <Router future={{ v7_startTransition: true }}>
-        <App />
-      </Router>
-    </ProfileDataProvider>
+    <Router>
+      <App />
+    </Router>
     <ToastContainer position="bottom-center" autoClose={false} closeButton hideProgressBar />
   </>
 );

@@ -20,7 +20,13 @@ const Moderators = () => {
     ?.includes('owner') === false && { Anonymous: { role: 'owner' } };
   const moderators = { ...thereIsOwner, ...subPlebbit?.roles };
 
-  useAppTitle(subPlebbit?.title || getAddress(subplebbitAddress), subPlebbit);
+  useAppTitle(
+    {
+      label: subPlebbit?.title || getAddress(subplebbitAddress),
+      value: pathname,
+    },
+    subPlebbit
+  );
   return (
     <>
       <div className={styles.top}>

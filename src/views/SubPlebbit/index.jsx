@@ -105,7 +105,7 @@ const Subplebbit = () => {
 
   const currentView = pathname.split('/')[3];
   const stateString = useStateString(subPlebbit);
-  useAppTitle(subPlebbit?.title, subPlebbit);
+  useAppTitle({ label: data?.title || 'Subplebbit', value: pathname }, subPlebbit);
 
   useEffect(() => {
     setStateString(stateString);

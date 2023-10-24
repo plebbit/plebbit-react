@@ -31,10 +31,10 @@ const Notifications = () => {
     });
   };
 
-  useAppTitle('Notifications');
+  useAppTitle({ label: 'Notifications', value: 'notification', icon: <FaBell /> });
 
   return (
-    <>
+    <Layout name={{ label: 'Notifications', value: 'notification', icon: <FaBell /> }}>
       <div className={styles.wrapper}>
         <div className={styles.wrapper_top}>
           <h2>Notifications</h2>
@@ -107,7 +107,7 @@ const Notifications = () => {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 

@@ -17,11 +17,11 @@ import Sort from '../../../../utils/sort';
 import convertArrToObj from '../../../../utils/convertArrToObj';
 import { useAccount, useAccountSubplebbits, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
 
-const HomeDropdown = ({ location }) => {
+const HomeDropdown = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { ref } = useVisible(setShowMenu);
 
-  const { showSide, setShowSide } = useStore((state) => state);
+  const { showSide, setShowSide, appTitle: location } = useStore((state) => state);
 
   return (
     <div className={styles.nav_home_dropdown} ref={ref}>

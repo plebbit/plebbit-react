@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Layout from '../../components/layout';
 import {
   useAccount,
   useAccountSubplebbits,
@@ -148,7 +147,14 @@ const CreatePost = () => {
     }
   };
 
-  useAppTitle(address ? `Submit to ${getSubName(address)}` : 'Submit to plebbit', address);
+  useAppTitle(
+    {
+      label: address ? `Submit to ${getSubName(address)}` : 'Submit to plebbit',
+      value: location?.pathname,
+      dropdown: 'Create Post',
+    },
+    address
+  );
 
   return (
     <>

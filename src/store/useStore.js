@@ -28,7 +28,7 @@ const useStore = create((set, get) => ({
   setShowImportAccountModal: (val) => set(() => ({ showImportAccountModal: val })),
   showCreateSubModal: false,
   setShowCreateSubModal: (val) => set(() => ({ showCreateSubModal: val })),
-  appTitle: 'plebbit',
+  appTitle: { label: 'plebbit', value: '' },
   setAppTitle: (val) => set(() => ({ appTitle: val })),
   stateString: '',
   setStateString: (val) => set(() => ({ stateString: val })),

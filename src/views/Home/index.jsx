@@ -1,4 +1,4 @@
-import React, { Profiler, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import SideBar from './sideBar';
 import { useFeed, useSubplebbits } from '@plebbit/plebbit-react-hooks';
 import FeedSort from '../../components/Post/FeedSort';
@@ -33,7 +33,7 @@ const Home = () => {
   const stateString = useFeedStateString(subplebbits);
 
   const feeds = feed;
-  useAppTitle('plebbit');
+  useAppTitle({ label: 'Home', value: homeAdd });
 
   useEffect(() => {
     setStateString(stateString);
@@ -45,55 +45,48 @@ const Home = () => {
 
   return (
     <>
-      <Profiler id="home">
-        {device !== 'mobile' ? (
-          <>
-            <FeedContent
-              top={
-                <>
-                  {/* Create Post Bar */}
-                  <CreatePostBar />
-                  {/* feed sorter bar */}
-                  <FeedSort />
-                </>
-              }
-              type={postStyle === 'card' ? 'true' : 'false'}
+      {device !== 'mobile' ? (
+        <>
+          <FeedContent
+            top={
+              <>
+                {/* Create Post Bar */}
+                <CreatePostBar />
+                {/* feed sorter bar */}
+                <FeedSort />
+              </>
+            }
+            type={postStyle === 'card' ? 'true' : 'false'}
+            hasMore={hasMore}
+            loadMore={loadMore}
+            content={(index, feed) => (
+              <Post index={index} post={feed} key={feed?.cid || index} mode={postStyle} />
+            )}
+            feeds={feeds}
+            loader={
+              <Post loading={true} mode={postStyle} stateString={stateString} key={Math.random()} />
+            }
+            enableSubBlock
+            sidebar={<SideBar />}
+          />
+        </>
+      ) : (
+        <div>
+          <FeedSort />
+          <div>
+            <InfiniteScroll
               hasMore={hasMore}
               loadMore={loadMore}
               content={(index, feed) => (
-                <Post index={index} post={feed} key={feed?.cid || index} mode={postStyle} />
+                <Post post={feed} key={feed?.cid || index} index={index} mode={postStyle} />
               )}
-              feeds={feeds}
-              loader={
-                <Post
-                  loading={true}
-                  mode={postStyle}
-                  stateString={stateString}
-                  key={Math.random()}
-                />
-              }
+              feeds={feeds || []}
+              loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
               enableSubBlock
-              sidebar={<SideBar />}
             />
-          </>
-        ) : (
-          <div>
-            <FeedSort />
-            <div>
-              <InfiniteScroll
-                hasMore={hasMore}
-                loadMore={loadMore}
-                content={(index, feed) => (
-                  <Post post={feed} key={feed?.cid || index} index={index} mode={postStyle} />
-                )}
-                feeds={feeds || []}
-                loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
-                enableSubBlock
-              />
-            </div>
           </div>
-        )}
-      </Profiler>
+        </div>
+      )}
     </>
   );
 };

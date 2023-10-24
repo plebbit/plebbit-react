@@ -64,7 +64,10 @@ const Profile = () => {
   const feeds = myPost ? [...myPost].reverse() : [];
   const fullNav = !(view === 'overview' || view === 'profile');
 
-  useAppTitle(getUserName(profile?.author), profile);
+  useAppTitle(
+    { label: getUserName(profile?.author) || 'Profile', value: location?.pathname },
+    profile
+  );
 
   return (
     <>

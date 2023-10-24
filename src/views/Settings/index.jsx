@@ -178,7 +178,7 @@ const Settings = () => {
     toast.success(`db-cleared`);
   };
 
-  useAppTitle('plebbit settings');
+  useAppTitle({ label: 'Plebbit Settings', value: location?.pathname });
   return (
     <>
       {isOpen ? <AddAvatar isOpen={isOpen} setIsOpen={setIsClose} /> : ''}

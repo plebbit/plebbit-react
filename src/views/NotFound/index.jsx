@@ -5,7 +5,7 @@ import useStore from '../../store/useStore';
 import useAppTitle from '../../hooks/useAppTitle';
 
 const NotFound = () => {
-  useAppTitle('plebbit: Page not found');
+  useAppTitle({ label: 'plebbit: Page not found' });
   return (
     <div
       style={{

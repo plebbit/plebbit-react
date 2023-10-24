@@ -69,7 +69,10 @@ const Profile = () => {
   const fullNav = !(view === 'overview' || view === 'profile');
   const address = `/u/${params?.authorAddress}/c/${params?.commentCid}`;
 
-  useAppTitle(getUserName(author?.author) || 'Profile', author);
+  useAppTitle(
+    { label: getUserName(author?.author) || 'Profile', value: location?.pathname },
+    author
+  );
 
   return (
     <>

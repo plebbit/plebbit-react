@@ -61,7 +61,13 @@ const About = () => {
     }
   };
 
-  useAppTitle(subPlebbit?.title || getAddress(subplebbitAddress), subPlebbit);
+  useAppTitle(
+    {
+      label: subPlebbit?.title || getAddress(subplebbitAddress),
+      value: location?.pathname,
+    },
+    subPlebbit
+  );
 
   return (
     <>

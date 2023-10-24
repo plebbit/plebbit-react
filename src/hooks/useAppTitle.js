@@ -8,7 +8,7 @@ const useAppTitle = (value, control) => {
     setAppTitle(value);
 
     return () => {
-      setAppTitle('plebbit');
+      setAppTitle({ label: 'plebbit' });
     };
   }, [control] || []);
 
