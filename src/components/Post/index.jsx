@@ -140,8 +140,6 @@ const Post = ({
     editLabel = { text: 'failed edit', color: 'red' };
   }
 
-  console.log({ post });
-
   return (
     <>
       {!disableBlocked && isBlocked ? (

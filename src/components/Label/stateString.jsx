@@ -7,7 +7,7 @@ const StateString = ({ stateString, textSx }) => {
       {stateString && stateString !== 'Succeeded' && (
         <>
           <span className={styles.style_dot}>•</span>
-          <span style={textSx} className={[styles.style_dot, 'loading-ellipsis'].join(' ')}>
+          <span style={textSx} className={[styles.style_string, 'loading-ellipsis'].join(' ')}>
             {stateString}
           </span>
         </>
