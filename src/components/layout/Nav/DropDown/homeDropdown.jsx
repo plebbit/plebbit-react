@@ -16,6 +16,7 @@ import useStore from '../../../../store/useStore';
 import Sort from '../../../../utils/sort';
 import convertArrToObj from '../../../../utils/convertArrToObj';
 import { useAccount, useAccountSubplebbits, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
+import removeParamsFromUrl from '../../../../utils/removeParamsFromUrl';
 
 const HomeDropdown = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -30,7 +31,11 @@ const HomeDropdown = () => {
           <h1>{location?.label || location?.title}</h1>
         </span>
 
-        <MdHome className={styles.nav_home_dropdown_icon} />
+        {location?.icon ? (
+          <location.icon className={styles.nav_home_dropdown_icon} />
+        ) : (
+          <MdHome className={styles.nav_home_dropdown_icon} />
+        )}
         <BiChevronDown className={styles.nav_home_dropdown_caret} />
       </button>
       {!showSide && showMenu && (
@@ -56,15 +61,10 @@ export const SideMenu = ({ location }) => {
   const profile = useAccount();
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
   const {
-    setPostView,
-    postView,
-    homeAdd,
     subPlebbitData: gitData,
     subPlebbitDefData,
     setShowCreateSubModal,
   } = useStore((state) => state);
-
-  const navigate = useNavigate();
 
   const subPlebbitData = Sort(
     convertArrToObj(
@@ -76,50 +76,8 @@ export const SideMenu = ({ location }) => {
     true
   );
 
-  const getCurrentLocationVal = () =>
-    location?.label !== 'Home'
-      ? location
-      : [
-          { label: 'Home', value: homeAdd },
-          {
-            label: location?.label !== 'Home' ? 'Home' : 'p/All',
-            value: subPlebbitData?.map((x) => x?.address)?.filter((x) => x !== undefined),
-          },
-        ].find((x) => x?.value?.sort().join('') === postView?.sort()?.join(''));
   return (
     <>
-      {[
-        location || {},
-        {
-          label: location?.label !== 'Home' ? 'Home' : 'p/All',
-          value: subPlebbitData?.map((x) => x?.address)?.filter((x) => x !== undefined),
-        },
-      ]?.map((x, index) => (
-        <button
-          key={index}
-          className={
-            (Array.isArray(x?.value) &&
-              Array.isArray(getCurrentLocationVal()?.value) &&
-              x?.value?.sort()?.join('') === getCurrentLocationVal()?.value?.sort()?.join('')) ||
-            x?.value === getCurrentLocationVal()?.value
-              ? styles.nav_home_moderating_selected_item
-              : styles.nav_home_moderating_item
-          }
-          onClick={() => {
-            if (location.label === 'Home') {
-              setPostView(x.value);
-            } else {
-              if (typeof x?.value === 'object') {
-                navigate('/');
-              } else {
-                navigate(x?.value);
-              }
-            }
-          }}
-        >
-          <span className={styles.nav_home_moderating_item_text2}>{x?.label}</span>
-        </button>
-      ))}
       <input
         aria-label="Start typing to filter your communities or use up and down to select."
         placeholder="Filter"

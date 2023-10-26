@@ -12,7 +12,6 @@ const useSubPlebbitDefaultData = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log({ data });
         setValue(data?.subplebbits);
       } else {
         toast.error('error fetching default subs', {

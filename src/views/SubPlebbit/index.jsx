@@ -291,7 +291,7 @@ const Subplebbit = () => {
             </div>
           </div>
           {/* Create Post Bar */}
-          <CreatePostBar />
+          <CreatePostBar address={subplebbitAddress} />
           {/* feed sort bar */}
           <FeedSort />
           {/* feed list */}

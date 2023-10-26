@@ -23,7 +23,7 @@ import AddFlair from './modal/addFlair';
 import DropDown2 from '../../components/DropDown/DropDown2';
 import Avatar from '../../components/Avatar';
 import { MdStickyNote2 } from 'react-icons/md';
-import { BsChevronDown, BsLink45Deg } from 'react-icons/bs';
+import { BsChevronDown, BsLink45Deg, BsPlusLg } from 'react-icons/bs';
 import { BiPoll } from 'react-icons/bi';
 import { AiOutlinePlus, AiOutlineTag } from 'react-icons/ai';
 import truncateString from '../../utils/truncateString';
@@ -152,6 +152,7 @@ const CreatePost = () => {
       label: address ? `Submit to ${getSubName(address)}` : 'Submit to plebbit',
       value: location?.pathname,
       dropdown: 'Create Post',
+      icon: BsPlusLg,
     },
     address
   );

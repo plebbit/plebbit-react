@@ -22,8 +22,10 @@ const FeedSort = ({ hideControl }) => {
   const sortType = useParams()?.sortType ?? 'hot';
   const location = useLocation();
   const navigate = useNavigate();
-
-  const path = location?.pathname?.split('/')?.slice(0, -1).join('/');
+  const path =
+    location?.key === 'default'
+      ? location?.pathname
+      : location?.pathname?.split('/')?.slice(0, -1).join('/');
 
   const sortList = [
     { name: 'Hot', link: 'hot', icon: RiFireFill },

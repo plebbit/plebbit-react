@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import useStore from '../store/useStore';
+import { useLocation } from 'react-router-dom';
 
 const useAppTitle = (value, control) => {
   const { setAppTitle } = useStore();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     setAppTitle(value);
@@ -10,7 +12,7 @@ const useAppTitle = (value, control) => {
     return () => {
       setAppTitle({ label: 'plebbit' });
     };
-  }, [control] || []);
+  }, [control, pathname]);
 
   return;
 };
