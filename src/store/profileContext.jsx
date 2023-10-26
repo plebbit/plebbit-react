@@ -13,6 +13,8 @@ const ProfileDataProvider = React.memo(() => {
     setSubPlebbitData,
     setDevice,
     setColorMode,
+    setMySubsAddresses,
+    setAllSubsAddresses,
   } = useStore((state) => state);
 
   const profile = useAccount();
@@ -49,6 +51,11 @@ const ProfileDataProvider = React.memo(() => {
       setSubPlebbitData(subPlebbitData);
     }
   }, [subPlebbitData]);
+
+  // addresses of all subs related to me
+  useMemo(() => setMySubsAddresses(homeAdd), [homeAdd]);
+  // addresses of all subs
+  useMemo(() => setAllSubsAddresses(getAddressFromArray(subPlebbitDefData)), [subPlebbitDefData]);
 
   useEffect(() => {
     if (subPlebbitDefData) {

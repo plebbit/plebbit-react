@@ -8,7 +8,6 @@ const FeedContent = ({
   hasMore,
   loadMore,
   content,
-  disableBlocked,
   enableSubBlock,
   top,
   type,
@@ -29,7 +28,6 @@ const FeedContent = ({
               feeds={feeds || []}
               loader={loader}
               enableSubBlock={enableSubBlock}
-              disableBlocked={disableBlocked}
             />
           )}
         </div>

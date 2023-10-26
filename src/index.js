@@ -18,7 +18,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import theme from './assets/style/theme';
 import { ToastContainer } from 'react-toastify';
-import { HashRouter as Router } from 'react-router-dom';
+import { HashRouter as Router, ScrollRestoration } from 'react-router-dom';
 
 const app = document.getElementById('root');
 const root = createRoot(app);

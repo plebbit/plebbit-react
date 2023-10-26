@@ -171,9 +171,14 @@ const Profile = () => {
               loadMore={loadMore}
               loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
               content={(index, feed) => (
-                <Post index={index} post={feed} key={feed?.cid || index} mode="card" />
+                <Post
+                  index={index}
+                  post={feed}
+                  key={feed?.cid || index}
+                  mode="card"
+                  disableBlocked={view === 'hidden'}
+                />
               )}
-              disableBlocked={view === 'hidden'}
             />
           </div>
         </div>

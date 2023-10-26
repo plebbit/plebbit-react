@@ -109,9 +109,9 @@ const Profile = () => {
                 index={index}
                 key={feed?.cid || index}
                 mode={view === 'overview' || view === 'profile' ? 'card' : 'classic'}
+                disableBlocked={view === 'hidden'}
               />
             )}
-            disableBlocked={view === 'hidden'}
           />
         </>
       ) : (
@@ -163,9 +163,14 @@ const Profile = () => {
               feeds={view === 'hidden' ? blockedFeeds : feeds}
               loader={<Post loading={true} mode={postStyle} key={Math.random()} />}
               content={(index, feed) => (
-                <Post index={index} post={feed} key={feed?.cid || index} mode="card" />
+                <Post
+                  index={index}
+                  post={feed}
+                  key={feed?.cid || index}
+                  mode="card"
+                  disableBlocked={view === 'hidden'}
+                />
               )}
-              disableBlocked={view === 'hidden'}
             />
           </div>
         </div>

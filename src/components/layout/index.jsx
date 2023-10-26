@@ -71,7 +71,9 @@ const Layout = ({ children }) => {
             </div>
           ) : (
             <div>
-              <div className={styles.mobile_wrapper3}>{children}</div>
+              <div className={styles.mobile_wrapper3}>
+                <Outlet />
+              </div>
             </div>
           )}
 

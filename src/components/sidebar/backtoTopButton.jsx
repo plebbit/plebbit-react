@@ -4,10 +4,7 @@ import { Button2 } from '../Button';
 
 const BacktoTopButton = () => {
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    window.scrollTo(0, 0);
   };
   return (
     <div className={styles.back_tt}>

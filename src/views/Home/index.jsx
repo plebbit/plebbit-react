@@ -11,17 +11,20 @@ import useStore from '../../store/useStore';
 import CreatePostBar from '../../components/CreatePost/createPostBar';
 import FeedContent from '../../components/container/FeedContent';
 import { useParams } from 'react-router-dom';
-import GetChallengesModal from '../../components/Modal/ChallengeModal';
 import useAppTitle from '../../hooks/useAppTitle';
+import removeParamsFromUrl from '../../utils/removeParamsFromUrl';
+import { HiOutlineChartSquareBar } from 'react-icons/hi';
 
 const Home = () => {
-  const { postStyle, device, postView, homeAdd, subPlebbitData, setStateString } = useStore(
-    (state) => state
-  );
+  const { postStyle, device, homeAdd, setStateString, mySubsAddresses, allSubsAddresses } =
+    useStore((state) => state);
   const sortType = useParams()?.sortType ?? 'hot';
-  const subplebbitAddresses = postView?.filter(Boolean)?.length
-    ? postView?.filter(Boolean)
-    : getAddressFromArray(subPlebbitData);
+  const subplebbitAddresses =
+    removeParamsFromUrl() === '/all'
+      ? allSubsAddresses
+      : mySubsAddresses?.length === 0
+      ? allSubsAddresses
+      : mySubsAddresses;
   const { feed, loadMore, hasMore } = useFeed({
     subplebbitAddresses: subplebbitAddresses.length ? subplebbitAddresses : undefined,
     sortType: sortType,
@@ -33,10 +36,14 @@ const Home = () => {
   const stateString = useFeedStateString(subplebbits);
 
   const feeds = feed;
-  useAppTitle({ label: 'Home', value: homeAdd });
+  useAppTitle({
+    label: removeParamsFromUrl() === '/all' ? 'P/All' : 'Home',
+    value: homeAdd,
+    icon: removeParamsFromUrl() === '/all' && HiOutlineChartSquareBar,
+  });
 
   useEffect(() => {
-    setStateString(stateString);
+    setStateString(feeds?.length !== 0 ? '' : stateString);
 
     return () => {
       setStateString('');

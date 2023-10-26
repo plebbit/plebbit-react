@@ -112,7 +112,7 @@ const NavBar = () => {
                 profile={profile}
                 homeAdd={homeAdd}
               />
-              <NavSearch />
+              <NavSearch type="pc" />
             </div>
             <div className={styles.nav_right}>
               <div className={styles.nav_popular_wrap}>
@@ -205,18 +205,7 @@ const NavBar = () => {
           {showDropDown && (
             <nav className={styles.mobile_menu_wrapper}>
               <ul className={styles.mobile_menu_wrapper2}>
-                <div className={styles.mobile_menu_Search_wrapper}>
-                  <label className={styles.mobile_menu_Search_wrapper2}>
-                    <RiSearchLine color="#d7dadc" className={styles.mobile_menu_Search_icon} />
-                    <div className={styles.mobile_menu_Search_wrap}>
-                      <input
-                        placeholder="Search Plebbit"
-                        className={styles.mobile_menu_Search}
-                        type="search"
-                      />
-                    </div>
-                  </label>
-                </div>
+                <NavSearch />
                 <MobileMenuDropDown
                   title={getUserName(profile?.author)}
                   titleIcon={
@@ -295,10 +284,10 @@ const NavBar = () => {
                   title="Recent Communities"
                   titleIcon={<AiOutlineFieldTime />}
                   options={[
-                    { label: 'Home', value: homeAdd, legacy: true },
+                    { label: 'Home', value: '/', legacy: true },
                     {
                       label: 'p/All',
-                      value: subPlebbitData?.map((x) => x?.address)?.filter((x) => x !== undefined),
+                      value: '/all',
                       legacy: true,
                     },
                     [
@@ -324,7 +313,7 @@ const NavBar = () => {
                       }}
                     >
                       <Link
-                        to={!pages?.legacy ? `/p/${pages?.value}/` : '/'}
+                        to={!pages?.legacy ? `/p/${pages?.value}/` : pages?.value}
                         className={styles.mobile_menu_dropdown_item2}
                       >
                         {!pages?.legacy && (
