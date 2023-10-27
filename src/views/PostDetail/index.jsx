@@ -58,7 +58,7 @@ import AddRemovalReason from '../../components/Post/Modal/addRemovalReason';
 import ConfirmDelete from '../../components/Post/Modal/confirmDelete';
 import useAppTitle from '../../hooks/useAppTitle';
 
-const PostDetail2 = () => {
+const PostDetail = () => {
   const [isRemovalModalOpen, setRemovalModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState();
   const location = useLocation();
@@ -126,7 +126,7 @@ const PostDetail2 = () => {
   const profile = useAccount();
   const { device, baseUrl, setStateString } = useStore((state) => state);
   const navigate = useNavigate();
-  const [showFullComments, setShowFullComments] = useState(!isReply);
+  const [showFullComments, setShowFullComments] = useState(() => !isReply, [isReply]);
 
   const { blocked, unblock, block } = useBlock({ cid: detail?.cid });
   const { muted, unblock: unMute, block: mute } = useBlock({ address: detail?.subplebbitAddress });
@@ -648,14 +648,13 @@ const PostDetail2 = () => {
                       </div>
                       <div className={styles.detail_comments_wrap}>
                         {isReply && !showFullComments ? (
-                          <Replies
+                          <Comment
                             loading={loading}
-                            parent={replyParent}
-                            reply={reply}
-                            disableReplies={detail?.locked}
+                            comment={reply}
+                            parentCid={detail?.cid}
+                            disableReplies={reply?.locked}
                           />
-                        ) : null}
-                        {showFullComments &&
+                        ) : (
                           comments?.map((comment, index) => (
                             <Comment
                               loading={commentLoading}
@@ -664,7 +663,8 @@ const PostDetail2 = () => {
                               parentCid={detail?.cid}
                               disableReplies={detail?.locked}
                             />
-                          ))}
+                          ))
+                        )}
                       </div>
                     </div>
                   </div>
@@ -795,4 +795,4 @@ const PostDetail2 = () => {
   );
 };
 
-export default PostDetail2;
+export default PostDetail;

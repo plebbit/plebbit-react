@@ -37,7 +37,7 @@ const Home = () => {
 
   const feeds = feed;
   useAppTitle({
-    label: removeParamsFromUrl() === '/all' ? 'P/All' : 'Home',
+    label: removeParamsFromUrl() === '/all' ? 'p/All' : 'Home',
     value: homeAdd,
     icon: removeParamsFromUrl() === '/all' && HiOutlineChartSquareBar,
   });

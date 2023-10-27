@@ -1,6 +1,5 @@
 import React from 'react';
 import NavBar from './Nav';
-import { PlebLogo } from '../svgs';
 import { MdClose } from 'react-icons/md';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useAccount, useNotifications } from '@plebbit/plebbit-react-hooks';

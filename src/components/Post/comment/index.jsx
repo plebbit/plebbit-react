@@ -40,7 +40,7 @@ import styles from './comment.module.css';
 import Dot from '../../Dot';
 import Label from '../../Label';
 
-const Comment = ({ comment: data, disableReplies, singleComment, loading, type }) => {
+const Comment = ({ comment: data, disableReplies, loading }) => {
   let comment = data;
   const { commentCid } = useParams();
   const replies = useRepliesAndAccountReplies(comment);
@@ -62,7 +62,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
   const [isDeleteModalOpen, setDeleteModal] = useState(false);
 
   const [isRemovalModalOpen, setRemovalModalOpen] = useState(false);
-  const { authorAddress, shortAuthorAddress } = useAuthorAddress({ comment });
+  const { authorAddress } = useAuthorAddress({ comment });
 
   const owner =
     profile?.author?.address === authorAddress || profile?.signer?.address === authorAddress;
@@ -125,11 +125,12 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
             }}
           >
             <div className={styles.wrapper_thread}>
-              {[...Array(comment?.depth - 1)].map((x, index) => (
-                <div className={styles.wrapper_thread2_alt} key={index}>
-                  <div className={styles.thread_line} />
-                </div>
-              ))}
+              {comment?.depth > 1 &&
+                [...Array(comment?.depth - 1)]?.map((x, index) => (
+                  <div className={styles.wrapper_thread2_alt} key={index}>
+                    <div className={styles.thread_line} />
+                  </div>
+                ))}
 
               <div className={styles.wrapper_thread2}>
                 <div className={styles.wrapper_thread3}>
@@ -230,7 +231,7 @@ const Comment = ({ comment: data, disableReplies, singleComment, loading, type }
                         }, 3000);
                       }}
                     >
-                      <div className={styles.cf_others} onClick={() => setShowReply(!reply)}>
+                      <div className={styles.cf_others}>
                         <button> {copied ? 'Copied' : 'share'}</button>
                       </div>
                     </CopyToClipboard>
