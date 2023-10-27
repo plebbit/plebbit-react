@@ -28,26 +28,27 @@ const PostMedia = ({ post, detail }) => {
     {
       if (mediaInfo?.type === 'image') {
         return (
-          <Image
-            style={{
-              maxheight: '511px',
-              margin: '0px auto',
-              maxWidth: '100%',
-              overflow: 'hidden',
-              background: '#fff',
-            }}
-            src={post?.link}
-            onError={(event) => {
-              event.target.hidden = true;
-            }}
-            noPlaceholder={!showPlaceholder}
-          />
+          <div className={styles.mediaWrapper}>
+            <Image
+              style={{
+                height: '100%',
+                margin: '0px auto',
+                width: '100%',
+                overflow: 'hidden',
+                background: '#fff',
+              }}
+              src={post?.link}
+              onError={(event) => {
+                event.target.hidden = true;
+              }}
+              noPlaceholder={!showPlaceholder}
+            />
+          </div>
         );
       } else if (mediaInfo?.type === 'video') {
         return (
           <div
             style={{
-              background: '#000',
               width: '100%',
               height: '320px',
               color: '#fff',
