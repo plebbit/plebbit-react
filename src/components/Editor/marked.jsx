@@ -10,7 +10,7 @@ const Marked = ({ content }) => {
   MarkdownIt;
   var md = new MarkdownIt('commonmark', {
     breaks: true,
-    html: true,
+    html: false,
     xhtmlOut: true,
     typographer: true,
     linkify: false,
