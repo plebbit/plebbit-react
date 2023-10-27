@@ -14,7 +14,7 @@ const Marked = ({ content }) => {
     xhtmlOut: true,
     typographer: true,
     linkify: false,
-  });
+  }).disable('image');
   return <div className={styles.marked_wrap}>{parse(sanitize(md.render(content)))}</div>;
 };
 
