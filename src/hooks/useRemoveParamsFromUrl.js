@@ -1,7 +1,7 @@
 import { useLocation, useParams } from 'react-router-dom';
 
-const removeParamsFromUrl = () => {
-  const { pathname, key, ...rest } = useLocation();
+const useRemoveParamsFromUrl = () => {
+  const { pathname } = useLocation();
   const params = useParams();
   const paths = pathname.split('/');
   const lastSegment = paths[paths.length - 1];
@@ -12,4 +12,4 @@ const removeParamsFromUrl = () => {
   return updatedPathname;
 };
 
-export default removeParamsFromUrl;
+export default useRemoveParamsFromUrl;

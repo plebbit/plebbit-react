@@ -6,16 +6,13 @@ import useStore from './useStore';
 
 const ProfileDataProvider = React.memo(() => {
   const {
-    postView,
-    setHomeAdd,
-    setPostView,
     setSubPlebbitDefData,
     setSubPlebbitData,
     setDevice,
     setColorMode,
     setMySubsAddresses,
     setAllSubsAddresses,
-  } = useStore((state) => state);
+  } = useStore();
 
   const profile = useAccount();
   const { accountSubplebbits } = useAccountSubplebbits();
@@ -26,7 +23,7 @@ const ProfileDataProvider = React.memo(() => {
     subplebbitAddresses: profile?.subscriptions,
   });
 
-  const homeAdd = useMemo(() => {
+  const mySubsAddresses = useMemo(() => {
     const subscriptionsAddresses = getAddressFromArray(subscriptions);
     const accountSubplebbitsAddresses = Object.keys(accountSubplebbits);
     return [...subscriptionsAddresses, ...accountSubplebbitsAddresses];
@@ -38,12 +35,10 @@ const ProfileDataProvider = React.memo(() => {
   // Combine account subscriptions, created subs, and default subs === obj[]
   const { subplebbits: subPlebbitDefData } = useSubplebbits({
     subplebbitAddresses: [
-      getAddressFromArray(subscriptions),
-      Object.keys(accountSubplebbits),
-      getAddressFromArray(subPlebbitData),
-    ]
-      .flat()
-      .filter(Boolean),
+      ...getAddressFromArray(subscriptions),
+      ...Object.keys(accountSubplebbits),
+      ...getAddressFromArray(subPlebbitData),
+    ].filter(Boolean),
   });
 
   useEffect(() => {
@@ -53,7 +48,7 @@ const ProfileDataProvider = React.memo(() => {
   }, [subPlebbitData]);
 
   // addresses of all subs related to me
-  useMemo(() => setMySubsAddresses(homeAdd), [homeAdd]);
+  useMemo(() => setMySubsAddresses(mySubsAddresses), [mySubsAddresses]);
   // addresses of all subs
   useMemo(() => setAllSubsAddresses(getAddressFromArray(subPlebbitDefData)), [subPlebbitDefData]);
 
@@ -62,15 +57,6 @@ const ProfileDataProvider = React.memo(() => {
       setSubPlebbitDefData(subPlebbitDefData);
     }
   }, [subPlebbitDefData]);
-
-  useEffect(() => {
-    if (homeAdd) {
-      setHomeAdd(homeAdd);
-      if (!postView?.length) {
-        setPostView(homeAdd || getAddressFromArray(subPlebbitDefData));
-      }
-    }
-  }, [homeAdd, postView, subPlebbitDefData]);
 
   const handleResize = useCallback(() => {
     if (window.innerWidth > 1200) {

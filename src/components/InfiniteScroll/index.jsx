@@ -13,7 +13,7 @@ const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
   const virtuosoRef = useRef();
   useEffect(() => {
     const setLastVirtuosoState = () =>
-      virtuosoRef.current?.getState((snapshot) => {
+      virtuosoRef?.current?.getState((snapshot) => {
         // TODO: not sure if checking for empty snapshot.ranges works for all scenarios
         if (snapshot?.ranges?.length) {
           lastVirtuosoStates[sortType] = snapshot;
@@ -24,6 +24,7 @@ const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
     return () => window.removeEventListener('scroll', setLastVirtuosoState);
   }, [sortType]);
   const lastVirtuosoState = lastVirtuosoStates?.[sortType];
+
   return (
     <>
       <Virtuoso

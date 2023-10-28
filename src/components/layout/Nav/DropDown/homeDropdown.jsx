@@ -16,7 +16,6 @@ import useStore from '../../../../store/useStore';
 import Sort from '../../../../utils/sort';
 import convertArrToObj from '../../../../utils/convertArrToObj';
 import { useAccount, useAccountSubplebbits, useAuthorAvatar } from '@plebbit/plebbit-react-hooks';
-import removeParamsFromUrl from '../../../../utils/removeParamsFromUrl';
 
 const HomeDropdown = () => {
   const [showMenu, setShowMenu] = useState(false);

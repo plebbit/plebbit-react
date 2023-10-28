@@ -14,11 +14,8 @@ const useStore = create((set, get) => ({
   setMySubsAddresses: (val) => set(() => ({ mySubsAddresses: val })),
   allSubsAddresses: [],
   setAllSubsAddresses: (val) => set(() => ({ allSubsAddresses: val })),
-  postView: [],
-  setPostView: (val) => set(() => ({ postView: val })),
   isElectron: window?.location?.protocol,
-  homeAdd: [],
-  setHomeAdd: (val) => set(() => ({ homeAdd: val })),
+
   subPlebbitDefData: [],
   setSubPlebbitDefData: (val) => set(() => ({ subPlebbitDefData: val })),
   subPlebbitData: [],
