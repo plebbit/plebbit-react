@@ -49,10 +49,8 @@ const NavBar = () => {
   const { imageUrl: authorAvatarImageUrl } = useAuthorAvatar({ author: profile?.author });
   const {
     device,
-    homeAdd,
     subPlebbitData: gitData,
     subPlebbitDefData,
-    setPostView,
     setShowImportAccountModal,
     setShowCreateSubModal,
     colorMode,
@@ -105,13 +103,7 @@ const NavBar = () => {
                 <PlebLogotext className={styles.logo_text} />
               </Link>
               {/* Home drop down menu */}
-              <HomeDropdown
-                accountSubplebbits={accountSubplebbits}
-                subPlebbitData={subPlebbitData}
-                authorAvatarImageUrl={authorAvatarImageUrl}
-                profile={profile}
-                homeAdd={homeAdd}
-              />
+              <HomeDropdown />
               <NavSearch type="pc" />
             </div>
             <div className={styles.nav_right}>
@@ -303,14 +295,7 @@ const NavBar = () => {
                   render={(pages) => (
                     <li
                       className={styles.mobile_menu_dropdown_item}
-                      onClick={() => {
-                        if (pages?.legacy) {
-                          setShowDropDown(!showDropDown);
-                          setPostView(pages?.value);
-                        } else {
-                          setShowDropDown(!showDropDown);
-                        }
-                      }}
+                      onClick={() => setShowDropDown(!showDropDown)}
                     >
                       <Link
                         to={!pages?.legacy ? `/p/${pages?.value}/` : pages?.value}
