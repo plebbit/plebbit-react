@@ -5,14 +5,7 @@ import getAddressFromArray from '../utils/getAddressFromArray';
 import useStore from './useStore';
 
 const ProfileDataProvider = React.memo(() => {
-  const {
-    setSubPlebbitDefData,
-    setSubPlebbitData,
-    setDevice,
-    setColorMode,
-    setMySubsAddresses,
-    setAllSubsAddresses,
-  } = useStore();
+  const { setSubPlebbitDefData, setSubPlebbitData, setDevice, setColorMode } = useStore();
 
   const profile = useAccount();
   const { accountSubplebbits } = useAccountSubplebbits();
@@ -22,12 +15,6 @@ const ProfileDataProvider = React.memo(() => {
   const { subplebbits: subscriptions } = useSubplebbits({
     subplebbitAddresses: profile?.subscriptions,
   });
-
-  const mySubsAddresses = useMemo(() => {
-    const subscriptionsAddresses = getAddressFromArray(subscriptions);
-    const accountSubplebbitsAddresses = Object.keys(accountSubplebbits);
-    return [...subscriptionsAddresses, ...accountSubplebbitsAddresses];
-  }, [subscriptions, accountSubplebbits]);
 
   // Get default subs === {...obj}
   const subPlebbitData = useSubPlebbitDefaultData();
@@ -46,11 +33,6 @@ const ProfileDataProvider = React.memo(() => {
       setSubPlebbitData(subPlebbitData);
     }
   }, [subPlebbitData]);
-
-  // addresses of all subs related to me
-  useMemo(() => setMySubsAddresses(mySubsAddresses), [mySubsAddresses]);
-  // addresses of all subs
-  useMemo(() => setAllSubsAddresses(getAddressFromArray(subPlebbitDefData)), [subPlebbitDefData]);
 
   useEffect(() => {
     if (subPlebbitDefData) {

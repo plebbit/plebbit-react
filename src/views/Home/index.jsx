@@ -12,11 +12,14 @@ import { useParams } from 'react-router-dom';
 import useAppTitle from '../../hooks/useAppTitle';
 import { HiOutlineChartSquareBar } from 'react-icons/hi';
 import useRemoveParamsFromUrl from '../../hooks/useRemoveParamsFromUrl';
+import useHomeAllSubAddresses, { useMyHomeSubAddresses } from '../../hooks/useHomeAllSubAddresses';
 
 const Home = () => {
-  const { postStyle, device, setStateString, mySubsAddresses, allSubsAddresses } = useStore(
-    (state) => state
-  );
+  const { postStyle, device, setStateString } = useStore((state) => state);
+
+  const allSubsAddresses = useHomeAllSubAddresses();
+  const mySubsAddresses = useMyHomeSubAddresses();
+
   const sortType = useParams()?.sortType ?? 'hot';
   const isAll = useRemoveParamsFromUrl() === '/all';
   const subplebbitAddresses = isAll ? allSubsAddresses : mySubsAddresses;
@@ -27,7 +30,7 @@ const Home = () => {
   });
 
   const { subplebbits } = useSubplebbits({
-    subplebbitAddresses: subplebbitAddresses || mySubsAddresses || undefined,
+    subplebbitAddresses: subplebbitAddresses,
   });
   const stateString = useFeedStateString(subplebbits);
 

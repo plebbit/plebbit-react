@@ -74,11 +74,7 @@ const NavBar = () => {
   const [showDropDown, setShowDropDown] = useState(false);
 
   const subPlebbitData = Sort(
-    convertArrToObj(
-      [gitData, subPlebbitDefData?.filter((x) => x !== undefined)]?.flat(),
-      'address',
-      true
-    ),
+    convertArrToObj([gitData, subPlebbitDefData?.filter(Boolean)]?.flat(), 'address', true),
     (x) => getIsOnline(x?.updatedAt),
     true
   );

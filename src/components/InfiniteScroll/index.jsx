@@ -24,11 +24,10 @@ const InfiniteScroll = ({ feeds, loader, hasMore, loadMore, content }) => {
     return () => window.removeEventListener('scroll', setLastVirtuosoState);
   }, [sortType]);
   const lastVirtuosoState = lastVirtuosoStates?.[sortType];
-
   return (
     <>
       <Virtuoso
-        increaseViewportBy={{ bottom: 600, top: 200 }}
+        // increaseViewportBy={{ bottom: 600, top: 200 }}
         totalCount={feeds ? feeds.length : 0}
         data={feeds}
         style={{ maxWidth: '100%' }}
