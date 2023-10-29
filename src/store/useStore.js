@@ -10,12 +10,7 @@ const useStore = create((set, get) => ({
   device: 'pc',
   setDevice: (val) => set(() => ({ device: val })),
   version,
-  mySubsAddresses: [],
-  setMySubsAddresses: (val) => set(() => ({ mySubsAddresses: val })),
-  allSubsAddresses: [],
-  setAllSubsAddresses: (val) => set(() => ({ allSubsAddresses: val })),
   isElectron: window?.location?.protocol,
-
   subPlebbitDefData: [],
   setSubPlebbitDefData: (val) => set(() => ({ subPlebbitDefData: val })),
   subPlebbitData: [],
