@@ -27,7 +27,7 @@ const downloadWithProgress = (url) =>
       // handle redirects
       if (res.statusCode == 302) {
         resolve(downloadWithProgress(res.headers.location));
-        return
+        return;
       }
 
       const len = parseInt(res.headers['content-length'], 10);
@@ -82,6 +82,8 @@ const downloadIpfsClients = async () => {
   await download(ipfsClientMacUrl, ipfsClientMacPath);
   await download(ipfsClientLinuxPUrl, ipfsClientLinuxPath);
 };
+
+exports.downloadIpfsClients = downloadIpfsClients
 
 exports.default = async (context) => {
   await downloadIpfsClients();

@@ -7,19 +7,33 @@ const {
   Tray,
   screen: electronScreen,
   shell,
-  dialog,
-  nativeTheme
+  nativeTheme,
+  dialog
 } = require('electron')
 const isDev = require('electron-is-dev')
 const path = require('path')
-const startIpfs = require('./startIpfs')
+const startIpfs = require('./start-ipfs')
+const startPlebbitRpcServer = require('./start-plebbit-rpc')
 const { URL } = require('node:url')
+const tcpPortUsed = require('tcp-port-used')
 
+// retry starting ipfs every 10 second, 
+// in case it was started by another client that shut down and shut down ipfs with it
 let startIpfsError
-startIpfs().catch((e) => {
-  startIpfsError = e
-  console.error(e)
-})
+setInterval(async () => {
+  try {
+    const started = await tcpPortUsed.check(5001, '127.0.0.1')
+    if (started) {
+      return
+    }
+    await startIpfs()
+  }
+  catch (e) {
+    console.log(e)
+    startIpfsError = e
+    dialog.showErrorBox('IPFS error', startIpfsError.message)
+  }
+}, 10000)
 
 // use common user agent instead of electron so img, video, audio, iframe elements don't get blocked
 // https://www.whatismybrowser.com/guides/the-latest-version/chrome
@@ -30,7 +44,7 @@ if (process.platform === 'darwin')
   fakeUserAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_5_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
 if (process.platform === 'linux')
   fakeUserAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
-const realUserAgent = `plebbit-react/${require('../package.json').version}`
+const realUserAgent = `plebbit/${require('../package.json').version}`
 
 // add right click menu
 const contextMenu = require('electron-context-menu')
@@ -70,7 +84,7 @@ const createMainWindow = () => {
     width: 1000,
     height: 600,
     show: false,
-    backgroundColor: nativeTheme.shouldUseDarkColors ? 'black' : 'white',
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#000000' : '#ffffff',
     webPreferences: {
       webSecurity: true, // must be true or iframe embeds like youtube can do remote code execution
       nodeIntegration: false,
@@ -85,7 +99,7 @@ const createMainWindow = () => {
 
   // set custom user agent and other headers for window.fetch requests to prevent origin errors
   mainWindow.webContents.session.webRequest.onBeforeSendHeaders({urls: ['*://*/*']}, (details, callback) => {
-    const isIframe = details.frame.parent !== null
+    const isIframe = !!details.frame?.parent
     // if not a fetch request (or fetch request is from within iframe), do nothing, filtering webRequest by types doesn't seem to work
     if (details.resourceType !== 'xhr' || isIframe) {
       return callback({requestHeaders: details.requestHeaders})
@@ -105,7 +119,7 @@ const createMainWindow = () => {
 
   // fix cors errors for window.fetch. must not be enabled for iframe or can cause remote code execution
   mainWindow.webContents.session.webRequest.onHeadersReceived({urls: ['*://*/*']}, (details, callback) => {
-    const isIframe = details.frame.parent !== null
+    const isIframe = !!details.frame?.parent
     // if not a fetch request (or fetch request is from within iframe), do nothing, filtering webRequest by types doesn't seem to work
     if (details.resourceType !== 'xhr' || isIframe) {
       return callback({responseHeaders: details.responseHeaders})

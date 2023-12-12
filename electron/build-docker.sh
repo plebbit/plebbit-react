@@ -8,13 +8,13 @@ then
 fi
 
 # download ipfs clients
-node electron/downloadIpfs || { echo "Error: failed script 'node electron/downloadIpfs'" ; exit 1; }
+node electron/download-ipfs || { echo "Error: failed script 'node electron/download-ipfs'" ; exit 1; }
 
 dockerfile='
 FROM electronuserland/builder:16
 
 # install node_modules
-WORKDIR /usr/src/plebbit-react
+WORKDIR /usr/src/plebbit
 COPY ./package.json .
 COPY ./yarn.lock .
 RUN yarn
@@ -41,22 +41,22 @@ RUN yarn build
 echo $'node_modules\ndist' > .dockerignore
 echo "$dockerfile" | sudo docker build \
   . \
-  --tag plebbit-react-electron-builder \
+  --tag plebbit-electron-builder \
   --file -
 rm .dockerignore
 
 # build linux binary
 sudo docker run \
-  --name plebbit-react-electron-builder \
-  --volume "$root_path"/dist:/usr/src/plebbit-react/dist \
+  --name plebbit-electron-builder \
+  --volume "$root_path"/dist:/usr/src/plebbit/dist \
   --rm \
-  plebbit-react-electron-builder \
+  plebbit-electron-builder \
   yarn electron:build:linux
 
 # build windows binary
 sudo docker run \
-  --name plebbit-react-electron-builder \
-  --volume "$root_path"/dist:/usr/src/plebbit-react/dist \
+  --name plebbit-electron-builder \
+  --volume "$root_path"/dist:/usr/src/plebbit/dist \
   --rm \
-  plebbit-react-electron-builder \
+  plebbit-electron-builder \
   yarn electron:build:windows
