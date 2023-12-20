@@ -15,25 +15,16 @@ const path = require('path')
 const startIpfs = require('./start-ipfs')
 const startPlebbitRpcServer = require('./start-plebbit-rpc')
 const { URL } = require('node:url')
-const tcpPortUsed = require('tcp-port-used')
 
-// retry starting ipfs every 10 second, 
-// in case it was started by another client that shut down and shut down ipfs with it
-let startIpfsError
-setInterval(async () => {
-  try {
-    const started = await tcpPortUsed.check(5001, '127.0.0.1')
-    if (started) {
-      return
-    }
-    await startIpfs()
+let startIpfsError;
+startIpfs.onError = (error) => {
+  // only show error once or it spams the user
+  const alreadyShownIpfsError = !!startIpfsError;
+  startIpfsError = error;
+  if (!alreadyShownIpfsError) {
+    dialog.showErrorBox('IPFS warning', error.message);
   }
-  catch (e) {
-    console.log(e)
-    startIpfsError = e
-    dialog.showErrorBox('IPFS error', startIpfsError.message)
-  }
-}, 10000)
+};
 
 // use common user agent instead of electron so img, video, audio, iframe elements don't get blocked
 // https://www.whatismybrowser.com/guides/the-latest-version/chrome
