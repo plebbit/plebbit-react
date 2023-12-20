@@ -144,7 +144,7 @@ const createMainWindow = () => {
     }
 
     if (startIpfsError) {
-      dialog.showErrorBox('IPFS error', startIpfsError.message)
+      dialog.showErrorBox('IPFS warning', startIpfsError.message)
     }
   })
 
