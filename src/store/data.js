@@ -241,3 +241,90 @@ export const subStylingData = [
     ],
   },
 ];
+
+export const defaultSub = {
+  title: 'Temporary default subplebbits',
+  description:
+    'Temporary default subplebbits curated by the team, until DAO curation is implemented',
+  createdAt: 1697995054,
+  updatedAt: 1697995054,
+  subplebbits: [
+    {
+      title: 'Plebbit Token',
+      address: 'plebtoken.eth',
+      tags: ['ethereum', 'eth', 'crypto'],
+      features: ['sfw'],
+    },
+    {
+      title: 'Plebbit Lore',
+      address: 'pleblore.eth',
+      tags: ['storytelling'],
+      features: ['sfw'],
+    },
+    {
+      title: '/pol/',
+      address: 'politically-incorrect.eth',
+      tags: ['politics', 'news'],
+    },
+    {
+      title: '/biz/',
+      address: 'business-and-finance.eth',
+      tags: ['crypto', 'defi', 'finance', 'business'],
+    },
+    {
+      address: 'movies-tv-anime.eth',
+      tags: ['movies', 'tv', 'anime'],
+      features: ['sfw'],
+    },
+    {
+      address: 'plebmusic.eth',
+      tags: ['music'],
+      features: ['sfw'],
+    },
+    {
+      address: 'videos-livestreams-podcasts.eth',
+      tags: ['podcast', 'video', 'livestream'],
+    },
+    {
+      address: 'health-nutrition-science.eth',
+      tags: ['health', 'fitness'],
+      features: ['sfw'],
+    },
+    {
+      address: 'censorship-watch.eth',
+      tags: ['censorship', 'freespeech'],
+    },
+    {
+      address: 'reddit-screenshots.eth',
+      tags: ['reddit', 'funny'],
+    },
+    {
+      address: 'plebbit-italy.eth',
+      tags: ['italy'],
+      features: ['sfw'],
+    },
+    {
+      address: 'weaponized-autism.eth',
+      tags: ['motivation', 'autism'],
+    },
+    {
+      address: 'monarkia.eth',
+    },
+    {
+      address: 'mktwallet.eth',
+      tags: ['marketing', 'business'],
+    },
+    {
+      title: 'Brasilandia',
+      address: 'brasilandia.eth',
+      tags: ['brazil'],
+      features: ['sfw'],
+    },
+    {
+      title: 'Pleb Council',
+      address: 'plebcouncil.eth',
+      tags: [],
+      features: [],
+    },
+  ],
+};
