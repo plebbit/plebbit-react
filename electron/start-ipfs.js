@@ -4,7 +4,8 @@ const { spawn } = require('child_process');
 const fs = require('fs-extra');
 const envPaths = require('env-paths').default('plebbit', { suffix: false });
 const ps = require('node:process');
-const proxyServer = require('./proxyServer');
+const proxyServer = require('./proxy-server');
+const tcpPortUsed = require('tcp-port-used');
 
 // use this custom function instead of spawnSync for better logging
 // also spawnSync might have been causing crash on start on windows
@@ -13,12 +14,7 @@ const spawnAsync = (...args) =>
     const spawedProcess = spawn(...args);
     spawedProcess.on('exit', (exitCode, signal) => {
       if (exitCode === 0) resolve();
-      else
-        reject(
-          Error(
-            `spawnAsync process '${spawedProcess.pid}' exited with code '${exitCode}' signal '${signal}'`
-          )
-        );
+      else reject(Error(`spawnAsync process '${spawedProcess.pid}' exited with code '${exitCode}' signal '${signal}'`));
     });
     spawedProcess.stderr.on('data', (data) => console.error(data.toString()));
     spawedProcess.stdin.on('data', (data) => console.log(data.toString()));
@@ -58,8 +54,13 @@ const startIpfs = async () => {
     await spawnAsync(ipfsPath, ['init'], { env, hideWindows: true });
   } catch (e) {}
 
+  // make sure repo is migrated
+  try {
+    await spawnAsync(ipfsPath, ['repo', 'migrate'], { env, hideWindows: true });
+  } catch (e) {}
+
   // dont use 8080 port because it's too common
-  await spawnAsync(ipfsPath, ['config', 'Addresses.Gateway', '/ip4/127.0.0.1/tcp/11028'], {
+  await spawnAsync(ipfsPath, ['config', '--json', 'Addresses.Gateway', '"/ip4/127.0.0.1/tcp/6473"'], {
     env,
     hideWindows: true,
   });
@@ -73,11 +74,7 @@ const startIpfs = async () => {
   await spawnAsync(ipfsPath, ['config', 'Addresses.API', apiAddress], { env, hideWindows: true });
 
   await new Promise((resolve, reject) => {
-    const ipfsProcess = spawn(
-      ipfsPath,
-      ['daemon', '--migrate', '--enable-pubsub-experiment', '--enable-namesys-pubsub'],
-      { env, hideWindows: true }
-    );
+    const ipfsProcess = spawn(ipfsPath, ['daemon', '--migrate', '--enable-pubsub-experiment', '--enable-namesys-pubsub'], { env, hideWindows: true });
     console.log(`ipfs daemon process started with pid ${ipfsProcess.pid}`);
     let lastError;
     ipfsProcess.stderr.on('data', (data) => {
@@ -107,4 +104,31 @@ const startIpfs = async () => {
   });
 };
 
-module.exports = startIpfs;
+let pendingStart = false;
+const start = async () => {
+  if (pendingStart) {
+    return;
+  }
+  pendingStart = true;
+  try {
+    const started = await tcpPortUsed.check(5001, '127.0.0.1');
+    if (started) {
+      return;
+    }
+    await startIpfs();
+  } catch (e) {
+    console.log('failed starting ipfs', e);
+    try {
+      // try to run exported onError callback, can be undefined
+      module.exports.onError(e)?.catch?.(console.log);
+    } catch (e) {}
+  }
+  pendingStart = false;
+};
+
+// retry starting ipfs every 1 second,
+// in case it was started by another client that shut down and shut down ipfs with it
+start();
+setInterval(() => {
+  start();
+}, 1000);
