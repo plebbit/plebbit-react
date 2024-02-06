@@ -2825,6 +2825,58 @@
     uuid "9.0.0"
     viem "1.5.2"
 
+"@plebbit/plebbit-js@https://github.com/plebbit/plebbit-js.git#d081a9f4f1a086b5fccee5e9f332e113f61a90f1":
+  version "0.0.3"
+  resolved "https://github.com/plebbit/plebbit-js.git#d081a9f4f1a086b5fccee5e9f332e113f61a90f1"
+  dependencies:
+    "@ensdomains/eth-ens-namehash" "2.0.15"
+    "@keyv/sqlite" "3.6.2"
+    "@plebbit/plebbit-logger" "github:plebbit/plebbit-logger#9525ca9539479918931c3b334e8d490d1c87e507"
+    "@plebbit/proper-lockfile" "github:plebbit/node-proper-lockfile#7fd6332117340c1d3d98dd0afee2d31cc06f72b8"
+    "@types/node-fetch" "2.6.2"
+    "@types/proper-lockfile" "4.1.2"
+    "@types/uuid" "8.3.4"
+    assert "2.0.0"
+    async-wait-until "2.0.12"
+    better-sqlite3 "9.2.0"
+    buffer "6.0.3"
+    captcha-canvas "3.2.1"
+    cbor "9.0.1"
+    debounce "1.2.1"
+    err-code "3.0.1"
+    ethers "6.7.0"
+    file-type "16.5.4"
+    form-data "4.0.0"
+    hpagent "1.2.0"
+    ipfs-http-client "56.0.3"
+    ipfs-only-hash "4.0.0"
+    is-ipfs "6.0.2"
+    jose "4.11.0"
+    js-sha256 "0.9.0"
+    keyv "4.5.4"
+    knex "3.0.1"
+    libp2p-crypto "0.21.2"
+    limiter "2.1.0"
+    localforage "1.10.0"
+    lodash-es "4.17.21"
+    lru-cache "7.18.3"
+    open-graph-scraper "4.11.1"
+    p-limit "3.1.0"
+    p-timeout "4.1.0"
+    peer-id "0.16.0"
+    probe-image-size "^7.2.3"
+    retry "0.13.1"
+    rpc-websockets "7.6.0"
+    safe-stable-stringify "2.4.1"
+    sha1-uint8array "0.10.3"
+    skia-canvas "1.0.0"
+    sqlite3 "5.1.6"
+    tiny-typed-emitter "2.1.0"
+    tinycache "1.1.2"
+    ts-custom-error "3.3.1"
+    uuid "9.0.0"
+    viem "1.5.2"
+
 "@plebbit/plebbit-logger@github:plebbit/plebbit-logger#9525ca9539479918931c3b334e8d490d1c87e507":
   version "0.0.1"
   uid "9525ca9539479918931c3b334e8d490d1c87e507"
@@ -2843,6 +2895,21 @@
   resolved "https://github.com/plebbit/plebbit-react-hooks.git#7aca3428098041eaea2a82ee4b041bb552a4ba99"
   dependencies:
     "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#70f898084d7ffb4dd6187fcb00bb36b6fa3e9d25"
+    "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
+    assert "2.0.0"
+    ethers "5.6.9"
+    localforage "1.10.0"
+    lodash.isequal "4.5.0"
+    memoizee "0.4.15"
+    quick-lru "5.1.1"
+    uuid "8.3.2"
+    zustand "4.0.0"
+
+"@plebbit/plebbit-react-hooks@https://github.com/plebbit/plebbit-react-hooks.git#57f8891697134e8aa65f286ffd8bdbda9a6bd512":
+  version "0.0.1"
+  resolved "https://github.com/plebbit/plebbit-react-hooks.git#57f8891697134e8aa65f286ffd8bdbda9a6bd512"
+  dependencies:
+    "@plebbit/plebbit-js" "https://github.com/plebbit/plebbit-js.git#d081a9f4f1a086b5fccee5e9f332e113f61a90f1"
     "@plebbit/plebbit-logger" "https://github.com/plebbit/plebbit-logger.git"
     assert "2.0.0"
     ethers "5.6.9"
@@ -10723,6 +10790,13 @@ keyv@4.5.4:
   dependencies:
     json-buffer "3.0.1"
 
+keyv@4.5.4:
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/keyv/-/keyv-4.5.4.tgz#a879a99e29452f942439f2a405e3af8b31d4de93"
+  integrity sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==
+  dependencies:
+    json-buffer "3.0.1"
+
 keyv@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/keyv/-/keyv-3.1.0.tgz#ecc228486f69991e49e9476485a5be1e8fc5c4d9"
@@ -10756,6 +10830,26 @@ klona@^2.0.4, klona@^2.0.5:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.6.tgz#85bffbf819c03b2f53270412420a4555ef882e22"
   integrity sha512-dhG34DXATL5hSxJbIexCft8FChFXtmskoZYnoPWjXQuebWYCNkVeV3KkGegCK9CP1oswI/vQibS2GY7Em/sJJA==
+
+knex@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/knex/-/knex-3.0.1.tgz#b12f3173c30d8c7b6d69dc257cc9c84db00ad60e"
+  integrity sha512-ruASxC6xPyDklRdrcDy6a9iqK+R9cGK214aiQa+D9gX2ZnHZKv6o6JC9ZfgxILxVAul4bZ13c3tgOAHSuQ7/9g==
+  dependencies:
+    colorette "2.0.19"
+    commander "^10.0.0"
+    debug "4.3.4"
+    escalade "^3.1.1"
+    esm "^3.2.25"
+    get-package-type "^0.1.0"
+    getopts "2.3.0"
+    interpret "^2.2.0"
+    lodash "^4.17.21"
+    pg-connection-string "2.6.1"
+    rechoir "^0.8.0"
+    resolve-from "^5.0.0"
+    tarn "^3.0.2"
+    tildify "2.0.0"
 
 knex@3.0.1:
   version "3.0.1"
@@ -12907,6 +13001,11 @@ pg-connection-string@2.6.1:
   resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-2.6.1.tgz#78c23c21a35dd116f48e12e23c0965e8d9e2cbfb"
   integrity sha512-w6ZzNu6oMmIzEAYVw+RLK0+nqHPt8K3ZnknKi+g48Ak2pr3dtljJW3o+D/n2zzCG07Zoe9VOX3aiKpj+BN0pjg==
 
+pg-connection-string@2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-2.6.1.tgz#78c23c21a35dd116f48e12e23c0965e8d9e2cbfb"
+  integrity sha512-w6ZzNu6oMmIzEAYVw+RLK0+nqHPt8K3ZnknKi+g48Ak2pr3dtljJW3o+D/n2zzCG07Zoe9VOX3aiKpj+BN0pjg==
+
 picocolors@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-0.2.1.tgz#570670f793646851d1ba135996962abad587859f"
@@ -14691,6 +14790,19 @@ rollup@^2.43.1:
   integrity sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==
   optionalDependencies:
     fsevents "~2.3.2"
+
+rpc-websockets@7.6.0:
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/rpc-websockets/-/rpc-websockets-7.6.0.tgz#d3f4c0dac108ca35566b0e31552c32e58928cd04"
+  integrity sha512-Jgcs8q6t8Go98dEulww1x7RysgTkzpCMelVxZW4hvuyFtOGpeUz9prpr2KjUa/usqxgFCd9Tu3+yhHEP9GVmiQ==
+  dependencies:
+    "@babel/runtime" "^7.17.2"
+    eventemitter3 "^4.0.7"
+    uuid "^8.3.2"
+    ws "^8.5.0"
+  optionalDependencies:
+    bufferutil "^4.0.1"
+    utf-8-validate "^5.0.2"
 
 rpc-websockets@7.6.0:
   version "7.6.0"

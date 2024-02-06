@@ -11,7 +11,7 @@ import ImportAccount from './Nav/modal/importAccount';
 import SubStyleSide from '../../views/SubPlebbit/subStyleSide';
 import ProfileDataProvider from '../../store/profileContext';
 
-const Layout = ({ children }) => {
+const Layout = () => {
   const profile = useAccount();
   const notifications = useNotifications({ accountName: profile?.name });
   const {
