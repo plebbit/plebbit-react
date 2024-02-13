@@ -6,7 +6,7 @@ const useSubPlebbitDefaultData = () => {
   const subplebbits = async () => {
     try {
       const response = await fetch(
-        'https://raw.githubusercontent.com/plebbit/temporary-default-subplebbits/master/multisub.json'
+        'https://github.com/plebbit/temporary-default-subplebbits/blob/master/multisub.json'
       );
 
       if (response.ok) {
