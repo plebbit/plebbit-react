@@ -9,6 +9,8 @@ const useRemoveParamsFromUrl = () => {
   const updatedPathname = Object.values(params)?.filter(Boolean)?.includes(lastSegment)
     ? pathname.replace(/\/\w+$/, '')
     : pathname; // Remove the last segment, which is the sortType parameter.
+
+  console.log(updatedPathname);
   return updatedPathname;
 };
 
