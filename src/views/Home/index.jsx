@@ -22,12 +22,18 @@ const Home = () => {
 
   const sortType = useParams()?.sortType ?? 'hot';
   const isAll = useRemoveParamsFromUrl() === '/all';
-  const subplebbitAddresses = isAll ? allSubsAddresses : mySubsAddresses;
+  const subplebbitAddresses = isAll
+    ? allSubsAddresses
+    : mySubsAddresses.length === 0
+    ? allSubsAddresses
+    : mySubsAddresses;
 
   const { feed, loadMore, hasMore } = useFeed({
     subplebbitAddresses: subplebbitAddresses || undefined,
     sortType: sortType,
   });
+
+  console.log();
 
   const { subplebbits } = useSubplebbits({
     subplebbitAddresses: subplebbitAddresses,
