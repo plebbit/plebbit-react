@@ -535,6 +535,7 @@
   box-sizing: border-box;
   word-break: normal;
   margin-right: 4px;
+  white-space: nowrap;
 }
 
 .detail_footer_item_icon {

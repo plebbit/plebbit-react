@@ -563,7 +563,11 @@ const PostDetail = () => {
                               <div className={styles.detail_footer_wrap2}>
                                 <div className={styles.detail_footer_item_comment}>
                                   <BsChat className={styles.detail_footer_item_icon} />
-                                  <span>
+                                  <span
+                                    style={{
+                                      whiteSpace: 'nowrap',
+                                    }}
+                                  >
                                     {' '}
                                     {detailCommentCount} Comment
                                     {detailCommentCount === 1 ? '' : 's'}
