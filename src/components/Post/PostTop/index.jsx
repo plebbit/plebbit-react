@@ -42,97 +42,102 @@ const PostTop = ({
     <>
       {device !== 'mobile' ? (
         <div className={styles.card_top} style={wrapperStyle}>
-          {/* subplebbit avatar */}
-          {!hideAvatar && (
-            <div className={styles.card_avatar_wrap}>
-              <Link to={`/p/${post?.subplebbitAddress}/`} className={styles.card_avatar}>
-                <Avatar
-                  avatar={subPlebbit?.suggested?.avatarUrl}
-                  width={24}
-                  height={24}
-                  badge
-                  isOnline={isOnline}
-                  style={{
-                    marginRight: '8px',
-                    marginBottom: '5px',
-                  }}
-                />
-              </Link>
-            </div>
-          )}
-          <div className={styles.card_top_right}>
-            {/* subplebbit address */}
-            <div className={styles.card_top_right_txt}>
-              {type !== 'subPlebbit' && (
-                <div className={styles.card_top_right_sub}>
-                  <Link
-                    to={`/p/${post?.subplebbitAddress}/`}
-                    className={styles.card_top_right_sub_text}
-                  >
-                    {getSubName(subPlebbit)}
+          {loading ? (
+            <StateString stateString={stateString} />
+          ) : (
+            <>
+              {/* subplebbit avatar */}
+              {!hideAvatar && (
+                <div className={styles.card_avatar_wrap}>
+                  <Link to={`/p/${post?.subplebbitAddress}/`} className={styles.card_avatar}>
+                    <Avatar
+                      avatar={subPlebbit?.suggested?.avatarUrl}
+                      width={24}
+                      height={24}
+                      badge
+                      isOnline={isOnline}
+                      style={{
+                        marginRight: '8px',
+                        marginBottom: '5px',
+                      }}
+                    />
                   </Link>
                 </div>
               )}
-              {type !== 'subPlebbit' && <span className={styles.dot}>•</span>}
+              <div className={styles.card_top_right}>
+                {/* subplebbit address */}
+                <div className={styles.card_top_right_txt}>
+                  {type !== 'subPlebbit' && (
+                    <div className={styles.card_top_right_sub}>
+                      <Link
+                        to={`/p/${post?.subplebbitAddress}/`}
+                        className={styles.card_top_right_sub_text}
+                      >
+                        {getSubName(subPlebbit)}
+                      </Link>
+                    </div>
+                  )}
+                  {type !== 'subPlebbit' && <span className={styles.dot}>•</span>}
 
-              <span className={styles.posted_by}>Posted by</span>
-              {/* post author */}
-              <div className={styles.author_wrap}>
-                <div>
-                  <Link to={authorPath} className={styles.author}>
-                    {' '}
-                    {getUserName(post?.author)}
-                  </Link>
-                </div>
-              </div>
-              {/* authors flair */}
-              {post?.author?.flair && (
-                <div className={styles.authors_flair}>
-                  <FlairLabel
-                    bg={statusBg}
-                    color={statusColor}
-                    text={post?.author?.flair?.text}
-                    fontSize="12px"
-                    fontWeight="500"
-                    lineHeight="16px"
-                    borderRadius="2px"
-                    display="inline-block"
-                    mr="5px"
-                    overflow="hidden"
-                    isTruncated
-                    padding="0 4px"
-                  />
-                </div>
-              )}
-              {/* date/time */}
+                  <span className={styles.posted_by}>Posted by</span>
+                  {/* post author */}
+                  <div className={styles.author_wrap}>
+                    <div>
+                      <Link to={authorPath} className={styles.author}>
+                        {' '}
+                        {getUserName(post?.author)}
+                      </Link>
+                    </div>
+                  </div>
+                  {/* authors flair */}
+                  {post?.author?.flair && (
+                    <div className={styles.authors_flair}>
+                      <FlairLabel
+                        bg={statusBg}
+                        color={statusColor}
+                        text={post?.author?.flair?.text}
+                        fontSize="12px"
+                        fontWeight="500"
+                        lineHeight="16px"
+                        borderRadius="2px"
+                        display="inline-block"
+                        mr="5px"
+                        overflow="hidden"
+                        isTruncated
+                        padding="0 4px"
+                      />
+                    </div>
+                  )}
+                  {/* date/time */}
 
-              <span className={styles.post_timestamp}>
-                {dateToFromNowDaily(parseInt(post?.timestamp * 1000))}
-              </span>
+                  <span className={styles.post_timestamp}>
+                    {dateToFromNowDaily(parseInt(post?.timestamp * 1000))}
+                  </span>
 
-              {/* locked */}
-              {post?.locked && (
-                <span className={styles.lock_wrap}>
-                  <HiLockClosed color="#ffd635" />
-                </span>
-              )}
-              {/* removed */}
-              {post?.removed && (
-                <div
-                  className={styles.remove_icon_wrap}
-                  onClick={() => (!post?.reason ? openRemovalModal() : {})}
-                >
-                  <FcCancel />
-                  {!post?.reason ? (
-                    allowedSpecial && <div>Add a removal reason</div>
-                  ) : (
-                    <div className={styles.removal_reason}>{post?.reason}</div>
+                  {/* locked */}
+                  {post?.locked && (
+                    <span className={styles.lock_wrap}>
+                      <HiLockClosed color="#ffd635" />
+                    </span>
+                  )}
+                  {/* removed */}
+                  {post?.removed && (
+                    <div
+                      className={styles.remove_icon_wrap}
+                      onClick={() => (!post?.reason ? openRemovalModal() : {})}
+                    >
+                      <FcCancel />
+                      {!post?.reason ? (
+                        allowedSpecial && <div>Add a removal reason</div>
+                      ) : (
+                        <div className={styles.removal_reason}>{post?.reason}</div>
+                      )}
+                    </div>
                   )}
                 </div>
-              )}
-            </div>
-          </div>
-          {loading && <StateString stateString={stateString} />}
+              </div>
+            </>
+          )}
         </div>
       ) : (
         <div className={styles.mobile_post_header_container}>
