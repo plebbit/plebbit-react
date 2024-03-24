@@ -328,18 +328,15 @@
   font-weight: 500;
   height: 32px;
   justify-content: center;
-  min-width: 32px;
+  width: 32px;
   font-size: 12px;
   flex-shrink: 1;
   margin-right: 10px;
-  overflow-x: scroll;
   padding: 0;
-  width: auto;
   pointer-events: all;
 }
 
 .mobile_footer_award_container {
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   align-items: center;
@@ -351,6 +348,7 @@
   fill: #787c7e;
   font-weight: 500;
   font-size: 12px;
+  height: 32px;
   pointer-events: all;
 }
 .mobile_footer_award_icon {
