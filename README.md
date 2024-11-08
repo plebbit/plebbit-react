@@ -1,3 +1,6 @@
+> [!WARNING]
+> This repo is no longer maintained and no longer works. The new repo is https://github.com/plebbit/seedit and new demo is https://seedit.netlify.app
+
 _Telegram group for this repo https://t.me/plebbitreact_
 
 _Demo https://plebbitapp.netlify.app and https://plebbitapp.eth.limo_
