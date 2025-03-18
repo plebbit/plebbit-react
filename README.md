@@ -7,7 +7,7 @@ _Demo https://plebbitapp.netlify.app and https://plebbitapp.eth.limo_
 
 ### Development:
 
-For development it is recommened to use the [mock content env variables](https://github.com/plebbit/plebbit-react-hooks/blob/master/docs/mock-content.md#add-env-variable-for-mocking) because the demo subplebbits are slow and often offline.
+For development it is recommended to use the [mock content env variables](https://github.com/plebbit/plebbit-react-hooks/blob/master/docs/mock-content.md#add-env-variable-for-mocking) because the demo subplebbits are slow and often offline.
 
 ### Scripts:
 
