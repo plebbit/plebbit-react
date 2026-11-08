@@ -1,5 +1,9 @@
-> [!WARNING]
-> This repo is no longer maintained and no longer works. The new repo is https://github.com/plebbit/seedit and new demo is https://seedit.netlify.app
+> [!IMPORTANT]
+> **Plebbit has rebranded to [Bitsocial](https://bitsocial.net).** This repository is archived and preserved for historical reference.
+>
+> This client is no longer maintained and no longer works. Use [Seedit](https://github.com/bitsocialnet/seedit), available at [seedit.app](https://seedit.app).
+>
+> Find current projects at [@bitsocialnet](https://github.com/bitsocialnet).
 
 _Telegram group for this repo https://t.me/plebbitreact_
 
